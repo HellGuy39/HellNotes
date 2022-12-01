@@ -7,7 +7,10 @@ fun NoteEntity.toNote(): Note {
     return Note(
         id = id,
         title = title,
-        note = note
+        note = note,
+        lastEditDate = lastEditDate,
+        isPinned = isPinned,
+        labels = labels
     )
 }
 
@@ -15,6 +18,9 @@ fun Note.toNoteEntity(): NoteEntity {
     return NoteEntity(
         id = id,
         title = title,
-        note = note
+        note = note,
+        lastEditDate = lastEditDate,
+        isPinned = isPinned,
+        labels = labels
     )
 }

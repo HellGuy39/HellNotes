@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="content_description_back">Back</string>
+    <string name="content_description_labels">Labels</string>
+    <string name="content_description_pin">Pin</string>
+    <string name="content_description_reminder">Reminder</string>
+    <string name="content_description_delete">Delete</string>
+
+    <string name="hint_title">Title</string>
+    <string name="hint_note">Note</string>
+
+</resources>

@@ -39,7 +39,7 @@ dependencies {
     implementation project(path: ':core:data')
     implementation project(path: ':core:model')
     implementation project(path: ':core:domain')
-
+    implementation project(path: ':core:ui')
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'

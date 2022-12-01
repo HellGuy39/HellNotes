@@ -1,20 +1,28 @@
 package com.hellguy39.hellnotes.notes.detail
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.notes.NoteDetailUiState
 import com.hellguy39.hellnotes.notes.NoteDetailViewModel
 import com.hellguy39.hellnotes.notes.util.NEW_NOTE_ID
+import com.hellguy39.hellnotes.ui.HellNotesIcons
+import com.hellguy39.hellnotes.ui.HellNotesStrings
 
 @Composable
 fun NoteDetailRoute(
@@ -40,7 +48,16 @@ fun NoteDetailRoute(
 
             navController.popBackStack()
         },
-        uiState = uiState
+        uiState = uiState,
+        onPinButtonClick = {
+
+        },
+        onLabelButtonClick = {
+
+        },
+        onDeleteButtonClick = {
+
+        }
     )
 }
 
@@ -48,7 +65,10 @@ fun NoteDetailRoute(
 @Composable
 fun NoteDetailScreen(
     uiState: NoteDetailUiState,
-    onNavigationButtonClick: (note: Note) -> Unit
+    onNavigationButtonClick: (note: Note) -> Unit,
+    onLabelButtonClick: () -> Unit,
+    onPinButtonClick: () -> Unit,
+    onDeleteButtonClick: () -> Unit
 ) {
     var id by remember { mutableStateOf(NEW_NOTE_ID) }
     var title by remember { mutableStateOf("") }
@@ -75,19 +95,29 @@ fun NoteDetailScreen(
                 modifier = Modifier
                     .padding(innerPadding)
             ) {
-                TextField(
+                OutlinedTextField(
                     value = title,
                     onValueChange = { newText ->
                         title = newText
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    placeholder = {
+                        Text(stringResource(id = HellNotesStrings.Hint.Title))
+                    },
                 )
-                TextField(
+                OutlinedTextField(
                     value = note,
                     onValueChange = { newText ->
                         note = newText
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    placeholder = {
+                        Text(stringResource(id = HellNotesStrings.Hint.Note))
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                 )
             }
         },
@@ -107,27 +137,46 @@ fun NoteDetailScreen(
                                 Note(
                                     id = id,
                                     title = title,
-                                    note = note
+                                    note = note,
+                                    lastEditDate = 0,
+                                    isPinned = false,
+                                    labels = listOf()
                                 )
                             )
                         }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Menu"
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Back)
                         )
                     }
                 },
-//                actions = {
-//                    IconButton(
-//                        onClick = { onEditActionButtonClick() }
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.Filled.Edit,
-//                            contentDescription = "Edit note"
-//                        )
-//                    }
-//                }
+                actions = {
+                    IconButton(
+                        onClick = { onPinButtonClick() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.PinDisabled),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Pin)
+                        )
+                    }
+                    IconButton(
+                        onClick = { onLabelButtonClick() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Label),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Labels)
+                        )
+                    }
+                    IconButton(
+                        onClick = { onDeleteButtonClick() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Delete),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete)
+                        )
+                    }
+                }
             )
         }
     )

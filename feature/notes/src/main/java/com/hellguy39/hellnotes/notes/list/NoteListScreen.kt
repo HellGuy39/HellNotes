@@ -91,16 +91,18 @@ fun NoteCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(all = 8.dp)
+                .padding(all = 16.dp)
         ) {
             Text(
                 text = note.title.toString(),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
+                maxLines = 2
             )
 
             Text(
                 text = note.note.toString(),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 3
             )
         }
     }

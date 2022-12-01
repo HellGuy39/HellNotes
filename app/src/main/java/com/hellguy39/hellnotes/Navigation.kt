@@ -23,7 +23,5 @@ fun Navigation() {
         noteListScreen(navController)
 
         noteDetailScreen(navController)
-
-        //noteEditScreen(navController)
     }
 }
