@@ -5,9 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.data.repository.NoteRepository
 import com.hellguy39.hellnotes.model.Note
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,22 +18,54 @@ class NoteListViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<NoteListUiState> = MutableStateFlow(NoteListUiState.Empty)
     val uiState = _uiState.asStateFlow()
 
+    private var getNotesJob: Job? = null
+
+    private var listViewType: ListViewType = ListViewType.Grid
+
     init {
         fetchNotes()
     }
 
-    fun fetchNotes() = viewModelScope.launch {
-        if (_uiState.value != NoteListUiState.Loading) {
-            _uiState.update { NoteListUiState.Loading }
-            val notes = repository.getAllNotes()
-            _uiState.update { NoteListUiState.Success(notes) }
+    private fun fetchNotes() = viewModelScope.launch {
+        getNotesJob?.cancel()
+        getNotesJob = repository.getAllNotes()
+            .onEach { notes ->
+                if (notes.isNotEmpty())
+                    _uiState.update { NoteListUiState.Success(notes, listViewType) }
+                else
+                    _uiState.update { NoteListUiState.Empty }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun updateListViewType() {
+        listViewType = if (listViewType == ListViewType.Grid)
+            ListViewType.List
+        else
+            ListViewType.Grid
+
+        _uiState.update { state ->
+            when(state) {
+                is NoteListUiState.Success -> {
+                    state.copy(listType = listViewType)
+                }
+                else -> state
+            }
         }
     }
 
 }
 
 sealed interface NoteListUiState {
-    data class Success(val notes: List<Note>) : NoteListUiState
+    data class Success(
+        val notes: List<Note>,
+        val listType: ListViewType
+    ) : NoteListUiState
     object Empty : NoteListUiState
     object Loading : NoteListUiState
+}
+
+sealed interface ListViewType {
+    object Grid : ListViewType
+    object List : ListViewType
 }

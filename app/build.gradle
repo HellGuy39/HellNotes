@@ -54,6 +54,7 @@ android {
 dependencies {
     
     implementation project(path: ':feature:notes')
+    implementation project(path: ':core:ui')
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha03'

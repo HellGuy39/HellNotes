@@ -6,6 +6,11 @@
     <string name="content_description_pin">Pin</string>
     <string name="content_description_reminder">Reminder</string>
     <string name="content_description_delete">Delete</string>
+    <string name="content_description_add_note">Add note</string>
+    <string name="content_description_palette">Palette</string>
+    <string name="content_description_view_type">View type</string>
+
+    <string name="text_empty">So far, it\'s empty here…</string>
 
     <string name="hint_title">Title</string>
     <string name="hint_note">Note</string>

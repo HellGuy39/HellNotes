@@ -1,25 +1,19 @@
 package com.hellguy39.hellnotes.notes.detail
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.model.Note
-import com.hellguy39.hellnotes.notes.NoteDetailUiState
-import com.hellguy39.hellnotes.notes.NoteDetailViewModel
 import com.hellguy39.hellnotes.notes.util.NEW_NOTE_ID
 import com.hellguy39.hellnotes.ui.HellNotesIcons
 import com.hellguy39.hellnotes.ui.HellNotesStrings
@@ -28,12 +22,11 @@ import com.hellguy39.hellnotes.ui.HellNotesStrings
 fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    noteId: Int?
 ) {
-    noteId?.let { id ->
-        if (id != NEW_NOTE_ID)
-            noteDetailViewModel.fetchNote(id)
-    }
+//    noteId?.let { id ->
+//        if (id != NEW_NOTE_ID)
+//            noteDetailViewModel.fetchNote(id)
+//    }
 
     val uiState by noteDetailViewModel.uiState.collectAsState()
 
@@ -55,8 +48,12 @@ fun NoteDetailRoute(
         onLabelButtonClick = {
 
         },
-        onDeleteButtonClick = {
+        onDeleteButtonClick = { noteId ->
+            if (noteId != NEW_NOTE_ID) {
+                noteDetailViewModel.deleteNoteById(noteId)
+            }
 
+            navController.popBackStack()
         }
     )
 }
@@ -68,17 +65,20 @@ fun NoteDetailScreen(
     onNavigationButtonClick: (note: Note) -> Unit,
     onLabelButtonClick: () -> Unit,
     onPinButtonClick: () -> Unit,
-    onDeleteButtonClick: () -> Unit
+    onDeleteButtonClick: (noteId: Int) -> Unit
 ) {
     var id by remember { mutableStateOf(NEW_NOTE_ID) }
     var title by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
+    var isPinned by remember { mutableStateOf(false) }
+    var labels by remember { mutableStateOf(listOf<String>()) }
 
     when(uiState) {
         is NoteDetailUiState.Success -> {
             id = uiState.note.id ?: NEW_NOTE_ID
             title = uiState.note.title.toString()
             note = uiState.note.note.toString()
+            isPinned = uiState.note.isPinned == true
         }
         is NoteDetailUiState.Empty -> {
 
@@ -119,6 +119,14 @@ fun NoteDetailScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 )
+                LazyRow {
+                    items(labels) { label ->
+                        ElevatedAssistChip(
+                            onClick = { /* Do something! */ },
+                            label = { Text(label) },
+                        )
+                    }
+                }
             }
         },
         topBar = {
@@ -153,10 +161,24 @@ fun NoteDetailScreen(
                 },
                 actions = {
                     IconButton(
-                        onClick = { onPinButtonClick() }
+                        onClick = {  }
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.PinDisabled),
+                            painter = painterResource(id = HellNotesIcons.Palette),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Palette)
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            isPinned = !isPinned
+                            onPinButtonClick()
+                        }
+                    ) {
+                        Icon(
+                            painter = if (isPinned)
+                                painterResource(id = HellNotesIcons.PinActivated)
+                            else
+                                painterResource(id = HellNotesIcons.PinDisabled),
                             contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Pin)
                         )
                     }
@@ -169,7 +191,9 @@ fun NoteDetailScreen(
                         )
                     }
                     IconButton(
-                        onClick = { onDeleteButtonClick() }
+                        onClick = {
+                            onDeleteButtonClick(id)
+                        }
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Delete),
@@ -181,4 +205,3 @@ fun NoteDetailScreen(
         }
     )
 }
-

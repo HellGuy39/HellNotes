@@ -1,10 +1,12 @@
-package com.hellguy39.hellnotes.notes
+package com.hellguy39.hellnotes.notes.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.data.repository.NoteRepository
 import com.hellguy39.hellnotes.domain.note.IsNoteValidUseCase
 import com.hellguy39.hellnotes.model.Note
+import com.hellguy39.hellnotes.notes.util.KEY_NOTE_ID
 import com.hellguy39.hellnotes.notes.util.NEW_NOTE_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,13 +18,22 @@ import javax.inject.Inject
 @HiltViewModel
 class NoteDetailViewModel @Inject constructor(
     private val repository: NoteRepository,
-    private val isNoteValidUseCase: IsNoteValidUseCase
+    private val isNoteValidUseCase: IsNoteValidUseCase,
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<NoteDetailUiState> = MutableStateFlow(NoteDetailUiState.Empty)
     val uiState = _uiState.asStateFlow()
 
-    fun fetchNote(id: Int) = viewModelScope.launch {
+    init {
+        savedStateHandle.get<Int>(KEY_NOTE_ID)?.let { id ->
+            if(id != NEW_NOTE_ID) {
+                fetchNote(id)
+            }
+        }
+    }
+
+    private fun fetchNote(id: Int) = viewModelScope.launch {
         val note = repository.getNoteById(id)
 
         _uiState.update {

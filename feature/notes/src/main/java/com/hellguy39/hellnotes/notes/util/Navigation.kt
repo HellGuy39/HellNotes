@@ -60,6 +60,7 @@ fun NavGraphBuilder.noteDetailScreen(
         arguments = listOf(
             navArgument(name = KEY_NOTE_ID) {
                 type = NavType.IntType
+                defaultValue = NEW_NOTE_ID
             }
         ),
         enterTransition = {
@@ -75,11 +76,11 @@ fun NavGraphBuilder.noteDetailScreen(
             ) + fadeOut(animationSpec = tween(300))
         }
     ) {
-        val noteId = it.arguments?.getInt(KEY_NOTE_ID)
+//        val noteId = it.arguments?.getInt(KEY_NOTE_ID)
 
         NoteDetailRoute(
             navController = navController,
-            noteId = noteId
+//            noteId = noteId
         )
     }
 }

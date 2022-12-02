@@ -1,10 +1,11 @@
 package com.hellguy39.hellnotes.data.repository
 
 import com.hellguy39.hellnotes.model.Note
+import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
 
-    suspend fun getAllNotes(): List<Note>
+    suspend fun getAllNotes(): Flow<List<Note>>
 
     suspend fun getNoteById(id: Int): Note
 
