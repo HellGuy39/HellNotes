@@ -24,13 +24,10 @@ fun NavController.navigateToNoteDetail(
     )
 }
 
-fun NavController.navigateToListNote(navOptions: NavOptions? = null) {
-    navigate(noteDetailNavigationRoute, navOptions)
-}
-
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.noteListScreen(
-    navController: NavController
+    navController: NavController,
+    navigator: com.hellguy39.hellnotes.Navigator
 ) {
     composable(
         route = noteListNavigationRoute,
@@ -47,7 +44,7 @@ fun NavGraphBuilder.noteListScreen(
             ) + fadeIn(animationSpec = tween(300))
         }
     ) {
-        NoteListRoute(navController)
+        NoteListRoute(navController, navigator)
     }
 }
 
@@ -76,11 +73,6 @@ fun NavGraphBuilder.noteDetailScreen(
             ) + fadeOut(animationSpec = tween(300))
         }
     ) {
-//        val noteId = it.arguments?.getInt(KEY_NOTE_ID)
-
-        NoteDetailRoute(
-            navController = navController,
-//            noteId = noteId
-        )
+        NoteDetailRoute(navController)
     }
 }

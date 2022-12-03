@@ -11,6 +11,7 @@ object HellNotesStrings {
         val AddNote = R.string.content_description_add_note
         val Palette = R.string.content_description_palette
         val ViewType = R.string.content_description_view_type
+        val More = R.string.content_description_more
     }
 
     object Hint {
@@ -20,6 +21,10 @@ object HellNotesStrings {
 
     object Text {
         val Empty = R.string.text_empty
+        val Pinned = R.string.text_pinned
+        val Others = R.string.text_others
+        val Settings = R.string.text_settings
+        val AboutApp = R.string.text_about_app
     }
 
 }

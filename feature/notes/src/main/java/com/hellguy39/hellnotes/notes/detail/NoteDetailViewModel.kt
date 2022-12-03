@@ -22,8 +22,8 @@ class NoteDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private val _uiState: MutableStateFlow<NoteDetailUiState> = MutableStateFlow(NoteDetailUiState.Empty)
-    val uiState = _uiState.asStateFlow()
+    private val _note: MutableStateFlow<Note> = MutableStateFlow(Note())
+    val note = _note.asStateFlow()
 
     init {
         savedStateHandle.get<Int>(KEY_NOTE_ID)?.let { id ->
@@ -33,29 +33,66 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
+    fun updateNoteContent(text: String) {
+        _note.update { it.copy(note = text) }
+    }
+
+    fun updateNoteTitle(text: String) {
+        _note.update { it.copy(title = text) }
+    }
+
+    fun updateIsPinned(isPinned: Boolean) {
+        _note.update { it.copy(isPinned = isPinned) }
+    }
+
     private fun fetchNote(id: Int) = viewModelScope.launch {
-        val note = repository.getNoteById(id)
+        val fetchedNote = repository.getNoteById(id)
 
-        _uiState.update {
-            NoteDetailUiState.Success(note)
-        }
+        _note.update { fetchedNote }
     }
 
-    fun insertNote(note: Note) = viewModelScope.launch {
-        if (isNoteValidUseCase.invoke(note)) {
-            repository.insertNote(note)
-        }
-    }
+//    fun insertNote(note: Note) = viewModelScope.launch {
+//        if (isNoteValidUseCase.invoke(note)) {
+//            repository.insertNote(note)
+//        }
+//    }
+//
+//    fun updateNote(note: Note) = viewModelScope.launch {
+//        if (isNoteValidUseCase.invoke(note)) {
+//            repository.updateNote(note)
+//        } else {
+//            note.id.let { id ->
+//                if (id != null && id != NEW_NOTE_ID) {
+//                    repository.deleteNoteById(id)
+//                }
+//            }
+//        }
+//    }
 
-    fun updateNote(note: Note) = viewModelScope.launch {
-        if (isNoteValidUseCase.invoke(note)) {
-            repository.updateNote(note)
-        } else {
-            note.id.let { id ->
-                if (id != null && id != NEW_NOTE_ID) {
-                    repository.deleteNoteById(id)
+    fun saveNote() = viewModelScope.launch {
+        _note.value.let { note ->
+            if (_note.value.id == null) {
+                if (isNoteValidUseCase.invoke(note)) {
+                    repository.insertNote(note)
+                }
+            } else {
+                if (isNoteValidUseCase.invoke(note)) {
+                    repository.updateNote(note)
+                } else {
+                    note.id.let { id ->
+                        if (id != null && id != NEW_NOTE_ID) {
+                            repository.deleteNoteById(id)
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    fun deleteNote() = viewModelScope.launch {
+        _note.value.let {
+            if (it.id != null)
+                repository.deleteNote(note.value)
         }
     }
 
@@ -69,8 +106,8 @@ class NoteDetailViewModel @Inject constructor(
 
 }
 
-sealed interface NoteDetailUiState {
-    data class Success(val note: Note) : NoteDetailUiState
-    object Empty: NoteDetailUiState
-    object Loading: NoteDetailUiState
-}
+//sealed interface NoteDetailUiState {
+//    data class Success(val note: Note) : NoteDetailUiState
+////    object Empty: NoteDetailUiState
+////    object Loading: NoteDetailUiState
+//}

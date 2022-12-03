@@ -10,6 +10,11 @@ object HellNotesIcons {
     val NoteAdd = R.drawable.ic_note_add_24
     val Add = R.drawable.ic_add_24
     val Palette = R.drawable.ic_palette_24
+    val MoreVert = R.drawable.ic_more_vert_24
+    val Settings = R.drawable.ic_settings_24
+    val Info = R.drawable.ic_info_24
+    val ArrowBack = R.drawable.ic_arrow_back_24
+    val StickyNote = R.drawable.ic_sticky_note_24
 
     val GridView = R.drawable.ic_grid_view_24
     val ListView = R.drawable.ic_list_view_24

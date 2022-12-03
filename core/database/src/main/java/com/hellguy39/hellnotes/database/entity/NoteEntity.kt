@@ -9,9 +9,9 @@ const val NOTES_TABLE_NAME = "notes_table"
 @Entity(tableName = NOTES_TABLE_NAME)
 data class NoteEntity(
     @PrimaryKey val id: Int? = null,
-    val title: String?,
-    val note: String?,
-    val lastEditDate: Long?,
-    val isPinned: Boolean?,
-    val labels: List<String>?
+    val title: String,
+    val note: String,
+    val lastEditDate: Long,
+    val isPinned: Boolean,
+    val labels: List<String>
 )

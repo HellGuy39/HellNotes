@@ -31,7 +31,13 @@ class NoteListViewModel @Inject constructor(
         getNotesJob = repository.getAllNotes()
             .onEach { notes ->
                 if (notes.isNotEmpty())
-                    _uiState.update { NoteListUiState.Success(notes, listViewType) }
+                    _uiState.update {
+                        NoteListUiState.Success(
+                            pinnedNotes = notes.filter { it.isPinned },
+                            notes = notes.filter { !it.isPinned },
+                            listType = listViewType
+                        )
+                    }
                 else
                     _uiState.update { NoteListUiState.Empty }
             }
@@ -58,6 +64,7 @@ class NoteListViewModel @Inject constructor(
 
 sealed interface NoteListUiState {
     data class Success(
+        val pinnedNotes: List<Note>,
         val notes: List<Note>,
         val listType: ListViewType
     ) : NoteListUiState

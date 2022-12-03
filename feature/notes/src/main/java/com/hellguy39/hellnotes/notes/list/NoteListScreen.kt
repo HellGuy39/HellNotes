@@ -7,45 +7,18 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.notes.*
-import com.hellguy39.hellnotes.notes.util.NEW_NOTE_ID
-import com.hellguy39.hellnotes.notes.util.navigateToNoteDetail
+import com.hellguy39.hellnotes.notes.list.components.NoteCard
 import com.hellguy39.hellnotes.ui.HellNotesIcons
 import com.hellguy39.hellnotes.ui.HellNotesStrings
-
-@Composable
-fun NoteListRoute(
-    navController: NavController,
-    noteListViewModel: NoteListViewModel = hiltViewModel()
-) {
-    val uiState by noteListViewModel.uiState.collectAsState()
-
-    NoteListScreen(
-        onSelectNoteClick = { note ->
-            navController.navigateToNoteDetail(note.id)
-        },
-        onUpdateListTypeButtonClick = {
-            noteListViewModel.updateListViewType()
-        },
-        onFabAddClick = {
-            navController.navigateToNoteDetail(NEW_NOTE_ID)
-        },
-        noteListUiState = uiState
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,26 +26,69 @@ fun NoteListScreen(
     onSelectNoteClick: (Note) -> Unit,
     onUpdateListTypeButtonClick: () -> Unit,
     onFabAddClick:() -> Unit,
+    onSettingsMenuItemClick: () -> Unit,
+    onAboutAppMenuItemClick: () -> Unit,
     noteListUiState: NoteListUiState
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = {
-                    Text(text = "HellNotes")
-                },
+                title = { Text(text = "HellNotes") },
                 actions = {
                     IconButton(
-                        onClick = {
-                            onUpdateListTypeButtonClick()
-                        }
+                        onClick = { onUpdateListTypeButtonClick() }
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.ListView),
                             contentDescription = stringResource(id = HellNotesStrings.ContentDescription.ViewType)
                         )
                     }
+                    IconButton(
+                        onClick = {
+                            expanded = true
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.MoreVert),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More)
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = HellNotesStrings.Text.Settings)) },
+                            onClick = {
+                                expanded = false
+                                onSettingsMenuItemClick()
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = HellNotesIcons.Settings),
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(text = stringResource(id = HellNotesStrings.Text.AboutApp)) },
+                            onClick = {
+                                expanded = false
+                                onAboutAppMenuItemClick()
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = HellNotesIcons.Info),
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                    }
+
                 },
                 scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
             )
@@ -138,15 +154,41 @@ fun NoteList(
     uiState: NoteListUiState.Success,
     onSelectNoteClick: (Note) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        contentPadding = innerPadding
+    Column(
+        Modifier.padding(innerPadding)
     ) {
-        items(uiState.notes) { note ->
-            NoteCard(
-                note = note,
-                onClick = { onSelectNoteClick(note) }
+        if (uiState.pinnedNotes.isNotEmpty()) {
+            Text(
+                text = stringResource(id = HellNotesStrings.Text.Pinned),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             )
+            LazyColumn(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                //contentPadding = innerPadding
+            ) {
+                items(uiState.pinnedNotes) { note ->
+                    NoteCard(
+                        note = note,
+                        onClick = { onSelectNoteClick(note) }
+                    )
+                }
+            }
+            Text(
+                text = stringResource(id = HellNotesStrings.Text.Others),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 8.dp),
+        ) {
+            items(uiState.notes) { note ->
+                NoteCard(
+                    note = note,
+                    onClick = { onSelectNoteClick(note) }
+                )
+            }
         }
     }
 }
@@ -157,47 +199,43 @@ fun NoteGrid(
     uiState: NoteListUiState.Success,
     onSelectNoteClick: (Note) -> Unit
 ) {
-    LazyVerticalGrid(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        contentPadding = innerPadding,
-        columns = GridCells.Fixed(2)
+    Column(
+        Modifier.padding(innerPadding)
     ) {
-        items(uiState.notes) { note ->
-            NoteCard(
-                note = note,
-                onClick = { onSelectNoteClick(note) }
+        if (uiState.pinnedNotes.isNotEmpty()) {
+            Text(
+                text = stringResource(id = HellNotesStrings.Text.Pinned),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+            LazyVerticalGrid(
+                modifier = Modifier.padding(horizontal = 8.dp),
+                columns = GridCells.Fixed(2)
+            ) {
+                items(uiState.pinnedNotes) { note ->
+                    NoteCard(
+                        note = note,
+                        onClick = { onSelectNoteClick(note) }
+                    )
+                }
+            }
+            Text(
+                text = stringResource(id = HellNotesStrings.Text.Others),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
-    }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun NoteCard(
-    note: Note,
-    onClick: () -> Unit
-) {
-    ElevatedCard(
-        onClick = { onClick() },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 8.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(all = 16.dp)
+        LazyVerticalGrid(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            columns = GridCells.Fixed(2)
         ) {
-            Text(
-                text = note.title.toString(),
-                style = MaterialTheme.typography.headlineSmall,
-                maxLines = 2
-            )
-
-            Text(
-                text = note.note.toString(),
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 3
-            )
+            items(uiState.notes) { note ->
+                NoteCard(
+                    note = note,
+                    onClick = { onSelectNoteClick(note) }
+                )
+            }
         }
     }
 }
