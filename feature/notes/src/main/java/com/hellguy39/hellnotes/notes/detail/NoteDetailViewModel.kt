@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,11 +35,24 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     fun updateNoteContent(text: String) {
-        _note.update { it.copy(note = text) }
+        val currentTime = Calendar.getInstance().time.time
+        _note.update {
+            it.copy(
+                note = text,
+                lastEditDate = currentTime
+            )
+        }
     }
 
     fun updateNoteTitle(text: String) {
-        _note.update { it.copy(title = text) }
+        val currentTime = Calendar.getInstance().time.time
+
+        _note.update {
+            it.copy(
+                title = text,
+                lastEditDate = currentTime
+            )
+        }
     }
 
     fun updateIsPinned(isPinned: Boolean) {
@@ -50,24 +64,6 @@ class NoteDetailViewModel @Inject constructor(
 
         _note.update { fetchedNote }
     }
-
-//    fun insertNote(note: Note) = viewModelScope.launch {
-//        if (isNoteValidUseCase.invoke(note)) {
-//            repository.insertNote(note)
-//        }
-//    }
-//
-//    fun updateNote(note: Note) = viewModelScope.launch {
-//        if (isNoteValidUseCase.invoke(note)) {
-//            repository.updateNote(note)
-//        } else {
-//            note.id.let { id ->
-//                if (id != null && id != NEW_NOTE_ID) {
-//                    repository.deleteNoteById(id)
-//                }
-//            }
-//        }
-//    }
 
     fun saveNote() = viewModelScope.launch {
         _note.value.let { note ->
@@ -94,14 +90,6 @@ class NoteDetailViewModel @Inject constructor(
             if (it.id != null)
                 repository.deleteNote(note.value)
         }
-    }
-
-    fun deleteNote(note: Note) = viewModelScope.launch {
-        repository.deleteNote(note)
-    }
-
-    fun deleteNoteById(id: Int) = viewModelScope.launch {
-        repository.deleteNoteById(id)
     }
 
 }

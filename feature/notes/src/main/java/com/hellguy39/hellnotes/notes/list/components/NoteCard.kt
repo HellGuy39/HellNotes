@@ -3,12 +3,10 @@ package com.hellguy39.hellnotes.notes.list.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.model.Note
 
@@ -18,27 +16,40 @@ fun NoteCard(
     note: Note,
     onClick: () -> Unit
 ) {
-    ElevatedCard(
+    OutlinedCard(
         onClick = { onClick() },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 8.dp)
+            .padding(
+                top = 4.dp,
+                bottom = 4.dp,
+                start = 4.dp,
+                end = 4.dp
+                //vertical = 8.dp,
+                //horizontal = 8.dp
+            )
     ) {
         Column(
             modifier = Modifier
                 .padding(all = 16.dp)
         ) {
-            Text(
-                text = note.title.toString(),
-                style = MaterialTheme.typography.headlineSmall,
-                maxLines = 2
-            )
-
-            Text(
-                text = note.note.toString(),
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 3
-            )
+            if (note.title.isNotEmpty() || note.title.isNotBlank()) {
+                Text(
+                    text = note.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            if (note.note.isNotEmpty() || note.note.isNotBlank()) {
+                Text(
+                    text = note.note,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 3,
+                    modifier = Modifier.padding(top = 8.dp),
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }

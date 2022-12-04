@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import com.hellguy39.hellnotes.BackHandler
 import com.hellguy39.hellnotes.ui.HellNotesIcons
 import com.hellguy39.hellnotes.ui.HellNotesStrings
 
@@ -17,6 +18,7 @@ import com.hellguy39.hellnotes.ui.HellNotesStrings
 fun SettingsScreen(
     onNavigationButtonClick: () -> Unit
 ) {
+    BackHandler(onBack = onNavigationButtonClick)
     Scaffold(
         modifier = Modifier
             .fillMaxSize()

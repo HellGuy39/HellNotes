@@ -13,6 +13,6 @@ object DomainModule {
 
     @Provides
     @Singleton
-    fun provideIsNoteValidUseCase() : IsNoteValidUseCase = IsNoteValidUseCase()
+    fun provideIsNoteValidUseCase(): IsNoteValidUseCase = IsNoteValidUseCase()
 
 }

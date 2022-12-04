@@ -9,7 +9,7 @@ object HellNotesStrings {
         val Reminder = R.string.content_description_reminder
         val Delete = R.string.content_description_delete
         val AddNote = R.string.content_description_add_note
-        val Palette = R.string.content_description_palette
+        val Color = R.string.content_description_color
         val ViewType = R.string.content_description_view_type
         val More = R.string.content_description_more
     }
@@ -25,6 +25,10 @@ object HellNotesStrings {
         val Others = R.string.text_others
         val Settings = R.string.text_settings
         val AboutApp = R.string.text_about_app
+        val Labels = R.string.text_labels
+        val Delete = R.string.text_delete
+        val Color = R.string.text_color
+        val Edited = R.string.text_edited
     }
 
 }

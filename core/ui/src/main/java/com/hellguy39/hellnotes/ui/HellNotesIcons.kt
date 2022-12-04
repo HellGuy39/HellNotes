@@ -15,6 +15,7 @@ object HellNotesIcons {
     val Info = R.drawable.ic_info_24
     val ArrowBack = R.drawable.ic_arrow_back_24
     val StickyNote = R.drawable.ic_sticky_note_24
+    val Notifications = R.drawable.ic_notifications_24
 
     val GridView = R.drawable.ic_grid_view_24
     val ListView = R.drawable.ic_list_view_24

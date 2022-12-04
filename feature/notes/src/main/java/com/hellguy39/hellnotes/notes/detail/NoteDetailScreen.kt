@@ -3,18 +3,19 @@ package com.hellguy39.hellnotes.notes.detail
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.hellguy39.hellnotes.BackHandler
 import com.hellguy39.hellnotes.model.Note
-import com.hellguy39.hellnotes.notes.util.NEW_NOTE_ID
+import com.hellguy39.hellnotes.notes.detail.components.NoteDetailDropdownMenu
+import com.hellguy39.hellnotes.notes.util.formatAsLastEditDate
 import com.hellguy39.hellnotes.ui.HellNotesIcons
 import com.hellguy39.hellnotes.ui.HellNotesStrings
 
@@ -29,11 +30,14 @@ fun NoteDetailScreen(
     onTitleTextChanged: (text: String) -> Unit,
     onNoteTextChanged: (text: String) -> Unit,
 ) {
-
+    var expanded by remember { mutableStateOf(false) }
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    BackHandler(onBack = onNavigationButtonClick)
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .padding(),
+            .padding()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -67,10 +71,22 @@ fun NoteDetailScreen(
                         )
                     }
                 }
+                Text(
+                    text = stringResource(
+                        id = HellNotesStrings.Text.Edited,
+                        formatArgs = arrayOf(note.lastEditDate.formatAsLastEditDate())
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         },
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
+                scrollBehavior = scrollBehavior,
                 title = { /*Text( "Edit note", maxLines = 1, overflow = TextOverflow.Ellipsis)*/ },
                 navigationIcon = {
                     IconButton(
@@ -87,8 +103,8 @@ fun NoteDetailScreen(
                         onClick = {  }
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Palette),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Palette)
+                            painter = painterResource(id = HellNotesIcons.Notifications),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Reminder)
                         )
                     }
                     IconButton(
@@ -103,21 +119,21 @@ fun NoteDetailScreen(
                         )
                     }
                     IconButton(
-                        onClick = { onLabelButtonClick() }
+                        onClick = { expanded = true }
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Label),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Labels)
+                            painter = painterResource(id = HellNotesIcons.MoreVert),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More)
                         )
                     }
-                    IconButton(
-                        onClick = { onDeleteButtonClick() }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = HellNotesIcons.Delete),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete)
-                        )
-                    }
+
+                    NoteDetailDropdownMenu(
+                        expanded = expanded,
+                        onDismiss = { expanded = false },
+                        onColorItemClick = {  },
+                        onLabelsItemClick = {  },
+                        onDeleteItemClick = onDeleteButtonClick
+                    )
                 }
             )
         }
