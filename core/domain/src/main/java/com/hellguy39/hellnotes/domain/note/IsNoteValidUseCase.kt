@@ -1,8 +1,9 @@
 package com.hellguy39.hellnotes.domain.note
 
 import com.hellguy39.hellnotes.model.Note
+import javax.inject.Inject
 
-class IsNoteValidUseCase {
+class IsNoteValidUseCase @Inject constructor() {
 
     operator fun invoke(note: Note): Boolean {
 

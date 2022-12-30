@@ -18,13 +18,27 @@ interface NoteDao {
     @Delete
     suspend fun deleteNote(noteEntity: NoteEntity)
 
-    @Query("DELETE FROM notes_table WHERE id = :id")
+    @Query("DELETE FROM notes_table " +
+            "WHERE id = :id")
     suspend fun deleteNoteById(id: Int)
 
     @Query("SELECT * FROM notes_table")
     fun getAllNotes(): Flow<List<NoteEntity>>
 
-    @Query("SELECT * FROM notes_table WHERE id = :id")
+    @Query("SELECT * FROM notes_table " +
+            "WHERE title LIKE :query OR note LIKE :query ")
+    fun getAllNotesByQuery(query: String): Flow<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes_table " +
+            "ORDER BY lastEditDate DESC")
+    fun getAllNotesSortedByDateOfLastEdit(): Flow<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes_table " +
+            "ORDER BY id DESC")
+    fun getAllNotesSortedByDateOfCreation(): Flow<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes_table " +
+            "WHERE id = :id")
     suspend fun getNoteById(id: Int): NoteEntity
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

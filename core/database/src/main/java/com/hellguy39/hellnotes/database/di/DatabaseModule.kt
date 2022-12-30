@@ -21,7 +21,7 @@ object DatabaseModule {
     ): HellNotesDatabase = Room.databaseBuilder(
         context,
         HellNotesDatabase::class.java,
-        "hellnotes-database"
+        HellNotesDatabase.DATABASE_NAME
     ).build()
 
 }

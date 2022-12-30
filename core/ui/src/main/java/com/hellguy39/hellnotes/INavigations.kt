@@ -1,0 +1,11 @@
+package com.hellguy39.hellnotes
+
+interface INavigations {
+
+    fun navigateToSettings()
+
+    fun navigateToAboutApp()
+
+    fun navigateToNoteDetail(noteId: Int)
+
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.HellNotes.Splash" parent="Theme.SplashScreen">
+<!--        <item name="windowSplashScreenBackground">@color/purple_700</item>-->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.HellNotes</item>
+    </style>
+
+</resources>

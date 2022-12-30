@@ -8,6 +8,8 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.hellguy39.hellnotes.about_app.util.aboutAppNavigationRoute
 import com.hellguy39.hellnotes.about_app.util.aboutAppScreen
+import com.hellguy39.hellnotes.note_detail.util.noteDetailNavigationRoute
+import com.hellguy39.hellnotes.note_detail.util.noteDetailScreen
 import com.hellguy39.hellnotes.notes.util.*
 import com.hellguy39.hellnotes.settings.util.settingsNavigationRoute
 import com.hellguy39.hellnotes.settings.util.settingsScreen
@@ -22,7 +24,7 @@ fun Navigation() {
         navController = navController,
         startDestination = noteListNavigationRoute
     ) {
-        noteListScreen(navController, NavigatorImpl(navController))
+        noteListScreen(navController, Navigations(navController))
 
         noteDetailScreen(navController)
 
@@ -32,7 +34,7 @@ fun Navigation() {
     }
 }
 
-class NavigatorImpl(private val navController: NavController): Navigator {
+class Navigations(private val navController: NavController) : INavigations {
     override fun navigateToSettings() {
         navController.navigateToSettings()
     }

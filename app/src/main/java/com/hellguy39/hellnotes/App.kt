@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes
 
 import android.app.Application
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -11,11 +10,12 @@ const val NOTIFICATION_CHANNEL_ID = "hellnotes_reminder_channel"
 const val NOTIFICATION_CHANNEL_NAME = "HellNotes reminder"
 
 @HiltAndroidApp
-class App: Application() {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        ApplicationBuffer.setVersionName(BuildConfig.VERSION_NAME)
     }
 
     private fun createNotificationChannel() {
@@ -27,8 +27,8 @@ class App: Application() {
         )
         channel.description = "Used for reminders"
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE)
+            as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
-
 }

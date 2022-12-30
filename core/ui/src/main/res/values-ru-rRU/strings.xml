@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="content_description_back">Назад</string>
+    <string name="content_description_labels">Метка</string>
+    <string name="content_description_pin">Закрепить</string>
+    <string name="content_description_reminder">Напоминание</string>
+    <string name="content_description_delete">Удалить</string>
+    <string name="content_description_add_note">Добавить заметку</string>
+    <string name="content_description_color">Цвет</string>
+    <string name="content_description_view_type">Тип отображения</string>
+    <string name="content_description_more">Больше</string>
+    <string name="content_description_sort">Сортировка</string>
+    <string name="content_description_search">Поиск</string>
+
+    <string name="text_sort_by">Сортировать по \'%s\'</string>
+    <string name="text_date_of_creation">Дата создания</string>
+    <string name="text_date_of_last_edit">Дата последнего редактирования</string>
+    <string name="text_color">Цвет</string>
+    <string name="text_labels">Метки</string>
+    <string name="text_delete">Удалить</string>
+    <string name="text_empty">Пока что здесь пусто...</string>
+    <string name="text_pinned">Закрепленно</string>
+    <string name="text_others">Другие</string>
+    <string name="text_settings">Настройки</string>
+    <string name="text_about_app">О приложении</string>
+    <string name="text_share">Поделиться</string>
+    <string name="text_whats_new">Что нового?</string>
+    <string name="text_edited">Редактировано %s</string>
+
+    <string name="hint_title">Заголовок</string>
+    <string name="hint_note">Заметка</string>
+    <string name="content_description_close">Закрыть</string>
+    <string name="text_language">Язык</string>
+</resources>

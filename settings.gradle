@@ -13,12 +13,17 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "HellNotes"
+/* app */
 include ':app'
+/* core */
 include ':core:database'
 include ':core:data'
 include ':core:model'
-include ':feature:notes'
 include ':core:domain'
 include ':core:ui'
+/* feature */
 include ':feature:settings'
 include ':feature:about-app'
+include ':feature:note-detail'
+include ':feature:note-list'
+include ':feature:search'

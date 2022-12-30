@@ -12,6 +12,9 @@ object HellNotesStrings {
         val Color = R.string.content_description_color
         val ViewType = R.string.content_description_view_type
         val More = R.string.content_description_more
+        val Sort = R.string.content_description_sort
+        val Search = R.string.content_description_search
+        val Close = R.string.content_description_close
     }
 
     object Hint {
@@ -28,7 +31,19 @@ object HellNotesStrings {
         val Labels = R.string.text_labels
         val Delete = R.string.text_delete
         val Color = R.string.text_color
+        val WhatsNew = R.string.text_whats_new
+        val Share = R.string.text_share
         val Edited = R.string.text_edited
+        val DateOfCreation = R.string.text_date_of_creation
+        val DateOfLastEdit = R.string.text_date_of_last_edit
+        val SortBy = R.string.text_sort_by
+        val Language = R.string.text_language
     }
+
+    object Lan {
+        val Russian = R.string.lan_ru
+        val English = R.string.lan_en
+    }
+
 
 }

@@ -10,6 +10,7 @@ fun NoteEntity.toNote(): Note {
         note = note,
         lastEditDate = lastEditDate,
         isPinned = isPinned,
+        colorHex = colorHex,
         labels = labels
     )
 }
@@ -21,6 +22,7 @@ fun Note.toNoteEntity(): NoteEntity {
         note = note,
         lastEditDate = lastEditDate,
         isPinned = isPinned,
+        colorHex = colorHex,
         labels = labels
     )
 }
