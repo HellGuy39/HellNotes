@@ -50,11 +50,19 @@ class NoteListViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun deleteAllSelected() = viewModelScope.launch {
+        _uiState.value.let { state ->
+            if (state is NoteListUiState.Success) {
+                noteRepository.deleteNotes(state.selectedNotes)
+            }
+        }
+    }
+
     fun updateListStyle() = viewModelScope.launch {
         _uiState.let { stateFlow ->
             if (stateFlow.value is NoteListUiState.Success) {
 
-                val currentStyle = (stateFlow as NoteListUiState.Success).listStyle
+                val currentStyle = (stateFlow.value as NoteListUiState.Success).listStyle
                 val newStyle = if (currentStyle == ListStyle.Grid)
                     ListStyle.Column
                 else
@@ -133,4 +141,9 @@ sealed interface NoteListUiState {
     ) : NoteListUiState
     object Empty : NoteListUiState
     object Loading : NoteListUiState
+
+    fun isSelection() = this is Success && this.selectedNotes.isNotEmpty()
+
+    fun selectedCount() = if (this is Success) this.selectedNotes.count() else 0
+
 }

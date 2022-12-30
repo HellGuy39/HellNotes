@@ -11,6 +11,8 @@
     <string name="content_description_more">Больше</string>
     <string name="content_description_sort">Сортировка</string>
     <string name="content_description_search">Поиск</string>
+    <string name="content_description_cancel">Отменить</string>
+    <string name="content_description_close">Закрыть</string>
 
     <string name="text_sort_by">Сортировать по \'%s\'</string>
     <string name="text_date_of_creation">Дата создания</string>
@@ -18,7 +20,7 @@
     <string name="text_color">Цвет</string>
     <string name="text_labels">Метки</string>
     <string name="text_delete">Удалить</string>
-    <string name="text_empty">Пока что здесь пусто...</string>
+    <string name="text_empty">Пока что здесь пусто…</string>
     <string name="text_pinned">Закрепленно</string>
     <string name="text_others">Другие</string>
     <string name="text_settings">Настройки</string>
@@ -26,9 +28,9 @@
     <string name="text_share">Поделиться</string>
     <string name="text_whats_new">Что нового?</string>
     <string name="text_edited">Редактировано %s</string>
+    <string name="text_language">Язык</string>
+    <string name="text_selected">Выбрано %s</string>
 
     <string name="hint_title">Заголовок</string>
     <string name="hint_note">Заметка</string>
-    <string name="content_description_close">Закрыть</string>
-    <string name="text_language">Язык</string>
 </resources>

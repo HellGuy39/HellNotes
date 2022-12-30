@@ -15,6 +15,7 @@ object HellNotesStrings {
         val Sort = R.string.content_description_sort
         val Search = R.string.content_description_search
         val Close = R.string.content_description_close
+        val Cancel = R.string.content_description_cancel
     }
 
     object Hint {
@@ -38,6 +39,7 @@ object HellNotesStrings {
         val DateOfLastEdit = R.string.text_date_of_last_edit
         val SortBy = R.string.text_sort_by
         val Language = R.string.text_language
+        val Selected = R.string.text_selected
     }
 
     object Lan {

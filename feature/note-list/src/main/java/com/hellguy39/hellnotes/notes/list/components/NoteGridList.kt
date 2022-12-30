@@ -15,21 +15,33 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.notes.list.NoteListUiState
 import com.hellguy39.hellnotes.notes.list.events.NoteEvents
+import com.hellguy39.hellnotes.notes.list.events.SortMenuEvents
 import com.hellguy39.hellnotes.ui.HellNotesStrings
 
 @Composable
 fun NoteGridList(
     innerPadding: PaddingValues,
     uiState: NoteListUiState.Success,
-    noteEvents: NoteEvents
+    noteEvents: NoteEvents,
+    isShowSortMenu: Boolean,
+    sortMenuEvents: SortMenuEvents,
+    onListStyleChange: () -> Unit
 ) {
     LazyVerticalGrid(
         modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize()
             .padding(horizontal = 4.dp, vertical = 4.dp),
-        columns = GridCells.Adaptive(192.dp)//Fixed(2)
+        columns = GridCells.Adaptive(192.dp)
     ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            ListConfiguration(
+                sortMenuEvents = sortMenuEvents,
+                uiState = uiState,
+                isShowSortMenu = isShowSortMenu,
+                onListStyleChange = onListStyleChange
+            )
+        }
         if (uiState.pinnedNotes.isNotEmpty()) {
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Text(
@@ -45,7 +57,8 @@ fun NoteGridList(
                 NoteCard(
                     note = note,
                     onClick = { noteEvents.onClick(note) },
-                    onLongClick = { noteEvents.onLongClick(note) }
+                    onLongClick = { noteEvents.onLongClick(note) },
+                    isSelected = uiState.selectedNotes.contains(note)
                 )
             }
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -62,7 +75,8 @@ fun NoteGridList(
             NoteCard(
                 note = note,
                 onClick = { noteEvents.onClick(note) },
-                onLongClick = { noteEvents.onLongClick(note) }
+                onLongClick = { noteEvents.onLongClick(note) },
+                isSelected = uiState.selectedNotes.contains(note)
             )
         }
     }

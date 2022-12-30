@@ -13,6 +13,7 @@
     <string name="content_description_sort">Sort</string>
     <string name="content_description_search">Search</string>
     <string name="content_description_close">Close</string>
+    <string name="content_description_cancel">Cancel</string>
 
     <string name="text_sort_by">Sort by \'%s\'</string>
     <string name="text_date_of_creation">Date of creation</string>
@@ -29,6 +30,7 @@
     <string name="text_whats_new">What\'s new?</string>
     <string name="text_edited">Edited %s</string>
     <string name="text_language">Language</string>
+    <string name="text_selected">Selected %s</string>
 
     <string name="lan_ru" translatable="false">Russian</string>
     <string name="lan_en" translatable="false">English</string>

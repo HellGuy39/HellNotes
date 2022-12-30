@@ -1,19 +1,19 @@
 package com.hellguy39.hellnotes.notes.list.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.model.util.Sorting
 import com.hellguy39.hellnotes.notes.list.NoteListUiState
 import com.hellguy39.hellnotes.notes.list.events.NoteEvents
 import com.hellguy39.hellnotes.notes.list.events.SortMenuEvents
-import com.hellguy39.hellnotes.ui.HellNotesIcons
 import com.hellguy39.hellnotes.ui.HellNotesStrings
 
 @Composable
@@ -23,6 +23,7 @@ fun NoteColumnList(
     noteEvents: NoteEvents,
     isShowSortMenu: Boolean,
     sortMenuEvents: SortMenuEvents,
+    onListStyleChange: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -34,7 +35,8 @@ fun NoteColumnList(
             ListConfiguration(
                 sortMenuEvents = sortMenuEvents,
                 uiState = uiState,
-                isShowSortMenu = isShowSortMenu
+                isShowSortMenu = isShowSortMenu,
+                onListStyleChange = onListStyleChange
             )
         }
         if (uiState.pinnedNotes.isNotEmpty()) {
@@ -69,56 +71,6 @@ fun NoteColumnList(
                 onClick = { noteEvents.onClick(note) },
                 onLongClick = { noteEvents.onLongClick(note) },
                 isSelected = uiState.selectedNotes.contains(note)
-            )
-        }
-    }
-}
-
-@Composable
-fun ListConfiguration(
-    uiState: NoteListUiState.Success,
-    sortMenuEvents: SortMenuEvents,
-    isShowSortMenu: Boolean
-) {
-    val sortName = when(uiState.sorting) {
-        is Sorting.DateOfLastEdit -> stringResource(id = HellNotesStrings.Text.DateOfLastEdit)
-        is Sorting.DateOfCreation -> stringResource(id = HellNotesStrings.Text.DateOfCreation)
-    }
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        //horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        TextButton(
-            onClick = { sortMenuEvents.show() },
-        ) {
-            Row {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.Sort),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Sort)
-                )
-                Text(
-                    text = stringResource(id = HellNotesStrings.Text.SortBy, sortName),
-                    modifier = Modifier
-                        .padding(horizontal = 4.dp),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                SortDropdownMenu(
-                    expanded = isShowSortMenu,
-                    events = sortMenuEvents,
-                    currentSorting = uiState.sorting
-                )
-            }
-        }
-        Spacer(Modifier.weight(1f))
-        IconButton(
-            onClick = {
-
-            }
-        ) {
-            Icon(
-                painter = painterResource(id = HellNotesIcons.GridView),
-                contentDescription = stringResource(id = HellNotesStrings.ContentDescription.ViewType)
             )
         }
     }

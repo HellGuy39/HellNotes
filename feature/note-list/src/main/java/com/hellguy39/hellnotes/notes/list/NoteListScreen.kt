@@ -28,6 +28,7 @@ fun NoteListScreen(
     isShowSortMenu: Boolean,
     noteEvents: NoteEvents,
     onFabAddClick:() -> Unit,
+    onListStyleChange: () -> Unit,
     sortMenuEvents: SortMenuEvents,
     topAppBarEvents: TopAppBarEvents,
     topAppBarMenuEvents: TopAppBarMenuEvents,
@@ -41,6 +42,7 @@ fun NoteListScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             NoteListTopAppBar(
+                uiState = noteListUiState,
                 scrollBehavior = scrollBehavior,
                 isShowMenu = isShowAppBarMenu,
                 topAppBarEvents = topAppBarEvents,
@@ -58,14 +60,18 @@ fun NoteListScreen(
                                     uiState = noteListUiState,
                                     noteEvents = noteEvents,
                                     isShowSortMenu = isShowSortMenu,
-                                    sortMenuEvents = sortMenuEvents
+                                    sortMenuEvents = sortMenuEvents,
+                                    onListStyleChange = onListStyleChange
                                 )
                             }
                             is ListStyle.Grid -> {
                                 NoteGridList(
                                     innerPadding = innerPadding,
                                     uiState = noteListUiState,
-                                    noteEvents = noteEvents
+                                    noteEvents = noteEvents,
+                                    isShowSortMenu = isShowSortMenu,
+                                    sortMenuEvents = sortMenuEvents,
+                                    onListStyleChange = onListStyleChange
                                 )
                             }
                         }

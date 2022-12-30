@@ -20,6 +20,8 @@ interface NoteRepository {
 
     suspend fun deleteNote(note: Note)
 
+    suspend fun deleteNotes(notes: List<Note>)
+
     suspend fun deleteNoteById(id: Int)
 
 }

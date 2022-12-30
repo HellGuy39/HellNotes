@@ -68,18 +68,14 @@ fun NoteListRoute(
 
     val topAppBarEvents = object : TopAppBarEvents {
         override fun onSearch() {  }
+        override fun onCancelSelection() { noteListViewModel.cancelNoteSelection() }
+        override fun onDeleteAllSelected() { noteListViewModel.deleteAllSelected() }
     }
 
     val sortMenuEvents = object : SortMenuEvents {
-        override fun show() {
-            isShowSortMenu = true
-        }
-        override fun onDismiss() {
-            isShowSortMenu = false
-        }
-        override fun onSortSelected(sorting: Sorting) {
-            noteListViewModel.updateSorting(sorting)
-        }
+        override fun show() { isShowSortMenu = true }
+        override fun onDismiss() { isShowSortMenu = false }
+        override fun onSortSelected(sorting: Sorting) { noteListViewModel.updateSorting(sorting) }
     }
 
     NoteListScreen(
@@ -92,6 +88,7 @@ fun NoteListRoute(
         topAppBarEvents = topAppBarEvents,
         topAppBarMenuEvents = topAppBarMenuEvents,
         noteListUiState = uiState,
-        noteEvents = noteEvents
+        noteEvents = noteEvents,
+        onListStyleChange = { noteListViewModel.updateListStyle() }
     )
 }
