@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/feature/about-app" />
             <option value="$PROJECT_DIR$/feature/note-detail" />
             <option value="$PROJECT_DIR$/feature/note-list" />
+            <option value="$PROJECT_DIR$/feature/reminders" />
             <option value="$PROJECT_DIR$/feature/search" />
             <option value="$PROJECT_DIR$/feature/settings" />
           </set>

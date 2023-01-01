@@ -8,4 +8,8 @@ interface INavigations {
 
     fun navigateToNoteDetail(noteId: Int)
 
+    fun navigateToSearch()
+
+    fun navigateToReminders()
+
 }

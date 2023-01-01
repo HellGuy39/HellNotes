@@ -29,7 +29,8 @@ interface NoteDao {
     fun getAllNotes(): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM notes_table " +
-            "WHERE title LIKE :query OR note LIKE :query ")
+            "WHERE title LIKE '%' || :query || '%' " +
+            "OR note LIKE '%' || :query || '%'")
     fun getAllNotesByQuery(query: String): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM notes_table " +

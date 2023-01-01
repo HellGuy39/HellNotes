@@ -3,7 +3,10 @@ package com.hellguy39.hellnotes.settings
 import android.app.LocaleManager
 import android.os.Build
 import android.os.LocaleList
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
@@ -11,11 +14,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.settings.events.LanguageDialogEvents
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsRoute(
     navController: NavController,
     settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
     val context = LocalContext.current
     //val uiState by settingsViewModel.uiState.collectAsState()
     var isShowLanguageDialog by remember { mutableStateOf(false) }
@@ -42,11 +48,14 @@ fun SettingsRoute(
             }
         }
     }
+//
+//    Log.d("DEBUG", "LAN CODE: ${languageDialogEvents.getCurrentLanCode()}")
 
     SettingsScreen(
         onNavigationButtonClick = { navController.popBackStack() },
         //uiState = uiState,
         languageDialogEvents = languageDialogEvents,
-        isShowLanguageDialog = isShowLanguageDialog
+        isShowLanguageDialog = isShowLanguageDialog,
+        scrollBehavior = scrollBehavior
     )
 }

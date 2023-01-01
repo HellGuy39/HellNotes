@@ -8,11 +8,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.BackHandler
-import com.hellguy39.hellnotes.components.FullScreenDialog
+import com.hellguy39.hellnotes.components.CustomDialog
 import com.hellguy39.hellnotes.settings.events.LanguageDialogEvents
 import com.hellguy39.hellnotes.settings.util.Language
 import com.hellguy39.hellnotes.ui.HellNotesIcons
@@ -24,13 +27,14 @@ fun SettingsScreen(
     //uiState: UiState,
     onNavigationButtonClick: () -> Unit,
     languageDialogEvents: LanguageDialogEvents,
-    isShowLanguageDialog: Boolean
+    isShowLanguageDialog: Boolean,
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
     BackHandler(onBack = onNavigationButtonClick)
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .padding(),
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
             LanguageDialog(
                 isShowDialog = isShowLanguageDialog,
@@ -69,7 +73,15 @@ fun SettingsScreen(
         },
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(id = HellNotesStrings.Text.Settings)) },
+                scrollBehavior = scrollBehavior,
+                title = {
+                    Text(
+                        text = stringResource(id = HellNotesStrings.Text.Settings),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 navigationIcon = {
                     IconButton(
                         onClick = { onNavigationButtonClick() }
@@ -91,14 +103,14 @@ fun LanguageDialog(
     isShowDialog: Boolean,
     events: LanguageDialogEvents
 ) {
-    FullScreenDialog(
+    CustomDialog(
         showDialog = isShowDialog,
         onClose = { events.dismiss() }
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxWidth()
+                //.fillMaxWidth()
+                .padding(innerPadding),
         ) {
             items(Language.languageCodes) {
                 Row(

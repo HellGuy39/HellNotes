@@ -16,6 +16,7 @@ object HellNotesStrings {
         val Search = R.string.content_description_search
         val Close = R.string.content_description_close
         val Cancel = R.string.content_description_cancel
+        val Edit = R.string.content_description_edit
     }
 
     object Hint {
@@ -40,6 +41,8 @@ object HellNotesStrings {
         val SortBy = R.string.text_sort_by
         val Language = R.string.text_language
         val Selected = R.string.text_selected
+        val NewRemind = R.string.text_new_remind
+        val Reminders = R.string.text_reminders
     }
 
     object Lan {

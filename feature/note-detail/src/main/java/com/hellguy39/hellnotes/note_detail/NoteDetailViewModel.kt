@@ -4,8 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.data.repository.NoteRepository
+import com.hellguy39.hellnotes.data.repository.RemindRepository
 import com.hellguy39.hellnotes.domain.note.IsNoteValidUseCase
 import com.hellguy39.hellnotes.model.Note
+import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.note_detail.util.KEY_NOTE_ID
 import com.hellguy39.hellnotes.note_detail.util.NEW_NOTE_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteDetailViewModel @Inject constructor(
-    private val repository: NoteRepository,
+    private val noteRepository: NoteRepository,
     private val isNoteValidUseCase: IsNoteValidUseCase,
+    private val remindRepository: RemindRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
@@ -44,6 +47,10 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
+    fun insertRemind(remind: Remind) = viewModelScope.launch {
+        remindRepository.insertRemind(remind)
+    }
+
     fun updateNoteTitle(text: String) {
         val currentTime = Calendar.getInstance().time.time
 
@@ -66,7 +73,7 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     private fun fetchNote(id: Int) = viewModelScope.launch {
-        val fetchedNote = repository.getNoteById(id)
+        val fetchedNote = noteRepository.getNoteById(id)
 
         _note.update { fetchedNote }
     }
@@ -75,15 +82,15 @@ class NoteDetailViewModel @Inject constructor(
         _note.value.let { note ->
             if (_note.value.id == null) {
                 if (isNoteValidUseCase.invoke(note)) {
-                    repository.insertNote(note)
+                    noteRepository.insertNote(note)
                 }
             } else {
                 if (isNoteValidUseCase.invoke(note)) {
-                    repository.updateNote(note)
+                    noteRepository.updateNote(note)
                 } else {
                     note.id.let { id ->
                         if (id != null && id != NEW_NOTE_ID) {
-                            repository.deleteNoteById(id)
+                            noteRepository.deleteNoteById(id)
                         }
                     }
                 }
@@ -94,7 +101,7 @@ class NoteDetailViewModel @Inject constructor(
     fun deleteNote() = viewModelScope.launch {
         _note.value.let {
             if (it.id != null)
-                repository.deleteNote(note.value)
+                noteRepository.deleteNote(note.value)
         }
     }
 

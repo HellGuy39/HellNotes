@@ -1,14 +1,7 @@
 package com.hellguy39.hellnotes.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
-import com.hellguy39.hellnotes.database.entity.NoteEntity
+import androidx.room.*
 import com.hellguy39.hellnotes.database.entity.RemindEntity
-import com.hellguy39.hellnotes.model.Remind
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,7 +11,7 @@ interface RemindDao {
     suspend fun insertRemind(remindEntity: RemindEntity)
 
     @Delete
-    suspend fun deleteNote(remindEntity: RemindEntity)
+    suspend fun deleteRemind(remindEntity: RemindEntity)
 
     @Query("DELETE FROM reminds_table WHERE id = :id")
     suspend fun deleteRemindById(id: Int)

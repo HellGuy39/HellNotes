@@ -70,6 +70,8 @@ ktlint {
 
 dependencies {
 
+    implementation project(path: ':feature:reminders')
+    implementation project(path: ':feature:search')
     implementation project(path: ':feature:note-detail')
     implementation project(path: ':feature:note-list')
     implementation project(path: ':feature:about-app')

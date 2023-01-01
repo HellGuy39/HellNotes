@@ -11,6 +11,10 @@ import com.hellguy39.hellnotes.about_app.util.aboutAppScreen
 import com.hellguy39.hellnotes.note_detail.util.noteDetailNavigationRoute
 import com.hellguy39.hellnotes.note_detail.util.noteDetailScreen
 import com.hellguy39.hellnotes.notes.util.*
+import com.hellguy39.hellnotes.reminders.util.remindersNavigationRoute
+import com.hellguy39.hellnotes.reminders.util.remindersScreen
+import com.hellguy39.hellnotes.search.util.searchNavigationRoute
+import com.hellguy39.hellnotes.search.util.searchScreen
 import com.hellguy39.hellnotes.settings.util.settingsNavigationRoute
 import com.hellguy39.hellnotes.settings.util.settingsScreen
 
@@ -27,6 +31,10 @@ fun Navigation() {
         noteListScreen(navController, Navigations(navController))
 
         noteDetailScreen(navController)
+
+        searchScreen(navController, Navigations(navController))
+
+        remindersScreen(navController)
 
         settingsScreen(navController)
 
@@ -45,6 +53,14 @@ class Navigations(private val navController: NavController) : INavigations {
 
     override fun navigateToNoteDetail(noteId: Int) {
         navController.navigateToNoteDetail(noteId)
+    }
+
+    override fun navigateToSearch() {
+        navController.navigateToSearch()
+    }
+
+    override fun navigateToReminders() {
+        navController.navigateToReminders()
     }
 }
 
@@ -72,6 +88,20 @@ fun NavController.navigateToAboutApp(navOptions: NavOptions? = null) {
 fun NavController.navigateToListNote(navOptions: NavOptions? = null) {
     navigate(
         route = noteDetailNavigationRoute,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
+    navigate(
+        route = searchNavigationRoute,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToReminders(navOptions: NavOptions? = null) {
+    navigate(
+        route = remindersNavigationRoute,
         navOptions = navOptions
     )
 }

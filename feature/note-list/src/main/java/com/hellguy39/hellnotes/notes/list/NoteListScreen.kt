@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.model.util.ListStyle
 import com.hellguy39.hellnotes.notes.*
 import com.hellguy39.hellnotes.notes.list.components.*
@@ -38,7 +39,8 @@ fun NoteListScreen(
     val context = LocalContext.current
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             NoteListTopAppBar(
@@ -78,28 +80,10 @@ fun NoteListScreen(
                     }
                 }
                 is NoteListUiState.Empty -> {
-                    Column(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon(
-                            painter = painterResource(id = HellNotesIcons.NoteAdd),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote),
-                            modifier = Modifier
-                                .width(128.dp)
-                                .height(128.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = stringResource(id = HellNotesStrings.Text.Empty),
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
-                    }
-
+                    EmptyContentPlaceholder(
+                        heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
+                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                    )
                 }
                 else -> Unit
             }

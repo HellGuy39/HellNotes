@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.HellNotes" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:dialogTheme">@style/Theme.HellNotes.DialogFullScreen</item>
+<!--        <item name="android:dialogTheme">@style/Theme.HellNotes.DialogFullScreen</item>-->
     </style>
 
     <style name="Theme.HellNotes.Splash" parent="Theme.SplashScreen">
@@ -10,9 +10,9 @@
         <item name="postSplashScreenTheme">@style/Theme.HellNotes</item>
     </style>
 
-    <style name="Theme.HellNotes.DialogFullScreen" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:windowMinWidthMajor">100%</item>
-        <item name="android:windowMinWidthMinor">100%</item>
-    </style>
+<!--    <style name="Theme.HellNotes.DialogFullScreen" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">-->
+<!--        <item name="android:windowMinWidthMajor">100%</item>-->
+<!--        <item name="android:windowMinWidthMinor">100%</item>-->
+<!--    </style>-->
 
 </resources>

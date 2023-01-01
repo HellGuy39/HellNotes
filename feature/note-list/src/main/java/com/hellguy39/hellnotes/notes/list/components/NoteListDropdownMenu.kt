@@ -38,6 +38,24 @@ fun NoteListDropdownMenu(
         DropdownMenuItem(
             text = {
                 Text(
+                    text = stringResource(id = HellNotesStrings.Text.Reminders),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
+            onClick = {
+                events.onDismiss()
+                events.onReminders()
+            },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = HellNotesIcons.Notifications),
+                    contentDescription = null
+                )
+            }
+        )
+        DropdownMenuItem(
+            text = {
+                Text(
                     text = stringResource(id = HellNotesStrings.Text.Settings),
                     style = MaterialTheme.typography.bodyMedium
                 )

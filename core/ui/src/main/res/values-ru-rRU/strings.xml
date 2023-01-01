@@ -33,4 +33,7 @@
 
     <string name="hint_title">Заголовок</string>
     <string name="hint_note">Заметка</string>
+    <string name="content_description_edit">Редактировать</string>
+    <string name="text_new_remind">Новое напоминание</string>
+    <string name="text_reminders">Напоминания</string>
 </resources>

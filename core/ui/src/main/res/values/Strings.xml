@@ -14,7 +14,10 @@
     <string name="content_description_search">Search</string>
     <string name="content_description_close">Close</string>
     <string name="content_description_cancel">Cancel</string>
+    <string name="content_description_edit">Edit</string>
 
+    <string name="text_reminders">Reminders</string>
+    <string name="text_new_remind">New remind</string>
     <string name="text_sort_by">Sort by \'%s\'</string>
     <string name="text_date_of_creation">Date of creation</string>
     <string name="text_date_of_last_edit">Date of last edit</string>

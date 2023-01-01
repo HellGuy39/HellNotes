@@ -8,12 +8,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import com.hellguy39.hellnotes.BackHandler
-import com.hellguy39.hellnotes.components.FullScreenDialog
 import com.hellguy39.hellnotes.model.Note
+import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.model.util.ColorParam
 import com.hellguy39.hellnotes.note_detail.components.NoteDetailContent
 import com.hellguy39.hellnotes.note_detail.components.NoteDetailTopAppBar
 import com.hellguy39.hellnotes.note_detail.events.MenuEvents
+import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
 import com.hellguy39.hellnotes.note_detail.events.TopAppBarEvents
 import java.util.*
 
@@ -27,11 +28,11 @@ fun NoteDetailScreen(
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
     onNavigationButtonClick: () -> Unit,
-    onCloseRemindDialog: () -> Unit,
     menuEvents: MenuEvents,
     onTitleTextChanged: (text: String) -> Unit,
     onNoteTextChanged: (text: String) -> Unit,
-    topAppBarEvents: TopAppBarEvents
+    topAppBarEvents: TopAppBarEvents,
+    reminderDialogEvents: ReminderDialogEvents
 ) {
     BackHandler(onBack = onNavigationButtonClick)
 
@@ -49,7 +50,7 @@ fun NoteDetailScreen(
             NoteDetailContent(
                 innerPadding = innerPadding,
                 note = note,
-                onCloseRemindDialog = onCloseRemindDialog,
+                reminderDialogEvents = reminderDialogEvents,
                 isOpenRemindDialog = isShowRemindDialog,
                 isOpenColorDialog = isOpenColorDialog,
                 onTitleTextChanged = onTitleTextChanged,
@@ -79,7 +80,11 @@ fun NoteDetailScreenPreview() {
         isShowMenu = false,
         isOpenColorDialog = false,
         isShowRemindDialog = false,
-        onCloseRemindDialog = {},
+        reminderDialogEvents = object : ReminderDialogEvents{
+            override fun show() {}
+            override fun dismiss() {}
+            override fun onCreateRemind(remind: Remind) {}
+        },
         snackbarHostState = SnackbarHostState(),
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
         onNavigationButtonClick = {  },

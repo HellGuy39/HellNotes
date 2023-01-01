@@ -11,6 +11,6 @@ const val REMINDS_TABLE_NAME = "reminds_table"
 data class RemindEntity(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val noteId: Int,
-    val message: Int,
+    val message: String,
     val triggerDate: Long
 )

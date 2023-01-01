@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.components.NoteCard
 import com.hellguy39.hellnotes.notes.list.NoteListUiState
 import com.hellguy39.hellnotes.notes.list.events.NoteEvents
 import com.hellguy39.hellnotes.notes.list.events.SortMenuEvents
@@ -29,10 +30,10 @@ fun NoteGridList(
 ) {
     LazyVerticalGrid(
         modifier = Modifier
-            .padding(innerPadding)
             .fillMaxSize()
             .padding(horizontal = 4.dp, vertical = 4.dp),
-        columns = GridCells.Adaptive(192.dp)
+        columns = GridCells.Adaptive(192.dp),
+        contentPadding = innerPadding
     ) {
         item(span = { GridItemSpan(maxLineSpan) }) {
             ListConfiguration(

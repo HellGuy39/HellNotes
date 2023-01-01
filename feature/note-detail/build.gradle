@@ -20,6 +20,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -68,4 +69,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    // Date Picker
+    implementation "io.github.vanpra.compose-material-dialogs:datetime:0.9.0"
 }

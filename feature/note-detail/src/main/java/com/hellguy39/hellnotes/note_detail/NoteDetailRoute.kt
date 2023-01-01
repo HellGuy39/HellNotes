@@ -7,8 +7,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.components.FullScreenDialog
+import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.note_detail.events.MenuEvents
+import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
 import com.hellguy39.hellnotes.note_detail.events.TopAppBarEvents
 import kotlinx.coroutines.launch
 
@@ -28,6 +29,12 @@ fun NoteDetailRoute(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val isOpenColorDialog by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val reminderDialogEvents = object : ReminderDialogEvents {
+        override fun show() { isShowRemindDialog = true }
+        override fun dismiss() { isShowRemindDialog = false }
+        override fun onCreateRemind(remind: Remind) { noteDetailViewModel.insertRemind(remind) }
+    }
 
     val menuEvents = object : MenuEvents {
         override fun onDismissMenu() { isShowMenu = false }
@@ -59,9 +66,7 @@ fun NoteDetailRoute(
     }
 
     val topAppBarEvents = object : TopAppBarEvents {
-        override fun onReminder() {
-            isShowRemindDialog = true
-        }
+        override fun onReminder() { isShowRemindDialog = true }
         override fun onPin(isPinned: Boolean) { noteDetailViewModel.updateIsPinned(isPinned) }
         override fun onColorSelected(colorHex: Long) { noteDetailViewModel.updateNoteBackground(colorHex) }
         override fun onMoreMenu() { isShowMenu = true }
@@ -80,9 +85,7 @@ fun NoteDetailRoute(
         menuEvents = menuEvents,
         topAppBarEvents = topAppBarEvents,
         note = note,
-        onCloseRemindDialog = {
-            isShowRemindDialog = false
-        },
+        reminderDialogEvents = reminderDialogEvents,
         onTitleTextChanged = { newText -> noteDetailViewModel.updateNoteTitle(newText) },
         onNoteTextChanged = { newText -> noteDetailViewModel.updateNoteContent(newText) },
     )

@@ -15,7 +15,6 @@ import com.hellguy39.hellnotes.notes.list.events.TopAppBarMenuEvents
 
 @Composable
 fun NoteListRoute(
-    navController: NavController,
     navigations: INavigations,
     noteListViewModel: NoteListViewModel = hiltViewModel()
 ) {
@@ -61,13 +60,14 @@ fun NoteListRoute(
     val topAppBarMenuEvents = object : TopAppBarMenuEvents {
         override fun onDismiss() { isShowAppBarMenu = false }
         override fun show() { isShowAppBarMenu = true }
+        override fun onReminders() { navigations.navigateToReminders() }
         override fun onPatchNote() {  }
         override fun onSettings() { navigations.navigateToSettings() }
         override fun onAboutApp() { navigations.navigateToAboutApp() }
     }
 
     val topAppBarEvents = object : TopAppBarEvents {
-        override fun onSearch() {  }
+        override fun onSearch() { navigations.navigateToSearch() }
         override fun onCancelSelection() { noteListViewModel.cancelNoteSelection() }
         override fun onDeleteAllSelected() { noteListViewModel.deleteAllSelected() }
     }
