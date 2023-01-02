@@ -1,9 +1,11 @@
-package com.hellguy39.hellnotes
+package com.hellguy39.hellnotes.app
 
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import com.hellguy39.hellnotes.ApplicationBuffer
+import com.hellguy39.hellnotes.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 
 const val NOTIFICATION_CHANNEL_ID = "hellnotes_reminder_channel"

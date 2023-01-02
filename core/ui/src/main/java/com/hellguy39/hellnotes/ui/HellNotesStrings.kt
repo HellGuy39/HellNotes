@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.ui
 
+import android.app.Notification
+
 object HellNotesStrings {
 
     object ContentDescription {
@@ -22,6 +24,7 @@ object HellNotesStrings {
     object Hint {
         val Title = R.string.hint_title
         val Note = R.string.hint_note
+        val Search = R.string.hint_search
     }
 
     object Text {
@@ -43,6 +46,11 @@ object HellNotesStrings {
         val Selected = R.string.text_selected
         val NewRemind = R.string.text_new_remind
         val Reminders = R.string.text_reminders
+        val PlainText = R.string.text_plain_text
+        val TxtFile = R.string.text_txt_file
+        val ShareAs = R.string.text_share_as
+        val NotificationPermissionRationale = R.string.text_notification_permission_rationale
+        val NotificationPermissionDefault = R.string.text_notification_permission_default
     }
 
     object Lan {
@@ -50,5 +58,8 @@ object HellNotesStrings {
         val English = R.string.lan_en
     }
 
+    object Button {
+        val RequestPermission = R.string.btn_request_permission
+    }
 
 }

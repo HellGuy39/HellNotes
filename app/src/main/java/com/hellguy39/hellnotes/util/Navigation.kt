@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes
+package com.hellguy39.hellnotes.util
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.hellguy39.hellnotes.INavigations
 import com.hellguy39.hellnotes.about_app.util.aboutAppNavigationRoute
 import com.hellguy39.hellnotes.about_app.util.aboutAppScreen
 import com.hellguy39.hellnotes.note_detail.util.noteDetailNavigationRoute

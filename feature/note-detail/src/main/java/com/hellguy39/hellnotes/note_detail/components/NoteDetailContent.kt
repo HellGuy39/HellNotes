@@ -22,6 +22,7 @@ import com.hellguy39.hellnotes.components.CustomDialog
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
+import com.hellguy39.hellnotes.note_detail.events.ShareDialogEvents
 import com.hellguy39.hellnotes.note_detail.util.formatAsLastEditDate
 import com.hellguy39.hellnotes.ui.HellNotesIcons
 import com.hellguy39.hellnotes.ui.HellNotesStrings
@@ -31,19 +32,10 @@ import com.hellguy39.hellnotes.ui.HellNotesStrings
 fun NoteDetailContent(
     innerPadding: PaddingValues,
     note: Note,
-    reminderDialogEvents: ReminderDialogEvents,
-    isOpenColorDialog: Boolean,
-    isOpenRemindDialog: Boolean,
     onTitleTextChanged: (text: String) -> Unit,
     onNoteTextChanged: (text: String) -> Unit,
 ) {
     val dateVisibility = note.lastEditDate != 0L
-
-    ReminderDialog(
-        isShowDialog = isOpenRemindDialog,
-        events = reminderDialogEvents,
-        note = note
-    )
 
     LazyColumn(
         contentPadding = innerPadding,

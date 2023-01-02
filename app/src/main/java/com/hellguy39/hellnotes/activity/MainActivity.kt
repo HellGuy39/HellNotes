@@ -1,11 +1,8 @@
-package com.hellguy39.hellnotes
+package com.hellguy39.hellnotes.activity
 
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -15,7 +12,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
-import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -23,18 +19,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.util.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val notificationPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-        } else {
-        }
-    }
+//    private val notificationPermissionLauncher = registerForActivityResult(
+//        ActivityResultContracts.RequestPermission()
+//    ) { isGranted ->
+//        if (isGranted) {
+//        } else {
+//        }
+//    }
 
     override fun onCreate(
         savedInstanceState: Bundle?
@@ -54,7 +51,7 @@ class MainActivity : ComponentActivity() {
             insets
         }
 
-        foo()
+//        foo()
 
 //        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 //
@@ -71,20 +68,20 @@ class MainActivity : ComponentActivity() {
 //            pendingIntent
 //        )
     }
-
-    fun foo() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                notificationPermissionLauncher.launch(
-                    android.Manifest.permission.POST_NOTIFICATIONS
-                )
-            }
-        }
-    }
+//
+//    fun foo() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            if (ContextCompat.checkSelfPermission(
+//                    this,
+//                    android.Manifest.permission.POST_NOTIFICATIONS
+//                ) != PackageManager.PERMISSION_GRANTED
+//            ) {
+//                notificationPermissionLauncher.launch(
+//                    android.Manifest.permission.POST_NOTIFICATIONS
+//                )
+//            }
+//        }
+//    }
 
     @Composable
     fun App() {

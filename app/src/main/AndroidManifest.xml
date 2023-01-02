@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
-        android:name=".App"
+        android:name=".app.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,7 +19,7 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:theme="@style/Theme.HellNotes.Splash">
@@ -31,7 +31,7 @@
 
         </activity>
 
-        <receiver android:name=".ReminderNotificationReceiver"
+        <receiver android:name=".broadcast_receiver.ReminderNotificationReceiver"
             android:enabled="true" />
 
         <service android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

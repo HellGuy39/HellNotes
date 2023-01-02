@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.note_detail
 
+import android.os.Build
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
@@ -7,13 +8,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.note_detail.events.MenuEvents
 import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
+import com.hellguy39.hellnotes.note_detail.events.ShareDialogEvents
 import com.hellguy39.hellnotes.note_detail.events.TopAppBarEvents
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun NoteDetailRoute(
     navController: NavController,
@@ -26,6 +32,7 @@ fun NoteDetailRoute(
 
     var isShowMenu by remember { mutableStateOf(false) }
     var isShowRemindDialog by remember { mutableStateOf(false) }
+    var isShowShareDialog by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val isOpenColorDialog by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -34,6 +41,13 @@ fun NoteDetailRoute(
         override fun show() { isShowRemindDialog = true }
         override fun dismiss() { isShowRemindDialog = false }
         override fun onCreateRemind(remind: Remind) { noteDetailViewModel.insertRemind(remind) }
+    }
+
+    val shareDialogEvents = object : ShareDialogEvents {
+        override fun show() { isShowShareDialog = true }
+        override fun dismiss() { isShowShareDialog = false }
+        override fun shareAsTxtFile(note: Note) {}
+        override fun shareAsPlainText(note: Note) {}
     }
 
     val menuEvents = object : MenuEvents {
@@ -53,11 +67,7 @@ fun NoteDetailRoute(
             }
         }
         override fun onShare() {
-            scope.launch {
-                snackbarHostState.showSnackbar(
-                    "This feature isn't available yet"
-                )
-            }
+            shareDialogEvents.show()
         }
         override fun onDelete() {
             noteDetailViewModel.deleteNote()
@@ -88,5 +98,7 @@ fun NoteDetailRoute(
         reminderDialogEvents = reminderDialogEvents,
         onTitleTextChanged = { newText -> noteDetailViewModel.updateNoteTitle(newText) },
         onNoteTextChanged = { newText -> noteDetailViewModel.updateNoteContent(newText) },
+        isShowShareDialog = isShowShareDialog,
+        shareDialogEvents = shareDialogEvents
     )
 }

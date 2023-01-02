@@ -36,4 +36,9 @@
     <string name="content_description_edit">Редактировать</string>
     <string name="text_new_remind">Новое напоминание</string>
     <string name="text_reminders">Напоминания</string>
+    <string name="hint_search">Поиск…</string>
+    <string name="text_share_as">Поделиться как...</string>
+    <string name="text_plain_text">Обычный текст</string>
+    <string name="text_txt_file">.txt файл</string>
+    <string name="btn_request_permission">Запросить разрешение</string>
 </resources>

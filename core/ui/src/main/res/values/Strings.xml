@@ -34,11 +34,18 @@
     <string name="text_edited">Edited %s</string>
     <string name="text_language">Language</string>
     <string name="text_selected">Selected %s</string>
-
+    <string name="text_share_as">Share as…</string>
+    <string name="text_plain_text">Plain text</string>
+    <string name="text_txt_file">.txt file</string>
+    <string name="text_notification_permission_rationale">Unfortunately, we will not be able to send you notifications without permission. We promise that it will only send notifications for the reminders you set.</string>
+    <string name="text_notification_permission_default">Notification permission required for this feature to be available.\nPlease grant the permission</string>
     <string name="lan_ru" translatable="false">Russian</string>
     <string name="lan_en" translatable="false">English</string>
 
     <string name="hint_title">Title</string>
     <string name="hint_note">Note</string>
+    <string name="hint_search">Search…</string>
+
+    <string name="btn_request_permission">Request permission</string>
 
 </resources>

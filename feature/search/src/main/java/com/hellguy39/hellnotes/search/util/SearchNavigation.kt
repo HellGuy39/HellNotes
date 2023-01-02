@@ -17,17 +17,17 @@ fun NavGraphBuilder.searchScreen(
 ) {
     composable(
         route = searchNavigationRoute,
-        exitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { -300 },
-                animationSpec = tween(300)
-            ) + fadeOut(animationSpec = tween(300))
-        },
-        popEnterTransition = {
+        enterTransition = {
             slideInHorizontally(
-                initialOffsetX = { -300 },
+                initialOffsetX = { 300 },
                 animationSpec = tween(300)
             ) + fadeIn(animationSpec = tween(300))
+        },
+        popExitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { 300 },
+                animationSpec = tween(300)
+            ) + fadeOut(animationSpec = tween(300))
         }
     ) {
         SearchRoute(navController, navigations)

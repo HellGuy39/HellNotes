@@ -43,9 +43,22 @@ fun NoteListScreen(
             TopAppBar(
                 scrollBehavior = scrollBehavior,
                 title = {
-                    TextField(
+                    OutlinedTextField(
                         value = uiState.query,
                         onValueChange = { newText -> onQueryChanged(newText) },
+                        placeholder = {
+                            Text(
+                                text = stringResource(id = HellNotesStrings.Hint.Search),
+                                style = MaterialTheme.typography.titleLarge
+                            )
+                        },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = Color.Transparent,
+                            disabledBorderColor = Color.Transparent,
+                            errorBorderColor = Color.Transparent,
+                            unfocusedBorderColor = Color.Transparent
+                        ),
+                        textStyle = MaterialTheme.typography.titleLarge
                     )
                 },
                 navigationIcon = {

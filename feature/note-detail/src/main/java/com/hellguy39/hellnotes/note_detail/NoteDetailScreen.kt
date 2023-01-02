@@ -13,8 +13,11 @@ import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.model.util.ColorParam
 import com.hellguy39.hellnotes.note_detail.components.NoteDetailContent
 import com.hellguy39.hellnotes.note_detail.components.NoteDetailTopAppBar
+import com.hellguy39.hellnotes.note_detail.components.ReminderDialog
+import com.hellguy39.hellnotes.note_detail.components.ShareDialog
 import com.hellguy39.hellnotes.note_detail.events.MenuEvents
 import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
+import com.hellguy39.hellnotes.note_detail.events.ShareDialogEvents
 import com.hellguy39.hellnotes.note_detail.events.TopAppBarEvents
 import java.util.*
 
@@ -25,6 +28,8 @@ fun NoteDetailScreen(
     isShowMenu: Boolean,
     isShowRemindDialog: Boolean,
     isOpenColorDialog: Boolean,
+    isShowShareDialog: Boolean,
+    shareDialogEvents: ShareDialogEvents,
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
     onNavigationButtonClick: () -> Unit,
@@ -41,6 +46,20 @@ fun NoteDetailScreen(
     else
         Color(note.colorHex)
 
+
+
+    ShareDialog(
+        isShowDialog = isShowShareDialog,
+        events = shareDialogEvents,
+        note = note
+    )
+
+    ReminderDialog(
+        isShowDialog = isShowRemindDialog,
+        events = reminderDialogEvents,
+        note = note
+    )
+
     Scaffold(
         containerColor = containerColor,
         modifier = Modifier
@@ -50,11 +69,8 @@ fun NoteDetailScreen(
             NoteDetailContent(
                 innerPadding = innerPadding,
                 note = note,
-                reminderDialogEvents = reminderDialogEvents,
-                isOpenRemindDialog = isShowRemindDialog,
-                isOpenColorDialog = isOpenColorDialog,
                 onTitleTextChanged = onTitleTextChanged,
-                onNoteTextChanged = onNoteTextChanged
+                onNoteTextChanged = onNoteTextChanged,
             )
         },
         topBar = {
@@ -102,6 +118,13 @@ fun NoteDetailScreenPreview() {
             override fun onPin(isPinned: Boolean) {}
             override fun onColorSelected(colorHex: Long) {}
             override fun onMoreMenu() {}
-        }
+        },
+        shareDialogEvents = object: ShareDialogEvents {
+            override fun show() {}
+            override fun dismiss() {}
+            override fun shareAsTxtFile(note: Note) {}
+            override fun shareAsPlainText(note: Note) {}
+        },
+        isShowShareDialog = false
     )
 }
