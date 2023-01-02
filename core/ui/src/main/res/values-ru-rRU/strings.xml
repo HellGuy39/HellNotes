@@ -37,8 +37,11 @@
     <string name="text_new_remind">Новое напоминание</string>
     <string name="text_reminders">Напоминания</string>
     <string name="hint_search">Поиск…</string>
-    <string name="text_share_as">Поделиться как...</string>
+    <string name="text_share_as">Поделиться как…</string>
     <string name="text_plain_text">Обычный текст</string>
     <string name="text_txt_file">.txt файл</string>
     <string name="btn_request_permission">Запросить разрешение</string>
+    <string name="text_notification_permission_rationale">К сожалению, без разрешения мы не сможем отправлять вам уведомления. Обещаем, что будет отправлять только уведомления для установленных вами напоминаний.</string>
+    <string name="text_notification_permission_default">Для этой функции необходимо разрешение на отправку уведомлений.\nПожалуйста, одобрите разрешение.</string>
+    <string name="text_nothing_was_found">К сожалению, по вашему запросу ничего не нашлось...</string>
 </resources>

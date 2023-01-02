@@ -1,9 +1,6 @@
 package com.hellguy39.hellnotes.note_detail.util
 
-import android.content.Context
-import android.content.Intent
 import android.text.format.DateFormat
-import com.hellguy39.hellnotes.model.Note
 import java.util.*
 
 internal fun Long.formatAsLastEditDate(): String {
@@ -24,29 +21,4 @@ internal fun Long.formatAsLastEditDate(): String {
     } else {
         DateFormat.format("MMMM dd yyyy, h:mm aa", time).toString()
     }
-}
-
-internal fun shareNote(context: Context, note: Note, onEmptyNote: () -> Unit)  {
-    val intent = Intent(Intent.ACTION_SEND)
-    val title = note.title
-    val content = note.note
-
-    val shareBody = if ((title.isEmpty() || title.isBlank()) && (content.isNotEmpty() || content.isNotBlank()))
-        note.note
-    else if ((content.isEmpty() || content.isBlank()) && (title.isNotEmpty() || title.isNotBlank()))
-        note.title
-    else if (title.isNotEmpty() || title.isNotBlank() || content.isNotEmpty() || content.isNotBlank())
-        "${note.title}\n\n${note.note}"
-    else {
-        onEmptyNote()
-        return
-    }
-
-    intent.type = "text/plain"
-//    intent.putExtra(
-//        Intent.EXTRA_SUBJECT,
-//        "Subject"
-//    )
-    intent.putExtra(Intent.EXTRA_TEXT, shareBody)
-    context.startActivity(Intent.createChooser(intent, "Share"))
 }

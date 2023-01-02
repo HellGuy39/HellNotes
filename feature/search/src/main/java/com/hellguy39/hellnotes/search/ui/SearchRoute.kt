@@ -14,10 +14,17 @@ fun SearchRoute(
     searchViewModel: SearchViewModel = hiltViewModel()
 ) {
     val uiState by searchViewModel.uiState.collectAsState()
+    val listStyle by searchViewModel.listStyle.collectAsState()
+    val query by searchViewModel.query.collectAsState()
 
-    NoteListScreen(
+    SearchScreen(
         onNavigationButtonClick = { navController.popBackStack() },
         uiState = uiState,
-        onQueryChanged = { searchViewModel.updateSearchQuery(it) }
+        query = query,
+        listStyle = listStyle,
+        onQueryChanged = { newQuery -> searchViewModel.updateSearchQuery(newQuery) },
+        onNoteClick = { note ->
+            navigations.navigateToNoteDetail(noteId = note.id ?: -1)
+        }
     )
 }

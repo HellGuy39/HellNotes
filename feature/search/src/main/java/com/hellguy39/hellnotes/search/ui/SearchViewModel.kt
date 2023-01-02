@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.search.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.data.repository.AppSettingsRepository
@@ -19,13 +21,19 @@ class SearchViewModel @Inject constructor(
     private val noteRepository: NoteRepository
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow(UiState())
+    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
     val uiState = _uiState.asStateFlow()
+
+    private val _query = MutableStateFlow("")
+    val query = _query.asStateFlow()
+
+    private val _listStyle: MutableStateFlow<ListStyle> = MutableStateFlow(ListStyle.Column)
+    val listStyle = _listStyle.asStateFlow()
 
     private var getNotesJob: Job? = null
 
     init {
-        _uiState.update { it.copy(listStyle = appSettingsRepository.getListStyle()) }
+        _listStyle.update { appSettingsRepository.getListStyle() }
         fetchNotes("")
     }
 
@@ -36,35 +44,31 @@ class SearchViewModel @Inject constructor(
             .onEach { notes ->
                 if (notes.isNotEmpty()) {
                     _uiState.update {
-                        it.copy(
+                        UiState.Success(
                             notes = notes
                         )
                     }
                 } else {
                     _uiState.update {
-                        it.copy(
-                            notes = listOf()
-                        )
+                        UiState.Empty
                     }
                 }
             }
-            .debounce(200L)
+            .debounce(500L)
             .launchIn(viewModelScope)
     }
 
     fun updateSearchQuery(query: String) = viewModelScope.launch {
-        _uiState.update {
-            it.copy(query = query)
-        }
+        _query.update { query }
         fetchNotes(query)
     }
 
 }
 
-data class UiState(
-    val query: String,
-    val notes: List<Note>,
-    val listStyle: ListStyle,
-) {
-    constructor(): this("", listOf(), ListStyle.Column)
+sealed interface UiState {
+    object Empty: UiState
+    object Loading: UiState
+    data class Success(
+        val notes: List<Note>
+    ): UiState
 }

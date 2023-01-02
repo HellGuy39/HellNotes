@@ -51,6 +51,7 @@ object HellNotesStrings {
         val ShareAs = R.string.text_share_as
         val NotificationPermissionRationale = R.string.text_notification_permission_rationale
         val NotificationPermissionDefault = R.string.text_notification_permission_default
+        val NothingWasFound = R.string.text_nothing_was_found
     }
 
     object Lan {

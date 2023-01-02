@@ -1,23 +1,25 @@
 package com.hellguy39.hellnotes.note_detail
 
-import android.os.Build
+import android.content.Intent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.note_detail.events.MenuEvents
 import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
 import com.hellguy39.hellnotes.note_detail.events.ShareDialogEvents
 import com.hellguy39.hellnotes.note_detail.events.TopAppBarEvents
+import com.hellguy39.hellnotes.note_detail.util.ShareHelper
+import com.hellguy39.hellnotes.note_detail.util.ShareType
 import kotlinx.coroutines.launch
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -46,8 +48,12 @@ fun NoteDetailRoute(
     val shareDialogEvents = object : ShareDialogEvents {
         override fun show() { isShowShareDialog = true }
         override fun dismiss() { isShowShareDialog = false }
-        override fun shareAsTxtFile(note: Note) {}
-        override fun shareAsPlainText(note: Note) {}
+        override fun shareAsTxtFile(note: Note) {
+            ShareHelper(context).share(note, ShareType.TxtFile)
+        }
+        override fun shareAsPlainText(note: Note) {
+            ShareHelper(context).share(note, ShareType.PlainText)
+        }
     }
 
     val menuEvents = object : MenuEvents {

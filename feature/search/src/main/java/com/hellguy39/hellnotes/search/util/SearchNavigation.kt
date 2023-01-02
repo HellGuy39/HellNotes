@@ -28,6 +28,18 @@ fun NavGraphBuilder.searchScreen(
                 targetOffsetX = { 300 },
                 animationSpec = tween(300)
             ) + fadeOut(animationSpec = tween(300))
+        },
+        exitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { -300 },
+                animationSpec = tween(300)
+            ) + fadeOut(animationSpec = tween(300))
+        },
+        popEnterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { -300 },
+                animationSpec = tween(300)
+            ) + fadeIn(animationSpec = tween(300))
         }
     ) {
         SearchRoute(navController, navigations)

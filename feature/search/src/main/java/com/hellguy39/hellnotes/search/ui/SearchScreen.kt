@@ -7,28 +7,31 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.BackHandler
+import com.hellguy39.hellnotes.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.components.NoteCard
+import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.util.ListStyle
 import com.hellguy39.hellnotes.ui.HellNotesIcons
 import com.hellguy39.hellnotes.ui.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteListScreen(
+fun SearchScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: UiState,
+    query: String,
+    listStyle: ListStyle,
+    onNoteClick: (note: Note) -> Unit,
     onQueryChanged: (query: String) -> Unit
 ) {
     BackHandler(onBack = onNavigationButtonClick)
@@ -44,7 +47,7 @@ fun NoteListScreen(
                 scrollBehavior = scrollBehavior,
                 title = {
                     OutlinedTextField(
-                        value = uiState.query,
+                        value = query,
                         onValueChange = { newText -> onQueryChanged(newText) },
                         placeholder = {
                             Text(
@@ -71,47 +74,56 @@ fun NoteListScreen(
                         )
                     }
                 },
-                actions = {
-
-                }
+                actions = {}
             )
         },
         content = { innerPadding ->
-            Crossfade(targetState = uiState.listStyle) { style ->
-                when(style) {
-                    is ListStyle.Column -> {
-                        LazyColumn(
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp, vertical = 4.dp)
-                                .fillMaxSize(),
-                            contentPadding = innerPadding
-                        ) {
-                            items(uiState.notes) { note ->
-                                NoteCard(
-                                    note = note,
-                                    onClick = {  },
-                                    onLongClick = {  },
-                                )
+            Crossfade(targetState = uiState) { state ->
+                when(state) {
+                    is UiState.Success -> {
+                        when(listStyle) {
+                            is ListStyle.Column -> {
+                                LazyColumn(
+                                    modifier = Modifier
+                                        .padding(horizontal = 4.dp, vertical = 4.dp)
+                                        .fillMaxSize(),
+                                    contentPadding = innerPadding
+                                ) {
+                                    items(state.notes) { note ->
+                                        NoteCard(
+                                            note = note,
+                                            onClick = { onNoteClick(note) },
+                                            onLongClick = {  },
+                                        )
+                                    }
+                                }
+                            }
+                            is ListStyle.Grid -> {
+                                LazyVerticalGrid(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(horizontal = 4.dp, vertical = 4.dp),
+                                    columns = GridCells.Adaptive(192.dp),
+                                    contentPadding = innerPadding
+                                ) {
+                                    items(state.notes) { note ->
+                                        NoteCard(
+                                            note = note,
+                                            onClick = { onNoteClick(note) },
+                                            onLongClick = {  },
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
-                    is ListStyle.Grid -> {
-                        LazyVerticalGrid(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 4.dp, vertical = 4.dp),
-                            columns = GridCells.Adaptive(192.dp),
-                            contentPadding = innerPadding
-                        ) {
-                            items(uiState.notes) { note ->
-                                NoteCard(
-                                    note = note,
-                                    onClick = {  },
-                                    onLongClick = {  },
-                                )
-                            }
-                        }
+                    is UiState.Empty -> {
+                        EmptyContentPlaceholder(
+                            heroIcon = painterResource(id = HellNotesIcons.Search),
+                            message = stringResource(id = HellNotesStrings.Text.NothingWasFound)
+                        )
                     }
+                    else -> Unit
                 }
             }
         },

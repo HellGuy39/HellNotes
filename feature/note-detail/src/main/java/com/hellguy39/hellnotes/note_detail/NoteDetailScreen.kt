@@ -46,8 +46,6 @@ fun NoteDetailScreen(
     else
         Color(note.colorHex)
 
-
-
     ShareDialog(
         isShowDialog = isShowShareDialog,
         events = shareDialogEvents,
