@@ -21,11 +21,11 @@ class RemindRepositoryImpl @Inject constructor(
         remindDao.deleteRemind(remind.toRemindEntity())
     }
 
-    override suspend fun deleteRemindById(id: Int) {
+    override suspend fun deleteRemindById(id: Long) {
         remindDao.deleteRemindById(id)
     }
 
-    override suspend fun deleteRemindByNoteId(noteId: Int) {
+    override suspend fun deleteRemindByNoteId(noteId: Long) {
         remindDao.deleteRemindByNoteId(noteId)
     }
 
@@ -33,12 +33,12 @@ class RemindRepositoryImpl @Inject constructor(
         return remindDao.getAllReminds().map { it.map(RemindEntity::toRemind) }
     }
 
-    override suspend fun getRemindById(id: Int): Remind {
+    override suspend fun getRemindById(id: Long): Remind {
         return remindDao.getRemindById(id).toRemind()
     }
 
-    override suspend fun getRemindByNoteId(noteId: Int): Remind {
-        return remindDao.getRemindByNoteId(noteId).toRemind()
+    override suspend fun getRemindsByNoteId(noteId: Long): List<Remind> {
+        return remindDao.getRemindsByNoteId(noteId).map { it.toRemind() }
     }
 
     override suspend fun updateRemind(remind: Remind) {

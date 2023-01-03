@@ -188,7 +188,7 @@ fun ReminderDialog(
                         )
                         events.onCreateRemind(
                             Remind(
-                                noteId = note.id ?: -1,
+                                noteId = note.id ?: return@Button,
                                 message = message,
                                 triggerDate = date.time
                             )

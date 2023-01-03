@@ -14,19 +14,19 @@ interface RemindDao {
     suspend fun deleteRemind(remindEntity: RemindEntity)
 
     @Query("DELETE FROM reminds_table WHERE id = :id")
-    suspend fun deleteRemindById(id: Int)
+    suspend fun deleteRemindById(id: Long)
 
     @Query("DELETE FROM reminds_table WHERE noteId = :noteId")
-    suspend fun deleteRemindByNoteId(noteId: Int)
+    suspend fun deleteRemindByNoteId(noteId: Long)
 
     @Query("SELECT * FROM reminds_table")
     fun getAllReminds(): Flow<List<RemindEntity>>
 
     @Query("SELECT * FROM reminds_table WHERE id = :id")
-    suspend fun getRemindById(id: Int): RemindEntity
+    suspend fun getRemindById(id: Long): RemindEntity
 
     @Query("SELECT * FROM reminds_table WHERE noteId = :noteId")
-    suspend fun getRemindByNoteId(noteId: Int): RemindEntity
+    suspend fun getRemindsByNoteId(noteId: Long): List<RemindEntity>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateRemind(remindEntity: RemindEntity)

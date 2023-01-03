@@ -15,28 +15,17 @@ class NoteRepositoryImpl @Inject constructor(
     private val noteDao: NoteDao
 ): NoteRepository {
 
-    override suspend fun getAllNotes(): Flow<List<Note>> =
+    override suspend fun getAllNotesStream(): Flow<List<Note>>  =
         noteDao.getAllNotes().map { it.map(NoteEntity::toNote) }
 
-    override suspend fun getAllNotesWithSorting(sorting: Sorting): Flow<List<Note>> {
-        return when(sorting) {
-            is Sorting.DateOfLastEdit -> {
-                noteDao.getAllNotesSortedByDateOfLastEdit().map { it.map(NoteEntity::toNote) }
-            }
-            is Sorting.DateOfCreation -> {
-                noteDao.getAllNotesSortedByDateOfCreation().map { it.map(NoteEntity::toNote) }
-            }
-        }
-    }
-
-    override suspend fun getAllNotesWithQuery(query: String): Flow<List<Note>> =
+    override suspend fun getAllNotesWithQueryStream(query: String): Flow<List<Note>> =
         noteDao.getAllNotesByQuery(query).map { it.map(NoteEntity::toNote) }
 
-    override suspend fun getNoteById(id: Int): Note =
+    override suspend fun getNoteById(id: Long): Note =
         noteDao.getNoteById(id).toNote()
 
-    override suspend fun insertNote(note: Note) {
-        noteDao.insertNote(note.toNoteEntity())
+    override suspend fun insertNote(note: Note): Long {
+        return noteDao.insertNote(note.toNoteEntity())
     }
 
     override suspend fun updateNote(note: Note) {
@@ -51,7 +40,7 @@ class NoteRepositoryImpl @Inject constructor(
         noteDao.deleteNotes(notes.map { it.toNoteEntity() })
     }
 
-    override suspend fun deleteNoteById(id: Int) {
+    override suspend fun deleteNoteById(id: Long) {
         noteDao.deleteNoteById(id)
     }
 

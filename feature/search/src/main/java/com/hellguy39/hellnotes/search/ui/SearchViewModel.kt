@@ -1,7 +1,5 @@
 package com.hellguy39.hellnotes.search.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.data.repository.AppSettingsRepository
@@ -40,7 +38,7 @@ class SearchViewModel @Inject constructor(
     @OptIn(FlowPreview::class)
     private fun fetchNotes(query: String) = viewModelScope.launch {
         getNotesJob?.cancel()
-        getNotesJob = noteRepository.getAllNotesWithQuery(query)
+        getNotesJob = noteRepository.getAllNotesWithQueryStream(query)
             .onEach { notes ->
                 if (notes.isNotEmpty()) {
                     _uiState.update {

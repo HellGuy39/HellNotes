@@ -4,7 +4,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.hellguy39.hellnotes.INavigations
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.util.Sorting
@@ -19,6 +18,9 @@ fun NoteListRoute(
     noteListViewModel: NoteListViewModel = hiltViewModel()
 ) {
     val uiState by noteListViewModel.uiState.collectAsState()
+    val reminds by noteListViewModel.reminds.collectAsState()
+    val labels by noteListViewModel.labels.collectAsState()
+
     var isShowAppBarMenu by remember { mutableStateOf(false) }
     var isShowSortMenu by remember { mutableStateOf(false) }
 
@@ -81,14 +83,14 @@ fun NoteListRoute(
     NoteListScreen(
         isShowAppBarMenu = isShowAppBarMenu,
         isShowSortMenu = isShowSortMenu,
-        onFabAddClick = {
-            navigations.navigateToNoteDetail(-1)
-        },
+        onFabAddClick = { navigations.navigateToNoteDetail(-1) },
         sortMenuEvents = sortMenuEvents,
         topAppBarEvents = topAppBarEvents,
         topAppBarMenuEvents = topAppBarMenuEvents,
         noteListUiState = uiState,
         noteEvents = noteEvents,
-        onListStyleChange = { noteListViewModel.updateListStyle() }
+        onListStyleChange = { noteListViewModel.updateListStyle() },
+        labels = labels,
+        reminds = reminds
     )
 }

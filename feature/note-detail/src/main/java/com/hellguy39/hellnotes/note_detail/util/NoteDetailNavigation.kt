@@ -8,7 +8,7 @@ import com.hellguy39.hellnotes.note_detail.NoteDetailRoute
 
 const val noteDetailNavigationRoute = "note_detail_route"
 const val KEY_NOTE_ID = "noteId"
-const val NEW_NOTE_ID = -1
+const val NEW_NOTE_ID: Long = -1
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.noteDetailScreen(
@@ -18,7 +18,7 @@ fun NavGraphBuilder.noteDetailScreen(
         route = "$noteDetailNavigationRoute/{$KEY_NOTE_ID}",
         arguments = listOf(
             navArgument(name = KEY_NOTE_ID) {
-                type = NavType.IntType
+                type = NavType.LongType
                 defaultValue = NEW_NOTE_ID
             }
         ),

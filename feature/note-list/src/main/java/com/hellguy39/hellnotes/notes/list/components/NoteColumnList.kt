@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.components.NoteCard
+import com.hellguy39.hellnotes.model.Label
+import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.notes.list.NoteListUiState
 import com.hellguy39.hellnotes.notes.list.events.NoteEvents
 import com.hellguy39.hellnotes.notes.list.events.SortMenuEvents
@@ -24,6 +26,8 @@ fun NoteColumnList(
     noteEvents: NoteEvents,
     isShowSortMenu: Boolean,
     sortMenuEvents: SortMenuEvents,
+    labels: List<Label>,
+    reminds: List<Remind>,
     onListStyleChange: () -> Unit
 ) {
     LazyColumn(
@@ -50,11 +54,17 @@ fun NoteColumnList(
                 )
             }
             items(uiState.pinnedNotes) { note ->
+
+                val noteLabels = labels.filter { note.labelIds.contains(it.id) }
+                val noteReminds = reminds.filter { it.noteId == note.id }
+
                 NoteCard(
                     note = note,
                     onClick = { noteEvents.onClick(note) },
                     onLongClick = { noteEvents.onLongClick(note) },
-                    isSelected = uiState.selectedNotes.contains(note)
+                    isSelected = uiState.selectedNotes.contains(note),
+                    labels = noteLabels,
+                    reminds = noteReminds
                 )
             }
             item {
@@ -67,11 +77,17 @@ fun NoteColumnList(
             }
         }
         items(uiState.notes) { note ->
+
+            val noteLabels = labels.filter { note.labelIds.contains(it.id) }
+            val noteReminds = reminds.filter { it.noteId == note.id }
+
             NoteCard(
                 note = note,
                 onClick = { noteEvents.onClick(note) },
                 onLongClick = { noteEvents.onLongClick(note) },
-                isSelected = uiState.selectedNotes.contains(note)
+                isSelected = uiState.selectedNotes.contains(note),
+                labels = noteLabels,
+                reminds = noteReminds
             )
         }
     }

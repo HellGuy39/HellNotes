@@ -1,9 +1,11 @@
 package com.hellguy39.hellnotes.data.di
 
 import com.hellguy39.hellnotes.data.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.data.repository.LabelRepository
 import com.hellguy39.hellnotes.data.repository.NoteRepository
 import com.hellguy39.hellnotes.data.repository.RemindRepository
 import com.hellguy39.hellnotes.data.repository.impl.AppSettingsRepositoryImpl
+import com.hellguy39.hellnotes.data.repository.impl.LabelRepositoryImpl
 import com.hellguy39.hellnotes.data.repository.impl.NoteRepositoryImpl
 import com.hellguy39.hellnotes.data.repository.impl.RemindRepositoryImpl
 import dagger.Binds
@@ -29,5 +31,10 @@ interface DataModule {
     fun bindRemindRepository(
         i: RemindRepositoryImpl
     ): RemindRepository
+
+    @Binds
+    fun bindLabelRepository(
+        i: LabelRepositoryImpl
+    ): LabelRepository
 
 }

@@ -6,7 +6,7 @@ interface INavigations {
 
     fun navigateToAboutApp()
 
-    fun navigateToNoteDetail(noteId: Int)
+    fun navigateToNoteDetail(noteId: Long)
 
     fun navigateToSearch()
 

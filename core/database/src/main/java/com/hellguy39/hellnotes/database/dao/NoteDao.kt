@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNote(noteEntity: NoteEntity)
+    suspend fun insertNote(noteEntity: NoteEntity): Long
 
     @Delete
     suspend fun deleteNote(noteEntity: NoteEntity)
@@ -23,7 +23,7 @@ interface NoteDao {
 
     @Query("DELETE FROM notes_table " +
             "WHERE id = :id")
-    suspend fun deleteNoteById(id: Int)
+    suspend fun deleteNoteById(id: Long)
 
     @Query("SELECT * FROM notes_table")
     fun getAllNotes(): Flow<List<NoteEntity>>
@@ -43,7 +43,7 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes_table " +
             "WHERE id = :id")
-    suspend fun getNoteById(id: Int): NoteEntity
+    suspend fun getNoteById(id: Long): NoteEntity
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateNote(noteEntity: NoteEntity)

@@ -52,7 +52,7 @@ class Navigations(private val navController: NavController) : INavigations {
         navController.navigateToAboutApp()
     }
 
-    override fun navigateToNoteDetail(noteId: Int) {
+    override fun navigateToNoteDetail(noteId: Long) {
         navController.navigateToNoteDetail(noteId)
     }
 
@@ -65,7 +65,7 @@ class Navigations(private val navController: NavController) : INavigations {
     }
 }
 
-fun NavController.navigateToNoteDetail(noteId: Int?, navOptions: NavOptions? = null) {
+fun NavController.navigateToNoteDetail(noteId: Long?, navOptions: NavOptions? = null) {
     navigate(
         route = "$noteDetailNavigationRoute/$noteId",
         navOptions = navOptions

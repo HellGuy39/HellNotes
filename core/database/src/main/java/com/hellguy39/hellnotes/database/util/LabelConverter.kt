@@ -9,16 +9,17 @@ import java.lang.reflect.ParameterizedType
 class LabelConverter {
 
     private val moshi = Moshi.Builder().build()
-    private val type: ParameterizedType = Types.newParameterizedType(List::class.java, String::class.java)
-    private val jsonAdapter: JsonAdapter<List<String>> = moshi.adapter(type)
+    private val type: ParameterizedType =
+        Types.newParameterizedType(List::class.java, Long::class.javaObjectType)
+    private val jsonAdapter: JsonAdapter<List<Long>> = moshi.adapter(type)
 
     @TypeConverter
-    fun fromLabelList(listMyModel: List<String>?): String? {
-        return jsonAdapter.toJson(listMyModel)
+    fun fromLabelList(list: List<Long>?): String? {
+        return jsonAdapter.toJson(list)
     }
 
     @TypeConverter
-    fun toLabelList(jsonStr: String?): List<String>? {
+    fun toLabelList(jsonStr: String?): List<Long>? {
         return jsonStr?.let { jsonAdapter.fromJson(jsonStr) }
     }
 }

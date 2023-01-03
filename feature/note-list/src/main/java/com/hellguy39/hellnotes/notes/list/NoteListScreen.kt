@@ -12,6 +12,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.components.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.model.Label
+import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.model.util.ListStyle
 import com.hellguy39.hellnotes.notes.*
 import com.hellguy39.hellnotes.notes.list.components.*
@@ -34,6 +36,8 @@ fun NoteListScreen(
     topAppBarEvents: TopAppBarEvents,
     topAppBarMenuEvents: TopAppBarMenuEvents,
     noteListUiState: NoteListUiState,
+    labels: List<Label>,
+    reminds: List<Remind>
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val context = LocalContext.current
@@ -63,7 +67,9 @@ fun NoteListScreen(
                                     noteEvents = noteEvents,
                                     isShowSortMenu = isShowSortMenu,
                                     sortMenuEvents = sortMenuEvents,
-                                    onListStyleChange = onListStyleChange
+                                    onListStyleChange = onListStyleChange,
+                                    labels = labels,
+                                    reminds = reminds
                                 )
                             }
                             is ListStyle.Grid -> {

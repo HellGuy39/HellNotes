@@ -11,7 +11,7 @@ fun NoteEntity.toNote(): Note {
         lastEditDate = lastEditDate,
         isPinned = isPinned,
         colorHex = colorHex,
-        labels = labels
+        labelIds = labelIds
     )
 }
 
@@ -23,6 +23,6 @@ fun Note.toNoteEntity(): NoteEntity {
         lastEditDate = lastEditDate,
         isPinned = isPinned,
         colorHex = colorHex,
-        labels = labels
+        labelIds= labelIds
     )
 }

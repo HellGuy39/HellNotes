@@ -3,8 +3,12 @@ package com.hellguy39.hellnotes.notes.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.data.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.data.repository.LabelRepository
 import com.hellguy39.hellnotes.data.repository.NoteRepository
+import com.hellguy39.hellnotes.data.repository.RemindRepository
+import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
+import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.model.util.ListStyle
 import com.hellguy39.hellnotes.model.util.Sorting
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,30 +20,70 @@ import javax.inject.Inject
 @HiltViewModel
 class NoteListViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
+    private val labelRepository: LabelRepository,
+    private val remindRepository: RemindRepository,
     private val appSettingsRepository: AppSettingsRepository
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<NoteListUiState> = MutableStateFlow(NoteListUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
+    private val _reminds: MutableStateFlow<List<Remind>> = MutableStateFlow(listOf())
+    val reminds = _reminds.asStateFlow()
+
+    private val _labels: MutableStateFlow<List<Label>> = MutableStateFlow(listOf())
+    val labels = _labels.asStateFlow()
+
     private var getNotesJob: Job? = null
+    private var getLabelsJob: Job? = null
+    private var getRemindersJob: Job? = null
 
     init {
         val sorting = appSettingsRepository.getListSort()
         fetchNotes(sorting)
+        fetchLabels()
+        fetchReminds()
+    }
+
+    private fun fetchReminds() = viewModelScope.launch {
+        getRemindersJob?.cancel()
+        getRemindersJob = remindRepository.getAllReminds()
+            .onEach { reminds ->
+                _reminds.update { reminds }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun fetchLabels(query: String = "") = viewModelScope.launch {
+        getLabelsJob?.cancel()
+        getLabelsJob = labelRepository.getAllLabelsStream(query)
+            .onEach { labels ->
+                _labels.update { labels }
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun fetchNotes(sorting: Sorting) = viewModelScope.launch {
         getNotesJob?.cancel()
-        getNotesJob = noteRepository.getAllNotesWithSorting(sorting)
+        getNotesJob = noteRepository.getAllNotesStream()
             .onEach { notes ->
                 if (notes.isNotEmpty()) {
+
+                    val sortedNotes = when(sorting) {
+                        is Sorting.DateOfCreation -> {
+                            notes.sortedByDescending { it.id }
+                        }
+                        is Sorting.DateOfLastEdit -> {
+                            notes.sortedByDescending { it.lastEditDate }
+                        }
+                    }
+
                     _uiState.update {
                         NoteListUiState.Success(
                             sorting = appSettingsRepository.getListSort(),
                             listStyle = appSettingsRepository.getListStyle(),
-                            pinnedNotes = notes.filter { it.isPinned },
-                            notes = notes.filter { !it.isPinned },
+                            pinnedNotes = sortedNotes.filter { it.isPinned },
+                            notes = sortedNotes.filter { !it.isPinned },
                             selectedNotes = listOf()
                         )
                     }

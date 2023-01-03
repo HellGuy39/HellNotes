@@ -23,6 +23,7 @@ object HellNotesIcons {
     val Done = R.drawable.ic_done_24
     val Close = R.drawable.ic_close_24
     val Edit = R.drawable.ic_edit_24
+    val Alarm = R.drawable.ic_alarm_24
 
     val GridView = R.drawable.ic_grid_view_24
     val ListView = R.drawable.ic_list_view_24

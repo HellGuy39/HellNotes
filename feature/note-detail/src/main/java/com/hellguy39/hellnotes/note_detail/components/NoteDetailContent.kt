@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.components.CustomDialog
+import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
@@ -32,6 +33,8 @@ import com.hellguy39.hellnotes.ui.HellNotesStrings
 fun NoteDetailContent(
     innerPadding: PaddingValues,
     note: Note,
+    reminds: List<Remind>,
+    labels: List<Label>,
     onTitleTextChanged: (text: String) -> Unit,
     onNoteTextChanged: (text: String) -> Unit,
 ) {
@@ -75,7 +78,6 @@ fun NoteDetailContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth(),
-                //.padding(horizontal = 16.dp, vertical = 8.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color.Transparent,
                     disabledBorderColor = Color.Transparent,
@@ -84,11 +86,27 @@ fun NoteDetailContent(
                 ),
                 textStyle = MaterialTheme.typography.bodyLarge
             )
-            LazyRow {
-                items(note.labels) { label ->
+            LazyRow(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(reminds) { remind ->
                     ElevatedAssistChip(
                         onClick = { /* Do something! */ },
-                        label = { Text(label) },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = HellNotesIcons.Alarm),
+                                contentDescription = null
+                            )
+                        },
+                        label = { Text(remind.triggerDate.toString()) },
+                    )
+                }
+                items(labels) { label ->
+                    ElevatedAssistChip(
+                        onClick = { /* Do something! */ },
+                        label = { Text(label.name) },
                     )
                 }
             }
@@ -108,7 +126,6 @@ fun NoteDetailContent(
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        //.align(Alignment.End)
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.labelLarge,

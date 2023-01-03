@@ -9,15 +9,15 @@ interface RemindRepository {
 
     suspend fun deleteRemind(remind: Remind)
 
-    suspend fun deleteRemindById(id: Int)
+    suspend fun deleteRemindById(id: Long)
 
-    suspend fun deleteRemindByNoteId(noteId: Int)
+    suspend fun deleteRemindByNoteId(noteId: Long)
 
     fun getAllReminds(): Flow<List<Remind>>
 
-    suspend fun getRemindById(id: Int): Remind
+    suspend fun getRemindById(id: Long): Remind
 
-    suspend fun getRemindByNoteId(noteId: Int): Remind
+    suspend fun getRemindsByNoteId(noteId: Long): List<Remind>
 
     suspend fun updateRemind(remind: Remind)
 

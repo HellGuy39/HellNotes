@@ -25,14 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-//    private val notificationPermissionLauncher = registerForActivityResult(
-//        ActivityResultContracts.RequestPermission()
-//    ) { isGranted ->
-//        if (isGranted) {
-//        } else {
-//        }
-//    }
-
     override fun onCreate(
         savedInstanceState: Bundle?
     ) {
@@ -51,8 +43,6 @@ class MainActivity : ComponentActivity() {
             insets
         }
 
-//        foo()
-
 //        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 //
 //        val intent = Intent(this, ReminderNotificationReceiver::class.java)
@@ -68,20 +58,6 @@ class MainActivity : ComponentActivity() {
 //            pendingIntent
 //        )
     }
-//
-//    fun foo() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            if (ContextCompat.checkSelfPermission(
-//                    this,
-//                    android.Manifest.permission.POST_NOTIFICATIONS
-//                ) != PackageManager.PERMISSION_GRANTED
-//            ) {
-//                notificationPermissionLauncher.launch(
-//                    android.Manifest.permission.POST_NOTIFICATIONS
-//                )
-//            }
-//        }
-//    }
 
     @Composable
     fun App() {
