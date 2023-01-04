@@ -21,8 +21,8 @@ import com.hellguy39.hellnotes.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.components.NoteCard
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.util.ListStyle
-import com.hellguy39.hellnotes.ui.HellNotesIcons
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

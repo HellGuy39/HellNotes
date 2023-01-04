@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.database.util
+package com.hellguy39.hellnotes.database.mapper
 
 import com.hellguy39.hellnotes.database.entity.RemindEntity
 import com.hellguy39.hellnotes.model.Remind

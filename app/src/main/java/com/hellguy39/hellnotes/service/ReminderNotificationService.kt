@@ -8,7 +8,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.hellguy39.hellnotes.activity.MainActivity
 import com.hellguy39.hellnotes.app.NOTIFICATION_CHANNEL_ID
-import com.hellguy39.hellnotes.ui.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesIcons
 
 class ReminderNotificationService(
     private val context: Context

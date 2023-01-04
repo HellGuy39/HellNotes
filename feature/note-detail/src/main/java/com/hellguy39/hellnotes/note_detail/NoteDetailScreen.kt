@@ -80,6 +80,7 @@ fun NoteDetailScreen(
                 labels = selectedLabels,
                 onTitleTextChanged = onTitleTextChanged,
                 onNoteTextChanged = onNoteTextChanged,
+                labelDialogEvents = labelDialogEvents
             )
         },
         topBar = {

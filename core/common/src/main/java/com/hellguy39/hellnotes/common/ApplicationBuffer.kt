@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes
+package com.hellguy39.hellnotes.common
 
 object ApplicationBuffer {
 

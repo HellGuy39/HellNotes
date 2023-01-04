@@ -1,6 +1,7 @@
-package com.hellguy39.hellnotes.ui
+package com.hellguy39.hellnotes.resources
 
 import android.app.Notification
+import com.hellguy39.hellnotes.ui.R
 
 object HellNotesStrings {
 
@@ -25,6 +26,7 @@ object HellNotesStrings {
         val Title = R.string.hint_title
         val Note = R.string.hint_note
         val Search = R.string.hint_search
+        val Label = R.string.hint_label
     }
 
     object Text {

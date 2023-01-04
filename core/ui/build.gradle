@@ -34,6 +34,7 @@ android {
 
 dependencies {
 
+    implementation project(path: ':core:common')
     implementation project(path: ':core:model')
 
     implementation 'androidx.core:core-ktx:1.9.0'

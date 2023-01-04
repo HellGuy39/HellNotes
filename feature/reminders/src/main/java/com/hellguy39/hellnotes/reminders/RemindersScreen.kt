@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.BackHandler
 import com.hellguy39.hellnotes.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.components.ReminderCard
-import com.hellguy39.hellnotes.ui.HellNotesIcons
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -9,8 +9,7 @@ import com.hellguy39.hellnotes.database.dao.RemindDao
 import com.hellguy39.hellnotes.database.entity.LabelEntity
 import com.hellguy39.hellnotes.database.entity.NoteEntity
 import com.hellguy39.hellnotes.database.entity.RemindEntity
-import com.hellguy39.hellnotes.database.util.LabelConverter
-import com.hellguy39.hellnotes.model.Remind
+import com.hellguy39.hellnotes.database.converter.LabelConverter
 
 @Database(
     version = 1,

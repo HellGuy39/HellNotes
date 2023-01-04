@@ -4,7 +4,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.hellguy39.hellnotes.INavigations
+import com.hellguy39.hellnotes.navigations.INavigations
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.util.Sorting
 import com.hellguy39.hellnotes.notes.list.events.NoteEvents

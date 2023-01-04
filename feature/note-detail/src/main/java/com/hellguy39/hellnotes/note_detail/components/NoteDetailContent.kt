@@ -10,23 +10,21 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.components.CustomDialog
+import com.hellguy39.hellnotes.common.date.DateHelper
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
-import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
-import com.hellguy39.hellnotes.note_detail.events.ShareDialogEvents
-import com.hellguy39.hellnotes.note_detail.util.formatAsLastEditDate
-import com.hellguy39.hellnotes.ui.HellNotesIcons
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.note_detail.events.LabelDialogEvents
+import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,6 +35,7 @@ fun NoteDetailContent(
     labels: List<Label>,
     onTitleTextChanged: (text: String) -> Unit,
     onNoteTextChanged: (text: String) -> Unit,
+    labelDialogEvents: LabelDialogEvents
 ) {
     val dateVisibility = note.lastEditDate != 0L
 
@@ -92,7 +91,8 @@ fun NoteDetailContent(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(reminds) { remind ->
-                    ElevatedAssistChip(
+                    FilterChip(
+                        selected = true,
                         onClick = { /* Do something! */ },
                         leadingIcon = {
                             Icon(
@@ -100,13 +100,24 @@ fun NoteDetailContent(
                                 contentDescription = null
                             )
                         },
-                        label = { Text(remind.triggerDate.toString()) },
+                        label = {
+                            Text(
+                                text = remind.triggerDate.toString(),
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        },
                     )
                 }
                 items(labels) { label ->
-                    ElevatedAssistChip(
-                        onClick = { /* Do something! */ },
-                        label = { Text(label.name) },
+                    FilterChip(
+                        selected = true,
+                        onClick = { labelDialogEvents.show() },
+                        label = {
+                            Text(
+                                text = label.name,
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        },
                     )
                 }
             }
@@ -121,7 +132,8 @@ fun NoteDetailContent(
                     text = stringResource(
                         id = HellNotesStrings.Text.Edited,
                         formatArgs = arrayOf(
-                            note.lastEditDate.formatAsLastEditDate()
+                            DateHelper(LocalContext.current)
+                                .formatAsLastEditDate(note.lastEditDate)
                         )
                     ),
                     modifier = Modifier

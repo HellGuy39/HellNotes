@@ -3,8 +3,8 @@ package com.hellguy39.hellnotes.data.repository.impl
 import com.hellguy39.hellnotes.data.repository.RemindRepository
 import com.hellguy39.hellnotes.database.dao.RemindDao
 import com.hellguy39.hellnotes.database.entity.RemindEntity
-import com.hellguy39.hellnotes.database.util.toRemind
-import com.hellguy39.hellnotes.database.util.toRemindEntity
+import com.hellguy39.hellnotes.database.mapper.toRemind
+import com.hellguy39.hellnotes.database.mapper.toRemindEntity
 import com.hellguy39.hellnotes.model.Remind
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

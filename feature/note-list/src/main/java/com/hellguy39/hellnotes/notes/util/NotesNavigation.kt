@@ -4,7 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.INavigations
+import com.hellguy39.hellnotes.navigations.INavigations
 import com.hellguy39.hellnotes.notes.list.NoteListRoute
 
 const val noteListNavigationRoute = "note_list_route"

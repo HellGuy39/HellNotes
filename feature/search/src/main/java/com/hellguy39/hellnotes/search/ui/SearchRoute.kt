@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.INavigations
+import com.hellguy39.hellnotes.navigations.INavigations
 
 @Composable
 fun SearchRoute(

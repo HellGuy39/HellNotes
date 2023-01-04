@@ -3,8 +3,8 @@ package com.hellguy39.hellnotes.data.repository.impl
 import com.hellguy39.hellnotes.data.repository.LabelRepository
 import com.hellguy39.hellnotes.database.dao.LabelDao
 import com.hellguy39.hellnotes.database.entity.LabelEntity
-import com.hellguy39.hellnotes.database.util.toLabel
-import com.hellguy39.hellnotes.database.util.toLabelEntity
+import com.hellguy39.hellnotes.database.mapper.toLabel
+import com.hellguy39.hellnotes.database.mapper.toLabelEntity
 import com.hellguy39.hellnotes.model.Label
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

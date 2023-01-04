@@ -17,7 +17,7 @@ import com.hellguy39.hellnotes.components.NoteCard
 import com.hellguy39.hellnotes.notes.list.NoteListUiState
 import com.hellguy39.hellnotes.notes.list.events.NoteEvents
 import com.hellguy39.hellnotes.notes.list.events.SortMenuEvents
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @Composable
 fun NoteGridList(

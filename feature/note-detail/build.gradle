@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -37,6 +37,7 @@ android {
 
 dependencies {
 
+    implementation project(path: ':core:common')
     implementation project(path: ':core:data')
     implementation project(path: ':core:model')
     implementation project(path: ':core:domain')
@@ -71,6 +72,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
-    // Date Picker
-    implementation "io.github.vanpra.compose-material-dialogs:datetime:0.9.0"
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:core:1.0.2'
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2'
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:clock:1.0.2'
 }

@@ -3,10 +3,9 @@ package com.hellguy39.hellnotes.data.repository.impl
 import com.hellguy39.hellnotes.data.repository.NoteRepository
 import com.hellguy39.hellnotes.database.dao.NoteDao
 import com.hellguy39.hellnotes.database.entity.NoteEntity
-import com.hellguy39.hellnotes.database.util.toNote
-import com.hellguy39.hellnotes.database.util.toNoteEntity
+import com.hellguy39.hellnotes.database.mapper.toNote
+import com.hellguy39.hellnotes.database.mapper.toNoteEntity
 import com.hellguy39.hellnotes.model.Note
-import com.hellguy39.hellnotes.model.util.Sorting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

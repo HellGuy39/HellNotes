@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.note_detail.events.MenuEvents
-import com.hellguy39.hellnotes.ui.HellNotesIcons
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @Composable
 fun NoteDetailDropdownMenu(

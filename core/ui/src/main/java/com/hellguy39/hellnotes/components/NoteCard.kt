@@ -11,16 +11,19 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.common.date.DateHelper
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.model.util.ColorParam
-import com.hellguy39.hellnotes.ui.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesIcons
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -87,8 +90,6 @@ fun NoteCard(
                     modifier = Modifier.padding(top = if (isTitleValid || isNoteValid) 6.dp else 0.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    val chipsCount = reminds.size + labels.size
-                    
                     items(reminds) { remind ->
                         FilterChip(
                             selected = true,
@@ -101,7 +102,8 @@ fun NoteCard(
                             },
                             label = {
                                 Text(
-                                    text = remind.triggerDate.toString(),
+                                    text = DateHelper(LocalContext.current)
+                                        .epochMillisToFormattedDate(remind.triggerDate),
                                     style = MaterialTheme.typography.labelMedium
                                 )
                             },

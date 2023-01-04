@@ -46,6 +46,7 @@
     <string name="hint_title">Title</string>
     <string name="hint_note">Note</string>
     <string name="hint_search">Search…</string>
+    <string name="hint_label">Label…</string>
 
     <string name="btn_request_permission">Request permission</string>
 

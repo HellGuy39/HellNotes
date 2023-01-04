@@ -9,8 +9,8 @@ import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.util.ColorParam
 import com.hellguy39.hellnotes.note_detail.events.MenuEvents
 import com.hellguy39.hellnotes.note_detail.events.TopAppBarEvents
-import com.hellguy39.hellnotes.ui.HellNotesIcons
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

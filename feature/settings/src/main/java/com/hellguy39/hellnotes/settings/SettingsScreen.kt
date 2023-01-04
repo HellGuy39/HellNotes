@@ -18,8 +18,8 @@ import com.hellguy39.hellnotes.BackHandler
 import com.hellguy39.hellnotes.components.CustomDialog
 import com.hellguy39.hellnotes.settings.events.LanguageDialogEvents
 import com.hellguy39.hellnotes.settings.util.Language
-import com.hellguy39.hellnotes.ui.HellNotesIcons
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -105,7 +105,7 @@ fun LanguageDialog(
 ) {
     CustomDialog(
         showDialog = isShowDialog,
-        onClose = { events.dismiss() }
+        onClose = { events.dismiss() },
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier

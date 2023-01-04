@@ -1,4 +1,6 @@
-package com.hellguy39.hellnotes.ui
+package com.hellguy39.hellnotes.resources
+
+import com.hellguy39.hellnotes.ui.R
 
 object HellNotesIcons {
 

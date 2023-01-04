@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.settings.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 object Language {
 

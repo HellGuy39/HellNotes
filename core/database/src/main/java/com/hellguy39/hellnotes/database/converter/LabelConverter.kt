@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.database.util
+package com.hellguy39.hellnotes.database.converter
 
 import androidx.room.TypeConverter
 import com.squareup.moshi.JsonAdapter

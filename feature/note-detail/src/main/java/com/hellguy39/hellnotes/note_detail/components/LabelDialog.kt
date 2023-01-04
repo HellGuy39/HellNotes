@@ -16,8 +16,8 @@ import com.hellguy39.hellnotes.components.CustomDialog
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.note_detail.events.LabelDialogEvents
-import com.hellguy39.hellnotes.ui.HellNotesIcons
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +41,7 @@ fun LabelDialog(
                 },
                 placeholder = {
                     Text(
-                        text = stringResource(id = HellNotesStrings.Hint.Search),
+                        text = stringResource(id = HellNotesStrings.Hint.Label),
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
@@ -53,7 +53,9 @@ fun LabelDialog(
                 ),
                 textStyle = MaterialTheme.typography.titleLarge
             )
-        }
+        },
+        limitMaxHeight = true,
+        applyBottomSpace = false
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier

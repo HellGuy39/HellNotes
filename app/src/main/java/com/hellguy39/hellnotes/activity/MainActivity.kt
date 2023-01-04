@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +19,8 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.hellguy39.hellnotes.broadcast_receiver.ReminderNotificationReceiver
+import com.hellguy39.hellnotes.common.AlarmHelper
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.util.Navigation
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,20 +46,10 @@ class MainActivity : ComponentActivity() {
             insets
         }
 
-//        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//
-//        val intent = Intent(this, ReminderNotificationReceiver::class.java)
-//        val pendingIntent = PendingIntent.getBroadcast(
-//            this,
-//            0,
-//            intent,
-//            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//        )
-//        alarmManager.set(
-//            AlarmManager.RTC_WAKEUP,
-//            System.currentTimeMillis() + (1000 * 10),
-//            pendingIntent
-//        )
+        AlarmHelper.init(
+            this,
+            Intent(this, ReminderNotificationReceiver::class.java)
+        )
     }
 
     @Composable

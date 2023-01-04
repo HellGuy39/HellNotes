@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.components.CustomDialog
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.note_detail.events.ShareDialogEvents
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @Composable
 fun ShareDialog(

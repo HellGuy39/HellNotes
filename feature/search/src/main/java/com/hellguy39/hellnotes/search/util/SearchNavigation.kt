@@ -5,7 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.INavigations
+import com.hellguy39.hellnotes.navigations.INavigations
 import com.hellguy39.hellnotes.search.ui.SearchRoute
 
 const val searchNavigationRoute = "search_route"

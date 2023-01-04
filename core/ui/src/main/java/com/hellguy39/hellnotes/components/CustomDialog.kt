@@ -9,10 +9,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.hellguy39.hellnotes.ui.HellNotesIcons
-import com.hellguy39.hellnotes.ui.HellNotesStrings
+import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -20,6 +21,8 @@ fun CustomDialog(
     showDialog: Boolean,
     onClose: () -> Unit,
     title: String = "",
+    limitMaxHeight: Boolean = false,
+    applyBottomSpace: Boolean = !limitMaxHeight,
     titleContent: @Composable () -> Unit = {  },
     content: @Composable (innerPadding: PaddingValues) -> Unit
 ) {
@@ -35,7 +38,7 @@ fun CustomDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .sizeIn(minHeight = 384.dp)
+                    .sizeIn(minHeight = if (limitMaxHeight) 384.dp else Dp.Unspecified)
             ) {
                 Column {
                     TopAppBar(
@@ -66,7 +69,12 @@ fun CustomDialog(
                         thickness = 1.dp,
                         color = MaterialTheme.colorScheme.surfaceTint//LocalContentColor.current
                     )
+
                     content(PaddingValues(0.dp))
+
+                    if (applyBottomSpace) {
+                        Spacer(modifier = Modifier.height(24.dp))
+                    }
                 }
             }
         }

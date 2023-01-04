@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.hellguy39.hellnotes.common.AlarmHelper
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
@@ -40,7 +41,10 @@ fun NoteDetailRoute(
     val reminderDialogEvents = object : ReminderDialogEvents {
         override fun show() { isShowRemindDialog = true }
         override fun dismiss() { isShowRemindDialog = false }
-        override fun onCreateRemind(remind: Remind) { noteDetailViewModel.insertRemind(remind) }
+        override fun onCreateRemind(remind: Remind) {
+            noteDetailViewModel.insertRemind(remind)
+            AlarmHelper.scheduleAlarm(context, remind)
+        }
     }
 
     val labelDialogEvents = object : LabelDialogEvents {
