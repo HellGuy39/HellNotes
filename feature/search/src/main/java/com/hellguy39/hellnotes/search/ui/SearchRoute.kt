@@ -16,6 +16,8 @@ fun SearchRoute(
     val uiState by searchViewModel.uiState.collectAsState()
     val listStyle by searchViewModel.listStyle.collectAsState()
     val query by searchViewModel.query.collectAsState()
+    val allReminds by searchViewModel.reminds.collectAsState()
+    val allLabels by searchViewModel.labels.collectAsState()
 
     SearchScreen(
         onNavigationButtonClick = { navController.popBackStack() },
@@ -25,6 +27,8 @@ fun SearchRoute(
         onQueryChanged = { newQuery -> searchViewModel.updateSearchQuery(newQuery) },
         onNoteClick = { note ->
             navigations.navigateToNoteDetail(noteId = note.id ?: -1)
-        }
+        },
+        allLabels = allLabels,
+        allReminds = allReminds
     )
 }

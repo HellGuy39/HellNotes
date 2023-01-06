@@ -22,7 +22,9 @@ import com.hellguy39.hellnotes.common.date.DateHelper
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
+import com.hellguy39.hellnotes.note_detail.events.EditReminderDialogEvents
 import com.hellguy39.hellnotes.note_detail.events.LabelDialogEvents
+import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
 
@@ -32,10 +34,11 @@ fun NoteDetailContent(
     innerPadding: PaddingValues,
     note: Note,
     reminds: List<Remind>,
-    labels: List<Label>,
+    noteLabels: List<Label>,
     onTitleTextChanged: (text: String) -> Unit,
     onNoteTextChanged: (text: String) -> Unit,
-    labelDialogEvents: LabelDialogEvents
+    labelDialogEvents: LabelDialogEvents,
+    editReminderDialogEvents: EditReminderDialogEvents
 ) {
     val dateVisibility = note.lastEditDate != 0L
 
@@ -93,7 +96,10 @@ fun NoteDetailContent(
                 items(reminds) { remind ->
                     FilterChip(
                         selected = true,
-                        onClick = { /* Do something! */ },
+                        onClick = {
+                            editReminderDialogEvents.setRemindToEdit(remind)
+                            editReminderDialogEvents.show()
+                        },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = HellNotesIcons.Alarm),
@@ -102,13 +108,14 @@ fun NoteDetailContent(
                         },
                         label = {
                             Text(
-                                text = remind.triggerDate.toString(),
+                                text = DateHelper(LocalContext.current)
+                                    .epochMillisToFormattedDate(remind.triggerDate),
                                 style = MaterialTheme.typography.labelMedium
                             )
                         },
                     )
                 }
-                items(labels) { label ->
+                items(noteLabels) { label ->
                     FilterChip(
                         selected = true,
                         onClick = { labelDialogEvents.show() },
@@ -133,7 +140,7 @@ fun NoteDetailContent(
                         id = HellNotesStrings.Text.Edited,
                         formatArgs = arrayOf(
                             DateHelper(LocalContext.current)
-                                .formatAsLastEditDate(note.lastEditDate)
+                                .formatBest(note.lastEditDate)
                         )
                     ),
                     modifier = Modifier

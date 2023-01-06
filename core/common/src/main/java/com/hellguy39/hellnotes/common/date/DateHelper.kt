@@ -9,13 +9,12 @@ import java.util.*
 class DateHelper (
     context: Context
 ) {
-
     private val formatter: DateTimeFormatter
     private val zoneId: ZoneId = ZoneId.systemDefault()
 
     init {
         val locale = context.resources.configuration.locales.get(0)
-        formatter = DateTimeFormatter.ofPattern(DATE_PATTERN, locale)
+        formatter = DateTimeFormatter.ofPattern(DATE_TIME_SHORT_PATTERN, locale)
         formatter.withZone(zoneId)
     }
 
@@ -42,28 +41,43 @@ class DateHelper (
             .toEpochMilli()
     }
 
-    fun formatAsLastEditDate(millis: Long): String {
+    fun epochMillisToLocalTime(epochMilli: Long): LocalTime {
+        return Instant.ofEpochMilli(epochMilli)
+            .atZone(zoneId)
+            .toLocalTime()
+    }
+
+    fun epochMillisToLocalDate(epochMilli: Long): LocalDate {
+        return Instant.ofEpochMilli(epochMilli)
+            .atZone(zoneId)
+            .toLocalDate()
+    }
+
+    fun formatBest(millis: Long): String {
         val time = Calendar.getInstance()
         time.timeInMillis = millis
 
         val now = Calendar.getInstance()
 
-        val timeFormatString = "h:mm aa"
-        val dateTimeFormatString = "EEEE, MMMM d, h:mm aa"
-
         return if (now.get(Calendar.DATE) == time.get(Calendar.DATE)) {
-            DateFormat.format(timeFormatString, time).toString()
+            DateFormat.format(TIME_PATTERN, time).toString()
         } else if (now.get(Calendar.DATE) - time.get(Calendar.DATE) == 1) {
-            DateFormat.format(timeFormatString, time).toString()
+            DateFormat.format(TIME_PATTERN, time).toString()
         } else if (now.get(Calendar.YEAR) == time.get(Calendar.YEAR)) {
-            DateFormat.format(dateTimeFormatString, time).toString()
+            DateFormat.format(DATE_TIME_PATTERN, time).toString()
         } else {
-            DateFormat.format(DATE_PATTERN, time).toString()
+            DateFormat.format(DATE_TIME_PATTERN, time).toString()
         }
     }
 
     companion object {
-        const val DATE_PATTERN = "dd MMMM yyyy HH:mm"
+        const val DATE_TIME_PATTERN = "MMMM dd yyyy HH:mm"
+        const val DATE_TIME_SHORT_PATTERN = "MMM dd yyyy HH:mm"
+
+        const val TIME_PATTERN = "HH:mm"
+
+        const val DATE_PATTERN = "MMMM dd yyyy"
+        const val DATE_SHORT_PATTERN = "MMM dd"
     }
 
 }

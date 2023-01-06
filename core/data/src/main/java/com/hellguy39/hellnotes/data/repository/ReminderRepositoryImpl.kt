@@ -1,6 +1,6 @@
-package com.hellguy39.hellnotes.data.repository.impl
+package com.hellguy39.hellnotes.data.repository
 
-import com.hellguy39.hellnotes.data.repository.RemindRepository
+import com.hellguy39.hellnotes.domain.repository.ReminderRepository
 import com.hellguy39.hellnotes.database.dao.RemindDao
 import com.hellguy39.hellnotes.database.entity.RemindEntity
 import com.hellguy39.hellnotes.database.mapper.toRemind
@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class RemindRepositoryImpl @Inject constructor(
+class ReminderRepositoryImpl @Inject constructor(
     private val remindDao: RemindDao
-): RemindRepository {
+): ReminderRepository {
     override suspend fun insertRemind(remind: Remind) {
         remindDao.insertRemind(remind.toRemindEntity())
     }
@@ -29,8 +29,8 @@ class RemindRepositoryImpl @Inject constructor(
         remindDao.deleteRemindByNoteId(noteId)
     }
 
-    override fun getAllReminds(): Flow<List<Remind>> {
-        return remindDao.getAllReminds().map { it.map(RemindEntity::toRemind) }
+    override fun getAllRemindsStream(): Flow<List<Remind>> {
+        return remindDao.getAllRemindsStream().map { it.map(RemindEntity::toRemind) }
     }
 
     override suspend fun getRemindById(id: Long): Remind {
@@ -41,9 +41,12 @@ class RemindRepositoryImpl @Inject constructor(
         return remindDao.getRemindsByNoteId(noteId).map { it.toRemind() }
     }
 
+    override fun getRemindsByNoteIdStream(noteId: Long): Flow<List<Remind>> {
+        return remindDao.getRemindsByNoteIdStream(noteId).map { it.map(RemindEntity::toRemind) }
+    }
+
     override suspend fun updateRemind(remind: Remind) {
         remindDao.updateRemind(remind.toRemindEntity())
     }
-
 
 }

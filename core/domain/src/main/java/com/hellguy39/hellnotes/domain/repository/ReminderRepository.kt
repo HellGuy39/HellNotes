@@ -1,9 +1,9 @@
-package com.hellguy39.hellnotes.data.repository
+package com.hellguy39.hellnotes.domain.repository
 
 import com.hellguy39.hellnotes.model.Remind
 import kotlinx.coroutines.flow.Flow
 
-interface RemindRepository {
+interface ReminderRepository {
 
     suspend fun insertRemind(remind: Remind)
 
@@ -13,11 +13,13 @@ interface RemindRepository {
 
     suspend fun deleteRemindByNoteId(noteId: Long)
 
-    fun getAllReminds(): Flow<List<Remind>>
+    fun getAllRemindsStream(): Flow<List<Remind>>
 
     suspend fun getRemindById(id: Long): Remind
 
     suspend fun getRemindsByNoteId(noteId: Long): List<Remind>
+
+    fun getRemindsByNoteIdStream(noteId: Long): Flow<List<Remind>>
 
     suspend fun updateRemind(remind: Remind)
 

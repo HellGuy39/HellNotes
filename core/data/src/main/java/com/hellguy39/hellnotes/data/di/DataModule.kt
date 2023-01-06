@@ -1,13 +1,13 @@
 package com.hellguy39.hellnotes.data.di
 
-import com.hellguy39.hellnotes.data.repository.AppSettingsRepository
-import com.hellguy39.hellnotes.data.repository.LabelRepository
-import com.hellguy39.hellnotes.data.repository.NoteRepository
-import com.hellguy39.hellnotes.data.repository.RemindRepository
-import com.hellguy39.hellnotes.data.repository.impl.AppSettingsRepositoryImpl
-import com.hellguy39.hellnotes.data.repository.impl.LabelRepositoryImpl
-import com.hellguy39.hellnotes.data.repository.impl.NoteRepositoryImpl
-import com.hellguy39.hellnotes.data.repository.impl.RemindRepositoryImpl
+import com.hellguy39.hellnotes.domain.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.domain.repository.LabelRepository
+import com.hellguy39.hellnotes.domain.repository.NoteRepository
+import com.hellguy39.hellnotes.domain.repository.ReminderRepository
+import com.hellguy39.hellnotes.data.repository.AppSettingsRepositoryImpl
+import com.hellguy39.hellnotes.data.repository.LabelRepositoryImpl
+import com.hellguy39.hellnotes.data.repository.NoteRepositoryImpl
+import com.hellguy39.hellnotes.data.repository.ReminderRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,8 +29,8 @@ interface DataModule {
 
     @Binds
     fun bindRemindRepository(
-        i: RemindRepositoryImpl
-    ): RemindRepository
+        i: ReminderRepositoryImpl
+    ): ReminderRepository
 
     @Binds
     fun bindLabelRepository(

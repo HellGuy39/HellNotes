@@ -5,15 +5,18 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.common.AlarmHelper
+import com.hellguy39.hellnotes.common.date.DateHelper
+import com.hellguy39.hellnotes.domain.AlarmEvents
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.note_detail.events.*
 import com.hellguy39.hellnotes.note_detail.util.ShareHelper
 import com.hellguy39.hellnotes.note_detail.util.ShareType
+import com.hellguy39.hellnotes.resources.HellNotesStrings
 import kotlinx.coroutines.launch
 
 
@@ -22,36 +25,67 @@ import kotlinx.coroutines.launch
 fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
+    alarmEvents: AlarmEvents = noteDetailViewModel.alarmEvents
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val note by noteDetailViewModel.note.collectAsState()
-    val reminds by noteDetailViewModel.reminds.collectAsState()
-    val labels by noteDetailViewModel.labels.collectAsState()
+    val noteReminds by noteDetailViewModel.noteReminds.collectAsState()
+    val allLabels by noteDetailViewModel.allLabels.collectAsState()
+    val noteLabels by noteDetailViewModel.noteLabels.collectAsState()
+
+    var editableRemind: Remind? by remember { mutableStateOf(null) }
 
     var isShowMenu by remember { mutableStateOf(false) }
     var isShowRemindDialog by remember { mutableStateOf(false) }
+    var isShowEditRemindDialog by remember { mutableStateOf(false) }
     var isShowShareDialog by remember { mutableStateOf(false) }
     var isShowLabelDialog by remember { mutableStateOf(false) }
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val isOpenColorDialog by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val remindIsTooLateMessage = stringResource(id = HellNotesStrings.Text.RemindTimeIsTooLate)
     val reminderDialogEvents = object : ReminderDialogEvents {
         override fun show() { isShowRemindDialog = true }
         override fun dismiss() { isShowRemindDialog = false }
         override fun onCreateRemind(remind: Remind) {
-            noteDetailViewModel.insertRemind(remind)
-            AlarmHelper.scheduleAlarm(context, remind)
+            if(remind.triggerDate > DateHelper(context).getCurrentTimeInEpochMilli()) {
+                noteDetailViewModel.insertRemind(remind)
+                alarmEvents.scheduleAlarm(remind)
+            } else {
+                scope.launch {
+                    snackbarHostState.showSnackbar(message = remindIsTooLateMessage)
+                }
+            }
+        }
+    }
+
+    val editReminderDialogEvents = object : EditReminderDialogEvents {
+        override fun show() { isShowEditRemindDialog = true }
+        override fun dismiss() { isShowEditRemindDialog = false }
+        override fun setRemindToEdit(remind: Remind) { editableRemind = remind }
+        override fun deleteRemind(remind: Remind) {
+            val existedAlarm = noteReminds.find { it.id == remind.id }
+            existedAlarm?.let {
+                alarmEvents.cancelAlarm(it)
+                noteDetailViewModel.deleteRemind(existedAlarm)
+            }
+        }
+        override fun updateRemind(remind: Remind) {
+            val oldRemind = noteReminds.find { it.id == remind.id }
+            oldRemind?.let { alarmEvents.cancelAlarm(it) }
+            alarmEvents.scheduleAlarm(remind)
+            noteDetailViewModel.updateRemind(remind)
         }
     }
 
     val labelDialogEvents = object : LabelDialogEvents {
         override fun show() { isShowLabelDialog = true }
         override fun dismiss() { isShowLabelDialog = false }
-        override fun selectLabel(labelId: Long) { noteDetailViewModel.selectLabel(labelId) }
-        override fun unselectLabel(labelId: Long) { noteDetailViewModel.unselectLabel(labelId) }
+        override fun selectLabel(label: Label) { noteDetailViewModel.selectLabel(label) }
+        override fun unselectLabel(label: Label) { noteDetailViewModel.unselectLabel(label) }
         override fun createLabel(name: String) { noteDetailViewModel.insertLabel(Label(name = name)) }
         override fun updateQuery(query: String) { noteDetailViewModel.updateLabelQuery(query) }
     }
@@ -82,7 +116,7 @@ fun NoteDetailRoute(
     }
 
     val topAppBarEvents = object : TopAppBarEvents {
-        override fun onReminder() { isShowRemindDialog = true }
+        override fun onReminder() { reminderDialogEvents.show() }
         override fun onPin(isPinned: Boolean) { noteDetailViewModel.updateIsPinned(isPinned) }
         override fun onColorSelected(colorHex: Long) { noteDetailViewModel.updateNoteBackground(colorHex) }
         override fun onMoreMenu() { isShowMenu = true }
@@ -95,7 +129,8 @@ fun NoteDetailRoute(
         },
         isShowMenu = isShowMenu,
         isShowRemindDialog = isShowRemindDialog,
-        isOpenColorDialog = isOpenColorDialog,
+        isShowEditRemindDialog = isShowEditRemindDialog,
+        editReminderDialogEvents = editReminderDialogEvents,
         snackbarHostState = snackbarHostState,
         scrollBehavior = scrollBehavior,
         menuEvents = menuEvents,
@@ -106,9 +141,11 @@ fun NoteDetailRoute(
         onNoteTextChanged = { newText -> noteDetailViewModel.updateNoteContent(newText) },
         isShowShareDialog = isShowShareDialog,
         shareDialogEvents = shareDialogEvents,
-        reminds = reminds,
+        reminds = noteReminds,
         isShowLabelDialog = isShowLabelDialog,
-        labels = labels,
-        labelDialogEvents = labelDialogEvents
+        allLabels = allLabels,
+        noteLabels = noteLabels,
+        labelDialogEvents = labelDialogEvents,
+        editableRemind = editableRemind
     )
 }

@@ -38,7 +38,6 @@ android {
 
 dependencies {
 
-    implementation project(path: ':core:data')
     implementation project(path: ':core:model')
     implementation project(path: ':core:domain')
     implementation project(path: ':core:ui')

@@ -27,6 +27,7 @@ object HellNotesStrings {
         val Note = R.string.hint_note
         val Search = R.string.hint_search
         val Label = R.string.hint_label
+        val Message = R.string.hint_message
     }
 
     object Text {
@@ -47,6 +48,7 @@ object HellNotesStrings {
         val Language = R.string.text_language
         val Selected = R.string.text_selected
         val NewRemind = R.string.text_new_remind
+        val EditRemind = R.string.text_edit_remind
         val Reminders = R.string.text_reminders
         val PlainText = R.string.text_plain_text
         val TxtFile = R.string.text_txt_file
@@ -54,6 +56,8 @@ object HellNotesStrings {
         val NotificationPermissionRationale = R.string.text_notification_permission_rationale
         val NotificationPermissionDefault = R.string.text_notification_permission_default
         val NothingWasFound = R.string.text_nothing_was_found
+        val RemindTimeIsTooLate = R.string.text_remind_time_is_too_late
+        val CreateNewLabel = R.string.text_create_new_label
     }
 
     object Lan {
@@ -63,6 +67,8 @@ object HellNotesStrings {
 
     object Button {
         val RequestPermission = R.string.btn_request_permission
+        val Create = R.string.btn_create
+        val Edit = R.string.btn_edit
     }
 
 }

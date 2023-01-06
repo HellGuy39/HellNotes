@@ -4,6 +4,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.navigations.INavigations
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.util.Sorting
@@ -12,14 +14,16 @@ import com.hellguy39.hellnotes.notes.list.events.SortMenuEvents
 import com.hellguy39.hellnotes.notes.list.events.TopAppBarEvents
 import com.hellguy39.hellnotes.notes.list.events.TopAppBarMenuEvents
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun NoteListRoute(
     navigations: INavigations,
     noteListViewModel: NoteListViewModel = hiltViewModel()
 ) {
     val uiState by noteListViewModel.uiState.collectAsState()
-    val reminds by noteListViewModel.reminds.collectAsState()
-    val labels by noteListViewModel.labels.collectAsState()
+    val reminds by noteListViewModel.reminders.collectAsStateWithLifecycle()
+    val labels by noteListViewModel.labels.collectAsStateWithLifecycle()
+    val selectedNotes by noteListViewModel.selectedNotes.collectAsStateWithLifecycle()
 
     var isShowAppBarMenu by remember { mutableStateOf(false) }
     var isShowSortMenu by remember { mutableStateOf(false) }
@@ -30,10 +34,10 @@ fun NoteListRoute(
         override fun onClick(note: Note) {
             uiState.let { state ->
                 if (state is NoteListUiState.Success) {
-                    if (state.selectedNotes.isEmpty()) {
+                    if (selectedNotes.isEmpty()) {
                         navigations.navigateToNoteDetail(note.id ?: -1)
                     } else {
-                        if (state.selectedNotes.contains(note)) {
+                        if (selectedNotes.contains(note)) {
                             noteListViewModel.unselectNote(note)
                         } else {
                             noteListViewModel.selectNote(note)
@@ -49,7 +53,7 @@ fun NoteListRoute(
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
 
                 if (state is NoteListUiState.Success) {
-                    if (state.selectedNotes.contains(note)) {
+                    if (selectedNotes.contains(note)) {
                         noteListViewModel.unselectNote(note)
                     } else {
                         noteListViewModel.selectNote(note)
@@ -91,6 +95,7 @@ fun NoteListRoute(
         noteEvents = noteEvents,
         onListStyleChange = { noteListViewModel.updateListStyle() },
         labels = labels,
-        reminds = reminds
+        reminds = reminds,
+        selectedNotes = selectedNotes
     )
 }

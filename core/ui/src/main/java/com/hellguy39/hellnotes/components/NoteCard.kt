@@ -103,7 +103,7 @@ fun NoteCard(
                             label = {
                                 Text(
                                     text = DateHelper(LocalContext.current)
-                                        .epochMillisToFormattedDate(remind.triggerDate),
+                                        .formatBest(remind.triggerDate),
                                     style = MaterialTheme.typography.labelMedium
                                 )
                             },

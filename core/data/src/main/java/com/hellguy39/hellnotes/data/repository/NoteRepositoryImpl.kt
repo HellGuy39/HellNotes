@@ -1,6 +1,6 @@
-package com.hellguy39.hellnotes.data.repository.impl
+package com.hellguy39.hellnotes.data.repository
 
-import com.hellguy39.hellnotes.data.repository.NoteRepository
+import com.hellguy39.hellnotes.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.database.dao.NoteDao
 import com.hellguy39.hellnotes.database.entity.NoteEntity
 import com.hellguy39.hellnotes.database.mapper.toNote

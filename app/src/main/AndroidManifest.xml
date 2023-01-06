@@ -31,7 +31,7 @@
 
         </activity>
 
-        <receiver android:name=".broadcast_receiver.ReminderNotificationReceiver"
+        <receiver android:name=".util.ReminderNotificationReceiver"
             android:enabled="true" />
 
         <service android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

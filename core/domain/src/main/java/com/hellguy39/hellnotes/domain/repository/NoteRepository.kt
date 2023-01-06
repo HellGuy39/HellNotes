@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.data.repository
+package com.hellguy39.hellnotes.domain.repository
 
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.util.Sorting

@@ -57,24 +57,25 @@ fun RemindersScreen(
         content = { paddingValues ->
             when(uiState) {
                 is UiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
-                        contentPadding = paddingValues
-                    ) {
-                        items(uiState.reminders) {
-                            ReminderCard(
-                                remind = it,
-                                onClick = {  },
-                                onLongClick = {  }
-                            )
+                    if (uiState.reminders.isNotEmpty()) {
+                        LazyColumn(
+                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
+                            contentPadding = paddingValues
+                        ) {
+                            items(uiState.reminders) {
+                                ReminderCard(
+                                    remind = it,
+                                    onClick = {  },
+                                    onLongClick = {  }
+                                )
+                            }
                         }
+                    } else {
+                        EmptyContentPlaceholder(
+                            heroIcon = painterResource(id = HellNotesIcons.Notifications),
+                            message = stringResource(id = HellNotesStrings.Text.Empty)
+                        )
                     }
-                }
-                is UiState.Empty -> {
-                    EmptyContentPlaceholder(
-                        heroIcon = painterResource(id = HellNotesIcons.Notifications),
-                        message = stringResource(id = HellNotesStrings.Text.Empty)
-                    )
                 }
                 else -> Unit
             }

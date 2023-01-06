@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -32,8 +33,10 @@ fun EmptyContentPlaceholder(
         )
         Text(
             text = message,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 8.dp)
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(top = 32.dp)
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
     }
 }

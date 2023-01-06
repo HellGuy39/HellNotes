@@ -23,20 +23,23 @@ fun NoteDetailScreen(
     reminds: List<Remind>,
     isShowMenu: Boolean,
     isShowRemindDialog: Boolean,
-    isOpenColorDialog: Boolean,
     isShowShareDialog: Boolean,
     isShowLabelDialog: Boolean,
+    isShowEditRemindDialog: Boolean,
+    editReminderDialogEvents: EditReminderDialogEvents,
     labelDialogEvents: LabelDialogEvents,
     shareDialogEvents: ShareDialogEvents,
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
-    labels: List<Label>,
+    noteLabels: List<Label>,
+    allLabels: List<Label>,
     onNavigationButtonClick: () -> Unit,
     menuEvents: MenuEvents,
     onTitleTextChanged: (text: String) -> Unit,
     onNoteTextChanged: (text: String) -> Unit,
     topAppBarEvents: TopAppBarEvents,
-    reminderDialogEvents: ReminderDialogEvents
+    reminderDialogEvents: ReminderDialogEvents,
+    editableRemind: Remind?
 ) {
     BackHandler(onBack = onNavigationButtonClick)
 
@@ -47,7 +50,8 @@ fun NoteDetailScreen(
 
     LabelDialog(
         isShowDialog = isShowLabelDialog,
-        labels = labels,
+        noteLabels = noteLabels,
+        allLabels = allLabels,
         note = note,
         events = labelDialogEvents
     )
@@ -61,7 +65,14 @@ fun NoteDetailScreen(
     ReminderDialog(
         isShowDialog = isShowRemindDialog,
         events = reminderDialogEvents,
-        note = note
+        note = note,
+    )
+
+    EditReminderDialog(
+        note = note,
+        isShowDialog = isShowEditRemindDialog,
+        events = editReminderDialogEvents,
+        remind = editableRemind
     )
 
     Scaffold(
@@ -71,16 +82,17 @@ fun NoteDetailScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
 
-            val selectedLabels = labels.filter { note.labelIds.contains(it.id) }
+            //val selectedLabels = labels.filter { note.labelIds.contains(it.id) }
 
             NoteDetailContent(
                 innerPadding = innerPadding,
                 note = note,
                 reminds = reminds,
-                labels = selectedLabels,
+                noteLabels = noteLabels,
                 onTitleTextChanged = onTitleTextChanged,
                 onNoteTextChanged = onNoteTextChanged,
-                labelDialogEvents = labelDialogEvents
+                labelDialogEvents = labelDialogEvents,
+                editReminderDialogEvents = editReminderDialogEvents
             )
         },
         topBar = {
@@ -93,51 +105,6 @@ fun NoteDetailScreen(
                 menuEvents = menuEvents
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     )
 }
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Preview(showBackground = true)
-//@Composable
-//fun NoteDetailScreenPreview() {
-//    NoteDetailScreen(
-//        note = Note(lastEditDate = Date().time),
-//        isShowMenu = false,
-//        isOpenColorDialog = false,
-//        isShowRemindDialog = false,
-//        reminderDialogEvents = object : ReminderDialogEvents{
-//            override fun show() {}
-//            override fun dismiss() {}
-//            override fun onCreateRemind(remind: Remind) {}
-//        },
-//        snackbarHostState = SnackbarHostState(),
-//        scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
-//        onNavigationButtonClick = {  },
-//        menuEvents = object : MenuEvents {
-//            override fun onDismissMenu() {}
-//            override fun onColor() {}
-//            override fun onLabels() {}
-//            override fun onShare() {}
-//            override fun onDelete() {}
-//        },
-//        onTitleTextChanged = {},
-//        onNoteTextChanged = {},
-//        topAppBarEvents = object : TopAppBarEvents {
-//            override fun onReminder() {}
-//            override fun onPin(isPinned: Boolean) {}
-//            override fun onColorSelected(colorHex: Long) {}
-//            override fun onMoreMenu() {}
-//        },
-//        shareDialogEvents = object: ShareDialogEvents {
-//            override fun show() {}
-//            override fun dismiss() {}
-//            override fun shareAsTxtFile(note: Note) {}
-//            override fun shareAsPlainText(note: Note) {}
-//        },
-//        reminds = listOf(),
-//        isShowShareDialog = false,
-//        isShowLabelDialog = false,
-//
-//    )
-//}

@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.data.repository
+package com.hellguy39.hellnotes.domain.repository
 
 import com.hellguy39.hellnotes.model.Label
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +11,7 @@ interface LabelRepository {
 
     suspend fun updateLabel(label: Label)
 
-    suspend fun getAllLabelsStream(query: String): Flow<List<Label>>
+    fun getAllLabelsStream(query: String): Flow<List<Label>>
 
     suspend fun getLabelById(id: Long): Label
 

@@ -1,6 +1,6 @@
-package com.hellguy39.hellnotes.data.repository.impl
+package com.hellguy39.hellnotes.data.repository
 
-import com.hellguy39.hellnotes.data.repository.LabelRepository
+import com.hellguy39.hellnotes.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.database.dao.LabelDao
 import com.hellguy39.hellnotes.database.entity.LabelEntity
 import com.hellguy39.hellnotes.database.mapper.toLabel
@@ -26,7 +26,7 @@ class LabelRepositoryImpl @Inject constructor(
         labelDao.updateLabel(label.toLabelEntity())
     }
 
-    override suspend fun getAllLabelsStream(query: String): Flow<List<Label>> {
+    override fun getAllLabelsStream(query: String): Flow<List<Label>> {
         return labelDao.getAllLabelsStream(query).map { it.map(LabelEntity::toLabel) }
     }
 

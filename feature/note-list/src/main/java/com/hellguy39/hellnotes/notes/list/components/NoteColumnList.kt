@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.components.NoteCard
 import com.hellguy39.hellnotes.model.Label
+import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.notes.list.NoteListUiState
 import com.hellguy39.hellnotes.notes.list.events.NoteEvents
@@ -28,6 +29,7 @@ fun NoteColumnList(
     sortMenuEvents: SortMenuEvents,
     labels: List<Label>,
     reminds: List<Remind>,
+    selectedNotes: List<Note>,
     onListStyleChange: () -> Unit
 ) {
     LazyColumn(
@@ -62,7 +64,7 @@ fun NoteColumnList(
                     note = note,
                     onClick = { noteEvents.onClick(note) },
                     onLongClick = { noteEvents.onLongClick(note) },
-                    isSelected = uiState.selectedNotes.contains(note),
+                    isSelected = selectedNotes.contains(note),
                     labels = noteLabels,
                     reminds = noteReminds
                 )
@@ -85,7 +87,7 @@ fun NoteColumnList(
                 note = note,
                 onClick = { noteEvents.onClick(note) },
                 onLongClick = { noteEvents.onLongClick(note) },
-                isSelected = uiState.selectedNotes.contains(note),
+                isSelected = selectedNotes.contains(note),
                 labels = noteLabels,
                 reminds = noteReminds
             )

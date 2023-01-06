@@ -2,10 +2,10 @@ package com.hellguy39.hellnotes.notes.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.data.repository.AppSettingsRepository
-import com.hellguy39.hellnotes.data.repository.LabelRepository
-import com.hellguy39.hellnotes.data.repository.NoteRepository
-import com.hellguy39.hellnotes.data.repository.RemindRepository
+import com.hellguy39.hellnotes.domain.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.domain.repository.LabelRepository
+import com.hellguy39.hellnotes.domain.repository.NoteRepository
+import com.hellguy39.hellnotes.domain.repository.ReminderRepository
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
@@ -21,75 +21,60 @@ import javax.inject.Inject
 class NoteListViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val labelRepository: LabelRepository,
-    private val remindRepository: RemindRepository,
+    private val reminderRepository: ReminderRepository,
     private val appSettingsRepository: AppSettingsRepository
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<NoteListUiState> = MutableStateFlow(NoteListUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val _reminds: MutableStateFlow<List<Remind>> = MutableStateFlow(listOf())
-    val reminds = _reminds.asStateFlow()
+    val reminders: StateFlow<List<Remind>> = reminderRepository.getAllRemindsStream()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = listOf()
+        )
 
-    private val _labels: MutableStateFlow<List<Label>> = MutableStateFlow(listOf())
-    val labels = _labels.asStateFlow()
+    val labels: StateFlow<List<Label>> = labelRepository.getAllLabelsStream("")
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = listOf()
+        )
+
+    private val _selectedNotes: MutableStateFlow<List<Note>> = MutableStateFlow(listOf())
+    val selectedNotes = _selectedNotes.asStateFlow()
 
     private var getNotesJob: Job? = null
-    private var getLabelsJob: Job? = null
-    private var getRemindersJob: Job? = null
 
     init {
         val sorting = appSettingsRepository.getListSort()
         fetchNotes(sorting)
-        fetchLabels()
-        fetchReminds()
-    }
-
-    private fun fetchReminds() = viewModelScope.launch {
-        getRemindersJob?.cancel()
-        getRemindersJob = remindRepository.getAllReminds()
-            .onEach { reminds ->
-                _reminds.update { reminds }
-            }
-            .launchIn(viewModelScope)
-    }
-
-    private fun fetchLabels(query: String = "") = viewModelScope.launch {
-        getLabelsJob?.cancel()
-        getLabelsJob = labelRepository.getAllLabelsStream(query)
-            .onEach { labels ->
-                _labels.update { labels }
-            }
-            .launchIn(viewModelScope)
     }
 
     private fun fetchNotes(sorting: Sorting) = viewModelScope.launch {
         getNotesJob?.cancel()
         getNotesJob = noteRepository.getAllNotesStream()
             .onEach { notes ->
-                if (notes.isNotEmpty()) {
 
-                    val sortedNotes = when(sorting) {
-                        is Sorting.DateOfCreation -> {
-                            notes.sortedByDescending { it.id }
-                        }
-                        is Sorting.DateOfLastEdit -> {
-                            notes.sortedByDescending { it.lastEditDate }
-                        }
+                val sortedNotes = when(sorting) {
+                    is Sorting.DateOfCreation -> {
+                        notes.sortedByDescending { it.id }
                     }
-
-                    _uiState.update {
-                        NoteListUiState.Success(
-                            sorting = appSettingsRepository.getListSort(),
-                            listStyle = appSettingsRepository.getListStyle(),
-                            pinnedNotes = sortedNotes.filter { it.isPinned },
-                            notes = sortedNotes.filter { !it.isPinned },
-                            selectedNotes = listOf()
-                        )
+                    is Sorting.DateOfLastEdit -> {
+                        notes.sortedByDescending { it.lastEditDate }
                     }
-                } else {
-                    _uiState.update { NoteListUiState.Empty }
                 }
+
+                _uiState.update {
+                    NoteListUiState.Success(
+                        sorting = appSettingsRepository.getListSort(),
+                        listStyle = appSettingsRepository.getListStyle(),
+                        pinnedNotes = sortedNotes.filter { it.isPinned },
+                        notes = sortedNotes.filter { !it.isPinned },
+                    )
+                }
+
             }
             .launchIn(viewModelScope)
     }
@@ -97,7 +82,7 @@ class NoteListViewModel @Inject constructor(
     fun deleteAllSelected() = viewModelScope.launch {
         _uiState.value.let { state ->
             if (state is NoteListUiState.Success) {
-                noteRepository.deleteNotes(state.selectedNotes)
+                noteRepository.deleteNotes(_selectedNotes.value)
             }
         }
     }
@@ -138,40 +123,20 @@ class NoteListViewModel @Inject constructor(
     }
 
     fun selectNote(note: Note) {
-        _uiState.let { stateFlow ->
-            if (stateFlow.value is NoteListUiState.Success) {
-                stateFlow.update {
-                    (it as NoteListUiState.Success).copy(
-                        selectedNotes = it.selectedNotes.plus(note)
-                    )
-                }
-            }
-        }
+        _selectedNotes.update { it.plus(note) }
     }
 
     fun unselectNote(note: Note) {
-        _uiState.let { stateFlow ->
-            if (stateFlow.value is NoteListUiState.Success) {
-                stateFlow.update {
-                    (it as NoteListUiState.Success).copy(
-                        selectedNotes = it.selectedNotes.minus(note)
-                    )
-                }
-            }
-        }
+        _selectedNotes.update { it.minus(note) }
     }
 
     fun cancelNoteSelection() {
-        _uiState.let { stateFlow ->
-            if (stateFlow.value is NoteListUiState.Success) {
-                stateFlow.update {
-                    (it as NoteListUiState.Success).copy(
-                        selectedNotes = listOf()
-                    )
-                }
-            }
-        }
+        _selectedNotes.update { listOf() }
     }
+
+//    fun isSelection() = _selectedNotes.value.isNotEmpty()
+//
+//    fun selectedCount() = _selectedNotes.value.count()
 
 }
 
@@ -180,14 +145,7 @@ sealed interface NoteListUiState {
         val sorting: Sorting,
         val listStyle: ListStyle,
         val pinnedNotes: List<Note>,
-        val notes: List<Note>,
-        val selectedNotes: List<Note>
+        val notes: List<Note>
     ) : NoteListUiState
-    object Empty : NoteListUiState
     object Loading : NoteListUiState
-
-    fun isSelection() = this is Success && this.selectedNotes.isNotEmpty()
-
-    fun selectedCount() = if (this is Success) this.selectedNotes.count() else 0
-
 }

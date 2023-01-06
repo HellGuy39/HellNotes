@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.reminders.util
+package com.hellguy39.hellnotes.reminders.navigation
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween

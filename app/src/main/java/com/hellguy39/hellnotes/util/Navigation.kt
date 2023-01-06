@@ -12,8 +12,8 @@ import com.hellguy39.hellnotes.navigations.INavigations
 import com.hellguy39.hellnotes.note_detail.util.noteDetailNavigationRoute
 import com.hellguy39.hellnotes.note_detail.util.noteDetailScreen
 import com.hellguy39.hellnotes.notes.util.*
-import com.hellguy39.hellnotes.reminders.util.remindersNavigationRoute
-import com.hellguy39.hellnotes.reminders.util.remindersScreen
+import com.hellguy39.hellnotes.reminders.navigation.remindersNavigationRoute
+import com.hellguy39.hellnotes.reminders.navigation.remindersScreen
 import com.hellguy39.hellnotes.search.util.searchNavigationRoute
 import com.hellguy39.hellnotes.search.util.searchScreen
 import com.hellguy39.hellnotes.settings.util.settingsNavigationRoute
@@ -21,7 +21,7 @@ import com.hellguy39.hellnotes.settings.util.settingsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun Navigation() {
+fun Navigation(extraNoteId: Long?) {
 
     val navController = rememberAnimatedNavController()
 
@@ -40,6 +40,9 @@ fun Navigation() {
         settingsScreen(navController)
 
         aboutAppScreen(navController)
+    }.also {
+        if (extraNoteId != null)
+            navController.navigateToNoteDetail(noteId = extraNoteId)
     }
 }
 

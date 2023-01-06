@@ -23,7 +23,8 @@ import com.hellguy39.hellnotes.resources.HellNotesStrings
 @Composable
 fun LabelDialog(
     isShowDialog: Boolean,
-    labels: List<Label>,
+    noteLabels: List<Label>,
+    allLabels: List<Label>,
     note: Note,
     events: LabelDialogEvents
 ) {
@@ -51,7 +52,8 @@ fun LabelDialog(
                     errorBorderColor = Color.Transparent,
                     unfocusedBorderColor = Color.Transparent
                 ),
-                textStyle = MaterialTheme.typography.titleLarge
+                textStyle = MaterialTheme.typography.titleLarge,
+                maxLines = 1
             )
         },
         limitMaxHeight = true,
@@ -63,45 +65,15 @@ fun LabelDialog(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            if (labels.isEmpty()) {
-                item {
-                    Row(
-                        modifier = Modifier
-                            .clickable {
-                                if (query.isNotBlank() && query.isNotEmpty())
-                                    events.createLabel(query)
-                            },
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-
-                        Spacer(modifier = Modifier.width(16.dp))
-
-                        Icon(
-                            painter = painterResource(id = HellNotesIcons.Add),
-                            contentDescription = null
-                        )
-
-                        Text(
-                            text = "Create new label",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    }
-                }
-            }
-
-            items(labels) { label ->
+            items(allLabels) { label ->
                 val isSelected = note.labelIds.contains(label.id)
                 Row(
                     modifier = Modifier
                         .clickable {
                             if (isSelected)
-                                events.unselectLabel(label.id ?: return@clickable)
+                                events.unselectLabel(label)
                             else
-                                events.selectLabel(label.id ?: return@clickable)
+                                events.selectLabel(label)
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
@@ -126,6 +98,44 @@ fun LabelDialog(
                     )
                 }
             }
+
+            if (isShowCreateNewLabelItem(allLabels, query)) {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .clickable {
+                                if (query.isNotBlank() && query.isNotEmpty())
+                                    events.createLabel(query)
+                            },
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Add),
+                            contentDescription = null
+                        )
+
+                        Text(
+                            text = stringResource(id = HellNotesStrings.Text.CreateNewLabel),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
         }
     }
+}
+
+private fun isShowCreateNewLabelItem(allLabels: List<Label>, query: String): Boolean {
+    return (allLabels.isEmpty() ||
+            allLabels.size > 2 ||
+            (allLabels.size == 1 && query != allLabels[0].name)) &&
+            (query.isNotBlank() && query.isNotEmpty())
+
 }

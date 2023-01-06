@@ -43,6 +43,12 @@
     <string name="btn_request_permission">Запросить разрешение</string>
     <string name="text_notification_permission_rationale">К сожалению, без разрешения мы не сможем отправлять вам уведомления. Обещаем, что будет отправлять только уведомления для установленных вами напоминаний.</string>
     <string name="text_notification_permission_default">Для этой функции необходимо разрешение на отправку уведомлений.\nПожалуйста, одобрите разрешение.</string>
-    <string name="text_nothing_was_found">К сожалению, по вашему запросу ничего не нашлось...</string>
-    <string name="hint_label">Метка...</string>
+    <string name="text_nothing_was_found">К сожалению, по вашему запросу ничего не нашлось…</string>
+    <string name="hint_label">Метка…</string>
+    <string name="text_remind_time_is_too_late">Невозможно установить напоминание, время напоминания позднее системного.</string>
+    <string name="hint_message">Сообщение</string>
+    <string name="btn_create">Создать</string>
+    <string name="text_create_new_label">Создать новую метку</string>
+    <string name="text_edit_remind">Редактировать напоминание</string>
+    <string name="btn_edit">Изменить</string>
 </resources>

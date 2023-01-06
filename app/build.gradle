@@ -78,6 +78,9 @@ dependencies {
     implementation project(path: ':feature:settings')
     implementation project(path: ':core:ui')
     implementation project(path: ':core:common')
+    implementation project(path: ':core:data')
+    implementation project(path: ':core:model')
+    implementation project(path: ':core:domain')
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha03'

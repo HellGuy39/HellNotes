@@ -18,6 +18,7 @@
 
     <string name="text_reminders">Reminders</string>
     <string name="text_new_remind">New remind</string>
+    <string name="text_edit_remind">Edit remind</string>
     <string name="text_sort_by">Sort by \'%s\'</string>
     <string name="text_date_of_creation">Date of creation</string>
     <string name="text_date_of_last_edit">Date of last edit</string>
@@ -40,6 +41,9 @@
     <string name="text_nothing_was_found">Unfortunately, nothing was found for your request…</string>
     <string name="text_notification_permission_rationale">Unfortunately, we will not be able to send you notifications without permission. We promise that it will only send notifications for the reminders you set.</string>
     <string name="text_notification_permission_default">Notification permission required for this feature to be available.\nPlease grant the permission</string>
+    <string name="text_remind_time_is_too_late">It is impossible to set a reminder, the reminder time is later than the system time.</string>
+    <string name="text_create_new_label">Create new label</string>
+
     <string name="lan_ru" translatable="false">Russian</string>
     <string name="lan_en" translatable="false">English</string>
 
@@ -47,7 +51,10 @@
     <string name="hint_note">Note</string>
     <string name="hint_search">Search…</string>
     <string name="hint_label">Label…</string>
+    <string name="hint_message">Message</string>
 
     <string name="btn_request_permission">Request permission</string>
+    <string name="btn_create">Create</string>
+    <string name="btn_edit">Edit</string>
 
 </resources>

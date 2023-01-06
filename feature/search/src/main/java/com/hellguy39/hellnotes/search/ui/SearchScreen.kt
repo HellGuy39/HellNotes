@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.BackHandler
 import com.hellguy39.hellnotes.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.components.NoteCard
+import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
+import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.model.util.ListStyle
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
@@ -32,7 +34,9 @@ fun SearchScreen(
     query: String,
     listStyle: ListStyle,
     onNoteClick: (note: Note) -> Unit,
-    onQueryChanged: (query: String) -> Unit
+    onQueryChanged: (query: String) -> Unit,
+    allLabels: List<Label>,
+    allReminds: List<Remind>
 ) {
     BackHandler(onBack = onNavigationButtonClick)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -61,7 +65,8 @@ fun SearchScreen(
                             errorBorderColor = Color.Transparent,
                             unfocusedBorderColor = Color.Transparent
                         ),
-                        textStyle = MaterialTheme.typography.titleLarge
+                        textStyle = MaterialTheme.typography.titleLarge,
+                        maxLines = 1
                     )
                 },
                 navigationIcon = {
@@ -81,47 +86,64 @@ fun SearchScreen(
             Crossfade(targetState = uiState) { state ->
                 when(state) {
                     is UiState.Success -> {
-                        when(listStyle) {
-                            is ListStyle.Column -> {
-                                LazyColumn(
-                                    modifier = Modifier
-                                        .padding(horizontal = 4.dp, vertical = 4.dp)
-                                        .fillMaxSize(),
-                                    contentPadding = innerPadding
-                                ) {
-                                    items(state.notes) { note ->
-                                        NoteCard(
-                                            note = note,
-                                            onClick = { onNoteClick(note) },
-                                            onLongClick = {  },
-                                        )
+                        if (state.notes.isEmpty()) {
+                            EmptyContentPlaceholder(
+                                heroIcon = painterResource(id = HellNotesIcons.Search),
+                                message = stringResource(id = HellNotesStrings.Text.NothingWasFound)
+                            )
+                        } else {
+                            when(listStyle) {
+                                is ListStyle.Column -> {
+                                    LazyColumn(
+                                        modifier = Modifier
+                                            .padding(horizontal = 4.dp, vertical = 4.dp)
+                                            .fillMaxSize(),
+                                        contentPadding = innerPadding
+                                    ) {
+                                        items(state.notes) { note ->
+
+                                            val noteLabels =
+                                                allLabels.filter { note.labelIds.contains(it.id) }
+                                            val noteReminds =
+                                                allReminds.filter { it.noteId == note.id }
+
+                                            NoteCard(
+                                                note = note,
+                                                onClick = { onNoteClick(note) },
+                                                onLongClick = { },
+                                                labels = noteLabels,
+                                                reminds = noteReminds
+                                            )
+                                        }
                                     }
                                 }
-                            }
-                            is ListStyle.Grid -> {
-                                LazyVerticalGrid(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(horizontal = 4.dp, vertical = 4.dp),
-                                    columns = GridCells.Adaptive(192.dp),
-                                    contentPadding = innerPadding
-                                ) {
-                                    items(state.notes) { note ->
-                                        NoteCard(
-                                            note = note,
-                                            onClick = { onNoteClick(note) },
-                                            onLongClick = {  },
-                                        )
+
+                                is ListStyle.Grid -> {
+                                    LazyVerticalGrid(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(horizontal = 4.dp, vertical = 4.dp),
+                                        columns = GridCells.Adaptive(192.dp),
+                                        contentPadding = innerPadding
+                                    ) {
+                                        items(state.notes) { note ->
+                                            val noteLabels =
+                                                allLabels.filter { note.labelIds.contains(it.id) }
+                                            val noteReminds =
+                                                allReminds.filter { it.noteId == note.id }
+
+                                            NoteCard(
+                                                note = note,
+                                                onClick = { onNoteClick(note) },
+                                                onLongClick = {  },
+                                                labels = noteLabels,
+                                                reminds = noteReminds
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    is UiState.Empty -> {
-                        EmptyContentPlaceholder(
-                            heroIcon = painterResource(id = HellNotesIcons.Search),
-                            message = stringResource(id = HellNotesStrings.Text.NothingWasFound)
-                        )
                     }
                     else -> Unit
                 }

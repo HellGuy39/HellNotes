@@ -20,7 +20,10 @@ interface RemindDao {
     suspend fun deleteRemindByNoteId(noteId: Long)
 
     @Query("SELECT * FROM reminds_table")
-    fun getAllReminds(): Flow<List<RemindEntity>>
+    fun getAllRemindsStream(): Flow<List<RemindEntity>>
+
+    @Query("SELECT * FROM reminds_table WHERE noteId = :noteId")
+    fun getRemindsByNoteIdStream(noteId: Long): Flow<List<RemindEntity>>
 
     @Query("SELECT * FROM reminds_table WHERE id = :id")
     suspend fun getRemindById(id: Long): RemindEntity
