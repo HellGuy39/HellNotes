@@ -14,7 +14,6 @@ import com.hellguy39.hellnotes.components.CustomDialog
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.note_detail.events.EditReminderDialogEvents
-import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
@@ -98,7 +97,7 @@ fun EditReminderDialog(
         onClose = { events.dismiss() },
         limitMaxHeight = false,
         applyBottomSpace = false,
-        title = stringResource(id = HellNotesStrings.Text.EditRemind)
+        title = stringResource(id = HellNotesStrings.Title.EditRemind)
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -172,7 +171,7 @@ fun EditReminderDialog(
                     },
                 ) {
                     Text(
-                        text = stringResource(id = HellNotesStrings.Text.Delete),
+                        text = stringResource(id = HellNotesStrings.Button.Delete),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }

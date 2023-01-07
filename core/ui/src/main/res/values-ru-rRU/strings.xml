@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Content description -->
     <string name="content_description_back">Назад</string>
     <string name="content_description_labels">Метка</string>
     <string name="content_description_pin">Закрепить</string>
@@ -13,42 +14,58 @@
     <string name="content_description_search">Поиск</string>
     <string name="content_description_cancel">Отменить</string>
     <string name="content_description_close">Закрыть</string>
+    <string name="content_description_edit">Редактировать</string>
 
+    <!-- Label -->
+    <string name="label_upcoming">Предстоящие</string>
+    <string name="label_pinned">Pinned</string>
+    <string name="label_others">Others</string>
+
+    <!-- Text -->
     <string name="text_sort_by">Сортировать по \'%s\'</string>
     <string name="text_date_of_creation">Дата создания</string>
     <string name="text_date_of_last_edit">Дата последнего редактирования</string>
-    <string name="text_color">Цвет</string>
-    <string name="text_labels">Метки</string>
-    <string name="text_delete">Удалить</string>
-    <string name="text_empty">Пока что здесь пусто…</string>
-    <string name="text_pinned">Закрепленно</string>
-    <string name="text_others">Другие</string>
-    <string name="text_settings">Настройки</string>
-    <string name="text_about_app">О приложении</string>
-    <string name="text_share">Поделиться</string>
-    <string name="text_whats_new">Что нового?</string>
-    <string name="text_edited">Редактировано %s</string>
-    <string name="text_language">Язык</string>
-    <string name="text_selected">Выбрано %s</string>
-
-    <string name="hint_title">Заголовок</string>
-    <string name="hint_note">Заметка</string>
-    <string name="content_description_edit">Редактировать</string>
-    <string name="text_new_remind">Новое напоминание</string>
-    <string name="text_reminders">Напоминания</string>
-    <string name="hint_search">Поиск…</string>
-    <string name="text_share_as">Поделиться как…</string>
-    <string name="text_plain_text">Обычный текст</string>
-    <string name="text_txt_file">.txt файл</string>
-    <string name="btn_request_permission">Запросить разрешение</string>
     <string name="text_notification_permission_rationale">К сожалению, без разрешения мы не сможем отправлять вам уведомления. Обещаем, что будет отправлять только уведомления для установленных вами напоминаний.</string>
     <string name="text_notification_permission_default">Для этой функции необходимо разрешение на отправку уведомлений.\nПожалуйста, одобрите разрешение.</string>
     <string name="text_nothing_was_found">К сожалению, по вашему запросу ничего не нашлось…</string>
-    <string name="hint_label">Метка…</string>
+    <string name="text_empty">Пока что здесь пусто…</string>
+    <string name="text_edited">Редактировано %s</string>
+    <string name="text_language">Язык</string>
+    <string name="text_selected">Выбрано %s</string>
     <string name="text_remind_time_is_too_late">Невозможно установить напоминание, время напоминания позднее системного.</string>
-    <string name="hint_message">Сообщение</string>
+
+    <!-- Button -->
+    <string name="btn_request_permission">Запросить разрешение</string>
     <string name="btn_create">Создать</string>
-    <string name="text_create_new_label">Создать новую метку</string>
-    <string name="text_edit_remind">Редактировать напоминание</string>
     <string name="btn_edit">Изменить</string>
+    <string name="btn_delete">Удалить</string>
+
+    <!-- Hint -->
+    <string name="hint_title">Заголовок</string>
+    <string name="hint_note">Заметка</string>
+    <string name="hint_search">Поиск…</string>
+    <string name="hint_label">Метка…</string>
+    <string name="hint_message">Сообщение</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">Настройки</string>
+    <string name="menu_item_about_app">О приложении</string>
+    <string name="menu_item_reminders">Напоминания</string>
+    <string name="menu_item_labels">Метки</string>
+    <string name="menu_item_delete">Удалить</string>
+    <string name="menu_item_plain_text">Обычный текст</string>
+    <string name="menu_item_txt_file">.txt файл</string>
+    <string name="menu_item_share">Поделиться</string>
+    <string name="menu_item_whats_new">Что нового?</string>
+    <string name="menu_item_color">Цвет</string>
+    <string name="menu_item_create_new_label">Создать новую метку</string>
+
+    <!-- Title -->
+    <string name="title_settings">Настройки</string>
+    <string name="title_about_app">О приложении</string>
+    <string name="title_reminders">Напоминания</string>
+    <string name="title_new_remind">Новое напоминание</string>
+    <string name="title_share_as">Поделиться как…</string>
+    <string name="title_edit_remind">Редактировать напоминание</string>
+
 </resources>

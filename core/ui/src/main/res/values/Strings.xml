@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- Content description -->
     <string name="content_description_back">Back</string>
     <string name="content_description_labels">Labels</string>
     <string name="content_description_pin">Pin</string>
@@ -16,45 +16,60 @@
     <string name="content_description_cancel">Cancel</string>
     <string name="content_description_edit">Edit</string>
 
-    <string name="text_reminders">Reminders</string>
-    <string name="text_new_remind">New remind</string>
-    <string name="text_edit_remind">Edit remind</string>
+    <!-- Label -->
+    <string name="label_upcoming">Upcoming</string>
+    <string name="label_pinned">Pinned</string>
+    <string name="label_others">Others</string>
+
+    <!-- Text -->
     <string name="text_sort_by">Sort by \'%s\'</string>
     <string name="text_date_of_creation">Date of creation</string>
     <string name="text_date_of_last_edit">Date of last edit</string>
-    <string name="text_color">Color</string>
-    <string name="text_labels">Labels</string>
-    <string name="text_delete">Delete</string>
     <string name="text_empty">So far, it\'s empty here…</string>
-    <string name="text_pinned">Pinned</string>
-    <string name="text_others">Others</string>
-    <string name="text_settings">Settings</string>
-    <string name="text_about_app">About app</string>
-    <string name="text_share">Share</string>
-    <string name="text_whats_new">What\'s new?</string>
     <string name="text_edited">Edited %s</string>
     <string name="text_language">Language</string>
     <string name="text_selected">Selected %s</string>
-    <string name="text_share_as">Share as…</string>
-    <string name="text_plain_text">Plain text</string>
-    <string name="text_txt_file">.txt file</string>
     <string name="text_nothing_was_found">Unfortunately, nothing was found for your request…</string>
     <string name="text_notification_permission_rationale">Unfortunately, we will not be able to send you notifications without permission. We promise that it will only send notifications for the reminders you set.</string>
     <string name="text_notification_permission_default">Notification permission required for this feature to be available.\nPlease grant the permission</string>
     <string name="text_remind_time_is_too_late">It is impossible to set a reminder, the reminder time is later than the system time.</string>
-    <string name="text_create_new_label">Create new label</string>
 
+    <!-- MenuItem -->
+    <string name="menu_item_settings">Settings</string>
+    <string name="menu_item_about_app">About app</string>
+    <string name="menu_item_reminders">Reminders</string>
+    <string name="menu_item_labels">Labels</string>
+    <string name="menu_item_delete">Delete</string>
+    <string name="menu_item_plain_text">Plain text</string>
+    <string name="menu_item_txt_file">.txt file</string>
+    <string name="menu_item_share">Share</string>
+    <string name="menu_item_whats_new">What\'s new?</string>
+    <string name="menu_item_color">Color</string>
+    <string name="menu_item_create_new_label">Create new label</string>
+
+    <!-- Title -->
+    <string name="title_settings">Settings</string>
+    <string name="title_about_app">About app</string>
+    <string name="title_reminders">Reminders</string>
+    <string name="title_new_remind">New remind</string>
+    <string name="title_share_as">Share as…</string>
+    <string name="title_edit_remind">Edit remind</string>
+
+    <!-- Language-->
     <string name="lan_ru" translatable="false">Russian</string>
     <string name="lan_en" translatable="false">English</string>
 
+    <!-- Hint -->
     <string name="hint_title">Title</string>
     <string name="hint_note">Note</string>
     <string name="hint_search">Search…</string>
     <string name="hint_label">Label…</string>
     <string name="hint_message">Message</string>
 
+    <!-- Button -->
     <string name="btn_request_permission">Request permission</string>
     <string name="btn_create">Create</string>
     <string name="btn_edit">Edit</string>
+    <string name="btn_delete">Delete</string>
 
 </resources>

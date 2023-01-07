@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.note_detail
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -43,7 +44,6 @@ fun NoteDetailRoute(
     var isShowShareDialog by remember { mutableStateOf(false) }
     var isShowLabelDialog by remember { mutableStateOf(false) }
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
 
     val remindIsTooLateMessage = stringResource(id = HellNotesStrings.Text.RemindTimeIsTooLate)
@@ -132,7 +132,6 @@ fun NoteDetailRoute(
         isShowEditRemindDialog = isShowEditRemindDialog,
         editReminderDialogEvents = editReminderDialogEvents,
         snackbarHostState = snackbarHostState,
-        scrollBehavior = scrollBehavior,
         menuEvents = menuEvents,
         topAppBarEvents = topAppBarEvents,
         note = note,

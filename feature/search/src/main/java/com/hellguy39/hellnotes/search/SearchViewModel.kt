@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.search.ui
+package com.hellguy39.hellnotes.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

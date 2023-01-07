@@ -20,7 +20,7 @@ fun NoteListDropdownMenu(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.WhatsNew),
+                    text = stringResource(id = HellNotesStrings.MenuItem.WhatsNew),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -38,7 +38,7 @@ fun NoteListDropdownMenu(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.Reminders),
+                    text = stringResource(id = HellNotesStrings.MenuItem.Reminders),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -56,7 +56,7 @@ fun NoteListDropdownMenu(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.Settings),
+                    text = stringResource(id = HellNotesStrings.MenuItem.Settings),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -74,7 +74,7 @@ fun NoteListDropdownMenu(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.AboutApp),
+                    text = stringResource(id = HellNotesStrings.MenuItem.AboutApp),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },

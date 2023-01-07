@@ -49,7 +49,7 @@ fun NoteColumnList(
         if (uiState.pinnedNotes.isNotEmpty()) {
             item {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.Pinned),
+                    text = stringResource(id = HellNotesStrings.Label.Pinned),
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     style = MaterialTheme.typography.labelMedium
@@ -71,7 +71,7 @@ fun NoteColumnList(
             }
             item {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.Others),
+                    text = stringResource(id = HellNotesStrings.Label.Others),
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     style = MaterialTheme.typography.labelMedium

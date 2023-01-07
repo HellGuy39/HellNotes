@@ -1,20 +1,20 @@
-package com.hellguy39.hellnotes.about_app.util
+package com.hellguy39.hellnotes.settings.navigation
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.about_app.AboutAppRoute
+import com.hellguy39.hellnotes.settings.SettingsRoute
 
-const val aboutAppNavigationRoute = "about_app_route"
+const val settingsNavigationRoute = "settings_route"
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.aboutAppScreen(
+fun NavGraphBuilder.settingsScreen(
     navController: NavController
 ) {
     composable(
-        route = aboutAppNavigationRoute,
+        route = settingsNavigationRoute,
         arguments = listOf(),
         enterTransition = {
             slideInHorizontally(
@@ -29,6 +29,6 @@ fun NavGraphBuilder.aboutAppScreen(
             ) + fadeOut(animationSpec = tween(300))
         }
     ) {
-        AboutAppRoute(navController = navController)
+        SettingsRoute(navController = navController)
     }
 }

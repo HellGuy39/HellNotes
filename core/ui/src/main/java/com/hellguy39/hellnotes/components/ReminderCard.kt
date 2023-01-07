@@ -25,7 +25,9 @@ fun ReminderCard(
     remind: Remind,
     isSelected: Boolean = false,
     onClick: () -> Unit,
-    onLongClick: () -> Unit
+    onLongClick: () -> Unit,
+    onEditClick: (remind: Remind) -> Unit,
+    onDeleteClick: (remind: Remind) -> Unit
 ) {
     val cardBorder = if (isSelected)
             BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
@@ -69,9 +71,8 @@ fun ReminderCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-
                 FilledTonalIconButton(
-                    onClick = { }
+                    onClick = { onEditClick(remind) }
                 ) {
                     Icon(
                         painter = painterResource(id = HellNotesIcons.Edit),
@@ -79,7 +80,7 @@ fun ReminderCard(
                     )
                 }
                 FilledTonalIconButton(
-                    onClick = { }
+                    onClick = { onDeleteClick(remind) }
                 ) {
                     Icon(
                         painter = painterResource(id = HellNotesIcons.Cancel),

@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.search.ui
+package com.hellguy39.hellnotes.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

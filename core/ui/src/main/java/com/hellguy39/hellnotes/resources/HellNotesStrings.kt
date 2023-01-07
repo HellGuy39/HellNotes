@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.resources
 
-import android.app.Notification
 import com.hellguy39.hellnotes.ui.R
 
 object HellNotesStrings {
@@ -32,32 +31,49 @@ object HellNotesStrings {
 
     object Text {
         val Empty = R.string.text_empty
-        val Pinned = R.string.text_pinned
-        val Others = R.string.text_others
-        val Settings = R.string.text_settings
-        val AboutApp = R.string.text_about_app
-        val Labels = R.string.text_labels
-        val Delete = R.string.text_delete
-        val Color = R.string.text_color
-        val WhatsNew = R.string.text_whats_new
-        val Share = R.string.text_share
+
         val Edited = R.string.text_edited
         val DateOfCreation = R.string.text_date_of_creation
         val DateOfLastEdit = R.string.text_date_of_last_edit
         val SortBy = R.string.text_sort_by
         val Language = R.string.text_language
         val Selected = R.string.text_selected
-        val NewRemind = R.string.text_new_remind
-        val EditRemind = R.string.text_edit_remind
-        val Reminders = R.string.text_reminders
-        val PlainText = R.string.text_plain_text
-        val TxtFile = R.string.text_txt_file
-        val ShareAs = R.string.text_share_as
+
         val NotificationPermissionRationale = R.string.text_notification_permission_rationale
         val NotificationPermissionDefault = R.string.text_notification_permission_default
         val NothingWasFound = R.string.text_nothing_was_found
         val RemindTimeIsTooLate = R.string.text_remind_time_is_too_late
-        val CreateNewLabel = R.string.text_create_new_label
+    }
+
+    object MenuItem {
+        val Reminders = R.string.menu_item_reminders
+        val Settings = R.string.menu_item_settings
+        val AboutApp = R.string.menu_item_about_app
+
+        val Labels = R.string.menu_item_labels
+        val Delete = R.string.menu_item_delete
+        val PlainText = R.string.menu_item_plain_text
+        val TxtFile = R.string.menu_item_txt_file
+        val Share = R.string.menu_item_share
+        val Color = R.string.menu_item_color
+        val WhatsNew = R.string.menu_item_whats_new
+        val CreateNewLabel = R.string.menu_item_create_new_label
+    }
+
+    object Title {
+        val Reminders = R.string.title_reminders
+        val Settings = R.string.title_settings
+        val AboutApp = R.string.title_about_app
+
+        val NewRemind = R.string.title_new_remind
+        val EditRemind = R.string.title_edit_remind
+        val ShareAs = R.string.title_share_as
+    }
+
+    object Label {
+        val Pinned = R.string.label_pinned
+        val Others = R.string.label_others
+        val Upcoming = R.string.label_upcoming
     }
 
     object Lan {
@@ -69,6 +85,7 @@ object HellNotesStrings {
         val RequestPermission = R.string.btn_request_permission
         val Create = R.string.btn_create
         val Edit = R.string.btn_edit
+        val Delete = R.string.btn_delete
     }
 
 }

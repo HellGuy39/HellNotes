@@ -23,7 +23,6 @@ fun SettingsRoute(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val context = LocalContext.current
-    //val uiState by settingsViewModel.uiState.collectAsState()
     var isShowLanguageDialog by remember { mutableStateOf(false) }
 
     val languageDialogEvents = object : LanguageDialogEvents {
@@ -48,12 +47,9 @@ fun SettingsRoute(
             }
         }
     }
-//
-//    Log.d("DEBUG", "LAN CODE: ${languageDialogEvents.getCurrentLanCode()}")
 
     SettingsScreen(
         onNavigationButtonClick = { navController.popBackStack() },
-        //uiState = uiState,
         languageDialogEvents = languageDialogEvents,
         isShowLanguageDialog = isShowLanguageDialog,
         scrollBehavior = scrollBehavior

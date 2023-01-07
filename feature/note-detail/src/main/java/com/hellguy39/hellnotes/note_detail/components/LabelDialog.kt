@@ -23,7 +23,6 @@ import com.hellguy39.hellnotes.resources.HellNotesStrings
 @Composable
 fun LabelDialog(
     isShowDialog: Boolean,
-    noteLabels: List<Label>,
     allLabels: List<Label>,
     note: Note,
     events: LabelDialogEvents
@@ -119,7 +118,7 @@ fun LabelDialog(
                         )
 
                         Text(
-                            text = stringResource(id = HellNotesStrings.Text.CreateNewLabel),
+                            text = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),

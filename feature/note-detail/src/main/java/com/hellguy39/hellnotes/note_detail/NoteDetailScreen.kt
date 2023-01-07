@@ -6,7 +6,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
 import com.hellguy39.hellnotes.BackHandler
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
@@ -30,7 +29,6 @@ fun NoteDetailScreen(
     labelDialogEvents: LabelDialogEvents,
     shareDialogEvents: ShareDialogEvents,
     snackbarHostState: SnackbarHostState,
-    scrollBehavior: TopAppBarScrollBehavior,
     noteLabels: List<Label>,
     allLabels: List<Label>,
     onNavigationButtonClick: () -> Unit,
@@ -50,7 +48,6 @@ fun NoteDetailScreen(
 
     LabelDialog(
         isShowDialog = isShowLabelDialog,
-        noteLabels = noteLabels,
         allLabels = allLabels,
         note = note,
         events = labelDialogEvents
@@ -75,14 +72,15 @@ fun NoteDetailScreen(
         remind = editableRemind
     )
 
+    val appBarState = rememberTopAppBarState()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
+
     Scaffold(
         containerColor = containerColor,
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
-
-            //val selectedLabels = labels.filter { note.labelIds.contains(it.id) }
 
             NoteDetailContent(
                 innerPadding = innerPadding,

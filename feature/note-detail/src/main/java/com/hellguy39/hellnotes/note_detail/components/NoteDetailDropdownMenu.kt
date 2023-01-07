@@ -20,7 +20,7 @@ fun NoteDetailDropdownMenu(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.Color),
+                    text = stringResource(id = HellNotesStrings.MenuItem.Color),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -40,7 +40,7 @@ fun NoteDetailDropdownMenu(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.Labels),
+                    text = stringResource(id = HellNotesStrings.MenuItem.Labels),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -53,14 +53,14 @@ fun NoteDetailDropdownMenu(
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = HellNotesIcons.Label),
-                    contentDescription = stringResource(id = HellNotesStrings.Text.Labels)
+                    contentDescription = null
                 )
             }
         )
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.Share),
+                    text = stringResource(id = HellNotesStrings.MenuItem.Share),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -80,7 +80,7 @@ fun NoteDetailDropdownMenu(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.Delete),
+                    text = stringResource(id = HellNotesStrings.MenuItem.Delete),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },

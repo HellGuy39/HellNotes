@@ -6,18 +6,18 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.hellguy39.hellnotes.about_app.util.aboutAppNavigationRoute
-import com.hellguy39.hellnotes.about_app.util.aboutAppScreen
+import com.hellguy39.hellnotes.about_app.navigation.aboutAppNavigationRoute
+import com.hellguy39.hellnotes.about_app.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.navigations.INavigations
 import com.hellguy39.hellnotes.note_detail.util.noteDetailNavigationRoute
 import com.hellguy39.hellnotes.note_detail.util.noteDetailScreen
 import com.hellguy39.hellnotes.notes.util.*
 import com.hellguy39.hellnotes.reminders.navigation.remindersNavigationRoute
 import com.hellguy39.hellnotes.reminders.navigation.remindersScreen
-import com.hellguy39.hellnotes.search.util.searchNavigationRoute
-import com.hellguy39.hellnotes.search.util.searchScreen
-import com.hellguy39.hellnotes.settings.util.settingsNavigationRoute
-import com.hellguy39.hellnotes.settings.util.settingsScreen
+import com.hellguy39.hellnotes.search.navigation.searchNavigationRoute
+import com.hellguy39.hellnotes.search.navigation.searchScreen
+import com.hellguy39.hellnotes.settings.navigation.settingsNavigationRoute
+import com.hellguy39.hellnotes.settings.navigation.settingsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

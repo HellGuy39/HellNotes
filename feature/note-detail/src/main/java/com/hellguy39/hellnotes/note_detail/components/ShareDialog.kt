@@ -24,7 +24,7 @@ fun ShareDialog(
     CustomDialog(
         showDialog = isShowDialog, 
         onClose = { events.dismiss() },
-        title = stringResource(id = HellNotesStrings.Text.ShareAs)
+        title = stringResource(id = HellNotesStrings.Title.ShareAs)
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
@@ -43,7 +43,7 @@ fun ShareDialog(
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Text(
-                        text = stringResource(id = HellNotesStrings.Text.TxtFile),
+                        text = stringResource(id = HellNotesStrings.MenuItem.TxtFile),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
@@ -64,7 +64,7 @@ fun ShareDialog(
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Text(
-                        text = stringResource(id = HellNotesStrings.Text.PlainText),
+                        text = stringResource(id = HellNotesStrings.MenuItem.PlainText),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),

@@ -8,8 +8,6 @@ fun AboutAppRoute(
     navController: NavController
 ) {
     AboutAppScreen(
-        onNavigationButtonClick = {
-            navController.popBackStack()
-        }
+        onNavigationButtonClick = { navController.popBackStack() }
     )
 }

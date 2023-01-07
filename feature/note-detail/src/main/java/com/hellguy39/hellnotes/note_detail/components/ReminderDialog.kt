@@ -106,7 +106,7 @@ fun ReminderDialog(
         CustomDialog(
             showDialog = isShowDialog,
             onClose = { events.dismiss() },
-            title = stringResource(id = HellNotesStrings.Text.NewRemind),
+            title = stringResource(id = HellNotesStrings.Title.NewRemind),
             limitMaxHeight = false,
             applyBottomSpace = false
         ) { innerPadding ->
@@ -147,7 +147,7 @@ fun ReminderDialog(
         CustomDialog(
             showDialog = isShowDialog,
             onClose = { events.dismiss() },
-            title = stringResource(id = HellNotesStrings.Text.NewRemind),
+            title = stringResource(id = HellNotesStrings.Title.NewRemind),
             limitMaxHeight = false,
             applyBottomSpace = false
         ) { innerPadding ->

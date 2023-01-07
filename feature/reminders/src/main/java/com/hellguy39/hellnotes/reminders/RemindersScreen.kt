@@ -35,7 +35,7 @@ fun RemindersScreen(
                 scrollBehavior = scrollBehavior,
                 title = {
                     Text(
-                        stringResource(id = HellNotesStrings.Text.Reminders),
+                        stringResource(id = HellNotesStrings.Title.Reminders),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge
@@ -62,11 +62,21 @@ fun RemindersScreen(
                             modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
                             contentPadding = paddingValues
                         ) {
+                            item {
+                                Text(
+                                    text = stringResource(id = HellNotesStrings.Label.Upcoming),
+                                    modifier = Modifier
+                                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
                             items(uiState.reminders) {
                                 ReminderCard(
                                     remind = it,
                                     onClick = {  },
-                                    onLongClick = {  }
+                                    onLongClick = {  },
+                                    onDeleteClick = {},
+                                    onEditClick = {}
                                 )
                             }
                         }
