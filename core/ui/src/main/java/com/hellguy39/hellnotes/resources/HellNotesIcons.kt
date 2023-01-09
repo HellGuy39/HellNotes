@@ -28,6 +28,13 @@ object HellNotesIcons {
     val Alarm = R.drawable.ic_alarm_24
     val Cancel = R.drawable.ic_cancel_24
 
+    val Lock = R.drawable.ic_lock_24
+    val LockOpen = R.drawable.ic_lock_open_24
+    val Backspace = R.drawable.ic_backspace_24
+    val Language = R.drawable.ic_language_24
+    val Fingerprint = R.drawable.ic_fingerprint_24
+    val SecurityVerified = R.drawable.ic_security_verified_24
+
     val GridView = R.drawable.ic_grid_view_24
     val ListView = R.drawable.ic_list_view_24
 

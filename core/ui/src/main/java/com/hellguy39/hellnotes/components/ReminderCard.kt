@@ -6,7 +6,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -15,8 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.common.date.DateHelper
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.resources.HellNotesIcons
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -24,10 +21,7 @@ import java.util.*
 fun ReminderCard(
     remind: Remind,
     isSelected: Boolean = false,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit,
-    onEditClick: (remind: Remind) -> Unit,
-    onDeleteClick: (remind: Remind) -> Unit
+    events: ReminderCardEvents
 ) {
     val cardBorder = if (isSelected)
             BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
@@ -40,12 +34,8 @@ fun ReminderCard(
             .fillMaxWidth()
             .padding(4.dp)
             .combinedClickable(
-                onClick = {
-                    onClick()
-                },
-                onLongClick = {
-                    onLongClick()
-                }
+                onClick = { events.onClick(remind) },
+                onLongClick = { events.onLongClick(remind) }
             ),
         border = cardBorder
     ) {
@@ -72,7 +62,7 @@ fun ReminderCard(
                 horizontalArrangement = Arrangement.End
             ) {
                 FilledTonalIconButton(
-                    onClick = { onEditClick(remind) }
+                    onClick = { events.onEditButtonClick(remind) }
                 ) {
                     Icon(
                         painter = painterResource(id = HellNotesIcons.Edit),
@@ -80,7 +70,7 @@ fun ReminderCard(
                     )
                 }
                 FilledTonalIconButton(
-                    onClick = { onDeleteClick(remind) }
+                    onClick = { events.onDeleteButtonClick(remind) }
                 ) {
                     Icon(
                         painter = painterResource(id = HellNotesIcons.Cancel),
@@ -90,4 +80,11 @@ fun ReminderCard(
             }
         }
     }
+}
+
+interface ReminderCardEvents {
+    fun onClick(remind: Remind)
+    fun onLongClick(remind: Remind)
+    fun onDeleteButtonClick(remind: Remind)
+    fun onEditButtonClick(remind: Remind)
 }

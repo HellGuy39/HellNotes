@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.activity
+package com.hellguy39.hellnotes.activity.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,14 +12,13 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
-import com.hellguy39.hellnotes.util.AlarmEventsImpl
+import com.hellguy39.hellnotes.util.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.util.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,9 +30,6 @@ class MainActivity : ComponentActivity() {
     ) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        installSplashScreen().apply {
-            setKeepOnScreenCondition { false }
-        }
         setContent { App() }
 
         ViewCompat.setOnApplyWindowInsetsListener(
@@ -48,7 +44,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun App() {
 
-        val extraNoteId = intent.extras?.getLong(AlarmEventsImpl.ALARM_NOTE_ID)
+        val extraNoteId = intent.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID)
 
         HellNotesTheme {
             Surface(

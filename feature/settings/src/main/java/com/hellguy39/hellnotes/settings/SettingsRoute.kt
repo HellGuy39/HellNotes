@@ -3,27 +3,39 @@ package com.hellguy39.hellnotes.settings
 import android.app.LocaleManager
 import android.os.Build
 import android.os.LocaleList
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.hellguy39.hellnotes.settings.components.PINDialog
+import com.hellguy39.hellnotes.settings.components.PinDialogSelection
+import com.hellguy39.hellnotes.settings.components.rememberPinDialogState
 import com.hellguy39.hellnotes.settings.events.LanguageDialogEvents
+import com.hellguy39.hellnotes.settings.events.PINDialogEvents
+import com.hellguy39.hellnotes.settings.events.SettingsEvents
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsRoute(
     navController: NavController,
     settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val appSettings by settingsViewModel.appSettings.collectAsState()
 
     val context = LocalContext.current
     var isShowLanguageDialog by remember { mutableStateOf(false) }
+
+    val pinDialogState = rememberPinDialogState()
+
+    val settingsEvents = object : SettingsEvents {
+        override fun setupPIN() { pinDialogState.show() }
+        override fun updatePIN() { pinDialogState.show() }
+        override fun deletePIN() { settingsViewModel.deletePin() }
+        override fun setUseBiometric(isUseBio: Boolean) {
+            settingsViewModel.setIsUseBiometric(isUseBio)
+        }
+    }
 
     val languageDialogEvents = object : LanguageDialogEvents {
         override fun show() { isShowLanguageDialog = true }
@@ -48,10 +60,21 @@ fun SettingsRoute(
         }
     }
 
+    PINDialog(
+        state = pinDialogState,
+        selection = PinDialogSelection(
+            existingPin = appSettings.appPin,
+            onPinEntered = { newPin ->
+                settingsViewModel.setPin(newPin)
+            }
+        )
+    )
+
     SettingsScreen(
         onNavigationButtonClick = { navController.popBackStack() },
         languageDialogEvents = languageDialogEvents,
         isShowLanguageDialog = isShowLanguageDialog,
-        scrollBehavior = scrollBehavior
+        appSettings = appSettings,
+        settingsEvents = settingsEvents,
     )
 }

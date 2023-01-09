@@ -34,6 +34,7 @@ fun LanguageDialog(
                 Row(
                     modifier = Modifier
                         .clickable {
+                            events.dismiss()
                             events.onLanguageSelected(it)
                         },
                     verticalAlignment = Alignment.CenterVertically,

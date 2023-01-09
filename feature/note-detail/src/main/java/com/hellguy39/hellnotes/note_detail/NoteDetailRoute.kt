@@ -2,15 +2,13 @@ package com.hellguy39.hellnotes.note_detail
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.common.date.DateHelper
-import com.hellguy39.hellnotes.domain.AlarmEvents
+import com.hellguy39.hellnotes.domain.AlarmScheduler
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
@@ -21,12 +19,11 @@ import com.hellguy39.hellnotes.resources.HellNotesStrings
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    alarmEvents: AlarmEvents = noteDetailViewModel.alarmEvents
+    alarmScheduler: AlarmScheduler = noteDetailViewModel.alarmScheduler
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -53,7 +50,7 @@ fun NoteDetailRoute(
         override fun onCreateRemind(remind: Remind) {
             if(remind.triggerDate > DateHelper(context).getCurrentTimeInEpochMilli()) {
                 noteDetailViewModel.insertRemind(remind)
-                alarmEvents.scheduleAlarm(remind)
+                alarmScheduler.scheduleAlarm(remind)
             } else {
                 scope.launch {
                     snackbarHostState.showSnackbar(message = remindIsTooLateMessage)
@@ -69,14 +66,14 @@ fun NoteDetailRoute(
         override fun deleteRemind(remind: Remind) {
             val existedAlarm = noteReminds.find { it.id == remind.id }
             existedAlarm?.let {
-                alarmEvents.cancelAlarm(it)
+                alarmScheduler.cancelAlarm(it)
                 noteDetailViewModel.deleteRemind(existedAlarm)
             }
         }
         override fun updateRemind(remind: Remind) {
             val oldRemind = noteReminds.find { it.id == remind.id }
-            oldRemind?.let { alarmEvents.cancelAlarm(it) }
-            alarmEvents.scheduleAlarm(remind)
+            oldRemind?.let { alarmScheduler.cancelAlarm(it) }
+            alarmScheduler.scheduleAlarm(remind)
             noteDetailViewModel.updateRemind(remind)
         }
     }

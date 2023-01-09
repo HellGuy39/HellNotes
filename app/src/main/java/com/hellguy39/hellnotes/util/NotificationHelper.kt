@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.hellguy39.hellnotes.activity.MainActivity
+import com.hellguy39.hellnotes.activity.main.MainActivity
 import com.hellguy39.hellnotes.app.NOTIFICATION_CHANNEL_ID
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,11 +16,11 @@ class NotificationHelper @Inject constructor(
 ) {
     fun showRemindNotification(intent: Intent?) {
 
-        val message = intent?.extras?.getString(AlarmEventsImpl.ALARM_MESSAGE)
-        val noteId = intent?.extras?.getLong(AlarmEventsImpl.ALARM_NOTE_ID)
+        val message = intent?.extras?.getString(AndroidAlarmScheduler.ALARM_MESSAGE)
+        val noteId = intent?.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID)
 
         val notificationIntent = Intent(context, MainActivity::class.java)
-        notificationIntent.putExtra(AlarmEventsImpl.ALARM_NOTE_ID, noteId)
+        notificationIntent.putExtra(AndroidAlarmScheduler.ALARM_NOTE_ID, noteId)
 
         val pendingIntent = PendingIntent.getActivity(
             context,

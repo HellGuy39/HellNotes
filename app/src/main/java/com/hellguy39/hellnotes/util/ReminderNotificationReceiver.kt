@@ -19,7 +19,7 @@ class ReminderNotificationReceiver : BroadcastReceiver() {
 
         context?.let { NotificationHelper(it).showRemindNotification(intent) }
 
-        val noteId = intent?.extras?.getLong(AlarmEventsImpl.ALARM_NOTE_ID)
+        val noteId = intent?.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID)
 
         if (noteId != null)
             CoroutineScope(Dispatchers.IO).launch {

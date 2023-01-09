@@ -66,7 +66,6 @@ fun NoteDetailScreen(
     )
 
     EditReminderDialog(
-        note = note,
         isShowDialog = isShowEditRemindDialog,
         events = editReminderDialogEvents,
         remind = editableRemind

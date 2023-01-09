@@ -1,8 +1,8 @@
 package com.hellguy39.hellnotes.di
 
 import android.app.Application
-import com.hellguy39.hellnotes.domain.AlarmEvents
-import com.hellguy39.hellnotes.util.AlarmEventsImpl
+import com.hellguy39.hellnotes.domain.AlarmScheduler
+import com.hellguy39.hellnotes.util.AndroidAlarmScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +17,7 @@ object AppModule {
     @Provides
     fun provideAlarmEvents(
         app: Application
-    ): AlarmEvents {
-        return AlarmEventsImpl(app)
+    ): AlarmScheduler {
+        return AndroidAlarmScheduler(app)
     }
 }

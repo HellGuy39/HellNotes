@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.data.repository
 import android.content.Context
 import androidx.core.content.edit
 import com.hellguy39.hellnotes.domain.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.model.AppSettings
 import com.hellguy39.hellnotes.model.util.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -12,6 +13,27 @@ class AppSettingsRepositoryImpl @Inject constructor(
 ): AppSettingsRepository {
 
     private val prefs = context.getSharedPreferences(PREFS_UI_STATE, Context.MODE_PRIVATE)
+
+    override fun getAppSettings(): AppSettings {
+        val appPin = prefs.getString(ARG_APP_PIN, "").toString()
+        val isPinSetup = prefs.getBoolean(ARG_IS_PIN_SETUP, false)
+        val isAppUseBiometric = prefs.getBoolean(ARG_IS_USE_BIOMETRIC, false)
+
+        return AppSettings(
+            isPinSetup = isPinSetup,
+            isUseBiometric = isAppUseBiometric,
+            appPin = appPin,
+        )
+    }
+
+    override fun saveAppSettings(appSettings: AppSettings) {
+        prefs.edit {
+            putString(ARG_APP_PIN, appSettings.appPin)
+            putBoolean(ARG_IS_PIN_SETUP, appSettings.isPinSetup)
+            putBoolean(ARG_IS_USE_BIOMETRIC, appSettings.isUseBiometric)
+            commit()
+        }
+    }
 
     override fun getListStyle(): ListStyle {
         val listStyle = prefs.getString(
@@ -48,5 +70,9 @@ class AppSettingsRepositoryImpl @Inject constructor(
 
         private const val ARG_LIST_STYLE = "arg_list_style"
         private const val ARG_SORTING = "arg_sorting"
+
+        private const val ARG_IS_PIN_SETUP = "arg_is_pin_setup"
+        private const val ARG_IS_USE_BIOMETRIC = "arg_is_use_biometric"
+        private const val ARG_APP_PIN = "arg_app_pin"
     }
 }

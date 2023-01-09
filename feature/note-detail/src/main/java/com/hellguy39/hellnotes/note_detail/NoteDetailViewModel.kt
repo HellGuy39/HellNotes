@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.domain.AlarmEvents
+import com.hellguy39.hellnotes.domain.AlarmScheduler
 import com.hellguy39.hellnotes.domain.note.IsNoteValidUseCase
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
@@ -27,7 +27,7 @@ class NoteDetailViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val labelRepository: LabelRepository,
     savedStateHandle: SavedStateHandle,
-    val alarmEvents: AlarmEvents
+    val alarmScheduler: AlarmScheduler
 ): ViewModel() {
 
     private val _note: MutableStateFlow<Note> = MutableStateFlow(Note())

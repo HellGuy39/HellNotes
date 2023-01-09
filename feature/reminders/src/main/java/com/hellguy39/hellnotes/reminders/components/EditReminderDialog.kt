@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.note_detail.components
+package com.hellguy39.hellnotes.reminders.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.common.date.DateHelper
 import com.hellguy39.hellnotes.components.CustomDialog
 import com.hellguy39.hellnotes.model.Remind
-import com.hellguy39.hellnotes.note_detail.events.EditReminderDialogEvents
+import com.hellguy39.hellnotes.reminders.events.EditReminderDialogEvents
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
@@ -92,7 +92,12 @@ fun EditReminderDialog(
 
     CustomDialog(
         showDialog = isShowDialog,
-        onClose = { events.dismiss() },
+        onClose = {
+            message = ""
+            pickedDate  = LocalDate.now()
+            pickedTime  = LocalTime.NOON
+            events.dismiss()
+        },
         limitMaxHeight = false,
         applyBottomSpace = false,
         title = stringResource(id = HellNotesStrings.Title.EditRemind)
@@ -165,6 +170,10 @@ fun EditReminderDialog(
                         if (remind != null)
                             events.deleteRemind(remind)
 
+                        message = ""
+                        pickedDate  = LocalDate.now()
+                        pickedTime  = LocalTime.NOON
+
                         events.dismiss()
                     },
                 ) {
@@ -184,6 +193,11 @@ fun EditReminderDialog(
                                 triggerDate = date
                             )
                         )
+
+                        message = ""
+                        pickedDate  = LocalDate.now()
+                        pickedTime  = LocalTime.NOON
+
                         events.dismiss()
                     },
                 ) {

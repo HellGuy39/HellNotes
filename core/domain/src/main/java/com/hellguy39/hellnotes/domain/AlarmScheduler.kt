@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.domain
 
 import com.hellguy39.hellnotes.model.Remind
 
-interface AlarmEvents {
+interface AlarmScheduler {
 
     fun scheduleAlarm(remind: Remind)
 
