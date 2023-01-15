@@ -9,12 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun EmptyContentPlaceholder(
     heroIcon: Painter,
-    message: String
+    message: String,
+    heroIconSize: Dp = 128.dp
 ) {
     Column(
         modifier = Modifier
@@ -27,8 +29,8 @@ fun EmptyContentPlaceholder(
             painter = heroIcon,
             contentDescription = null,
             modifier = Modifier
-                .width(128.dp)
-                .height(128.dp),
+                .width(heroIconSize)
+                .height(heroIconSize),
             tint = MaterialTheme.colorScheme.primary
         )
         Text(

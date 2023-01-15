@@ -1,147 +1,165 @@
 package com.hellguy39.hellnotes.note_detail
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.common.date.DateHelper
-import com.hellguy39.hellnotes.domain.AlarmScheduler
+import com.hellguy39.hellnotes.components.rememberDialogState
+import com.hellguy39.hellnotes.domain.android_system_features.AlarmScheduler
 import com.hellguy39.hellnotes.model.Label
-import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
-import com.hellguy39.hellnotes.note_detail.events.*
+import com.hellguy39.hellnotes.note_detail.components.*
 import com.hellguy39.hellnotes.note_detail.util.ShareHelper
 import com.hellguy39.hellnotes.note_detail.util.ShareType
 import com.hellguy39.hellnotes.resources.HellNotesStrings
+import com.hellguy39.hellnotes.system.BackHandler
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    alarmScheduler: AlarmScheduler = noteDetailViewModel.alarmScheduler
+    alarmScheduler: AlarmScheduler = noteDetailViewModel.alarmScheduler,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val note by noteDetailViewModel.note.collectAsState()
-    val noteReminds by noteDetailViewModel.noteReminds.collectAsState()
-    val allLabels by noteDetailViewModel.allLabels.collectAsState()
-    val noteLabels by noteDetailViewModel.noteLabels.collectAsState()
+    val note by noteDetailViewModel.note.collectAsStateWithLifecycle()
+    val noteReminds by noteDetailViewModel.noteReminders.collectAsStateWithLifecycle()
+    val allLabels by noteDetailViewModel.allLabels.collectAsStateWithLifecycle()
+    val noteLabels by noteDetailViewModel.noteLabels.collectAsStateWithLifecycle()
 
-    var editableRemind: Remind? by remember { mutableStateOf(null) }
-
-    var isShowMenu by remember { mutableStateOf(false) }
-    var isShowRemindDialog by remember { mutableStateOf(false) }
-    var isShowEditRemindDialog by remember { mutableStateOf(false) }
-    var isShowShareDialog by remember { mutableStateOf(false) }
-    var isShowLabelDialog by remember { mutableStateOf(false) }
+    val reminderDialogState = rememberDialogState()
+    val labelDialogState = rememberDialogState()
+    val shareDialogState = rememberDialogState()
 
     val snackbarHostState = remember { SnackbarHostState() }
 
+    LabelDialog(
+        state = labelDialogState,
+        selection = LabelDialogSelection(
+            note = note,
+            allLabels = allLabels,
+            selectLabel = { label ->
+                noteDetailViewModel.selectLabel(label)
+            },
+            unselectLabel = { label ->
+                noteDetailViewModel.unselectLabel(label)
+            },
+            createLabel = { name ->
+                noteDetailViewModel.insertLabel(Label(name = name))
+            },
+            deleteLabel = { label ->
+                noteDetailViewModel.deleteLabel(label)
+            },
+            updateQuery = { query ->
+                noteDetailViewModel.updateLabelQuery(query)
+            }
+        )
+    )
+
+    ShareDialog(
+        state = shareDialogState,
+        selection = ShareDialogSelection(
+            shareAsPlainText = {
+                ShareHelper(context).share(note, ShareType.PlainText)
+            },
+            shareAsTxtFile = {
+                ShareHelper(context).share(note, ShareType.TxtFile)
+            }
+        )
+    )
+
+    var editableRemind: Remind? by remember { mutableStateOf(null) }
     val remindIsTooLateMessage = stringResource(id = HellNotesStrings.Text.RemindTimeIsTooLate)
-    val reminderDialogEvents = object : ReminderDialogEvents {
-        override fun show() { isShowRemindDialog = true }
-        override fun dismiss() { isShowRemindDialog = false }
-        override fun onCreateRemind(remind: Remind) {
-            if(remind.triggerDate > DateHelper(context).getCurrentTimeInEpochMilli()) {
-                noteDetailViewModel.insertRemind(remind)
-                alarmScheduler.scheduleAlarm(remind)
-            } else {
-                scope.launch {
-                    snackbarHostState.showSnackbar(message = remindIsTooLateMessage)
+
+    ReminderDialog(
+        state = reminderDialogState,
+        selection = ReminderDialogSelection(
+            note = note,
+            editableRemind = editableRemind,
+            onCreateRemind = { remind ->
+                if(remind.triggerDate > DateHelper(context).getCurrentTimeInEpochMilli()) {
+                    noteDetailViewModel.insertRemind(remind)
+                    alarmScheduler.scheduleAlarm(remind)
+                } else {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(message = remindIsTooLateMessage)
+                    }
                 }
+            },
+            onDeleteRemind = { remind ->
+                val existedAlarm = noteReminds.find { it.id == remind.id }
+                existedAlarm?.let {
+                    alarmScheduler.cancelAlarm(it)
+                    noteDetailViewModel.deleteRemind(existedAlarm)
+                }
+            },
+            onUpdateRemind = { remind ->
+                val oldRemind = noteReminds.find { it.id == remind.id }
+                oldRemind?.let { alarmScheduler.cancelAlarm(it) }
+                alarmScheduler.scheduleAlarm(remind)
+                noteDetailViewModel.updateRemind(remind)
             }
-        }
-    }
+        )
+    )
 
-    val editReminderDialogEvents = object : EditReminderDialogEvents {
-        override fun show() { isShowEditRemindDialog = true }
-        override fun dismiss() { isShowEditRemindDialog = false }
-        override fun setRemindToEdit(remind: Remind) { editableRemind = remind }
-        override fun deleteRemind(remind: Remind) {
-            val existedAlarm = noteReminds.find { it.id == remind.id }
-            existedAlarm?.let {
-                alarmScheduler.cancelAlarm(it)
-                noteDetailViewModel.deleteRemind(existedAlarm)
-            }
-        }
-        override fun updateRemind(remind: Remind) {
-            val oldRemind = noteReminds.find { it.id == remind.id }
-            oldRemind?.let { alarmScheduler.cancelAlarm(it) }
-            alarmScheduler.scheduleAlarm(remind)
-            noteDetailViewModel.updateRemind(remind)
-        }
-    }
-
-    val labelDialogEvents = object : LabelDialogEvents {
-        override fun show() { isShowLabelDialog = true }
-        override fun dismiss() { isShowLabelDialog = false }
-        override fun selectLabel(label: Label) { noteDetailViewModel.selectLabel(label) }
-        override fun unselectLabel(label: Label) { noteDetailViewModel.unselectLabel(label) }
-        override fun createLabel(name: String) { noteDetailViewModel.insertLabel(Label(name = name)) }
-        override fun updateQuery(query: String) { noteDetailViewModel.updateLabelQuery(query) }
-    }
-
-    val shareDialogEvents = object : ShareDialogEvents {
-        override fun show() { isShowShareDialog = true }
-        override fun dismiss() { isShowShareDialog = false }
-        override fun shareAsTxtFile(note: Note) {
-            ShareHelper(context).share(note, ShareType.TxtFile)
-        }
-        override fun shareAsPlainText(note: Note) {
-            ShareHelper(context).share(note, ShareType.PlainText)
-        }
-    }
-
-    val menuEvents = object : MenuEvents {
-        override fun onDismissMenu() { isShowMenu = false }
-        override fun onColor() {
-            scope.launch {
-                snackbarHostState.showSnackbar(
-                    "This feature isn't available yet"
-                )
-            }
-        }
-        override fun onLabels() { labelDialogEvents.show() }
-        override fun onShare() { shareDialogEvents.show() }
-        override fun onDelete() { noteDetailViewModel.deleteNote(); navController.popBackStack() }
-    }
-
-    val topAppBarEvents = object : TopAppBarEvents {
-        override fun onReminder() { reminderDialogEvents.show() }
-        override fun onPin(isPinned: Boolean) { noteDetailViewModel.updateIsPinned(isPinned) }
-        override fun onColorSelected(colorHex: Long) { noteDetailViewModel.updateNoteBackground(colorHex) }
-        override fun onMoreMenu() { isShowMenu = true }
-    }
-
-    NoteDetailScreen(
-        onNavigationButtonClick = {
+    BackHandler(
+        onBack = {
             noteDetailViewModel.discardNoteIfEmpty()
             navController.popBackStack()
-        },
-        isShowMenu = isShowMenu,
-        isShowRemindDialog = isShowRemindDialog,
-        isShowEditRemindDialog = isShowEditRemindDialog,
-        editReminderDialogEvents = editReminderDialogEvents,
+        }
+    )
+
+    NoteDetailScreen(
         snackbarHostState = snackbarHostState,
-        menuEvents = menuEvents,
-        topAppBarEvents = topAppBarEvents,
-        note = note,
-        reminderDialogEvents = reminderDialogEvents,
-        onTitleTextChanged = { newText -> noteDetailViewModel.updateNoteTitle(newText) },
-        onNoteTextChanged = { newText -> noteDetailViewModel.updateNoteContent(newText) },
-        isShowShareDialog = isShowShareDialog,
-        shareDialogEvents = shareDialogEvents,
-        reminds = noteReminds,
-        isShowLabelDialog = isShowLabelDialog,
-        allLabels = allLabels,
-        noteLabels = noteLabels,
-        labelDialogEvents = labelDialogEvents,
-        editableRemind = editableRemind
+        noteDetailContentSelection = NoteDetailContentSelection(
+            note = note,
+            noteReminds = noteReminds,
+            noteLabels = noteLabels,
+            onTitleTextChanged = { newText -> noteDetailViewModel.updateNoteTitle(newText) },
+            onNoteTextChanged = { newText -> noteDetailViewModel.updateNoteContent(newText) },
+            onEditRemind = { remind ->
+                editableRemind = remind
+                reminderDialogState.show()
+            }
+        ),
+        noteDetailDropdownMenuSelection = NoteDetailDropdownMenuSelection(
+            onColor = {},
+            onLabels = {
+                labelDialogState.show()
+            },
+            onShare = {
+                shareDialogState.show()
+            },
+            onDelete = {
+                noteDetailViewModel.deleteNote()
+                navController.popBackStack()
+            },
+        ),
+        noteDetailTopAppBarSelection = NoteDetailTopAppBarSelection(
+            note = note,
+            onNavigationButtonClick = {
+                noteDetailViewModel.discardNoteIfEmpty()
+                navController.popBackStack()
+            },
+            onReminder = {
+                editableRemind = null
+                reminderDialogState.show()
+            },
+            onPin = { isPinned ->
+                noteDetailViewModel.updateIsPinned(isPinned)
+            },
+            onColorSelected = { colorHex ->
+                noteDetailViewModel.updateNoteBackground(colorHex)
+            }
+        )
     )
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.components.ReminderCardEvents
-import com.hellguy39.hellnotes.domain.AlarmScheduler
+import com.hellguy39.hellnotes.domain.android_system_features.AlarmScheduler
 import com.hellguy39.hellnotes.model.Remind
 import com.hellguy39.hellnotes.reminders.events.EditReminderDialogEvents
 

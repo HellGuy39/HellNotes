@@ -1,118 +1,132 @@
 package com.hellguy39.hellnotes.activity.lock
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
+import android.provider.Settings
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricPrompt
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.fragment.app.FragmentActivity
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.hellguy39.hellnotes.activity.main.MainActivity
+import com.hellguy39.hellnotes.android_features.AndroidBiometricAuthenticator
+import com.hellguy39.hellnotes.domain.android_system_features.AuthenticationResult
+import com.hellguy39.hellnotes.domain.android_system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.domain.android_system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.resources.HellNotesIcons
+import com.hellguy39.hellnotes.system.TransparentSystemBars
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
 
 @AndroidEntryPoint
 class LockActivity : AppCompatActivity() {
 
     private val lockViewModel by viewModels<LockViewModel>()
 
-    private var biometricHelper: BiometricHelper? = null
+    private val bioNoneEnrolledLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+    }
+
+    @Inject lateinit var biometricAuth: BiometricAuthenticator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
         installSplashScreen().apply {
             setKeepOnScreenCondition { false }
         }
-        setContent { LockScreen() }
 
         if (!lockViewModel.isAppLocked()) {
             navigateToMainActivity()
-        } else {
-            biometricHelper = BiometricHelper(this)
+        }
 
-            biometricHelper?.setOnSuccessListener {
-                lockViewModel.authByBiometric()
-                navigateToMainActivity()
-            }
+        setContent {
+            HellNotesTheme {
 
-            if (lockViewModel.isUseBiometric()) {
-                biometricHelper?.authenticate()
+                val scope = rememberCoroutineScope()
+                val snackbarHostState = remember { SnackbarHostState() }
+
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    TransparentSystemBars()
+                    LockScreenContent(
+                        lockViewModel = lockViewModel,
+                        scope = scope,
+                        snackbarHostState = snackbarHostState
+                    )
+                }
+
+                biometricAuth.setOnAuthListener { result ->
+                    when (result) {
+                        is AuthenticationResult.Success -> {
+                            lockViewModel.authByBiometric()
+                            navigateToMainActivity()
+                        }
+                        is AuthenticationResult.Failed -> Unit
+                        is AuthenticationResult.Error -> Unit
+                    }
+                }
+
+                if (lockViewModel.isUseBiometric()) {
+                    authByBiometric()
+                }
             }
         }
     }
 
-    inner class BiometricHelper(
-        activity: FragmentActivity
-    ) : BiometricPrompt.AuthenticationCallback() {
-
-        private val executor = ContextCompat.getMainExecutor(activity)
-        private val biometricPrompt = BiometricPrompt(activity, executor, this)
-
-        private var onSuccessListener: () -> Unit = {}
-
-        fun setOnSuccessListener(onSuccess: () -> Unit) {
-            onSuccessListener = onSuccess
-        }
-
-        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-            super.onAuthenticationError(errorCode, errString)
-            Toast.makeText(
-                applicationContext,
-                "Authentication error: $errString",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        override fun onAuthenticationFailed() {
-            super.onAuthenticationFailed()
-            Toast.makeText(
-                applicationContext, "Authentication failed",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-            super.onAuthenticationSucceeded(result)
-            Toast.makeText(
-                applicationContext,
-                "Authentication succeeded!", Toast.LENGTH_SHORT
-            ).show()
-            onSuccessListener.invoke()
-        }
-
-        private val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Biometric login for HellNotes")
-            .setSubtitle("Log in using your biometric credential")
-            .setNegativeButtonText("Use PIN")
-            .build()
-
-        fun authenticate() {
-            biometricPrompt.authenticate(promptInfo)
+    private fun authByBiometric() {
+        when (biometricAuth.deviceBiometricSupportStatus()) {
+            DeviceBiometricStatus.Success -> {
+                biometricAuth.authenticate(this)
+            }
+            DeviceBiometricStatus.NoHardware -> {
+                showToast("No hardware")
+            }
+            DeviceBiometricStatus.Unsupported -> {
+                showToast("Unsupported")
+            }
+            DeviceBiometricStatus.HardwareUnavailable -> {
+                showToast("Hardware unavailable")
+            }
+            DeviceBiometricStatus.NoneEnrolled -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                        putExtra(
+                            Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                            AndroidBiometricAuthenticator.AUTHENTICATORS
+                        )
+                    }
+                    bioNoneEnrolledLauncher.launch(enrollIntent)
+                } else {
+                    showToast("Biometric none enrolled")
+                }
+            }
+            DeviceBiometricStatus.SecurityUpdateRequired -> {
+                showToast("Security update required")
+            }
+            DeviceBiometricStatus.StatusUnknown -> {
+                showToast("Status unknown")
+            }
         }
     }
 
@@ -121,23 +135,12 @@ class LockActivity : AppCompatActivity() {
         finish()
     }
 
-    @Composable
-    fun LockScreen() {
-        HellNotesTheme {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
-            ) {
-                TransparentSystemBars()
-                LockScreenContent(lockViewModel)
-            }
-        }
-    }
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun LockScreenContent(
-        lockViewModel: LockViewModel
+        lockViewModel: LockViewModel,
+        scope: CoroutineScope,
+        snackbarHostState: SnackbarHostState
     ) {
         val uiState by lockViewModel.uiState.collectAsState()
         val pin by lockViewModel.pin.collectAsState()
@@ -149,6 +152,9 @@ class LockActivity : AppCompatActivity() {
         }
 
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
             content = { paddingValues ->
                 Column(
                     modifier = Modifier
@@ -194,7 +200,7 @@ class LockActivity : AppCompatActivity() {
                     NumberKeyboard(
                         onClick = { key ->
                             if (key == KEY_BIO) {
-                                biometricHelper?.authenticate()
+                                authByBiometric()
                             } else {
                                 lockViewModel.enterKey(key)
                             }
@@ -209,23 +215,6 @@ class LockActivity : AppCompatActivity() {
                 }
             }
         )
-    }
-
-    @Composable
-    fun TransparentSystemBars() {
-        val systemUiController = rememberSystemUiController()
-        val useDarkIcons = !isSystemInDarkTheme()
-        val color = MaterialTheme.colorScheme.background
-        SideEffect {
-            systemUiController.setSystemBarsColor(
-                color = Color.Transparent,
-                darkIcons = useDarkIcons,
-                isNavigationBarContrastEnforced = false,
-                transformColorForLightContent = { original ->
-                    color.compositeOver(original)
-                }
-            )
-        }
     }
 
     @Composable
@@ -357,7 +346,6 @@ class LockActivity : AppCompatActivity() {
 //        }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun KeyboardNumberButton(
         key: String = "",
@@ -421,40 +409,4 @@ class LockActivity : AppCompatActivity() {
         const val KEY_BACKSPACE = "backspace"
         const val KEY_BIO = "bio"
     }
-
-//    fun checkDeviceHasBiometric() {
-//        val biometricManager = BiometricManager.from(this)
-//        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
-//            BiometricManager.BIOMETRIC_SUCCESS -> {
-//                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
-//
-//            }
-//            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-//                Log.e("MY_APP_TAG", "No biometric features available on this device.")
-//            }
-//            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-//                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
-//
-//            }
-//            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-//                // Prompts the user to create credentials that your app accepts.
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//                    val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-//                        putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-//                            BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
-//                    }
-//                    startActivityForResult(enrollIntent, 100)
-//                }
-//            }
-//            BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
-//                TODO()
-//            }
-//            BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
-//                TODO()
-//            }
-//            BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
-//                TODO()
-//            }
-//        }
-//    }
 }

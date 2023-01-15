@@ -22,9 +22,6 @@ import com.hellguy39.hellnotes.common.date.DateHelper
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
-import com.hellguy39.hellnotes.note_detail.events.EditReminderDialogEvents
-import com.hellguy39.hellnotes.note_detail.events.LabelDialogEvents
-import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
 
@@ -32,15 +29,9 @@ import com.hellguy39.hellnotes.resources.HellNotesStrings
 @Composable
 fun NoteDetailContent(
     innerPadding: PaddingValues,
-    note: Note,
-    reminds: List<Remind>,
-    noteLabels: List<Label>,
-    onTitleTextChanged: (text: String) -> Unit,
-    onNoteTextChanged: (text: String) -> Unit,
-    labelDialogEvents: LabelDialogEvents,
-    editReminderDialogEvents: EditReminderDialogEvents
+    selection: NoteDetailContentSelection
 ) {
-    val dateVisibility = note.lastEditDate != 0L
+    val dateVisibility = selection.note.lastEditDate != 0L
 
     LazyColumn(
         contentPadding = innerPadding,
@@ -48,8 +39,8 @@ fun NoteDetailContent(
     ) {
         item {
             OutlinedTextField(
-                value = note.title,
-                onValueChange = { newText -> onTitleTextChanged(newText) },
+                value = selection.note.title,
+                onValueChange = { newText -> selection.onTitleTextChanged(newText) },
                 modifier = Modifier
                     .fillMaxWidth(),
                 placeholder = {
@@ -70,8 +61,8 @@ fun NoteDetailContent(
         }
         item {
             OutlinedTextField(
-                value = note.note,
-                onValueChange = { newText -> onNoteTextChanged(newText) },
+                value = selection.note.note,
+                onValueChange = { newText -> selection.onNoteTextChanged(newText) },
                 placeholder = {
                     Text(
                         text = stringResource(id = HellNotesStrings.Hint.Note),
@@ -93,12 +84,11 @@ fun NoteDetailContent(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(reminds) { remind ->
+                items(selection.noteReminds) { remind ->
                     FilterChip(
                         selected = true,
                         onClick = {
-                            editReminderDialogEvents.setRemindToEdit(remind)
-                            editReminderDialogEvents.show()
+                            selection.onEditRemind(remind)
                         },
                         leadingIcon = {
                             Icon(
@@ -115,10 +105,10 @@ fun NoteDetailContent(
                         },
                     )
                 }
-                items(noteLabels) { label ->
+                items(selection.noteLabels) { label ->
                     FilterChip(
                         selected = true,
-                        onClick = { labelDialogEvents.show() },
+                        onClick = {  },
                         label = {
                             Text(
                                 text = label.name,
@@ -140,7 +130,7 @@ fun NoteDetailContent(
                         id = HellNotesStrings.Text.Edited,
                         formatArgs = arrayOf(
                             DateHelper(LocalContext.current)
-                                .formatBest(note.lastEditDate)
+                                .formatBest(selection.note.lastEditDate)
                         )
                     ),
                     modifier = Modifier
@@ -154,3 +144,12 @@ fun NoteDetailContent(
         }
     }
 }
+
+data class NoteDetailContentSelection(
+    val note: Note,
+    val noteReminds: List<Remind>,
+    val noteLabels: List<Label>,
+    val onTitleTextChanged: (text: String) -> Unit,
+    val onNoteTextChanged: (text: String) -> Unit,
+    val onEditRemind: (remind: Remind) -> Unit
+)

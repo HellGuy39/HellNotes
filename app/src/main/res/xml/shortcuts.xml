@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- New note-->
+    <shortcut
+        android:shortcutId="id1"
+        android:enabled="true"
+        android:icon="@drawable/ic_note_add_24"
+        android:shortcutShortLabel="@string/shortcut_label_new_note"
+        android:shortcutLongLabel="@string/shortcut_label_new_note">
+
+        <intent
+            android:action="com.hellguy39.hellnotes.NEW_NOTE"
+            android:targetPackage="com.hellguy39.hellnotes"
+            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity" />
+
+        <categories android:name="android.shortcut.conversation" />
+
+    </shortcut>
+
+    <!-- Reminders -->
+    <shortcut
+        android:shortcutId="id2"
+        android:enabled="true"
+        android:icon="@drawable/ic_notifications_24"
+        android:shortcutShortLabel="@string/shortcut_label_reminders"
+        android:shortcutLongLabel="@string/shortcut_label_reminders">
+
+        <intent
+            android:action="com.hellguy39.hellnotes.REMINDERS"
+            android:targetPackage="com.hellguy39.hellnotes"
+            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity" />
+
+        <categories android:name="android.shortcut.conversation" />
+
+    </shortcut>
+
+</shortcuts>

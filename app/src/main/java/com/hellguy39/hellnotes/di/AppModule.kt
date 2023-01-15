@@ -1,8 +1,12 @@
 package com.hellguy39.hellnotes.di
 
 import android.app.Application
-import com.hellguy39.hellnotes.domain.AlarmScheduler
-import com.hellguy39.hellnotes.util.AndroidAlarmScheduler
+import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
+import com.hellguy39.hellnotes.android_features.AndroidBiometricAuthenticator
+import com.hellguy39.hellnotes.android_features.AndroidNotificationSender
+import com.hellguy39.hellnotes.domain.android_system_features.AlarmScheduler
+import com.hellguy39.hellnotes.domain.android_system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.domain.android_system_features.NotificationSender
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,9 +19,25 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAlarmEvents(
+    fun provideAlarmScheduler(
         app: Application
     ): AlarmScheduler {
         return AndroidAlarmScheduler(app)
+    }
+
+    @Singleton
+    @Provides
+    fun provideBiometricAuthenticator(
+        app: Application
+    ): BiometricAuthenticator {
+        return AndroidBiometricAuthenticator(app)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotificationSender(
+        app: Application
+    ): NotificationSender {
+        return AndroidNotificationSender(app)
     }
 }

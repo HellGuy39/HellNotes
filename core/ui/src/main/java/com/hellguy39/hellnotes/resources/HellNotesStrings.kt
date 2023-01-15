@@ -88,4 +88,15 @@ object HellNotesStrings {
         val Delete = R.string.btn_delete
     }
 
+    object Action {
+        val NewNote = R.string.action_new_note
+        val Reminders = R.string.action_reminders
+    }
+
+    object Notification {
+        val ReminderTitle = R.string.ntf_remidner_title
+        val ReminderEmptyMessage = R.string.ntf_reminder_empty_message
+        val ReminderChannelDescription = R.string.ntf_reminder_channel_description
+    }
+
 }

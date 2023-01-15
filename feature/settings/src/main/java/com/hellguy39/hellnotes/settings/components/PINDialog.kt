@@ -11,12 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.components.CustomDialog
+import com.hellguy39.hellnotes.components.CustomDialogState
 import java.io.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PINDialog(
-    state: PinDialogState,
+    state: CustomDialogState,
     selection: PinDialogSelection,
 ) {
     var pin by remember { mutableStateOf("") }
@@ -54,7 +55,9 @@ fun PINDialog(
     CustomDialog(
         showDialog = state.visible,
         onClose = { state.dismiss() },
-        title = dialogTitle
+        title = dialogTitle,
+        applyBottomSpace = false,
+        limitMinHeight = false
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -138,53 +141,6 @@ fun PINDialog(
                 }
             }
         }       
-    }
-}
-
-
-@Composable
-fun rememberPinDialogState(): PinDialogState {
-    return rememberSaveable(
-        saver = PinDialogState.Saver(),
-        init = {
-            PinDialogState(
-                visible = false
-            )
-        }
-    )
-}
-
-class PinDialogState(
-    visible: Boolean,
-) {
-    var visible by mutableStateOf(visible)
-
-    fun show() {
-        visible = true
-    }
-
-    fun dismiss() {
-        visible = false
-    }
-
-    data class PinDialogStateData(
-        val visible: Boolean
-    ): Serializable
-
-    companion object {
-
-        fun Saver(): Saver<PinDialogState, *> = Saver(
-            save = { state ->
-                PinDialogStateData(
-                    visible = state.visible
-                )
-            },
-            restore = { data ->
-                PinDialogState(
-                    visible = data.visible
-                )
-            }
-        )
     }
 }
 

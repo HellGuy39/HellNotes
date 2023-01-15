@@ -14,11 +14,14 @@ class NoteRepositoryImpl @Inject constructor(
     private val noteDao: NoteDao
 ): NoteRepository {
 
-    override suspend fun getAllNotesStream(): Flow<List<Note>>  =
-        noteDao.getAllNotes().map { it.map(NoteEntity::toNote) }
+    override fun getAllNotesStream(): Flow<List<Note>>  =
+        noteDao.getAllNotesStream().map { it.map(NoteEntity::toNote) }
 
-    override suspend fun getAllNotesWithQueryStream(query: String): Flow<List<Note>> =
-        noteDao.getAllNotesByQuery(query).map { it.map(NoteEntity::toNote) }
+    override fun getAllNotesWithQueryStream(query: String): Flow<List<Note>> =
+        noteDao.getAllNotesByQueryStream(query).map { it.map(NoteEntity::toNote) }
+
+    override suspend fun getAllNotes(): List<Note> =
+        noteDao.getAllNotes().map(NoteEntity::toNote)
 
     override suspend fun getNoteById(id: Long): Note =
         noteDao.getNoteById(id).toNote()
@@ -41,6 +44,20 @@ class NoteRepositoryImpl @Inject constructor(
 
     override suspend fun deleteNoteById(id: Long) {
         noteDao.deleteNoteById(id)
+    }
+
+    override suspend fun deleteLabelFromNotes(labelId: Long) {
+        val notes = noteDao.getAllNotes()
+
+        for (i in notes.indices) {
+            if (notes[i].labelIds.contains(labelId)) {
+                val note = notes[i].copy(
+                    labelIds = notes[i].labelIds.minus(labelId)
+                )
+                noteDao.updateNote(note)
+            }
+        }
+
     }
 
 }

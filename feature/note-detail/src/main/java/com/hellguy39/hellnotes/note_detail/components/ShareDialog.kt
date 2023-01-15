@@ -11,19 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.components.CustomDialog
-import com.hellguy39.hellnotes.model.Note
-import com.hellguy39.hellnotes.note_detail.events.ShareDialogEvents
+import com.hellguy39.hellnotes.components.CustomDialogState
 import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @Composable
 fun ShareDialog(
-    isShowDialog: Boolean,
-    events: ShareDialogEvents,
-    note: Note
+    state: CustomDialogState,
+    selection: ShareDialogSelection
 ) {
     CustomDialog(
-        showDialog = isShowDialog, 
-        onClose = { events.dismiss() },
+        showDialog = state.visible,
+        onClose = { state.dismiss() },
         title = stringResource(id = HellNotesStrings.Title.ShareAs)
     ) { innerPadding ->
         LazyColumn(
@@ -34,8 +32,8 @@ fun ShareDialog(
                 Row(
                     modifier = Modifier
                         .clickable {
-                            events.shareAsTxtFile(note = note)
-                            events.dismiss()
+                            selection.shareAsTxtFile()
+                            state.dismiss()
                     },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
@@ -55,8 +53,8 @@ fun ShareDialog(
                 Row(
                     modifier = Modifier
                         .clickable {
-                            events.shareAsPlainText(note = note)
-                            events.dismiss()
+                            selection.shareAsPlainText()
+                            state.dismiss()
                     },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
@@ -75,3 +73,8 @@ fun ShareDialog(
         }
     }
 }
+
+data class ShareDialogSelection(
+    val shareAsTxtFile: () -> Unit,
+    val shareAsPlainText: () -> Unit
+)

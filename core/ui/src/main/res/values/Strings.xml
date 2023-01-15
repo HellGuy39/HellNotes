@@ -72,4 +72,17 @@
     <string name="btn_edit">Edit</string>
     <string name="btn_delete">Delete</string>
 
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">New note</string>
+    <string name="shortcut_label_reminders">Reminders</string>
+
+    <!-- Notification -->
+    <string name="ntf_remidner_title">Reminder!</string>
+    <string name="ntf_reminder_empty_message">You didn\'t leave a message. Click to open the note.</string>
+    <string name="ntf_reminder_channel_description">Used for reminders</string>
+
+    <!-- Actions -->
+    <string name="action_new_note" translatable="false">com.hellguy39.hellnotes.NEW_NOTE</string>
+    <string name="action_reminders" translatable="false">com.hellguy39.hellnotes.REMINDERS</string>
+
 </resources>

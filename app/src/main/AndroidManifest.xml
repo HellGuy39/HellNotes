@@ -31,6 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+
         </activity>
 
         <activity
@@ -43,7 +46,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".util.ReminderNotificationReceiver"
+        <receiver android:name=".broadcast.ReminderBroadcastReceiver"
             android:enabled="true" />
 
         <service android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

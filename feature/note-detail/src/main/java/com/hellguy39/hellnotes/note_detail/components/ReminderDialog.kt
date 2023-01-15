@@ -2,9 +2,7 @@ package com.hellguy39.hellnotes.note_detail.components
 
 import android.Manifest
 import android.os.Build
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,9 +19,9 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.hellguy39.hellnotes.common.date.DateHelper
 import com.hellguy39.hellnotes.components.CustomDialog
+import com.hellguy39.hellnotes.components.CustomDialogState
 import com.hellguy39.hellnotes.model.Note
 import com.hellguy39.hellnotes.model.Remind
-import com.hellguy39.hellnotes.note_detail.events.ReminderDialogEvents
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
 import com.maxkeppeker.sheets.core.models.base.SheetState
@@ -41,17 +39,25 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun ReminderDialog(
-    note: Note,
-    isShowDialog: Boolean,
-    events: ReminderDialogEvents,
+    state: CustomDialogState,
+    selection: ReminderDialogSelection
 ) {
-    //var isRepeat by remember { mutableStateOf(false) }
     var message by remember { mutableStateOf("") }
     var pickedDate by remember { mutableStateOf(LocalDate.now()) }
     var pickedTime by remember { mutableStateOf(LocalTime.NOON) }
 
-    val calendarState = rememberSheetState()
-    val clockState = rememberSheetState()
+    val isEditMode = selection.editableRemind != null
+
+    if (isEditMode) {
+
+        selection.editableRemind?.let {
+            message = it.message
+            pickedTime = DateHelper(LocalContext.current)
+                .epochMillisToLocalTime(it.triggerDate)
+            pickedDate = DateHelper(LocalContext.current)
+                .epochMillisToLocalDate(it.triggerDate)
+        }
+    }
 
     val formattedDate by remember {
         derivedStateOf {
@@ -67,8 +73,9 @@ fun ReminderDialog(
                 .format(pickedTime)
         }
     }
-    val date = DateHelper(LocalContext.current)
-        .dateToEpochMillis(pickedTime, pickedDate)
+
+    val calendarState = rememberSheetState()
+    val clockState = rememberSheetState()
 
     CalendarDialog(
         state = calendarState,
@@ -91,25 +98,30 @@ fun ReminderDialog(
         }
     )
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    val dialogTitle = if (isEditMode)
+        stringResource(id = HellNotesStrings.Title.EditRemind)
+    else
+        stringResource(id = HellNotesStrings.Title.NewRemind)
 
-        val notificationPermissionState = rememberPermissionState(
-            Manifest.permission.POST_NOTIFICATIONS
-        )
+    CustomDialog(
+        showDialog = state.visible,
+        onClose = { state.dismiss() },
+        title = dialogTitle,
+        limitMinHeight = false,
+        applyBottomSpace = false
+    ) { innerPadding ->
 
-        val textToShow = if (notificationPermissionState.status.shouldShowRationale) {
-            stringResource(id = HellNotesStrings.Text.NotificationPermissionRationale)
-        } else {
-            stringResource(id = HellNotesStrings.Text.NotificationPermissionDefault)
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
-        CustomDialog(
-            showDialog = isShowDialog,
-            onClose = { events.dismiss() },
-            title = stringResource(id = HellNotesStrings.Title.NewRemind),
-            limitMaxHeight = false,
-            applyBottomSpace = false
-        ) { innerPadding ->
+            val notificationPermissionState = rememberPermissionState(
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+
+            val textToShow = if (notificationPermissionState.status.shouldShowRationale) {
+                stringResource(id = HellNotesStrings.Text.NotificationPermissionRationale)
+            } else {
+                stringResource(id = HellNotesStrings.Text.NotificationPermissionDefault)
+            }
 
             Crossfade(targetState = notificationPermissionState.status.isGranted) { isPermissionGranted ->
                 if (!isPermissionGranted) {
@@ -123,59 +135,47 @@ fun ReminderDialog(
                 } else {
                     ReminderDialogContent(
                         innerPadding = innerPadding,
-                        formattedDate = formattedDate,
-                        formattedTime = formattedTime,
                         calendarState = calendarState,
                         clockState = clockState,
-                        onCreateRemind = {
-                            events.onCreateRemind(
-                                Remind(
-                                    noteId = note.id ?: -1,
-                                    message = message,
-                                    triggerDate = date
-                                )
-                            )
-                            events.dismiss()
-                        },
                         message = message,
-                        onMessageUpdate = { message = it }
+                        onMessageUpdate = { message = it },
+                        state = state,
+                        selection = selection,
+                        isEditMode = isEditMode,
+                        pickedDate = pickedDate,
+                        pickedTime = pickedTime,
+                        formattedTime = formattedTime,
+                        formattedDate = formattedDate
                     )
                 }
             }
-        }
-    } else {
-        CustomDialog(
-            showDialog = isShowDialog,
-            onClose = { events.dismiss() },
-            title = stringResource(id = HellNotesStrings.Title.NewRemind),
-            limitMaxHeight = false,
-            applyBottomSpace = false
-        ) { innerPadding ->
 
+        } else {
             ReminderDialogContent(
                 innerPadding = innerPadding,
-                formattedDate = formattedDate,
-                formattedTime = formattedTime,
                 calendarState = calendarState,
                 clockState = clockState,
-                onCreateRemind = {
-                    events.onCreateRemind(
-                        Remind(
-                            noteId = note.id ?: -1,
-                            message = message,
-                            triggerDate = date
-                        )
-                    )
-                    events.dismiss()
-                },
                 message = message,
-                onMessageUpdate = {
-                    message = it
-                }
+                onMessageUpdate = { message = it },
+                state = state,
+                selection = selection,
+                isEditMode = isEditMode,
+                pickedDate = pickedDate,
+                pickedTime = pickedTime,
+                formattedDate = formattedDate,
+                formattedTime = formattedTime
             )
         }
     }
 }
+
+data class ReminderDialogSelection(
+    val note: Note,
+    val editableRemind: Remind?,
+    val onCreateRemind: (remind: Remind) -> Unit,
+    val onDeleteRemind: (remind: Remind) -> Unit,
+    val onUpdateRemind: (remind: Remind) -> Unit
+)
 
 @Composable
 fun ReminderRequestPermission(
@@ -187,7 +187,6 @@ fun ReminderRequestPermission(
         modifier = Modifier
             .padding(innerPadding)
             .fillMaxWidth()
-            .wrapContentHeight()
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 4.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -218,14 +217,21 @@ fun ReminderRequestPermission(
 @Composable
 fun ReminderDialogContent(
     innerPadding: PaddingValues,
+    pickedDate: LocalDate,
+    pickedTime: LocalTime,
     formattedDate: String,
     formattedTime: String,
     calendarState: SheetState,
     clockState: SheetState,
-    onCreateRemind: () -> Unit,
+    state: CustomDialogState,
+    selection: ReminderDialogSelection,
     message: String,
-    onMessageUpdate: (newText: String) -> Unit
+    onMessageUpdate: (newText: String) -> Unit,
+    isEditMode: Boolean
 ) {
+    val date = DateHelper(LocalContext.current)
+        .dateToEpochMillis(pickedTime, pickedDate)
+
     Column(
         modifier = Modifier.padding(innerPadding)
             .fillMaxWidth()
@@ -241,11 +247,7 @@ fun ReminderDialogContent(
                 text = formattedDate,
                 style = MaterialTheme.typography.bodyMedium
             )
-            IconButton(
-                onClick = {
-                    calendarState.show()
-                }
-            ) {
+            IconButton(onClick = { calendarState.show() }) {
                 Icon(
                     painter = painterResource(id = HellNotesIcons.Edit),
                     contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Edit)
@@ -261,9 +263,7 @@ fun ReminderDialogContent(
                 text = formattedTime,
                 style = MaterialTheme.typography.bodyMedium
             )
-            IconButton(onClick = {
-                clockState.show()
-            }) {
+            IconButton(onClick = { clockState.show() }) {
                 Icon(
                     painter = painterResource(id = HellNotesIcons.Edit),
                     contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Edit)
@@ -283,18 +283,71 @@ fun ReminderDialogContent(
             },
             textStyle = MaterialTheme.typography.bodyMedium,
         )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End
-        ) {
-            Button(
-                onClick = { onCreateRemind() },
+        if (!isEditMode) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
             ) {
-                Text(
-                    text = stringResource(id = HellNotesStrings.Button.Create),
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                Button(
+                    onClick = {
+                        selection.onCreateRemind(
+                            Remind(
+                                noteId = selection.note.id ?: -1,
+                                message = message,
+                                triggerDate = date
+                            )
+                        )
+                        state.dismiss()
+                    },
+                ) {
+                    Text(
+                        text = stringResource(id = HellNotesStrings.Button.Create),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                TextButton(
+                    onClick = {
+                        selection.editableRemind?.let {
+                            selection.onDeleteRemind(it)
+                        }
+
+                        state.dismiss()
+                    },
+                ) {
+                    Text(
+                        text = stringResource(id = HellNotesStrings.Button.Delete),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                Button(
+                    modifier = Modifier.padding(start = 8.dp),
+                    onClick = {
+                        selection.editableRemind?.let {
+                            selection.onUpdateRemind(
+                                Remind(
+                                    id = it.id,
+                                    noteId = it.noteId,
+                                    message = message,
+                                    triggerDate = date
+                                )
+                            )
+                        }
+                        state.dismiss()
+                    },
+                ) {
+                    Text(
+                        text = stringResource(id = HellNotesStrings.Button.Edit),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
     }

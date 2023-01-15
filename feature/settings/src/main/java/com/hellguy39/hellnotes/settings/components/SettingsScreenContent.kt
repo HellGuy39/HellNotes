@@ -25,6 +25,7 @@ fun SettingsScreenContent(
     languageDialogEvents: LanguageDialogEvents,
     appSettings: AppSettings,
     settingsEvents: SettingsEvents,
+    isBioAuthAvailable: Boolean
 ) {
     LazyColumn(
         modifier = Modifier
@@ -82,7 +83,7 @@ fun SettingsScreenContent(
                     Switch(
                         checked = appSettings.isUseBiometric,
                         onCheckedChange = { settingsEvents.setUseBiometric(it) },
-                        enabled = appSettings.isPinSetup
+                        enabled = appSettings.isPinSetup && isBioAuthAvailable
                     )
                 }
             }

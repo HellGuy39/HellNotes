@@ -1,101 +1,61 @@
 package com.hellguy39.hellnotes.note_detail.components
 
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.note_detail.events.MenuEvents
+import com.hellguy39.hellnotes.components.CustomDropdownItem
+import com.hellguy39.hellnotes.components.CustomDropdownMenu
+import com.hellguy39.hellnotes.components.CustomDropdownMenuState
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @Composable
 fun NoteDetailDropdownMenu(
-    expanded: Boolean,
-    noteDetailsMenuEvents: MenuEvents,
+    state: CustomDropdownMenuState,
+    selection: NoteDetailDropdownMenuSelection,
 ) {
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { noteDetailsMenuEvents.onDismissMenu() },
+    CustomDropdownMenu(
+        expanded = state.visible,
+        onDismissRequest = { state.dismiss() }
     ) {
-        DropdownMenuItem(
-            text = {
-                Text(
-                    text = stringResource(id = HellNotesStrings.MenuItem.Color),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            },
+//        CustomDropdownItem(
+//            leadingIconId = painterResource(id = HellNotesIcons.Palette),
+//            text = stringResource(id = HellNotesStrings.MenuItem.Color),
+//            onClick = {
+//                state.dismiss()
+//                selection.onColor()
+//            }
+//        )
+        CustomDropdownItem(
+            leadingIconId = painterResource(id = HellNotesIcons.Label),
+            text = stringResource(id = HellNotesStrings.MenuItem.Labels),
             onClick = {
-                with(noteDetailsMenuEvents) {
-                    onDismissMenu()
-                    onColor()
-                }
-            },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.Palette),
-                    contentDescription = null
-                )
+                state.dismiss()
+                selection.onLabels()
             }
         )
-        DropdownMenuItem(
-            text = {
-                Text(
-                    text = stringResource(id = HellNotesStrings.MenuItem.Labels),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            },
+        CustomDropdownItem(
+            leadingIconId = painterResource(id = HellNotesIcons.Share),
+            text = stringResource(id = HellNotesStrings.MenuItem.Share),
             onClick = {
-                with(noteDetailsMenuEvents) {
-                    onDismissMenu()
-                    onLabels()
-                }
-            },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.Label),
-                    contentDescription = null
-                )
+                state.dismiss()
+                selection.onShare()
             }
         )
-        DropdownMenuItem(
-            text = {
-                Text(
-                    text = stringResource(id = HellNotesStrings.MenuItem.Share),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            },
+        CustomDropdownItem(
+            leadingIconId = painterResource(id = HellNotesIcons.Delete),
+            text = stringResource(id = HellNotesStrings.MenuItem.Delete),
             onClick = {
-                with(noteDetailsMenuEvents) {
-                    onDismissMenu()
-                    onShare()
-                }
-            },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.Share),
-                    contentDescription = null
-                )
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                Text(
-                    text = stringResource(id = HellNotesStrings.MenuItem.Delete),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            },
-            onClick = {
-                with(noteDetailsMenuEvents) {
-                    onDismissMenu()
-                    onDelete()
-                }
-            },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.Delete),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete)
-                )
+                state.dismiss()
+                selection.onDelete()
             }
         )
     }
 }
+
+data class NoteDetailDropdownMenuSelection(
+    val onColor: () -> Unit,
+    val onLabels: () -> Unit,
+    val onShare: () -> Unit,
+    val onDelete: () -> Unit
+)

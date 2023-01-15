@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
 
-    suspend fun getAllNotesStream(): Flow<List<Note>>
+    fun getAllNotesStream(): Flow<List<Note>>
 
-    suspend fun getAllNotesWithQueryStream(query: String): Flow<List<Note>>
+    fun getAllNotesWithQueryStream(query: String): Flow<List<Note>>
+
+    suspend fun getAllNotes(): List<Note>
 
     suspend fun getNoteById(id: Long): Note
 
@@ -21,5 +23,7 @@ interface NoteRepository {
     suspend fun deleteNotes(notes: List<Note>)
 
     suspend fun deleteNoteById(id: Long)
+
+    suspend fun deleteLabelFromNotes(labelId: Long)
 
 }

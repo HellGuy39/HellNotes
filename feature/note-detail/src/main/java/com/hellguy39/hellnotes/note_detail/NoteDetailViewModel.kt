@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.domain.AlarmScheduler
+import com.hellguy39.hellnotes.domain.android_system_features.AlarmScheduler
 import com.hellguy39.hellnotes.domain.note.IsNoteValidUseCase
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
@@ -33,32 +33,40 @@ class NoteDetailViewModel @Inject constructor(
     private val _note: MutableStateFlow<Note> = MutableStateFlow(Note())
     val note = _note.asStateFlow()
 
-    private val _noteReminds: MutableStateFlow<List<Remind>> = MutableStateFlow(listOf())
-    val noteReminds = _noteReminds.asStateFlow()
-
     private val _noteLabels: MutableStateFlow<List<Label>> = MutableStateFlow(listOf())
     val noteLabels = _noteLabels.asStateFlow()
 
     private val _allLabels: MutableStateFlow<List<Label>> = MutableStateFlow(listOf())
     val allLabels = _allLabels.asStateFlow()
 
+    private var noteId: Long = -1
+
     private var getLabelsJob: Job? = null
-    private var getNoteRemindersJob: Job? = null
 
     init {
         savedStateHandle.get<Long>(KEY_NOTE_ID)?.let { id ->
             if(id != NEW_NOTE_ID) {
                 fetchNote(id)
-                fetchNoteReminds(id)
+                noteId = id
             } else {
-                createNote { noteId ->
-                    fetchNote(noteId)
-                    fetchNoteReminds(noteId)
+                createNote { newNoteId ->
+                    fetchNote(newNoteId)
+                    noteId = newNoteId
                 }
             }
             fetchLabels()
         }
     }
+
+    val noteReminders: StateFlow<List<Remind>> = reminderRepository.getRemindsByNoteIdStream(noteId)
+        .map { reminders ->
+            reminders.sortedBy { it.triggerDate }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = listOf()
+        )
 
     private fun fetchLabels(query: String = "") = viewModelScope.launch {
         getLabelsJob?.cancel()
@@ -82,16 +90,6 @@ class NoteDetailViewModel @Inject constructor(
 
     fun insertRemind(remind: Remind) = viewModelScope.launch {
         reminderRepository.insertRemind(remind)
-        //_noteReminds.update { it.plus(remind) }
-    }
-
-    private fun fetchNoteReminds(noteId: Long) = viewModelScope.launch {
-        getNoteRemindersJob?.cancel()
-        getNoteRemindersJob = reminderRepository.getRemindsByNoteIdStream(noteId)
-            .onEach { reminders ->
-                _noteReminds.update { reminders }
-            }
-            .launchIn(viewModelScope)
     }
 
     private fun fetchNoteLabels(labelIds: List<Long>) = viewModelScope.launch {
@@ -159,6 +157,14 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
+    fun deleteLabel(label: Label) = viewModelScope.launch {
+        if (_noteLabels.value.contains(label)) {
+            unselectLabel(label)
+        }
+        label.id?.let { noteRepository.deleteLabelFromNotes(it) }
+        labelRepository.deleteLabel(label)
+    }
+
     fun selectLabel(label: Label) = viewModelScope.launch {
         label.id?.let { id ->
             _note.update { it.copy(labelIds = it.labelIds.plus(id)) }
@@ -176,7 +182,8 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     fun insertLabel(label: Label) = viewModelScope.launch {
-        labelRepository.insertLabel(label)
+        val labelId = labelRepository.insertLabel(label)
+        selectLabel(labelRepository.getLabelById(labelId))
     }
 
     fun updateLabelQuery(query: String) = viewModelScope.launch {

@@ -5,12 +5,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
-import com.hellguy39.hellnotes.BackHandler
+import com.hellguy39.hellnotes.system.BackHandler
 import com.hellguy39.hellnotes.model.AppSettings
 import com.hellguy39.hellnotes.settings.components.*
 import com.hellguy39.hellnotes.settings.events.LanguageDialogEvents
-import com.hellguy39.hellnotes.settings.events.PINDialogEvents
 import com.hellguy39.hellnotes.settings.events.SettingsEvents
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,7 +18,8 @@ fun SettingsScreen(
     languageDialogEvents: LanguageDialogEvents,
     isShowLanguageDialog: Boolean,
     appSettings: AppSettings,
-    settingsEvents: SettingsEvents
+    settingsEvents: SettingsEvents,
+    isBioAuthAvailable: Boolean
 ) {
     BackHandler(onBack = onNavigationButtonClick)
 
@@ -43,6 +42,7 @@ fun SettingsScreen(
                 languageDialogEvents = languageDialogEvents,
                 appSettings = appSettings,
                 settingsEvents = settingsEvents,
+                isBioAuthAvailable = isBioAuthAvailable
             )
         },
         topBar = {

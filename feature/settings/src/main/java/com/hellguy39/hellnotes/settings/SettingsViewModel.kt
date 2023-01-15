@@ -2,6 +2,8 @@ package com.hellguy39.hellnotes.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.domain.android_system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.domain.android_system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.domain.repository.AppSettingsRepository
 import com.hellguy39.hellnotes.model.AppSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val appSettingsRepository: AppSettingsRepository
+    private val appSettingsRepository: AppSettingsRepository,
+    private val biometricAuth: BiometricAuthenticator
 ): ViewModel() {
 
     private val _appSettings: MutableStateFlow<AppSettings> = MutableStateFlow(AppSettings())
@@ -51,6 +54,13 @@ class SettingsViewModel @Inject constructor(
     fun setIsUseBiometric(isUseBio: Boolean) = viewModelScope.launch {
         _appSettings.update { it.copy(isUseBiometric = isUseBio) }
         saveSettings()
+    }
+
+    fun isBiometricAuthAvailable(): Boolean {
+        return when(biometricAuth.deviceBiometricSupportStatus()) {
+            DeviceBiometricStatus.Success -> true
+            else -> false
+        }
     }
 
     private fun saveSettings() = viewModelScope.launch {

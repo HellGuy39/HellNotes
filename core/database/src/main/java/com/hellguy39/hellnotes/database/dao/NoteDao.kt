@@ -26,20 +26,15 @@ interface NoteDao {
     suspend fun deleteNoteById(id: Long)
 
     @Query("SELECT * FROM notes_table")
-    fun getAllNotes(): Flow<List<NoteEntity>>
+    suspend fun getAllNotes(): List<NoteEntity>
+
+    @Query("SELECT * FROM notes_table")
+    fun getAllNotesStream(): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM notes_table " +
             "WHERE title LIKE '%' || :query || '%' " +
             "OR note LIKE '%' || :query || '%'")
-    fun getAllNotesByQuery(query: String): Flow<List<NoteEntity>>
-
-    @Query("SELECT * FROM notes_table " +
-            "ORDER BY lastEditDate DESC")
-    fun getAllNotesSortedByDateOfLastEdit(): Flow<List<NoteEntity>>
-
-    @Query("SELECT * FROM notes_table " +
-            "ORDER BY id DESC")
-    fun getAllNotesSortedByDateOfCreation(): Flow<List<NoteEntity>>
+    fun getAllNotesByQueryStream(query: String): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM notes_table " +
             "WHERE id = :id")

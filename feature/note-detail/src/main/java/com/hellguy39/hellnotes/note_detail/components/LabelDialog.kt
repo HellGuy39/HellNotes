@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.note_detail.components
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,33 +12,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.components.CustomDialog
+import com.hellguy39.hellnotes.components.CustomDialogState
+import com.hellguy39.hellnotes.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.model.Label
 import com.hellguy39.hellnotes.model.Note
-import com.hellguy39.hellnotes.note_detail.events.LabelDialogEvents
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabelDialog(
-    isShowDialog: Boolean,
-    allLabels: List<Label>,
-    note: Note,
-    events: LabelDialogEvents
+    state: CustomDialogState,
+    selection: LabelDialogSelection
 ) {
     var query by remember { mutableStateOf("") }
 
     CustomDialog(
-        showDialog = isShowDialog,
-        onClose = { events.dismiss() },
+        showDialog = state.visible,
+        onClose = { state.dismiss() },
         titleContent = {
             OutlinedTextField(
                 value = query,
                 onValueChange = { newText ->
                     query = newText
-                    events.updateQuery(newText)
+                    selection.updateQuery(newText)
                 },
                 placeholder = {
                     Text(
@@ -55,56 +56,40 @@ fun LabelDialog(
                 maxLines = 1
             )
         },
+        limitMinHeight = true,
         limitMaxHeight = true,
         applyBottomSpace = false
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(allLabels) { label ->
-                val isSelected = note.labelIds.contains(label.id)
-                Row(
-                    modifier = Modifier
-                        .clickable {
-                            if (isSelected)
-                                events.unselectLabel(label)
-                            else
-                                events.selectLabel(label)
-                        },
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
 
-                    Spacer(modifier = Modifier.width(16.dp))
+        Crossfade(targetState = selection) { selection ->
+            val isShowCreateNewLabelItem = isShowCreateNewLabelItem(selection.allLabels, query)
 
-                    if (isSelected) {
-                        Icon(
-                            painter = painterResource(id = HellNotesIcons.Done),
-                            contentDescription = null
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.width(24.dp))
-                    }
-                    Text(
-                        text = label.name,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
+            if (!isShowCreateNewLabelItem && selection.allLabels.isEmpty()) {
+
+                EmptyContentPlaceholder(
+                    heroIcon = painterResource(id = HellNotesIcons.Label),
+                    message = "Your labels will be displayed here",
+                    heroIconSize = 64.dp
+                )
+
+                return@Crossfade
             }
 
-            if (isShowCreateNewLabelItem(allLabels, query)) {
-                item {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(selection.allLabels) { label ->
+                    val isSelected = selection.note.labelIds.contains(label.id)
                     Row(
                         modifier = Modifier
                             .clickable {
-                                if (query.isNotBlank() && query.isNotEmpty())
-                                    events.createLabel(query)
+                                if (isSelected)
+                                    selection.unselectLabel(label)
+                                else
+                                    selection.selectLabel(label)
                             },
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
@@ -112,18 +97,63 @@ fun LabelDialog(
 
                         Spacer(modifier = Modifier.width(16.dp))
 
-                        Icon(
-                            painter = painterResource(id = HellNotesIcons.Add),
-                            contentDescription = null
-                        )
-
+                        if (isSelected) {
+                            Icon(
+                                painter = painterResource(id = HellNotesIcons.Done),
+                                contentDescription = null
+                            )
+                        } else {
+                            Spacer(modifier = Modifier.width(24.dp))
+                        }
                         Text(
-                            text = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
+                            text = label.name,
                             modifier = Modifier
-                                .fillMaxWidth()
                                 .padding(16.dp),
                             style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        IconButton(
+                            onClick = { selection.deleteLabel(label) }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = HellNotesIcons.Delete),
+                                contentDescription = null
+                            )
+                        }
+                    }
+                }
+
+                if (isShowCreateNewLabelItem) {
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .clickable {
+                                    if (query.isNotBlank() && query.isNotEmpty())
+                                        selection.createLabel(query)
+                                },
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Icon(
+                                painter = painterResource(id = HellNotesIcons.NewLabel),
+                                contentDescription = null
+                            )
+
+                            Text(
+                                text = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
                     }
                 }
             }
@@ -131,10 +161,19 @@ fun LabelDialog(
     }
 }
 
+data class LabelDialogSelection(
+    val note: Note,
+    val allLabels: List<Label>,
+    val selectLabel: (label: Label) -> Unit,
+    val unselectLabel: (label: Label) -> Unit,
+    val createLabel: (name: String) -> Unit,
+    val updateQuery: (query: String) -> Unit,
+    val deleteLabel: (label: Label) -> Unit
+)
+
 private fun isShowCreateNewLabelItem(allLabels: List<Label>, query: String): Boolean {
     return (allLabels.isEmpty() ||
             allLabels.size > 2 ||
             (allLabels.size == 1 && query != allLabels[0].name)) &&
             (query.isNotBlank() && query.isNotEmpty())
-
 }

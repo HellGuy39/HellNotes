@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.reminders
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.domain.AlarmScheduler
+import com.hellguy39.hellnotes.domain.android_system_features.AlarmScheduler
 import com.hellguy39.hellnotes.domain.repository.ReminderRepository
 import com.hellguy39.hellnotes.model.Remind
 import dagger.hilt.android.lifecycle.HiltViewModel

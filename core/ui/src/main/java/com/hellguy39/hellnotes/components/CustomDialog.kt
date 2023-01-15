@@ -4,6 +4,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -16,6 +21,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.hellguy39.hellnotes.resources.HellNotesIcons
 import com.hellguy39.hellnotes.resources.HellNotesStrings
+import java.io.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -24,7 +30,8 @@ fun CustomDialog(
     onClose: () -> Unit,
     title: String = "",
     limitMaxHeight: Boolean = false,
-    applyBottomSpace: Boolean = !limitMaxHeight,
+    limitMinHeight: Boolean = false,
+    applyBottomSpace: Boolean = !limitMinHeight,
     titleContent: @Composable () -> Unit = {  },
     content: @Composable (innerPadding: PaddingValues) -> Unit
 ) {
@@ -44,7 +51,10 @@ fun CustomDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .sizeIn(minHeight = if (limitMaxHeight) 384.dp else Dp.Unspecified)
+                    .sizeIn(
+                        minHeight = if (limitMinHeight) 384.dp else Dp.Unspecified,
+                        maxHeight = if (limitMaxHeight) 384.dp else Dp.Unspecified
+                    )
             ) {
                 Column {
                     TopAppBar(
@@ -84,5 +94,52 @@ fun CustomDialog(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun rememberDialogState(): CustomDialogState {
+    return rememberSaveable(
+        saver = CustomDialogState.saver(),
+        init = {
+            CustomDialogState(
+                visible = false
+            )
+        }
+    )
+}
+
+
+class CustomDialogState(
+    visible: Boolean,
+) {
+    var visible by mutableStateOf(visible)
+
+    fun show() {
+        visible = true
+    }
+
+    fun dismiss() {
+        visible = false
+    }
+
+    data class CustomDialogStateData(
+        val visible: Boolean
+    ): Serializable
+
+    companion object {
+
+        fun saver(): Saver<CustomDialogState, *> = Saver(
+            save = { state ->
+                CustomDialogStateData(
+                    visible = state.visible
+                )
+            },
+            restore = { data ->
+                CustomDialogState(
+                    visible = data.visible
+                )
+            }
+        )
     }
 }
