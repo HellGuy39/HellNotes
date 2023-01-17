@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.activity.lock
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.domain.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.core.domain.repository.AppSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LockViewModel @Inject constructor(
-    private val appSettingsRepository: AppSettingsRepository,
+    appSettingsRepository: AppSettingsRepository,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<LockUiState> = MutableStateFlow(LockUiState.Locked)

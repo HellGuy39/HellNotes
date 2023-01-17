@@ -23,11 +23,11 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.hellguy39.hellnotes.activity.main.MainActivity
 import com.hellguy39.hellnotes.android_features.AndroidBiometricAuthenticator
-import com.hellguy39.hellnotes.domain.android_system_features.AuthenticationResult
-import com.hellguy39.hellnotes.domain.android_system_features.BiometricAuthenticator
-import com.hellguy39.hellnotes.domain.android_system_features.DeviceBiometricStatus
-import com.hellguy39.hellnotes.resources.HellNotesIcons
-import com.hellguy39.hellnotes.system.TransparentSystemBars
+import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
+import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.util.*
 import dagger.hilt.android.AndroidEntryPoint

@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.navigation.Navigation
-import com.hellguy39.hellnotes.system.TransparentSystemBars
+import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -8,20 +8,21 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.hellguy39.hellnotes.about_app.navigation.aboutAppNavigationRoute
-import com.hellguy39.hellnotes.about_app.navigation.aboutAppScreen
-import com.hellguy39.hellnotes.navigations.INavigations
-import com.hellguy39.hellnotes.note_detail.util.NEW_NOTE_ID
-import com.hellguy39.hellnotes.note_detail.util.noteDetailNavigationRoute
-import com.hellguy39.hellnotes.note_detail.util.noteDetailScreen
-import com.hellguy39.hellnotes.notes.util.*
-import com.hellguy39.hellnotes.reminders.navigation.remindersNavigationRoute
-import com.hellguy39.hellnotes.reminders.navigation.remindersScreen
-import com.hellguy39.hellnotes.resources.HellNotesStrings
-import com.hellguy39.hellnotes.search.navigation.searchNavigationRoute
-import com.hellguy39.hellnotes.search.navigation.searchScreen
-import com.hellguy39.hellnotes.settings.navigation.settingsNavigationRoute
-import com.hellguy39.hellnotes.settings.navigation.settingsScreen
+import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppNavigationRoute
+import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
+import com.hellguy39.hellnotes.core.ui.navigations.INavigations
+import com.hellguy39.hellnotes.feature.note_detail.util.NEW_NOTE_ID
+import com.hellguy39.hellnotes.feature.note_detail.util.noteDetailNavigationRoute
+import com.hellguy39.hellnotes.feature.note_detail.util.noteDetailScreen
+import com.hellguy39.hellnotes.feature.reminders.navigation.remindersNavigationRoute
+import com.hellguy39.hellnotes.feature.reminders.navigation.remindersScreen
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.feature.note_list.navigation.noteListNavigationRoute
+import com.hellguy39.hellnotes.feature.note_list.navigation.noteListScreen
+import com.hellguy39.hellnotes.feature.search.navigation.searchNavigationRoute
+import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
+import com.hellguy39.hellnotes.feature.settings.navigation.settingsNavigationRoute
+import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

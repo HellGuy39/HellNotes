@@ -17,6 +17,8 @@
     <string name="content_description_edit">Edit</string>
 
     <!-- Label -->
+    <string name="label_language">Language</string>
+    <string name="label_security">Security</string>
     <string name="label_upcoming">Upcoming</string>
     <string name="label_pinned">Pinned</string>
     <string name="label_others">Others</string>
@@ -27,7 +29,6 @@
     <string name="text_date_of_last_edit">Date of last edit</string>
     <string name="text_empty">So far, it\'s empty here…</string>
     <string name="text_edited">Edited %s</string>
-    <string name="text_language">Language</string>
     <string name="text_selected">Selected %s</string>
     <string name="text_nothing_was_found">Unfortunately, nothing was found for your request…</string>
     <string name="text_notification_permission_rationale">Unfortunately, we will not be able to send you notifications without permission. We promise that it will only send notifications for the reminders you set.</string>
@@ -71,13 +72,19 @@
     <string name="btn_create">Create</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_delete">Delete</string>
+    <string name="btn_edit_pin">Edit PIN</string>
+    <string name="btn_setup_pin">Set PIN</string>
+
+    <!-- Setting -->
+    <string name="stg_app_lock">App lock</string>
+    <string name="stg_use_biometric">Use biometric</string>
 
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">New note</string>
     <string name="shortcut_label_reminders">Reminders</string>
 
     <!-- Notification -->
-    <string name="ntf_remidner_title">Reminder!</string>
+    <string name="ntf_reminder_title">Reminder!</string>
     <string name="ntf_reminder_empty_message">You didn\'t leave a message. Click to open the note.</string>
     <string name="ntf_reminder_channel_description">Used for reminders</string>
 

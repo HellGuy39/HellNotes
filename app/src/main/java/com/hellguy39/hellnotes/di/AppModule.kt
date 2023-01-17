@@ -4,9 +4,9 @@ import android.app.Application
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.android_features.AndroidBiometricAuthenticator
 import com.hellguy39.hellnotes.android_features.AndroidNotificationSender
-import com.hellguy39.hellnotes.domain.android_system_features.AlarmScheduler
-import com.hellguy39.hellnotes.domain.android_system_features.BiometricAuthenticator
-import com.hellguy39.hellnotes.domain.android_system_features.NotificationSender
+import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
+import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

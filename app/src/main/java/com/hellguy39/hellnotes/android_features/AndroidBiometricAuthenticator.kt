@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import com.hellguy39.hellnotes.domain.android_system_features.AuthenticationResult
-import com.hellguy39.hellnotes.domain.android_system_features.BiometricAuthenticator
-import com.hellguy39.hellnotes.domain.android_system_features.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
+import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 class AndroidBiometricAuthenticator(

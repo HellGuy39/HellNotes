@@ -2,8 +2,7 @@ package com.hellguy39.hellnotes.app
 
 import android.app.Application
 import com.hellguy39.hellnotes.BuildConfig
-import com.hellguy39.hellnotes.common.ApplicationBuffer
-import com.hellguy39.hellnotes.domain.android_system_features.NotificationSender
+import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -15,6 +14,5 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         notificationSender.initNotificationChannels()
-        ApplicationBuffer.setVersionName(BuildConfig.VERSION_NAME)
     }
 }
