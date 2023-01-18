@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.about_app.components
 
+import android.os.Build
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -8,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.ui.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.feature.about_app.BuildConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,10 +43,11 @@ fun AboutAppScreenContent(
                 style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Center
             )
+
             AssistChip(
                 label = {
                     Text(
-                        text = "Untitled",//ApplicationBuffer.getVersionName(),
+                        text = ProjectInfoProvider.appConfig.versionName,
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center
                     )

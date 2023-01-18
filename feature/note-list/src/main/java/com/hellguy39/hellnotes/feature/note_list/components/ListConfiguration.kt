@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.model.util.Sorting
-import com.hellguy39.hellnotes.notes.list.NoteListUiState
+import com.hellguy39.hellnotes.feature.note_list.NoteListUiState
 import com.hellguy39.hellnotes.notes.list.events.SortMenuEvents
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings

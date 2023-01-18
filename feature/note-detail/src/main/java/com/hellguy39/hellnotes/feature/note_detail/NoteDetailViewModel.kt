@@ -92,6 +92,7 @@ class NoteDetailViewModel @Inject constructor(
                 note =  updatedNote
             )
         }
+
         saveNote()
     }
 
@@ -138,7 +139,7 @@ class NoteDetailViewModel @Inject constructor(
             val id = state.note.id
             if (id != null) {
                 val reminds = reminderRepository.getRemindsByNoteId(id)
-                if (state.note.isNoteValid() && reminds.isEmpty()) {
+                if (!state.note.isNoteValid() && reminds.isEmpty()) {
                     onDeleteNote()
                 }
             }

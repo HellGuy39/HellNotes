@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.notes.list
+package com.hellguy39.hellnotes.feature.note_list
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType

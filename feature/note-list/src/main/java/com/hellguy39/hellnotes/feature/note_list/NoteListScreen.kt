@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.notes.list
+package com.hellguy39.hellnotes.feature.note_list
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -15,7 +15,7 @@ import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.Remind
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.notes.list.components.NoteColumnList
-import com.hellguy39.hellnotes.notes.list.components.NoteGridList
+import com.hellguy39.hellnotes.feature.note_list.components.NoteGridList
 import com.hellguy39.hellnotes.notes.list.components.NoteListTopAppBar
 import com.hellguy39.hellnotes.notes.list.events.NoteEvents
 import com.hellguy39.hellnotes.notes.list.events.SortMenuEvents
@@ -23,6 +23,7 @@ import com.hellguy39.hellnotes.notes.list.events.TopAppBarEvents
 import com.hellguy39.hellnotes.notes.list.events.TopAppBarMenuEvents
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.feature.note_list.NoteListUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
