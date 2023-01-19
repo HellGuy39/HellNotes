@@ -11,8 +11,12 @@
 
 ## Techologies
 
-- 100% Kotlin.
-- Made using Jetpack Compose.
+- 100% Kotlin
+- Jetpack Compose
+- Room
+- Dagger Hilt
+- Kotlin Coroutines
+- Accompanist
 
 ## License
 
