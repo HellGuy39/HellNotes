@@ -64,6 +64,7 @@ fun NoteListTopAppBar(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+                            Spacer(modifier = Modifier.width(4.dp))
                             IconButton(
                                 onClick = { selection.onNavigation() }
                             ) {
@@ -73,7 +74,9 @@ fun NoteListTopAppBar(
                                 )
                             }
                             Text(
-                                modifier = Modifier.padding(12.dp).alpha(0.9f),
+                                modifier = Modifier
+                                    .padding(12.dp)
+                                    .alpha(0.9f),
                                 text = stringResource(
                                     id = HellNotesStrings.Hint.Search,
                                 ),
@@ -88,6 +91,7 @@ fun NoteListTopAppBar(
                                     contentDescription = null
                                 )
                             }
+                            Spacer(modifier = Modifier.width(4.dp))
                         }
                     }
 

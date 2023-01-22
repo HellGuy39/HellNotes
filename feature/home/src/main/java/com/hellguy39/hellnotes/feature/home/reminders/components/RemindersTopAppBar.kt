@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.feature.home.reminders
+package com.hellguy39.hellnotes.feature.home.reminders.components
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable

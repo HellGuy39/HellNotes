@@ -46,6 +46,9 @@ class HomeViewModel @Inject constructor(
     private val _selectedNotes: MutableStateFlow<List<Note>> = MutableStateFlow(listOf())
     val selectedNotes = _selectedNotes.asStateFlow()
 
+    private val _labels: MutableStateFlow<List<Label>> = MutableStateFlow(listOf())
+    val labels = _labels.asStateFlow()
+
     init {
         viewModelScope.launch {
 
@@ -69,6 +72,7 @@ class HomeViewModel @Inject constructor(
             launch {
                 labelRepository.getAllLabelsStream().collect { labels ->
                     homeViewModelState.update { it.copy(labels = labels) }
+                    _labels.update { labels }
                 }
             }
         }
@@ -77,6 +81,7 @@ class HomeViewModel @Inject constructor(
 
     fun deleteAllSelected() = viewModelScope.launch {
         noteRepository.deleteNotes(_selectedNotes.value)
+        _selectedNotes.update { listOf() }
     }
 
     fun updateListStyle() = viewModelScope.launch {

@@ -11,13 +11,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.NoteColumnList
-import com.hellguy39.hellnotes.core.ui.components.NoteGridList
-import com.hellguy39.hellnotes.core.ui.components.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.HomeNoteListUiState
+import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfiguration
+import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurationSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBar
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
 
@@ -26,12 +25,15 @@ import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppB
 fun NoteListScreen(
     onFabAddClick:() -> Unit,
     noteListTopAppBarSelection: NoteListTopAppBarSelection,
+    listConfigurationSelection: ListConfigurationSelection,
     noteListUiState: HomeNoteListUiState,
     selectedNotes: List<Note>,
     noteSelection: NoteSelection
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)//pinnedScrollBehavior(topAppBarState)
+
+    val sortingMenuState = rememberDialogState()
 
     Scaffold(
         modifier = Modifier
@@ -62,7 +64,13 @@ fun NoteListScreen(
                             noteSelection = noteSelection,
                             pinnedNotes = uiState.pinnedNotes,
                             unpinnedNotes = uiState.unpinnedNotes,
-                            selectedNotes = selectedNotes
+                            selectedNotes = selectedNotes,
+                            listHeader = {
+                                ListConfiguration(
+                                    selection = listConfigurationSelection,
+                                    menuState = sortingMenuState
+                                )
+                            }
                         )
                     }
                     ListStyle.Grid -> {
@@ -71,7 +79,13 @@ fun NoteListScreen(
                             noteSelection = noteSelection,
                             pinnedNotes = uiState.pinnedNotes,
                             unpinnedNotes = uiState.unpinnedNotes,
-                            selectedNotes = selectedNotes
+                            selectedNotes = selectedNotes,
+                            listHeader = {
+                                ListConfiguration(
+                                    selection = listConfigurationSelection,
+                                    menuState = sortingMenuState
+                                )
+                            }
                         )
                     }
                 }

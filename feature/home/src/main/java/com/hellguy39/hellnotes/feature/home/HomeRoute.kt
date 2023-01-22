@@ -5,6 +5,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
@@ -15,6 +16,8 @@ import com.hellguy39.hellnotes.core.ui.navigations.INavigations
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListScreen
 import com.hellguy39.hellnotes.feature.home.note_list.components.DrawerSheetContent
+import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfiguration
+import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurationSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import com.hellguy39.hellnotes.feature.home.reminders.ReminderTopAppBarSelection
@@ -28,9 +31,9 @@ fun HomeRoute(
 ) {
     val noteListUiState by homeViewModel.noteListUiState.collectAsStateWithLifecycle()
     val remindersUiState by homeViewModel.remindersUiState.collectAsStateWithLifecycle()
-    val selectedNotes by homeViewModel.selectedNotes.collectAsStateWithLifecycle()
 
-    var isShowSortMenu by remember { mutableStateOf(false) }
+    val selectedNotes by homeViewModel.selectedNotes.collectAsStateWithLifecycle()
+    val labels by homeViewModel.labels.collectAsStateWithLifecycle()
 
     val haptic = LocalHapticFeedback.current
 
@@ -58,12 +61,6 @@ fun HomeRoute(
 
         }
     )
-
-//    val sortMenuEvents = object : SortMenuEvents {
-//        override fun show() { isShowSortMenu = true }
-//        override fun onDismiss() { isShowSortMenu = false }
-//        override fun onSortSelected(sorting: Sorting) { homeViewModel.updateSorting(sorting) }
-//    }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -129,17 +126,16 @@ fun HomeRoute(
         )
     )
 
-    val labelItems = listOf<DrawerItem>()
-//        labels.map { label ->
-//        DrawerItem(
-//            title = label.name,
-//            icon = painterResource(id = HellNotesIcons.Label),
-//            onClick = {
-//                scope.launch { drawerState.close() }
-//
-//            }
-//        )
-//    }
+    val labelItems = labels.map { label ->
+        DrawerItem(
+            title = label.name,
+            icon = painterResource(id = HellNotesIcons.Label),
+            onClick = {
+                scope.launch { drawerState.close() }
+
+            }
+        )
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -176,7 +172,13 @@ fun HomeRoute(
                         ),
                         noteListUiState = noteListUiState,
                         selectedNotes = selectedNotes,
-                        noteSelection = noteSelection
+                        noteSelection = noteSelection,
+                        listConfigurationSelection = ListConfigurationSelection(
+                            sorting = noteListUiState.sorting,
+                            onSortingSelected = { sorting ->
+                                homeViewModel.updateSorting(sorting)
+                            }
+                        )
                     )
                 } else {
                     RemindersScreen(

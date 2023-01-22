@@ -20,6 +20,8 @@ import com.hellguy39.hellnotes.core.ui.components.NoteSelection
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.HomeRemindersUiState
+import com.hellguy39.hellnotes.feature.home.reminders.components.ReminderTopAppBarSelection
+import com.hellguy39.hellnotes.feature.home.reminders.components.RemindersTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -54,7 +56,7 @@ fun RemindersScreen(
                 }
 
                 when (uiState.listStyle) {
-                    ListStyle.Grid -> {
+                    ListStyle.Column -> {
                         NoteColumnList(
                             innerPadding = paddingValues,
                             noteSelection = noteSelection,
@@ -71,7 +73,7 @@ fun RemindersScreen(
                             }
                         )
                     }
-                    ListStyle.Column -> {
+                    ListStyle.Grid -> {
                         NoteGridList(
                             innerPadding = paddingValues,
                             noteSelection = noteSelection,
