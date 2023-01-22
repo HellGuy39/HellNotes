@@ -90,3 +90,8 @@ fun NoteCard(
         }
     }
 }
+
+data class NoteSelection(
+    val onClick: (Note) -> Unit,
+    val onLongClick: (Note) -> Unit
+)

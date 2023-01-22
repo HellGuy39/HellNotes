@@ -11,6 +11,11 @@ sealed interface ListStyle {
         }
     }
 
+    fun swap(): ListStyle = when(this) {
+        Grid -> Column
+        Column -> Grid
+    }
+
     companion object {
 
         const val GRID = "list_style_grid"

@@ -21,7 +21,7 @@ import java.util.*
 fun ReminderCard(
     remind: Remind,
     isSelected: Boolean = false,
-    events: ReminderCardEvents
+    selection: ReminderCardSelection
 ) {
     val cardBorder = if (isSelected)
             BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
@@ -34,8 +34,8 @@ fun ReminderCard(
             .fillMaxWidth()
             .padding(4.dp)
             .combinedClickable(
-                onClick = { events.onClick(remind) },
-                onLongClick = { events.onLongClick(remind) }
+                onClick = { selection.onClick(remind) },
+                onLongClick = { selection.onLongClick(remind) }
             ),
         border = cardBorder
     ) {
@@ -62,7 +62,7 @@ fun ReminderCard(
                 horizontalArrangement = Arrangement.End
             ) {
                 FilledTonalIconButton(
-                    onClick = { events.onEditButtonClick(remind) }
+                    onClick = { selection.onEditButtonClick(remind) }
                 ) {
                     Icon(
                         painter = painterResource(id = HellNotesIcons.Edit),
@@ -70,7 +70,7 @@ fun ReminderCard(
                     )
                 }
                 FilledTonalIconButton(
-                    onClick = { events.onDeleteButtonClick(remind) }
+                    onClick = { selection.onDeleteButtonClick(remind) }
                 ) {
                     Icon(
                         painter = painterResource(id = HellNotesIcons.Cancel),
@@ -82,9 +82,9 @@ fun ReminderCard(
     }
 }
 
-interface ReminderCardEvents {
-    fun onClick(remind: Remind)
-    fun onLongClick(remind: Remind)
-    fun onDeleteButtonClick(remind: Remind)
-    fun onEditButtonClick(remind: Remind)
-}
+data class ReminderCardSelection(
+    val onClick: (remind: Remind) -> Unit,
+    val onLongClick: (remind: Remind) -> Unit,
+    val onDeleteButtonClick: (remind: Remind) -> Unit,
+    val onEditButtonClick: (remind: Remind) -> Unit
+)

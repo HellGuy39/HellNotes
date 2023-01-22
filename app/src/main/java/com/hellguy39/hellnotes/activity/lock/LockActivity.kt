@@ -387,7 +387,7 @@ class LockActivity : AppCompatActivity() {
                 ) {
                     Text(
                         text = key,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.headlineLarge
                     )
                 }
             }

@@ -53,9 +53,8 @@ android {
 
 dependencies {
 
-    implementation(project(Project.Feature.Reminders))
     implementation(project(Project.Feature.Search))
-    implementation(project(Project.Feature.NoteList))
+    implementation(project(Project.Feature.Home))
     implementation(project(Project.Feature.NoteDetail))
     implementation(project(Project.Feature.AboutApp))
     implementation(project(Project.Feature.Settings))
