@@ -5,7 +5,6 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
@@ -16,12 +15,11 @@ import com.hellguy39.hellnotes.core.ui.navigations.INavigations
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListScreen
 import com.hellguy39.hellnotes.feature.home.note_list.components.DrawerSheetContent
-import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfiguration
 import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurationSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
-import com.hellguy39.hellnotes.feature.home.util.DrawerItem
-import com.hellguy39.hellnotes.feature.home.reminders.ReminderTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.reminders.RemindersScreen
+import com.hellguy39.hellnotes.feature.home.reminders.components.ReminderTopAppBarSelection
+import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import kotlinx.coroutines.launch
 
 @Composable

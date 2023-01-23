@@ -35,8 +35,8 @@ fun EmptyContentPlaceholder(
         )
         Text(
             text = message,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(top = 32.dp)
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(top = 16.dp)
                 .fillMaxWidth(),
             textAlign = TextAlign.Center
         )
