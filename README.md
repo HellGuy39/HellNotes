@@ -11,12 +11,12 @@
 
 ## Techologies
 
-- 100% Kotlin.
-- Jetpack Compose.
-- Room.
-- Dagger Hilt.
-- Kotlin Coroutines.
-- Accompanist.
+- 100% Kotlin
+- Jetpack Compose
+- Room
+- Dagger Hilt
+- Kotlin Coroutines
+- Accompanist
 
 ## License
 
