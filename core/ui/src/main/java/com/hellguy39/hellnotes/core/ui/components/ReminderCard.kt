@@ -7,12 +7,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import java.util.*
 
@@ -21,7 +20,8 @@ import java.util.*
 fun ReminderCard(
     remind: Remind,
     isSelected: Boolean = false,
-    selection: ReminderCardSelection
+    selection: ReminderCardSelection,
+    dateHelper: DateHelper
 ) {
     val cardBorder = if (isSelected)
             BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
@@ -45,8 +45,7 @@ fun ReminderCard(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = DateHelper(LocalContext.current)
-                    .epochMillisToFormattedDate(remind.triggerDate),
+                text = dateHelper.epochMillisToFormattedDate(remind.triggerDate),
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis

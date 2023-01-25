@@ -14,16 +14,16 @@ import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.Remind
 import com.hellguy39.hellnotes.core.model.util.ColorParam
+import com.hellguy39.hellnotes.core.ui.DateHelper
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteCard(
     note: Note,
     isSelected: Boolean = false,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit,
+    selection: NoteSelection,
     reminds: List<Remind> = listOf(),
-    labels: List<Label> = listOf()
+    labels: List<Label> = listOf(),
 ) {
     val cardBorder = if (isSelected)
             BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
@@ -47,8 +47,8 @@ fun NoteCard(
             .fillMaxWidth()
             .padding(4.dp)
             .combinedClickable(
-                onClick = { onClick() },
-                onLongClick = { onLongClick() }
+                onClick = { selection.onClick(note) },
+                onLongClick = { selection.onLongClick(note) }
             ),
         colors = colors,
         border = cardBorder
@@ -83,7 +83,8 @@ fun NoteCard(
                     reminders = reminds,
                     labels = labels,
                     limitElements = true,
-                    maxElements = 2
+                    maxElements = 2,
+                    dateHelper = selection.dateHelper
                 )
 
             }
@@ -92,6 +93,7 @@ fun NoteCard(
 }
 
 data class NoteSelection(
+    val dateHelper: DateHelper,
     val onClick: (Note) -> Unit,
     val onLongClick: (Note) -> Unit
 )

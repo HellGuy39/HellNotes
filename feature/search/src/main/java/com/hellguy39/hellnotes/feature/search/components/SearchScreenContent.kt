@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.NoteCard
 import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.Remind
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.components.NoteCard
+import com.hellguy39.hellnotes.core.ui.components.NoteSelection
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.search.UiState
@@ -31,7 +31,7 @@ fun SearchScreenContent(
     listStyle: ListStyle,
     allLabels: List<Label>,
     allReminds: List<Remind>,
-    onNoteClick: (note: Note) -> Unit
+    noteSelection: NoteSelection
 ) {
     Crossfade(targetState = uiState) { state ->
         when(state) {
@@ -59,8 +59,7 @@ fun SearchScreenContent(
 
                                     NoteCard(
                                         note = note,
-                                        onClick = { onNoteClick(note) },
-                                        onLongClick = { },
+                                        selection = noteSelection,
                                         labels = noteLabels,
                                         reminds = noteReminds
                                     )
@@ -84,8 +83,7 @@ fun SearchScreenContent(
 
                                     NoteCard(
                                         note = note,
-                                        onClick = { onNoteClick(note) },
-                                        onLongClick = {  },
+                                        selection = noteSelection,
                                         labels = noteLabels,
                                         reminds = noteReminds
                                     )

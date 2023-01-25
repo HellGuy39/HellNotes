@@ -1,7 +1,5 @@
 package com.hellguy39.hellnotes.feature.home.note_list
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -9,29 +7,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.home.HomeNoteListUiState
 import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfiguration
 import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurationSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBar
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteListScreen(
     onFabAddClick:() -> Unit,
     noteListTopAppBarSelection: NoteListTopAppBarSelection,
     listConfigurationSelection: ListConfigurationSelection,
-    noteListUiState: HomeNoteListUiState,
-    selectedNotes: List<Note>,
-    noteSelection: NoteSelection
+    uiState: NoteListUiState,
+    noteSelection: NoteSelection,
 ) {
     val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)//pinnedScrollBehavior(topAppBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
 
     val sortingMenuState = rememberDialogState()
 
@@ -42,52 +37,50 @@ fun NoteListScreen(
         topBar = {
             NoteListTopAppBar(
                 scrollBehavior = scrollBehavior,
-                selectedNotes = selectedNotes,
+                selectedNotes = uiState.selectedNotes,
                 selection = noteListTopAppBarSelection
             )
         },
         content = { innerPadding ->
-            AnimatedContent(targetState = noteListUiState) { uiState ->
 
-                if (uiState.unpinnedNotes.isEmpty() && uiState.pinnedNotes.isEmpty()) {
-                    EmptyContentPlaceholder(
-                        heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
-                        message = stringResource(id = HellNotesStrings.Text.Empty)
+            if (uiState.unpinnedNotes.isEmpty() && uiState.pinnedNotes.isEmpty()) {
+                EmptyContentPlaceholder(
+                    heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
+                    message = stringResource(id = HellNotesStrings.Text.Empty)
+                )
+                return@Scaffold
+            }
+
+            when(noteListTopAppBarSelection.listStyle) {
+                ListStyle.Column -> {
+                    NoteColumnList(
+                        innerPadding = innerPadding,
+                        noteSelection = noteSelection,
+                        pinnedNotes = uiState.pinnedNotes,
+                        unpinnedNotes = uiState.unpinnedNotes,
+                        selectedNotes = uiState.selectedNotes,
+                        listHeader = {
+                            ListConfiguration(
+                                selection = listConfigurationSelection,
+                                menuState = sortingMenuState
+                            )
+                        }
                     )
-                    return@AnimatedContent
                 }
-
-                when(uiState.listStyle) {
-                    ListStyle.Column -> {
-                        NoteColumnList(
-                            innerPadding = innerPadding,
-                            noteSelection = noteSelection,
-                            pinnedNotes = uiState.pinnedNotes,
-                            unpinnedNotes = uiState.unpinnedNotes,
-                            selectedNotes = selectedNotes,
-                            listHeader = {
-                                ListConfiguration(
-                                    selection = listConfigurationSelection,
-                                    menuState = sortingMenuState
-                                )
-                            }
-                        )
-                    }
-                    ListStyle.Grid -> {
-                        NoteGridList(
-                            innerPadding = innerPadding,
-                            noteSelection = noteSelection,
-                            pinnedNotes = uiState.pinnedNotes,
-                            unpinnedNotes = uiState.unpinnedNotes,
-                            selectedNotes = selectedNotes,
-                            listHeader = {
-                                ListConfiguration(
-                                    selection = listConfigurationSelection,
-                                    menuState = sortingMenuState
-                                )
-                            }
-                        )
-                    }
+                ListStyle.Grid -> {
+                    NoteGridList(
+                        innerPadding = innerPadding,
+                        noteSelection = noteSelection,
+                        pinnedNotes = uiState.pinnedNotes,
+                        unpinnedNotes = uiState.unpinnedNotes,
+                        selectedNotes = uiState.selectedNotes,
+                        listHeader = {
+                            ListConfiguration(
+                                selection = listConfigurationSelection,
+                                menuState = sortingMenuState
+                            )
+                        }
+                    )
                 }
             }
         },

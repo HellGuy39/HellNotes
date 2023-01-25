@@ -2,12 +2,14 @@ package com.hellguy39.hellnotes.core.ui
 
 import android.content.Context
 import android.text.format.DateFormat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.inject.Inject
 
-class DateHelper (
-    context: Context
+class DateHelper @Inject constructor(
+    @ApplicationContext context: Context
 ) {
     private val formatter: DateTimeFormatter
     private val zoneId: ZoneId = ZoneId.systemDefault()

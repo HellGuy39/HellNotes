@@ -1,6 +1,8 @@
 package com.hellguy39.hellnotes.core.ui.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -46,28 +48,28 @@ fun NoteGridList(
             items(pinnedNotes) { wrapper ->
                 NoteCard(
                     note = wrapper.note,
-                    onClick = { noteSelection.onClick(wrapper.note) },
-                    onLongClick = { noteSelection.onLongClick(wrapper.note) },
+                    selection = noteSelection,
                     isSelected = selectedNotes.contains(wrapper.note),
                     labels = wrapper.labels,
                     reminds = wrapper.reminders
                 )
             }
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Text(
-                    text = stringResource(id = HellNotesStrings.Label.Others),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    style = MaterialTheme.typography.labelMedium
-                )
+            if (unpinnedNotes.isNotEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    Text(
+                        text = stringResource(id = HellNotesStrings.Label.Others),
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
             }
         }
 
         items(unpinnedNotes) { wrapper ->
             NoteCard(
                 note = wrapper.note,
-                onClick = { noteSelection.onClick(wrapper.note) },
-                onLongClick = { noteSelection.onLongClick(wrapper.note) },
+                selection = noteSelection,
                 isSelected = selectedNotes.contains(wrapper.note),
                 labels = wrapper.labels,
                 reminds = wrapper.reminders

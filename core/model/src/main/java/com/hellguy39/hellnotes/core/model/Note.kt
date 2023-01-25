@@ -11,3 +11,9 @@ data class Note(
     val colorHex: Long = ColorParam.DefaultColor,
     val labelIds: List<Long> = listOf()
 )
+
+fun Note.isNoteValid(): Boolean {
+    return note.isTextValid() || title.isTextValid()
+}
+
+private fun String.isTextValid() = this.isNotEmpty() && this.isNotBlank()

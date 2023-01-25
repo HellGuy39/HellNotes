@@ -11,4 +11,5 @@ interface TrashRepository {
 
     suspend fun insertTrash(trash: Trash)
 
+    suspend fun deleteAllTrash()
 }

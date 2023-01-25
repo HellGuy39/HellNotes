@@ -45,11 +45,10 @@ fun NoteColumnList(
             items(pinnedNotes) { wrapper ->
                 NoteCard(
                     note = wrapper.note,
-                    onClick = { noteSelection.onClick(wrapper.note) },
-                    onLongClick = { noteSelection.onLongClick(wrapper.note) },
+                    selection = noteSelection,
                     isSelected = selectedNotes.contains(wrapper.note),
                     labels = wrapper.labels,
-                    reminds = wrapper.reminders
+                    reminds = wrapper.reminders,
                 )
             }
             if (unpinnedNotes.isNotEmpty()) {
@@ -66,11 +65,10 @@ fun NoteColumnList(
         items(unpinnedNotes) { wrapper ->
             NoteCard(
                 note = wrapper.note,
-                onClick = { noteSelection.onClick(wrapper.note) },
-                onLongClick = { noteSelection.onLongClick(wrapper.note) },
+                selection = noteSelection,
                 isSelected = selectedNotes.contains(wrapper.note),
                 labels = wrapper.labels,
-                reminds = wrapper.reminders
+                reminds = wrapper.reminders,
             )
         }
     }

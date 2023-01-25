@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TrashDao {
 
-    @Query("SELECT * FROM trash_table")
+    @Query("""
+        SELECT * FROM trash_table
+    """)
     fun getAllTrashStream(): Flow<List<TrashEntity>>
 
     @Delete
@@ -15,5 +17,10 @@ interface TrashDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTrash(trashEntity: TrashEntity)
+
+    @Query("""
+        DELETE FROM trash_table
+    """)
+    suspend fun deleteAllTrash()
 
 }

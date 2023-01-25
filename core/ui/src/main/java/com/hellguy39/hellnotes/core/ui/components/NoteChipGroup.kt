@@ -21,7 +21,8 @@ fun NoteChipGroup(
     limitElements: Boolean = false,
     maxElements: Int = 2,
     onRemindClick: (remind: Remind) -> Unit = {},
-    onLabelClick: (label: Label) -> Unit = {}
+    onLabelClick: (label: Label) -> Unit = {},
+    dateHelper: DateHelper
 ) {
     val chipsCount = reminders.size + labels.size
     var counter = 0
@@ -55,8 +56,7 @@ fun NoteChipGroup(
                 },
                 label = {
                     Text(
-                        text = DateHelper(LocalContext.current)
-                            .epochMillisToFormattedDate(reminder.triggerDate),
+                        text = dateHelper.epochMillisToFormattedDate(reminder.triggerDate),
                         style = MaterialTheme.typography.labelMedium
                     )
                 },

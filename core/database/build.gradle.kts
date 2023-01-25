@@ -41,4 +41,5 @@ dependencies {
     kapt(Libs.Google.Hilt.Compiler)
 
     implementation(Libs.SquareUp.Moshi)
+    implementation(Libs.SquareUp.MoshiKotlin)
 }

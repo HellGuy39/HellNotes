@@ -55,6 +55,7 @@ fun NoteListTopAppBar(
                         style = MaterialTheme.typography.headlineSmall
                     )
                 } else {
+
                     ElevatedCard(
                         onClick = { selection.onSearch() },
                         shape = RoundedCornerShape(32.dp),
@@ -76,11 +77,11 @@ fun NoteListTopAppBar(
                             Text(
                                 modifier = Modifier
                                     .padding(12.dp)
-                                    .alpha(0.9f),
+                                    .alpha(0.8f),
                                 text = stringResource(
                                     id = HellNotesStrings.Hint.Search,
                                 ),
-                                style = MaterialTheme.typography.titleLarge
+                                style = MaterialTheme.typography.titleMedium
                             )
                             Spacer(modifier = Modifier.weight(1f))
                             IconButton(

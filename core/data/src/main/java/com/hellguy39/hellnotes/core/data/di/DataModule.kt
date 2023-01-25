@@ -1,13 +1,7 @@
 package com.hellguy39.hellnotes.core.data.di
 
-import com.hellguy39.hellnotes.core.domain.repository.AppSettingsRepository
-import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.core.data.repository.AppSettingsRepositoryImpl
-import com.hellguy39.hellnotes.core.data.repository.LabelRepositoryImpl
-import com.hellguy39.hellnotes.core.data.repository.NoteRepositoryImpl
-import com.hellguy39.hellnotes.core.data.repository.ReminderRepositoryImpl
+import com.hellguy39.hellnotes.core.data.repository.*
+import com.hellguy39.hellnotes.core.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -36,5 +30,10 @@ interface DataModule {
     fun bindLabelRepository(
         i: LabelRepositoryImpl
     ): LabelRepository
+
+    @Binds
+    fun bindTrashRepository(
+        i: TrashRepositoryImpl
+    ): TrashRepository
 
 }

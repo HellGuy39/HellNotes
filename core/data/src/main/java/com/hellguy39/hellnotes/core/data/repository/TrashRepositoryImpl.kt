@@ -24,4 +24,8 @@ class TrashRepositoryImpl @Inject constructor(
     override suspend fun insertTrash(trash: Trash) {
         trashDao.insertTrash(trash.toTrashEntity())
     }
+
+    override suspend fun deleteAllTrash() {
+        trashDao.deleteAllTrash()
+    }
 }

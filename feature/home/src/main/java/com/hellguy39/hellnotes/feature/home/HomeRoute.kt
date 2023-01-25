@@ -10,102 +10,90 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.components.NoteSelection
 import com.hellguy39.hellnotes.core.ui.navigations.INavigations
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListScreen
+import com.hellguy39.hellnotes.feature.home.note_list.NoteListViewModel
 import com.hellguy39.hellnotes.feature.home.note_list.components.DrawerSheetContent
 import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurationSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.reminders.RemindersScreen
+import com.hellguy39.hellnotes.feature.home.reminders.RemindersViewModel
 import com.hellguy39.hellnotes.feature.home.reminders.components.ReminderTopAppBarSelection
+import com.hellguy39.hellnotes.feature.home.trash.TrashScreen
+import com.hellguy39.hellnotes.feature.home.trash.TrashViewModel
+import com.hellguy39.hellnotes.feature.home.trash.components.TrashDropdownMenuSelection
+import com.hellguy39.hellnotes.feature.home.trash.components.TrashTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
     navigations: INavigations,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    noteListViewModel: NoteListViewModel = hiltViewModel(),
+    trashViewModel: TrashViewModel = hiltViewModel(),
+    remindersViewModel: RemindersViewModel = hiltViewModel(),
+    dateHelper: DateHelper = homeViewModel.dateHelper
 ) {
-    val noteListUiState by homeViewModel.noteListUiState.collectAsStateWithLifecycle()
-    val remindersUiState by homeViewModel.remindersUiState.collectAsStateWithLifecycle()
+    val noteListUiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
+    val remindersUiState by remindersViewModel.uiState.collectAsStateWithLifecycle()
+    val trashUiState by trashViewModel.uiState.collectAsStateWithLifecycle()
 
-    val selectedNotes by homeViewModel.selectedNotes.collectAsStateWithLifecycle()
+    val listStyle by homeViewModel.listStyle.collectAsStateWithLifecycle()
     val labels by homeViewModel.labels.collectAsStateWithLifecycle()
+    val selectedDrawerItem by homeViewModel.drawerItem.collectAsStateWithLifecycle()
 
     val haptic = LocalHapticFeedback.current
-
-    val noteSelection = NoteSelection(
-        onClick = { note ->
-            if (selectedNotes.isEmpty()) {
-                navigations.navigateToNoteDetail(note.id ?: -1)
-            } else {
-                if (selectedNotes.contains(note)) {
-                    homeViewModel.unselectNote(note)
-                } else {
-                    homeViewModel.selectNote(note)
-                }
-            }
-        },
-        onLongClick = { note ->
-
-            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-
-            if (selectedNotes.contains(note)) {
-                homeViewModel.unselectNote(note)
-            } else {
-                homeViewModel.selectNote(note)
-            }
-
-        }
-    )
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val mainItemIcons = listOf(
-        painterResource(id = HellNotesIcons.StickyNote),
-        painterResource(id = HellNotesIcons.Notifications)
+    val selectableItems = listOf(
+        "Notes",
+        "Reminders",
+        "Archive",
+        "Trash"
     )
-
-    var selectedMainItem by remember { mutableStateOf(mainItemIcons[0]) }
 
     val mainItems = listOf(
         DrawerItem(
             title = "Notes",
-            icon = mainItemIcons[0],
-            onClick = {
+            icon = painterResource(id = HellNotesIcons.StickyNote),
+            onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
-                it.icon?.let { selectedMainItem = it }
+                homeViewModel.setDrawerItem(selectableItems.indexOf(drawerItem.title))
             }
         ),
         DrawerItem(
             title = "Reminders",
-            icon = mainItemIcons[1],
-            onClick = {
+            icon = painterResource(id = HellNotesIcons.Notifications),
+            onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
-                it.icon?.let { selectedMainItem = it }
+                homeViewModel.setDrawerItem(selectableItems.indexOf(drawerItem.title))
             }
-        )
-    )
-
-    val staticItems = listOf(
+        ),
         DrawerItem(
             title = "Archive",
             icon = painterResource(id = HellNotesIcons.Archive),
-            onClick = {
+            onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
-
+                homeViewModel.setDrawerItem(selectableItems.indexOf(drawerItem.title))
             }
         ),
         DrawerItem(
             title = "Trash",
             icon = painterResource(id = HellNotesIcons.Delete),
-            onClick = {
+            onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
-
+                homeViewModel.setDrawerItem(selectableItems.indexOf(drawerItem.title))
             }
         ),
+    )
+
+    val staticItems = listOf(
         DrawerItem(
             title = "Settings",
             icon = painterResource(id = HellNotesIcons.Settings),
@@ -139,60 +127,136 @@ fun HomeRoute(
         drawerState = drawerState,
         drawerContent = {
             DrawerSheetContent(
-                selectedItem = mainItems.find { it.icon == selectedMainItem },
+                selectedItem = mainItems[selectedDrawerItem],
                 mainItems = mainItems,
                 staticItems = staticItems,
                 labelItems = labelItems,
             )
         },
         content = {
-            Crossfade(targetState = selectedMainItem) {
-                if (it == mainItemIcons[0]) {
-                    NoteListScreen(
-                        onFabAddClick = { navigations.navigateToNoteDetail(-1) },
-                        noteListTopAppBarSelection = NoteListTopAppBarSelection(
-                            listStyle = noteListUiState.listStyle,
-                            onCancelSelection = {
-                                homeViewModel.cancelNoteSelection()
-                            },
-                            onNavigation = {
-                                scope.launch { drawerState.open() }
-                            },
-                            onDeleteSelected = {
-                                homeViewModel.deleteAllSelected()
-                            },
-                            onSearch = {
-                                navigations.navigateToSearch()
-                            },
-                            onChangeListStyle = {
-                                homeViewModel.updateListStyle()
-                            }
-                        ),
-                        noteListUiState = noteListUiState,
-                        selectedNotes = selectedNotes,
-                        noteSelection = noteSelection,
-                        listConfigurationSelection = ListConfigurationSelection(
-                            sorting = noteListUiState.sorting,
-                            onSortingSelected = { sorting ->
-                                homeViewModel.updateSorting(sorting)
-                            }
+            Crossfade(targetState = selectedDrawerItem) {
+                when(it) {
+                    0 -> {
+                        NoteListScreen(
+                            onFabAddClick = { navigations.navigateToNoteDetail(-1) },
+                            noteListTopAppBarSelection = NoteListTopAppBarSelection(
+                                listStyle = listStyle,
+                                onCancelSelection = {
+                                    noteListViewModel.cancelNoteSelection()
+                                },
+                                onNavigation = {
+                                    scope.launch { drawerState.open() }
+                                },
+                                onDeleteSelected = {
+                                    noteListViewModel.deleteAllSelected()
+                                },
+                                onSearch = {
+                                    navigations.navigateToSearch()
+                                },
+                                onChangeListStyle = {
+                                    homeViewModel.updateListStyle()
+                                }
+                            ),
+                            uiState = noteListUiState,
+                            noteSelection = NoteSelection(
+                                dateHelper = dateHelper,
+                                onClick = { note ->
+                                    if (noteListUiState.selectedNotes.isEmpty()) {
+                                        navigations.navigateToNoteDetail(note.id ?: -1)
+                                    } else {
+                                        if (noteListUiState.selectedNotes.contains(note)) {
+                                            noteListViewModel.unselectNote(note)
+                                        } else {
+                                            noteListViewModel.selectNote(note)
+                                        }
+                                    }
+                                },
+                                onLongClick = { note ->
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    if (noteListUiState.selectedNotes.contains(note)) {
+                                        noteListViewModel.unselectNote(note)
+                                    } else {
+                                        noteListViewModel.selectNote(note)
+                                    }
+                                }
+                            ),
+                            listConfigurationSelection = ListConfigurationSelection(
+                                sorting = noteListUiState.sorting,
+                                onSortingSelected = { sorting ->
+                                    noteListViewModel.updateSorting(sorting)
+                                }
+                            ),
                         )
-                    )
-                } else {
-                    RemindersScreen(
-                        remindersUiState = remindersUiState,
-                        noteSelection = noteSelection,
-                        selectedNotes = selectedNotes,
-                        reminderTopAppBarSelection = ReminderTopAppBarSelection(
-                            listStyle = remindersUiState.listStyle,
-                            onNavigation = {
-                                scope.launch { drawerState.open() }
-                            },
-                            onChangeListStyle = {
-                                homeViewModel.updateListStyle()
-                            }
+                    }
+                    1 -> {
+                        RemindersScreen(
+                            uiState = remindersUiState,
+                            noteSelection = NoteSelection(
+                                dateHelper = dateHelper,
+                                onClick = { note ->
+                                    if (remindersUiState.selectedNotes.isEmpty()) {
+                                        navigations.navigateToNoteDetail(note.id ?: -1)
+                                    } else {
+                                        if (remindersUiState.selectedNotes.contains(note)) {
+                                            remindersViewModel.unselectNote(note)
+                                        } else {
+                                            remindersViewModel.selectNote(note)
+                                        }
+                                    }
+                                },
+                                onLongClick = { note ->
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    if (remindersUiState.selectedNotes.contains(note)) {
+                                        remindersViewModel.unselectNote(note)
+                                    } else {
+                                        remindersViewModel.selectNote(note)
+                                    }
+                                }
+                            ),
+                            reminderTopAppBarSelection = ReminderTopAppBarSelection(
+                                listStyle = listStyle,
+                                selectedNotes = remindersUiState.selectedNotes,
+                                onNavigation = {
+                                    scope.launch { drawerState.open() }
+                                },
+                                onChangeListStyle = {
+                                    homeViewModel.updateListStyle()
+                                },
+                                onDeleteSelected = {
+                                    remindersViewModel.deleteAllSelected()
+                                },
+                                onCancelSelection = {
+                                    remindersViewModel.cancelNoteSelection()
+                                }
+                            ),
                         )
-                    )
+                    }
+                    2 -> {
+
+                    }
+                    3 -> {
+                        TrashScreen(
+                            uiState = trashUiState,
+                            trashTopAppBarSelection = TrashTopAppBarSelection(
+                                onNavigation = {
+                                    scope.launch { drawerState.open() }
+                                }
+                            ),
+                            noteSelection = NoteSelection(
+                                dateHelper = dateHelper,
+                                onClick = { note -> },
+                                onLongClick = { note ->
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                }
+                            ),
+                            trashDropdownMenuSelection = TrashDropdownMenuSelection(
+                                onEmptyTrash = {
+                                    trashViewModel.emptyTrash()
+                                }
+                            ),
+                            listStyle = listStyle
+                        )
+                    }
                 }
             }
         }

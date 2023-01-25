@@ -48,7 +48,7 @@ fun AboutAppScreenContent(
                 label = {
                     Text(
                         text = ProjectInfoProvider.appConfig.versionName,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.labelLarge,
                         textAlign = TextAlign.Center
                     )
                 },
@@ -61,7 +61,7 @@ fun AboutAppScreenContent(
                 .fillMaxWidth(),
         ) {
             Text(
-                text = "HellGuy39\n© 2022",
+                text = "HellGuy39\n© 2023",
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()

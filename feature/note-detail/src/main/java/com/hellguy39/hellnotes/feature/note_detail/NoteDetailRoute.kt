@@ -26,6 +26,7 @@ fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
     alarmScheduler: AlarmScheduler = noteDetailViewModel.alarmScheduler,
+    dateHelper: DateHelper = noteDetailViewModel.dateHelper
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -85,7 +86,7 @@ fun NoteDetailRoute(
     val reminderDialogSelection = ReminderDialogSelection(
         note = uiState.note,
         onCreateRemind = { remind ->
-            if(remind.triggerDate > DateHelper(context).getCurrentTimeInEpochMilli()) {
+            if(remind.triggerDate > dateHelper.getCurrentTimeInEpochMilli()) {
                 noteDetailViewModel.insertRemind(remind)
                 alarmScheduler.scheduleAlarm(remind)
             } else {
@@ -108,7 +109,8 @@ fun NoteDetailRoute(
 
     ReminderDialog(
         state = reminderDialogState,
-        selection = reminderDialogSelection
+        selection = reminderDialogSelection,
+        dateHelper = dateHelper
     )
 
     BackHandler(
@@ -161,6 +163,7 @@ fun NoteDetailRoute(
             onColorSelected = { colorHex ->
                 //noteDetailViewModel.onUpdateNoteBackground(colorHex)
             }
-        )
+        ),
+        dateHelper = dateHelper
     )
 }
