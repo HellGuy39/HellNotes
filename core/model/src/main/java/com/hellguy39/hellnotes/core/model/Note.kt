@@ -7,6 +7,7 @@ data class Note(
     val title: String = "",
     val note: String = "",
     val lastEditDate: Long = 0,
+    val isArchived: Boolean = false,
     val isPinned: Boolean = false,
     val colorHex: Long = ColorParam.DefaultColor,
     val labelIds: List<Long> = listOf()

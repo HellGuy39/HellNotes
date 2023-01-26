@@ -23,6 +23,8 @@ class NoteListViewModel @Inject constructor(
 
     private val noteListViewModelState = MutableStateFlow(NoteListViewModelState())
 
+    private val lastDeletedNotes = MutableStateFlow(listOf<Note>())
+
     val uiState = noteListViewModelState
         .map(NoteListViewModelState::toUiState)
         .stateIn(
@@ -37,7 +39,6 @@ class NoteListViewModel @Inject constructor(
             noteListViewModelState.update {
                 it.copy(
                     sorting = appSettingsRepository.getListSort(),
-                    //listStyle = appSettingsRepository.getListStyle()
                 )
             }
 
@@ -59,9 +60,11 @@ class NoteListViewModel @Inject constructor(
         }
 
     }
-
     fun deleteAllSelected() = viewModelScope.launch {
         noteListViewModelState.value.selectedNotes.let { notes ->
+
+            lastDeletedNotes.update { notes }
+
             notes.forEach { note ->
                 note.id?.let { id ->
                     noteRepository.deleteNoteById(id)
@@ -77,7 +80,22 @@ class NoteListViewModel @Inject constructor(
                 }
             }
         }
+
         cancelNoteSelection()
+    }
+
+    fun undoDelete() {
+        viewModelScope.launch {
+            lastDeletedNotes.value.let { notes ->
+                notes.forEach { note ->
+                    if (note.isNoteValid()) {
+                        trashRepository.deleteTrashByNote(note)
+                    }
+                    noteRepository.insertNote(note)
+                }
+            }
+            lastDeletedNotes.update { listOf() }
+        }
     }
 
     fun updateSorting(sorting: Sorting) = viewModelScope.launch {
@@ -121,6 +139,7 @@ private data class NoteListViewModelState(
     val selectedNotes: List<Note> = listOf()
 ) {
     fun toUiState(): NoteListUiState {
+
         val sortedNotes = when(sorting) {
             is Sorting.DateOfCreation -> {
                 notes.sortedByDescending { it.id }
@@ -128,7 +147,9 @@ private data class NoteListViewModelState(
             is Sorting.DateOfLastEdit -> {
                 notes.sortedByDescending { it.lastEditDate }
             }
-        }.map { note ->
+        }
+        .filter { !it.isArchived }
+        .map { note ->
             note.toNoteDetailWrapper(
                 reminders = reminders,
                 labels = labels

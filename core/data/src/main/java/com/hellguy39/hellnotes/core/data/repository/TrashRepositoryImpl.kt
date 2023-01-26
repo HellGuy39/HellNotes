@@ -5,6 +5,7 @@ import com.hellguy39.hellnotes.core.database.entity.TrashEntity
 import com.hellguy39.hellnotes.core.database.mapper.toTrash
 import com.hellguy39.hellnotes.core.database.mapper.toTrashEntity
 import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
+import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.Trash
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,6 +20,10 @@ class TrashRepositoryImpl @Inject constructor(
 
     override suspend fun deleteTrash(trash: Trash) {
         trashDao.deleteTrash(trash.toTrashEntity())
+    }
+
+    override suspend fun deleteTrashByNote(note: Note) {
+        trashDao.deleteTrashByNote(note)
     }
 
     override suspend fun insertTrash(trash: Trash) {

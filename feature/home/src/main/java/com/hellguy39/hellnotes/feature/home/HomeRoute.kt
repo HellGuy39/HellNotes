@@ -1,9 +1,7 @@
 package com.hellguy39.hellnotes.feature.home
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -14,6 +12,9 @@ import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.components.NoteSelection
 import com.hellguy39.hellnotes.core.ui.navigations.INavigations
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
+import com.hellguy39.hellnotes.feature.home.archive.ArchiveViewModel
+import com.hellguy39.hellnotes.feature.home.archive.components.ArchiveTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListScreen
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListViewModel
 import com.hellguy39.hellnotes.feature.home.note_list.components.DrawerSheetContent
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 fun HomeRoute(
     navigations: INavigations,
     homeViewModel: HomeViewModel = hiltViewModel(),
+    archiveViewModel: ArchiveViewModel = hiltViewModel(),
     noteListViewModel: NoteListViewModel = hiltViewModel(),
     trashViewModel: TrashViewModel = hiltViewModel(),
     remindersViewModel: RemindersViewModel = hiltViewModel(),
@@ -40,6 +42,7 @@ fun HomeRoute(
 ) {
     val noteListUiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
     val remindersUiState by remindersViewModel.uiState.collectAsStateWithLifecycle()
+    val archiveUiState by archiveViewModel.uiState.collectAsStateWithLifecycle()
     val trashUiState by trashViewModel.uiState.collectAsStateWithLifecycle()
 
     val listStyle by homeViewModel.listStyle.collectAsStateWithLifecycle()
@@ -48,6 +51,8 @@ fun HomeRoute(
 
     val haptic = LocalHapticFeedback.current
 
+    val snackbarHostState = remember { SnackbarHostState() }
+    
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -149,6 +154,20 @@ fun HomeRoute(
                                 },
                                 onDeleteSelected = {
                                     noteListViewModel.deleteAllSelected()
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            "Note(s) moved to trash",
+                                            actionLabel = "Undo",
+                                            duration = SnackbarDuration.Long,
+                                        ).let { result ->
+                                            when(result) {
+                                                SnackbarResult.ActionPerformed -> {
+                                                    noteListViewModel.undoDelete()
+                                                }
+                                                else -> Unit
+                                            }
+                                        }
+                                    }
                                 },
                                 onSearch = {
                                     navigations.navigateToSearch()
@@ -186,6 +205,7 @@ fun HomeRoute(
                                     noteListViewModel.updateSorting(sorting)
                                 }
                             ),
+                            snackbarHostState = snackbarHostState
                         )
                     }
                     1 -> {
@@ -232,7 +252,47 @@ fun HomeRoute(
                         )
                     }
                     2 -> {
-
+                        ArchiveScreen(
+                            uiState = archiveUiState,
+                            listStyle = listStyle,
+                            noteSelection = NoteSelection(
+                                dateHelper = dateHelper,
+                                onClick = { note ->
+                                    if (archiveUiState.selectedNotes.isEmpty()) {
+                                        navigations.navigateToNoteDetail(note.id ?: -1)
+                                    } else {
+                                        if (archiveUiState.selectedNotes.contains(note)) {
+                                            archiveViewModel.unselectNote(note)
+                                        } else {
+                                            archiveViewModel.selectNote(note)
+                                        }
+                                    }
+                                },
+                                onLongClick = { note ->
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    if (archiveUiState.selectedNotes.contains(note)) {
+                                        archiveViewModel.unselectNote(note)
+                                    } else {
+                                        archiveViewModel.selectNote(note)
+                                    }
+                                }
+                            ),
+                            archiveTopAppBarSelection = ArchiveTopAppBarSelection(
+                                selectedNotes = archiveUiState.selectedNotes,
+                                onCancelSelection = {
+                                    archiveViewModel.cancelNoteSelection()
+                                },
+                                onDeleteSelected = {
+                                    archiveViewModel.deleteAllSelected()
+                                },
+                                onNavigation = {
+                                    scope.launch { drawerState.open() }
+                                },
+                                onArchiveSelected = {
+                                    archiveViewModel.archiveAllSelected()
+                                }
+                            )
+                        )
                     }
                     3 -> {
                         TrashScreen(

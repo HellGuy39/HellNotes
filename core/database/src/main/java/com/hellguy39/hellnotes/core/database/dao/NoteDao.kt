@@ -47,4 +47,7 @@ interface NoteDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateNote(noteEntity: NoteEntity)
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateNotes(noteEntities: List<NoteEntity>)
+
 }

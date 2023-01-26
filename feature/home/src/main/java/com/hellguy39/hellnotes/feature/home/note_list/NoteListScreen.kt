@@ -1,12 +1,15 @@
 package com.hellguy39.hellnotes.feature.home.note_list
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -24,6 +27,7 @@ fun NoteListScreen(
     listConfigurationSelection: ListConfigurationSelection,
     uiState: NoteListUiState,
     noteSelection: NoteSelection,
+    snackbarHostState: SnackbarHostState
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -94,5 +98,33 @@ fun NoteListScreen(
                 )
             }
         },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState) { data ->
+                Snackbar(
+                    modifier = Modifier.padding(12.dp),
+                    action = {
+                        TextButton(
+                            onClick = {
+                                data.performAction()
+                            },
+                        ) {
+                            Text(
+                                text = data.visuals.actionLabel ?: "",
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = MaterialTheme.colorScheme.inversePrimary
+                                )
+                            )
+                        }
+                    },
+                ) {
+                    Text(
+                        text = data.visuals.message,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
     )
 }

@@ -17,6 +17,7 @@ fun NoteDetailScreen(
     snackbarHostState: SnackbarHostState,
     noteDetailContentSelection: NoteDetailContentSelection,
     noteDetailDropdownMenuSelection: NoteDetailDropdownMenuSelection,
+    uiState: NoteDetailUiState,
     noteDetailTopAppBarSelection: NoteDetailTopAppBarSelection,
     dateHelper: DateHelper
 ) {
@@ -25,9 +26,9 @@ fun NoteDetailScreen(
 
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(key1 = Unit) {
-        noteDetailContentSelection.note.let { note ->
-            if(!note.isNoteValid()) {
+    LaunchedEffect(key1 = uiState.isLoading) {
+        uiState.let {
+            if (!uiState.note.isNoteValid() && !uiState.isLoading) {
                 focusRequester.requestFocus()
             }
         }
@@ -42,7 +43,8 @@ fun NoteDetailScreen(
                 innerPadding = innerPadding,
                 selection = noteDetailContentSelection,
                 dateHelper = dateHelper,
-                focusRequester = focusRequester
+                focusRequester = focusRequester,
+                uiState = uiState
             )
         },
         topBar = {

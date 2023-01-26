@@ -14,6 +14,7 @@ data class NoteEntity(
     val note: String,
     val lastEditDate: Long,
     val isPinned: Boolean,
+    val isArchived: Boolean,
     val colorHex: Long,
     val labelIds: List<Long>
 )

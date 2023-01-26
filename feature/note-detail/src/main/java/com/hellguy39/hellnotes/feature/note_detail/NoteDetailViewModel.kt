@@ -31,7 +31,7 @@ class NoteDetailViewModel @Inject constructor(
     val dateHelper: DateHelper
 ): ViewModel() {
 
-    private val noteViewModelState = MutableStateFlow(NoteDetailViewModelState())
+    private val noteViewModelState = MutableStateFlow(NoteDetailViewModelState(isLoading = true))
 
     val uiState = noteViewModelState
         .map(NoteDetailViewModelState::toUiState)
@@ -48,8 +48,8 @@ class NoteDetailViewModel @Inject constructor(
                 if(id != NEW_NOTE_ID) {
                     id
                 } else {
-                    withContext(Dispatchers.Default) {
-                        createNote()
+                    withContext(Dispatchers.IO) {
+                        noteRepository.insertNote(Note())
                     }
                 }
             } ?: return@launch
@@ -57,7 +57,7 @@ class NoteDetailViewModel @Inject constructor(
             launch {
                 noteRepository.getNoteById(noteId).let { note ->
                     noteViewModelState.update { state ->
-                        state.copy(note = note)
+                        state.copy(note = note, isLoading = false)
                     }
                 }
             }
@@ -121,18 +121,22 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     fun onUpdateIsPinned(isPinned: Boolean) = viewModelScope.launch {
-
         noteViewModelState.update { state ->
-
-            val updatedNote = state.note.copy(
-                isPinned = isPinned
-            )
-
             state.copy(
-                note =  updatedNote
+                note = state.note.copy(isPinned = isPinned)
             )
         }
+        saveNote()
+    }
 
+    fun onUpdateIsArchived(isArchived: Boolean) {
+        viewModelScope.launch {
+            noteViewModelState.update { state ->
+                state.copy(
+                    note = state.note.copy(isArchived = isArchived)
+                )
+            }
+        }
         saveNote()
     }
 
@@ -228,29 +232,28 @@ class NoteDetailViewModel @Inject constructor(
         )
     }
 
-    private suspend fun createNote(): Long {
-        return noteRepository.insertNote(Note())
-    }
-
 }
 
 private data class NoteDetailViewModelState(
     val note: Note = Note(),
     val allLabels: List<Label> = listOf(),
     val noteReminders: List<Remind> = listOf(),
-    val labelSearch: String = ""
+    val labelSearch: String = "",
+    val isLoading: Boolean = true
 ) {
     fun toUiState() = NoteDetailUiState(
         note = note,
         noteLabels = allLabels.filter { note.labelIds.contains(it.id) },
         searchedLabels = allLabels.filter { it.name.contains(labelSearch) },
         noteReminders = noteReminders,
-        labelSearch = labelSearch
+        labelSearch = labelSearch,
+        isLoading = isLoading
     )
 }
 
 data class NoteDetailUiState(
     val note: Note,
+    val isLoading: Boolean,
     val noteLabels: List<Label>,
     val searchedLabels: List<Label>,
     val noteReminders: List<Remind>,
