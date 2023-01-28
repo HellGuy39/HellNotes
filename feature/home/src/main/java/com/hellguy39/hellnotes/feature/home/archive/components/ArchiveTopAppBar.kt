@@ -31,7 +31,7 @@ fun ArchiveTopAppBar(
                     )
                 } else {
                     Text(
-                        "Archive",//stringResource(id ),
+                        stringResource(id = HellNotesStrings.Title.Archive),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge

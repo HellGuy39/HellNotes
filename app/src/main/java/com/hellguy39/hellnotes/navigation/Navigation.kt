@@ -44,8 +44,6 @@ fun Navigation(
 
         searchScreen(navController, Navigations(navController))
 
-        //remindersScreen(navController)
-
         settingsScreen(navController)
 
         aboutAppScreen(navController)
@@ -83,10 +81,6 @@ class Navigations(private val navController: NavController) : INavigations {
     override fun navigateToSearch() {
         navController.navigateToSearch()
     }
-
-    override fun navigateToReminders() {
-        //navController.navigateToReminders()
-    }
 }
 
 fun NavController.navigateToNoteDetail(noteId: Long?, navOptions: NavOptions? = null) {
@@ -123,10 +117,3 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
         navOptions = navOptions
     )
 }
-
-//fun NavController.navigateToReminders(navOptions: NavOptions? = null) {
-//    navigate(
-//        route = remindersNavigationRoute,
-//        navOptions = navOptions
-//    )
-//}

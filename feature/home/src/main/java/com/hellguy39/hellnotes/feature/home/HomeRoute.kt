@@ -6,12 +6,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.components.NoteSelection
 import com.hellguy39.hellnotes.core.ui.navigations.INavigations
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveViewModel
 import com.hellguy39.hellnotes.feature.home.archive.components.ArchiveTopAppBarSelection
@@ -57,15 +59,15 @@ fun HomeRoute(
     val scope = rememberCoroutineScope()
 
     val selectableItems = listOf(
-        "Notes",
-        "Reminders",
-        "Archive",
-        "Trash"
+        stringResource(id = HellNotesStrings.Title.Notes),
+        stringResource(id = HellNotesStrings.Title.Reminders),
+        stringResource(id = HellNotesStrings.Title.Archive),
+        stringResource(id = HellNotesStrings.Title.Trash)
     )
 
     val mainItems = listOf(
         DrawerItem(
-            title = "Notes",
+            title = stringResource(id = HellNotesStrings.Title.Reminders),
             icon = painterResource(id = HellNotesIcons.StickyNote),
             onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
@@ -73,7 +75,7 @@ fun HomeRoute(
             }
         ),
         DrawerItem(
-            title = "Reminders",
+            title = stringResource(id = HellNotesStrings.Title.Reminders),
             icon = painterResource(id = HellNotesIcons.Notifications),
             onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
@@ -81,7 +83,7 @@ fun HomeRoute(
             }
         ),
         DrawerItem(
-            title = "Archive",
+            title = stringResource(id = HellNotesStrings.Title.Archive),
             icon = painterResource(id = HellNotesIcons.Archive),
             onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
@@ -89,7 +91,7 @@ fun HomeRoute(
             }
         ),
         DrawerItem(
-            title = "Trash",
+            title = stringResource(id = HellNotesStrings.Title.Trash),
             icon = painterResource(id = HellNotesIcons.Delete),
             onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
@@ -100,7 +102,7 @@ fun HomeRoute(
 
     val staticItems = listOf(
         DrawerItem(
-            title = "Settings",
+            title = stringResource(id = HellNotesStrings.Title.Settings),
             icon = painterResource(id = HellNotesIcons.Settings),
             onClick = {
                 scope.launch { drawerState.close() }
@@ -108,7 +110,7 @@ fun HomeRoute(
             }
         ),
         DrawerItem(
-            title = "About app",
+            title = stringResource(id = HellNotesStrings.Title.AboutApp),
             icon = painterResource(id = HellNotesIcons.Info),
             onClick = {
                 scope.launch { drawerState.close() }
@@ -142,6 +144,10 @@ fun HomeRoute(
             Crossfade(targetState = selectedDrawerItem) {
                 when(it) {
                     0 -> {
+                        val actionLabel = stringResource(id = HellNotesStrings.Button.Undo)
+                        val noteMovedToTrash = stringResource(id = HellNotesStrings.Text.NoteMovedToTrash)
+                        val notesMovedToTrash = stringResource(id = HellNotesStrings.Text.NotesMovedToTrash)
+
                         NoteListScreen(
                             onFabAddClick = { navigations.navigateToNoteDetail(-1) },
                             noteListTopAppBarSelection = NoteListTopAppBarSelection(
@@ -153,11 +159,16 @@ fun HomeRoute(
                                     scope.launch { drawerState.open() }
                                 },
                                 onDeleteSelected = {
+                                    val isSingleNote = noteListUiState.selectedNotes.size == 1
+
                                     noteListViewModel.deleteAllSelected()
                                     scope.launch {
                                         snackbarHostState.showSnackbar(
-                                            "Note(s) moved to trash",
-                                            actionLabel = "Undo",
+                                            if(isSingleNote)
+                                                noteMovedToTrash
+                                            else
+                                                notesMovedToTrash,
+                                            actionLabel = actionLabel,
                                             duration = SnackbarDuration.Long,
                                         ).let { result ->
                                             when(result) {

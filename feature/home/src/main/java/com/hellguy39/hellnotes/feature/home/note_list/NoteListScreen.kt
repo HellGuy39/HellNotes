@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.home.note_list
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
@@ -19,7 +21,7 @@ import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurati
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBar
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun NoteListScreen(
     onFabAddClick:() -> Unit,
@@ -55,36 +57,38 @@ fun NoteListScreen(
                 return@Scaffold
             }
 
-            when(noteListTopAppBarSelection.listStyle) {
-                ListStyle.Column -> {
-                    NoteColumnList(
-                        innerPadding = innerPadding,
-                        noteSelection = noteSelection,
-                        pinnedNotes = uiState.pinnedNotes,
-                        unpinnedNotes = uiState.unpinnedNotes,
-                        selectedNotes = uiState.selectedNotes,
-                        listHeader = {
-                            ListConfiguration(
-                                selection = listConfigurationSelection,
-                                menuState = sortingMenuState
-                            )
-                        }
-                    )
-                }
-                ListStyle.Grid -> {
-                    NoteGridList(
-                        innerPadding = innerPadding,
-                        noteSelection = noteSelection,
-                        pinnedNotes = uiState.pinnedNotes,
-                        unpinnedNotes = uiState.unpinnedNotes,
-                        selectedNotes = uiState.selectedNotes,
-                        listHeader = {
-                            ListConfiguration(
-                                selection = listConfigurationSelection,
-                                menuState = sortingMenuState
-                            )
-                        }
-                    )
+            AnimatedContent(noteListTopAppBarSelection.listStyle) { listStyle ->
+                when(listStyle) {
+                    ListStyle.Column -> {
+                        NoteColumnList(
+                            innerPadding = innerPadding,
+                            noteSelection = noteSelection,
+                            pinnedNotes = uiState.pinnedNotes,
+                            unpinnedNotes = uiState.unpinnedNotes,
+                            selectedNotes = uiState.selectedNotes,
+                            listHeader = {
+                                ListConfiguration(
+                                    selection = listConfigurationSelection,
+                                    menuState = sortingMenuState
+                                )
+                            }
+                        )
+                    }
+                    ListStyle.Grid -> {
+                        NoteGridList(
+                            innerPadding = innerPadding,
+                            noteSelection = noteSelection,
+                            pinnedNotes = uiState.pinnedNotes,
+                            unpinnedNotes = uiState.unpinnedNotes,
+                            selectedNotes = uiState.selectedNotes,
+                            listHeader = {
+                                ListConfiguration(
+                                    selection = listConfigurationSelection,
+                                    menuState = sortingMenuState
+                                )
+                            }
+                        )
+                    }
                 }
             }
         },

@@ -72,7 +72,7 @@ fun DrawerSheetContent(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Labels",
+                            text = stringResource(id = HellNotesStrings.Label.Labels),
                             style = MaterialTheme.typography.labelMedium,
                             modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
                         )

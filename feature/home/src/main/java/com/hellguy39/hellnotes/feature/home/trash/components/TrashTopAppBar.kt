@@ -40,7 +40,7 @@ fun TrashTopAppBar(
                     )
                 } else {
                     Text(
-                        text = "Trash",
+                        text = stringResource(id = HellNotesStrings.Title.Trash),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge
@@ -117,7 +117,7 @@ fun TrashDropdownMenu(
         onDismissRequest = { state.dismiss() }
     ) {
         CustomDropdownItem(
-            text = "Empty trash",
+            text = stringResource(id = HellNotesStrings.MenuItem.EmptyTrash),
             onClick = {
                 state.dismiss()
                 selection.onEmptyTrash()
