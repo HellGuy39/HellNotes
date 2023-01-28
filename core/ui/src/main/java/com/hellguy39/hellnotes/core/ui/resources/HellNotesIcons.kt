@@ -29,6 +29,7 @@ object HellNotesIcons {
     val Alarm = R.drawable.ic_alarm_24
     val Cancel = R.drawable.ic_cancel_24
     val NewLabel = R.drawable.ic_new_label_24
+    val RestoreFromTrash = R.drawable.ic_restore_from_trash_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24

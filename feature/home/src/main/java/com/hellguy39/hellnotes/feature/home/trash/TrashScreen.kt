@@ -53,22 +53,14 @@ fun TrashScreen(
                 return@Scaffold
             }
 
-            val notes = uiState.trashNotes.map {
-                NoteDetailWrapper(
-                    note = it.note,
-                    labels = listOf(),
-                    reminders = listOf()
-                )
-            }
-
             when (listStyle) {
                 ListStyle.Column -> {
                     NoteColumnList(
                         innerPadding = paddingValues,
                         noteSelection = noteSelection,
                         pinnedNotes = listOf(),
-                        unpinnedNotes = notes,
-                        selectedNotes = listOf(),
+                        unpinnedNotes = uiState.trashNotes,
+                        selectedNotes = uiState.selectedNotes,
                     )
                 }
                 ListStyle.Grid -> {
@@ -76,8 +68,8 @@ fun TrashScreen(
                         innerPadding = paddingValues,
                         noteSelection = noteSelection,
                         pinnedNotes = listOf(),
-                        unpinnedNotes = notes,
-                        selectedNotes = listOf(),
+                        unpinnedNotes = uiState.trashNotes,
+                        selectedNotes = uiState.selectedNotes,
                     )
                 }
             }

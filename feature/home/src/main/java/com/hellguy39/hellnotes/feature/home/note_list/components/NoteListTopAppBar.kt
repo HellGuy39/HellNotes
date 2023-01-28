@@ -102,6 +102,14 @@ fun NoteListTopAppBar(
             actions = {
                 if (targetState) {
                     IconButton(
+                        onClick = { selection.onArchive() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Archive),
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
                         onClick = { selection.onDeleteSelected() }
                     ) {
                         Icon(
@@ -121,6 +129,7 @@ data class NoteListTopAppBarSelection(
     val listStyle: ListStyle,
     val onCancelSelection: () -> Unit,
     val onDeleteSelected: () -> Unit,
+    val onArchive: () -> Unit,
     val onSearch: () -> Unit,
     val onNavigation: () -> Unit,
     val onChangeListStyle: () -> Unit

@@ -174,6 +174,9 @@ fun HomeRoute(
                                 },
                                 onChangeListStyle = {
                                     homeViewModel.updateListStyle()
+                                },
+                                onArchive = {
+                                    noteListViewModel.archiveAllSelected()
                                 }
                             ),
                             uiState = noteListUiState,
@@ -300,13 +303,36 @@ fun HomeRoute(
                             trashTopAppBarSelection = TrashTopAppBarSelection(
                                 onNavigation = {
                                     scope.launch { drawerState.open() }
+                                },
+                                selectedNotes = trashUiState.selectedNotes,
+                                onCancelSelection = {
+                                    trashViewModel.cancelNoteSelection()
+                                },
+                                onRestoreSelected = {
+                                    trashViewModel.restoreSelectedNotes()
                                 }
                             ),
                             noteSelection = NoteSelection(
                                 dateHelper = dateHelper,
-                                onClick = { note -> },
+                                onClick = { note ->
+                                    if (trashUiState.selectedNotes.isEmpty()) {
+                                        navigations.navigateToNoteDetail(note.id ?: -1)
+                                    } else {
+                                        if (trashUiState.selectedNotes.contains(note)) {
+                                            trashViewModel.unselectNote(note)
+                                        } else {
+                                            trashViewModel.selectNote(note)
+                                        }
+                                    }
+                                },
                                 onLongClick = { note ->
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+
+                                    if (trashUiState.selectedNotes.contains(note)) {
+                                        trashViewModel.unselectNote(note)
+                                    } else {
+                                        trashViewModel.selectNote(note)
+                                    }
                                 }
                             ),
                             trashDropdownMenuSelection = TrashDropdownMenuSelection(

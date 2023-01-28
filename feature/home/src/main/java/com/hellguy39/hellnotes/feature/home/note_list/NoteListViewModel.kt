@@ -129,6 +129,21 @@ class NoteListViewModel @Inject constructor(
         }
     }
 
+    fun archiveAllSelected() {
+        viewModelScope.launch {
+            noteRepository.updateNotes(
+                noteListViewModelState.value.selectedNotes.map {
+                    it.copy(
+                        isArchived = true
+                    )
+                }
+            )
+
+            noteListViewModelState.update { it.copy(selectedNotes = listOf()) }
+        }
+    }
+
+
 }
 
 private data class NoteListViewModelState(

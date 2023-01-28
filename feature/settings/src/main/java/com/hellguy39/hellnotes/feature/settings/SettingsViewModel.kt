@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.domain.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import com.hellguy39.hellnotes.core.model.AppSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
-    private val biometricAuth: BiometricAuthenticator
+    private val biometricAuth: BiometricAuthenticator,
+    val languageHolder: LanguageHolder
 ): ViewModel() {
 
     private val _appSettings: MutableStateFlow<AppSettings> = MutableStateFlow(AppSettings())

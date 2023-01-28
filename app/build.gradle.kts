@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -21,6 +23,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        archivesName.set("HellNotes v$versionName")
     }
 
     buildTypes {

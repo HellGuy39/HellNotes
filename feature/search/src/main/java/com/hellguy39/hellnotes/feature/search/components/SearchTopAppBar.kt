@@ -52,7 +52,8 @@ fun SearchTopAppBar(
                     BasicTextField(
                         value = query,
                         onValueChange =  { newText -> onQueryChanged(newText) },
-                        modifier = Modifier.focusRequester(focusRequester),
+                        modifier = Modifier.focusRequester(focusRequester)
+                            .fillMaxWidth(),
                         textStyle = MaterialTheme.typography.titleMedium.copy(
                             color = MaterialTheme.colorScheme.onSurface
                         ),

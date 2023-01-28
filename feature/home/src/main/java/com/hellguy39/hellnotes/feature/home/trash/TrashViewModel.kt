@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
+import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.Trash
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,30 +18,38 @@ class TrashViewModel @Inject constructor(
     private val trashRepository: TrashRepository
 ): ViewModel() {
 
-    val uiState = trashRepository.getAllTrashStream()
-        .map {
-            TrashUiState(
-                trashNotes = it.sortedByDescending { trash -> trash.dateOfAdding },
-            )
-        }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            TrashUiState(
-                trashNotes = listOf()
-            )
-        )
+    private val trashViewModelState = MutableStateFlow(TrashViewModelState())
 
-
-    fun restoreNote(trash: Trash) {
+    init {
         viewModelScope.launch {
-            trashRepository.deleteTrash(trash)
-            noteRepository.insertNote(trash.note)
+            launch {
+                trashRepository.getAllTrashStream().collect { trashNotes ->
+                    trashViewModelState.update {
+                        it.copy(trashNotes = trashNotes)
+                    }
+                }
+            }
         }
     }
 
-    fun restoreSelectedNotes() {
+    val uiState = trashViewModelState
+        .map(TrashViewModelState::toUiState)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            trashViewModelState.value.toUiState()
+        )
 
+    fun restoreSelectedNotes() {
+        viewModelScope.launch {
+            trashViewModelState.value.selectedNotes.forEach { note ->
+                trashRepository.deleteTrashByNote(note)
+                noteRepository.insertNote(note)
+            }
+            trashViewModelState.update {
+                it.copy(selectedNotes = listOf())
+            }
+        }
     }
 
     fun emptyTrash() {
@@ -50,8 +58,49 @@ class TrashViewModel @Inject constructor(
         }
     }
 
+    fun selectNote(note: Note){
+        viewModelScope.launch {
+            trashViewModelState.update {
+                it.copy(selectedNotes = it.selectedNotes.plus(note))
+            }
+        }
+    }
+
+    fun unselectNote(note: Note) {
+        viewModelScope.launch {
+            trashViewModelState.update {
+                it.copy(selectedNotes = it.selectedNotes.minus(note))
+            }
+        }
+    }
+
+    fun cancelNoteSelection() {
+        viewModelScope.launch {
+            trashViewModelState.update {
+                it.copy(selectedNotes = listOf())
+            }
+        }
+    }
+
+}
+
+private data class TrashViewModelState(
+    val trashNotes: List<Trash> = listOf(),
+    val selectedNotes: List<Note> = listOf()
+) {
+    fun toUiState() = TrashUiState(
+        trashNotes = trashNotes.map {
+            NoteDetailWrapper(
+                note = it.note,
+                labels = listOf(),
+                reminders = listOf()
+            )
+        },
+        selectedNotes = selectedNotes,
+    )
 }
 
 data class TrashUiState(
-    val trashNotes: List<Trash>
+    val trashNotes: List<NoteDetailWrapper>,
+    val selectedNotes: List<Note>
 )
