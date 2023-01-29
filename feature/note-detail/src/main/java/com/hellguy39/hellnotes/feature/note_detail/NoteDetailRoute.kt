@@ -133,7 +133,7 @@ fun NoteDetailRoute(
             }
         ),
         noteDetailDropdownMenuSelection = NoteDetailDropdownMenuSelection(
-            onColor = {},
+            onColor = {  },
             onLabels = {
                 labelDialogState.show()
             },

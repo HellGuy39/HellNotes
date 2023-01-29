@@ -20,6 +20,7 @@ import com.hellguy39.hellnotes.feature.home.archive.components.ArchiveTopAppBarS
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListScreen
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListViewModel
 import com.hellguy39.hellnotes.feature.home.note_list.components.DrawerSheetContent
+import com.hellguy39.hellnotes.feature.home.note_list.components.LabelSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurationSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.reminders.RemindersScreen
@@ -67,7 +68,7 @@ fun HomeRoute(
 
     val mainItems = listOf(
         DrawerItem(
-            title = stringResource(id = HellNotesStrings.Title.Reminders),
+            title = stringResource(id = HellNotesStrings.Title.Notes),
             icon = painterResource(id = HellNotesIcons.StickyNote),
             onClick = { drawerItem ->
                 scope.launch { drawerState.close() }
@@ -138,6 +139,10 @@ fun HomeRoute(
                 mainItems = mainItems,
                 staticItems = staticItems,
                 labelItems = labelItems,
+                labelSelection = LabelSelection(
+                    onEditLabel = { navigations.navigateToLabels() },
+                    onCreateNewLabel = { navigations.navigateToLabels() }
+                )
             )
         },
         content = {
@@ -321,13 +326,16 @@ fun HomeRoute(
                                 },
                                 onRestoreSelected = {
                                     trashViewModel.restoreSelectedNotes()
+                                },
+                                onDeleteSelected = {
+                                    trashViewModel.deleteSelectedNotes()
                                 }
                             ),
                             noteSelection = NoteSelection(
                                 dateHelper = dateHelper,
                                 onClick = { note ->
                                     if (trashUiState.selectedNotes.isEmpty()) {
-                                        navigations.navigateToNoteDetail(note.id ?: -1)
+
                                     } else {
                                         if (trashUiState.selectedNotes.contains(note)) {
                                             trashViewModel.unselectNote(note)

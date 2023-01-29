@@ -49,6 +49,10 @@ fun NoteListScreen(
         },
         content = { innerPadding ->
 
+            if (uiState.isLoading) {
+                return@Scaffold
+            }
+
             if (uiState.unpinnedNotes.isEmpty() && uiState.pinnedNotes.isEmpty()) {
                 EmptyContentPlaceholder(
                     heroIcon = painterResource(id = HellNotesIcons.NoteAdd),

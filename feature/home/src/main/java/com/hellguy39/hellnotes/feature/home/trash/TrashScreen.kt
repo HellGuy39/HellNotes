@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.NoteColumnList

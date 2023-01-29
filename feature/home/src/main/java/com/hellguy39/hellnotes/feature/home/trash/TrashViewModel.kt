@@ -82,6 +82,18 @@ class TrashViewModel @Inject constructor(
         }
     }
 
+    fun deleteSelectedNotes() {
+        viewModelScope.launch {
+            trashViewModelState.value.selectedNotes.forEach { note ->
+                trashRepository.deleteTrashByNote(note)
+            }
+
+            trashViewModelState.update {
+                it.copy(selectedNotes = listOf())
+            }
+        }
+    }
+
 }
 
 private data class TrashViewModelState(

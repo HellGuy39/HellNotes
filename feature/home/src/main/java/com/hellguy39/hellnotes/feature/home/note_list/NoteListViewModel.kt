@@ -21,7 +21,7 @@ class NoteListViewModel @Inject constructor(
     private val dateHelper: DateHelper
 ): ViewModel() {
 
-    private val noteListViewModelState = MutableStateFlow(NoteListViewModelState())
+    private val noteListViewModelState = MutableStateFlow(NoteListViewModelState(isLoading = true))
 
     private val lastDeletedNotes = MutableStateFlow(listOf<Note>())
 
@@ -44,7 +44,12 @@ class NoteListViewModel @Inject constructor(
 
             launch {
                 noteRepository.getAllNotesStream().collect { notes ->
-                    noteListViewModelState.update { it.copy(notes = notes) }
+                    noteListViewModelState.update {
+                        it.copy(
+                            notes = notes,
+                            isLoading = false
+                        )
+                    }
                 }
             }
             launch {
@@ -143,11 +148,11 @@ class NoteListViewModel @Inject constructor(
         }
     }
 
-
 }
 
 private data class NoteListViewModelState(
     val sorting: Sorting = Sorting.DateOfCreation,
+    val isLoading: Boolean = true,
     val reminders: List<Remind> = listOf(),
     val labels: List<Label> = listOf(),
     val notes: List<Note> = listOf(),
@@ -175,13 +180,15 @@ private data class NoteListViewModelState(
             sorting = sorting,
             pinnedNotes = sortedNotes.filter { it.note.isPinned },
             unpinnedNotes = sortedNotes.filter { !it.note.isPinned },
-            selectedNotes = selectedNotes
+            selectedNotes = selectedNotes,
+            isLoading = isLoading
         )
     }
 }
 
 data class NoteListUiState(
     val sorting: Sorting,
+    val isLoading: Boolean,
     val pinnedNotes: List<NoteDetailWrapper>,
     val unpinnedNotes: List<NoteDetailWrapper>,
     val selectedNotes: List<Note>

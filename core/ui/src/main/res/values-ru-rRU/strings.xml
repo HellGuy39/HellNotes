@@ -54,6 +54,7 @@
     <string name="hint_search">Поиск…</string>
     <string name="hint_label">Метка…</string>
     <string name="hint_message">Сообщение</string>
+    <string name="hint_create_new_label">Создать новую метку</string>
 
     <!-- Setting -->
     <string name="stg_app_lock">Блокировка приложения</string>
@@ -80,6 +81,7 @@
     <string name="title_settings">Настройки</string>
     <string name="title_about_app">О приложении</string>
     <string name="title_reminders">Напоминания</string>
+    <string name="title_labels">Метки</string>
     <string name="title_new_remind">Новое напоминание</string>
     <string name="title_share_as">Поделиться как…</string>
     <string name="title_edit_remind">Редактировать напоминание</string>

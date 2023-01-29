@@ -22,7 +22,8 @@ fun DrawerSheetContent(
     selectedItem: DrawerItem?,
     mainItems: List<DrawerItem>,
     labelItems: List<DrawerItem>,
-    staticItems: List<DrawerItem>
+    staticItems: List<DrawerItem>,
+    labelSelection: LabelSelection
 ) {
     ModalDrawerSheet {
         LazyColumn {
@@ -47,6 +48,8 @@ fun DrawerSheetContent(
                         modifier = Modifier.padding(12.dp)
                     )
                 }
+                
+                Spacer(modifier = Modifier.height(16.dp))
 
                 for (i in mainItems.indices) {
                     if (i <= 1) {
@@ -78,7 +81,7 @@ fun DrawerSheetContent(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         TextButton(
-                            onClick = { },
+                            onClick = { labelSelection.onEditLabel() },
                             modifier = Modifier.padding(horizontal = 16.dp)
                         ) {
                             Text(
@@ -100,9 +103,7 @@ fun DrawerSheetContent(
                         drawerItem = DrawerItem(
                             title = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
                             icon = painterResource(id = HellNotesIcons.Add),
-                            onClick = {
-
-                            }
+                            onClick = { labelSelection.onCreateNewLabel() }
                         ),
                         selectedItem = selectedItem
                     )
@@ -137,6 +138,10 @@ fun DrawerSheetContent(
     }
 }
 
+data class LabelSelection(
+    val onEditLabel: () -> Unit,
+    val onCreateNewLabel: () -> Unit
+)
 @Composable
 fun CustomNavDrawerItem(
     drawerItem: DrawerItem,

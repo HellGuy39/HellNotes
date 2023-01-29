@@ -17,6 +17,8 @@ import com.hellguy39.hellnotes.feature.note_detail.util.noteDetailScreen
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.navigation.homeNavigationRoute
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
+import com.hellguy39.hellnotes.feature.labels.navigation.labelsNavigationRoute
+import com.hellguy39.hellnotes.feature.labels.navigation.labelsScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchNavigationRoute
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsNavigationRoute
@@ -43,6 +45,8 @@ fun Navigation(
         noteDetailScreen(navController)
 
         searchScreen(navController, Navigations(navController))
+
+        labelsScreen(navController)
 
         settingsScreen(navController)
 
@@ -81,6 +85,10 @@ class Navigations(private val navController: NavController) : INavigations {
     override fun navigateToSearch() {
         navController.navigateToSearch()
     }
+
+    override fun navigateToLabels() {
+        navController.navigateToLabels()
+    }
 }
 
 fun NavController.navigateToNoteDetail(noteId: Long?, navOptions: NavOptions? = null) {
@@ -114,6 +122,13 @@ fun NavController.navigateToListNote(navOptions: NavOptions? = null) {
 fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
     navigate(
         route = searchNavigationRoute,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToLabels(navOptions: NavOptions? = null) {
+    navigate(
+        route = labelsNavigationRoute,
         navOptions = navOptions
     )
 }

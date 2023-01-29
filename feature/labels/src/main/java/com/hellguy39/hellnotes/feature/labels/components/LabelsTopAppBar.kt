@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.feature.about_app.components
+package com.hellguy39.hellnotes.feature.labels.components
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -9,11 +9,13 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutAppTopAppBar(
+fun LabelsTopAppBar(
+    scrollBehavior: TopAppBarScrollBehavior,
     onNavigationButtonClick: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(text = stringResource(id = HellNotesStrings.Title.AboutApp)) },
+        scrollBehavior = scrollBehavior,
+        title = { Text(text = stringResource(id = HellNotesStrings.Title.Labels)) },
         navigationIcon = {
             IconButton(
                 onClick = { onNavigationButtonClick() }

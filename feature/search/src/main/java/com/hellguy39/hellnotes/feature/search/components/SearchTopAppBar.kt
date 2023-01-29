@@ -2,20 +2,17 @@ package com.hellguy39.hellnotes.feature.search.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.ui.components.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -37,6 +34,7 @@ fun SearchTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Row(
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -49,18 +47,14 @@ fun SearchTopAppBar(
                             contentDescription = null
                         )
                     }
-                    BasicTextField(
+                    CustomTextField(
                         value = query,
-                        onValueChange =  { newText -> onQueryChanged(newText) },
-                        modifier = Modifier.focusRequester(focusRequester)
-                            .fillMaxWidth(),
-                        textStyle = MaterialTheme.typography.titleMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
-                        maxLines = 1,
-                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary)
+                        hint = stringResource(id = HellNotesStrings.Hint.Search),
+                        onValueChange = { newText -> onQueryChanged(newText) },
+                        modifier = Modifier
+                            .focusRequester(focusRequester)
+                            .weight(1f),
                     )
-                    Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.width(4.dp))
                 }
             }
@@ -69,5 +63,18 @@ fun SearchTopAppBar(
         actions = {
             Spacer(modifier = Modifier.width(16.dp))
         }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+fun SearchTopAppBarPreview() {
+    SearchTopAppBar(
+        onNavigationButtonClick = { },
+        scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+        query = "",
+        onQueryChanged = {},
+        focusRequester = FocusRequester()
     )
 }

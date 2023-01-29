@@ -27,6 +27,7 @@ object HellNotesStrings {
         val Search = R.string.hint_search
         val Label = R.string.hint_label
         val Message = R.string.hint_message
+        val CreateNewLabel = R.string.hint_create_new_label
     }
 
     object Text {
@@ -71,6 +72,7 @@ object HellNotesStrings {
         val Reminders = R.string.title_reminders
         val Settings = R.string.title_settings
         val AboutApp = R.string.title_about_app
+        val Labels = R.string.title_labels
 
         val NewRemind = R.string.title_new_remind
         val EditRemind = R.string.title_edit_remind

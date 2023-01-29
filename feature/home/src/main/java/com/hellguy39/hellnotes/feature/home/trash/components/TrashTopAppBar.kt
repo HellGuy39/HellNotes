@@ -78,6 +78,14 @@ fun TrashTopAppBar(
                             contentDescription = null
                         )
                     }
+                    IconButton(
+                        onClick = { selection.onDeleteSelected() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Delete),
+                            contentDescription = null
+                        )
+                    }
                 } else {
                     IconButton(
                         onClick = {
@@ -104,7 +112,8 @@ data class TrashTopAppBarSelection(
     val selectedNotes: List<Note>,
     val onNavigation: () -> Unit,
     val onCancelSelection: () -> Unit,
-    val onRestoreSelected: () -> Unit
+    val onRestoreSelected: () -> Unit,
+    val onDeleteSelected: () -> Unit
 )
 
 @Composable

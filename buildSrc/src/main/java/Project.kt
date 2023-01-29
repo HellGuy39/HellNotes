@@ -16,6 +16,7 @@ object Project {
         const val Home = ":feature:home"
         const val AboutApp= ":feature:about-app"
         const val Settings = ":feature:settings"
+        const val Labels = ":feature:labels"
     }
 
 }
