@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.AppSettingsRepository
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class HomeViewModel @Inject constructor(
     private val _listStyle = MutableStateFlow(appSettingsRepository.getListStyle())
     val listStyle = _listStyle.asStateFlow()
 
-    private val _drawerItem = MutableStateFlow(0)
+    private val _drawerItem = MutableStateFlow(DrawerItem())
     val drawerItem = _drawerItem.asStateFlow()
 
     fun updateListStyle() = viewModelScope.launch {
@@ -36,8 +37,10 @@ class HomeViewModel @Inject constructor(
         _listStyle.update { newStyle }
     }
 
-    fun setDrawerItem(pos: Int) {
-        _drawerItem.update { pos }
+    fun setDrawerItem(drawerItem: DrawerItem) {
+        viewModelScope.launch {
+            _drawerItem.update { drawerItem }
+        }
     }
 
 }

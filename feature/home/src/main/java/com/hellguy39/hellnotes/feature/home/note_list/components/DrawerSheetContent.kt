@@ -16,15 +16,19 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
+import com.hellguy39.hellnotes.feature.home.util.DrawerItemType
 
 @Composable
 fun DrawerSheetContent(
-    selectedItem: DrawerItem?,
-    mainItems: List<DrawerItem>,
+    selectedItem: DrawerItem,
+    drawerItems: List<DrawerItem>,
     labelItems: List<DrawerItem>,
-    staticItems: List<DrawerItem>,
     labelSelection: LabelSelection
 ) {
+    val primaryItems = drawerItems.filter { it.itemType == DrawerItemType.Primary }
+    val secondaryItems = drawerItems.filter { it.itemType == DrawerItemType.Secondary }
+    val staticItems = drawerItems.filter { it.itemType == DrawerItemType.Static }
+
     ModalDrawerSheet {
         LazyColumn {
             item {
@@ -51,13 +55,11 @@ fun DrawerSheetContent(
                 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                for (i in mainItems.indices) {
-                    if (i <= 1) {
-                        CustomNavDrawerItem(
-                            drawerItem = mainItems[i],
-                            selectedItem = selectedItem
-                        )
-                    }
+                primaryItems.forEach { item ->
+                    CustomNavDrawerItem(
+                        drawerItem = item,
+                        selectedItem = selectedItem
+                    )
                 }
 
                 if (labelItems.isNotEmpty()) {
@@ -118,13 +120,11 @@ fun DrawerSheetContent(
 
                 }
 
-                for (i in mainItems.indices) {
-                    if (i > 1) {
-                        CustomNavDrawerItem(
-                            drawerItem = mainItems[i],
-                            selectedItem = selectedItem
-                        )
-                    }
+                secondaryItems.forEach { item ->
+                    CustomNavDrawerItem(
+                        drawerItem = item,
+                        selectedItem = selectedItem
+                    )
                 }
 
                 staticItems.forEach { item ->
@@ -145,12 +145,12 @@ data class LabelSelection(
 @Composable
 fun CustomNavDrawerItem(
     drawerItem: DrawerItem,
-    selectedItem: DrawerItem?
+    selectedItem: DrawerItem
 ) {
     NavigationDrawerItem(
         icon = { drawerItem.icon?.let { Icon(it, contentDescription = null) } },
         label = { Text(text = drawerItem.title, style = MaterialTheme.typography.labelLarge) },
-        selected = selectedItem == drawerItem,
+        selected = selectedItem.title == drawerItem.title,
         onClick = { drawerItem.onClick(drawerItem) },
         modifier = Modifier
             .padding(NavigationDrawerItemDefaults.ItemPadding)

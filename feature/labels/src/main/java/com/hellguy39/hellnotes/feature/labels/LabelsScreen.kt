@@ -17,7 +17,8 @@ import com.hellguy39.hellnotes.feature.labels.components.LabelsTopAppBar
 fun LabelsScreen(
     labels: List<Label>,
     onNavigationButtonClick: () -> Unit,
-    labelItemSelection: LabelItemSelection
+    labelItemSelection: LabelItemSelection,
+    snackbarHostState: SnackbarHostState
 ) {
     BackHandler(onBack = onNavigationButtonClick)
 
@@ -42,6 +43,9 @@ fun LabelsScreen(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         }
     )
 }

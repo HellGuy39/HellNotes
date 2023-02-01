@@ -14,13 +14,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EmptyContentPlaceholder(
+    paddingValues: PaddingValues = PaddingValues(),
     heroIcon: Painter,
     message: String,
     heroIconSize: Dp = 128.dp
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 32.dp)
+            .padding(paddingValues)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

@@ -47,6 +47,8 @@ object HellNotesStrings {
         val NoteMovedToTrash = R.string.text_note_moved_to_trash
         val NotesMovedToTrash = R.string.text_notes_moved_to_trash
         val NoNotesInTrash = R.string.text_no_notes_in_trash
+
+        val LabelAlreadyExist = R.string.text_label_already_exist
     }
 
     object MenuItem {
