@@ -40,7 +40,11 @@ fun Navigation(
         navController = navController,
         startDestination = homeNavigationRoute
     ) {
-        homeScreen(navController, Navigations(navController))
+        homeScreen(
+            navController,
+            Navigations(navController),
+            startFromReminders = action == actionReminders
+        )
 
         noteDetailScreen(navController)
 

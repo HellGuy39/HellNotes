@@ -31,7 +31,7 @@ fun TrashScreen(
     trashDropdownMenuSelection: TrashDropdownMenuSelection
 ) {
     val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
 
     Scaffold(
         modifier = Modifier

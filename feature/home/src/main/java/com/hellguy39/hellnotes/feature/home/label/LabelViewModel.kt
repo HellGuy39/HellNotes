@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
 import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.ui.DateHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -16,6 +18,8 @@ class LabelViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val labelRepository: LabelRepository,
     private val reminderRepository: ReminderRepository,
+    private val trashRepository: TrashRepository,
+    private val dateHelper: DateHelper
 ): ViewModel() {
 
     private val labelViewModelState = MutableStateFlow(LabelViewModelState())
@@ -58,6 +62,62 @@ class LabelViewModel @Inject constructor(
                     labelViewModelState.update { it.copy(labels = labels) }
                 }
             }
+        }
+    }
+
+    fun selectNote(note: Note) = viewModelScope.launch {
+        labelViewModelState.update {
+            it.copy(selectedNotes = it.selectedNotes.plus(note))
+        }
+    }
+
+    fun unselectNote(note: Note) = viewModelScope.launch {
+        labelViewModelState.update {
+            it.copy(selectedNotes = it.selectedNotes.minus(note))
+        }
+    }
+
+    fun cancelNoteSelection() = viewModelScope.launch {
+        labelViewModelState.update {
+            it.copy(selectedNotes = listOf())
+        }
+    }
+
+    fun deleteAllSelected() {
+        viewModelScope.launch {
+            labelViewModelState.value.selectedNotes.let { notes ->
+
+                notes.forEach { note ->
+                    note.id?.let { id ->
+                        noteRepository.deleteNoteById(id)
+                        reminderRepository.deleteRemindByNoteId(id)
+                    }
+                    if (note.isNoteValid()) {
+                        trashRepository.insertTrash(
+                            Trash(
+                                note = note.copy(labelIds = listOf()),
+                                dateOfAdding = dateHelper.getCurrentTimeInEpochMilli()
+                            )
+                        )
+                    }
+                }
+            }
+
+            cancelNoteSelection()
+        }
+    }
+
+    fun archiveAllSelected() {
+        viewModelScope.launch {
+            noteRepository.updateNotes(
+                labelViewModelState.value.selectedNotes.map {
+                    it.copy(
+                        isArchived = true
+                    )
+                }
+            )
+
+            labelViewModelState.update { it.copy(selectedNotes = listOf()) }
         }
     }
 

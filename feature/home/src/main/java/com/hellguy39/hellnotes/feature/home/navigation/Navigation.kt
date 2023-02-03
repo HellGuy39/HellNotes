@@ -12,7 +12,8 @@ const val homeNavigationRoute = "home_route"
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.homeScreen(
     navController: NavController,
-    navigations: INavigations
+    navigations: INavigations,
+    startFromReminders: Boolean = false
 ) {
     composable(
         route = homeNavigationRoute,
@@ -31,6 +32,9 @@ fun NavGraphBuilder.homeScreen(
                     fadeIn(animationSpec = tween(300))
         }
     ) {
-        HomeRoute(navigations)
+        HomeRoute(
+            navigations,
+            startScreenIndex = if (startFromReminders) 1 else 0
+        )
     }
 }

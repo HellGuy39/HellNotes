@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
 import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.ui.DateHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -16,6 +18,8 @@ class ArchiveViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val labelRepository: LabelRepository,
     private val reminderRepository: ReminderRepository,
+    private val trashRepository: TrashRepository,
+    private val dateHelper: DateHelper
 ): ViewModel() {
 
     private val archivedViewModelState = MutableStateFlow(ArchiveViewModelState())
@@ -68,7 +72,25 @@ class ArchiveViewModel @Inject constructor(
 
     fun deleteAllSelected() {
         viewModelScope.launch {
+            archivedViewModelState.value.selectedNotes.let { notes ->
 
+                notes.forEach { note ->
+                    note.id?.let { id ->
+                        noteRepository.deleteNoteById(id)
+                        reminderRepository.deleteRemindByNoteId(id)
+                    }
+                    if (note.isNoteValid()) {
+                        trashRepository.insertTrash(
+                            Trash(
+                                note = note.copy(labelIds = listOf()),
+                                dateOfAdding = dateHelper.getCurrentTimeInEpochMilli()
+                            )
+                        )
+                    }
+                }
+            }
+
+            cancelNoteSelection()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.core.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -12,12 +13,15 @@ import com.hellguy39.hellnotes.core.database.dao.TrashDao
 import com.hellguy39.hellnotes.core.database.entity.*
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         NoteEntity::class,
         RemindEntity::class,
         LabelEntity::class,
         TrashEntity::class
+    ],
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
     ],
     exportSchema = true
 )

@@ -67,7 +67,7 @@ fun LabelTopAppBar(
                         onClick = { selection.onArchiveSelected() }
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Unarchive),
+                            painter = painterResource(id = HellNotesIcons.Archive),
                             contentDescription = null
                         )
                     }

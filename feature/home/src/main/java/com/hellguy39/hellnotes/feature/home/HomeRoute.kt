@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeRoute(
     navigations: INavigations,
+    startScreenIndex: Int = 0,
     homeViewModel: HomeViewModel = hiltViewModel(),
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
     noteListViewModel: NoteListViewModel = hiltViewModel(),
@@ -137,7 +138,7 @@ fun HomeRoute(
 
     LaunchedEffect(key1 = Unit) {
         if (selectedDrawerItem.itemType == DrawerItemType.None) {
-            homeViewModel.setDrawerItem(drawerItems[0])
+            homeViewModel.setDrawerItem(drawerItems[startScreenIndex])
         }
     }
 
@@ -380,15 +381,38 @@ fun HomeRoute(
                             listStyle = listStyle,
                             noteSelection = NoteSelection(
                                 dateHelper = dateHelper,
-                                onClick = { note -> },
-                                onLongClick = { note -> }
+                                onClick = { note ->
+                                    if (labelUiState.selectedNotes.isEmpty()) {
+                                        navigations.navigateToNoteDetail(note.id ?: -1)
+                                    } else {
+                                        if (labelUiState.selectedNotes.contains(note)) {
+                                            labelViewModel.unselectNote(note)
+                                        } else {
+                                            labelViewModel.selectNote(note)
+                                        }
+                                    }
+                                },
+                                onLongClick = { note ->
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    if (labelUiState.selectedNotes.contains(note)) {
+                                        labelViewModel.unselectNote(note)
+                                    } else {
+                                        labelViewModel.selectNote(note)
+                                    }
+                                }
                             ),
                             labelTopAppBarSelection = LabelTopAppBarSelection(
-                                selectedNotes = listOf(),
-                                onDeleteSelected = {},
-                                onCancelSelection = {},
-                                onArchiveSelected = {},
-                                onNavigation = {}
+                                selectedNotes = labelUiState.selectedNotes,
+                                onDeleteSelected = {
+                                    labelViewModel.deleteAllSelected()
+                                },
+                                onCancelSelection = {
+                                    labelViewModel.cancelNoteSelection()
+                                },
+                                onArchiveSelected = {
+                                    labelViewModel.archiveAllSelected()
+                                },
+                                onNavigation = { scope.launch { drawerState.open() } }
                             )
                         )
                     }
