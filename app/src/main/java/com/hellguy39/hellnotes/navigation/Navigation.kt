@@ -14,11 +14,11 @@ import com.hellguy39.hellnotes.core.ui.navigations.INavigations
 import com.hellguy39.hellnotes.feature.note_detail.util.NEW_NOTE_ID
 import com.hellguy39.hellnotes.feature.note_detail.util.noteDetailNavigationRoute
 import com.hellguy39.hellnotes.feature.note_detail.util.noteDetailScreen
-import com.hellguy39.hellnotes.feature.reminders.navigation.remindersNavigationRoute
-import com.hellguy39.hellnotes.feature.reminders.navigation.remindersScreen
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.note_list.navigation.noteListNavigationRoute
-import com.hellguy39.hellnotes.feature.note_list.navigation.noteListScreen
+import com.hellguy39.hellnotes.feature.home.navigation.homeNavigationRoute
+import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
+import com.hellguy39.hellnotes.feature.labels.navigation.labelsNavigationRoute
+import com.hellguy39.hellnotes.feature.labels.navigation.labelsScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchNavigationRoute
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsNavigationRoute
@@ -38,15 +38,19 @@ fun Navigation(
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = noteListNavigationRoute
+        startDestination = homeNavigationRoute
     ) {
-        noteListScreen(navController, Navigations(navController))
+        homeScreen(
+            navController,
+            Navigations(navController),
+            startFromReminders = action == actionReminders
+        )
 
         noteDetailScreen(navController)
 
         searchScreen(navController, Navigations(navController))
 
-        remindersScreen(navController)
+        labelsScreen(navController)
 
         settingsScreen(navController)
 
@@ -62,7 +66,7 @@ fun Navigation(
                     navController.navigateToNoteDetail(NEW_NOTE_ID)
                 }
                 actionReminders -> {
-                    navController.navigateToReminders()
+                    //navController.navigateToReminders()
                 }
             }
         }
@@ -86,8 +90,8 @@ class Navigations(private val navController: NavController) : INavigations {
         navController.navigateToSearch()
     }
 
-    override fun navigateToReminders() {
-        navController.navigateToReminders()
+    override fun navigateToLabels() {
+        navController.navigateToLabels()
     }
 }
 
@@ -126,9 +130,9 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavController.navigateToReminders(navOptions: NavOptions? = null) {
+fun NavController.navigateToLabels(navOptions: NavOptions? = null) {
     navigate(
-        route = remindersNavigationRoute,
+        route = labelsNavigationRoute,
         navOptions = navOptions
     )
 }

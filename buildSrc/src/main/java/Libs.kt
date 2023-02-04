@@ -10,7 +10,7 @@ object Libs {
 
         private const val moshiVersion = "1.14.0"
         const val Moshi = "com.squareup.moshi:moshi:$moshiVersion"
-
+        const val MoshiKotlin = "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     }
 
     object KotlinX {

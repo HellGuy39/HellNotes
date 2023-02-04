@@ -10,6 +10,7 @@ import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.Remind
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.ui.DateHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -22,7 +23,8 @@ class SearchViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val labelRepository: LabelRepository,
     private val reminderRepository: ReminderRepository,
-    private val noteRepository: NoteRepository
+    private val noteRepository: NoteRepository,
+    val dateHelper: DateHelper,
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)

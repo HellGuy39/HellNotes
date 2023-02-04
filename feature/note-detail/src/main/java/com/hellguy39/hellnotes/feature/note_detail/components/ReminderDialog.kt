@@ -8,7 +8,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -17,11 +16,11 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
-import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.CustomDialogState
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.Remind
 import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.components.CustomDialog
+import com.hellguy39.hellnotes.core.ui.components.CustomDialogState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.maxkeppeker.sheets.core.models.base.SheetState
@@ -40,7 +39,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ReminderDialog(
     state: CustomDialogState,
-    selection: ReminderDialogSelection
+    selection: ReminderDialogSelection,
+    dateHelper: DateHelper
 ) {
     var message by remember { mutableStateOf("") }
     var pickedDate by remember { mutableStateOf(LocalDate.now()) }
@@ -132,6 +132,7 @@ fun ReminderDialog(
                         pickedTime = pickedTime,
                         formattedTime = formattedTime,
                         formattedDate = formattedDate,
+                        dateHelper = dateHelper
                     )
                 }
             }
@@ -149,6 +150,7 @@ fun ReminderDialog(
                 pickedTime = pickedTime,
                 formattedDate = formattedDate,
                 formattedTime = formattedTime,
+                dateHelper = dateHelper
             )
         }
     }
@@ -211,9 +213,9 @@ fun ReminderDialogContent(
     selection: ReminderDialogSelection,
     message: String,
     onMessageUpdate: (newText: String) -> Unit,
+    dateHelper: DateHelper
 ) {
-    val date = DateHelper(LocalContext.current)
-        .dateToEpochMillis(pickedTime, pickedDate)
+    val date = dateHelper.dateToEpochMillis(pickedTime, pickedDate)
     
     Column(
         modifier = Modifier

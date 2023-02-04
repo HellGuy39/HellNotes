@@ -12,7 +12,8 @@ import com.hellguy39.hellnotes.feature.about_app.components.AboutAppTopAppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutAppScreen(
-    onNavigationButtonClick: () -> Unit
+    onNavigationButtonClick: () -> Unit,
+    onEasterEgg: () -> Unit
 ) {
     BackHandler(onBack = onNavigationButtonClick)
 
@@ -22,7 +23,8 @@ fun AboutAppScreen(
             .padding(),
         content = { innerPadding ->
             AboutAppScreenContent(
-                innerPadding = innerPadding
+                innerPadding = innerPadding,
+                onEasterEgg = onEasterEgg
             )
         },
         topBar = {
@@ -37,6 +39,7 @@ fun AboutAppScreen(
 @Composable
 fun AboutAppScreenPreview() {
     AboutAppScreen(
-        onNavigationButtonClick = {}
+        onNavigationButtonClick = {},
+        onEasterEgg = {}
     )
 }

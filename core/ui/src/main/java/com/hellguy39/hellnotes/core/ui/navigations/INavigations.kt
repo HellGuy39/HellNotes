@@ -10,6 +10,6 @@ interface INavigations {
 
     fun navigateToSearch()
 
-    fun navigateToReminders()
+    fun navigateToLabels()
 
 }

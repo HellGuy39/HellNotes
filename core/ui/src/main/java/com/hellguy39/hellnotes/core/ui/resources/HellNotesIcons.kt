@@ -7,6 +7,7 @@ object HellNotesIcons {
     val PinActivated = R.drawable.ic_baseline_push_pin_24
     val PinDisabled = R.drawable.ic_outline_push_pin_24
 
+    val Menu = R.drawable.ic_menu_24
     val Label = R.drawable.ic_outline_label_24
     val Delete = R.drawable.ic_outline_delete_24
     val NoteAdd = R.drawable.ic_note_add_24
@@ -28,9 +29,14 @@ object HellNotesIcons {
     val Alarm = R.drawable.ic_alarm_24
     val Cancel = R.drawable.ic_cancel_24
     val NewLabel = R.drawable.ic_new_label_24
+    val RestoreFromTrash = R.drawable.ic_restore_from_trash_24
+
+    val Archive = R.drawable.ic_archive_24
+    val Unarchive = R.drawable.ic_unarchive_24
 
     val Lock = R.drawable.ic_lock_24
     val LockOpen = R.drawable.ic_lock_open_24
+
     val Backspace = R.drawable.ic_backspace_24
     val Language = R.drawable.ic_language_24
     val Fingerprint = R.drawable.ic_fingerprint_24

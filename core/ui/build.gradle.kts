@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    kotlin ("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 @Suppress("UnstableApiUsage")
@@ -56,5 +58,8 @@ dependencies {
     implementation(Libs.Google.Accompanist.SystemUiController)
     implementation(Libs.Google.Accompanist.Permissions)
     implementation(Libs.Google.Accompanist.FlowLayout)
+
+    implementation(Libs.Google.Hilt.Android)
+    kapt(Libs.Google.Hilt.Compiler)
 
 }

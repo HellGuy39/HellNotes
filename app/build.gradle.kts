@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -15,12 +17,13 @@ android {
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = 1
-        versionName = "1.0-beta01"
+        versionName = "1.0-beta02"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
+        archivesName.set("HellNotes v$versionName")
     }
 
     buildTypes {
@@ -41,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = Config.ComposeCompiler
     }
     packagingOptions {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
@@ -53,9 +56,9 @@ android {
 
 dependencies {
 
-    implementation(project(Project.Feature.Reminders))
     implementation(project(Project.Feature.Search))
-    implementation(project(Project.Feature.NoteList))
+    implementation(project(Project.Feature.Home))
+    implementation(project(Project.Feature.Labels))
     implementation(project(Project.Feature.NoteDetail))
     implementation(project(Project.Feature.AboutApp))
     implementation(project(Project.Feature.Settings))

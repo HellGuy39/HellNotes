@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.core.database.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.hellguy39.hellnotes.core.model.Note
@@ -14,6 +15,8 @@ data class NoteEntity(
     val note: String,
     val lastEditDate: Long,
     val isPinned: Boolean,
+    @ColumnInfo(name = "is_archived", defaultValue = "0")
+    val isArchived: Boolean,
     val colorHex: Long,
     val labelIds: List<Long>
 )

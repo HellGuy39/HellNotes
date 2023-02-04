@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import com.hellguy39.hellnotes.core.model.isNoteValid
+import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.feature.note_detail.components.*
 import java.util.*
 
@@ -14,10 +17,22 @@ fun NoteDetailScreen(
     snackbarHostState: SnackbarHostState,
     noteDetailContentSelection: NoteDetailContentSelection,
     noteDetailDropdownMenuSelection: NoteDetailDropdownMenuSelection,
-    noteDetailTopAppBarSelection: NoteDetailTopAppBarSelection
+    uiState: NoteDetailUiState,
+    noteDetailTopAppBarSelection: NoteDetailTopAppBarSelection,
+    dateHelper: DateHelper
 ) {
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
+
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(key1 = uiState.isLoading) {
+        uiState.let {
+            if (!uiState.note.isNoteValid() && !uiState.isLoading) {
+                focusRequester.requestFocus()
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -26,7 +41,10 @@ fun NoteDetailScreen(
         content = { innerPadding ->
             NoteDetailContent(
                 innerPadding = innerPadding,
-                selection = noteDetailContentSelection
+                selection = noteDetailContentSelection,
+                dateHelper = dateHelper,
+                focusRequester = focusRequester,
+                uiState = uiState
             )
         },
         topBar = {

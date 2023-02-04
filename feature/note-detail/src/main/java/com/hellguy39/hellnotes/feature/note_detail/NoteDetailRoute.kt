@@ -26,13 +26,13 @@ fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
     alarmScheduler: AlarmScheduler = noteDetailViewModel.alarmScheduler,
+    dateHelper: DateHelper = noteDetailViewModel.dateHelper
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
-    //val editReminderDialogState = rememberDialogState()
     val reminderDialogState = rememberDialogState()
     val labelDialogState = rememberDialogState()
     val shareDialogState = rememberDialogState()
@@ -85,7 +85,7 @@ fun NoteDetailRoute(
     val reminderDialogSelection = ReminderDialogSelection(
         note = uiState.note,
         onCreateRemind = { remind ->
-            if(remind.triggerDate > DateHelper(context).getCurrentTimeInEpochMilli()) {
+            if(remind.triggerDate > dateHelper.getCurrentTimeInEpochMilli()) {
                 noteDetailViewModel.insertRemind(remind)
                 alarmScheduler.scheduleAlarm(remind)
             } else {
@@ -108,7 +108,8 @@ fun NoteDetailRoute(
 
     ReminderDialog(
         state = reminderDialogState,
-        selection = reminderDialogSelection
+        selection = reminderDialogSelection,
+        dateHelper = dateHelper
     )
 
     BackHandler(
@@ -120,10 +121,8 @@ fun NoteDetailRoute(
 
     NoteDetailScreen(
         snackbarHostState = snackbarHostState,
+        uiState = uiState,
         noteDetailContentSelection = NoteDetailContentSelection(
-            note = uiState.note,
-            noteReminds = uiState.noteReminders,
-            noteLabels = uiState.noteLabels,
             onTitleTextChanged = { newText -> noteDetailViewModel.onUpdateNoteTitle(newText) },
             onNoteTextChanged = { newText -> noteDetailViewModel.onUpdateNoteContent(newText) },
             onReminderClick = { remind ->
@@ -134,7 +133,7 @@ fun NoteDetailRoute(
             }
         ),
         noteDetailDropdownMenuSelection = NoteDetailDropdownMenuSelection(
-            onColor = {},
+            onColor = {  },
             onLabels = {
                 labelDialogState.show()
             },
@@ -160,7 +159,11 @@ fun NoteDetailRoute(
             },
             onColorSelected = { colorHex ->
                 //noteDetailViewModel.onUpdateNoteBackground(colorHex)
+            },
+            onArchive = { isArchived ->
+                noteDetailViewModel.onUpdateIsArchived(isArchived)
             }
-        )
+        ),
+        dateHelper = dateHelper
     )
 }

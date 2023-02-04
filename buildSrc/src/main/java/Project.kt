@@ -13,9 +13,10 @@ object Project {
         const val Reminders = ":feature:reminders"
         const val Search = ":feature:search"
         const val NoteDetail = ":feature:note-detail"
-        const val NoteList = ":feature:note-list"
+        const val Home = ":feature:home"
         const val AboutApp= ":feature:about-app"
         const val Settings = ":feature:settings"
+        const val Labels = ":feature:labels"
     }
 
 }

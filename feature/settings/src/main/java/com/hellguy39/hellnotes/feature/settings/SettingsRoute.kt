@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.feature.settings.components.LanguageDialog
 import com.hellguy39.hellnotes.feature.settings.components.PINDialog
@@ -19,7 +20,8 @@ import com.hellguy39.hellnotes.feature.settings.events.SettingsEvents
 @Composable
 fun SettingsRoute(
     navController: NavController,
-    settingsViewModel: SettingsViewModel = hiltViewModel()
+    settingsViewModel: SettingsViewModel = hiltViewModel(),
+    languageHolder: LanguageHolder = settingsViewModel.languageHolder
 ) {
     val appSettings by settingsViewModel.appSettings.collectAsState()
 
@@ -41,22 +43,11 @@ fun SettingsRoute(
         override fun show() { isShowLanguageDialog = true }
         override fun dismiss() { isShowLanguageDialog = false }
         override fun onLanguageSelected(languageCode: String) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                context.getSystemService(LocaleManager::class.java).applicationLocales =
-                    LocaleList.forLanguageTags(languageCode)
-            } else {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
-            }
+            languageHolder.setLanguageCode(languageCode)
         }
 
         override fun getCurrentLanCode(): String {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val appLocales = context.getSystemService(LocaleManager::class.java).applicationLocales
-                appLocales.toLanguageTags()
-            } else {
-                val appLocales = AppCompatDelegate.getApplicationLocales()
-                appLocales.toLanguageTags()
-            }
+            return languageHolder.getLanguageCode()
         }
     }
 

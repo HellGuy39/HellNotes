@@ -3,16 +3,15 @@ package com.hellguy39.hellnotes.feature.note_detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
+import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
+import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.feature.note_detail.util.KEY_NOTE_ID
 import com.hellguy39.hellnotes.feature.note_detail.util.NEW_NOTE_ID
-import com.hellguy39.hellnotes.feature.note_detail.util.isNoteValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -26,11 +25,13 @@ class NoteDetailViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val reminderRepository: ReminderRepository,
     private val labelRepository: LabelRepository,
+    private val trashRepository: TrashRepository,
     savedStateHandle: SavedStateHandle,
-    val alarmScheduler: AlarmScheduler
+    val alarmScheduler: AlarmScheduler,
+    val dateHelper: DateHelper
 ): ViewModel() {
 
-    private val noteViewModelState = MutableStateFlow(NoteDetailViewModelState())
+    private val noteViewModelState = MutableStateFlow(NoteDetailViewModelState(isLoading = true))
 
     val uiState = noteViewModelState
         .map(NoteDetailViewModelState::toUiState)
@@ -41,13 +42,14 @@ class NoteDetailViewModel @Inject constructor(
         )
 
     init {
+
         viewModelScope.launch {
             val noteId = savedStateHandle.get<Long>(KEY_NOTE_ID).let { id ->
                 if(id != NEW_NOTE_ID) {
                     id
                 } else {
-                    withContext(Dispatchers.Default) {
-                        createNote()
+                    withContext(Dispatchers.IO) {
+                        noteRepository.insertNote(Note())
                     }
                 }
             } ?: return@launch
@@ -55,7 +57,7 @@ class NoteDetailViewModel @Inject constructor(
             launch {
                 noteRepository.getNoteById(noteId).let { note ->
                     noteViewModelState.update { state ->
-                        state.copy(note = note)
+                        state.copy(note = note, isLoading = false)
                     }
                 }
             }
@@ -119,18 +121,22 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     fun onUpdateIsPinned(isPinned: Boolean) = viewModelScope.launch {
-
         noteViewModelState.update { state ->
-
-            val updatedNote = state.note.copy(
-                isPinned = isPinned
-            )
-
             state.copy(
-                note =  updatedNote
+                note = state.note.copy(isPinned = isPinned)
             )
         }
+        saveNote()
+    }
 
+    fun onUpdateIsArchived(isArchived: Boolean) {
+        viewModelScope.launch {
+            noteViewModelState.update { state ->
+                state.copy(
+                    note = state.note.copy(isArchived = isArchived)
+                )
+            }
+        }
         saveNote()
     }
 
@@ -147,9 +153,19 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     fun onDeleteNote() = viewModelScope.launch {
-        noteViewModelState.value.note.id?.let { noteId ->
-            noteRepository.deleteNoteById(noteId)
-            reminderRepository.deleteRemindByNoteId(noteId)
+        noteViewModelState.value.note.let { note ->
+            note.id?.let { id ->
+                noteRepository.deleteNoteById(id)
+                reminderRepository.deleteRemindByNoteId(id)
+            }
+            if (note.isNoteValid()) {
+                trashRepository.insertTrash(
+                    Trash(
+                        note = note.copy(labelIds = listOf()),
+                        dateOfAdding = dateHelper.getCurrentTimeInEpochMilli()
+                    )
+                )
+            }
         }
     }
 
@@ -216,29 +232,28 @@ class NoteDetailViewModel @Inject constructor(
         )
     }
 
-    private suspend fun createNote(): Long {
-        return noteRepository.insertNote(Note())
-    }
-
 }
 
 private data class NoteDetailViewModelState(
     val note: Note = Note(),
     val allLabels: List<Label> = listOf(),
     val noteReminders: List<Remind> = listOf(),
-    val labelSearch: String = ""
+    val labelSearch: String = "",
+    val isLoading: Boolean = true
 ) {
     fun toUiState() = NoteDetailUiState(
         note = note,
         noteLabels = allLabels.filter { note.labelIds.contains(it.id) },
         searchedLabels = allLabels.filter { it.name.contains(labelSearch) },
         noteReminders = noteReminders,
-        labelSearch = labelSearch
+        labelSearch = labelSearch,
+        isLoading = isLoading
     )
 }
 
 data class NoteDetailUiState(
     val note: Note,
+    val isLoading: Boolean,
     val noteLabels: List<Label>,
     val searchedLabels: List<Label>,
     val noteReminders: List<Remind>,

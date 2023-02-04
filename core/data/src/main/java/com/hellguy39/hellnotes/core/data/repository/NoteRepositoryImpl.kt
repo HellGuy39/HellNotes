@@ -38,6 +38,10 @@ class NoteRepositoryImpl @Inject constructor(
         noteDao.updateNote(note.toNoteEntity())
     }
 
+    override suspend fun updateNotes(notes: List<Note>) {
+        noteDao.updateNotes(notes.map(Note::toNoteEntity))
+    }
+
     override suspend fun deleteNote(note: Note) {
         noteDao.deleteNote(note.toNoteEntity())
     }

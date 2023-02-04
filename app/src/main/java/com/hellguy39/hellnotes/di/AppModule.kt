@@ -3,9 +3,11 @@ package com.hellguy39.hellnotes.di
 import android.app.Application
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.android_features.AndroidBiometricAuthenticator
+import com.hellguy39.hellnotes.android_features.AndroidLanguageHolder
 import com.hellguy39.hellnotes.android_features.AndroidNotificationSender
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
 import dagger.Module
 import dagger.Provides
@@ -39,5 +41,13 @@ object AppModule {
         app: Application
     ): NotificationSender {
         return AndroidNotificationSender(app)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLanguageHolder(
+        app: Application
+    ): LanguageHolder {
+        return AndroidLanguageHolder(app)
     }
 }

@@ -24,8 +24,6 @@ fun AboutAppTopAppBar(
                 )
             }
         },
-        actions = {
-
-        }
+        actions = {}
     )
 }

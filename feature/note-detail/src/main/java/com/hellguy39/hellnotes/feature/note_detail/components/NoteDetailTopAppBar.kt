@@ -22,10 +22,13 @@ fun NoteDetailTopAppBar(
 
     val note = topAppBarSelection.note
 
-    val pinIcon = if (note.isPinned)
-        painterResource(id = HellNotesIcons.PinActivated)
-    else
-        painterResource(id = HellNotesIcons.PinDisabled)
+    val pinIcon = painterResource(
+        id = if (note.isPinned) HellNotesIcons.PinActivated else HellNotesIcons.PinDisabled
+    )
+
+    val archiveIcon = painterResource(
+        id = if (note.isArchived) HellNotesIcons.Unarchive else HellNotesIcons.Archive
+    )
 
     val topAppBarColors = if (note.colorHex == ColorParam.DefaultColor)
         TopAppBarDefaults.topAppBarColors()
@@ -59,6 +62,14 @@ fun NoteDetailTopAppBar(
                 )
             }
             IconButton(
+                onClick = { topAppBarSelection.onArchive(!note.isArchived) }
+            ) {
+                Icon(
+                    painter = archiveIcon,
+                    contentDescription = null
+                )
+            }
+            IconButton(
                 onClick = { topAppBarSelection.onPin(!note.isPinned) }
             ) {
                 Icon(
@@ -73,12 +84,12 @@ fun NoteDetailTopAppBar(
                     painter = painterResource(id = HellNotesIcons.MoreVert),
                     contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More)
                 )
-            }
 
-            NoteDetailDropdownMenu(
-                state = noteDetailDropdownMenuState,
-                selection = dropdownMenuSelection
-            )
+                NoteDetailDropdownMenu(
+                    state = noteDetailDropdownMenuState,
+                    selection = dropdownMenuSelection
+                )
+            }
         }
     )
 }
@@ -88,5 +99,6 @@ data class NoteDetailTopAppBarSelection(
     val onNavigationButtonClick: () -> Unit,
     val onReminder: () -> Unit,
     val onPin: (isPinned: Boolean) -> Unit,
+    val onArchive: (isArchived: Boolean) -> Unit,
     val onColorSelected: (colorHex: Long) -> Unit,
 )

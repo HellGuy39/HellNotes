@@ -32,7 +32,6 @@ import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
 
 @AndroidEntryPoint
 class LockActivity : AppCompatActivity() {
@@ -61,7 +60,6 @@ class LockActivity : AppCompatActivity() {
         setContent {
             HellNotesTheme {
 
-                val scope = rememberCoroutineScope()
                 val snackbarHostState = remember { SnackbarHostState() }
 
                 Surface(
@@ -71,7 +69,6 @@ class LockActivity : AppCompatActivity() {
                     TransparentSystemBars()
                     LockScreenContent(
                         lockViewModel = lockViewModel,
-                        scope = scope,
                         snackbarHostState = snackbarHostState
                     )
                 }
@@ -139,7 +136,6 @@ class LockActivity : AppCompatActivity() {
     @Composable
     fun LockScreenContent(
         lockViewModel: LockViewModel,
-        scope: CoroutineScope,
         snackbarHostState: SnackbarHostState
     ) {
         val uiState by lockViewModel.uiState.collectAsState()
@@ -387,7 +383,7 @@ class LockActivity : AppCompatActivity() {
                 ) {
                     Text(
                         text = key,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.headlineLarge
                     )
                 }
             }

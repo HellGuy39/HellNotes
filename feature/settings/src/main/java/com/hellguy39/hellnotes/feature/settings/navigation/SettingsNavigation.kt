@@ -17,16 +17,18 @@ fun NavGraphBuilder.settingsScreen(
         route = settingsNavigationRoute,
         arguments = listOf(),
         enterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { 300 },
-                animationSpec = tween(300)
-            ) + fadeIn(animationSpec = tween(300))
+//            slideInHorizontally(
+//                initialOffsetX = { 300 },
+//                animationSpec = tween(300)
+//            ) +
+                    fadeIn(animationSpec = tween(300))
         },
         popExitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { 300 },
-                animationSpec = tween(300)
-            ) + fadeOut(animationSpec = tween(300))
+//            slideOutHorizontally(
+//                targetOffsetX = { 300 },
+//                animationSpec = tween(300)
+//            ) +
+                    fadeOut(animationSpec = tween(300))
         }
     ) {
         SettingsRoute(navController = navController)

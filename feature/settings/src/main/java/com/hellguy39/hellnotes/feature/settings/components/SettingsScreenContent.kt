@@ -135,11 +135,15 @@ fun SettingsPartitionCard(
                 Spacer(modifier = Modifier.size(width = 8.dp, height = 0.dp))
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
             Spacer(modifier = Modifier.size(height = 0.dp, width = 0.dp))
-            content()
+            Column(
+                modifier = Modifier.padding(start = 32.dp, top = 8.dp, bottom = 8.dp)
+            ) {
+                content()
+            }
         }
     }
 }

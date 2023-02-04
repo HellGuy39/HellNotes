@@ -19,6 +19,11 @@ android {
             isMinifyEnabled = false
         }
     }
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -41,4 +46,5 @@ dependencies {
     kapt(Libs.Google.Hilt.Compiler)
 
     implementation(Libs.SquareUp.Moshi)
+    implementation(Libs.SquareUp.MoshiKotlin)
 }

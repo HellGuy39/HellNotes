@@ -22,6 +22,7 @@
     <string name="label_others">Другие</string>
     <string name="label_language">Язык</string>
     <string name="label_security">Безопасность</string>
+    <string name="label_labels">Метки</string>
 
     <!-- Text -->
     <string name="text_sort_by">Сортировать по \'%s\'</string>
@@ -34,6 +35,10 @@
     <string name="text_edited">Редактировано %s</string>
     <string name="text_selected">Выбрано %s</string>
     <string name="text_remind_time_is_too_late">Невозможно установить напоминание, время напоминания позднее системного.</string>
+    <string name="text_note_moved_to_trash">Заметка перемещена в корзину</string>
+    <string name="text_notes_moved_to_trash">Заметки перемещена в корзину</string>
+    <string name="text_no_notes_in_trash">В Корзине нет заметок</string>
+    <string name="text_label_already_exist">Метка с таким именем уже сущесвует</string>
 
     <!-- Button -->
     <string name="btn_request_permission">Запросить разрешение</string>
@@ -42,6 +47,7 @@
     <string name="btn_delete">Удалить</string>
     <string name="btn_edit_pin">Изменить PIN</string>
     <string name="btn_setup_pin">Установить PIN</string>
+    <string name="btn_undo">Отменить</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>
@@ -49,6 +55,7 @@
     <string name="hint_search">Поиск…</string>
     <string name="hint_label">Метка…</string>
     <string name="hint_message">Сообщение</string>
+    <string name="hint_create_new_label">Создать новую метку</string>
 
     <!-- Setting -->
     <string name="stg_app_lock">Блокировка приложения</string>
@@ -66,11 +73,16 @@
     <string name="menu_item_whats_new">Что нового?</string>
     <string name="menu_item_color">Цвет</string>
     <string name="menu_item_create_new_label">Создать новую метку</string>
+    <string name="menu_item_empty_trash">Очистить корзину</string>
 
     <!-- Title -->
+    <string name="title_notes">Заметки</string>
+    <string name="title_archive">Архив</string>
+    <string name="title_trash">Корзина</string>
     <string name="title_settings">Настройки</string>
     <string name="title_about_app">О приложении</string>
     <string name="title_reminders">Напоминания</string>
+    <string name="title_labels">Метки</string>
     <string name="title_new_remind">Новое напоминание</string>
     <string name="title_share_as">Поделиться как…</string>
     <string name="title_edit_remind">Редактировать напоминание</string>
