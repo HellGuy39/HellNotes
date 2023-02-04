@@ -4,7 +4,8 @@
 
 ## Features
 
-- Create quick notes, set reminders and add labels.
+- Create notes, set reminders and add labels.
+- Quick access from home screen using [shortcuts](https://developer.android.com/develop/ui/views/launch/shortcuts).
 - Using Material You design system.
 - Entrance by biometrics and PIN-code lock.
 - Private with no data collection and no internet permission at all.
