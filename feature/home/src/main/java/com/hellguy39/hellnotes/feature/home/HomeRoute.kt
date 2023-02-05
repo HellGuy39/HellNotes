@@ -9,9 +9,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.components.NoteSelection
-import com.hellguy39.hellnotes.core.ui.navigations.INavigations
+import com.hellguy39.hellnotes.core.ui.navigations.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
@@ -39,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
-    navigations: INavigations,
+    navController: NavController,
     startScreenIndex: Int = 0,
     homeViewModel: HomeViewModel = hiltViewModel(),
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
@@ -109,7 +110,7 @@ fun HomeRoute(
             itemType = DrawerItemType.Static,
             onClick = {
                 scope.launch { drawerState.close() }
-                navigations.navigateToSettings()
+                navController.navigateToSettings()
             }
         ),
         DrawerItem(
@@ -118,7 +119,7 @@ fun HomeRoute(
             itemType = DrawerItemType.Static,
             onClick = {
                 scope.launch { drawerState.close() }
-                navigations.navigateToAboutApp()
+                navController.navigateToAboutApp()
             }
         )
     )
@@ -150,8 +151,8 @@ fun HomeRoute(
                 drawerItems = drawerItems,
                 labelItems = labelItems,
                 labelSelection = LabelSelection(
-                    onEditLabel = { navigations.navigateToLabels() },
-                    onCreateNewLabel = { navigations.navigateToLabels() }
+                    onEditLabel = { navController.navigateToLabels() },
+                    onCreateNewLabel = { navController.navigateToLabels() }
                 )
             )
         },
@@ -165,7 +166,7 @@ fun HomeRoute(
                             val notesMovedToTrash = stringResource(id = HellNotesStrings.Text.NotesMovedToTrash)
 
                             NoteListScreen(
-                                onFabAddClick = { navigations.navigateToNoteDetail(-1) },
+                                onFabAddClick = { navController.navigateToNoteDetail(-1) },
                                 noteListTopAppBarSelection = NoteListTopAppBarSelection(
                                     listStyle = listStyle,
                                     onCancelSelection = {
@@ -197,7 +198,7 @@ fun HomeRoute(
                                         }
                                     },
                                     onSearch = {
-                                        navigations.navigateToSearch()
+                                        navController.navigateToSearch()
                                     },
                                     onChangeListStyle = {
                                         homeViewModel.updateListStyle()
@@ -211,7 +212,7 @@ fun HomeRoute(
                                     dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (noteListUiState.selectedNotes.isEmpty()) {
-                                            navigations.navigateToNoteDetail(note.id ?: -1)
+                                            navController.navigateToNoteDetail(note.id ?: -1)
                                         } else {
                                             if (noteListUiState.selectedNotes.contains(note)) {
                                                 noteListViewModel.unselectNote(note)
@@ -244,7 +245,7 @@ fun HomeRoute(
                                     dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (remindersUiState.selectedNotes.isEmpty()) {
-                                            navigations.navigateToNoteDetail(note.id ?: -1)
+                                            navController.navigateToNoteDetail(note.id ?: -1)
                                         } else {
                                             if (remindersUiState.selectedNotes.contains(note)) {
                                                 remindersViewModel.unselectNote(note)
@@ -291,7 +292,7 @@ fun HomeRoute(
                                     dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (archiveUiState.selectedNotes.isEmpty()) {
-                                            navigations.navigateToNoteDetail(note.id ?: -1)
+                                            navController.navigateToNoteDetail(note.id ?: -1)
                                         } else {
                                             if (archiveUiState.selectedNotes.contains(note)) {
                                                 archiveViewModel.unselectNote(note)
@@ -383,7 +384,7 @@ fun HomeRoute(
                                 dateHelper = dateHelper,
                                 onClick = { note ->
                                     if (labelUiState.selectedNotes.isEmpty()) {
-                                        navigations.navigateToNoteDetail(note.id ?: -1)
+                                        navController.navigateToNoteDetail(note.id ?: -1)
                                     } else {
                                         if (labelUiState.selectedNotes.contains(note)) {
                                             labelViewModel.unselectNote(note)

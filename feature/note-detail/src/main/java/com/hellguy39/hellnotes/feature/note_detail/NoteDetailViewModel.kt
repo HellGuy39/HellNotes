@@ -10,8 +10,8 @@ import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.ui.DateHelper
-import com.hellguy39.hellnotes.feature.note_detail.util.KEY_NOTE_ID
-import com.hellguy39.hellnotes.feature.note_detail.util.NEW_NOTE_ID
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -44,8 +44,8 @@ class NoteDetailViewModel @Inject constructor(
     init {
 
         viewModelScope.launch {
-            val noteId = savedStateHandle.get<Long>(KEY_NOTE_ID).let { id ->
-                if(id != NEW_NOTE_ID) {
+            val noteId = savedStateHandle.get<Long>(ArgumentKeys.NoteId).let { id ->
+                if(id != ArgumentDefaultValues.NewNote) {
                     id
                 } else {
                     withContext(Dispatchers.IO) {

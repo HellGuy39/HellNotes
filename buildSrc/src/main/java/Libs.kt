@@ -65,7 +65,7 @@ object Libs {
             const val Activty = "androidx.activity:activity-compose:1.6.1"
             const val Ui = "androidx.compose.ui:ui:$composeVersion"
             const val ToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
-            const val Material3 = "androidx.compose.material3:material3:1.1.0-alpha04"
+            const val Material3 = "androidx.compose.material3:material3:1.1.0-alpha05"
             const val Navigation = "androidx.navigation:navigation-compose:2.5.3"
 
             const val UiTestJUnit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
@@ -78,7 +78,7 @@ object Libs {
 
     object Google {
 
-        private const val materialVersion = "1.7.0"
+        private const val materialVersion = "1.8.0"
         const val Material = "com.google.android.material:material:$materialVersion"
 
         object Accompanist {
@@ -91,6 +91,10 @@ object Libs {
                 "com.google.accompanist:accompanist-systemuicontroller:$version"
             const val Permissions = "com.google.accompanist:accompanist-permissions:$version"
             const val FlowLayout = "com.google.accompanist:accompanist-flowlayout:$version"
+            const val Pager = "com.google.accompanist:accompanist-pager:$version"
+            const val PagerIndicators =
+                "com.google.accompanist:accompanist-pager-indicators:$version"
+
 
         }
 

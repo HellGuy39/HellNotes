@@ -1,19 +1,21 @@
-package com.hellguy39.hellnotes.feature.about_app.navigation
+package com.hellguy39.hellnotes.feature.welcome.navigation
 
-import androidx.compose.animation.*
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.feature.about_app.AboutAppRoute
+import com.hellguy39.hellnotes.feature.welcome.WelcomeRoute
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.aboutAppScreen(
+fun NavGraphBuilder.welcomeScreen(
     navController: NavController
 ) {
     composable(
-        route = Screen.AboutApp.route,
+        route = Screen.Welcome.route,
         arguments = listOf(),
         enterTransition = {
             fadeIn(animationSpec = tween(300))
@@ -22,6 +24,6 @@ fun NavGraphBuilder.aboutAppScreen(
             fadeOut(animationSpec = tween(300))
         }
     ) {
-        AboutAppRoute(navController = navController)
+        WelcomeRoute(navController = navController)
     }
 }

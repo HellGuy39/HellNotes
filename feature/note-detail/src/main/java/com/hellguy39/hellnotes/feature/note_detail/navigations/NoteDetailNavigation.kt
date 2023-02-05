@@ -1,25 +1,24 @@
-package com.hellguy39.hellnotes.feature.note_detail.util
+package com.hellguy39.hellnotes.feature.note_detail.navigations
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
+import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailRoute
-
-const val noteDetailNavigationRoute = "note_detail_route"
-const val KEY_NOTE_ID = "noteId"
-const val NEW_NOTE_ID: Long = -1
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.noteDetailScreen(
     navController: NavController
 ) {
     composable(
-        route = "$noteDetailNavigationRoute/{$KEY_NOTE_ID}",
+        route = "${Screen.NoteDetail.route}/{${ArgumentKeys.NoteId}}",
         arguments = listOf(
-            navArgument(name = KEY_NOTE_ID) {
+            navArgument(name = ArgumentKeys.NoteId) {
                 type = NavType.LongType
-                defaultValue = NEW_NOTE_ID
+                defaultValue = ArgumentDefaultValues.NewNote
             }
         ),
         enterTransition = {

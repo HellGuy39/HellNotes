@@ -9,12 +9,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.components.NoteSelection
-import com.hellguy39.hellnotes.core.ui.navigations.INavigations
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 
 @Composable
 fun SearchRoute(
     navController: NavController,
-    navigations: INavigations,
     searchViewModel: SearchViewModel = hiltViewModel(),
     dateHelper: DateHelper = searchViewModel.dateHelper
 ) {
@@ -35,7 +34,7 @@ fun SearchRoute(
         noteSelection = NoteSelection(
             dateHelper = dateHelper,
             onClick = { note ->
-                navigations.navigateToNoteDetail(noteId = note.id ?: -1)
+                navController.navigateToNoteDetail(noteId = note.id ?: -1)
             },
             onLongClick = { note ->
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)

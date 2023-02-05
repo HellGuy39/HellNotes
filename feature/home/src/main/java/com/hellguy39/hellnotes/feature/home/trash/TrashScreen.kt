@@ -11,10 +11,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.NoteColumnList
-import com.hellguy39.hellnotes.core.ui.components.NoteGridList
-import com.hellguy39.hellnotes.core.ui.components.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.trash.components.TrashDropdownMenuSelection
@@ -62,6 +59,13 @@ fun TrashScreen(
                         pinnedNotes = listOf(),
                         unpinnedNotes = uiState.trashNotes,
                         selectedNotes = uiState.selectedNotes,
+                        listHeader = {
+                            TipCard(
+                                isVisible = true,
+                                message = "Notes in the trash are deleted automatically after 7 days",
+                                onClose = {}
+                            )
+                        }
                     )
                 }
                 ListStyle.Grid -> {

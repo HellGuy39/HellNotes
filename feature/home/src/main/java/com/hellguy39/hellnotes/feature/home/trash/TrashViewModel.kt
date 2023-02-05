@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.home.trash
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
@@ -11,6 +12,7 @@ import com.hellguy39.hellnotes.core.ui.DateHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,7 +103,7 @@ class TrashViewModel @Inject constructor(
         viewModelScope.launch {
             trashRepository.getAllTrash().forEach { trash ->
 
-                val expirationDate = trash.dateOfAdding + (3600 * (24 * 7))
+                val expirationDate = trash.dateOfAdding + ((3600 * 1000) * (24 * 7))
 
                 if (dateHelper.getCurrentTimeInEpochMilli() > expirationDate) {
                     trashRepository.deleteTrash(trash)

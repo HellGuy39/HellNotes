@@ -7,16 +7,15 @@ import androidx.compose.animation.fadeOut
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
+import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.labels.LabelsRoute
-
-const val labelsNavigationRoute = "labels_route"
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.labelsScreen(
     navController: NavController
 ) {
     composable(
-        route = labelsNavigationRoute,
+        route = Screen.Labels.route,
         arguments = listOf(),
         enterTransition = {
             fadeIn(animationSpec = tween(300))
