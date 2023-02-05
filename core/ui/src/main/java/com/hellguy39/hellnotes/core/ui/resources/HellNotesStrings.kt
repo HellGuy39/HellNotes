@@ -49,6 +49,7 @@ object HellNotesStrings {
         val NoNotesInTrash = R.string.text_no_notes_in_trash
 
         val LabelAlreadyExist = R.string.text_label_already_exist
+        val NothingToShare = R.string.text_nothing_to_share
     }
 
     object MenuItem {

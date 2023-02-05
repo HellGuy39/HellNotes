@@ -8,6 +8,8 @@ interface TrashRepository {
 
     fun getAllTrashStream(): Flow<List<Trash>>
 
+    suspend fun getAllTrash(): List<Trash>
+
     suspend fun deleteTrash(trash: Trash)
 
     suspend fun deleteTrashByNote(note: Note)

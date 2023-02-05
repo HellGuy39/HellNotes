@@ -5,6 +5,7 @@ object Project {
         const val Common = ":core:common"
         const val Data = ":core:data"
         const val Database = ":core:database"
+        const val Datastore = ":core:datastore"
         const val Model = ":core:model"
         const val Domain = ":core:domain"
     }

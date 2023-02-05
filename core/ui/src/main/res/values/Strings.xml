@@ -39,6 +39,7 @@
     <string name="text_notes_moved_to_trash">Notes moved to trash</string>
     <string name="text_no_notes_in_trash">No notes in Trash</string>
     <string name="text_label_already_exist">Label with this name already exists</string>
+    <string name="text_nothing_to_share">Nothing to share</string>
 
     <!-- MenuItem -->
     <string name="menu_item_settings">Settings</string>

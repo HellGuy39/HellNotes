@@ -30,6 +30,7 @@ object Libs {
 
         const val SplashScreen ="androidx.core:core-splashscreen:$splashScreenVersion"
         const val Biometric = "androidx.biometric:biometric-ktx:$biometricVersion"
+
         const val CoreKtx = "androidx.core:core-ktx:$coreVersion"
         const val LifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
         const val AppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
@@ -39,6 +40,15 @@ object Libs {
 
         const val JUnit = "androidx.test.ext:junit:$junitVersion"
         const val Espresso = "androidx.test.espresso:espresso-core:$espressoVersion"
+
+        object DataStore {
+
+            private const val version = "1.0.0"
+
+            const val Preferences = "androidx.datastore:datastore-preferences:$version"
+            const val Proto = "androidx.datastore:datastore:$version"
+
+        }
 
         object Room {
             private const val version = "2.5.0"

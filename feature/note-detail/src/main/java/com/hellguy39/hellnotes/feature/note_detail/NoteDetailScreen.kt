@@ -6,8 +6,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import com.hellguy39.hellnotes.core.model.isNoteValid
 import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.feature.note_detail.components.*
 import java.util.*
 
@@ -53,6 +55,25 @@ fun NoteDetailScreen(
                 topAppBarSelection = noteDetailTopAppBarSelection,
                 dropdownMenuSelection = noteDetailDropdownMenuSelection
             )
+        },
+        bottomBar = {
+//            BottomAppBar(
+//                modifier = Modifier,
+//                actions = {
+//                    IconButton(onClick = { /* doSomething() */ }) {
+//                        Icon(
+//                            painter = painterResource(id = HellNotesIcons.Label),
+//                            contentDescription = null
+//                        )
+//                    }
+//                    IconButton(onClick = { /* doSomething() */ }) {
+//                        Icon(
+//                            painter = painterResource(id = HellNotesIcons.Label),
+//                            contentDescription = null,
+//                        )
+//                    }
+//                }
+//            )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     )

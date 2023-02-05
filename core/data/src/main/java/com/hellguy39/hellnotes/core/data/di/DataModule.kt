@@ -36,4 +36,9 @@ interface DataModule {
         i: TrashRepositoryImpl
     ): TrashRepository
 
+    @Binds
+    fun bindDataStoreRepository(
+        i: DataStoreRepositoryImpl
+    ): DataStoreRepository
+
 }
