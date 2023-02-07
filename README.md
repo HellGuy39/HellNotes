@@ -10,7 +10,7 @@
 - Entrance by biometrics and PIN-code lock.
 - Private with no data collection and no internet permission at all.
 
-## Techologies
+## Technologies
 
 - 100% Kotlin
 - Jetpack Compose
