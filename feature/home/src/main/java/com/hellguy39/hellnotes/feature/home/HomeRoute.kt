@@ -11,6 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.components.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.NoteSelection
 import com.hellguy39.hellnotes.core.ui.navigations.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -236,7 +237,17 @@ fun HomeRoute(
                                         noteListViewModel.updateSorting(sorting)
                                     }
                                 ),
-                                snackbarHostState = snackbarHostState
+                                snackbarHostState = snackbarHostState,
+                                categories = listOf(
+                                    NoteCategory(
+                                        title = stringResource(id = HellNotesStrings.Label.Pinned),
+                                        notes = noteListUiState.pinnedNotes,
+                                    ),
+                                    NoteCategory(
+                                        title = stringResource(id = HellNotesStrings.Label.Others),
+                                        notes = noteListUiState.unpinnedNotes,
+                                    )
+                                )
                             )
                         } else {
                             RemindersScreen(
@@ -279,6 +290,11 @@ fun HomeRoute(
                                         remindersViewModel.cancelNoteSelection()
                                     }
                                 ),
+                                categories = listOf(
+                                    NoteCategory(
+                                        notes = remindersUiState.notes
+                                    )
+                                )
                             )
                         }
 
@@ -324,6 +340,11 @@ fun HomeRoute(
                                     onArchiveSelected = {
                                         archiveViewModel.archiveAllSelected()
                                     }
+                                ),
+                                categories = listOf(
+                                    NoteCategory(
+                                        notes = archiveUiState.notes
+                                    )
                                 )
                             )
                         } else {
@@ -372,7 +393,12 @@ fun HomeRoute(
                                         trashViewModel.emptyTrash()
                                     }
                                 ),
-                                listStyle = listStyle
+                                listStyle = listStyle,
+                                categories = listOf(
+                                    NoteCategory(
+                                        notes = trashUiState.trashNotes
+                                    )
+                                )
                             )
                         }
                     }
@@ -414,6 +440,11 @@ fun HomeRoute(
                                     labelViewModel.archiveAllSelected()
                                 },
                                 onNavigation = { scope.launch { drawerState.open() } }
+                            ),
+                            categories = listOf(
+                                NoteCategory(
+                                    notes = labelUiState.notes
+                                )
                             )
                         )
                     }

@@ -11,8 +11,8 @@ import com.hellguy39.hellnotes.feature.welcome.util.OnBoardingPage
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun WelcomeRoute(
-    navController: NavController,
-    welcomeViewModel: WelcomeViewModel = hiltViewModel()
+    welcomeViewModel: WelcomeViewModel = hiltViewModel(),
+    onFinish: () -> Unit = {}
 ) {
     val pages = listOf(
         OnBoardingPage.First,
@@ -26,8 +26,7 @@ fun WelcomeRoute(
         pagerState = pagerState,
         onFinish = {
             welcomeViewModel.saveOnBoardingState(completed = true)
-            navController.popBackStack()
-            navController.navigateToHome()
+            onFinish()
         }
     )
 }

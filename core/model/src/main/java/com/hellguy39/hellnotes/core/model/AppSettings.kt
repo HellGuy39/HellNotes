@@ -2,9 +2,10 @@ package com.hellguy39.hellnotes.core.model
 
 data class AppSettings(
     /* Security */
-    val isPinSetup: Boolean,
+    val isAppLocked: Boolean,
     val appPin: String,
-    val isUseBiometric: Boolean,
+    val isBiometricSetup: Boolean,
+    val isOnBoardingCompleted: Boolean
 ) {
-    constructor(): this(false, "", false)
+    constructor(): this(false, "", false, false)
 }

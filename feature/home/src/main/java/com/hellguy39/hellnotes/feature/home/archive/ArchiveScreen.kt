@@ -11,10 +11,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.NoteColumnList
-import com.hellguy39.hellnotes.core.ui.components.NoteGridList
-import com.hellguy39.hellnotes.core.ui.components.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.archive.components.ArchiveTopAppBar
@@ -26,7 +23,8 @@ fun ArchiveScreen(
     uiState: ArchiveUiState,
     listStyle: ListStyle,
     noteSelection: NoteSelection,
-    archiveTopAppBarSelection: ArchiveTopAppBarSelection
+    archiveTopAppBarSelection: ArchiveTopAppBarSelection,
+    categories: List<NoteCategory>
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -56,8 +54,7 @@ fun ArchiveScreen(
                     NoteColumnList(
                         innerPadding = paddingValues,
                         noteSelection = noteSelection,
-                        pinnedNotes = listOf(),
-                        unpinnedNotes = uiState.notes,
+                        categories = categories,
                         selectedNotes = uiState.selectedNotes
                     )
                 }
@@ -65,8 +62,7 @@ fun ArchiveScreen(
                     NoteGridList(
                         innerPadding = paddingValues,
                         noteSelection = noteSelection,
-                        pinnedNotes = listOf(),
-                        unpinnedNotes = uiState.notes,
+                        categories = categories,
                         selectedNotes = uiState.selectedNotes
                     )
                 }

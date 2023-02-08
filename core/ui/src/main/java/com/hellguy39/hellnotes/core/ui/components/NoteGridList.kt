@@ -1,80 +1,80 @@
 package com.hellguy39.hellnotes.core.ui.components
 
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteGridList(
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteSelection: NoteSelection,
-    pinnedNotes: List<NoteDetailWrapper>,
-    unpinnedNotes: List<NoteDetailWrapper>,
+    categories: List<NoteCategory>,
     selectedNotes: List<Note>,
     listHeader: @Composable () -> Unit = {}
 ) {
-    LazyVerticalGrid(
+    val cellConfiguration = if (LocalConfiguration.current.orientation == ORIENTATION_LANDSCAPE) {
+        StaggeredGridCells.Adaptive(minSize = 192.dp)
+    } else StaggeredGridCells.Fixed(2)
+
+    LazyVerticalStaggeredGrid(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 4.dp, vertical = 4.dp),
-        columns = GridCells.Adaptive(192.dp),
-        contentPadding = innerPadding
+        contentPadding = innerPadding,
+        columns = cellConfiguration
     ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
+        item(
+            span = StaggeredGridItemSpan.FullLine
+        ) {
             listHeader()
         }
-        if (pinnedNotes.isNotEmpty()) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Text(
-                    text = stringResource(id = HellNotesStrings.Label.Pinned),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    style = MaterialTheme.typography.labelMedium
-                )
-            }
-            items(pinnedNotes) { wrapper ->
-                NoteCard(
-                    note = wrapper.note,
-                    selection = noteSelection,
-                    isSelected = selectedNotes.contains(wrapper.note),
-                    labels = wrapper.labels,
-                    reminds = wrapper.reminders
-                )
-            }
-            if (unpinnedNotes.isNotEmpty()) {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Text(
-                        text = stringResource(id = HellNotesStrings.Label.Others),
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        style = MaterialTheme.typography.labelMedium
+        categories.forEach { category ->
+            if (category.notes.isNotEmpty()) {
+                if (category.title.isNotEmpty()) {
+                    item(
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
+                        Text(
+                            text = category.title,
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                }
+                items(
+                    items = category.notes,
+                    key = { it.note.id ?: 0 },
+                ) { wrapper ->
+                    NoteCard(
+                        note = wrapper.note,
+                        selection = noteSelection,
+                        isSelected = selectedNotes.contains(wrapper.note),
+                        labels = wrapper.labels,
+                        reminds = wrapper.reminders
                     )
                 }
             }
         }
-
-        items(unpinnedNotes) { wrapper ->
-            NoteCard(
-                note = wrapper.note,
-                selection = noteSelection,
-                isSelected = selectedNotes.contains(wrapper.note),
-                labels = wrapper.labels,
-                reminds = wrapper.reminders
-            )
-        }
     }
-
 }
+
+data class NoteCategory(
+    val title: String = "",
+    val notes: List<NoteDetailWrapper> = listOf()
+)

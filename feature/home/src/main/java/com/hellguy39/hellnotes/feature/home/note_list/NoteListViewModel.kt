@@ -17,7 +17,7 @@ class NoteListViewModel @Inject constructor(
     private val labelRepository: LabelRepository,
     private val reminderRepository: ReminderRepository,
     private val trashRepository: TrashRepository,
-    private val appSettingsRepository: AppSettingsRepository,
+    private val dataStoreRepository: DataStoreRepository,
     private val dateHelper: DateHelper
 ): ViewModel() {
 
@@ -36,10 +36,14 @@ class NoteListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
 
-            noteListViewModelState.update {
-                it.copy(
-                    sorting = appSettingsRepository.getListSort(),
-                )
+            launch {
+                dataStoreRepository.readListSortState().collect { sorting ->
+                    noteListViewModelState.update {
+                        it.copy(
+                            sorting = sorting,
+                        )
+                    }
+                }
             }
 
             launch {
@@ -103,10 +107,12 @@ class NoteListViewModel @Inject constructor(
         }
     }
 
-    fun updateSorting(sorting: Sorting) = viewModelScope.launch {
-        appSettingsRepository.saveListSort(sorting)
-        noteListViewModelState.update { state ->
-            state.copy(sorting = sorting)
+    fun updateSorting(sorting: Sorting) {
+        viewModelScope.launch {
+            dataStoreRepository.saveListSortState(sorting)
+            noteListViewModelState.update { state ->
+                state.copy(sorting = sorting)
+            }
         }
     }
 

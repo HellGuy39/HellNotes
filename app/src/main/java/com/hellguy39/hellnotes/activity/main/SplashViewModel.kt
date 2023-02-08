@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,17 +20,17 @@ class SplashViewModel @Inject constructor(
     private val _isLoading: MutableState<Boolean> = mutableStateOf(true)
     val isLoading: State<Boolean> = _isLoading
 
-    private val _startDestination: MutableState<String> = mutableStateOf(Screen.Welcome.route)
-    val startDestination: State<String> = _startDestination
+    private val _isOnBoardingCompleted: MutableState<Boolean> = mutableStateOf(false)
+    val isOnBoardingCompleted: State<Boolean> = _isOnBoardingCompleted
+
+    private val _isAppLocked: MutableState<Boolean> = mutableStateOf(false)
+    val isAppLocked: State<Boolean> = _isAppLocked
 
     init {
         viewModelScope.launch {
-            dataStoreRepository.readOnBoardingState().collect { completed ->
-                if (completed) {
-                    _startDestination.value = Screen.Home.route
-                } else {
-                    _startDestination.value = Screen.Welcome.route
-                }
+            dataStoreRepository.readAppSettings().collect { settings ->
+                _isAppLocked.value = settings.isAppLocked
+                _isOnBoardingCompleted.value = settings.isOnBoardingCompleted
             }
             _isLoading.value = false
         }

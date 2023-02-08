@@ -13,9 +13,9 @@ interface DataStoreRepository {
 
     suspend fun saveListSortState(sorting: Sorting)
 
-    fun readAppSettings(): Flow<AppSettings>
+    suspend fun saveAppSettings(appSettings: AppSettings)
 
-    fun readOnBoardingState(): Flow<Boolean>
+    fun readAppSettings(): Flow<AppSettings>
 
     fun readListSortState(): Flow<Sorting>
 

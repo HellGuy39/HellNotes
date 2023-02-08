@@ -19,6 +19,7 @@ object Project {
         const val AboutApp= ":feature:about-app"
         const val Settings = ":feature:settings"
         const val Labels = ":feature:labels"
+        const val Lock = ":feature:lock"
     }
 
 }

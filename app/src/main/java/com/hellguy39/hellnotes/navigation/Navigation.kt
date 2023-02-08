@@ -2,9 +2,13 @@ package com.hellguy39.hellnotes.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.navigations.Screen
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
@@ -12,16 +16,13 @@ import com.hellguy39.hellnotes.feature.labels.navigation.labelsScreen
 import com.hellguy39.hellnotes.feature.note_detail.navigations.noteDetailScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
-import com.hellguy39.hellnotes.feature.welcome.navigation.welcomeScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SetupNavGraph(
     extraNoteId: Long?,
     action: String?,
-    startDestination: String,
 ) {
-
     val navController = rememberAnimatedNavController()
 
     val actionNewNote = stringResource(id = HellNotesStrings.Action.NewNote)
@@ -29,10 +30,8 @@ fun SetupNavGraph(
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = Screen.Home.route
     ) {
-        welcomeScreen(navController)
-
         homeScreen(
             navController,
             startFromReminders = action == actionReminders
@@ -48,19 +47,17 @@ fun SetupNavGraph(
 
         aboutAppScreen(navController)
     }.also {
-//        LaunchedEffect(Unit) {
-//            if (extraNoteId != null) {
-//                navController.navigateToNoteDetail(noteId = extraNoteId)
-//            }
-//
-//            when (action) {
-//                actionNewNote -> {
-//                    navController.navigateToNoteDetail(NEW_NOTE_ID)
-//                }
-//                actionReminders -> {
-//                    //navController.navigateToReminders()
-//                }
-//            }
-//        }
+        LaunchedEffect(Unit) {
+            if (extraNoteId != null) {
+                navController.navigateToNoteDetail(noteId = extraNoteId)
+            }
+
+            when (action) {
+                actionNewNote -> {
+                    navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote)
+                }
+                actionReminders -> {}
+            }
+        }
     }
 }

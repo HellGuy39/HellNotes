@@ -17,11 +17,6 @@ interface DataModule {
     ): NoteRepository
 
     @Binds
-    fun bindAppSettingsRepository(
-        i: AppSettingsRepositoryImpl
-    ): AppSettingsRepository
-
-    @Binds
     fun bindRemindRepository(
         i: ReminderRepositoryImpl
     ): ReminderRepository

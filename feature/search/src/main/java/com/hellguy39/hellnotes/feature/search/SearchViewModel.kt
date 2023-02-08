@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.feature.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val appSettingsRepository: AppSettingsRepository,
+    dataStoreRepository: DataStoreRepository,
     private val labelRepository: LabelRepository,
     private val reminderRepository: ReminderRepository,
     private val noteRepository: NoteRepository,
@@ -47,7 +47,11 @@ class SearchViewModel @Inject constructor(
     private var getNotesJob: Job? = null
 
     init {
-        _listStyle.update { appSettingsRepository.getListStyle() }
+        viewModelScope.launch {
+            dataStoreRepository.readListStyleState().collect { listStyle ->
+                _listStyle.update { listStyle }
+            }
+        }
         fetchNotes("")
         fetchLabels()
         fetchReminds()

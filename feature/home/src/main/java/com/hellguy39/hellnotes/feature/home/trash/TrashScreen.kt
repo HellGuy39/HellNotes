@@ -25,7 +25,8 @@ fun TrashScreen(
     listStyle: ListStyle,
     trashTopAppBarSelection: TrashTopAppBarSelection,
     noteSelection: NoteSelection,
-    trashDropdownMenuSelection: TrashDropdownMenuSelection
+    trashDropdownMenuSelection: TrashDropdownMenuSelection,
+    categories: List<NoteCategory>
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -56,8 +57,7 @@ fun TrashScreen(
                     NoteColumnList(
                         innerPadding = paddingValues,
                         noteSelection = noteSelection,
-                        pinnedNotes = listOf(),
-                        unpinnedNotes = uiState.trashNotes,
+                        categories = categories,
                         selectedNotes = uiState.selectedNotes,
                         listHeader = {
                             TipCard(
@@ -72,9 +72,15 @@ fun TrashScreen(
                     NoteGridList(
                         innerPadding = paddingValues,
                         noteSelection = noteSelection,
-                        pinnedNotes = listOf(),
-                        unpinnedNotes = uiState.trashNotes,
+                        categories = categories,
                         selectedNotes = uiState.selectedNotes,
+                        listHeader = {
+                            TipCard(
+                                isVisible = true,
+                                message = "Notes in the trash are deleted automatically after 7 days",
+                                onClose = {}
+                            )
+                        }
                     )
                 }
             }

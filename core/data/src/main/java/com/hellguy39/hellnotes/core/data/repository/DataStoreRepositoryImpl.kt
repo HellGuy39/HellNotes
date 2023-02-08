@@ -24,12 +24,12 @@ class DataStoreRepositoryImpl @Inject constructor(
         dataSource.saveListSortState(sorting = sorting)
     }
 
-    override fun readAppSettings(): Flow<AppSettings> {
-        return dataSource.readAppSettings()
+    override suspend fun saveAppSettings(appSettings: AppSettings) {
+        dataSource.saveAppSettings(appSettings)
     }
 
-    override fun readOnBoardingState(): Flow<Boolean> {
-        return dataSource.readOnBoardingState()
+    override fun readAppSettings(): Flow<AppSettings> {
+        return dataSource.readAppSettings()
     }
 
     override fun readListSortState(): Flow<Sorting> {

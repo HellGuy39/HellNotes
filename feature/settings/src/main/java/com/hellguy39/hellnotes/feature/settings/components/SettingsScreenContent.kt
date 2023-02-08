@@ -44,7 +44,7 @@ fun SettingsScreenContent(
                         text = stringResource(id = HellNotesStrings.Setting.AppLock),
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    if (appSettings.isPinSetup) {
+                    if (appSettings.isAppLocked) {
                         Row {
                             Button(
                                 onClick = { settingsEvents.setupPIN() }
@@ -79,9 +79,9 @@ fun SettingsScreenContent(
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Switch(
-                        checked = appSettings.isUseBiometric,
+                        checked = appSettings.isBiometricSetup,
                         onCheckedChange = { settingsEvents.setUseBiometric(it) },
-                        enabled = appSettings.isPinSetup && isBioAuthAvailable
+                        enabled = appSettings.isAppLocked && isBioAuthAvailable
                     )
                 }
             }

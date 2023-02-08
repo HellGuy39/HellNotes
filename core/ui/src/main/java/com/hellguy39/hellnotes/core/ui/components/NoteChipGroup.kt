@@ -88,7 +88,7 @@ fun NoteChipGroup(
             )
         }
 
-        if (limitElements && counter >= maxElements + 1) {
+        if (limitElements && counter >= maxElements) {
             FilterChip(
                 selected = true,
                 onClick = {},

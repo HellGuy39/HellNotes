@@ -2,9 +2,9 @@ package com.hellguy39.hellnotes.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
-import com.hellguy39.hellnotes.core.domain.repository.AppSettingsRepository
 import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import com.hellguy39.hellnotes.core.model.AppSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val appSettingsRepository: AppSettingsRepository,
+    private val dataStoreRepository: DataStoreRepository,
     private val biometricAuth: BiometricAuthenticator,
     val languageHolder: LanguageHolder
 ): ViewModel() {
@@ -25,18 +25,17 @@ class SettingsViewModel @Inject constructor(
     val appSettings = _appSettings.asStateFlow()
 
     init {
-        fetchSettings()
-    }
-
-    private fun fetchSettings() = viewModelScope.launch {
-        val settings = appSettingsRepository.getAppSettings()
-        _appSettings.update { settings }
+        viewModelScope.launch {
+            dataStoreRepository.readAppSettings().collect { settings ->
+                _appSettings.update { settings }
+            }
+        }
     }
 
     fun setPin(pin: String) = viewModelScope.launch {
         _appSettings.update {
             it.copy(
-                isPinSetup = true,
+                isAppLocked = true,
                 appPin = pin
             )
         }
@@ -46,7 +45,7 @@ class SettingsViewModel @Inject constructor(
     fun deletePin() = viewModelScope.launch {
         _appSettings.update {
             it.copy(
-                isPinSetup = false,
+                isAppLocked = false,
                 appPin = ""
             )
         }
@@ -54,7 +53,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setIsUseBiometric(isUseBio: Boolean) = viewModelScope.launch {
-        _appSettings.update { it.copy(isUseBiometric = isUseBio) }
+        _appSettings.update { it.copy(isBiometricSetup = isUseBio) }
         saveSettings()
     }
 
@@ -65,9 +64,11 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun saveSettings() = viewModelScope.launch {
-        _appSettings.value.let {
-            appSettingsRepository.saveAppSettings(it)
+    private fun saveSettings() {
+        viewModelScope.launch {
+            _appSettings.value.let { settings ->
+                dataStoreRepository.saveAppSettings(settings)
+            }
         }
     }
 

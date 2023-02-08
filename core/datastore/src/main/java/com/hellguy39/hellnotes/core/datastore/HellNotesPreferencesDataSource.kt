@@ -23,7 +23,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
     private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")
         val isPinSetup = booleanPreferencesKey(name = "is_pin_setup")
-        val isUseBiometric = booleanPreferencesKey(name = "is_use_bio")
+        val isBiometricSetup = booleanPreferencesKey(name = "is_bio_setup")
         val listStyle = stringPreferencesKey(name = "list_style")
         val sorting = stringPreferencesKey(name = "sorting")
         val appPin = stringPreferencesKey(name = "app_pin")
@@ -49,19 +49,23 @@ class HellNotesPreferencesDataSource @Inject constructor(
         }
     }
 
-    fun readOnBoardingState() = dataStore.data
-        .catchExceptions()
-        .map { preferences ->
-            preferences[PreferencesKey.onBoardingKey] ?: false
+    suspend fun saveAppSettings(appSettings: AppSettings) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.isPinSetup] = appSettings.isAppLocked
+            preferences[PreferencesKey.isBiometricSetup] = appSettings.isBiometricSetup
+            preferences[PreferencesKey.appPin] = appSettings.appPin
+            preferences[PreferencesKey.onBoardingKey] = appSettings.isOnBoardingCompleted
         }
+    }
 
     fun readAppSettings() = dataStore.data
         .catchExceptions()
         .map { preferences ->
             AppSettings(
-                isPinSetup = preferences[PreferencesKey.isPinSetup] ?: false,
-                isUseBiometric = preferences[PreferencesKey.isUseBiometric] ?: false,
+                isAppLocked = preferences[PreferencesKey.isPinSetup] ?: false,
+                isBiometricSetup = preferences[PreferencesKey.isBiometricSetup] ?: false,
                 appPin = preferences[PreferencesKey.appPin] ?: "",
+                isOnBoardingCompleted =  preferences[PreferencesKey.onBoardingKey] ?: false
             )
         }
 

@@ -29,7 +29,8 @@ fun NoteListScreen(
     listConfigurationSelection: ListConfigurationSelection,
     uiState: NoteListUiState,
     noteSelection: NoteSelection,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    categories: List<NoteCategory>
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -67,8 +68,7 @@ fun NoteListScreen(
                         NoteColumnList(
                             innerPadding = innerPadding,
                             noteSelection = noteSelection,
-                            pinnedNotes = uiState.pinnedNotes,
-                            unpinnedNotes = uiState.unpinnedNotes,
+                            categories = categories,
                             selectedNotes = uiState.selectedNotes,
                             listHeader = {
                                 ListConfiguration(
@@ -82,8 +82,7 @@ fun NoteListScreen(
                         NoteGridList(
                             innerPadding = innerPadding,
                             noteSelection = noteSelection,
-                            pinnedNotes = uiState.pinnedNotes,
-                            unpinnedNotes = uiState.unpinnedNotes,
+                            categories = categories,
                             selectedNotes = uiState.selectedNotes,
                             listHeader = {
                                 ListConfiguration(

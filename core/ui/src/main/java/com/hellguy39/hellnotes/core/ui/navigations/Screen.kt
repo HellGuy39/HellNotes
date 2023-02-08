@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 
 sealed class Screen(val route: String) {
-    object Welcome : Screen(route = "welcome_screen")
+    object Lock : Screen(route = "lock_screen")
     object Home : Screen(route = "home_screen")
     object Settings : Screen(route = "settings_screen")
     object NoteDetail : Screen(route = "note_detail_screen")
@@ -59,6 +59,13 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
 fun NavController.navigateToLabels(navOptions: NavOptions? = null) {
     navigate(
         route = Screen.Labels.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToLock(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.Lock.route,
         navOptions = navOptions
     )
 }

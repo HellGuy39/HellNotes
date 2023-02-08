@@ -57,6 +57,7 @@ android {
 dependencies {
 
     implementation(project(Project.Feature.Welcome))
+    implementation(project(Project.Feature.Lock))
     implementation(project(Project.Feature.Search))
     implementation(project(Project.Feature.Home))
     implementation(project(Project.Feature.Labels))
