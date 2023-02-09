@@ -1,5 +1,3 @@
-![HellNotes](docs/splash.jpg)
-
 # HellNotes
 
 **HellNotes** is a example of modern notekeeping Android application. Written in Kotlin, using Jetpack Compose UI toolkit. 
