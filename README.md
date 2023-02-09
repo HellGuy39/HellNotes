@@ -1,4 +1,4 @@
-
+![HellNotes](docs/splash.jpg "HellNotes")
 
 # HellNotes
 
