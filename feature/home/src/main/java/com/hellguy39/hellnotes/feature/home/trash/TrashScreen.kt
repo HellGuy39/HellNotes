@@ -11,7 +11,10 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.*
+import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.trash.components.TrashDropdownMenuSelection
@@ -43,49 +46,29 @@ fun TrashScreen(
             )
         },
         content = { paddingValues ->
+            NoteList(
+                innerPadding = paddingValues,
+                noteSelection = noteSelection,
+                categories = categories,
+                selectedNotes = uiState.selectedNotes,
+                listStyle = listStyle,
+                listHeader = {
+                    TipCard(
+                        isVisible = true,
+                        message = "Notes in the trash are deleted automatically after 7 days",
+                        onClose = {
 
-            if (uiState.trashNotes.isEmpty()) {
-                EmptyContentPlaceholder(
-                    heroIcon = painterResource(id = HellNotesIcons.Delete),
-                    message = stringResource(id = HellNotesStrings.Text.NoNotesInTrash)
-                )
-                return@Scaffold
-            }
-
-            when (listStyle) {
-                ListStyle.Column -> {
-                    NoteColumnList(
-                        innerPadding = paddingValues,
-                        noteSelection = noteSelection,
-                        categories = categories,
-                        selectedNotes = uiState.selectedNotes,
-                        listHeader = {
-                            TipCard(
-                                isVisible = true,
-                                message = "Notes in the trash are deleted automatically after 7 days",
-                                onClose = {}
-                            )
                         }
                     )
-                }
-                ListStyle.Grid -> {
-                    NoteGridList(
-                        innerPadding = paddingValues,
-                        noteSelection = noteSelection,
-                        categories = categories,
-                        selectedNotes = uiState.selectedNotes,
-                        listHeader = {
-                            TipCard(
-                                isVisible = true,
-                                message = "Notes in the trash are deleted automatically after 7 days",
-                                onClose = {}
-                            )
-                        }
+                },
+                placeholder = {
+                    EmptyContentPlaceholder(
+                        paddingValues = paddingValues,
+                        heroIcon = painterResource(id = HellNotesIcons.Delete),
+                        message = stringResource(id = HellNotesStrings.Text.NoNotesInTrash)
                     )
                 }
-            }
-
+            )
         }
     )
-
 }

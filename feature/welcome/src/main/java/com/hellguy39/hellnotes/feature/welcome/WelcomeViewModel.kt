@@ -12,7 +12,6 @@ import javax.inject.Inject
 class WelcomeViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository
 ): ViewModel() {
-
     fun saveOnBoardingState(completed: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveOnBoardingState(completed = completed)

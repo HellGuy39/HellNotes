@@ -20,6 +20,7 @@
     <string name="label_upcoming">Предстоящие</string>
     <string name="label_pinned">Закреплённые</string>
     <string name="label_others">Другие</string>
+    <string name="label_archived">Архивированные</string>
     <string name="label_language">Язык</string>
     <string name="label_security">Безопасность</string>
     <string name="label_labels">Метки</string>

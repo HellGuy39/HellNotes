@@ -11,8 +11,10 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.ui.components.*
+import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.reminders.components.ReminderTopAppBarSelection
@@ -40,50 +42,29 @@ fun RemindersScreen(
             )
         },
         content = { paddingValues ->
-
-            if (uiState.notes.isEmpty()) {
-                EmptyContentPlaceholder(
-                    heroIcon = painterResource(id = HellNotesIcons.Notifications),
-                    message = stringResource(id = HellNotesStrings.Text.Empty)
-                )
-                return@Scaffold
-            }
-
             AnimatedContent(targetState = reminderTopAppBarSelection.listStyle) { listStyle ->
-                when (listStyle) {
-                    ListStyle.Column -> {
-                        NoteColumnList(
-                            innerPadding = paddingValues,
-                            noteSelection = noteSelection,
-                            categories = categories,
-                            selectedNotes = uiState.selectedNotes,
-                            listHeader = {
-                                Text(
-                                    text = stringResource(id = HellNotesStrings.Label.Upcoming),
-                                    modifier = Modifier
-                                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                                    style = MaterialTheme.typography.labelMedium
-                                )
-                            }
+                NoteList(
+                    innerPadding = paddingValues,
+                    noteSelection = noteSelection,
+                    categories = categories,
+                    listStyle = listStyle,
+                    selectedNotes = uiState.selectedNotes,
+                    placeholder = {
+                        EmptyContentPlaceholder(
+                            paddingValues = paddingValues,
+                            heroIcon = painterResource(id = HellNotesIcons.Notifications),
+                            message = stringResource(id = HellNotesStrings.Text.Empty)
+                        )
+                    },
+                    listHeader = {
+                        Text(
+                            text = stringResource(id = HellNotesStrings.Label.Upcoming),
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            style = MaterialTheme.typography.labelMedium
                         )
                     }
-                    ListStyle.Grid -> {
-                        NoteGridList(
-                            innerPadding = paddingValues,
-                            noteSelection = noteSelection,
-                            categories = categories,
-                            selectedNotes = uiState.selectedNotes,
-                            listHeader = {
-                                Text(
-                                    text = stringResource(id = HellNotesStrings.Label.Upcoming),
-                                    modifier = Modifier
-                                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                                    style = MaterialTheme.typography.labelMedium
-                                )
-                            }
-                        )
-                    }
-                }
+                )
             }
         }
     )

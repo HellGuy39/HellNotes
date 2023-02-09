@@ -86,9 +86,11 @@ object HellNotesStrings {
         val Pinned = R.string.label_pinned
         val Others = R.string.label_others
         val Upcoming = R.string.label_upcoming
+        val Archived = R.string.label_archived
         val Security = R.string.label_security
         val Language = R.string.label_language
         val Labels = R.string.label_labels
+
     }
 
     object Lan {

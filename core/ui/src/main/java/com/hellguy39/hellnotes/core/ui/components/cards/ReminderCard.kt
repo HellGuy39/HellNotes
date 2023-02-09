@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.ui.components
+package com.hellguy39.hellnotes.core.ui.components.cards
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi

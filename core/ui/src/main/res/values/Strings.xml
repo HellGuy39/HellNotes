@@ -20,6 +20,7 @@
     <string name="label_language">Language</string>
     <string name="label_security">Security</string>
     <string name="label_upcoming">Upcoming</string>
+    <string name="label_archived">Archived</string>
     <string name="label_pinned">Pinned</string>
     <string name="label_others">Others</string>
     <string name="label_labels">Labels</string>

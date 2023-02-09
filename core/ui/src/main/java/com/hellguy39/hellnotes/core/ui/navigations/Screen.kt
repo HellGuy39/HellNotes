@@ -21,9 +21,14 @@ object ArgumentDefaultValues {
     const val NewNote: Long = -1
 }
 
-fun NavController.navigateToNoteDetail(noteId: Long?, navOptions: NavOptions? = null) {
+fun NavController.navigateToNoteDetail(
+    noteId: Long? = ArgumentDefaultValues.NewNote,
+    navOptions: NavOptions? = null
+) {
+    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
+
     navigate(
-        route = "${Screen.NoteDetail.route}/$noteId",
+        route = "${Screen.NoteDetail.route}/$noteIdArg",
         navOptions = navOptions
     )
 }

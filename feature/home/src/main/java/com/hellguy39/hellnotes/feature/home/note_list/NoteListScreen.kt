@@ -12,8 +12,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.*
+import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfiguration
@@ -54,45 +56,27 @@ fun NoteListScreen(
                 return@Scaffold
             }
 
-            if (uiState.unpinnedNotes.isEmpty() && uiState.pinnedNotes.isEmpty()) {
-                EmptyContentPlaceholder(
-                    heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
-                    message = stringResource(id = HellNotesStrings.Text.Empty)
-                )
-                return@Scaffold
-            }
-
             AnimatedContent(noteListTopAppBarSelection.listStyle) { listStyle ->
-                when(listStyle) {
-                    ListStyle.Column -> {
-                        NoteColumnList(
-                            innerPadding = innerPadding,
-                            noteSelection = noteSelection,
-                            categories = categories,
-                            selectedNotes = uiState.selectedNotes,
-                            listHeader = {
-                                ListConfiguration(
-                                    selection = listConfigurationSelection,
-                                    menuState = sortingMenuState
-                                )
-                            }
+                NoteList(
+                    innerPadding = innerPadding,
+                    noteSelection = noteSelection,
+                    categories = categories,
+                    selectedNotes = uiState.selectedNotes,
+                    listStyle = listStyle,
+                    listHeader = {
+                        ListConfiguration(
+                            selection = listConfigurationSelection,
+                            menuState = sortingMenuState
+                        )
+                    },
+                    placeholder = {
+                        EmptyContentPlaceholder(
+                            paddingValues = innerPadding,
+                            heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
+                            message = stringResource(id = HellNotesStrings.Text.Empty)
                         )
                     }
-                    ListStyle.Grid -> {
-                        NoteGridList(
-                            innerPadding = innerPadding,
-                            noteSelection = noteSelection,
-                            categories = categories,
-                            selectedNotes = uiState.selectedNotes,
-                            listHeader = {
-                                ListConfiguration(
-                                    selection = listConfigurationSelection,
-                                    menuState = sortingMenuState
-                                )
-                            }
-                        )
-                    }
-                }
+                )
             }
         },
         floatingActionButton = {

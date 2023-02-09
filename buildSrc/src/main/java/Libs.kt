@@ -23,7 +23,7 @@ object Libs {
     object AndroidX {
 
         private const val coreVersion = "1.9.0"
-        private const val appCompatVersion = "1.7.0-alpha01"
+        private const val appCompatVersion = "1.7.0-alpha02"
         private const val lifecycleVersion = "2.5.1"
         private const val splashScreenVersion = "1.0.0"
         private const val biometricVersion = "1.2.0-alpha05"
