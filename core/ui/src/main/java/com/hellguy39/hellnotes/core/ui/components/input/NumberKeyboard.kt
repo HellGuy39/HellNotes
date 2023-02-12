@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.ui.components
+package com.hellguy39.hellnotes.core.ui.components.input
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape

@@ -9,12 +9,14 @@ data class AppSettings(
     val appCode: String,
     val isUseBiometricData: Boolean,
 
-    val isOnBoardingCompleted: Boolean
+    val isOnBoardingCompleted: Boolean,
+    val isTrashTipChecked: Boolean
 ) {
     constructor(): this(
         appLockType = LockScreenType.None,
         appCode = "",
         isUseBiometricData = false,
-        isOnBoardingCompleted = false
+        isOnBoardingCompleted = false,
+        isTrashTipChecked = false
     )
 }

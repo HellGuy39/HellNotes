@@ -37,6 +37,10 @@ class DataStoreRepositoryImpl @Inject constructor(
         dataSource.saveAppCode(code)
     }
 
+    override suspend fun saveTrashTipChecked(isChecked: Boolean) {
+        dataSource.saveOnTrashTipChecked(isChecked)
+    }
+
     override suspend fun saveAppLockType(lockScreenType: LockScreenType) {
         dataSource.saveAppLockType(lockScreenType)
     }

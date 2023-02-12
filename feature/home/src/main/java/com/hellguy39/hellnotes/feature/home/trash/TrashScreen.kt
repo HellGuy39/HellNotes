@@ -14,6 +14,7 @@ import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.cards.TipCard
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -29,7 +30,9 @@ fun TrashScreen(
     trashTopAppBarSelection: TrashTopAppBarSelection,
     noteSelection: NoteSelection,
     trashDropdownMenuSelection: TrashDropdownMenuSelection,
-    categories: List<NoteCategory>
+    categories: List<NoteCategory>,
+    onCloseTip: () -> Unit,
+    isTipVisible: Boolean
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -54,11 +57,9 @@ fun TrashScreen(
                 listStyle = listStyle,
                 listHeader = {
                     TipCard(
-                        isVisible = true,
-                        message = "Notes in the trash are deleted automatically after 7 days",
-                        onClose = {
-
-                        }
+                        isVisible = isTipVisible,
+                        message = stringResource(id = HellNotesStrings.Text.AutoDeleteTrash),
+                        onClose = onCloseTip
                     )
                 },
                 placeholder = {

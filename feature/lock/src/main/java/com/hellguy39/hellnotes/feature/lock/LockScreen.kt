@@ -9,8 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.NumberKeyboard
-import com.hellguy39.hellnotes.core.ui.components.NumberKeyboardSelection
+import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboard
+import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
 import com.hellguy39.hellnotes.core.ui.components.PinDots
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 

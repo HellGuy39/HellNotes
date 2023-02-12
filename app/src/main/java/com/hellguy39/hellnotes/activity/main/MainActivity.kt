@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.activity.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -17,20 +16,24 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
+import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
+import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.domain.system_features.ProofOfIdentity
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.feature.lock.LockScreenDialog
-import com.hellguy39.hellnotes.feature.welcome.WelcomeActivity
 import com.hellguy39.hellnotes.navigation.SetupNavGraph
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ProofOfIdentity {
 
-    @Inject
-    lateinit var splashViewModel: SplashViewModel
+    @Inject lateinit var splashViewModel: SplashViewModel
+
+    @Inject lateinit var biometricAuth: BiometricAuthenticator
 
     override fun onCreate(
         savedInstanceState: Bundle?
@@ -51,21 +54,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToLockScreen() {
-        val dialog = LockScreenDialog()
-        dialog.isCancelable = false
-        dialog.setCallback(callback = object: LockScreenDialog.DialogCallback {
-            override fun onDismiss() {}
-            override fun onSuccess() { dialog.dismiss() }
-        })
-        dialog.show(supportFragmentManager, "TAG")
-    }
-
-//    private fun navigateToWelcomeScreen() {
-//        val intent = Intent(this, WelcomeActivity::class.java)
-//        startActivity(intent)
-//    }
-
     @Composable
     fun App() {
         HellNotesTheme {
@@ -82,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (lockScreenType != LockScreenType.None) {
-                    navigateToLockScreen()
+                    confirmAppAccess(cancelable = false, onSuccess = { })
                 }
 
             }
@@ -97,6 +85,30 @@ class MainActivity : AppCompatActivity() {
                     action = action,
                 )
             }
+        }
+    }
+
+    override fun confirmAppAccess(cancelable: Boolean, onSuccess: () -> Unit) {
+        val dialog = LockScreenDialog()
+        dialog.isCancelable = cancelable
+        dialog.setCallback(callback = object: LockScreenDialog.DialogCallback {
+            override fun onDismiss() {}
+            override fun onSuccess() {
+                dialog.dismiss()
+                onSuccess()
+            }
+        })
+        dialog.show(supportFragmentManager, "TAG")
+    }
+
+    override fun confirmBiometrics(onSuccess: () -> Unit) {
+        if (biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success) {
+            biometricAuth.setOnAuthListener {
+                if (it == AuthenticationResult.Success) {
+                    onSuccess()
+                }
+            }
+            biometricAuth.authenticate(this)
         }
     }
 }

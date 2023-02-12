@@ -3,9 +3,12 @@ package com.hellguy39.hellnotes.feature.settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.hellguy39.hellnotes.core.domain.system_features.ProofOfIdentity
+import com.hellguy39.hellnotes.core.model.util.LockScreenType
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLanguageSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLockSelection
 import com.hellguy39.hellnotes.feature.settings.components.SettingsScreenSelection
@@ -17,6 +20,8 @@ fun SettingsRoute(
 ) {
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+
     SettingsScreen(
         onNavigationButtonClick = { navController.popBackStack() },
         uiState = uiState,
@@ -25,10 +30,22 @@ fun SettingsRoute(
                 navController.navigateToLanguageSelection()
             },
             onUseBiometric = { isUseBiometricData ->
-                settingsViewModel.saveIsUseBiometricData(isUseBiometricData)
+                if (isUseBiometricData) {
+                    (context as ProofOfIdentity).confirmBiometrics {
+                        settingsViewModel.saveIsUseBiometricData(isUseBiometricData)
+                    }
+                } else {
+                    settingsViewModel.saveIsUseBiometricData(isUseBiometricData)
+                }
             },
             onLockScreen = {
-                navController.navigateToLockSelection()
+                if (uiState.appSettings.appLockType != LockScreenType.None) {
+                    (context as ProofOfIdentity).confirmAppAccess(cancelable = true) {
+                        navController.navigateToLockSelection()
+                    }
+                } else {
+                    navController.navigateToLockSelection()
+                }
             }
         )
     )

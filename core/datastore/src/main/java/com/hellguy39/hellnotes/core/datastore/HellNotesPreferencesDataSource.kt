@@ -23,6 +23,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
 
     private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")
+        val onTrashTipKey = booleanPreferencesKey(name = "on_trash_tip_checked")
         val appLockType = stringPreferencesKey(name = "app_lock_type")
         val isUseBiometricData = booleanPreferencesKey(name = "is_use_biometric_data")
         val listStyle = stringPreferencesKey(name = "list_style")
@@ -79,6 +80,14 @@ class HellNotesPreferencesDataSource @Inject constructor(
         }
     }
 
+    suspend fun saveOnTrashTipChecked(
+        onChecked: Boolean
+    ) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.onTrashTipKey] = onChecked
+        }
+    }
+
     fun readAppSettings() = dataStore.data
         .catchExceptions()
         .map { preferences ->
@@ -86,7 +95,8 @@ class HellNotesPreferencesDataSource @Inject constructor(
                 appLockType = LockScreenType.from(preferences[PreferencesKey.appLockType]),
                 appCode = preferences[PreferencesKey.appCode] ?: "",
                 isUseBiometricData = preferences[PreferencesKey.isUseBiometricData] ?: false,
-                isOnBoardingCompleted =  preferences[PreferencesKey.onBoardingKey] ?: false
+                isOnBoardingCompleted = preferences[PreferencesKey.onBoardingKey] ?: false,
+                isTrashTipChecked = preferences[PreferencesKey.onTrashTipKey] ?: false,
             )
         }
 

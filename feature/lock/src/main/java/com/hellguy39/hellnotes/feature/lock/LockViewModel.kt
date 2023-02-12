@@ -6,7 +6,7 @@ import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
-import com.hellguy39.hellnotes.core.ui.components.NumberKeyboardKeys
+import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -35,8 +35,8 @@ class LockViewModel @Inject constructor(
         viewModelScope.launch {
             launch {
                 dataStoreRepository.readAppSettings().collect { settings ->
-                    lockViewModelState.update {
-                        it.copy(
+                    lockViewModelState.update { state ->
+                        state.copy(
                             appPin = settings.appCode,
                             isBiometricsAllowed = settings.isUseBiometricData
                         )
@@ -111,7 +111,11 @@ class LockViewModel @Inject constructor(
     fun authByBiometric(onSuccess: () -> Unit) {
         when (biometricAuth.deviceBiometricSupportStatus()) {
             DeviceBiometricStatus.Success -> {
-                onSuccess()
+                if (lockViewModelState.value.isBiometricsAllowed) {
+                    onSuccess()
+                } else {
+                    _errorMessage.update { "Biometric data is not allowed" }
+                }
             }
             DeviceBiometricStatus.NoHardware -> {
                 _errorMessage.update { "No hardware" }

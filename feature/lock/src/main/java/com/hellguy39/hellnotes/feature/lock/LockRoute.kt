@@ -9,12 +9,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
-import com.hellguy39.hellnotes.core.ui.components.NumberKeyboardKeys
-import com.hellguy39.hellnotes.core.ui.components.NumberKeyboardSelection
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToHome
+import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
+import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
 import kotlinx.coroutines.launch
 
 @Composable

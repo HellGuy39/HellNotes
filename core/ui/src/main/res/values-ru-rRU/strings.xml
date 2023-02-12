@@ -41,6 +41,7 @@
     <string name="text_no_notes_in_trash">В Корзине нет заметок</string>
     <string name="text_label_already_exist">Метка с таким именем уже сущесвует</string>
     <string name="text_nothing_to_share">Нечем делиться</string>
+    <string name="text_auto_delete_trash">Заметки в корзине автоматически удаляются через 7 дней</string>
 
     <!-- Button -->
     <string name="btn_request_permission">Запросить разрешение</string>

@@ -43,9 +43,9 @@ class AndroidBiometricAuthenticator(
     }
 
     private val promptInfo = BiometricPrompt.PromptInfo.Builder()
-        .setTitle("Biometric login for HellNotes")
-        .setSubtitle("Log in using your biometric credential")
-        .setNegativeButtonText("Use PIN")
+        .setTitle("Proof of identity for HellNotes")
+        .setSubtitle("Confirm identity using your biometric credential")
+        .setNegativeButtonText("Cancel")
         .build()
 
     override fun authenticate(activity: AppCompatActivity) {

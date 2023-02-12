@@ -41,6 +41,7 @@
     <string name="text_no_notes_in_trash">No notes in Trash</string>
     <string name="text_label_already_exist">Label with this name already exists</string>
     <string name="text_nothing_to_share">Nothing to share</string>
+    <string name="text_auto_delete_trash">Notes in the trash are deleted automatically after 7 days</string>
 
     <!-- MenuItem -->
     <string name="menu_item_settings">Settings</string>

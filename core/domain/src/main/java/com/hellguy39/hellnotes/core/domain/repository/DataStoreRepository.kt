@@ -20,6 +20,8 @@ interface DataStoreRepository {
 
     suspend fun saveAppCode(code: String)
 
+    suspend fun saveTrashTipChecked(isChecked: Boolean)
+
     suspend fun saveAppLockType(lockScreenType: LockScreenType)
 
     fun readAppSettings(): Flow<AppSettings>

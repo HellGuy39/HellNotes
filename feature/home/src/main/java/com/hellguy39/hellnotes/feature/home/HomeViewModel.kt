@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
+import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
@@ -32,11 +33,27 @@ class HomeViewModel @Inject constructor(
     private val _drawerItem = MutableStateFlow(DrawerItem())
     val drawerItem = _drawerItem.asStateFlow()
 
+    private val _appSettings: MutableStateFlow<AppSettings> = MutableStateFlow(AppSettings())
+    val appSettings = _appSettings.asStateFlow()
+
     init {
         viewModelScope.launch {
-            dataStoreRepository.readListStyleState().collect { style ->
-                _listStyle.update { style }
+            launch {
+                dataStoreRepository.readListStyleState().collect { style ->
+                    _listStyle.update { style }
+                }
             }
+            launch {
+                dataStoreRepository.readAppSettings().collect { appSettings ->
+                    _appSettings.update { appSettings }
+                }
+            }
+        }
+    }
+
+    fun setTrashTipChecked(isChecked: Boolean) {
+        viewModelScope.launch {
+            dataStoreRepository.saveTrashTipChecked(isChecked)
         }
     }
 

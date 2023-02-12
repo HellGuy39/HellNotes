@@ -59,6 +59,7 @@ fun HomeRoute(
 
     val listStyle by homeViewModel.listStyle.collectAsStateWithLifecycle()
     val labels by homeViewModel.labels.collectAsStateWithLifecycle()
+    val appSettings by homeViewModel.appSettings.collectAsStateWithLifecycle()
     val selectedDrawerItem by homeViewModel.drawerItem.collectAsStateWithLifecycle()
 
     val haptic = LocalHapticFeedback.current
@@ -398,7 +399,11 @@ fun HomeRoute(
                                     NoteCategory(
                                         notes = trashUiState.trashNotes
                                     )
-                                )
+                                ),
+                                isTipVisible = !appSettings.isTrashTipChecked,
+                                onCloseTip = {
+                                    homeViewModel.setTrashTipChecked(true)
+                                }
                             )
                         }
                     }
