@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
+import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
@@ -22,17 +23,17 @@ fun NavGraphBuilder.noteDetailScreen(
             }
         ),
         enterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { 300 },
-                animationSpec = tween(300)
-            ) + fadeIn(animationSpec = tween(300))
+            UiDefaults.Motion.ScreenEnterTransition
+        },
+        exitTransition = {
+            UiDefaults.Motion.ScreenExitTransition
+        },
+        popEnterTransition = {
+            UiDefaults.Motion.ScreenPopEnterTransition
         },
         popExitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { 300 },
-                animationSpec = tween(300)
-            ) + fadeOut(animationSpec = tween(300))
-        }
+            UiDefaults.Motion.ScreenPopExitTransition
+        },
     ) {
         NoteDetailRoute(navController)
     }

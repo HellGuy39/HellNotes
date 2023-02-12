@@ -39,11 +39,6 @@
             android:exported="false"
             android:theme="@style/Theme.HellNotes" />
 
-        <activity
-            android:name=".feature.lock.LockActivity"
-            android:exported="false"
-            android:theme="@style/Theme.HellNotes" />
-
         <receiver android:name=".broadcast.ReminderBroadcastReceiver"
             android:enabled="true" />
 

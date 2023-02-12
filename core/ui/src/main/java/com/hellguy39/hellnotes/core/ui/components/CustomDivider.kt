@@ -6,7 +6,9 @@ import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
@@ -19,6 +21,7 @@ import com.hellguy39.hellnotes.core.ui.UiDefaults
 
 @Composable
 fun CustomDivider(
+    paddingValues: PaddingValues = PaddingValues(0.dp),
     isVisible: Boolean = true,
     alpha: Float = UiDefaults.Alpha.Emphasize,
     thickness: Dp = 1.dp,
@@ -45,6 +48,7 @@ fun CustomDivider(
     Divider(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(paddingValues)
             .alpha(alpha),
         thickness = thickness,
         color = animatedColor

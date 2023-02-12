@@ -1,5 +1,6 @@
-package com.hellguy39.hellnotes.feature.settings.components
+package com.hellguy39.hellnotes.core.ui.components.top_bars
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
@@ -10,18 +11,20 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsTopAppBar(
+fun CustomLargeTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    onNavigationButtonClick: () -> Unit
+    onNavigationButtonClick: () -> Unit,
+    title: String,
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
-    TopAppBar(
+    LargeTopAppBar(
         scrollBehavior = scrollBehavior,
         title = {
             Text(
-                text = stringResource(id = HellNotesStrings.Title.Settings),
-                maxLines = 1,
+                text = title,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.headlineMedium
             )
         },
         navigationIcon = {
@@ -34,8 +37,6 @@ fun SettingsTopAppBar(
                 )
             }
         },
-        actions = {
-
-        }
+        actions = actions
     )
 }

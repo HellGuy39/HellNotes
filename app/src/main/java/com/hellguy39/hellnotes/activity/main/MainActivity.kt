@@ -2,8 +2,8 @@ package com.hellguy39.hellnotes.activity.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,8 +17,9 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
+import com.hellguy39.hellnotes.core.model.util.LockScreenType
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
-import com.hellguy39.hellnotes.feature.lock.LockActivity
+import com.hellguy39.hellnotes.feature.lock.LockScreenDialog
 import com.hellguy39.hellnotes.feature.welcome.WelcomeActivity
 import com.hellguy39.hellnotes.navigation.SetupNavGraph
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
@@ -26,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var splashViewModel: SplashViewModel
@@ -51,14 +52,19 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun navigateToLockScreen() {
-        val intent = Intent(this, LockActivity::class.java)
-        startActivity(intent)
+        val dialog = LockScreenDialog()
+        dialog.isCancelable = false
+        dialog.setCallback(callback = object: LockScreenDialog.DialogCallback {
+            override fun onDismiss() {}
+            override fun onSuccess() { dialog.dismiss() }
+        })
+        dialog.show(supportFragmentManager, "TAG")
     }
 
-    private fun navigateToWelcomeScreen() {
-        val intent = Intent(this, WelcomeActivity::class.java)
-        startActivity(intent)
-    }
+//    private fun navigateToWelcomeScreen() {
+//        val intent = Intent(this, WelcomeActivity::class.java)
+//        startActivity(intent)
+//    }
 
     @Composable
     fun App() {
@@ -68,14 +74,14 @@ class MainActivity : ComponentActivity() {
             val action = intent.action
 
             LaunchedEffect(key1 = splashViewModel.isLoading.value) {
-                val isAppLocked by splashViewModel.isAppLocked
+                val lockScreenType by splashViewModel.lockScreenType
                 val isOnBoardingCompleted by splashViewModel.isOnBoardingCompleted
 
                 if (!isOnBoardingCompleted) {
-                    navigateToWelcomeScreen()
+                    //navigateToWelcomeScreen()
                 }
 
-                if (isAppLocked) {
+                if (lockScreenType != LockScreenType.None) {
                     navigateToLockScreen()
                 }
 

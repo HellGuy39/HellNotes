@@ -64,6 +64,9 @@ dependencies {
     implementation(project(Project.Feature.NoteDetail))
     implementation(project(Project.Feature.AboutApp))
     implementation(project(Project.Feature.Settings))
+    implementation(project(Project.Feature.LockSelection))
+    implementation(project(Project.Feature.LanguageSelection))
+    implementation(project(Project.Feature.LockSetup))
 
     implementation(project(Project.Core.Ui))
     implementation(project(Project.Core.Data))

@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.util.LockScreenType
 import com.hellguy39.hellnotes.core.model.util.Sorting
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -22,11 +23,11 @@ class HellNotesPreferencesDataSource @Inject constructor(
 
     private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")
-        val isPinSetup = booleanPreferencesKey(name = "is_pin_setup")
-        val isBiometricSetup = booleanPreferencesKey(name = "is_bio_setup")
+        val appLockType = stringPreferencesKey(name = "app_lock_type")
+        val isUseBiometricData = booleanPreferencesKey(name = "is_use_biometric_data")
         val listStyle = stringPreferencesKey(name = "list_style")
         val sorting = stringPreferencesKey(name = "sorting")
-        val appPin = stringPreferencesKey(name = "app_pin")
+        val appCode = stringPreferencesKey(name = "app_code")
     }
 
     private val dataStore = context.dataStore
@@ -49,11 +50,31 @@ class HellNotesPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun saveAppSettings(appSettings: AppSettings) {
+    suspend fun saveAppCode(code: String) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.isPinSetup] = appSettings.isAppLocked
-            preferences[PreferencesKey.isBiometricSetup] = appSettings.isBiometricSetup
-            preferences[PreferencesKey.appPin] = appSettings.appPin
+            preferences[PreferencesKey.appCode] = code
+        }
+    }
+
+    suspend fun saveIsUseBiometricData(isUseBiometricData: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.isUseBiometricData] = isUseBiometricData
+        }
+    }
+
+    suspend fun saveAppLockType(lockScreenType: LockScreenType) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.appLockType] = lockScreenType.parse()
+        }
+    }
+
+    suspend fun saveAppSettings(
+        appSettings: AppSettings
+    ) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.appLockType] = appSettings.appLockType.parse()
+            preferences[PreferencesKey.isUseBiometricData] = appSettings.isUseBiometricData
+            preferences[PreferencesKey.appCode] = appSettings.appCode
             preferences[PreferencesKey.onBoardingKey] = appSettings.isOnBoardingCompleted
         }
     }
@@ -62,9 +83,9 @@ class HellNotesPreferencesDataSource @Inject constructor(
         .catchExceptions()
         .map { preferences ->
             AppSettings(
-                isAppLocked = preferences[PreferencesKey.isPinSetup] ?: false,
-                isBiometricSetup = preferences[PreferencesKey.isBiometricSetup] ?: false,
-                appPin = preferences[PreferencesKey.appPin] ?: "",
+                appLockType = LockScreenType.from(preferences[PreferencesKey.appLockType]),
+                appCode = preferences[PreferencesKey.appCode] ?: "",
+                isUseBiometricData = preferences[PreferencesKey.isUseBiometricData] ?: false,
                 isOnBoardingCompleted =  preferences[PreferencesKey.onBoardingKey] ?: false
             )
         }

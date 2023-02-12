@@ -62,6 +62,8 @@
     <!-- Setting -->
     <string name="stg_app_lock">Блокировка приложения</string>
     <string name="stg_use_biometric">Использовать биометрию</string>
+    <string name="stg_screen_lock">Экран блокировки</string>
+    <string name="stg_change_language">Сменить язык</string>
 
     <!-- MenuItem -->
     <string name="menu_item_settings">Настройки</string>
@@ -76,6 +78,18 @@
     <string name="menu_item_color">Цвет</string>
     <string name="menu_item_create_new_label">Создать новую метку</string>
     <string name="menu_item_empty_trash">Очистить корзину</string>
+    <string name="menu_item_none">Нет</string>
+    <string name="menu_item_pin">PIN-код</string>
+    <string name="menu_item_password">Пароль</string>
+    <string name="menu_item_pattern">Рисунок</string>
+    <string name="menu_item_slide">Слайд</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">Системный</string>
+    <string name="lan_ru">Русский</string>
+    <string name="lan_en">Английский</string>
+    <string name="lan_de">Немецкий</string>
+    <string name="lan_fr">Французский</string>
 
     <!-- Title -->
     <string name="title_notes">Заметки</string>
@@ -88,6 +102,8 @@
     <string name="title_new_remind">Новое напоминание</string>
     <string name="title_share_as">Поделиться как…</string>
     <string name="title_edit_remind">Редактировать напоминание</string>
+    <string name="title_choose_a_new_lock_screen">Выберите новый экран блокировки</string>
+    <string name="title_сhange_language">Сменить язык</string>
 
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">Новая заметка</string>

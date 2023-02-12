@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.lock
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -12,7 +14,7 @@ import com.hellguy39.hellnotes.core.ui.components.NumberKeyboardSelection
 import com.hellguy39.hellnotes.core.ui.components.PinDots
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun LockScreen(
     uiState: LockUiState,
@@ -52,10 +54,20 @@ fun LockScreen(
                     contentDescription = null
                 )
 
-                Text(
-                    text = titleText,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                AnimatedContent(
+                    targetState = titleText,
+                    transitionSpec = {
+                        slideInVertically(animationSpec = tween(300)) +
+                                fadeIn(animationSpec = tween(300)) with
+                                slideOutVertically(animationSpec = tween(300)) +
+                                fadeOut(animationSpec = tween(300))
+                    }
+                ) { targetTitle ->
+                    Text(
+                        text = targetTitle,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
 
                 Spacer(modifier = Modifier.weight(1f))
 

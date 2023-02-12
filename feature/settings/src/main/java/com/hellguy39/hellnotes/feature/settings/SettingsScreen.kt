@@ -5,21 +5,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
+import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
-import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.feature.settings.components.SettingsScreenContent
-import com.hellguy39.hellnotes.feature.settings.components.SettingsTopAppBar
-import com.hellguy39.hellnotes.feature.settings.events.LanguageDialogEvents
-import com.hellguy39.hellnotes.feature.settings.events.SettingsEvents
+import com.hellguy39.hellnotes.feature.settings.components.SettingsScreenSelection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     onNavigationButtonClick: () -> Unit,
-    languageDialogEvents: LanguageDialogEvents,
-    appSettings: AppSettings,
-    settingsEvents: SettingsEvents,
-    isBioAuthAvailable: Boolean
+    uiState: SettingsUiState,
+    selection: SettingsScreenSelection,
 ) {
     BackHandler(onBack = onNavigationButtonClick)
 
@@ -33,16 +31,15 @@ fun SettingsScreen(
         content = { innerPadding ->
             SettingsScreenContent(
                 innerPadding = innerPadding,
-                languageDialogEvents = languageDialogEvents,
-                appSettings = appSettings,
-                settingsEvents = settingsEvents,
-                isBioAuthAvailable = isBioAuthAvailable
+                uiState = uiState,
+                selection = selection
             )
         },
         topBar = {
-            SettingsTopAppBar(
+            CustomLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
-                onNavigationButtonClick = onNavigationButtonClick
+                onNavigationButtonClick = onNavigationButtonClick,
+                title = stringResource(id = HellNotesStrings.Title.Settings)
             )
         }
     )

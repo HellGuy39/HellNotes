@@ -45,4 +45,8 @@ object HellNotesIcons {
     val GridView = R.drawable.ic_grid_view_24
     val ListView = R.drawable.ic_list_view_24
 
+    val Pin = R.drawable.ic_pin_24
+    val Password = R.drawable.ic_password_24
+    val Pattern = R.drawable.ic_pattern_24
+    val SwipeRight = R.drawable.ic_swipe_right_24
 }

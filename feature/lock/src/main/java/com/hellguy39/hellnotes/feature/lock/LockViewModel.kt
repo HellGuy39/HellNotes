@@ -37,8 +37,8 @@ class LockViewModel @Inject constructor(
                 dataStoreRepository.readAppSettings().collect { settings ->
                     lockViewModelState.update {
                         it.copy(
-                            appPin = settings.appPin,
-                            isBiometricsAllowed = settings.isBiometricSetup
+                            appPin = settings.appCode,
+                            isBiometricsAllowed = settings.isUseBiometricData
                         )
                     }
                 }

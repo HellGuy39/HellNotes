@@ -55,6 +55,11 @@
     <string name="menu_item_color">Color</string>
     <string name="menu_item_create_new_label">Create new label</string>
     <string name="menu_item_empty_trash">Empty trash</string>
+    <string name="menu_item_none">None</string>
+    <string name="menu_item_pin">PIN</string>
+    <string name="menu_item_password">Password</string>
+    <string name="menu_item_pattern">Pattern</string>
+    <string name="menu_item_slide">Slide</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>
@@ -67,10 +72,15 @@
     <string name="title_new_remind">New remind</string>
     <string name="title_share_as">Share as…</string>
     <string name="title_edit_remind">Edit remind</string>
+    <string name="title_choose_a_new_lock_screen">Choose a new lock screen</string>
+    <string name="title_сhange_language">Change language</string>
 
     <!-- Language-->
-    <string name="lan_ru" translatable="false">Russian</string>
-    <string name="lan_en" translatable="false">English</string>
+    <string name="lan_system_default">System default</string>
+    <string name="lan_ru">Russian</string>
+    <string name="lan_en">English</string>
+    <string name="lan_de">German</string>
+    <string name="lan_fr">French</string>
 
     <!-- Hint -->
     <string name="hint_title">Title</string>
@@ -92,6 +102,8 @@
     <!-- Setting -->
     <string name="stg_app_lock">App lock</string>
     <string name="stg_use_biometric">Use biometric</string>
+    <string name="stg_screen_lock">Screen lock</string>
+    <string name="stg_change_language">Change language</string>
 
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">New note</string>

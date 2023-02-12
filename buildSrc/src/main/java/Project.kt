@@ -20,6 +20,9 @@ object Project {
         const val Settings = ":feature:settings"
         const val Labels = ":feature:labels"
         const val Lock = ":feature:lock"
+        const val LockSelection = ":feature:lock-selection"
+        const val LockSetup = ":feature:lock-setup"
+        const val LanguageSelection = ":feature:language-selection"
     }
 
 }

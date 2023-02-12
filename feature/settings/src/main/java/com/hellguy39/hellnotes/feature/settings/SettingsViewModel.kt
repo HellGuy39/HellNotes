@@ -7,10 +7,9 @@ import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticato
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import com.hellguy39.hellnotes.core.model.AppSettings
+import com.hellguy39.hellnotes.core.model.util.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,58 +17,68 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
     private val biometricAuth: BiometricAuthenticator,
-    val languageHolder: LanguageHolder
+    private val languageHolder: LanguageHolder
 ): ViewModel() {
 
-    private val _appSettings: MutableStateFlow<AppSettings> = MutableStateFlow(AppSettings())
-    val appSettings = _appSettings.asStateFlow()
+    private val settingsViewModelState = MutableStateFlow(SettingsViewModelState())
+
+    val uiState = settingsViewModelState
+        .map(SettingsViewModelState::toUiState)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = settingsViewModelState.value.toUiState()
+        )
 
     init {
         viewModelScope.launch {
-            dataStoreRepository.readAppSettings().collect { settings ->
-                _appSettings.update { settings }
+            launch {
+                settingsViewModelState.update { state ->
+                    state.copy(
+                        lanCode = languageHolder.getLanguageCode()
+                    )
+                }
+            }
+            launch {
+                settingsViewModelState.update { state ->
+                    state.copy(isBioAuthAvailable = isBiometricAuthAvailable())
+                }
+            }
+            launch {
+                dataStoreRepository.readAppSettings().collect { settings ->
+                    settingsViewModelState.update { state ->
+                        state.copy(appSettings = settings)
+                    }
+                }
             }
         }
     }
 
-    fun setPin(pin: String) = viewModelScope.launch {
-        _appSettings.update {
-            it.copy(
-                isAppLocked = true,
-                appPin = pin
-            )
-        }
-        saveSettings()
-    }
-
-    fun deletePin() = viewModelScope.launch {
-        _appSettings.update {
-            it.copy(
-                isAppLocked = false,
-                appPin = ""
-            )
-        }
-        saveSettings()
-    }
-
-    fun setIsUseBiometric(isUseBio: Boolean) = viewModelScope.launch {
-        _appSettings.update { it.copy(isBiometricSetup = isUseBio) }
-        saveSettings()
-    }
-
-    fun isBiometricAuthAvailable(): Boolean {
-        return when(biometricAuth.deviceBiometricSupportStatus()) {
-            DeviceBiometricStatus.Success -> true
-            else -> false
-        }
-    }
-
-    private fun saveSettings() {
+    fun saveIsUseBiometricData(isUseBiometric: Boolean) {
         viewModelScope.launch {
-            _appSettings.value.let { settings ->
-                dataStoreRepository.saveAppSettings(settings)
-            }
+            dataStoreRepository.saveIsUseBiometricData(isUseBiometric)
         }
+    }
+
+    private fun isBiometricAuthAvailable(): Boolean {
+        return biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success
     }
 
 }
+
+private data class SettingsViewModelState(
+    val appSettings: AppSettings = AppSettings(),
+    val lanCode: String = Language.SystemDefault.code,
+    val isBioAuthAvailable: Boolean = false
+) {
+    fun toUiState() = SettingsUiState(
+        appSettings = appSettings,
+        isBioAuthAvailable = isBioAuthAvailable,
+        lanCode = lanCode
+    )
+}
+data class SettingsUiState(
+    val appSettings: AppSettings,
+    val lanCode: String,
+    val isBioAuthAvailable: Boolean
+)

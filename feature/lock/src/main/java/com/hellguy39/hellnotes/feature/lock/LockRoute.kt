@@ -30,8 +30,10 @@ fun LockRoute(
     val hapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
 
-    if (uiState.lockState == LockState.Unlocked) {
-        onUnlock()
+    LaunchedEffect(key1 = uiState.lockState) {
+        if (uiState.lockState == LockState.Unlocked) {
+            onUnlock()
+        }
     }
 
     val snackbarHostState = remember { SnackbarHostState() }

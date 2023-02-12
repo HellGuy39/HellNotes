@@ -24,7 +24,6 @@ fun ListConfiguration(
 
     Row(
         modifier = Modifier.fillMaxWidth()
-            .padding(bottom = 8.dp)
     ) {
         TextButton(
             modifier = Modifier.padding(start = 12.dp),

@@ -2,9 +2,13 @@ package com.hellguy39.hellnotes.core.ui.navigations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
+import com.hellguy39.hellnotes.core.model.util.LockScreenType
 
 sealed class Screen(val route: String) {
     object Lock : Screen(route = "lock_screen")
+    object LockSetup : Screen(route = "lock_setup_screen")
+    object LanguageSelection : Screen(route = "language_selection_screen")
+    object LockSelection : Screen(route = "lock_selection_screen")
     object Home : Screen(route = "home_screen")
     object Settings : Screen(route = "settings_screen")
     object NoteDetail : Screen(route = "note_detail_screen")
@@ -15,6 +19,7 @@ sealed class Screen(val route: String) {
 
 object ArgumentKeys {
     const val NoteId = "noteId"
+    const val LockType = "lockType"
 }
 
 object ArgumentDefaultValues {
@@ -29,6 +34,16 @@ fun NavController.navigateToNoteDetail(
 
     navigate(
         route = "${Screen.NoteDetail.route}/$noteIdArg",
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToLockSetup(
+    lockType: LockScreenType,
+    navOptions: NavOptions? = null
+) {
+    navigate(
+        route = "${Screen.LockSetup.route}/${lockType.parse()}",
         navOptions = navOptions
     )
 }
@@ -71,6 +86,20 @@ fun NavController.navigateToLabels(navOptions: NavOptions? = null) {
 fun NavController.navigateToLock(navOptions: NavOptions? = null) {
     navigate(
         route = Screen.Lock.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToLockSelection(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.LockSelection.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToLanguageSelection(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.LanguageSelection.route,
         navOptions = navOptions
     )
 }

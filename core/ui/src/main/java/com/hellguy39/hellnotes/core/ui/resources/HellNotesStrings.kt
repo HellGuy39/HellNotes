@@ -66,6 +66,12 @@ object HellNotesStrings {
         val WhatsNew = R.string.menu_item_whats_new
         val CreateNewLabel = R.string.menu_item_create_new_label
         val EmptyTrash = R.string.menu_item_empty_trash
+
+        val None = R.string.menu_item_none
+        val Pin = R.string.menu_item_pin
+        val Password = R.string.menu_item_password
+        val Pattern = R.string.menu_item_pattern
+        val Slide = R.string.menu_item_slide
     }
 
     object Title {
@@ -80,6 +86,8 @@ object HellNotesStrings {
         val NewRemind = R.string.title_new_remind
         val EditRemind = R.string.title_edit_remind
         val ShareAs = R.string.title_share_as
+        val ChooseANewLockScreen = R.string.title_choose_a_new_lock_screen
+        val ChangeLanguage = R.string.title_сhange_language
     }
 
     object Label {
@@ -96,6 +104,9 @@ object HellNotesStrings {
     object Lan {
         val Russian = R.string.lan_ru
         val English = R.string.lan_en
+        val German = R.string.lan_de
+        val French = R.string.lan_fr
+        val SystemDefault = R.string.lan_system_default
     }
 
     object Button {
@@ -116,6 +127,8 @@ object HellNotesStrings {
     object Setting {
         val AppLock = R.string.stg_app_lock
         val UseBiometric = R.string.stg_use_biometric
+        val ScreenLock = R.string.stg_screen_lock
+        val ChangeLanguage = R.string.stg_change_language
     }
 
     object Notification {

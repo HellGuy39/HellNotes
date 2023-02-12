@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
+import com.hellguy39.hellnotes.core.model.util.LockScreenType
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -23,13 +24,13 @@ class SplashViewModel @Inject constructor(
     private val _isOnBoardingCompleted: MutableState<Boolean> = mutableStateOf(false)
     val isOnBoardingCompleted: State<Boolean> = _isOnBoardingCompleted
 
-    private val _isAppLocked: MutableState<Boolean> = mutableStateOf(false)
-    val isAppLocked: State<Boolean> = _isAppLocked
+    private val _lockScreenType: MutableState<LockScreenType> = mutableStateOf(LockScreenType.None)
+    val lockScreenType: State<LockScreenType> = _lockScreenType
 
     init {
         viewModelScope.launch {
             dataStoreRepository.readAppSettings().collect { settings ->
-                _isAppLocked.value = settings.isAppLocked
+                _lockScreenType.value = settings.appLockType
                 _isOnBoardingCompleted.value = settings.isOnBoardingCompleted
             }
             _isLoading.value = false
