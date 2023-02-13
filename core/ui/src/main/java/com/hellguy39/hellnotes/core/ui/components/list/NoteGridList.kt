@@ -59,7 +59,7 @@ internal fun NoteGridList(
                             text = category.title,
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.titleSmall
                         )
                     }
                 }

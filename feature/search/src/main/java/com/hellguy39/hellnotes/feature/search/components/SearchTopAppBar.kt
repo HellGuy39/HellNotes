@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.CustomTextField
+import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -40,6 +40,7 @@ fun SearchTopAppBar(
                 ) {
                     Spacer(modifier = Modifier.width(4.dp))
                     IconButton(
+                        modifier = Modifier.padding(vertical = 4.dp),
                         onClick = { onNavigationButtonClick() }
                     ) {
                         Icon(
@@ -54,6 +55,7 @@ fun SearchTopAppBar(
                         modifier = Modifier
                             .focusRequester(focusRequester)
                             .weight(1f),
+                        textStyle = MaterialTheme.typography.bodyLarge
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                 }

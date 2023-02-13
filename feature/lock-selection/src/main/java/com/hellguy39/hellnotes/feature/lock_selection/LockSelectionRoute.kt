@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.lock_selection
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -29,7 +30,12 @@ fun LockSelectionRoute(
             } else {
                 if(type != LockScreenType.Pin) {
                     scope.launch {
-                        snackbarHostState.showSnackbar("Unfortunately this option is not available yet")
+                        snackbarHostState.currentSnackbarData?.dismiss()
+                        snackbarHostState.showSnackbar(
+                            "Unfortunately this option is not available yet",
+                            duration = SnackbarDuration.Short,
+                            withDismissAction = true
+                        )
                     }
                 } else {
                     navController.navigateToLockSetup(lockType = type)

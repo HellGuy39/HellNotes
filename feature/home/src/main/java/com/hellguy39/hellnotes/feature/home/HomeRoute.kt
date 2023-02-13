@@ -37,12 +37,13 @@ import com.hellguy39.hellnotes.feature.home.trash.components.TrashDropdownMenuSe
 import com.hellguy39.hellnotes.feature.home.trash.components.TrashTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import com.hellguy39.hellnotes.feature.home.util.DrawerItemType
+import com.hellguy39.hellnotes.feature.home.util.HomeScreen
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
     navController: NavController,
-    startScreenIndex: Int = 0,
+    startScreen: HomeScreen = HomeScreen.NoteList,
     homeViewModel: HomeViewModel = hiltViewModel(),
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
     noteListViewModel: NoteListViewModel = hiltViewModel(),
@@ -141,7 +142,7 @@ fun HomeRoute(
 
     LaunchedEffect(key1 = Unit) {
         if (selectedDrawerItem.itemType == DrawerItemType.None) {
-            homeViewModel.setDrawerItem(drawerItems[startScreenIndex])
+            homeViewModel.setDrawerItem(drawerItems[startScreen.index])
         }
     }
 
@@ -164,8 +165,8 @@ fun HomeRoute(
                     DrawerItemType.Primary -> {
                         if (it.title == stringResource(id = HellNotesStrings.Title.Notes)) {
                             val actionLabel = stringResource(id = HellNotesStrings.Button.Undo)
-                            val noteMovedToTrash = stringResource(id = HellNotesStrings.Text.NoteMovedToTrash)
-                            val notesMovedToTrash = stringResource(id = HellNotesStrings.Text.NotesMovedToTrash)
+                            val noteMovedToTrash = stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
+                            val notesMovedToTrash = stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
 
                             NoteListScreen(
                                 onFabAddClick = { navController.navigateToNoteDetail(-1) },

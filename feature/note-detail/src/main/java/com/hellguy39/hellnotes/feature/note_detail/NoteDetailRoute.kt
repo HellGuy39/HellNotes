@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
@@ -140,6 +141,10 @@ fun NoteDetailRoute(
     }
 
     val nothingToShare = stringResource(id = HellNotesStrings.Text.NothingToShare)
+    val snackNotePinned = stringResource(id = HellNotesStrings.Snack.NotePinned)
+    val snackNoteUnpinned = stringResource(id = HellNotesStrings.Snack.NoteUnpinned)
+    val snackNoteArchived = stringResource(id = HellNotesStrings.Snack.NoteArchived)
+    val snackNoteUnarchived = stringResource(id = HellNotesStrings.Snack.NoteUnarchived)
 
     NoteDetailScreen(
         snackbarHostState = snackbarHostState,
@@ -184,12 +189,28 @@ fun NoteDetailRoute(
             },
             onPin = { isPinned ->
                 noteDetailViewModel.onUpdateIsPinned(isPinned)
+                snackbarHostState.currentSnackbarData?.dismiss()
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = if (isPinned) snackNotePinned else snackNoteUnpinned,
+                        duration = SnackbarDuration.Short,
+                        withDismissAction = true
+                    )
+                }
             },
             onColorSelected = { colorHex ->
                 //noteDetailViewModel.onUpdateNoteBackground(colorHex)
             },
             onArchive = { isArchived ->
                 noteDetailViewModel.onUpdateIsArchived(isArchived)
+                snackbarHostState.currentSnackbarData?.dismiss()
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = if (isArchived) snackNoteArchived else snackNoteUnarchived,
+                        duration = SnackbarDuration.Short,
+                        withDismissAction = true
+                    )
+                }
             }
         ),
         dateHelper = dateHelper

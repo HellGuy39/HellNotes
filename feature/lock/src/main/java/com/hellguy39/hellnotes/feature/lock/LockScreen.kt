@@ -8,11 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboard
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
 import com.hellguy39.hellnotes.core.ui.components.PinDots
+import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -44,9 +47,9 @@ fun LockScreen(
                 }
 
                 val titleText = when (uiState.lockState) {
-                    is LockState.Locked -> "Enter your PIN"
-                    is LockState.Unlocked -> "Unlocked"
-                    is LockState.WrongPin -> "Wrong PIN"
+                    is LockState.Locked -> stringResource(id = HellNotesStrings.Helper.EnterPin)
+                    is LockState.Unlocked -> stringResource(id = HellNotesStrings.Helper.Unlocked)
+                    is LockState.WrongPin -> stringResource(id = HellNotesStrings.Helper.WrongPin)
                 }
 
                 Icon(
@@ -54,18 +57,18 @@ fun LockScreen(
                     contentDescription = null
                 )
 
+                val duration = 200
+
                 AnimatedContent(
                     targetState = titleText,
                     transitionSpec = {
-                        slideInVertically(animationSpec = tween(300)) +
-                                fadeIn(animationSpec = tween(300)) with
-                                slideOutVertically(animationSpec = tween(300)) +
-                                fadeOut(animationSpec = tween(300))
+                        slideInHorizontally(animationSpec = tween(duration)) { fullWidth -> fullWidth } + fadeIn(animationSpec = tween(duration)) with
+                                slideOutHorizontally(animationSpec = tween(duration)) { fullWidth -> -fullWidth } + fadeOut(animationSpec = tween(duration))
                     }
                 ) { targetTitle ->
                     Text(
                         text = targetTitle,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyLarge
                     )
                 }
 
@@ -78,7 +81,10 @@ fun LockScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 NumberKeyboard(
-                    selection = numberKeyboardSelection
+                    selection = numberKeyboardSelection,
+                    disabledButtonKeys = if (!uiState.isBiometricsAllowed) listOf(
+                        NumberKeyboardKeys.KeyBio
+                    ) else listOf()
                 )
             }
         }

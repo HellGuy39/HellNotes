@@ -1,8 +1,8 @@
 package com.hellguy39.hellnotes.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -12,6 +12,7 @@ import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
+import com.hellguy39.hellnotes.feature.home.util.HomeScreen
 import com.hellguy39.hellnotes.feature.labels.navigation.labelsScreen
 import com.hellguy39.hellnotes.feature.language_selection.navigation.languageSelectionScreen
 import com.hellguy39.hellnotes.feature.lock_selection.navigation.lockSelectionScreen
@@ -25,11 +26,15 @@ import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
 fun SetupNavGraph(
     extraNoteId: Long?,
     action: String?,
+    isStartUpActionPassed: Boolean,
+    onStartUpActionPassed: () -> Unit
 ) {
     val navController = rememberAnimatedNavController()
 
     val actionNewNote = stringResource(id = HellNotesStrings.Action.NewNote)
     val actionReminders = stringResource(id = HellNotesStrings.Action.Reminders)
+    val actionTrash = stringResource(id = HellNotesStrings.Action.Trash)
+    val actionArchive = stringResource(id = HellNotesStrings.Action.Archive)
 
     AnimatedNavHost(
         navController = navController,
@@ -37,7 +42,12 @@ fun SetupNavGraph(
     ) {
         homeScreen(
             navController,
-            startFromReminders = action == actionReminders
+            startScreen = when(action) {
+                actionReminders -> HomeScreen.Reminders
+                actionArchive -> HomeScreen.Archive
+                actionTrash -> HomeScreen.Trash
+                else -> HomeScreen.NoteList
+            }
         )
 
         noteDetailScreen(navController)
@@ -56,16 +66,19 @@ fun SetupNavGraph(
 
         aboutAppScreen(navController)
     }.also {
-        LaunchedEffect(Unit) {
-            if (extraNoteId != null) {
-                navController.navigateToNoteDetail(noteId = extraNoteId)
-            }
+        LaunchedEffect(key1 = isStartUpActionPassed) {
+            if (!isStartUpActionPassed) {
 
-            when (action) {
-                actionNewNote -> {
-                    navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote)
+                onStartUpActionPassed()
+
+                if (extraNoteId != null) {
+                    navController.navigateToNoteDetail(noteId = extraNoteId)
                 }
-                actionReminders -> {}
+                when (action) {
+                    actionNewNote -> {
+                        navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote)
+                    }
+                }
             }
         }
     }

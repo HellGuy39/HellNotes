@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.ui.components
+package com.hellguy39.hellnotes.core.ui.components.input
 
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions

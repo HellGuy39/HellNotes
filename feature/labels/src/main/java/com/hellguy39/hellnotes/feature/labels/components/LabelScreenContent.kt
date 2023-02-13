@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
-import com.hellguy39.hellnotes.core.ui.components.CustomTextField
+import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 

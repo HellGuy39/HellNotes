@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -21,6 +21,7 @@ import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticato
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.domain.system_features.ProofOfIdentity
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.feature.lock.LockScreenDialog
 import com.hellguy39.hellnotes.navigation.SetupNavGraph
@@ -61,6 +62,9 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
             val extraNoteId = intent.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID)
             val action = intent.action
 
+            var isStartUpActionPassed by rememberSaveable { mutableStateOf(false) }
+            var isIdentityProofed by rememberSaveable { mutableStateOf(false) }
+
             LaunchedEffect(key1 = splashViewModel.isLoading.value) {
                 val lockScreenType by splashViewModel.lockScreenType
                 val isOnBoardingCompleted by splashViewModel.isOnBoardingCompleted
@@ -69,8 +73,8 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
                     //navigateToWelcomeScreen()
                 }
 
-                if (lockScreenType != LockScreenType.None) {
-                    confirmAppAccess(cancelable = false, onSuccess = { })
+                if (lockScreenType != LockScreenType.None && !isIdentityProofed) {
+                    confirmAppAccess(cancelable = false, onSuccess = { isIdentityProofed = true })
                 }
 
             }
@@ -83,6 +87,8 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
                 SetupNavGraph(
                     extraNoteId = extraNoteId,
                     action = action,
+                    isStartUpActionPassed = isStartUpActionPassed,
+                    onStartUpActionPassed = { isStartUpActionPassed = true }
                 )
             }
         }

@@ -61,7 +61,7 @@ fun RemindersScreen(
                             text = stringResource(id = HellNotesStrings.Label.Upcoming),
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.titleSmall
                         )
                     }
                 )

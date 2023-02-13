@@ -59,7 +59,7 @@ fun NoteListTopAppBar(
                     ElevatedCard(
                         onClick = { selection.onSearch() },
                         shape = RoundedCornerShape(32.dp),
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.Center,
@@ -67,6 +67,7 @@ fun NoteListTopAppBar(
                         ) {
                             Spacer(modifier = Modifier.width(4.dp))
                             IconButton(
+                                modifier = Modifier.padding(vertical = 4.dp),
                                 onClick = { selection.onNavigation() }
                             ) {
                                 Icon(
@@ -80,10 +81,11 @@ fun NoteListTopAppBar(
                                 text = stringResource(
                                     id = HellNotesStrings.Hint.Search,
                                 ),
-                                style = MaterialTheme.typography.titleMedium
+                                style = MaterialTheme.typography.bodyLarge
                             )
                             Spacer(modifier = Modifier.weight(1f))
                             IconButton(
+                                modifier = Modifier.padding(vertical = 4.dp),
                                 onClick = { selection.onChangeListStyle() }
                             ) {
                                 Icon(

@@ -44,13 +44,13 @@ object HellNotesStrings {
         val NothingWasFound = R.string.text_nothing_was_found
         val RemindTimeIsTooLate = R.string.text_remind_time_is_too_late
 
-        val NoteMovedToTrash = R.string.text_note_moved_to_trash
-        val NotesMovedToTrash = R.string.text_notes_moved_to_trash
         val NoNotesInTrash = R.string.text_no_notes_in_trash
 
         val LabelAlreadyExist = R.string.text_label_already_exist
         val NothingToShare = R.string.text_nothing_to_share
         val AutoDeleteTrash = R.string.text_auto_delete_trash
+
+        val ForAddedSecuritySetAPin = R.string.text_for_added_security_set_a_pin
     }
 
     object MenuItem {
@@ -88,7 +88,9 @@ object HellNotesStrings {
         val EditRemind = R.string.title_edit_remind
         val ShareAs = R.string.title_share_as
         val ChooseANewLockScreen = R.string.title_choose_a_new_lock_screen
-        val ChangeLanguage = R.string.title_сhange_language
+        val ChangeLanguage = R.string.title_change_language
+        val SetAPin = R.string.title_set_a_pin
+        val ReEnterYourPin = R.string.title_re_enter_your_pin
     }
 
     object Label {
@@ -120,9 +122,29 @@ object HellNotesStrings {
         val Undo = R.string.btn_undo
     }
 
+    object Helper {
+        val PinMustBeOnly4Digits = R.string.helper_pin_must_be_only_4_digits
+        val EnterPin = R.string.helper_enter_pin
+        val WrongPin = R.string.helper_wrong_pin
+        val Unlocked = R.string.helper_unlocked
+    }
+
     object Action {
         val NewNote = R.string.action_new_note
         val Reminders = R.string.action_reminders
+        val Archive = R.string.action_archive
+        val Trash = R.string.action_trash
+    }
+
+    object Snack {
+        val NoteMovedToTrash = R.string.snack_note_moved_to_trash
+        val NotesMovedToTrash = R.string.snack_notes_moved_to_trash
+
+        val NoteArchived = R.string.snack_note_archived
+        val NoteUnarchived = R.string.snack_note_unarchived
+
+        val NotePinned = R.string.snack_note_pinned
+        val NoteUnpinned = R.string.snack_note_unpinned
     }
 
     object Setting {

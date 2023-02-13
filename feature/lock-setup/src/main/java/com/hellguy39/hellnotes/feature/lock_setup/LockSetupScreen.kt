@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
 import com.hellguy39.hellnotes.core.ui.components.CustomDialogState
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
 fun LockSetupScreen(
@@ -57,6 +59,8 @@ fun LockSetupPin(
 
     val focusRequester = remember { FocusRequester() }
 
+    val wrongPinMessage = stringResource(id = HellNotesStrings.Helper.WrongPin)
+
     fun onValueChange(newText: String) {
 
         value = newText
@@ -73,7 +77,7 @@ fun LockSetupPin(
                         onPinEntered(pin)
                     } else {
                         isError = true
-                        errorMessage = "Wrong pin"
+                        errorMessage = wrongPinMessage
                     }
                 }
             }
@@ -82,12 +86,12 @@ fun LockSetupPin(
     }
 
     val title = when (state) {
-        SetupPinState.SetPin -> "Set a PIN"
-        SetupPinState.ConfirmPin -> "Re-enter your pin"
+        SetupPinState.SetPin -> stringResource(id = HellNotesStrings.Title.SetAPin)
+        SetupPinState.ConfirmPin -> stringResource(id = HellNotesStrings.Title.ReEnterYourPin)
     }
 
     val subtitle = when (state) {
-        SetupPinState.SetPin -> "For added security, set a PIN to unlock all your notes"
+        SetupPinState.SetPin -> stringResource(id = HellNotesStrings.Text.ForAddedSecuritySetAPin)
         SetupPinState.ConfirmPin -> ""
     }
 
@@ -133,7 +137,7 @@ fun LockSetupPin(
                             if (!isError) {
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
-                                    text = "Pin must be only 4 digits",
+                                    text = stringResource(id = HellNotesStrings.Helper.PinMustBeOnly4Digits),
                                     style = MaterialTheme.typography.bodySmall,
                                     textAlign = TextAlign.Center
                                 )
