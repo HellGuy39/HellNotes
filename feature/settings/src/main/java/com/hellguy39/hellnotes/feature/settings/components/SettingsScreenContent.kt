@@ -1,149 +1,146 @@
 package com.hellguy39.hellnotes.feature.settings.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.AppSettings
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.model.util.Language
+import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.components.CustomDivider
+import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.settings.events.LanguageDialogEvents
-import com.hellguy39.hellnotes.feature.settings.events.SettingsEvents
-import com.hellguy39.hellnotes.feature.settings.util.Language
+import com.hellguy39.hellnotes.feature.settings.SettingsUiState
 
 @Composable
 fun SettingsScreenContent(
     innerPadding: PaddingValues,
-    languageDialogEvents: LanguageDialogEvents,
-    appSettings: AppSettings,
-    settingsEvents: SettingsEvents,
-    isBioAuthAvailable: Boolean
+    selection: SettingsScreenSelection,
+    uiState: SettingsUiState
 ) {
     LazyColumn(
         modifier = Modifier
             .padding(innerPadding)
+            //.padding(horizontal = 16.dp)
     ) {
         item {
-            SettingsPartitionCard(
-                heroIcon = painterResource(id = HellNotesIcons.SecurityVerified),
-                title = stringResource(id = HellNotesStrings.Label.Security),
-                onClick = {  }
+            Column(
+                modifier = Modifier.padding(
+                    vertical = 12.dp
+                )
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                Text(
+                    modifier = Modifier
+                        .padding(vertical = 12.dp, horizontal = 16.dp),
+                    text = stringResource(id = HellNotesStrings.Label.Security),
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            selection.onLockScreen()
+                        }
                 ) {
                     Text(
-                        text = stringResource(id = HellNotesStrings.Setting.AppLock),
+                        modifier = Modifier
+                            .padding(top = 12.dp, bottom = 2.dp)
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = HellNotesStrings.Setting.ScreenLock),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = 12.dp)
+                            .alpha(UiDefaults.Alpha.Accented),
+                        text = uiState.appSettings.appLockType.getDisplayName(),
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    if (appSettings.isPinSetup) {
-                        Row {
-                            Button(
-                                onClick = { settingsEvents.setupPIN() }
-                            ) {
-                                Text(text = stringResource(id = HellNotesStrings.Button.EditPin))
-                            }
-                            Spacer(modifier = Modifier.size(width = 8.dp, height = 0.dp))
-                            FilledTonalIconButton(
-                                onClick = { settingsEvents.deletePIN() }
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = HellNotesIcons.Cancel),
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    } else {
-                        Button(
-                            onClick = { settingsEvents.setupPIN() }
-                        ) {
-                            Text(text = stringResource(id = HellNotesStrings.Button.SetupPin))
-                        }
-                    }
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp, horizontal = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    val switchTextModifier = if (uiState.isBioAuthAvailable)
+                        Modifier
+                    else
+                        Modifier.alpha(UiDefaults.Alpha.Emphasize)
+
                     Text(
+                        modifier = switchTextModifier,
                         text = stringResource(id = HellNotesStrings.Setting.UseBiometric),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyLarge
                     )
                     Switch(
-                        checked = appSettings.isUseBiometric,
-                        onCheckedChange = { settingsEvents.setUseBiometric(it) },
-                        enabled = appSettings.isPinSetup && isBioAuthAvailable
+                        checked = uiState.appSettings.isUseBiometricData,
+                        onCheckedChange = { selection.onUseBiometric(!uiState.appSettings.isUseBiometricData) },
+                        enabled = uiState.isBioAuthAvailable
                     )
                 }
             }
         }
         item {
-            SettingsPartitionCard(
-                heroIcon = painterResource(id = HellNotesIcons.Language),
-                title = stringResource(id = HellNotesStrings.Label.Language),
-                onClick = { languageDialogEvents.show() }
+            CustomDivider(
+                paddingValues = PaddingValues(horizontal = 16.dp),
+                alpha = UiDefaults.Alpha.Inconspicuous,
+                color = MaterialTheme.colorScheme.outline
+            )
+        }
+        item {
+            Column(
+                modifier = Modifier.padding(
+                    vertical = 12.dp
+                )
             ) {
                 Text(
-                    text = Language.getFullName(
-                        code = languageDialogEvents.getCurrentLanCode()
-                    ),
                     modifier = Modifier
-                        .padding(top = 8.dp),
-                    style = MaterialTheme.typography.titleMedium
+                        .padding(vertical = 12.dp, horizontal = 16.dp),
+                    text = stringResource(id = HellNotesStrings.Label.Language),
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { selection.onLanguage() }
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 12.dp, bottom = 2.dp)
+                            .padding(horizontal = 16.dp),
+                        text = stringResource(id = HellNotesStrings.Setting.ChangeLanguage),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = 12.dp)
+                            .alpha(UiDefaults.Alpha.Accented),
+                        text = Language.from(uiState.lanCode).getDisplayName(),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SettingsPartitionCard(
-    heroIcon: Painter,
-    title: String = "",
-    onClick: () -> Unit,
-    content: @Composable (() -> Unit)
-) {
-    ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 4.dp),
-        onClick = {
-            onClick()
-        }
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = heroIcon,
-                    contentDescription = null
-                )
-                Spacer(modifier = Modifier.size(width = 8.dp, height = 0.dp))
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
-            Spacer(modifier = Modifier.size(height = 0.dp, width = 0.dp))
-            Column(
-                modifier = Modifier.padding(start = 32.dp, top = 8.dp, bottom = 8.dp)
-            ) {
-                content()
-            }
-        }
-    }
-}
+data class SettingsScreenSelection(
+    val onLockScreen: () -> Unit,
+    val onLanguage: () -> Unit,
+    val onUseBiometric: (Boolean) -> Unit
+)

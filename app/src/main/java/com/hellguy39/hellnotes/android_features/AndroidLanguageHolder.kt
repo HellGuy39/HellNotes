@@ -18,7 +18,9 @@ class AndroidLanguageHolder @Inject constructor(
             context.getSystemService(LocaleManager::class.java).applicationLocales =
                 LocaleList.forLanguageTags(code)
         } else {
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(code))
+            AppCompatDelegate.setApplicationLocales(
+                LocaleListCompat.forLanguageTags(code)
+            )
         }
     }
 

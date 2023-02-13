@@ -31,6 +31,7 @@ android {
 dependencies {
 
     implementation(project(Project.Core.Database))
+    implementation(project(Project.Core.Datastore))
     implementation(project(Project.Core.Model))
     implementation(project(Project.Core.Domain))
 

@@ -1,19 +1,21 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import com.hellguy39.hellnotes.core.model.Label
+import com.hellguy39.hellnotes.core.model.isNoteValid
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareHelper
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -82,42 +84,67 @@ fun NoteDetailRoute(
 
     val remindIsTooLateMessage = stringResource(id = HellNotesStrings.Text.RemindTimeIsTooLate)
 
-    val reminderDialogSelection = ReminderDialogSelection(
-        note = uiState.note,
-        onCreateRemind = { remind ->
-            if(remind.triggerDate > dateHelper.getCurrentTimeInEpochMilli()) {
-                noteDetailViewModel.insertRemind(remind)
-                alarmScheduler.scheduleAlarm(remind)
-            } else {
-                scope.launch {
-                    snackbarHostState.showSnackbar(message = remindIsTooLateMessage)
-                }
-            }
-        },
-        onDeleteRemind = { remind ->
-            alarmScheduler.cancelAlarm(remind)
-            noteDetailViewModel.onDeleteRemind(remind)
-        },
-        onUpdateRemind = { remind ->
-            val oldReminder = uiState.noteReminders.find { it.id == remind.id }
-            oldReminder?.let { alarmScheduler.cancelAlarm(it) }
-            alarmScheduler.scheduleAlarm(remind)
-            noteDetailViewModel.onUpdateRemind(remind)
-        }
-    )
-
     ReminderDialog(
         state = reminderDialogState,
-        selection = reminderDialogSelection,
+        selection = ReminderDialogSelection(
+            note = uiState.note,
+            onCreateRemind = { remind ->
+                if(remind.triggerDate > dateHelper.getCurrentTimeInEpochMilli()) {
+                    noteDetailViewModel.insertRemind(remind)
+                    alarmScheduler.scheduleAlarm(remind)
+                } else {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(message = remindIsTooLateMessage)
+                    }
+                }
+            },
+            onDeleteRemind = { remind ->
+                alarmScheduler.cancelAlarm(remind)
+                noteDetailViewModel.onDeleteRemind(remind)
+            },
+            onUpdateRemind = { remind ->
+                val oldReminder = uiState.noteReminders.find { it.id == remind.id }
+                oldReminder?.let { alarmScheduler.cancelAlarm(it) }
+                alarmScheduler.scheduleAlarm(remind)
+                noteDetailViewModel.onUpdateRemind(remind)
+            }
+        ),
         dateHelper = dateHelper
     )
 
     BackHandler(
         onBack = {
-            noteDetailViewModel.onDiscardNoteIfEmpty()
+            //noteDetailViewModel.onDiscardNoteIfEmpty()
             navController.popBackStack()
         }
     )
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val currentOnStop by rememberUpdatedState {
+        noteDetailViewModel.onDiscardNoteIfEmpty()
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when(event) {
+                Lifecycle.Event.ON_STOP -> currentOnStop()
+                else -> Unit
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    val nothingToShare = stringResource(id = HellNotesStrings.Text.NothingToShare)
+    val snackNotePinned = stringResource(id = HellNotesStrings.Snack.NotePinned)
+    val snackNoteUnpinned = stringResource(id = HellNotesStrings.Snack.NoteUnpinned)
+    val snackNoteArchived = stringResource(id = HellNotesStrings.Snack.NoteArchived)
+    val snackNoteUnarchived = stringResource(id = HellNotesStrings.Snack.NoteUnarchived)
 
     NoteDetailScreen(
         snackbarHostState = snackbarHostState,
@@ -138,7 +165,13 @@ fun NoteDetailRoute(
                 labelDialogState.show()
             },
             onShare = {
-                shareDialogState.show()
+                if (uiState.note.isNoteValid()) {
+                    shareDialogState.show()
+                } else {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(message = nothingToShare)
+                    }
+                }
             },
             onDelete = {
                 noteDetailViewModel.onDeleteNote()
@@ -148,7 +181,7 @@ fun NoteDetailRoute(
         noteDetailTopAppBarSelection = NoteDetailTopAppBarSelection(
             note = uiState.note,
             onNavigationButtonClick = {
-                noteDetailViewModel.onDiscardNoteIfEmpty()
+                //noteDetailViewModel.onDiscardNoteIfEmpty()
                 navController.popBackStack()
             },
             onReminder = {
@@ -156,12 +189,28 @@ fun NoteDetailRoute(
             },
             onPin = { isPinned ->
                 noteDetailViewModel.onUpdateIsPinned(isPinned)
+                snackbarHostState.currentSnackbarData?.dismiss()
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = if (isPinned) snackNotePinned else snackNoteUnpinned,
+                        duration = SnackbarDuration.Short,
+                        withDismissAction = true
+                    )
+                }
             },
             onColorSelected = { colorHex ->
                 //noteDetailViewModel.onUpdateNoteBackground(colorHex)
             },
             onArchive = { isArchived ->
                 noteDetailViewModel.onUpdateIsArchived(isArchived)
+                snackbarHostState.currentSnackbarData?.dismiss()
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = if (isArchived) snackNoteArchived else snackNoteUnarchived,
+                        duration = SnackbarDuration.Short,
+                        withDismissAction = true
+                    )
+                }
             }
         ),
         dateHelper = dateHelper

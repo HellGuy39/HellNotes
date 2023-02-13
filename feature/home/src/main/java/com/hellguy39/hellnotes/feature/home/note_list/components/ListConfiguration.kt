@@ -23,19 +23,18 @@ fun ListConfiguration(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        //horizontalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier.fillMaxWidth()
     ) {
         TextButton(
+            modifier = Modifier.padding(start = 12.dp),
             onClick = { menuState.show() },
         ) {
-
             Icon(
                 painter = painterResource(id = HellNotesIcons.Sort),
                 contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Sort)
             )
             Text(
-                text = stringResource(id = HellNotesStrings.Text.SortBy, sortName),
+                text = sortName,
                 modifier = Modifier
                     .padding(horizontal = 4.dp),
                 style = MaterialTheme.typography.bodyMedium

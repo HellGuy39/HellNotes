@@ -20,6 +20,7 @@
     <string name="label_language">Language</string>
     <string name="label_security">Security</string>
     <string name="label_upcoming">Upcoming</string>
+    <string name="label_archived">Archived</string>
     <string name="label_pinned">Pinned</string>
     <string name="label_others">Others</string>
     <string name="label_labels">Labels</string>
@@ -35,10 +36,11 @@
     <string name="text_notification_permission_rationale">Unfortunately, we will not be able to send you notifications without permission. We promise that it will only send notifications for the reminders you set.</string>
     <string name="text_notification_permission_default">Notification permission required for this feature to be available.\nPlease grant the permission</string>
     <string name="text_remind_time_is_too_late">It is impossible to set a reminder, the reminder time is later than the system time.</string>
-    <string name="text_note_moved_to_trash">Note moved to trash</string>
-    <string name="text_notes_moved_to_trash">Notes moved to trash</string>
     <string name="text_no_notes_in_trash">No notes in Trash</string>
     <string name="text_label_already_exist">Label with this name already exists</string>
+    <string name="text_nothing_to_share">Nothing to share</string>
+    <string name="text_auto_delete_trash">Notes in the trash are deleted automatically after 7 days</string>
+    <string name="text_for_added_security_set_a_pin">For added security, set a PIN to unlock all your notes</string>
 
     <!-- MenuItem -->
     <string name="menu_item_settings">Settings</string>
@@ -53,6 +55,11 @@
     <string name="menu_item_color">Color</string>
     <string name="menu_item_create_new_label">Create new label</string>
     <string name="menu_item_empty_trash">Empty trash</string>
+    <string name="menu_item_none">None</string>
+    <string name="menu_item_pin">PIN</string>
+    <string name="menu_item_password">Password</string>
+    <string name="menu_item_pattern">Pattern</string>
+    <string name="menu_item_slide">Slide</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>
@@ -65,10 +72,23 @@
     <string name="title_new_remind">New remind</string>
     <string name="title_share_as">Share as…</string>
     <string name="title_edit_remind">Edit remind</string>
+    <string name="title_choose_a_new_lock_screen">Choose a new lock screen</string>
+    <string name="title_change_language">Change language</string>
+    <string name="title_set_a_pin">Set a PIN</string>
+    <string name="title_re_enter_your_pin">Re-enter your pin</string>
+
+    <!-- Helper -->
+    <string name="helper_pin_must_be_only_4_digits">PIN must be only 4 digits</string>
+    <string name="helper_enter_pin">Enter your PIN</string>
+    <string name="helper_unlocked">Unlocked</string>
+    <string name="helper_wrong_pin">Wrong PIN</string>
 
     <!-- Language-->
-    <string name="lan_ru" translatable="false">Russian</string>
-    <string name="lan_en" translatable="false">English</string>
+    <string name="lan_system_default">System default</string>
+    <string name="lan_ru">Russian</string>
+    <string name="lan_en">English</string>
+    <string name="lan_de">German</string>
+    <string name="lan_fr">French</string>
 
     <!-- Hint -->
     <string name="hint_title">Title</string>
@@ -90,10 +110,22 @@
     <!-- Setting -->
     <string name="stg_app_lock">App lock</string>
     <string name="stg_use_biometric">Use biometric</string>
+    <string name="stg_screen_lock">Screen lock</string>
+    <string name="stg_change_language">Change language</string>
 
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">New note</string>
     <string name="shortcut_label_reminders">Reminders</string>
+    <string name="shortcut_label_archive">Archive</string>
+    <string name="shortcut_label_trash">Trash</string>
+
+    <!-- Snack -->
+    <string name="snack_note_moved_to_trash">Note moved to trash</string>
+    <string name="snack_notes_moved_to_trash">Notes moved to trash</string>
+    <string name="snack_note_archived">Note archived</string>
+    <string name="snack_note_unarchived">Note unarchived</string>
+    <string name="snack_note_pinned">Note pinned</string>
+    <string name="snack_note_unpinned">Note unpinned</string>
 
     <!-- Notification -->
     <string name="ntf_reminder_title">Reminder!</string>
@@ -103,5 +135,7 @@
     <!-- Actions -->
     <string name="action_new_note" translatable="false">com.hellguy39.hellnotes.NEW_NOTE</string>
     <string name="action_reminders" translatable="false">com.hellguy39.hellnotes.REMINDERS</string>
+    <string name="action_archive" translatable="false">com.hellguy39.hellnotes.ARCHIVE</string>
+    <string name="action_trash" translatable="false">com.hellguy39.hellnotes.TRASH</string>
 
 </resources>

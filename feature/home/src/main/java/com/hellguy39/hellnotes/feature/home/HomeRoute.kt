@@ -9,9 +9,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.DateHelper
-import com.hellguy39.hellnotes.core.ui.components.NoteSelection
-import com.hellguy39.hellnotes.core.ui.navigations.INavigations
+import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.navigations.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
@@ -35,12 +37,13 @@ import com.hellguy39.hellnotes.feature.home.trash.components.TrashDropdownMenuSe
 import com.hellguy39.hellnotes.feature.home.trash.components.TrashTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import com.hellguy39.hellnotes.feature.home.util.DrawerItemType
+import com.hellguy39.hellnotes.feature.home.util.HomeScreen
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
-    navigations: INavigations,
-    startScreenIndex: Int = 0,
+    navController: NavController,
+    startScreen: HomeScreen = HomeScreen.NoteList,
     homeViewModel: HomeViewModel = hiltViewModel(),
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
     noteListViewModel: NoteListViewModel = hiltViewModel(),
@@ -57,6 +60,7 @@ fun HomeRoute(
 
     val listStyle by homeViewModel.listStyle.collectAsStateWithLifecycle()
     val labels by homeViewModel.labels.collectAsStateWithLifecycle()
+    val appSettings by homeViewModel.appSettings.collectAsStateWithLifecycle()
     val selectedDrawerItem by homeViewModel.drawerItem.collectAsStateWithLifecycle()
 
     val haptic = LocalHapticFeedback.current
@@ -109,7 +113,7 @@ fun HomeRoute(
             itemType = DrawerItemType.Static,
             onClick = {
                 scope.launch { drawerState.close() }
-                navigations.navigateToSettings()
+                navController.navigateToSettings()
             }
         ),
         DrawerItem(
@@ -118,7 +122,7 @@ fun HomeRoute(
             itemType = DrawerItemType.Static,
             onClick = {
                 scope.launch { drawerState.close() }
-                navigations.navigateToAboutApp()
+                navController.navigateToAboutApp()
             }
         )
     )
@@ -138,7 +142,7 @@ fun HomeRoute(
 
     LaunchedEffect(key1 = Unit) {
         if (selectedDrawerItem.itemType == DrawerItemType.None) {
-            homeViewModel.setDrawerItem(drawerItems[startScreenIndex])
+            homeViewModel.setDrawerItem(drawerItems[startScreen.index])
         }
     }
 
@@ -150,8 +154,8 @@ fun HomeRoute(
                 drawerItems = drawerItems,
                 labelItems = labelItems,
                 labelSelection = LabelSelection(
-                    onEditLabel = { navigations.navigateToLabels() },
-                    onCreateNewLabel = { navigations.navigateToLabels() }
+                    onEditLabel = { navController.navigateToLabels() },
+                    onCreateNewLabel = { navController.navigateToLabels() }
                 )
             )
         },
@@ -161,11 +165,11 @@ fun HomeRoute(
                     DrawerItemType.Primary -> {
                         if (it.title == stringResource(id = HellNotesStrings.Title.Notes)) {
                             val actionLabel = stringResource(id = HellNotesStrings.Button.Undo)
-                            val noteMovedToTrash = stringResource(id = HellNotesStrings.Text.NoteMovedToTrash)
-                            val notesMovedToTrash = stringResource(id = HellNotesStrings.Text.NotesMovedToTrash)
+                            val noteMovedToTrash = stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
+                            val notesMovedToTrash = stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
 
                             NoteListScreen(
-                                onFabAddClick = { navigations.navigateToNoteDetail(-1) },
+                                onFabAddClick = { navController.navigateToNoteDetail(-1) },
                                 noteListTopAppBarSelection = NoteListTopAppBarSelection(
                                     listStyle = listStyle,
                                     onCancelSelection = {
@@ -197,7 +201,7 @@ fun HomeRoute(
                                         }
                                     },
                                     onSearch = {
-                                        navigations.navigateToSearch()
+                                        navController.navigateToSearch()
                                     },
                                     onChangeListStyle = {
                                         homeViewModel.updateListStyle()
@@ -211,7 +215,7 @@ fun HomeRoute(
                                     dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (noteListUiState.selectedNotes.isEmpty()) {
-                                            navigations.navigateToNoteDetail(note.id ?: -1)
+                                            navController.navigateToNoteDetail(note.id ?: -1)
                                         } else {
                                             if (noteListUiState.selectedNotes.contains(note)) {
                                                 noteListViewModel.unselectNote(note)
@@ -235,7 +239,17 @@ fun HomeRoute(
                                         noteListViewModel.updateSorting(sorting)
                                     }
                                 ),
-                                snackbarHostState = snackbarHostState
+                                snackbarHostState = snackbarHostState,
+                                categories = listOf(
+                                    NoteCategory(
+                                        title = stringResource(id = HellNotesStrings.Label.Pinned),
+                                        notes = noteListUiState.pinnedNotes,
+                                    ),
+                                    NoteCategory(
+                                        title = stringResource(id = HellNotesStrings.Label.Others),
+                                        notes = noteListUiState.unpinnedNotes,
+                                    )
+                                )
                             )
                         } else {
                             RemindersScreen(
@@ -244,7 +258,7 @@ fun HomeRoute(
                                     dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (remindersUiState.selectedNotes.isEmpty()) {
-                                            navigations.navigateToNoteDetail(note.id ?: -1)
+                                            navController.navigateToNoteDetail(note.id ?: -1)
                                         } else {
                                             if (remindersUiState.selectedNotes.contains(note)) {
                                                 remindersViewModel.unselectNote(note)
@@ -278,6 +292,11 @@ fun HomeRoute(
                                         remindersViewModel.cancelNoteSelection()
                                     }
                                 ),
+                                categories = listOf(
+                                    NoteCategory(
+                                        notes = remindersUiState.notes
+                                    )
+                                )
                             )
                         }
 
@@ -291,7 +310,7 @@ fun HomeRoute(
                                     dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (archiveUiState.selectedNotes.isEmpty()) {
-                                            navigations.navigateToNoteDetail(note.id ?: -1)
+                                            navController.navigateToNoteDetail(note.id ?: -1)
                                         } else {
                                             if (archiveUiState.selectedNotes.contains(note)) {
                                                 archiveViewModel.unselectNote(note)
@@ -323,6 +342,11 @@ fun HomeRoute(
                                     onArchiveSelected = {
                                         archiveViewModel.archiveAllSelected()
                                     }
+                                ),
+                                categories = listOf(
+                                    NoteCategory(
+                                        notes = archiveUiState.notes
+                                    )
                                 )
                             )
                         } else {
@@ -371,7 +395,16 @@ fun HomeRoute(
                                         trashViewModel.emptyTrash()
                                     }
                                 ),
-                                listStyle = listStyle
+                                listStyle = listStyle,
+                                categories = listOf(
+                                    NoteCategory(
+                                        notes = trashUiState.trashNotes
+                                    )
+                                ),
+                                isTipVisible = !appSettings.isTrashTipChecked,
+                                onCloseTip = {
+                                    homeViewModel.setTrashTipChecked(true)
+                                }
                             )
                         }
                     }
@@ -383,7 +416,7 @@ fun HomeRoute(
                                 dateHelper = dateHelper,
                                 onClick = { note ->
                                     if (labelUiState.selectedNotes.isEmpty()) {
-                                        navigations.navigateToNoteDetail(note.id ?: -1)
+                                        navController.navigateToNoteDetail(note.id ?: -1)
                                     } else {
                                         if (labelUiState.selectedNotes.contains(note)) {
                                             labelViewModel.unselectNote(note)
@@ -413,6 +446,11 @@ fun HomeRoute(
                                     labelViewModel.archiveAllSelected()
                                 },
                                 onNavigation = { scope.launch { drawerState.open() } }
+                            ),
+                            categories = listOf(
+                                NoteCategory(
+                                    notes = labelUiState.notes
+                                )
                             )
                         )
                     }

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -60,7 +59,7 @@ fun NoteListTopAppBar(
                     ElevatedCard(
                         onClick = { selection.onSearch() },
                         shape = RoundedCornerShape(32.dp),
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.Center,
@@ -68,6 +67,7 @@ fun NoteListTopAppBar(
                         ) {
                             Spacer(modifier = Modifier.width(4.dp))
                             IconButton(
+                                modifier = Modifier.padding(vertical = 4.dp),
                                 onClick = { selection.onNavigation() }
                             ) {
                                 Icon(
@@ -81,10 +81,11 @@ fun NoteListTopAppBar(
                                 text = stringResource(
                                     id = HellNotesStrings.Hint.Search,
                                 ),
-                                style = MaterialTheme.typography.titleMedium
+                                style = MaterialTheme.typography.bodyLarge
                             )
                             Spacer(modifier = Modifier.weight(1f))
                             IconButton(
+                                modifier = Modifier.padding(vertical = 4.dp),
                                 onClick = { selection.onChangeListStyle() }
                             ) {
                                 Icon(

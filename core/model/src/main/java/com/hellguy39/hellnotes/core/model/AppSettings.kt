@@ -1,10 +1,22 @@
 package com.hellguy39.hellnotes.core.model
 
+import com.hellguy39.hellnotes.core.model.util.LockScreenType
+
 data class AppSettings(
+
     /* Security */
-    val isPinSetup: Boolean,
-    val appPin: String,
-    val isUseBiometric: Boolean,
+    val appLockType: LockScreenType,
+    val appCode: String,
+    val isUseBiometricData: Boolean,
+
+    val isOnBoardingCompleted: Boolean,
+    val isTrashTipChecked: Boolean
 ) {
-    constructor(): this(false, "", false)
+    constructor(): this(
+        appLockType = LockScreenType.None,
+        appCode = "",
+        isUseBiometricData = false,
+        isOnBoardingCompleted = false,
+        isTrashTipChecked = false
+    )
 }

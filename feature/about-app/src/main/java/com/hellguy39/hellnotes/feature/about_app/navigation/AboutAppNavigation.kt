@@ -5,31 +5,29 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
+import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.about_app.AboutAppRoute
-
-const val aboutAppNavigationRoute = "about_app_route"
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.aboutAppScreen(
     navController: NavController
 ) {
     composable(
-        route = aboutAppNavigationRoute,
+        route = Screen.AboutApp.route,
         arguments = listOf(),
         enterTransition = {
-//            slideInHorizontally(
-//                initialOffsetX = { 300 },
-//                animationSpec = tween(300)
-//            ) +
-                    fadeIn(animationSpec = tween(300))
+            UiDefaults.Motion.ScreenEnterTransition
+        },
+        exitTransition = {
+            UiDefaults.Motion.ScreenExitTransition
+        },
+        popEnterTransition = {
+            UiDefaults.Motion.ScreenPopEnterTransition
         },
         popExitTransition = {
-//            slideOutHorizontally(
-//                targetOffsetX = { 300 },
-//                animationSpec = tween(300)
-//            ) +
-                    fadeOut(animationSpec = tween(300))
-        }
+            UiDefaults.Motion.ScreenPopExitTransition
+        },
     ) {
         AboutAppRoute(navController = navController)
     }

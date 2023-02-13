@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.labels.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
-import com.hellguy39.hellnotes.core.ui.components.CustomTextField
+import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -43,26 +45,28 @@ fun LabelScreenContent(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (isFocused) {
-                    IconButton(
-                        onClick = {
-                            newLabel = ""
-                            focusManager.clearFocus()
+                Crossfade(isFocused) { isFocused ->
+                    if (isFocused) {
+                        IconButton(
+                            onClick = {
+                                newLabel = ""
+                                focusManager.clearFocus()
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = HellNotesIcons.Close),
+                                contentDescription = null
+                            )
                         }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = HellNotesIcons.Close),
-                            contentDescription = null
-                        )
-                    }
-                } else {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(
-                            painter = painterResource(id = HellNotesIcons.Add),
-                            contentDescription = null
-                        )
+                    } else {
+                        IconButton(
+                            onClick = {}
+                        ) {
+                            Icon(
+                                painter = painterResource(id = HellNotesIcons.Add),
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
                 CustomTextField(
@@ -76,7 +80,7 @@ fun LabelScreenContent(
                         },
                     textStyle = MaterialTheme.typography.titleMedium
                 )
-                if (isFocused) {
+                AnimatedVisibility (isFocused) {
                     IconButton(
                         onClick = {
                             if (newLabel.isNotBlank() && newLabel.isNotEmpty()) {

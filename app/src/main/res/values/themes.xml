@@ -4,7 +4,6 @@
     <style name="Theme.HellNotes" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
 
     <style name="Theme.HellNotes.Splash" parent="Theme.SplashScreen">
-<!--        <item name="windowSplashScreenBackground">@color/purple_200</item>-->
         <item name="windowSplashScreenAnimatedIcon">@drawable/app_splash_icon_foreground</item>
         <item name="postSplashScreenTheme">@style/Theme.HellNotes</item>
     </style>

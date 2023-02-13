@@ -2,101 +2,105 @@ package com.hellguy39.hellnotes.feature.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.AppSettingsRepository
+import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val appSettingsRepository: AppSettingsRepository,
+    dataStoreRepository: DataStoreRepository,
     private val labelRepository: LabelRepository,
     private val reminderRepository: ReminderRepository,
     private val noteRepository: NoteRepository,
     val dateHelper: DateHelper,
 ): ViewModel() {
 
-    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
-    val uiState = _uiState.asStateFlow()
-
-    private val _query = MutableStateFlow("")
-    val query = _query.asStateFlow()
+    private val searchViewModelState = MutableStateFlow(SearchViewModelState())
 
     private val _listStyle: MutableStateFlow<ListStyle> = MutableStateFlow(ListStyle.Column)
     val listStyle = _listStyle.asStateFlow()
 
-    private val _reminds: MutableStateFlow<List<Remind>> = MutableStateFlow(listOf())
-    val reminds = _reminds.asStateFlow()
+    val uiState = searchViewModelState
+        .map(SearchViewModelState::toUiState)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            searchViewModelState.value.toUiState()
+        )
 
-    private val _labels: MutableStateFlow<List<Label>> = MutableStateFlow(listOf())
-    val labels = _labels.asStateFlow()
-
-    private var getLabelsJob: Job? = null
-    private var getRemindersJob: Job? = null
-    private var getNotesJob: Job? = null
 
     init {
-        _listStyle.update { appSettingsRepository.getListStyle() }
-        fetchNotes("")
-        fetchLabels()
-        fetchReminds()
-    }
+        viewModelScope.launch {
 
-    private fun fetchReminds() = viewModelScope.launch {
-        getRemindersJob?.cancel()
-        getRemindersJob = reminderRepository.getAllRemindsStream()
-            .onEach { reminds ->
-                _reminds.update { reminds }
-            }
-            .launchIn(viewModelScope)
-    }
-
-    private fun fetchLabels() = viewModelScope.launch {
-        getLabelsJob?.cancel()
-        getLabelsJob = labelRepository.getAllLabelsStream()
-            .onEach { labels ->
-                _labels.update { labels }
-            }
-            .launchIn(viewModelScope)
-    }
-
-
-    @OptIn(FlowPreview::class)
-    private fun fetchNotes(query: String) = viewModelScope.launch {
-        getNotesJob?.cancel()
-        getNotesJob = noteRepository.getAllNotesWithQueryStream(query)
-            .onEach { notes ->
-                _uiState.update {
-                    UiState.Success(
-                        notes = notes
-                    )
+            launch {
+                dataStoreRepository.readListStyleState().collect { listStyle ->
+                    _listStyle.update { listStyle }
                 }
             }
-            .debounce(500L)
-            .launchIn(viewModelScope)
+
+            launch {
+                noteRepository.getAllNotesStream().collect { notes ->
+                    searchViewModelState.update { it.copy(notes = notes) }
+                }
+            }
+            launch {
+                reminderRepository.getAllRemindsStream().collect { reminders ->
+                    searchViewModelState.update { it.copy(reminders = reminders) }
+                }
+            }
+            launch {
+                labelRepository.getAllLabelsStream().collect { labels ->
+                    searchViewModelState.update { it.copy(labels = labels) }
+                }
+            }
+        }
     }
 
-    fun updateSearchQuery(query: String) = viewModelScope.launch {
-        _query.update { query }
-        fetchNotes(query)
+    fun updateSearchQuery(query: String) {
+        viewModelScope.launch {
+            searchViewModelState.update { it.copy(search = query) }
+        }
     }
-
 }
 
-sealed interface UiState {
-    object Loading: UiState
-    data class Success(
-        val notes: List<Note>
-    ): UiState
+private data class SearchViewModelState(
+    val search: String = "",
+    val notes: List<Note> = listOf(),
+    val labels: List<Label> = listOf(),
+    val reminders: List<Remind> = listOf(),
+) {
+    fun toUiState(): SearchUiState {
+
+        val allNotes = notes.map { note ->
+            note.toNoteDetailWrapper(
+                reminders = reminders,
+                labels = labels
+            )
+        }
+
+        val searchNotes = allNotes.filter {
+            it.note.note.contains(search, true) ||
+                    it.note.title.contains(search, true)
+        }
+
+        return SearchUiState(
+            search = search,
+            notes = searchNotes.filter { !it.note.isArchived },
+            archivedNotes = searchNotes.filter { it.note.isArchived }
+        )
+    }
 }
+
+data class SearchUiState(
+    val search: String,
+    val notes: List<NoteDetailWrapper>,
+    val archivedNotes: List<NoteDetailWrapper>
+)

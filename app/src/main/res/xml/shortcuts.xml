@@ -35,4 +35,38 @@
 
     </shortcut>
 
+    <!-- Archive -->
+    <shortcut
+        android:shortcutId="id3"
+        android:enabled="true"
+        android:icon="@drawable/ic_archive_24"
+        android:shortcutShortLabel="@string/shortcut_label_archive"
+        android:shortcutLongLabel="@string/shortcut_label_archive">
+
+        <intent
+            android:action="com.hellguy39.hellnotes.ARCHIVE"
+            android:targetPackage="com.hellguy39.hellnotes"
+            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity" />
+
+        <categories android:name="android.shortcut.conversation" />
+
+    </shortcut>
+
+    <!-- Trash -->
+    <shortcut
+        android:shortcutId="id4"
+        android:enabled="true"
+        android:icon="@drawable/ic_delete_24"
+        android:shortcutShortLabel="@string/shortcut_label_trash"
+        android:shortcutLongLabel="@string/shortcut_label_trash">
+
+        <intent
+            android:action="com.hellguy39.hellnotes.TRASH"
+            android:targetPackage="com.hellguy39.hellnotes"
+            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity" />
+
+        <categories android:name="android.shortcut.conversation" />
+
+    </shortcut>
+
 </shortcuts>

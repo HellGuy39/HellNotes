@@ -97,7 +97,7 @@ class ArchiveViewModel @Inject constructor(
     fun archiveAllSelected() {
         viewModelScope.launch {
             noteRepository.updateNotes(
-                archivedViewModelState.value.notes.map {
+                archivedViewModelState.value.selectedNotes.map {
                     it.copy(
                         isArchived = false
                     )

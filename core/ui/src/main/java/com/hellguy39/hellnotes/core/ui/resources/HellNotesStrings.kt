@@ -44,11 +44,13 @@ object HellNotesStrings {
         val NothingWasFound = R.string.text_nothing_was_found
         val RemindTimeIsTooLate = R.string.text_remind_time_is_too_late
 
-        val NoteMovedToTrash = R.string.text_note_moved_to_trash
-        val NotesMovedToTrash = R.string.text_notes_moved_to_trash
         val NoNotesInTrash = R.string.text_no_notes_in_trash
 
         val LabelAlreadyExist = R.string.text_label_already_exist
+        val NothingToShare = R.string.text_nothing_to_share
+        val AutoDeleteTrash = R.string.text_auto_delete_trash
+
+        val ForAddedSecuritySetAPin = R.string.text_for_added_security_set_a_pin
     }
 
     object MenuItem {
@@ -65,6 +67,12 @@ object HellNotesStrings {
         val WhatsNew = R.string.menu_item_whats_new
         val CreateNewLabel = R.string.menu_item_create_new_label
         val EmptyTrash = R.string.menu_item_empty_trash
+
+        val None = R.string.menu_item_none
+        val Pin = R.string.menu_item_pin
+        val Password = R.string.menu_item_password
+        val Pattern = R.string.menu_item_pattern
+        val Slide = R.string.menu_item_slide
     }
 
     object Title {
@@ -79,20 +87,29 @@ object HellNotesStrings {
         val NewRemind = R.string.title_new_remind
         val EditRemind = R.string.title_edit_remind
         val ShareAs = R.string.title_share_as
+        val ChooseANewLockScreen = R.string.title_choose_a_new_lock_screen
+        val ChangeLanguage = R.string.title_change_language
+        val SetAPin = R.string.title_set_a_pin
+        val ReEnterYourPin = R.string.title_re_enter_your_pin
     }
 
     object Label {
         val Pinned = R.string.label_pinned
         val Others = R.string.label_others
         val Upcoming = R.string.label_upcoming
+        val Archived = R.string.label_archived
         val Security = R.string.label_security
         val Language = R.string.label_language
         val Labels = R.string.label_labels
+
     }
 
     object Lan {
         val Russian = R.string.lan_ru
         val English = R.string.lan_en
+        val German = R.string.lan_de
+        val French = R.string.lan_fr
+        val SystemDefault = R.string.lan_system_default
     }
 
     object Button {
@@ -105,14 +122,36 @@ object HellNotesStrings {
         val Undo = R.string.btn_undo
     }
 
+    object Helper {
+        val PinMustBeOnly4Digits = R.string.helper_pin_must_be_only_4_digits
+        val EnterPin = R.string.helper_enter_pin
+        val WrongPin = R.string.helper_wrong_pin
+        val Unlocked = R.string.helper_unlocked
+    }
+
     object Action {
         val NewNote = R.string.action_new_note
         val Reminders = R.string.action_reminders
+        val Archive = R.string.action_archive
+        val Trash = R.string.action_trash
+    }
+
+    object Snack {
+        val NoteMovedToTrash = R.string.snack_note_moved_to_trash
+        val NotesMovedToTrash = R.string.snack_notes_moved_to_trash
+
+        val NoteArchived = R.string.snack_note_archived
+        val NoteUnarchived = R.string.snack_note_unarchived
+
+        val NotePinned = R.string.snack_note_pinned
+        val NoteUnpinned = R.string.snack_note_unpinned
     }
 
     object Setting {
         val AppLock = R.string.stg_app_lock
         val UseBiometric = R.string.stg_use_biometric
+        val ScreenLock = R.string.stg_screen_lock
+        val ChangeLanguage = R.string.stg_change_language
     }
 
     object Notification {

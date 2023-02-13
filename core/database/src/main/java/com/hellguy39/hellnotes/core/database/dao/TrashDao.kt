@@ -14,6 +14,12 @@ interface TrashDao {
     """)
     fun getAllTrashStream(): Flow<List<TrashEntity>>
 
+    @Query("""
+        SELECT * FROM trash_table
+    """)
+    suspend fun getAllTrash(): List<TrashEntity>
+
+
     @Delete
     suspend fun deleteTrash(trashEntity: TrashEntity)
 

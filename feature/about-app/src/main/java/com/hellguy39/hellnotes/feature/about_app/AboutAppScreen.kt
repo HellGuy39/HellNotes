@@ -8,6 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.about_app.components.AboutAppScreenContent
 import com.hellguy39.hellnotes.feature.about_app.components.AboutAppTopAppBar
+import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,8 +39,10 @@ fun AboutAppScreen(
 @Preview(showBackground = true)
 @Composable
 fun AboutAppScreenPreview() {
-    AboutAppScreen(
-        onNavigationButtonClick = {},
-        onEasterEgg = {}
-    )
+    HellNotesTheme {
+        AboutAppScreen(
+            onNavigationButtonClick = {},
+            onEasterEgg = {}
+        )
+    }
 }

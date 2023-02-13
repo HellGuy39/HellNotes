@@ -23,13 +23,14 @@ object Libs {
     object AndroidX {
 
         private const val coreVersion = "1.9.0"
-        private const val appCompatVersion = "1.7.0-alpha01"
+        private const val appCompatVersion = "1.7.0-alpha02"
         private const val lifecycleVersion = "2.5.1"
         private const val splashScreenVersion = "1.0.0"
         private const val biometricVersion = "1.2.0-alpha05"
 
         const val SplashScreen ="androidx.core:core-splashscreen:$splashScreenVersion"
         const val Biometric = "androidx.biometric:biometric-ktx:$biometricVersion"
+
         const val CoreKtx = "androidx.core:core-ktx:$coreVersion"
         const val LifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
         const val AppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
@@ -39,6 +40,15 @@ object Libs {
 
         const val JUnit = "androidx.test.ext:junit:$junitVersion"
         const val Espresso = "androidx.test.espresso:espresso-core:$espressoVersion"
+
+        object DataStore {
+
+            private const val version = "1.0.0"
+
+            const val Preferences = "androidx.datastore:datastore-preferences:$version"
+            const val Proto = "androidx.datastore:datastore:$version"
+
+        }
 
         object Room {
             private const val version = "2.5.0"
@@ -55,7 +65,7 @@ object Libs {
             const val Activty = "androidx.activity:activity-compose:1.6.1"
             const val Ui = "androidx.compose.ui:ui:$composeVersion"
             const val ToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
-            const val Material3 = "androidx.compose.material3:material3:1.1.0-alpha04"
+            const val Material3 = "androidx.compose.material3:material3:1.1.0-alpha05"
             const val Navigation = "androidx.navigation:navigation-compose:2.5.3"
 
             const val UiTestJUnit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
@@ -68,7 +78,7 @@ object Libs {
 
     object Google {
 
-        private const val materialVersion = "1.7.0"
+        private const val materialVersion = "1.8.0"
         const val Material = "com.google.android.material:material:$materialVersion"
 
         object Accompanist {
@@ -81,6 +91,10 @@ object Libs {
                 "com.google.accompanist:accompanist-systemuicontroller:$version"
             const val Permissions = "com.google.accompanist:accompanist-permissions:$version"
             const val FlowLayout = "com.google.accompanist:accompanist-flowlayout:$version"
+            const val Pager = "com.google.accompanist:accompanist-pager:$version"
+            const val PagerIndicators =
+                "com.google.accompanist:accompanist-pager-indicators:$version"
+
 
         }
 

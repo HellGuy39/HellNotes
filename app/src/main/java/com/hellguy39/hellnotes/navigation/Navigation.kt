@@ -1,138 +1,85 @@
 package com.hellguy39.hellnotes.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppNavigationRoute
-import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
-import com.hellguy39.hellnotes.core.ui.navigations.INavigations
-import com.hellguy39.hellnotes.feature.note_detail.util.NEW_NOTE_ID
-import com.hellguy39.hellnotes.feature.note_detail.util.noteDetailNavigationRoute
-import com.hellguy39.hellnotes.feature.note_detail.util.noteDetailScreen
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.navigations.Screen
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.home.navigation.homeNavigationRoute
+import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
-import com.hellguy39.hellnotes.feature.labels.navigation.labelsNavigationRoute
+import com.hellguy39.hellnotes.feature.home.util.HomeScreen
 import com.hellguy39.hellnotes.feature.labels.navigation.labelsScreen
-import com.hellguy39.hellnotes.feature.search.navigation.searchNavigationRoute
+import com.hellguy39.hellnotes.feature.language_selection.navigation.languageSelectionScreen
+import com.hellguy39.hellnotes.feature.lock_selection.navigation.lockSelectionScreen
+import com.hellguy39.hellnotes.feature.lock_setup.navigation.lockSetupScreen
+import com.hellguy39.hellnotes.feature.note_detail.navigations.noteDetailScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
-import com.hellguy39.hellnotes.feature.settings.navigation.settingsNavigationRoute
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun Navigation(
+fun SetupNavGraph(
     extraNoteId: Long?,
-    action: String?
+    action: String?,
+    isStartUpActionPassed: Boolean,
+    onStartUpActionPassed: () -> Unit
 ) {
-
     val navController = rememberAnimatedNavController()
 
     val actionNewNote = stringResource(id = HellNotesStrings.Action.NewNote)
     val actionReminders = stringResource(id = HellNotesStrings.Action.Reminders)
+    val actionTrash = stringResource(id = HellNotesStrings.Action.Trash)
+    val actionArchive = stringResource(id = HellNotesStrings.Action.Archive)
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = homeNavigationRoute
+        startDestination = Screen.Home.route
     ) {
         homeScreen(
             navController,
-            Navigations(navController),
-            startFromReminders = action == actionReminders
+            startScreen = when(action) {
+                actionReminders -> HomeScreen.Reminders
+                actionArchive -> HomeScreen.Archive
+                actionTrash -> HomeScreen.Trash
+                else -> HomeScreen.NoteList
+            }
         )
 
         noteDetailScreen(navController)
 
-        searchScreen(navController, Navigations(navController))
+        searchScreen(navController)
 
         labelsScreen(navController)
 
         settingsScreen(navController)
 
+        lockSelectionScreen(navController)
+
+        lockSetupScreen(navController)
+
+        languageSelectionScreen(navController)
+
         aboutAppScreen(navController)
     }.also {
-        LaunchedEffect(Unit) {
-            if (extraNoteId != null) {
-                navController.navigateToNoteDetail(noteId = extraNoteId)
-            }
+        LaunchedEffect(key1 = isStartUpActionPassed) {
+            if (!isStartUpActionPassed) {
 
-            when (action) {
-                actionNewNote -> {
-                    navController.navigateToNoteDetail(NEW_NOTE_ID)
+                onStartUpActionPassed()
+
+                if (extraNoteId != null) {
+                    navController.navigateToNoteDetail(noteId = extraNoteId)
                 }
-                actionReminders -> {
-                    //navController.navigateToReminders()
+                when (action) {
+                    actionNewNote -> {
+                        navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote)
+                    }
                 }
             }
         }
     }
-}
-
-class Navigations(private val navController: NavController) : INavigations {
-    override fun navigateToSettings() {
-        navController.navigateToSettings()
-    }
-
-    override fun navigateToAboutApp() {
-        navController.navigateToAboutApp()
-    }
-
-    override fun navigateToNoteDetail(noteId: Long) {
-        navController.navigateToNoteDetail(noteId)
-    }
-
-    override fun navigateToSearch() {
-        navController.navigateToSearch()
-    }
-
-    override fun navigateToLabels() {
-        navController.navigateToLabels()
-    }
-}
-
-fun NavController.navigateToNoteDetail(noteId: Long?, navOptions: NavOptions? = null) {
-    navigate(
-        route = "$noteDetailNavigationRoute/$noteId",
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToSettings(navOptions: NavOptions? = null) {
-    navigate(
-        route = settingsNavigationRoute,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToAboutApp(navOptions: NavOptions? = null) {
-    navigate(
-        route = aboutAppNavigationRoute,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToListNote(navOptions: NavOptions? = null) {
-    navigate(
-        route = noteDetailNavigationRoute,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
-    navigate(
-        route = searchNavigationRoute,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToLabels(navOptions: NavOptions? = null) {
-    navigate(
-        route = labelsNavigationRoute,
-        navOptions = navOptions
-    )
 }

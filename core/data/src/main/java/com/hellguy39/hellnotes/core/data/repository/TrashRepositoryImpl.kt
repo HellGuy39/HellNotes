@@ -19,6 +19,10 @@ class TrashRepositoryImpl @Inject constructor(
     override fun getAllTrashStream(): Flow<List<Trash>> =
         trashDao.getAllTrashStream().map { it.map(TrashEntity::toTrash) }
 
+    override suspend fun getAllTrash(): List<Trash> {
+        return trashDao.getAllTrash().map { it.toTrash() }
+    }
+
     override suspend fun deleteTrash(trash: Trash) {
         trashDao.deleteTrash(trash.toTrashEntity())
     }

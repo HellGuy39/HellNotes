@@ -20,11 +20,10 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".activity.lock.LockActivity"
+            android:name=".activity.main.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:theme="@style/Theme.HellNotes.Splash">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,18 +32,12 @@
 
             <meta-data android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-
         </activity>
 
         <activity
-            android:name=".activity.main.MainActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true"
-            android:theme="@style/Theme.HellNotes">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:name=".feature.welcome.WelcomeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HellNotes" />
 
         <receiver android:name=".broadcast.ReminderBroadcastReceiver"
             android:enabled="true" />

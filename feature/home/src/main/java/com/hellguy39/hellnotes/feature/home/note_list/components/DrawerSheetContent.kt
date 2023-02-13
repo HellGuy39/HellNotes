@@ -78,7 +78,7 @@ fun DrawerSheetContent(
                     ) {
                         Text(
                             text = stringResource(id = HellNotesStrings.Label.Labels),
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
                         )
                         Spacer(modifier = Modifier.weight(1f))
@@ -149,7 +149,12 @@ fun CustomNavDrawerItem(
 ) {
     NavigationDrawerItem(
         icon = { drawerItem.icon?.let { Icon(it, contentDescription = null) } },
-        label = { Text(text = drawerItem.title, style = MaterialTheme.typography.labelLarge) },
+        label = {
+            Text(
+                text = drawerItem.title,
+                style = MaterialTheme.typography.labelLarge
+            )
+        },
         selected = selectedItem.title == drawerItem.title,
         onClick = { drawerItem.onClick(drawerItem) },
         modifier = Modifier

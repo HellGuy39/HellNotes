@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.labels.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
-import com.hellguy39.hellnotes.core.ui.components.CustomTextField
+import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -46,20 +48,19 @@ fun LazyItemScope.LabelItem(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (isFocused) {
-            IconButton(
-                onClick = { selection.onDeleteLabel(label) }
-            ) {
+        Crossfade(targetState = isFocused) { isFocused ->
+            if (isFocused) {
+                IconButton(
+                    onClick = { selection.onDeleteLabel(label) }
+                ) {
+                    Icon(
+                        painter = painterResource(id = HellNotesIcons.Delete),
+                        contentDescription = null
+                    )
+                }
+            } else {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.Delete),
-                    contentDescription = null
-                )
-            }
-        } else {
-            IconButton(
-                onClick = {  }
-            ) {
-                Icon(
+                    modifier = Modifier.padding(12.dp),
                     painter = painterResource(id = HellNotesIcons.Label),
                     contentDescription = null
                 )
@@ -81,7 +82,7 @@ fun LazyItemScope.LabelItem(
                 }
             )
         )
-        if (isFocused) {
+        AnimatedVisibility(visible = isFocused) {
             IconButton(
                 onClick = {
                     if (text.isNotBlank() && text.isNotEmpty()) {

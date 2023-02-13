@@ -34,7 +34,7 @@ fun CustomDropdownItem(
         text = {
             Text(
                 text = text,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.labelLarge
             )
         },
         onClick = onClick,

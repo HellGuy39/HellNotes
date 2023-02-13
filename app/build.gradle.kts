@@ -17,7 +17,7 @@ android {
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = 1
-        versionName = "1.0-beta02"
+        versionName = "1.0-rc01"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -56,18 +56,24 @@ android {
 
 dependencies {
 
+    implementation(project(Project.Feature.Welcome))
+    implementation(project(Project.Feature.Lock))
     implementation(project(Project.Feature.Search))
     implementation(project(Project.Feature.Home))
     implementation(project(Project.Feature.Labels))
     implementation(project(Project.Feature.NoteDetail))
     implementation(project(Project.Feature.AboutApp))
     implementation(project(Project.Feature.Settings))
+    implementation(project(Project.Feature.LockSelection))
+    implementation(project(Project.Feature.LanguageSelection))
+    implementation(project(Project.Feature.LockSetup))
 
     implementation(project(Project.Core.Ui))
     implementation(project(Project.Core.Data))
     implementation(project(Project.Core.Common))
     implementation(project(Project.Core.Domain))
     implementation(project(Project.Core.Database))
+    implementation(project(Project.Core.Datastore))
     implementation(project(Project.Core.Model))
 
     implementation(Libs.AndroidX.CoreKtx)
