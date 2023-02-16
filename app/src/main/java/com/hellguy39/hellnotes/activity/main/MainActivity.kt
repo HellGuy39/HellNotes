@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
     fun App() {
         HellNotesTheme {
 
-            val extraNoteId = intent.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID)
+            val extraNoteId = intent.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID, EMPTY_ARG)
             val action = intent.action
 
             var isStartUpActionPassed by rememberSaveable { mutableStateOf(false) }
@@ -117,4 +117,11 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
             biometricAuth.authenticate(this)
         }
     }
+
+    companion object {
+
+        const val EMPTY_ARG = -2L
+
+    }
+
 }

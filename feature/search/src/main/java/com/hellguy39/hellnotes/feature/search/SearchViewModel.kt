@@ -48,7 +48,9 @@ class SearchViewModel @Inject constructor(
 
             launch {
                 noteRepository.getAllNotesStream().collect { notes ->
-                    searchViewModelState.update { it.copy(notes = notes) }
+                    searchViewModelState.update { state ->
+                        state.copy(notes = notes, isLoading = false)
+                    }
                 }
             }
             launch {
@@ -73,6 +75,7 @@ class SearchViewModel @Inject constructor(
 
 private data class SearchViewModelState(
     val search: String = "",
+    val isLoading: Boolean = true,
     val notes: List<Note> = listOf(),
     val labels: List<Label> = listOf(),
     val reminders: List<Remind> = listOf(),
@@ -93,6 +96,7 @@ private data class SearchViewModelState(
 
         return SearchUiState(
             search = search,
+            isLoading = isLoading,
             notes = searchNotes.filter { !it.note.isArchived },
             archivedNotes = searchNotes.filter { it.note.isArchived }
         )
@@ -101,6 +105,7 @@ private data class SearchViewModelState(
 
 data class SearchUiState(
     val search: String,
+    val isLoading: Boolean,
     val notes: List<NoteDetailWrapper>,
     val archivedNotes: List<NoteDetailWrapper>
 )

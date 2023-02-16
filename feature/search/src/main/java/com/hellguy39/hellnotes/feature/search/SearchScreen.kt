@@ -56,6 +56,11 @@ fun SearchScreen(
             )
         },
         content = { innerPadding ->
+
+            if (uiState.isLoading) {
+                return@Scaffold
+            }
+
             Crossfade(targetState = categories) { categories ->
                 NoteList(
                     innerPadding = innerPadding,

@@ -31,14 +31,8 @@ class SettingsViewModel @Inject constructor(
         )
 
     init {
+        updateLanguageCode()
         viewModelScope.launch {
-            launch {
-                settingsViewModelState.update { state ->
-                    state.copy(
-                        lanCode = languageHolder.getLanguageCode()
-                    )
-                }
-            }
             launch {
                 settingsViewModelState.update { state ->
                     state.copy(isBioAuthAvailable = isBiometricAuthAvailable())
@@ -50,6 +44,16 @@ class SettingsViewModel @Inject constructor(
                         state.copy(appSettings = settings)
                     }
                 }
+            }
+        }
+    }
+
+    fun updateLanguageCode() {
+        viewModelScope.launch {
+            settingsViewModelState.update { state ->
+                state.copy(
+                    lanCode = languageHolder.getLanguageCode()
+                )
             }
         }
     }

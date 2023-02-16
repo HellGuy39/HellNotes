@@ -28,6 +28,7 @@ fun NoteCard(
     reminds: List<Remind> = listOf(),
     labels: List<Label> = listOf(),
 ) {
+
     val cardBorder = if (isSelected)
         BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
     else
@@ -83,7 +84,6 @@ fun NoteCard(
                     maxElements = 2,
                     dateHelper = selection.dateHelper
                 )
-
             }
         }
     }
@@ -92,5 +92,5 @@ fun NoteCard(
 data class NoteSelection(
     val dateHelper: DateHelper,
     val onClick: (Note) -> Unit,
-    val onLongClick: (Note) -> Unit
+    val onLongClick: (Note) -> Unit,
 )

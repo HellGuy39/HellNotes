@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HellNotes.Splash"
         android:localeConfig="@xml/locale_config"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="33">
 
         <activity
@@ -24,6 +25,7 @@
             android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:theme="@style/Theme.HellNotes.Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,6 +35,12 @@
             <meta-data android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+
+        <activity
+            android:name=".activity.crash.CrashActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HellNotes"
+            android:process=":error_handler" />
 
         <activity
             android:name=".feature.welcome.WelcomeActivity"

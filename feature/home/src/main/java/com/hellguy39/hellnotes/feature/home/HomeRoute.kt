@@ -146,6 +146,33 @@ fun HomeRoute(
         }
     }
 
+    val actionLabel = stringResource(id = HellNotesStrings.Button.Undo)
+    val noteMovedToTrash = stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
+    val notesMovedToTrash = stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
+
+    fun showOnDeleteNotesSnack(screen: HomeScreen) {
+        if (screen == HomeScreen.NoteList) {
+            val isSingleNote = noteListUiState.selectedNotes.size == 1
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    if (isSingleNote)
+                        noteMovedToTrash
+                    else
+                        notesMovedToTrash,
+                    actionLabel = actionLabel,
+                    duration = SnackbarDuration.Long,
+                ).let { result ->
+                    when (result) {
+                        SnackbarResult.ActionPerformed -> {
+                            noteListViewModel.undoDelete()
+                        }
+                        else -> Unit
+                    }
+                }
+            }
+        }
+    }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -164,10 +191,6 @@ fun HomeRoute(
                 when(it.itemType) {
                     DrawerItemType.Primary -> {
                         if (it.title == stringResource(id = HellNotesStrings.Title.Notes)) {
-                            val actionLabel = stringResource(id = HellNotesStrings.Button.Undo)
-                            val noteMovedToTrash = stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
-                            val notesMovedToTrash = stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
-
                             NoteListScreen(
                                 onFabAddClick = { navController.navigateToNoteDetail(-1) },
                                 noteListTopAppBarSelection = NoteListTopAppBarSelection(
@@ -179,26 +202,8 @@ fun HomeRoute(
                                         scope.launch { drawerState.open() }
                                     },
                                     onDeleteSelected = {
-                                        val isSingleNote = noteListUiState.selectedNotes.size == 1
-
+                                        showOnDeleteNotesSnack(HomeScreen.NoteList)
                                         noteListViewModel.deleteAllSelected()
-                                        scope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                if(isSingleNote)
-                                                    noteMovedToTrash
-                                                else
-                                                    notesMovedToTrash,
-                                                actionLabel = actionLabel,
-                                                duration = SnackbarDuration.Long,
-                                            ).let { result ->
-                                                when(result) {
-                                                    SnackbarResult.ActionPerformed -> {
-                                                        noteListViewModel.undoDelete()
-                                                    }
-                                                    else -> Unit
-                                                }
-                                            }
-                                        }
                                     },
                                     onSearch = {
                                         navController.navigateToSearch()
@@ -231,7 +236,7 @@ fun HomeRoute(
                                         } else {
                                             noteListViewModel.selectNote(note)
                                         }
-                                    }
+                                    },
                                 ),
                                 listConfigurationSelection = ListConfigurationSelection(
                                     sorting = noteListUiState.sorting,
