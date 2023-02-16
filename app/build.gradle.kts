@@ -17,7 +17,7 @@ android {
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = 1
-        versionName = "1.0-rc01"
+        versionName = "1.0-rc02"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -111,5 +111,7 @@ dependencies {
     implementation(Libs.Google.Hilt.NavigationCompsoe)
 
     implementation(Libs.SquareUp.Moshi)
+
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 }

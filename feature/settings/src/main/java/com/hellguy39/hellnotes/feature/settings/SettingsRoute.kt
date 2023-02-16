@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.feature.settings
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
@@ -21,6 +22,10 @@ fun SettingsRoute(
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = Unit) {
+        settingsViewModel.updateLanguageCode()
+    }
 
     SettingsScreen(
         onNavigationButtonClick = { navController.popBackStack() },

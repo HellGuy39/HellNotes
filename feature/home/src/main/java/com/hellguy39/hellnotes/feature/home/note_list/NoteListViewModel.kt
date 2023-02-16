@@ -93,6 +93,25 @@ class NoteListViewModel @Inject constructor(
         cancelNoteSelection()
     }
 
+    fun deleteNote(note: Note) {
+        viewModelScope.launch {
+            lastDeletedNotes.update { listOf(note) }
+
+            note.id?.let { id ->
+                noteRepository.deleteNoteById(id)
+                reminderRepository.deleteRemindByNoteId(id)
+            }
+            if (note.isNoteValid()) {
+                trashRepository.insertTrash(
+                    Trash(
+                        note = note.copy(labelIds = listOf()),
+                        dateOfAdding = dateHelper.getCurrentTimeInEpochMilli()
+                    )
+                )
+            }
+        }
+    }
+
     fun undoDelete() {
         viewModelScope.launch {
             lastDeletedNotes.value.let { notes ->

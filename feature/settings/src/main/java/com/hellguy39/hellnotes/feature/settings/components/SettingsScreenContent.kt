@@ -3,19 +3,19 @@ package com.hellguy39.hellnotes.feature.settings.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.Language
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
 import com.hellguy39.hellnotes.core.ui.getDisplayName
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.settings.SettingsUiState
 
@@ -87,7 +87,18 @@ fun SettingsScreenContent(
                     Switch(
                         checked = uiState.appSettings.isUseBiometricData,
                         onCheckedChange = { selection.onUseBiometric(!uiState.appSettings.isUseBiometricData) },
-                        enabled = uiState.isBioAuthAvailable
+                        enabled = uiState.isBioAuthAvailable,
+                        thumbContent = if (uiState.appSettings.isUseBiometricData) {
+                            {
+                                Icon(
+                                    painterResource(id = HellNotesIcons.Done),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                                )
+                            }
+                        } else {
+                            null
+                        }
                     )
                 }
             }

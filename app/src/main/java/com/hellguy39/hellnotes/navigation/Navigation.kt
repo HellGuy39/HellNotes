@@ -1,11 +1,14 @@
 package com.hellguy39.hellnotes.navigation
 
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.hellguy39.hellnotes.activity.main.MainActivity
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
@@ -29,6 +32,8 @@ fun SetupNavGraph(
     isStartUpActionPassed: Boolean,
     onStartUpActionPassed: () -> Unit
 ) {
+    val context = LocalContext.current
+
     val navController = rememberAnimatedNavController()
 
     val actionNewNote = stringResource(id = HellNotesStrings.Action.NewNote)
@@ -71,13 +76,15 @@ fun SetupNavGraph(
 
                 onStartUpActionPassed()
 
-                if (extraNoteId != null) {
+                if (extraNoteId != null && extraNoteId != MainActivity.EMPTY_ARG) {
                     navController.navigateToNoteDetail(noteId = extraNoteId)
                 }
+
                 when (action) {
                     actionNewNote -> {
                         navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote)
                     }
+                    else -> Unit
                 }
             }
         }
