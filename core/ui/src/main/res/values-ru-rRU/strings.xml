@@ -50,6 +50,7 @@
     <string name="btn_edit_pin">Изменить PIN</string>
     <string name="btn_setup_pin">Установить PIN</string>
     <string name="btn_undo">Отменить</string>
+    <string name="btn_save">Сохранить</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>
@@ -99,9 +100,9 @@
     <string name="title_about_app">О приложении</string>
     <string name="title_reminders">Напоминания</string>
     <string name="title_labels">Метки</string>
-    <string name="title_new_remind">Новое напоминание</string>
+    <string name="title_new_reminder">Новое напоминание</string>
     <string name="title_share_as">Поделиться как…</string>
-    <string name="title_edit_remind">Редактировать напоминание</string>
+    <string name="title_edit_reminder">Редактировать напоминание</string>
     <string name="title_choose_a_new_lock_screen">Выберите новый экран блокировки</string>
     <string name="title_change_language">Сменить язык</string>
     <string name="title_set_a_pin">Установите PIN-код</string>

@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import java.util.*
@@ -18,7 +18,7 @@ import java.util.*
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReminderCard(
-    remind: Remind,
+    reminder: Reminder,
     isSelected: Boolean = false,
     selection: ReminderCardSelection,
     dateHelper: DateHelper
@@ -34,8 +34,8 @@ fun ReminderCard(
             .fillMaxWidth()
             .padding(4.dp)
             .combinedClickable(
-                onClick = { selection.onClick(remind) },
-                onLongClick = { selection.onLongClick(remind) }
+                onClick = { selection.onClick(reminder) },
+                onLongClick = { selection.onLongClick(reminder) }
             ),
         border = cardBorder
     ) {
@@ -45,13 +45,13 @@ fun ReminderCard(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = dateHelper.epochMillisToFormattedDate(remind.triggerDate),
+                text = dateHelper.epochMillisToFormattedDate(reminder.triggerDate),
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = remind.message,
+                text = reminder.message,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -61,7 +61,7 @@ fun ReminderCard(
                 horizontalArrangement = Arrangement.End
             ) {
                 FilledTonalIconButton(
-                    onClick = { selection.onEditButtonClick(remind) }
+                    onClick = { selection.onEditButtonClick(reminder) }
                 ) {
                     Icon(
                         painter = painterResource(id = HellNotesIcons.Edit),
@@ -69,7 +69,7 @@ fun ReminderCard(
                     )
                 }
                 FilledTonalIconButton(
-                    onClick = { selection.onDeleteButtonClick(remind) }
+                    onClick = { selection.onDeleteButtonClick(reminder) }
                 ) {
                     Icon(
                         painter = painterResource(id = HellNotesIcons.Cancel),
@@ -82,8 +82,8 @@ fun ReminderCard(
 }
 
 data class ReminderCardSelection(
-    val onClick: (remind: Remind) -> Unit,
-    val onLongClick: (remind: Remind) -> Unit,
-    val onDeleteButtonClick: (remind: Remind) -> Unit,
-    val onEditButtonClick: (remind: Remind) -> Unit
+    val onClick: (reminder: Reminder) -> Unit,
+    val onLongClick: (reminder: Reminder) -> Unit,
+    val onDeleteButtonClick: (reminder: Reminder) -> Unit,
+    val onEditButtonClick: (reminder: Reminder) -> Unit
 )

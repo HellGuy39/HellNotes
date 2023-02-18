@@ -84,8 +84,8 @@ object HellNotesStrings {
         val AboutApp = R.string.title_about_app
         val Labels = R.string.title_labels
 
-        val NewRemind = R.string.title_new_remind
-        val EditRemind = R.string.title_edit_remind
+        val NewReminder = R.string.title_new_reminder
+        val EditReminder = R.string.title_edit_reminder
         val ShareAs = R.string.title_share_as
         val ChooseANewLockScreen = R.string.title_choose_a_new_lock_screen
         val ChangeLanguage = R.string.title_change_language
@@ -120,6 +120,7 @@ object HellNotesStrings {
         val EditPin = R.string.btn_edit_pin
         val SetupPin = R.string.btn_setup_pin
         val Undo = R.string.btn_undo
+        val Save = R.string.btn_save
     }
 
     object Helper {

@@ -14,6 +14,7 @@ object Project {
         const val Welcome = ":feature:welcome"
         const val Reminders = ":feature:reminders"
         const val Search = ":feature:search"
+        const val ReminderEdit = ":feature:reminder-edit"
         const val NoteDetail = ":feature:note-detail"
         const val Home = ":feature:home"
         const val AboutApp= ":feature:about-app"

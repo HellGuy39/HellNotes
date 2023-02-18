@@ -32,7 +32,7 @@ class ArchiveViewModel @Inject constructor(
                 }
             }
             launch {
-                reminderRepository.getAllRemindsStream().collect { reminders ->
+                reminderRepository.getAllRemindersStream().collect { reminders ->
                     archivedViewModelState.update { it.copy(reminders = reminders) }
                 }
             }
@@ -77,7 +77,7 @@ class ArchiveViewModel @Inject constructor(
                 notes.forEach { note ->
                     note.id?.let { id ->
                         noteRepository.deleteNoteById(id)
-                        reminderRepository.deleteRemindByNoteId(id)
+                        reminderRepository.deleteReminderByNoteId(id)
                     }
                     if (note.isNoteValid()) {
                         trashRepository.insertTrash(
@@ -111,7 +111,7 @@ class ArchiveViewModel @Inject constructor(
 }
 
 private data class ArchiveViewModelState(
-    val reminders: List<Remind> = listOf(),
+    val reminders: List<Reminder> = listOf(),
     val labels: List<Label> = listOf(),
     val notes: List<Note> = listOf(),
     val selectedNotes: List<Note> = listOf()

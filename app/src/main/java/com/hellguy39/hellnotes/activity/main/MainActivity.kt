@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
@@ -46,13 +47,13 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
         }
         setContent { App() }
 
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(android.R.id.content)
-        ) { view, insets ->
-            val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-            view.updatePadding(bottom = bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(
+//            findViewById(android.R.id.content)
+//        ) { view, insets ->
+//            val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+//            view.updatePadding(bottom = bottom)
+//            insets
+//        }
     }
 
     @Composable
@@ -80,7 +81,9 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
             }
 
             Surface(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .imePadding(),
                 color = MaterialTheme.colorScheme.background
             ) {
                 TransparentSystemBars()

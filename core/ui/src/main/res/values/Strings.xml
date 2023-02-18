@@ -69,9 +69,9 @@
     <string name="title_about_app">About app</string>
     <string name="title_reminders">Reminders</string>
     <string name="title_labels">Labels</string>
-    <string name="title_new_remind">New remind</string>
+    <string name="title_new_reminder">New reminder</string>
     <string name="title_share_as">Share as…</string>
-    <string name="title_edit_remind">Edit remind</string>
+    <string name="title_edit_reminder">Edit reminder</string>
     <string name="title_choose_a_new_lock_screen">Choose a new lock screen</string>
     <string name="title_change_language">Change language</string>
     <string name="title_set_a_pin">Set a PIN</string>
@@ -106,6 +106,7 @@
     <string name="btn_edit_pin">Edit PIN</string>
     <string name="btn_setup_pin">Set PIN</string>
     <string name="btn_undo">Undo</string>
+    <string name="btn_save">Save</string>
 
     <!-- Setting -->
     <string name="stg_app_lock">App lock</string>

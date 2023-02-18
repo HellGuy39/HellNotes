@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.model.util.ColorParam
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
@@ -25,7 +25,7 @@ fun NoteCard(
     note: Note,
     isSelected: Boolean = false,
     selection: NoteSelection,
-    reminds: List<Remind> = listOf(),
+    reminders: List<Reminder> = listOf(),
     labels: List<Label> = listOf(),
 ) {
 
@@ -43,7 +43,7 @@ fun NoteCard(
 
     val isTitleValid = note.title.isNotEmpty() || note.title.isNotBlank()
     val isNoteValid = note.note.isNotEmpty() || note.note.isNotBlank()
-    val isChipsValid = labels.isNotEmpty() || reminds.isNotEmpty()
+    val isChipsValid = labels.isNotEmpty() || reminders.isNotEmpty()
 
     OutlinedCard(
         //onClick = { onClick() },
@@ -78,7 +78,7 @@ fun NoteCard(
                 NoteChipGroup(
                     modifier = Modifier
                         .padding(top = if (isTitleValid || isNoteValid) 6.dp else 0.dp),
-                    reminders = reminds,
+                    reminders = reminders,
                     labels = labels,
                     limitElements = true,
                     maxElements = 2,

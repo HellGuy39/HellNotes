@@ -53,7 +53,7 @@ class LabelViewModel @Inject constructor(
                 }
             }
             launch {
-                reminderRepository.getAllRemindsStream().collect { reminders ->
+                reminderRepository.getAllRemindersStream().collect { reminders ->
                     labelViewModelState.update { it.copy(reminders = reminders) }
                 }
             }
@@ -90,7 +90,7 @@ class LabelViewModel @Inject constructor(
                 notes.forEach { note ->
                     note.id?.let { id ->
                         noteRepository.deleteNoteById(id)
-                        reminderRepository.deleteRemindByNoteId(id)
+                        reminderRepository.deleteReminderByNoteId(id)
                     }
                     if (note.isNoteValid()) {
                         trashRepository.insertTrash(
@@ -125,7 +125,7 @@ class LabelViewModel @Inject constructor(
 
 private data class LabelViewModelState(
     val selectedLabel: Label = Label(),
-    val reminders: List<Remind> = listOf(),
+    val reminders: List<Reminder> = listOf(),
     val labels: List<Label> = listOf(),
     val notes: List<Note> = listOf(),
     val selectedNotes: List<Note> = listOf()

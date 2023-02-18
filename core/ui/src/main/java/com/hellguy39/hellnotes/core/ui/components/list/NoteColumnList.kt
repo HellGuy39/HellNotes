@@ -68,7 +68,7 @@ internal fun NoteColumnList(
                         selection = noteSelection,
                         isSelected = selectedNotes.contains(wrapper.note),
                         labels = wrapper.labels,
-                        reminds = wrapper.reminders
+                        reminders = wrapper.reminders
                     )
                 }
             }

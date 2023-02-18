@@ -30,6 +30,7 @@
             <option value="$PROJECT_DIR$/feature/lock-selection" />
             <option value="$PROJECT_DIR$/feature/lock-setup" />
             <option value="$PROJECT_DIR$/feature/note-detail" />
+            <option value="$PROJECT_DIR$/feature/reminder-edit" />
             <option value="$PROJECT_DIR$/feature/search" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/welcome" />

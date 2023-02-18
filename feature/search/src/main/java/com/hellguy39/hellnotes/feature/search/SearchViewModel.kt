@@ -54,7 +54,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
             launch {
-                reminderRepository.getAllRemindsStream().collect { reminders ->
+                reminderRepository.getAllRemindersStream().collect { reminders ->
                     searchViewModelState.update { it.copy(reminders = reminders) }
                 }
             }
@@ -78,7 +78,7 @@ private data class SearchViewModelState(
     val isLoading: Boolean = true,
     val notes: List<Note> = listOf(),
     val labels: List<Label> = listOf(),
-    val reminders: List<Remind> = listOf(),
+    val reminders: List<Reminder> = listOf(),
 ) {
     fun toUiState(): SearchUiState {
 

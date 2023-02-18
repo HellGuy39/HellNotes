@@ -1,6 +1,6 @@
 package com.hellguy39.hellnotes.core.model
 
-data class Remind(
+data class Reminder(
     val id: Long? = null,
     val noteId: Long,
     val message: String,

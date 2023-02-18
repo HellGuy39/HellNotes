@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.core.ui.components.list
 
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -78,7 +77,7 @@ internal fun NoteGridList(
                         selection = noteSelection,
                         isSelected = selectedNotes.contains(wrapper.note),
                         labels = wrapper.labels,
-                        reminds = wrapper.reminders
+                        reminders = wrapper.reminders
                     )
                 }
             }

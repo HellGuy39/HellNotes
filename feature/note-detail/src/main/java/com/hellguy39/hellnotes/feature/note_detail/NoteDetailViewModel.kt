@@ -71,7 +71,7 @@ class NoteDetailViewModel @Inject constructor(
             }
 
             launch {
-                reminderRepository.getRemindsByNoteIdStream(noteId).collect { reminders ->
+                reminderRepository.getRemindersByNoteIdStream(noteId).collect { reminders ->
                     noteViewModelState.update { state ->
                         state.copy(noteReminders = reminders)
                     }
@@ -116,8 +116,8 @@ class NoteDetailViewModel @Inject constructor(
         saveNote()
     }
 
-    fun insertRemind(remind: Remind) = viewModelScope.launch {
-        reminderRepository.insertRemind(remind)
+    fun insertRemind(reminder: Reminder) = viewModelScope.launch {
+        reminderRepository.insertReminder(reminder)
     }
 
     fun onUpdateIsPinned(isPinned: Boolean) = viewModelScope.launch {
@@ -144,7 +144,7 @@ class NoteDetailViewModel @Inject constructor(
         noteViewModelState.value.let { state ->
             val id = state.note.id
             if (id != null) {
-                val reminds = reminderRepository.getRemindsByNoteId(id)
+                val reminds = reminderRepository.getRemindersByNoteId(id)
                 if (!state.note.isNoteValid() && reminds.isEmpty()) {
                     onDeleteNote()
                 }
@@ -156,7 +156,7 @@ class NoteDetailViewModel @Inject constructor(
         noteViewModelState.value.note.let { note ->
             note.id?.let { id ->
                 noteRepository.deleteNoteById(id)
-                reminderRepository.deleteRemindByNoteId(id)
+                reminderRepository.deleteReminderByNoteId(id)
             }
             if (note.isNoteValid()) {
                 trashRepository.insertTrash(
@@ -218,12 +218,12 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
-    fun onUpdateRemind(remind: Remind) = viewModelScope.launch {
-        reminderRepository.updateRemind(remind)
+    fun onUpdateRemind(reminder: Reminder) = viewModelScope.launch {
+        reminderRepository.updateReminder(reminder)
     }
 
-    fun onDeleteRemind(remind: Remind) = viewModelScope.launch {
-        reminderRepository.deleteRemind(remind)
+    fun onDeleteRemind(reminder: Reminder) = viewModelScope.launch {
+        reminderRepository.deleteReminder(reminder)
     }
 
     private fun saveNote() = viewModelScope.launch {
@@ -237,7 +237,7 @@ class NoteDetailViewModel @Inject constructor(
 private data class NoteDetailViewModelState(
     val note: Note = Note(),
     val allLabels: List<Label> = listOf(),
-    val noteReminders: List<Remind> = listOf(),
+    val noteReminders: List<Reminder> = listOf(),
     val labelSearch: String = "",
     val isLoading: Boolean = true
 ) {
@@ -256,6 +256,6 @@ data class NoteDetailUiState(
     val isLoading: Boolean,
     val noteLabels: List<Label>,
     val searchedLabels: List<Label>,
-    val noteReminders: List<Remind>,
+    val noteReminders: List<Reminder>,
     val labelSearch: String
 )

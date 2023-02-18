@@ -1,27 +1,13 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.isNoteValid
 import com.hellguy39.hellnotes.core.ui.DateHelper
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.components.*
 import java.util.*
 
@@ -68,7 +54,48 @@ fun NoteDetailScreen(
                 dropdownMenuSelection = noteDetailDropdownMenuSelection
             )
         },
-        bottomBar = {},
+        bottomBar = {
+
+//            val colorTransitionFraction = scrollBehavior.state.overlappedFraction
+//            val fraction = if (colorTransitionFraction > 0.99f) 1f else 0f
+//            val appBarContainerColor by animateColorAsState(
+//                targetValue = lerp(
+//                    MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+//                    Color.Transparent,
+//                    FastOutLinearInEasing.transform(fraction)
+//                ),
+//                animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
+//            )
+//
+//            Box(modifier = Modifier.background(appBarContainerColor)) {
+//                Row(modifier = Modifier.navigationBarsPadding().padding(16.dp)) {
+//                    val dateVisibility = uiState.note.lastEditDate != 0L
+//
+//                    Spacer(modifier = Modifier.weight(1f))
+//
+//                    AnimatedVisibility(
+//                        visible = dateVisibility,
+//                        enter = fadeIn(animationSpec = tween(300)),
+//                        exit = fadeOut(animationSpec = tween(300))
+//                    ) {
+//                        Text(
+//                            text = stringResource(
+//                                id = HellNotesStrings.Text.Edited,
+//                                formatArgs = arrayOf(
+//                                    dateHelper.formatBest(uiState.note.lastEditDate)
+//                                )
+//                            ),
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(horizontal = 16.dp, vertical = 8.dp),
+//                            fontStyle = FontStyle.Italic,
+//                            style = MaterialTheme.typography.labelLarge,
+//                            textAlign = TextAlign.End
+//                        )
+//                    }
+//                }
+//            }
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     )
 }

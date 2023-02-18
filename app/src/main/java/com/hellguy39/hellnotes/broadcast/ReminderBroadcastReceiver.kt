@@ -47,7 +47,7 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
 
         if (noteId != null) {
             CoroutineScope(Dispatchers.IO).launch {
-                reminderRepository.deleteRemindByNoteId(noteId)
+                reminderRepository.deleteReminderByNoteId(noteId)
             }
         }
     }

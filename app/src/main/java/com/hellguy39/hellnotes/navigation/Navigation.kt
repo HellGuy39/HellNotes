@@ -1,10 +1,7 @@
 package com.hellguy39.hellnotes.navigation
 
-import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -21,6 +18,7 @@ import com.hellguy39.hellnotes.feature.language_selection.navigation.languageSel
 import com.hellguy39.hellnotes.feature.lock_selection.navigation.lockSelectionScreen
 import com.hellguy39.hellnotes.feature.lock_setup.navigation.lockSetupScreen
 import com.hellguy39.hellnotes.feature.note_detail.navigations.noteDetailScreen
+import com.hellguy39.hellnotes.feature.reminder_edit.navigations.reminderEditScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
 
@@ -32,8 +30,6 @@ fun SetupNavGraph(
     isStartUpActionPassed: Boolean,
     onStartUpActionPassed: () -> Unit
 ) {
-    val context = LocalContext.current
-
     val navController = rememberAnimatedNavController()
 
     val actionNewNote = stringResource(id = HellNotesStrings.Action.NewNote)
@@ -56,6 +52,8 @@ fun SetupNavGraph(
         )
 
         noteDetailScreen(navController)
+
+        reminderEditScreen(navController)
 
         searchScreen(navController)
 

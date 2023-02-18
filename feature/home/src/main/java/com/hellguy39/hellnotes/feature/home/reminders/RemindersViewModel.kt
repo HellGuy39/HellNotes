@@ -37,7 +37,7 @@ class RemindersViewModel @Inject constructor(
                 }
             }
             launch {
-                reminderRepository.getAllRemindsStream().collect { reminders ->
+                reminderRepository.getAllRemindersStream().collect { reminders ->
                     remindersViewModelState.update { it.copy(reminders = reminders) }
                 }
             }
@@ -81,7 +81,7 @@ class RemindersViewModel @Inject constructor(
 }
 
 private data class RemindersViewModelState(
-    val reminders: List<Remind> = listOf(),
+    val reminders: List<Reminder> = listOf(),
     val labels: List<Label> = listOf(),
     val notes: List<Note> = listOf(),
     val selectedNotes: List<Note> = listOf()

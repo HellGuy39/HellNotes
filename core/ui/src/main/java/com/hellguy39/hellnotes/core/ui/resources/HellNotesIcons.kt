@@ -49,4 +49,7 @@ object HellNotesIcons {
     val Password = R.drawable.ic_password_24
     val Pattern = R.drawable.ic_pattern_24
     val SwipeRight = R.drawable.ic_swipe_right_24
+
+    val Event = R.drawable.ic_event_24
+    val Schedule = R.drawable.ic_schedule_24
 }

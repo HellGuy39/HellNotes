@@ -3,24 +3,23 @@ package com.hellguy39.hellnotes.core.ui.components
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteChipGroup(
     modifier: Modifier = Modifier,
-    reminders: List<Remind>,
+    reminders: List<Reminder>,
     labels: List<Label>,
     limitElements: Boolean = false,
     maxElements: Int = 2,
-    onRemindClick: (remind: Remind) -> Unit = {},
+    onRemindClick: (reminder: Reminder) -> Unit = {},
     onLabelClick: (label: Label) -> Unit = {},
     dateHelper: DateHelper
 ) {

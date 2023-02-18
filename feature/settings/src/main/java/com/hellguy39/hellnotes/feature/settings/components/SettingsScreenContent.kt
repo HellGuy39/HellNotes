@@ -26,8 +26,9 @@ fun SettingsScreenContent(
     uiState: SettingsUiState
 ) {
     LazyColumn(
-        modifier = Modifier
-            .padding(innerPadding)
+        contentPadding = innerPadding,
+//        modifier = Modifier
+//            .padding(innerPadding)
             //.padding(horizontal = 16.dp)
     ) {
         item {

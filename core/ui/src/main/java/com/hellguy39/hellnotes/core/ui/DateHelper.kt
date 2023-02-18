@@ -28,6 +28,14 @@ class DateHelper @Inject constructor(
         return instant.toEpochMilli()
     }
 
+    fun dateToEpochMillis(localDateTime: LocalDateTime): Long {
+        val instant = localDateTime
+            .atZone(zoneId)
+            .toInstant()
+
+        return instant.toEpochMilli()
+    }
+
     fun epochMillisToFormattedDate(epochMilli: Long): String {
         val localeDateTime = Instant.ofEpochMilli(epochMilli)
             .atZone(zoneId)
@@ -55,6 +63,12 @@ class DateHelper @Inject constructor(
             .toLocalDate()
     }
 
+    fun epochMillisToLocalDateTime(epochMilli: Long): LocalDateTime {
+        return Instant.ofEpochMilli(epochMilli)
+            .atZone(zoneId)
+            .toLocalDateTime()
+    }
+
     fun formatBest(millis: Long): String {
         val time = Calendar.getInstance()
         time.timeInMillis = millis
@@ -80,6 +94,7 @@ class DateHelper @Inject constructor(
 
         const val DATE_PATTERN = "MMMM dd yyyy"
         const val DATE_SHORT_PATTERN = "MMM dd"
+        const val DATE_LONG_PATTERN = "MMMM dd"
     }
 
 }

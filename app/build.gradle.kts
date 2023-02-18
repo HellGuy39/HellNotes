@@ -62,6 +62,7 @@ dependencies {
     implementation(project(Project.Feature.Home))
     implementation(project(Project.Feature.Labels))
     implementation(project(Project.Feature.NoteDetail))
+    implementation(project(Project.Feature.ReminderEdit))
     implementation(project(Project.Feature.AboutApp))
     implementation(project(Project.Feature.Settings))
     implementation(project(Project.Feature.LockSelection))

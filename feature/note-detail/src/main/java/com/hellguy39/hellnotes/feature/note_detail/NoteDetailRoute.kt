@@ -11,23 +11,23 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.DateHelper
-import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
-import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.isNoteValid
-import com.hellguy39.hellnotes.feature.note_detail.util.ShareHelper
-import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
+import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.note_detail.components.*
+import com.hellguy39.hellnotes.feature.note_detail.util.ShareHelper
+import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
 import kotlinx.coroutines.launch
 
 @Composable
 fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    alarmScheduler: AlarmScheduler = noteDetailViewModel.alarmScheduler,
     dateHelper: DateHelper = noteDetailViewModel.dateHelper
 ) {
     val context = LocalContext.current
@@ -82,39 +82,8 @@ fun NoteDetailRoute(
         )
     )
 
-    val remindIsTooLateMessage = stringResource(id = HellNotesStrings.Text.RemindTimeIsTooLate)
-
-    ReminderDialog(
-        state = reminderDialogState,
-        selection = ReminderDialogSelection(
-            note = uiState.note,
-            onCreateRemind = { remind ->
-                if(remind.triggerDate > dateHelper.getCurrentTimeInEpochMilli()) {
-                    noteDetailViewModel.insertRemind(remind)
-                    alarmScheduler.scheduleAlarm(remind)
-                } else {
-                    scope.launch {
-                        snackbarHostState.showSnackbar(message = remindIsTooLateMessage)
-                    }
-                }
-            },
-            onDeleteRemind = { remind ->
-                alarmScheduler.cancelAlarm(remind)
-                noteDetailViewModel.onDeleteRemind(remind)
-            },
-            onUpdateRemind = { remind ->
-                val oldReminder = uiState.noteReminders.find { it.id == remind.id }
-                oldReminder?.let { alarmScheduler.cancelAlarm(it) }
-                alarmScheduler.scheduleAlarm(remind)
-                noteDetailViewModel.onUpdateRemind(remind)
-            }
-        ),
-        dateHelper = dateHelper
-    )
-
     BackHandler(
         onBack = {
-            //noteDetailViewModel.onDiscardNoteIfEmpty()
             navController.popBackStack()
         }
     )
@@ -152,8 +121,11 @@ fun NoteDetailRoute(
         noteDetailContentSelection = NoteDetailContentSelection(
             onTitleTextChanged = { newText -> noteDetailViewModel.onUpdateNoteTitle(newText) },
             onNoteTextChanged = { newText -> noteDetailViewModel.onUpdateNoteContent(newText) },
-            onReminderClick = { remind ->
-                //editReminderDialogState.show()
+            onReminderClick = { reminder ->
+                navController.navigateToReminderEdit(
+                    noteId = uiState.note.id,
+                    reminderId = reminder.id
+                )
             },
             onLabelClick = { label ->
                 labelDialogState.show()
@@ -181,11 +153,13 @@ fun NoteDetailRoute(
         noteDetailTopAppBarSelection = NoteDetailTopAppBarSelection(
             note = uiState.note,
             onNavigationButtonClick = {
-                //noteDetailViewModel.onDiscardNoteIfEmpty()
                 navController.popBackStack()
             },
             onReminder = {
-                reminderDialogState.show()
+                navController.navigateToReminderEdit(
+                    noteId = uiState.note.id,
+                    reminderId = ArgumentDefaultValues.NewReminder
+                )
             },
             onPin = { isPinned ->
                 noteDetailViewModel.onUpdateIsPinned(isPinned)

@@ -12,6 +12,7 @@ sealed class Screen(val route: String) {
     object Home : Screen(route = "home_screen")
     object Settings : Screen(route = "settings_screen")
     object NoteDetail : Screen(route = "note_detail_screen")
+    object ReminderEdit : Screen(route = "reminder_edit_screen")
     object Search : Screen(route = "search_screen")
     object AboutApp : Screen(route = "about_app_screen")
     object Labels : Screen(route = "labels_screen")
@@ -19,11 +20,13 @@ sealed class Screen(val route: String) {
 
 object ArgumentKeys {
     const val NoteId = "noteId"
+    const val ReminderId = "reminderId"
     const val LockType = "lockType"
 }
 
 object ArgumentDefaultValues {
     const val NewNote: Long = -1
+    const val NewReminder: Long = -1
 }
 
 fun NavController.navigateToNoteDetail(
@@ -34,6 +37,20 @@ fun NavController.navigateToNoteDetail(
 
     navigate(
         route = "${Screen.NoteDetail.route}/$noteIdArg",
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToReminderEdit(
+    noteId: Long? = ArgumentDefaultValues.NewNote,
+    reminderId: Long? = ArgumentDefaultValues.NewReminder,
+    navOptions: NavOptions? = null
+) {
+    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
+    val reminderIdArg = reminderId ?: ArgumentDefaultValues.NewReminder
+
+    navigate(
+        route = "${Screen.ReminderEdit.route}/$noteIdArg/$reminderIdArg",
         navOptions = navOptions
     )
 }

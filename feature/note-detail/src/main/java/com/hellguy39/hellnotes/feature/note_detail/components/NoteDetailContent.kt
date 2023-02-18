@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -126,6 +126,6 @@ fun NoteDetailContent(
 data class NoteDetailContentSelection(
     val onTitleTextChanged: (text: String) -> Unit,
     val onNoteTextChanged: (text: String) -> Unit,
-    val onReminderClick: (remind: Remind) -> Unit,
+    val onReminderClick: (reminder: Reminder) -> Unit,
     val onLabelClick: (label: Label) -> Unit
 )

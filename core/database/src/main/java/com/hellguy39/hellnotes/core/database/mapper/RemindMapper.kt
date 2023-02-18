@@ -1,10 +1,10 @@
 package com.hellguy39.hellnotes.core.database.mapper
 
 import com.hellguy39.hellnotes.core.database.entity.RemindEntity
-import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.model.Reminder
 
-fun RemindEntity.toRemind(): Remind {
-    return Remind(
+fun RemindEntity.toRemind(): Reminder {
+    return Reminder(
         id = id,
         noteId = noteId,
         message = message,
@@ -12,7 +12,7 @@ fun RemindEntity.toRemind(): Remind {
     )
 }
 
-fun Remind.toRemindEntity(): RemindEntity {
+fun Reminder.toRemindEntity(): RemindEntity {
     return RemindEntity(
         id = id,
         noteId = noteId,
