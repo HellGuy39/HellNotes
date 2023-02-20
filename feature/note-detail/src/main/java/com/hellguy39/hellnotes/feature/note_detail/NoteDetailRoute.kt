@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
+import android.content.Context
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
@@ -9,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.Label
@@ -22,22 +24,24 @@ import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.note_detail.components.*
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareHelper
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    dateHelper: DateHelper = noteDetailViewModel.dateHelper
+    dateHelper: DateHelper = noteDetailViewModel.dateHelper,
+    context: Context = LocalContext.current,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
-    val reminderDialogState = rememberDialogState()
     val labelDialogState = rememberDialogState()
     val shareDialogState = rememberDialogState()
+
+    val scope = rememberCoroutineScope()
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -88,8 +92,6 @@ fun NoteDetailRoute(
         }
     )
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-
     val currentOnStop by rememberUpdatedState {
         noteDetailViewModel.onDiscardNoteIfEmpty()
     }
@@ -108,12 +110,6 @@ fun NoteDetailRoute(
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
-
-    val nothingToShare = stringResource(id = HellNotesStrings.Text.NothingToShare)
-    val snackNotePinned = stringResource(id = HellNotesStrings.Snack.NotePinned)
-    val snackNoteUnpinned = stringResource(id = HellNotesStrings.Snack.NoteUnpinned)
-    val snackNoteArchived = stringResource(id = HellNotesStrings.Snack.NoteArchived)
-    val snackNoteUnarchived = stringResource(id = HellNotesStrings.Snack.NoteUnarchived)
 
     NoteDetailScreen(
         snackbarHostState = snackbarHostState,
@@ -141,7 +137,9 @@ fun NoteDetailRoute(
                     shareDialogState.show()
                 } else {
                     scope.launch {
-                        snackbarHostState.showSnackbar(message = nothingToShare)
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(HellNotesStrings.Text.NothingToShare)
+                        )
                     }
                 }
             },
@@ -166,7 +164,10 @@ fun NoteDetailRoute(
                 snackbarHostState.currentSnackbarData?.dismiss()
                 scope.launch {
                     snackbarHostState.showSnackbar(
-                        message = if (isPinned) snackNotePinned else snackNoteUnpinned,
+                        message = if (isPinned)
+                            context.getString(HellNotesStrings.Snack.NotePinned)
+                        else
+                            context.getString( HellNotesStrings.Snack.NoteUnpinned),
                         duration = SnackbarDuration.Short,
                         withDismissAction = true
                     )
@@ -180,7 +181,10 @@ fun NoteDetailRoute(
                 snackbarHostState.currentSnackbarData?.dismiss()
                 scope.launch {
                     snackbarHostState.showSnackbar(
-                        message = if (isArchived) snackNoteArchived else snackNoteUnarchived,
+                        message = if (isArchived)
+                            context.getString(HellNotesStrings.Snack.NoteArchived)
+                        else
+                            context.getString(HellNotesStrings.Snack.NoteUnarchived),
                         duration = SnackbarDuration.Short,
                         withDismissAction = true
                     )

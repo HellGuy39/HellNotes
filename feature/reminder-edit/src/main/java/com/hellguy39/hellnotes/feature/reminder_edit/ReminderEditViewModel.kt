@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import com.hellguy39.hellnotes.core.model.Reminder
+import com.hellguy39.hellnotes.core.model.util.Repeat
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
@@ -76,11 +77,15 @@ class ReminderEditViewModel @Inject constructor(
                 val reminder = Reminder(
                     noteId = state.noteId ?: return@launch,
                     message = state.message,
-                    triggerDate = dateHelper.dateToEpochMillis(state.localDateTime)
+                    triggerDate = dateHelper.dateToEpochMillis(state.localDateTime),
+                    repeat = state.repeat
                 )
 
-                reminderRepository.insertReminder(reminder)
-                alarmScheduler.scheduleAlarm(reminder)
+                val newReminderId = reminderRepository.insertReminder(reminder)
+
+                alarmScheduler.scheduleAlarm(
+                    reminder.copy(id = newReminderId)
+                )
             }
         }
     }
@@ -88,13 +93,7 @@ class ReminderEditViewModel @Inject constructor(
     fun deleteReminder() {
         viewModelScope.launch {
             reminderEditViewModelState.value.let { state ->
-
-                val reminder = Reminder(
-                    id = state.reminderId ?: return@launch,
-                    noteId = state.noteId ?: return@launch,
-                    message = state.message,
-                    triggerDate = dateHelper.dateToEpochMillis(state.localDateTime)
-                )
+                val reminder = reminderRepository.getReminderById(state.reminderId ?: return@launch)
 
                 reminderRepository.deleteReminder(reminder)
                 alarmScheduler.cancelAlarm(reminder)
@@ -110,7 +109,8 @@ class ReminderEditViewModel @Inject constructor(
                     id = state.reminderId ?: return@launch,
                     noteId = state.noteId ?: return@launch,
                     message = state.message,
-                    triggerDate = dateHelper.dateToEpochMillis(state.localDateTime)
+                    triggerDate = dateHelper.dateToEpochMillis(state.localDateTime),
+                    repeat = state.repeat
                 )
 
                 val oldReminder = reminderRepository.getReminderById(state.reminderId)
@@ -139,6 +139,14 @@ class ReminderEditViewModel @Inject constructor(
         }
     }
 
+    fun updateRepeat(repeat: Repeat) {
+        viewModelScope.launch {
+            reminderEditViewModelState.update { state ->
+                state.copy(repeat = repeat)
+            }
+        }
+    }
+
     fun updateTime(localTime: LocalTime) {
         viewModelScope.launch {
             reminderEditViewModelState.update { state ->
@@ -147,13 +155,13 @@ class ReminderEditViewModel @Inject constructor(
             }
         }
     }
-
 }
 
 private data class ReminderEditViewModelState(
     val localDateTime: LocalDateTime = LocalDateTime.now(),
     val noteId: Long? = ArgumentDefaultValues.NewNote,
     val reminderId: Long? = ArgumentDefaultValues.NewReminder,
+    val repeat: Repeat = Repeat.DoesNotRepeat,
     val message: String = "",
     val isEdit: Boolean = false,
     val isLoading: Boolean = true
@@ -162,6 +170,7 @@ private data class ReminderEditViewModelState(
         localDateTime = localDateTime,
         message = message,
         isEdit = isEdit,
+        repeat = repeat,
         isLoading = isLoading
     )
 }
@@ -169,6 +178,7 @@ private data class ReminderEditViewModelState(
 data class ReminderEditUiState(
     val localDateTime: LocalDateTime,
     val message: String,
+    val repeat: Repeat,
     val isEdit: Boolean,
     val isLoading: Boolean,
 )

@@ -15,7 +15,7 @@ sealed class Screen(val route: String) {
     object ReminderEdit : Screen(route = "reminder_edit_screen")
     object Search : Screen(route = "search_screen")
     object AboutApp : Screen(route = "about_app_screen")
-    object Labels : Screen(route = "labels_screen")
+    object LabelEdit : Screen(route = "label_edit_screen")
 }
 
 object ArgumentKeys {
@@ -95,7 +95,7 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
 
 fun NavController.navigateToLabels(navOptions: NavOptions? = null) {
     navigate(
-        route = Screen.Labels.route,
+        route = Screen.LabelEdit.route,
         navOptions = navOptions
     )
 }

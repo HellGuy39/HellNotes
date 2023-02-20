@@ -60,6 +60,10 @@
     <string name="menu_item_password">Password</string>
     <string name="menu_item_pattern">Pattern</string>
     <string name="menu_item_slide">Slide</string>
+    <string name="menu_item_does_not_repeat">Does not repeat</string>
+    <string name="menu_item_daily">Daily</string>
+    <string name="menu_item_weekly">Weekly</string>
+    <string name="menu_item_monthly">Monthly</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>

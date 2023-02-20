@@ -30,6 +30,7 @@ fun SettingsScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
             SettingsScreenContent(
+                modifier = Modifier.fillMaxSize(),
                 innerPadding = innerPadding,
                 uiState = uiState,
                 selection = selection

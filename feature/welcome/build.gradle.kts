@@ -60,7 +60,7 @@ dependencies {
     implementation(Libs.Google.Accompanist.Pager)
     implementation(Libs.Google.Accompanist.PagerIndicators)
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

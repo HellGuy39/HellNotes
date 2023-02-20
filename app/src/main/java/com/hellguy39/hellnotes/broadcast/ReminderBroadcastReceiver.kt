@@ -9,10 +9,8 @@ import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ReminderBroadcastReceiver : BroadcastReceiver() {
@@ -21,13 +19,16 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
 
     @Inject lateinit var notificationSender: NotificationSender
 
+    private val coroutineScope = CoroutineScope(Dispatchers.IO) + SupervisorJob()
+
     override fun onReceive(context: Context?, intent: Intent?) {
 
         if (context == null && intent == null)
             return
 
-        val message = intent?.extras?.getString(AndroidAlarmScheduler.ALARM_MESSAGE)
-        val noteId = intent?.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID)
+        val message = intent?.extras?.getString(AndroidAlarmScheduler.ALARM_MESSAGE, "")
+        val noteId = intent?.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID, EMPTY_ARG)
+        val reminderId = intent?.extras?.getLong(AndroidAlarmScheduler.ALARM_REMINDER_ID, EMPTY_ARG)
 
         val notificationIntent = Intent(context, MainActivity::class.java).apply {
             putExtra(AndroidAlarmScheduler.ALARM_NOTE_ID, noteId)
@@ -45,10 +46,19 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
             pendingIntent = pendingIntent
         )
 
-        if (noteId != null) {
-            CoroutineScope(Dispatchers.IO).launch {
-                reminderRepository.deleteReminderByNoteId(noteId)
+        if (noteId.isValidId() && reminderId.isValidId()) {
+            coroutineScope.launch {
+                //val reminder = reminderRepository.getReminderById(reminderId!!)
+                reminderRepository.deleteReminderById(reminderId!!)
             }
         }
+    }
+
+    private fun Long?.isValidId() = this != null && this != EMPTY_ARG
+
+    companion object {
+
+        private const val EMPTY_ARG = -2L
+
     }
 }

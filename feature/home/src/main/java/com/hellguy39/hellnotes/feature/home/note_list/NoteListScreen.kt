@@ -37,7 +37,7 @@ fun NoteListScreen(
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
 
-    val sortingMenuState = rememberDialogState()
+    val sortingMenuState = rememberDropdownMenuState()
 
     Scaffold(
         modifier = Modifier

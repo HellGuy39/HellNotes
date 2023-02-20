@@ -23,17 +23,15 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import java.io.Serializable
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CustomDialog(
     showDialog: Boolean,
     onClose: () -> Unit,
     title: String = "",
-    limitMaxHeight: Boolean = false,
+    limitMaxHeight: Boolean = true,
     limitMinHeight: Boolean = false,
-    applyBottomSpace: Boolean = !limitMinHeight,
     titleContent: @Composable () -> Unit = {  },
-    content: @Composable (innerPadding: PaddingValues) -> Unit
+    content: @Composable () -> Unit
 ) {
     if (!showDialog)
         return
@@ -51,47 +49,13 @@ fun CustomDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(vertical = 8.dp)
                     .sizeIn(
                         minHeight = if (limitMinHeight) 384.dp else Dp.Unspecified,
                         maxHeight = if (limitMaxHeight) 384.dp else Dp.Unspecified
                     )
             ) {
-                Column {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                text = title,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                            titleContent()
-                        },
-                        navigationIcon = {
-                            IconButton(
-                                onClick = { onClose() }
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = HellNotesIcons.Close),
-                                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Close)
-                                )
-                            }
-                        },
-                    )
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .alpha(0.5f),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.surfaceTint//LocalContentColor.current
-                    )
-
-                    content(PaddingValues(0.dp))
-
-                    if (applyBottomSpace) {
-                        Spacer(modifier = Modifier.height(24.dp))
-                    }
-                }
+                content()
             }
         }
     }

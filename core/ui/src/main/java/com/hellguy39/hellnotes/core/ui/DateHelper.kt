@@ -51,22 +51,18 @@ class DateHelper @Inject constructor(
             .toEpochMilli()
     }
 
-    fun epochMillisToLocalTime(epochMilli: Long): LocalTime {
-        return Instant.ofEpochMilli(epochMilli)
-            .atZone(zoneId)
-            .toLocalTime()
-    }
-
-    fun epochMillisToLocalDate(epochMilli: Long): LocalDate {
-        return Instant.ofEpochMilli(epochMilli)
-            .atZone(zoneId)
-            .toLocalDate()
-    }
-
     fun epochMillisToLocalDateTime(epochMilli: Long): LocalDateTime {
         return Instant.ofEpochMilli(epochMilli)
             .atZone(zoneId)
             .toLocalDateTime()
+    }
+
+    fun epochMillisPlusHours(epochMilli: Long, hours: Long): Long {
+        return Instant.ofEpochMilli(epochMilli)
+            .atZone(zoneId)
+            .plusHours(hours)
+            .toInstant()
+            .toEpochMilli()
     }
 
     fun formatBest(millis: Long): String {
@@ -87,6 +83,7 @@ class DateHelper @Inject constructor(
     }
 
     companion object {
+
         const val DATE_TIME_PATTERN = "MMMM dd yyyy HH:mm"
         const val DATE_TIME_SHORT_PATTERN = "MMM dd yyyy HH:mm"
 

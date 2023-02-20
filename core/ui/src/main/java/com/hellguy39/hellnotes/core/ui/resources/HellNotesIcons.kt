@@ -52,4 +52,5 @@ object HellNotesIcons {
 
     val Event = R.drawable.ic_event_24
     val Schedule = R.drawable.ic_schedule_24
+    val Repeat = R.drawable.ic_repeat_24
 }

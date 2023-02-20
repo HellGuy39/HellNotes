@@ -24,7 +24,7 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/about-app" />
             <option value="$PROJECT_DIR$/feature/home" />
-            <option value="$PROJECT_DIR$/feature/labels" />
+            <option value="$PROJECT_DIR$/feature/label-edit" />
             <option value="$PROJECT_DIR$/feature/language-selection" />
             <option value="$PROJECT_DIR$/feature/lock" />
             <option value="$PROJECT_DIR$/feature/lock-selection" />

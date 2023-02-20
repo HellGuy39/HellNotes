@@ -46,6 +46,7 @@ class AndroidBiometricAuthenticator(
         .setTitle("Proof of identity for HellNotes")
         .setSubtitle("Confirm identity using your biometric credential")
         .setNegativeButtonText("Cancel")
+
         .build()
 
     override fun authenticate(activity: AppCompatActivity) {

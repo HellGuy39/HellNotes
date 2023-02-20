@@ -40,7 +40,7 @@ dependencies {
     implementation(Libs.AndroidX.Room.RoomKtx)
     kapt(Libs.AndroidX.Room.RoomCompiler)
 
-    implementation (Libs.KotlinX.Coroutines)
+    implementation (Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

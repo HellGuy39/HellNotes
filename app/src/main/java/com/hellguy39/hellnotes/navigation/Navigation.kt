@@ -13,7 +13,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
 import com.hellguy39.hellnotes.feature.home.util.HomeScreen
-import com.hellguy39.hellnotes.feature.labels.navigation.labelsScreen
+import com.hellguy39.hellnotes.feature.label_edit.navigation.labelEditScreen
 import com.hellguy39.hellnotes.feature.language_selection.navigation.languageSelectionScreen
 import com.hellguy39.hellnotes.feature.lock_selection.navigation.lockSelectionScreen
 import com.hellguy39.hellnotes.feature.lock_setup.navigation.lockSetupScreen
@@ -57,7 +57,7 @@ fun SetupNavGraph(
 
         searchScreen(navController)
 
-        labelsScreen(navController)
+        labelEditScreen(navController)
 
         settingsScreen(navController)
 

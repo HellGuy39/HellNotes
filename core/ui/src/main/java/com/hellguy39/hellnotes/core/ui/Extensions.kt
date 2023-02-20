@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.util.Language
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.util.Repeat
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
@@ -26,5 +27,15 @@ fun Language.getDisplayName(): String {
         Language.French -> stringResource(id = HellNotesStrings.Lan.French)
         Language.SystemDefault -> stringResource(id = HellNotesStrings.Lan.SystemDefault)
         else -> "Unknown"
+    }
+}
+
+@Composable
+fun Repeat.getDisplayName(): String {
+    return when(this) {
+        Repeat.DoesNotRepeat -> stringResource(id = HellNotesStrings.MenuItem.DoesNoteRepeat)
+        Repeat.Daily -> stringResource(id = HellNotesStrings.MenuItem.Daily)
+        Repeat.Weekly -> stringResource(id = HellNotesStrings.MenuItem.Weekly)
+        Repeat.Monthly -> stringResource(id = HellNotesStrings.MenuItem.Monthly)
     }
 }

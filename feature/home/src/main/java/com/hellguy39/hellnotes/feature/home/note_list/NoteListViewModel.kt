@@ -190,7 +190,7 @@ private data class NoteListViewModelState(
                 notes.sortedByDescending { it.id }
             }
             is Sorting.DateOfLastEdit -> {
-                notes.sortedByDescending { it.lastEditDate }
+                notes.sortedByDescending { it.editedAt }
             }
         }
         .filter { !it.isArchived }

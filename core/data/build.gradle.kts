@@ -35,7 +35,7 @@ dependencies {
     implementation(project(Project.Core.Model))
     implementation(project(Project.Core.Domain))
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

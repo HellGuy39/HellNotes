@@ -73,6 +73,11 @@ object HellNotesStrings {
         val Password = R.string.menu_item_password
         val Pattern = R.string.menu_item_pattern
         val Slide = R.string.menu_item_slide
+
+        val DoesNoteRepeat = R.string.menu_item_does_not_repeat
+        val Daily = R.string.menu_item_daily
+        val Weekly = R.string.menu_item_weekly
+        val Monthly = R.string.menu_item_monthly
     }
 
     object Title {

@@ -47,8 +47,7 @@ fun SelectionItem(
            )
        }
 
-       val textStyle =
-           if (colorize)
+       val textStyle = if (colorize)
            MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.primary)
        else
            MaterialTheme.typography.bodyLarge

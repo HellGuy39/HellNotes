@@ -84,6 +84,10 @@
     <string name="menu_item_password">Пароль</string>
     <string name="menu_item_pattern">Рисунок</string>
     <string name="menu_item_slide">Слайд</string>
+    <string name="menu_item_does_not_repeat">Не повторять</string>
+    <string name="menu_item_daily">Ежедневно</string>
+    <string name="menu_item_weekly">Еженедельно</string>
+    <string name="menu_item_monthly">Ежемесячно</string>
 
     <!-- Language-->
     <string name="lan_system_default">Системный</string>

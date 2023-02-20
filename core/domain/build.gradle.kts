@@ -32,6 +32,6 @@ dependencies {
 
     implementation(Libs.AndroidX.AppCompat)
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
 }

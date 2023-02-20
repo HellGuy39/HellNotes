@@ -58,7 +58,7 @@ dependencies {
 
     implementation(Libs.Google.Accompanist.NavigationAnimation)
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

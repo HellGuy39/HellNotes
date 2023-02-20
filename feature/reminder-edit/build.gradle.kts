@@ -61,7 +61,7 @@ dependencies {
     implementation(Libs.Google.Accompanist.FlowLayout)
     implementation(Libs.Google.Accompanist.Permissions)
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

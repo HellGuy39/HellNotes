@@ -12,7 +12,6 @@ import com.hellguy39.hellnotes.core.ui.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutAppScreenContent(
     innerPadding: PaddingValues,

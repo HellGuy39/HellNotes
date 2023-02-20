@@ -17,7 +17,7 @@ fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
     hint: String = "",
-    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
+    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     isSingleLine: Boolean = true,
     keyboardActions: KeyboardActions = KeyboardActions()
 ) {
@@ -28,7 +28,6 @@ fun CustomTextField(
         textStyle = textStyle.copy(
             color = MaterialTheme.colorScheme.onSurface
         ),
-        maxLines = 1,
         singleLine = isSingleLine,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         decorationBox = { innerTextField ->

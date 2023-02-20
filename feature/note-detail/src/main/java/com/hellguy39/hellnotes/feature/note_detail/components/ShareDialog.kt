@@ -23,10 +23,9 @@ fun ShareDialog(
         showDialog = state.visible,
         onClose = { state.dismiss() },
         title = stringResource(id = HellNotesStrings.Title.ShareAs)
-    ) { innerPadding ->
+    ) {
         LazyColumn(
             modifier = Modifier
-                .padding(innerPadding),
         ) {
             item {
                 Row(

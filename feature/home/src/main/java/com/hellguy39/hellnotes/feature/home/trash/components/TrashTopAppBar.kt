@@ -8,10 +8,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.ui.components.CustomDropdownItem
-import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenu
-import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenuState
-import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
+import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -97,9 +94,19 @@ fun TrashTopAppBar(
                             contentDescription = null
                         )
 
-                        TrashDropdownMenu(
-                            state = trashDropdownMenuState,
-                            selection = trashDropdownMenuSelection
+                        CustomDropdownMenu(
+                            expanded = trashDropdownMenuState.visible,
+                            onDismissRequest = { trashDropdownMenuState.dismiss() },
+                            items = listOf(
+                                CustomDropdownItemSelection(
+                                    text = stringResource(id = HellNotesStrings.MenuItem.EmptyTrash),
+                                    onClick = {
+                                        trashDropdownMenuState.dismiss()
+                                        trashDropdownMenuSelection.onEmptyTrash()
+                                    },
+                                    leadingIconId = painterResource(id = HellNotesIcons.Delete)
+                                )
+                            )
                         )
                     }
                 }
@@ -115,27 +122,6 @@ data class TrashTopAppBarSelection(
     val onRestoreSelected: () -> Unit,
     val onDeleteSelected: () -> Unit
 )
-
-@Composable
-fun TrashDropdownMenu(
-    state: CustomDropdownMenuState,
-    selection: TrashDropdownMenuSelection,
-) {
-    CustomDropdownMenu(
-        expanded = state.visible,
-        onDismissRequest = { state.dismiss() }
-    ) {
-        CustomDropdownItem(
-            text = stringResource(id = HellNotesStrings.MenuItem.EmptyTrash),
-            onClick = {
-                state.dismiss()
-                selection.onEmptyTrash()
-            },
-            leadingIconId = painterResource(id = HellNotesIcons.Delete)
-        )
-    }
-}
-
 data class TrashDropdownMenuSelection(
     val onEmptyTrash: () -> Unit,
 )

@@ -7,7 +7,6 @@ import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
-import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
@@ -27,7 +26,6 @@ class NoteDetailViewModel @Inject constructor(
     private val labelRepository: LabelRepository,
     private val trashRepository: TrashRepository,
     savedStateHandle: SavedStateHandle,
-    val alarmScheduler: AlarmScheduler,
     val dateHelper: DateHelper
 ): ViewModel() {
 
@@ -87,7 +85,7 @@ class NoteDetailViewModel @Inject constructor(
 
             val updatedNote = state.note.copy(
                 note = text,
-                lastEditDate = currentTime
+                editedAt = currentTime
             )
 
             state.copy(
@@ -105,7 +103,7 @@ class NoteDetailViewModel @Inject constructor(
 
             val updatedNote = state.note.copy(
                 title = text,
-                lastEditDate = currentTime
+                editedAt = currentTime
             )
 
             state.copy(

@@ -89,7 +89,7 @@ fun DrawerSheetContent(
                             Text(
                                 text = stringResource(id = HellNotesStrings.Button.Edit),
                                 modifier = Modifier.padding(horizontal = 4.dp),
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.labelLarge
                             )
                         }
                     }

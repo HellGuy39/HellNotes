@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.about_app.components.AboutAppScreenContent
-import com.hellguy39.hellnotes.feature.about_app.components.AboutAppTopAppBar
 import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,8 +31,9 @@ fun AboutAppScreen(
             )
         },
         topBar = {
-            AboutAppTopAppBar(
-                onNavigationButtonClick = onNavigationButtonClick
+            CustomTopAppBar(
+                onNavigationButtonClick = onNavigationButtonClick,
+                title = stringResource(id = HellNotesStrings.Title.AboutApp)
             )
         }
     )

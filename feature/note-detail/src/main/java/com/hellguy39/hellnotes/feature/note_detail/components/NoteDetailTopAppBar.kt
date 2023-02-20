@@ -18,7 +18,6 @@ fun NoteDetailTopAppBar(
     topAppBarSelection: NoteDetailTopAppBarSelection,
     dropdownMenuSelection: NoteDetailDropdownMenuSelection
 ) {
-    val noteDetailDropdownMenuState = rememberDropdownMenuState()
 
     val note = topAppBarSelection.note
 
@@ -54,6 +53,14 @@ fun NoteDetailTopAppBar(
         },
         actions = {
             IconButton(
+                onClick = { topAppBarSelection.onPin(!note.isPinned) }
+            ) {
+                Icon(
+                    painter = pinIcon,
+                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Pin)
+                )
+            }
+            IconButton(
                 onClick = { topAppBarSelection.onReminder() }
             ) {
                 Icon(
@@ -67,27 +74,6 @@ fun NoteDetailTopAppBar(
                 Icon(
                     painter = archiveIcon,
                     contentDescription = null
-                )
-            }
-            IconButton(
-                onClick = { topAppBarSelection.onPin(!note.isPinned) }
-            ) {
-                Icon(
-                    painter = pinIcon,
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Pin)
-                )
-            }
-            IconButton(
-                onClick = { noteDetailDropdownMenuState.show() }
-            ) {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.MoreVert),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More)
-                )
-
-                NoteDetailDropdownMenu(
-                    state = noteDetailDropdownMenuState,
-                    selection = dropdownMenuSelection
                 )
             }
         }

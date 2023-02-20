@@ -5,25 +5,26 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.model.Label
+import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.CustomDialogState
 import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabelDialog(
     state: CustomDialogState,
@@ -35,33 +36,21 @@ fun LabelDialog(
         showDialog = state.visible,
         onClose = { state.dismiss() },
         titleContent = {
-            OutlinedTextField(
+            CustomTextField(
                 value = query,
                 onValueChange = { newText ->
                     query = newText
                     selection.updateQuery(newText)
                 },
-                placeholder = {
-                    Text(
-                        text = stringResource(id = HellNotesStrings.Hint.Label),
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.alpha(0.5f)
-                    )
-                },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.Transparent,
-                    disabledBorderColor = Color.Transparent,
-                    errorBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent
-                ),
-                textStyle = MaterialTheme.typography.titleLarge,
-                maxLines = 1
+                hint = stringResource(id = HellNotesStrings.Hint.Label),
+                textStyle = MaterialTheme.typography.bodyLarge,
+                isSingleLine = true
             )
         },
         limitMinHeight = true,
         limitMaxHeight = true,
-        applyBottomSpace = false
-    ) { innerPadding ->
+        //applyBottomSpace = false
+    ) {
 
         Crossfade(targetState = selection) { selection ->
             val isShowCreateNewLabelItem = isShowCreateNewLabelItem(selection.allLabels, query)
@@ -79,7 +68,6 @@ fun LabelDialog(
 
             LazyColumn(
                 modifier = Modifier
-                    .padding(innerPadding)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {

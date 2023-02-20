@@ -18,11 +18,16 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
+import com.hellguy39.hellnotes.core.model.util.Repeat
 import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
+import com.hellguy39.hellnotes.feature.reminder_edit.components.RepeatDialog
+import com.hellguy39.hellnotes.feature.reminder_edit.components.RepeatDialogSelection
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -46,6 +51,7 @@ fun ReminderEditScreen(
 
     val calendarState = rememberSheetState()
     val clockState = rememberSheetState()
+    val repeatDialogState = rememberDialogState()
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
@@ -78,6 +84,17 @@ fun ReminderEditScreen(
         selection = ClockSelection.HoursMinutes(
             onPositiveClick = { hours, minutes ->
                 selection.onTimeUpdate(LocalTime.of(hours, minutes))
+            }
+        )
+    )
+
+    RepeatDialog(
+        state = repeatDialogState,
+        repeatDialogSelection = RepeatDialogSelection(
+            repeat = uiState.repeat,
+            onRepeatChange = { repeat ->
+                selection.onRepeatUpdate(repeat)
+                repeatDialogState.dismiss()
             }
         )
     )
@@ -268,6 +285,27 @@ fun ReminderEditScreen(
                         textStyle = MaterialTheme.typography.bodyLarge,
                     )
                 }
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { repeatDialogState.show() },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .padding(vertical = 16.dp)
+                                .padding(start = 16.dp, end = 12.dp),
+                            painter = painterResource(id = HellNotesIcons.Repeat),
+                            contentDescription = null
+                        )
+                        Text(
+                            text = uiState.repeat.getDisplayName(),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
             }
         }
     )
@@ -277,6 +315,7 @@ data class ReminderEditScreenSelection(
     val onMessageUpdate: (String) -> Unit,
     val onDateUpdate: (LocalDate) -> Unit,
     val onTimeUpdate: (LocalTime) -> Unit,
+    val onRepeatUpdate: (Repeat) -> Unit,
     val onCreateReminder: () -> Unit,
     val onUpdateReminder: () -> Unit,
     val onDeleteReminder: () -> Unit,

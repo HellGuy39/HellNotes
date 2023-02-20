@@ -17,7 +17,7 @@ android {
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = 1
-        versionName = "1.0-rc02"
+        versionName = "1.0-rc03"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -105,7 +105,7 @@ dependencies {
     implementation(Libs.AndroidX.Room.RoomKtx)
     kapt(Libs.AndroidX.Room.RoomCompiler)
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
