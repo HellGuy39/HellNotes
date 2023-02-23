@@ -159,7 +159,7 @@ class NoteDetailViewModel @Inject constructor(
             if (note.isNoteValid()) {
                 trashRepository.insertTrash(
                     Trash(
-                        note = note.copy(labelIds = listOf()),
+                        note = note,
                         dateOfAdding = DateTimeUtils.getCurrentTimeInEpochMilli()
                     )
                 )
@@ -182,7 +182,7 @@ private data class NoteDetailViewModelState(
 ) {
     fun toUiState() = NoteDetailUiState(
         note = note,
-        noteLabels = allLabels.filter { note.labelIds.contains(it.id) },
+        noteLabels = allLabels.filter { label -> label.noteIds.contains(note.id) },
         searchedLabels = allLabels.filter { it.name.contains(labelSearch) },
         noteReminders = noteReminders,
         labelSearch = labelSearch,

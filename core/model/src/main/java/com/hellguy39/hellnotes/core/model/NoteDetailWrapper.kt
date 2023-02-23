@@ -11,6 +11,6 @@ fun Note.toNoteDetailWrapper(
     labels: List<Label>
 ) = NoteDetailWrapper(
     note = this,
-    labels = labels.filter { label -> labelIds.contains(label.id)  },
+    labels = labels.filter { label -> label.noteIds.contains(id)  },
     reminders = reminders.filter { reminder -> id == reminder.noteId }
 )

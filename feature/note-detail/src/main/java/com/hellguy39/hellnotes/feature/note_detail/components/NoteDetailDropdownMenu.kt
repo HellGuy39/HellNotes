@@ -18,14 +18,14 @@ fun NoteDetailDropdownMenu(
         expanded = state.visible,
         onDismissRequest = { state.dismiss() },
         items = listOf(
-            CustomDropdownItemSelection(
-                leadingIconId = painterResource(id = HellNotesIcons.Label),
-                text = stringResource(id = HellNotesStrings.MenuItem.Labels),
-                onClick = {
-                    state.dismiss()
-                    selection.onLabels()
-                }
-            ),
+//            CustomDropdownItemSelection(
+//                leadingIconId = painterResource(id = HellNotesIcons.Label),
+//                text = stringResource(id = HellNotesStrings.MenuItem.Labels),
+//                onClick = {
+//                    state.dismiss()
+//                    selection.onLabels()
+//                }
+//            ),
             CustomDropdownItemSelection(
                 leadingIconId = painterResource(id = HellNotesIcons.Share),
                 text = stringResource(id = HellNotesStrings.MenuItem.Share),
@@ -47,8 +47,6 @@ fun NoteDetailDropdownMenu(
 }
 
 data class NoteDetailDropdownMenuSelection(
-    val onColor: () -> Unit,
-    val onLabels: () -> Unit,
     val onShare: () -> Unit,
     val onDelete: () -> Unit
 )

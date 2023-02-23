@@ -6,13 +6,15 @@ import com.hellguy39.hellnotes.core.model.Label
 fun Label.toLabelEntity(): LabelEntity {
     return LabelEntity(
         id = id,
-        name = name
+        name = name,
+        noteIds = noteIds
     )
 }
 
 fun LabelEntity.toLabel(): Label {
     return Label(
         id = id,
-        name = name
+        name = name,
+        noteIds = noteIds
     )
 }

@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.core.database
 
+import androidx.room.DeleteColumn
 import androidx.room.RenameColumn
 import androidx.room.RenameTable
 import androidx.room.migration.AutoMigrationSpec
@@ -17,6 +18,10 @@ object DatabaseMigrations {
         tableName = NOTES_TABLE_NAME,
         fromColumnName = "lastEditDate",
         toColumnName = "edited_at",
+    )
+    @DeleteColumn(
+        tableName = NOTES_TABLE_NAME,
+        columnName = "labelIds"
     )
     class Schema2to3 : AutoMigrationSpec
 

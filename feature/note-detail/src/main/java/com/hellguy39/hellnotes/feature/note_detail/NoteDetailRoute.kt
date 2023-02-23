@@ -13,7 +13,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.isNoteValid
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
@@ -81,6 +80,7 @@ fun NoteDetailRoute(
         }
     }
 
+
     NoteDetailScreen(
         snackbarHostState = snackbarHostState,
         uiState = uiState,
@@ -98,12 +98,7 @@ fun NoteDetailRoute(
                 //labelDialogState.show()
             }
         ),
-        noteDetailDropdownMenuSelection = NoteDetailDropdownMenuSelection(
-            onColor = {  },
-            onLabels = {
-                navController.navigateToLabelSelection(uiState.note.id)
-                //labelDialogState.show()
-            },
+        dropdownMenuSelection = NoteDetailDropdownMenuSelection(
             onShare = {
                 if (uiState.note.isNoteValid()) {
                     shareDialogState.show()
@@ -120,16 +115,10 @@ fun NoteDetailRoute(
                 navController.popBackStack()
             },
         ),
-        noteDetailTopAppBarSelection = NoteDetailTopAppBarSelection(
+        topAppBarSelection = NoteDetailTopAppBarSelection(
             note = uiState.note,
             onNavigationButtonClick = {
                 navController.popBackStack()
-            },
-            onReminder = {
-                navController.navigateToReminderEdit(
-                    noteId = uiState.note.id,
-                    reminderId = ArgumentDefaultValues.NewReminder
-                )
             },
             onPin = { isPinned ->
                 noteDetailViewModel.onUpdateIsPinned(isPinned)
@@ -144,9 +133,6 @@ fun NoteDetailRoute(
                         withDismissAction = true
                     )
                 }
-            },
-            onColorSelected = { colorHex ->
-                //noteDetailViewModel.onUpdateNoteBackground(colorHex)
             },
             onArchive = { isArchived ->
                 noteDetailViewModel.onUpdateIsArchived(isArchived)
@@ -163,5 +149,16 @@ fun NoteDetailRoute(
                 }
             }
         ),
+        bottomBarSelection = NoteDetailBottomBarSelection(
+            onReminder = {
+                navController.navigateToReminderEdit(
+                    noteId = uiState.note.id,
+                    reminderId = ArgumentDefaultValues.NewReminder
+                )
+            },
+            onLabels = {
+                navController.navigateToLabelSelection(uiState.note.id)
+            }
+        )
     )
 }

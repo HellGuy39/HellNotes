@@ -16,5 +16,4 @@ data class NoteEntity(
     @ColumnInfo(name = "is_archived", defaultValue = "0") val isArchived: Boolean,
     @ColumnInfo(name = "created_at", defaultValue = "0") val createdAt: Long,
     val colorHex: Long,
-    val labelIds: List<Long>
 )

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,9 +20,10 @@ import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteCard
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.cards.SwipeableNoteCard
 import com.hellguy39.hellnotes.core.ui.isSingleList
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun NoteColumnList(
     innerPadding: PaddingValues = PaddingValues(0.dp),
@@ -56,20 +58,18 @@ internal fun NoteColumnList(
                     items = category.notes,
                     key = { it.note.id ?: 0 },
                 ) { wrapper ->
-                    NoteCard(
-                        modifier = Modifier.fillMaxWidth()
+                    SwipeableNoteCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(4.dp)
                             .combinedClickable(
                                 onClick = { noteSelection.onClick(wrapper.note) },
                                 onLongClick = { noteSelection.onLongClick(wrapper.note) }
                             )
-                            .animateItemPlacement(
-                                animationSpec = tween(durationMillis = 300)
-                            ),
-                        note = wrapper.note,
+                            .animateItemPlacement(),
+                        noteDetailWrapper = wrapper,
                         isSelected = selectedNotes.contains(wrapper.note),
-                        labels = wrapper.labels,
-                        reminders = wrapper.reminders
+                        onDismissed = noteSelection.onDismiss
                     )
                 }
             }

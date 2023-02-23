@@ -235,6 +235,9 @@ fun HomeRoute(
                                             noteListViewModel.selectNote(note)
                                         }
                                     },
+                                    onDismiss = { direction, note ->
+                                        false
+                                    }
                                 ),
                                 listConfigurationSelection = ListConfigurationSelection(
                                     sorting = noteListUiState.sorting,
@@ -276,6 +279,9 @@ fun HomeRoute(
                                         } else {
                                             remindersViewModel.selectNote(note)
                                         }
+                                    },
+                                    onDismiss = { direction, note ->
+                                        false
                                     }
                                 ),
                                 reminderTopAppBarSelection = ReminderTopAppBarSelection(
@@ -327,6 +333,9 @@ fun HomeRoute(
                                         } else {
                                             archiveViewModel.selectNote(note)
                                         }
+                                    },
+                                    onDismiss = { direction, note ->
+                                        false
                                     }
                                 ),
                                 archiveTopAppBarSelection = ArchiveTopAppBarSelection(
@@ -388,6 +397,9 @@ fun HomeRoute(
                                         } else {
                                             trashViewModel.selectNote(note)
                                         }
+                                    },
+                                    onDismiss = { direction, note ->
+                                        false
                                     }
                                 ),
                                 trashDropdownMenuSelection = TrashDropdownMenuSelection(
@@ -431,6 +443,9 @@ fun HomeRoute(
                                     } else {
                                         labelViewModel.selectNote(note)
                                     }
+                                },
+                                onDismiss = { direction, note ->
+                                    false
                                 }
                             ),
                             labelTopAppBarSelection = LabelTopAppBarSelection(

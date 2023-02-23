@@ -81,10 +81,11 @@ class NoteListViewModel @Inject constructor(
                 if (note.isNoteValid()) {
                     trashRepository.insertTrash(
                         Trash(
-                            note = note.copy(labelIds = listOf()),
+                            note = note,
                             dateOfAdding = DateTimeUtils.getCurrentTimeInEpochMilli()
                         )
                     )
+                    removeNoteIdFromLabels(note.id ?: return@launch)
                 }
             }
         }
@@ -103,10 +104,23 @@ class NoteListViewModel @Inject constructor(
             if (note.isNoteValid()) {
                 trashRepository.insertTrash(
                     Trash(
-                        note = note.copy(labelIds = listOf()),
+                        note = note,
                         dateOfAdding = DateTimeUtils.getCurrentTimeInEpochMilli()
                     )
                 )
+                removeNoteIdFromLabels(note.id ?: return@launch)
+            }
+        }
+    }
+
+    private fun removeNoteIdFromLabels(noteId: Long) {
+        viewModelScope.launch {
+            noteListViewModelState.value.labels.forEach { label ->
+                if (label.noteIds.contains(noteId)) {
+                    labelRepository.updateLabel(
+                        label.copy(noteIds = label.noteIds.minus(noteId))
+                    )
+                }
             }
         }
     }

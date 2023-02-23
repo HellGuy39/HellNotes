@@ -11,7 +11,6 @@ data class Note(
     val isArchived: Boolean = false,
     val isPinned: Boolean = false,
     val colorHex: Long = ColorParam.DefaultColor,
-    val labelIds: List<Long> = listOf()
 )
 
 fun Note.isNoteValid(): Boolean {

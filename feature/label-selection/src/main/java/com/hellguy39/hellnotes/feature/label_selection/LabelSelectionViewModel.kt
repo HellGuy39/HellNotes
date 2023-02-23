@@ -71,8 +71,8 @@ class LabelSelectionViewModel @Inject constructor(
     private fun selectLabel(label: Label) {
         viewModelScope.launch {
             val note = labelSelectionViewModelState.value.note
-            noteRepository.updateNote(
-                note.copy(labelIds = note.labelIds.plus(label.id ?: return@launch))
+            labelRepository.updateLabel(
+                label.copy(noteIds = label.noteIds.plus(note.id ?: return@launch))
             )
         }
     }
@@ -80,8 +80,8 @@ class LabelSelectionViewModel @Inject constructor(
     private fun unselectLabel(label: Label) {
         viewModelScope.launch {
             val note = labelSelectionViewModelState.value.note
-            noteRepository.updateNote(
-                note.copy(labelIds = note.labelIds.minus(label.id ?: return@launch))
+            labelRepository.updateLabel(
+                label.copy(noteIds = label.noteIds.minus(note.id ?: return@launch))
             )
         }
     }

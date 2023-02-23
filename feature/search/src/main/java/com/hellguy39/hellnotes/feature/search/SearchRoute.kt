@@ -35,6 +35,9 @@ fun SearchRoute(
             },
             onLongClick = { note ->
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            },
+            onDismiss = { dismissDirection, note ->
+                false
             }
         ),
         categories = listOf(

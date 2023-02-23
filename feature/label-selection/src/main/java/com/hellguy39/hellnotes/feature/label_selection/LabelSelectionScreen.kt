@@ -69,7 +69,7 @@ fun LabelSelectionScreen(
                         SelectionCheckItem(
                             heroIcon = painterResource(id = HellNotesIcons.Label),
                             title = label.name,
-                            checked = uiState.note.labelIds.contains(label.id),
+                            checked = label.noteIds.contains(uiState.note.id),
                             onCheckedChange = { checked ->
                                 selection.onLabelSelectedUpdate(label, checked)
                             }

@@ -18,6 +18,7 @@ import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.components.*
+import kotlinx.coroutines.launch
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,9 +26,10 @@ import java.util.*
 fun NoteDetailScreen(
     snackbarHostState: SnackbarHostState,
     noteDetailContentSelection: NoteDetailContentSelection,
-    noteDetailDropdownMenuSelection: NoteDetailDropdownMenuSelection,
+    dropdownMenuSelection: NoteDetailDropdownMenuSelection,
     uiState: NoteDetailUiState,
-    noteDetailTopAppBarSelection: NoteDetailTopAppBarSelection,
+    topAppBarSelection: NoteDetailTopAppBarSelection,
+    bottomBarSelection: NoteDetailBottomBarSelection
 ) {
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
@@ -57,8 +59,8 @@ fun NoteDetailScreen(
         topBar = {
             NoteDetailTopAppBar(
                 scrollBehavior = scrollBehavior,
-                topAppBarSelection = noteDetailTopAppBarSelection,
-                dropdownMenuSelection = noteDetailDropdownMenuSelection
+                topAppBarSelection = topAppBarSelection,
+                dropdownMenuSelection = dropdownMenuSelection
             )
         },
         bottomBar = {
@@ -75,8 +77,6 @@ fun NoteDetailScreen(
 //                animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
 //            )
 
-            val noteDetailDropdownMenuState = rememberDropdownMenuState()
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -90,7 +90,14 @@ fun NoteDetailScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Spacer(modifier = Modifier.size(48.dp))
+                    IconButton(
+                        onClick = { bottomBarSelection.onLabels() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Label),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Labels)
+                        )
+                    }
 
                     Text(
                         text = stringResource(
@@ -105,17 +112,11 @@ fun NoteDetailScreen(
                     )
 
                     IconButton(
-                        modifier = Modifier.size(48.dp),
-                        onClick = { noteDetailDropdownMenuState.show() }
+                        onClick = { bottomBarSelection.onReminder() }
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.MoreVert),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More)
-                        )
-
-                        NoteDetailDropdownMenu(
-                            state = noteDetailDropdownMenuState,
-                            selection = noteDetailDropdownMenuSelection
+                            painter = painterResource(id = HellNotesIcons.Notifications),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Reminder)
                         )
                     }
                 }
@@ -125,3 +126,8 @@ fun NoteDetailScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
     )
 }
+
+data class NoteDetailBottomBarSelection(
+    val onReminder: () -> Unit,
+    val onLabels: () -> Unit,
+)

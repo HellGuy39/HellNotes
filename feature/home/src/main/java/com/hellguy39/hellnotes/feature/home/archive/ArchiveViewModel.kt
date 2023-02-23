@@ -81,7 +81,7 @@ class ArchiveViewModel @Inject constructor(
                     if (note.isNoteValid()) {
                         trashRepository.insertTrash(
                             Trash(
-                                note = note.copy(labelIds = listOf()),
+                                note = note,
                                 dateOfAdding = DateTimeUtils.getCurrentTimeInEpochMilli()
                             )
                         )

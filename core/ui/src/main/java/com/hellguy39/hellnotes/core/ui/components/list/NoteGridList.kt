@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,9 +23,10 @@ import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteCard
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.components.cards.SwipeableNoteCard
 import com.hellguy39.hellnotes.core.ui.isSingleList
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun NoteGridList(
     innerPadding: PaddingValues = PaddingValues(0.dp),
@@ -68,17 +70,17 @@ internal fun NoteGridList(
                     items = category.notes,
                     key = { it.note.id ?: 0 },
                 ) { wrapper ->
-                    NoteCard(
-                        modifier = Modifier.fillMaxWidth()
+                    SwipeableNoteCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(4.dp)
                             .combinedClickable(
                                 onClick = { noteSelection.onClick(wrapper.note) },
                                 onLongClick = { noteSelection.onLongClick(wrapper.note) }
                             ),
-                        note = wrapper.note,
+                        noteDetailWrapper = wrapper,
                         isSelected = selectedNotes.contains(wrapper.note),
-                        labels = wrapper.labels,
-                        reminders = wrapper.reminders
+                        onDismissed = noteSelection.onDismiss
                     )
                 }
             }
