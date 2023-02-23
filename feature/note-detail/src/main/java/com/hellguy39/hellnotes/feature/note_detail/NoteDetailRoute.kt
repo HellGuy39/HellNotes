@@ -6,67 +6,37 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.isNoteValid
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.note_detail.components.*
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareHelper
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun NoteDetailRoute(
     navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    dateHelper: DateHelper = noteDetailViewModel.dateHelper,
     context: Context = LocalContext.current,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
-    val labelDialogState = rememberDialogState()
     val shareDialogState = rememberDialogState()
-
     val scope = rememberCoroutineScope()
-
     val snackbarHostState = remember { SnackbarHostState() }
-
-    LabelDialog(
-        state = labelDialogState,
-        selection = LabelDialogSelection(
-            note = uiState.note,
-            allLabels = uiState.searchedLabels,
-            selectLabel = { label ->
-                noteDetailViewModel.selectLabel(label)
-            },
-            unselectLabel = { label ->
-                noteDetailViewModel.unselectLabel(label)
-            },
-            createLabel = { name ->
-                noteDetailViewModel.insertLabel(Label(name = name))
-            },
-            deleteLabel = { label ->
-                noteDetailViewModel.onDeleteLabel(label)
-            },
-            updateQuery = { query ->
-                noteDetailViewModel.onUpdateLabelSearch(query)
-            }
-        )
-    )
 
     ShareDialog(
         state = shareDialogState,
@@ -124,13 +94,15 @@ fun NoteDetailRoute(
                 )
             },
             onLabelClick = { label ->
-                labelDialogState.show()
+                navController.navigateToLabelSelection(uiState.note.id)
+                //labelDialogState.show()
             }
         ),
         noteDetailDropdownMenuSelection = NoteDetailDropdownMenuSelection(
             onColor = {  },
             onLabels = {
-                labelDialogState.show()
+                navController.navigateToLabelSelection(uiState.note.id)
+                //labelDialogState.show()
             },
             onShare = {
                 if (uiState.note.isNoteValid()) {
@@ -191,6 +163,5 @@ fun NoteDetailRoute(
                 }
             }
         ),
-        dateHelper = dateHelper
     )
 }

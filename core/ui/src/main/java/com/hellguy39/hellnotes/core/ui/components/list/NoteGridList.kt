@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.ui.NoteCategory
@@ -39,7 +40,8 @@ internal fun NoteGridList(
     LazyVerticalStaggeredGrid(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 4.dp, vertical = 4.dp),
+            .padding(horizontal = 4.dp, vertical = 4.dp)
+            .testTag("item_list"),
         contentPadding = innerPadding,
         columns = cellConfiguration
     ) {
@@ -74,7 +76,6 @@ internal fun NoteGridList(
                                 onLongClick = { noteSelection.onLongClick(wrapper.note) }
                             ),
                         note = wrapper.note,
-                        selection = noteSelection,
                         isSelected = selectedNotes.contains(wrapper.note),
                         labels = wrapper.labels,
                         reminders = wrapper.reminders

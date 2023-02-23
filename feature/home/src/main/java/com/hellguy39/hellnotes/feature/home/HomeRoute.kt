@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.navigations.*
@@ -50,7 +50,6 @@ fun HomeRoute(
     trashViewModel: TrashViewModel = hiltViewModel(),
     remindersViewModel: RemindersViewModel = hiltViewModel(),
     labelViewModel: LabelViewModel = hiltViewModel(),
-    dateHelper: DateHelper = homeViewModel.dateHelper
 ) {
     val noteListUiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
     val remindersUiState by remindersViewModel.uiState.collectAsStateWithLifecycle()
@@ -217,7 +216,6 @@ fun HomeRoute(
                                 ),
                                 uiState = noteListUiState,
                                 noteSelection = NoteSelection(
-                                    dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (noteListUiState.selectedNotes.isEmpty()) {
                                             navController.navigateToNoteDetail(note.id ?: -1)
@@ -260,7 +258,6 @@ fun HomeRoute(
                             RemindersScreen(
                                 uiState = remindersUiState,
                                 noteSelection = NoteSelection(
-                                    dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (remindersUiState.selectedNotes.isEmpty()) {
                                             navController.navigateToNoteDetail(note.id ?: -1)
@@ -312,7 +309,6 @@ fun HomeRoute(
                                 uiState = archiveUiState,
                                 listStyle = listStyle,
                                 noteSelection = NoteSelection(
-                                    dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (archiveUiState.selectedNotes.isEmpty()) {
                                             navController.navigateToNoteDetail(note.id ?: -1)
@@ -373,7 +369,6 @@ fun HomeRoute(
                                     }
                                 ),
                                 noteSelection = NoteSelection(
-                                    dateHelper = dateHelper,
                                     onClick = { note ->
                                         if (trashUiState.selectedNotes.isEmpty()) {
 
@@ -418,7 +413,6 @@ fun HomeRoute(
                             uiState = labelUiState,
                             listStyle = listStyle,
                             noteSelection = NoteSelection(
-                                dateHelper = dateHelper,
                                 onClick = { note ->
                                     if (labelUiState.selectedNotes.isEmpty()) {
                                         navController.navigateToNoteDetail(note.id ?: -1)

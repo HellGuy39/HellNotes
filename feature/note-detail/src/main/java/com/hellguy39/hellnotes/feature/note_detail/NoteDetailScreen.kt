@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.isNoteValid
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -28,7 +28,6 @@ fun NoteDetailScreen(
     noteDetailDropdownMenuSelection: NoteDetailDropdownMenuSelection,
     uiState: NoteDetailUiState,
     noteDetailTopAppBarSelection: NoteDetailTopAppBarSelection,
-    dateHelper: DateHelper
 ) {
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
@@ -51,7 +50,6 @@ fun NoteDetailScreen(
             NoteDetailContent(
                 innerPadding = innerPadding,
                 selection = noteDetailContentSelection,
-                dateHelper = dateHelper,
                 focusRequester = focusRequester,
                 uiState = uiState
             )
@@ -98,7 +96,7 @@ fun NoteDetailScreen(
                         text = stringResource(
                             id = HellNotesStrings.Text.Edited,
                             formatArgs = arrayOf(
-                                dateHelper.formatBest(uiState.note.editedAt)
+                                DateTimeUtils.formatBest(uiState.note.editedAt)
                             )
                         ),
                         modifier = Modifier,

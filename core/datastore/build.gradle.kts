@@ -33,7 +33,7 @@ dependencies {
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
 
-    implementation(project(Project.Core.Model))
+    implementation(project(Modules.Core.Model))
 
     implementation (Libs.AndroidX.DataStore.Preferences)
 }

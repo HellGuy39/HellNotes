@@ -17,15 +17,49 @@ fun CustomTopAppBar(
     title: String = "",
     actions: @Composable RowScope.() -> Unit = {},
 ) {
-    TopAppBar(
+    SmallTopAppBar(
         scrollBehavior = scrollBehavior,
-        title = {
+        onNavigationButtonClick = onNavigationButtonClick,
+        content = {
             Text(
                 text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleLarge
             )
+        },
+        actions = actions
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomTopAppBar(
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+    onNavigationButtonClick: () -> Unit = {},
+    content: @Composable () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    SmallTopAppBar(
+        scrollBehavior = scrollBehavior,
+        onNavigationButtonClick = onNavigationButtonClick,
+        content = content,
+        actions = actions
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SmallTopAppBar(
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+    onNavigationButtonClick: () -> Unit = {},
+    content: @Composable () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    TopAppBar(
+        scrollBehavior = scrollBehavior,
+        title = {
+            content()
         },
         navigationIcon = {
             IconButton(

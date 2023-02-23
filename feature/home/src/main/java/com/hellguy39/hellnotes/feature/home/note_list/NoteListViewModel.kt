@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.*
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.model.util.Sorting
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,7 +18,6 @@ class NoteListViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val trashRepository: TrashRepository,
     private val dataStoreRepository: DataStoreRepository,
-    private val dateHelper: DateHelper
 ): ViewModel() {
 
     private val noteListViewModelState = MutableStateFlow(NoteListViewModelState(isLoading = true))
@@ -83,7 +82,7 @@ class NoteListViewModel @Inject constructor(
                     trashRepository.insertTrash(
                         Trash(
                             note = note.copy(labelIds = listOf()),
-                            dateOfAdding = dateHelper.getCurrentTimeInEpochMilli()
+                            dateOfAdding = DateTimeUtils.getCurrentTimeInEpochMilli()
                         )
                     )
                 }
@@ -105,7 +104,7 @@ class NoteListViewModel @Inject constructor(
                 trashRepository.insertTrash(
                     Trash(
                         note = note.copy(labelIds = listOf()),
-                        dateOfAdding = dateHelper.getCurrentTimeInEpochMilli()
+                        dateOfAdding = DateTimeUtils.getCurrentTimeInEpochMilli()
                     )
                 )
             }

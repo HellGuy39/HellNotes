@@ -17,7 +17,7 @@ fun NavGraphBuilder.reminderEditScreen(
     navController: NavController
 ) {
     composable(
-        route = "${Screen.ReminderEdit.route}/{${ArgumentKeys.NoteId}}/{${ArgumentKeys.ReminderId}}",
+        route = Screen.ReminderEdit.withArgKeys(ArgumentKeys.NoteId, ArgumentKeys.ReminderId),
         arguments = listOf(
             navArgument(name = ArgumentKeys.NoteId) {
                 type = NavType.LongType

@@ -31,6 +31,11 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+        }
     }
 
     compileOptions {
@@ -56,26 +61,27 @@ android {
 
 dependencies {
 
-    implementation(project(Project.Feature.Welcome))
-    implementation(project(Project.Feature.Lock))
-    implementation(project(Project.Feature.Search))
-    implementation(project(Project.Feature.Home))
-    implementation(project(Project.Feature.Labels))
-    implementation(project(Project.Feature.NoteDetail))
-    implementation(project(Project.Feature.ReminderEdit))
-    implementation(project(Project.Feature.AboutApp))
-    implementation(project(Project.Feature.Settings))
-    implementation(project(Project.Feature.LockSelection))
-    implementation(project(Project.Feature.LanguageSelection))
-    implementation(project(Project.Feature.LockSetup))
+    implementation(project(Modules.Feature.Welcome))
+    implementation(project(Modules.Feature.Lock))
+    implementation(project(Modules.Feature.Search))
+    implementation(project(Modules.Feature.Home))
+    implementation(project(Modules.Feature.LabelEdit))
+    implementation(project(Modules.Feature.NoteDetail))
+    implementation(project(Modules.Feature.ReminderEdit))
+    implementation(project(Modules.Feature.AboutApp))
+    implementation(project(Modules.Feature.Settings))
+    implementation(project(Modules.Feature.LockSelection))
+    implementation(project(Modules.Feature.LanguageSelection))
+    implementation(project(Modules.Feature.LockSetup))
+    implementation(project(Modules.Feature.LabelSelection))
 
-    implementation(project(Project.Core.Ui))
-    implementation(project(Project.Core.Data))
-    implementation(project(Project.Core.Common))
-    implementation(project(Project.Core.Domain))
-    implementation(project(Project.Core.Database))
-    implementation(project(Project.Core.Datastore))
-    implementation(project(Project.Core.Model))
+    implementation(project(Modules.Core.Ui))
+    implementation(project(Modules.Core.Data))
+    implementation(project(Modules.Core.Common))
+    implementation(project(Modules.Core.Domain))
+    implementation(project(Modules.Core.Database))
+    implementation(project(Modules.Core.Datastore))
+    implementation(project(Modules.Core.Model))
 
     implementation(Libs.AndroidX.CoreKtx)
     implementation(Libs.AndroidX.LifecycleKtx)
@@ -114,5 +120,6 @@ dependencies {
     implementation(Libs.SquareUp.Moshi)
 
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.profileinstaller:profileinstaller:1.3.0-beta01")
 
 }

@@ -15,7 +15,7 @@ fun NavGraphBuilder.noteDetailScreen(
     navController: NavController
 ) {
     composable(
-        route = "${Screen.NoteDetail.route}/{${ArgumentKeys.NoteId}}",
+        route = Screen.NoteDetail.withArgKeys(ArgumentKeys.NoteId),
         arguments = listOf(
             navArgument(name = ArgumentKeys.NoteId) {
                 type = NavType.LongType

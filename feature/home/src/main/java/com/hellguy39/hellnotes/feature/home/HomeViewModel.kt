@@ -6,7 +6,6 @@ import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.ui.DateHelper
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -17,7 +16,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     labelRepository: LabelRepository,
     private val dataStoreRepository: DataStoreRepository,
-    val dateHelper: DateHelper
 ): ViewModel() {
 
     val labels = labelRepository.getAllLabelsStream()

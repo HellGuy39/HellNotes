@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Reminder
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -22,7 +22,6 @@ fun NoteDetailContent(
     innerPadding: PaddingValues,
     uiState: NoteDetailUiState,
     selection: NoteDetailContentSelection,
-    dateHelper: DateHelper,
     focusRequester: FocusRequester
 ) {
     LazyColumn(
@@ -74,7 +73,6 @@ fun NoteDetailContent(
                 onLabelClick = { label ->
                     selection.onLabelClick(label)
                 },
-                dateHelper = dateHelper
             )
         }
     }

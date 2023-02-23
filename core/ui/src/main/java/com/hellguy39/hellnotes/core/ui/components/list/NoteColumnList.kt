@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.ui.NoteCategory
@@ -32,7 +33,8 @@ internal fun NoteColumnList(
     LazyColumn(
         modifier = Modifier
             .padding(horizontal = 4.dp, vertical = 4.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .testTag("item_list"),
         contentPadding = innerPadding
     ) {
         item {
@@ -65,7 +67,6 @@ internal fun NoteColumnList(
                                 animationSpec = tween(durationMillis = 300)
                             ),
                         note = wrapper.note,
-                        selection = noteSelection,
                         isSelected = selectedNotes.contains(wrapper.note),
                         labels = wrapper.labels,
                         reminders = wrapper.reminders

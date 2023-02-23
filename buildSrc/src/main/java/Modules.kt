@@ -1,4 +1,4 @@
-object Project {
+object Modules {
 
     object Core {
         const val Ui = ":core:ui"
@@ -19,7 +19,8 @@ object Project {
         const val Home = ":feature:home"
         const val AboutApp= ":feature:about-app"
         const val Settings = ":feature:settings"
-        const val Labels = ":feature:label-edit"
+        const val LabelEdit = ":feature:label-edit"
+        const val LabelSelection = ":feature:label-selection"
         const val Lock = ":feature:lock"
         const val LockSelection = ":feature:lock-selection"
         const val LockSetup = ":feature:lock-setup"

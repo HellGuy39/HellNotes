@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -21,7 +21,6 @@ fun NoteChipGroup(
     maxElements: Int = 2,
     onRemindClick: (reminder: Reminder) -> Unit = {},
     onLabelClick: (label: Label) -> Unit = {},
-    dateHelper: DateHelper
 ) {
     val chipsCount = reminders.size + labels.size
     var counter = 0
@@ -55,7 +54,7 @@ fun NoteChipGroup(
                 },
                 label = {
                     Text(
-                        text = dateHelper.epochMillisToFormattedDate(reminder.triggerDate),
+                        text = DateTimeUtils.formatBest(reminder.triggerDate),
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
@@ -81,20 +80,20 @@ fun NoteChipGroup(
                 label = {
                     Text(
                         text = label.name,
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelLarge
                     )
                 },
             )
         }
 
-        if (limitElements && counter >= maxElements) {
+        if ((limitElements && counter >= maxElements) && (chipsCount - counter) != 0) {
             FilterChip(
                 selected = true,
                 onClick = {},
                 label = {
                     Text(
                         text = "+${chipsCount - counter}",
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelLarge
                     )
                 },
             )

@@ -35,7 +35,7 @@ android {
 
 dependencies {
 
-    implementation(project(Project.Core.Model))
+    implementation(project(Modules.Core.Model))
 
     implementation(Libs.AndroidX.Room.RoomKtx)
     kapt(Libs.AndroidX.Room.RoomCompiler)

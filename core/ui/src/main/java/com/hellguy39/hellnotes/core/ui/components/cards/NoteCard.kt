@@ -16,7 +16,7 @@ import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.model.util.ColorParam
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 
 @Composable
@@ -24,7 +24,6 @@ fun NoteCard(
     modifier: Modifier = Modifier,
     note: Note,
     isSelected: Boolean = false,
-    selection: NoteSelection,
     reminders: List<Reminder> = listOf(),
     labels: List<Label> = listOf(),
 ) {
@@ -73,8 +72,8 @@ fun NoteCard(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            if (isChipsValid) {
 
+            if (isChipsValid) {
                 NoteChipGroup(
                     modifier = Modifier
                         .padding(top = if (isTitleValid || isNoteValid) 6.dp else 0.dp),
@@ -82,7 +81,6 @@ fun NoteCard(
                     labels = labels,
                     limitElements = true,
                     maxElements = 2,
-                    dateHelper = selection.dateHelper
                 )
             }
         }
@@ -90,7 +88,6 @@ fun NoteCard(
 }
 
 data class NoteSelection(
-    val dateHelper: DateHelper,
     val onClick: (Note) -> Unit,
     val onLongClick: (Note) -> Unit,
 )

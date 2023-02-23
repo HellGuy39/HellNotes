@@ -7,7 +7,7 @@ import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.Trash
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,7 +17,6 @@ import javax.inject.Inject
 class TrashViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val trashRepository: TrashRepository,
-    private val dateHelper: DateHelper
 ): ViewModel() {
 
     private val trashViewModelState = MutableStateFlow(TrashViewModelState())
@@ -103,7 +102,7 @@ class TrashViewModel @Inject constructor(
 
                 val expirationDate = trash.dateOfAdding + ((3600 * 1000) * (24 * 7))
 
-                if (dateHelper.getCurrentTimeInEpochMilli() > expirationDate) {
+                if (DateTimeUtils.getCurrentTimeInEpochMilli() > expirationDate) {
                     trashRepository.deleteTrash(trash)
                 }
             }

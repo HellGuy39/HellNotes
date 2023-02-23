@@ -6,7 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -19,7 +19,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.hellguy39.hellnotes.core.model.util.Repeat
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
@@ -37,7 +37,6 @@ import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -233,9 +232,9 @@ fun ReminderEditScreen(
                                 contentDescription = null
                             )
                             Text(
-                                text = DateTimeFormatter
-                                    .ofPattern(DateHelper.DATE_LONG_PATTERN)
-                                    .format(uiState.localDateTime.toLocalDate()),
+                                text = DateTimeUtils.formatLocalDateTime(
+                                    uiState.localDateTime, DateTimeUtils.DATE_LONG_PATTERN
+                                ),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                             Spacer(modifier = Modifier.weight(1f))
@@ -254,9 +253,9 @@ fun ReminderEditScreen(
                                 contentDescription = null
                             )
                             Text(
-                                text =  DateTimeFormatter
-                                    .ofPattern(DateHelper.TIME_PATTERN)
-                                    .format(uiState.localDateTime.toLocalTime()),
+                                text = DateTimeUtils.formatLocalDateTime(
+                                    uiState.localDateTime, DateTimeUtils.TIME_PATTERN
+                                ),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                             Spacer(modifier = Modifier.weight(1f))
