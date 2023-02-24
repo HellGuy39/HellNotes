@@ -88,14 +88,17 @@ object HellNotesStrings {
         val Settings = R.string.title_settings
         val AboutApp = R.string.title_about_app
         val Labels = R.string.title_labels
-
+        val Repeat = R.string.title_repeat
         val NewReminder = R.string.title_new_reminder
         val EditReminder = R.string.title_edit_reminder
-        val ShareAs = R.string.title_share_as
+        val Share = R.string.title_share
         val ChooseANewLockScreen = R.string.title_choose_a_new_lock_screen
         val ChangeLanguage = R.string.title_change_language
         val SetAPin = R.string.title_set_a_pin
         val ReEnterYourPin = R.string.title_re_enter_your_pin
+        val DeleteThisNote = R.string.title_delete_this_note
+        val RestoreThisNote = R.string.title_restore_this_note
+        val EmptyTrash = R.string.title_empty_the_trash
     }
 
     object Label {
@@ -106,7 +109,6 @@ object HellNotesStrings {
         val Security = R.string.label_security
         val Language = R.string.label_language
         val Labels = R.string.label_labels
-
     }
 
     object Lan {
@@ -126,6 +128,8 @@ object HellNotesStrings {
         val SetupPin = R.string.btn_setup_pin
         val Undo = R.string.btn_undo
         val Save = R.string.btn_save
+        val Cancel = R.string.btn_cancel
+        val Accept = R.string.btn_accept
     }
 
     object Helper {
@@ -133,6 +137,10 @@ object HellNotesStrings {
         val EnterPin = R.string.helper_enter_pin
         val WrongPin = R.string.helper_wrong_pin
         val Unlocked = R.string.helper_unlocked
+        val ShareDialog = R.string.helper_share_dialog
+        val DeleteNoteDialog = R.string.helper_delete_dialog
+        val RestoreNoteDialog = R.string.helper_restore_dialog
+        val EmptyTrashDialog = R.string.helper_empty_trash_dialog
     }
 
     object Action {

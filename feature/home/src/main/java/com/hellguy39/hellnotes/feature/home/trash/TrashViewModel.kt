@@ -42,6 +42,23 @@ class TrashViewModel @Inject constructor(
             trashViewModelState.value.toUiState()
         )
 
+    fun selectSingleNote(note: Note?) {
+        viewModelScope.launch {
+            trashViewModelState.update { state ->
+                state.copy(singleNote = note)
+            }
+        }
+    }
+
+    fun restoreSingleNote() {
+        viewModelScope.launch {
+            val note = trashViewModelState.value.singleNote ?: return@launch
+            trashRepository.deleteTrashByNote(note)
+            noteRepository.insertNote(note)
+            selectSingleNote(null)
+        }
+    }
+
     fun restoreSelectedNotes() {
         viewModelScope.launch {
             trashViewModelState.value.selectedNotes.forEach { note ->
@@ -113,7 +130,8 @@ class TrashViewModel @Inject constructor(
 
 private data class TrashViewModelState(
     val trashNotes: List<Trash> = listOf(),
-    val selectedNotes: List<Note> = listOf()
+    val selectedNotes: List<Note> = listOf(),
+    val singleNote: Note? = null,
 ) {
     fun toUiState() = TrashUiState(
         trashNotes = trashNotes.map {
@@ -123,11 +141,13 @@ private data class TrashViewModelState(
                 reminders = listOf()
             )
         },
+        singleNote = singleNote,
         selectedNotes = selectedNotes,
     )
 }
 
 data class TrashUiState(
     val trashNotes: List<NoteDetailWrapper>,
-    val selectedNotes: List<Note>
+    val selectedNotes: List<Note>,
+    val singleNote: Note?
 )

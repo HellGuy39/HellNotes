@@ -14,6 +14,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Note
@@ -32,6 +34,8 @@ internal fun NoteColumnList(
     selectedNotes: List<Note> = listOf(),
     listHeader: @Composable () -> Unit = {}
 ) {
+    val haptic = LocalHapticFeedback.current
+
     LazyColumn(
         modifier = Modifier
             .padding(horizontal = 4.dp, vertical = 4.dp)
@@ -63,8 +67,13 @@ internal fun NoteColumnList(
                             .fillMaxWidth()
                             .padding(4.dp)
                             .combinedClickable(
-                                onClick = { noteSelection.onClick(wrapper.note) },
-                                onLongClick = { noteSelection.onLongClick(wrapper.note) }
+                                onClick = {
+                                    noteSelection.onClick(wrapper.note)
+                                },
+                                onLongClick = {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    noteSelection.onLongClick(wrapper.note)
+                                }
                             )
                             .animateItemPlacement(),
                         noteDetailWrapper = wrapper,

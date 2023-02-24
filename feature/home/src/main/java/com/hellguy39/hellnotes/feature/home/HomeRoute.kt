@@ -4,6 +4,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,84 +46,74 @@ fun HomeRoute(
     navController: NavController,
     startScreen: HomeScreen = HomeScreen.NoteList,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    archiveViewModel: ArchiveViewModel = hiltViewModel(),
-    noteListViewModel: NoteListViewModel = hiltViewModel(),
-    trashViewModel: TrashViewModel = hiltViewModel(),
-    remindersViewModel: RemindersViewModel = hiltViewModel(),
     labelViewModel: LabelViewModel = hiltViewModel(),
 ) {
-    val noteListUiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
-    val remindersUiState by remindersViewModel.uiState.collectAsStateWithLifecycle()
-    val archiveUiState by archiveViewModel.uiState.collectAsStateWithLifecycle()
-    val trashUiState by trashViewModel.uiState.collectAsStateWithLifecycle()
-    val labelUiState by labelViewModel.uiState.collectAsStateWithLifecycle()
-
     val listStyle by homeViewModel.listStyle.collectAsStateWithLifecycle()
     val labels by homeViewModel.labels.collectAsStateWithLifecycle()
     val appSettings by homeViewModel.appSettings.collectAsStateWithLifecycle()
     val selectedDrawerItem by homeViewModel.drawerItem.collectAsStateWithLifecycle()
 
-    val haptic = LocalHapticFeedback.current
-
-    val snackbarHostState = remember { SnackbarHostState() }
-    
+    val context = LocalContext.current
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    val onDrawerItemClick: (DrawerItem) -> Unit = { drawerItem ->
+        scope.launch { drawerState.close() }
+        when(drawerItem.itemType) {
+            DrawerItemType.Primary -> {
+                homeViewModel.setDrawerItem(drawerItem)
+            }
+            DrawerItemType.Secondary -> {
+                homeViewModel.setDrawerItem(drawerItem)
+            }
+            DrawerItemType.Static -> {
+                if (drawerItem.title == context.getString(HellNotesStrings.Title.Settings)) {
+                    navController.navigateToSettings()
+                }
+                if (drawerItem.title == context.getString(HellNotesStrings.Title.AboutApp)) {
+                    navController.navigateToAboutApp()
+                }
+            }
+            else -> Unit
+        }
+    }
 
     val drawerItems = listOf(
         DrawerItem(
             title = stringResource(id = HellNotesStrings.Title.Notes),
             icon = painterResource(id = HellNotesIcons.StickyNote),
             itemType = DrawerItemType.Primary,
-            onClick = { drawerItem ->
-                scope.launch { drawerState.close() }
-                homeViewModel.setDrawerItem(drawerItem)
-            }
+            onClick = onDrawerItemClick
         ),
         DrawerItem(
             title = stringResource(id = HellNotesStrings.Title.Reminders),
             icon = painterResource(id = HellNotesIcons.Notifications),
             itemType = DrawerItemType.Primary,
-            onClick = { drawerItem ->
-                scope.launch { drawerState.close() }
-                homeViewModel.setDrawerItem(drawerItem)
-            }
+            onClick = onDrawerItemClick
         ),
         DrawerItem(
             title = stringResource(id = HellNotesStrings.Title.Archive),
             icon = painterResource(id = HellNotesIcons.Archive),
             itemType = DrawerItemType.Secondary,
-            onClick = { drawerItem ->
-                scope.launch { drawerState.close() }
-                homeViewModel.setDrawerItem(drawerItem)
-            }
+            onClick = onDrawerItemClick
         ),
         DrawerItem(
             title = stringResource(id = HellNotesStrings.Title.Trash),
             icon = painterResource(id = HellNotesIcons.Delete),
             itemType = DrawerItemType.Secondary,
-            onClick = { drawerItem ->
-                scope.launch { drawerState.close() }
-                homeViewModel.setDrawerItem(drawerItem)
-            }
+            onClick = onDrawerItemClick
         ),
         DrawerItem(
             title = stringResource(id = HellNotesStrings.Title.Settings),
             icon = painterResource(id = HellNotesIcons.Settings),
             itemType = DrawerItemType.Static,
-            onClick = {
-                scope.launch { drawerState.close() }
-                navController.navigateToSettings()
-            }
+            onClick = onDrawerItemClick
         ),
         DrawerItem(
             title = stringResource(id = HellNotesStrings.Title.AboutApp),
             icon = painterResource(id = HellNotesIcons.Info),
             itemType = DrawerItemType.Static,
-            onClick = {
-                scope.launch { drawerState.close() }
-                navController.navigateToAboutApp()
-            }
+            onClick = onDrawerItemClick
         )
     )
 
@@ -149,28 +140,32 @@ fun HomeRoute(
     val noteMovedToTrash = stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
     val notesMovedToTrash = stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
 
-    fun showOnDeleteNotesSnack(screen: HomeScreen) {
-        if (screen == HomeScreen.NoteList) {
-            val isSingleNote = noteListUiState.selectedNotes.size == 1
-            scope.launch {
-                snackbarHostState.showSnackbar(
-                    if (isSingleNote)
-                        noteMovedToTrash
-                    else
-                        notesMovedToTrash,
-                    actionLabel = actionLabel,
-                    duration = SnackbarDuration.Long,
-                ).let { result ->
-                    when (result) {
-                        SnackbarResult.ActionPerformed -> {
-                            noteListViewModel.undoDelete()
-                        }
-                        else -> Unit
-                    }
-                }
-            }
-        }
+    val onChangeListStyle = {
+        homeViewModel.updateListStyle()
     }
+
+//    fun showOnDeleteNotesSnack(screen: HomeScreen) {
+//        if (screen == HomeScreen.NoteList) {
+//            val isSingleNote = noteListUiState.selectedNotes.size == 1
+//            scope.launch {
+//                snackbarHostState.showSnackbar(
+//                    if (isSingleNote)
+//                        noteMovedToTrash
+//                    else
+//                        notesMovedToTrash,
+//                    actionLabel = actionLabel,
+//                    duration = SnackbarDuration.Long,
+//                ).let { result ->
+//                    when (result) {
+//                        SnackbarResult.ActionPerformed -> {
+//                            noteListViewModel.undoDelete()
+//                        }
+//                        else -> Unit
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -191,281 +186,42 @@ fun HomeRoute(
                     DrawerItemType.Primary -> {
                         if (it.title == stringResource(id = HellNotesStrings.Title.Notes)) {
                             NoteListScreen(
-                                onFabAddClick = { navController.navigateToNoteDetail(-1) },
-                                noteListTopAppBarSelection = NoteListTopAppBarSelection(
-                                    listStyle = listStyle,
-                                    onCancelSelection = {
-                                        noteListViewModel.cancelNoteSelection()
-                                    },
-                                    onNavigation = {
-                                        scope.launch { drawerState.open() }
-                                    },
-                                    onDeleteSelected = {
-                                        showOnDeleteNotesSnack(HomeScreen.NoteList)
-                                        noteListViewModel.deleteAllSelected()
-                                    },
-                                    onSearch = {
-                                        navController.navigateToSearch()
-                                    },
-                                    onChangeListStyle = {
-                                        homeViewModel.updateListStyle()
-                                    },
-                                    onArchive = {
-                                        noteListViewModel.archiveAllSelected()
-                                    }
-                                ),
-                                uiState = noteListUiState,
-                                noteSelection = NoteSelection(
-                                    onClick = { note ->
-                                        if (noteListUiState.selectedNotes.isEmpty()) {
-                                            navController.navigateToNoteDetail(note.id ?: -1)
-                                        } else {
-                                            if (noteListUiState.selectedNotes.contains(note)) {
-                                                noteListViewModel.unselectNote(note)
-                                            } else {
-                                                noteListViewModel.selectNote(note)
-                                            }
-                                        }
-                                    },
-                                    onLongClick = { note ->
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        if (noteListUiState.selectedNotes.contains(note)) {
-                                            noteListViewModel.unselectNote(note)
-                                        } else {
-                                            noteListViewModel.selectNote(note)
-                                        }
-                                    },
-                                    onDismiss = { direction, note ->
-                                        false
-                                    }
-                                ),
-                                listConfigurationSelection = ListConfigurationSelection(
-                                    sorting = noteListUiState.sorting,
-                                    onSortingSelected = { sorting ->
-                                        noteListViewModel.updateSorting(sorting)
-                                    }
-                                ),
-                                snackbarHostState = snackbarHostState,
-                                categories = listOf(
-                                    NoteCategory(
-                                        title = stringResource(id = HellNotesStrings.Label.Pinned),
-                                        notes = noteListUiState.pinnedNotes,
-                                    ),
-                                    NoteCategory(
-                                        title = stringResource(id = HellNotesStrings.Label.Others),
-                                        notes = noteListUiState.unpinnedNotes,
-                                    )
-                                )
+                                navController = navController,
+                                drawerState = drawerState,
+                                listStyle = listStyle,
+                                onChangeListStyle = onChangeListStyle
                             )
                         } else {
                             RemindersScreen(
-                                uiState = remindersUiState,
-                                noteSelection = NoteSelection(
-                                    onClick = { note ->
-                                        if (remindersUiState.selectedNotes.isEmpty()) {
-                                            navController.navigateToNoteDetail(note.id ?: -1)
-                                        } else {
-                                            if (remindersUiState.selectedNotes.contains(note)) {
-                                                remindersViewModel.unselectNote(note)
-                                            } else {
-                                                remindersViewModel.selectNote(note)
-                                            }
-                                        }
-                                    },
-                                    onLongClick = { note ->
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        if (remindersUiState.selectedNotes.contains(note)) {
-                                            remindersViewModel.unselectNote(note)
-                                        } else {
-                                            remindersViewModel.selectNote(note)
-                                        }
-                                    },
-                                    onDismiss = { direction, note ->
-                                        false
-                                    }
-                                ),
-                                reminderTopAppBarSelection = ReminderTopAppBarSelection(
-                                    listStyle = listStyle,
-                                    selectedNotes = remindersUiState.selectedNotes,
-                                    onNavigation = {
-                                        scope.launch { drawerState.open() }
-                                    },
-                                    onChangeListStyle = {
-                                        homeViewModel.updateListStyle()
-                                    },
-                                    onDeleteSelected = {
-                                        remindersViewModel.deleteAllSelected()
-                                    },
-                                    onCancelSelection = {
-                                        remindersViewModel.cancelNoteSelection()
-                                    }
-                                ),
-                                categories = listOf(
-                                    NoteCategory(
-                                        notes = remindersUiState.notes
-                                    )
-                                )
+                                navController = navController,
+                                listStyle = listStyle,
+                                drawerState = drawerState,
+                                onChangeListStyle = onChangeListStyle
                             )
                         }
-
                     }
                     DrawerItemType.Secondary -> {
                         if (it.title == stringResource(id = HellNotesStrings.Title.Archive)) {
                             ArchiveScreen(
-                                uiState = archiveUiState,
+                                navController = navController,
+                                drawerState = drawerState,
                                 listStyle = listStyle,
-                                noteSelection = NoteSelection(
-                                    onClick = { note ->
-                                        if (archiveUiState.selectedNotes.isEmpty()) {
-                                            navController.navigateToNoteDetail(note.id ?: -1)
-                                        } else {
-                                            if (archiveUiState.selectedNotes.contains(note)) {
-                                                archiveViewModel.unselectNote(note)
-                                            } else {
-                                                archiveViewModel.selectNote(note)
-                                            }
-                                        }
-                                    },
-                                    onLongClick = { note ->
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        if (archiveUiState.selectedNotes.contains(note)) {
-                                            archiveViewModel.unselectNote(note)
-                                        } else {
-                                            archiveViewModel.selectNote(note)
-                                        }
-                                    },
-                                    onDismiss = { direction, note ->
-                                        false
-                                    }
-                                ),
-                                archiveTopAppBarSelection = ArchiveTopAppBarSelection(
-                                    selectedNotes = archiveUiState.selectedNotes,
-                                    onCancelSelection = {
-                                        archiveViewModel.cancelNoteSelection()
-                                    },
-                                    onDeleteSelected = {
-                                        archiveViewModel.deleteAllSelected()
-                                    },
-                                    onNavigation = {
-                                        scope.launch { drawerState.open() }
-                                    },
-                                    onArchiveSelected = {
-                                        archiveViewModel.archiveAllSelected()
-                                    }
-                                ),
-                                categories = listOf(
-                                    NoteCategory(
-                                        notes = archiveUiState.notes
-                                    )
-                                )
                             )
                         } else {
                             TrashScreen(
-                                uiState = trashUiState,
-                                trashTopAppBarSelection = TrashTopAppBarSelection(
-                                    onNavigation = {
-                                        scope.launch { drawerState.open() }
-                                    },
-                                    selectedNotes = trashUiState.selectedNotes,
-                                    onCancelSelection = {
-                                        trashViewModel.cancelNoteSelection()
-                                    },
-                                    onRestoreSelected = {
-                                        trashViewModel.restoreSelectedNotes()
-                                    },
-                                    onDeleteSelected = {
-                                        trashViewModel.deleteSelectedNotes()
-                                    }
-                                ),
-                                noteSelection = NoteSelection(
-                                    onClick = { note ->
-                                        if (trashUiState.selectedNotes.isEmpty()) {
-
-                                        } else {
-                                            if (trashUiState.selectedNotes.contains(note)) {
-                                                trashViewModel.unselectNote(note)
-                                            } else {
-                                                trashViewModel.selectNote(note)
-                                            }
-                                        }
-                                    },
-                                    onLongClick = { note ->
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-
-                                        if (trashUiState.selectedNotes.contains(note)) {
-                                            trashViewModel.unselectNote(note)
-                                        } else {
-                                            trashViewModel.selectNote(note)
-                                        }
-                                    },
-                                    onDismiss = { direction, note ->
-                                        false
-                                    }
-                                ),
-                                trashDropdownMenuSelection = TrashDropdownMenuSelection(
-                                    onEmptyTrash = {
-                                        trashViewModel.emptyTrash()
-                                    }
-                                ),
+                                drawerState = drawerState,
                                 listStyle = listStyle,
-                                categories = listOf(
-                                    NoteCategory(
-                                        notes = trashUiState.trashNotes
-                                    )
-                                ),
                                 isTipVisible = !appSettings.isTrashTipChecked,
-                                onCloseTip = {
-                                    homeViewModel.setTrashTipChecked(true)
-                                }
+                                onCloseTip = { homeViewModel.setTrashTipChecked(true) }
                             )
                         }
                     }
                     DrawerItemType.Label -> {
                         LabelScreen(
-                            uiState = labelUiState,
+                            navController = navController,
+                            drawerState = drawerState,
                             listStyle = listStyle,
-                            noteSelection = NoteSelection(
-                                onClick = { note ->
-                                    if (labelUiState.selectedNotes.isEmpty()) {
-                                        navController.navigateToNoteDetail(note.id ?: -1)
-                                    } else {
-                                        if (labelUiState.selectedNotes.contains(note)) {
-                                            labelViewModel.unselectNote(note)
-                                        } else {
-                                            labelViewModel.selectNote(note)
-                                        }
-                                    }
-                                },
-                                onLongClick = { note ->
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    if (labelUiState.selectedNotes.contains(note)) {
-                                        labelViewModel.unselectNote(note)
-                                    } else {
-                                        labelViewModel.selectNote(note)
-                                    }
-                                },
-                                onDismiss = { direction, note ->
-                                    false
-                                }
-                            ),
-                            labelTopAppBarSelection = LabelTopAppBarSelection(
-                                selectedNotes = labelUiState.selectedNotes,
-                                onDeleteSelected = {
-                                    labelViewModel.deleteAllSelected()
-                                },
-                                onCancelSelection = {
-                                    labelViewModel.cancelNoteSelection()
-                                },
-                                onArchiveSelected = {
-                                    labelViewModel.archiveAllSelected()
-                                },
-                                onNavigation = { scope.launch { drawerState.open() } }
-                            ),
-                            categories = listOf(
-                                NoteCategory(
-                                    notes = labelUiState.notes
-                                )
-                            )
+                            labelViewModel = labelViewModel
                         )
                     }
                     else -> Unit

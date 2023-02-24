@@ -90,7 +90,7 @@ fun ReminderEditScreen(
 
     CustomDialog(
         state = repeatDialogState,
-        title = "Repeat",
+        title = stringResource(id = HellNotesStrings.Title.Repeat),
         onCancel = { repeatDialogState.dismiss() },
         limitMaxHeight = false,
         content = {
@@ -250,7 +250,7 @@ fun ReminderEditScreen(
                             )
                             Text(
                                 text = DateTimeUtils.formatLocalDateTime(
-                                    uiState.localDateTime, DateTimeUtils.DATE_LONG_PATTERN
+                                    uiState.localDateTime, DateTimeUtils.DATE_PATTERN
                                 ),
                                 style = MaterialTheme.typography.bodyLarge
                             )

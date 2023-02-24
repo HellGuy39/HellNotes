@@ -10,23 +10,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.domain.system_features.ProofOfIdentity
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.feature.lock.LockScreenDialog
 import com.hellguy39.hellnotes.navigation.SetupNavGraph
-import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

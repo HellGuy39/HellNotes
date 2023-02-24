@@ -10,7 +10,7 @@ import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.about_app.components.AboutAppScreenContent
-import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

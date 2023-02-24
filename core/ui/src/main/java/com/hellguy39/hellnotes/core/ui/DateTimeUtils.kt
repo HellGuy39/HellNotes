@@ -57,17 +57,26 @@ object DateTimeUtils {
         }
     }
 
-    const val DATE_TIME_PATTERN = "MMMM dd yyyy HH:mm"
-    const val DATE_TIME_SHORT_PATTERN = "MMM dd yyyy HH:mm"
+    fun increaseDays(millis: Long, days: Long): Long {
+        val localDateTime = epochMillisToLocalDateTime(millis)
+        return localDateTimeToEpochMillis(localDateTime.plusDays(days))
+    }
+
+    fun increaseWeeks(millis: Long, weeks: Long): Long {
+        val localDateTime = epochMillisToLocalDateTime(millis)
+        return localDateTimeToEpochMillis(localDateTime.plusWeeks(weeks))
+    }
+
+    fun increaseMonths(millis: Long, months: Long): Long {
+        val localDateTime = epochMillisToLocalDateTime(millis)
+        return localDateTimeToEpochMillis(localDateTime.plusMonths(months))
+    }
 
     const val TIME_PATTERN = "HH:mm"
+    const val DATE_PATTERN = "MMMM dd"
 
-    const val DATE_PATTERN = "MMMM dd yyyy"
-    const val DATE_SHORT_PATTERN = "MMM dd"
-    const val DATE_LONG_PATTERN = "MMMM dd"
-
-    const val DATE_PATTERN_YEAR_MONTH_DAY_TIME = "MMM dd, yyyy, HH:mm"
-    const val DATE_PATTERN_MONTH_DAY_TIME = "MMM dd, HH:mm"
-    const val DATE_PATTERN_TIME = "HH:mm"
+    private const val DATE_PATTERN_YEAR_MONTH_DAY_TIME = "MMM dd, yyyy, HH:mm"
+    private const val DATE_PATTERN_MONTH_DAY_TIME = "MMM dd, HH:mm"
+    private const val DATE_PATTERN_TIME = "HH:mm"
 
 }

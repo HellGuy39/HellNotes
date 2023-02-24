@@ -19,8 +19,6 @@ fun SearchRoute(
     navController: NavController,
     searchViewModel: SearchViewModel = hiltViewModel(),
 ) {
-    val haptic = LocalHapticFeedback.current
-
     val uiState by searchViewModel.uiState.collectAsStateWithLifecycle()
     val listStyle by searchViewModel.listStyle.collectAsStateWithLifecycle()
 
@@ -33,9 +31,7 @@ fun SearchRoute(
             onClick = { note ->
                 navController.navigateToNoteDetail(noteId = note.id)
             },
-            onLongClick = { note ->
-                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-            },
+            onLongClick = { note -> },
             onDismiss = { dismissDirection, note ->
                 false
             }

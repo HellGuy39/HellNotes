@@ -74,18 +74,26 @@
     <string name="title_reminders">Reminders</string>
     <string name="title_labels">Labels</string>
     <string name="title_new_reminder">New reminder</string>
-    <string name="title_share_as">Share as…</string>
+    <string name="title_share">Share</string>
+    <string name="title_repeat">Repeat</string>
     <string name="title_edit_reminder">Edit reminder</string>
     <string name="title_choose_a_new_lock_screen">Choose a new lock screen</string>
     <string name="title_change_language">Change language</string>
     <string name="title_set_a_pin">Set a PIN</string>
     <string name="title_re_enter_your_pin">Re-enter your pin</string>
+    <string name="title_delete_this_note">Delete this note?</string>
+    <string name="title_restore_this_note">Restore this note?</string>
+    <string name="title_empty_the_trash">Empty the trash?</string>
 
     <!-- Helper -->
     <string name="helper_pin_must_be_only_4_digits">PIN must be only 4 digits</string>
     <string name="helper_enter_pin">Enter your PIN</string>
     <string name="helper_unlocked">Unlocked</string>
     <string name="helper_wrong_pin">Wrong PIN</string>
+    <string name="helper_share_dialog">Choose which way to share the note. After that you will be able to choose the recipient and the method of sending.</string>
+    <string name="helper_delete_dialog">The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned and deleted.</string>
+    <string name="helper_restore_dialog">After restoring, you will be able to open and edit this note again.</string>
+    <string name="helper_empty_trash_dialog">All notes in the trash will be permanently deleted.</string>
 
     <!-- Language-->
     <string name="lan_system_default">System default</string>
@@ -111,6 +119,8 @@
     <string name="btn_setup_pin">Set PIN</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_accept">Accept</string>
 
     <!-- Setting -->
     <string name="stg_app_lock">App lock</string>

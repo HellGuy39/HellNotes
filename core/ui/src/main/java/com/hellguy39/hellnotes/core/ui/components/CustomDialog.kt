@@ -10,20 +10,15 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import java.io.Serializable
 
@@ -122,7 +117,7 @@ fun CustomDialog(
                                 onClick = onCancel,
                             ) {
                                 Text(
-                                    text = "Cancel",
+                                    text = stringResource(id = HellNotesStrings.Button.Cancel),
                                     style = MaterialTheme.typography.labelLarge
                                 )
                             }
@@ -133,7 +128,7 @@ fun CustomDialog(
                                 onClick = onAccept,
                             ) {
                                 Text(
-                                    text = "Accept",
+                                    text = stringResource(id = HellNotesStrings.Button.Accept),
                                     style = MaterialTheme.typography.labelLarge
                                 )
                             }

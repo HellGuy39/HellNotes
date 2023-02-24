@@ -51,6 +51,8 @@
     <string name="btn_setup_pin">Установить PIN</string>
     <string name="btn_undo">Отменить</string>
     <string name="btn_save">Сохранить</string>
+    <string name="btn_cancel">Отменить</string>
+    <string name="btn_accept">Принять</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>
@@ -105,18 +107,26 @@
     <string name="title_reminders">Напоминания</string>
     <string name="title_labels">Метки</string>
     <string name="title_new_reminder">Новое напоминание</string>
-    <string name="title_share_as">Поделиться как…</string>
+    <string name="title_share">Поделиться</string>
+    <string name="title_repeat">Повторение</string>
     <string name="title_edit_reminder">Редактировать напоминание</string>
     <string name="title_choose_a_new_lock_screen">Выберите новый экран блокировки</string>
     <string name="title_change_language">Сменить язык</string>
     <string name="title_set_a_pin">Установите PIN-код</string>
     <string name="title_re_enter_your_pin">Повторите PIN-код</string>
+    <string name="title_delete_this_note">Удалить заметку?</string>
+    <string name="title_restore_this_note">Восстановить заметку?</string>
+    <string name="title_empty_the_trash">Очистить корзину?</string>
 
     <!-- Helper -->
     <string name="helper_pin_must_be_only_4_digits">PIN-код должен состоять только из 4 цифр</string>
     <string name="helper_enter_pin">Введите PIN-код</string>
     <string name="helper_unlocked">Разблокировано</string>
     <string name="helper_wrong_pin">Неверный PIN-код</string>
+    <string name="helper_share_dialog">Выберите, каким способом поделиться заметкой. После этого вы сможете выбрать получателя и способ отправки.</string>
+    <string name="helper_delete_dialog">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены и удалены.</string>
+    <string name="helper_restore_dialog">После восстановления вы сможете снова открыть и отредактировать эту заметку.</string>
+    <string name="helper_empty_trash_dialog">Все заметки в корзине будут безвозвратно удалены.</string>
 
     <!-- Snack -->
     <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>

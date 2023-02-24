@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.DialogFragment
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
-import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

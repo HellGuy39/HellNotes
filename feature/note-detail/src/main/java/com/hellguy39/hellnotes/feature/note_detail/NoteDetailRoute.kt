@@ -16,7 +16,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
 import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
@@ -25,7 +24,9 @@ import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
-import com.hellguy39.hellnotes.feature.note_detail.components.*
+import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailContentSelection
+import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailDropdownMenuSelection
+import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailTopAppBarSelection
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareHelper
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
 import kotlinx.coroutines.launch
@@ -47,8 +48,8 @@ fun NoteDetailRoute(
     CustomDialog(
         state = shareDialogState,
         heroIcon = painterResource(id = HellNotesIcons.Share),
-        title = "Share",
-        message = "Choose which way to share the note. After that you will be able to choose the recipient and the method of sending.",
+        title = stringResource(id = HellNotesStrings.Title.Share),
+        message = stringResource(id = HellNotesStrings.Helper.ShareDialog),
         onCancel = { shareDialogState.dismiss() },
         content = {
             SelectionItem(
@@ -75,8 +76,8 @@ fun NoteDetailRoute(
     CustomDialog(
         state = confirmDialogState,
         heroIcon = painterResource(id = HellNotesIcons.Delete),
-        title = "Delete a note?",
-        message = "The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned and deleted.",
+        title = stringResource(id = HellNotesStrings.Title.DeleteThisNote),
+        message = stringResource(id = HellNotesStrings.Helper.DeleteNoteDialog),
         onCancel = { confirmDialogState.dismiss() },
         onAccept = {
             noteDetailViewModel.onDeleteNote()

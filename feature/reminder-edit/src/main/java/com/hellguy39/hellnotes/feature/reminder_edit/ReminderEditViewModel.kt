@@ -56,7 +56,8 @@ class ReminderEditViewModel @Inject constructor(
                 reminderEditViewModelState.update { state ->
                     state.copy(
                         message = reminder.message,
-                        localDateTime = DateTimeUtils.epochMillisToLocalDateTime(reminder.triggerDate)
+                        localDateTime = DateTimeUtils.epochMillisToLocalDateTime(reminder.triggerDate),
+                        repeat = reminder.repeat
                     )
                 }
             }
