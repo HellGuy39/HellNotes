@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,14 +21,14 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.hellguy39.hellnotes.core.model.util.Repeat
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.hellguy39.hellnotes.core.ui.components.CustomDialog
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
-import com.hellguy39.hellnotes.feature.reminder_edit.components.RepeatDialog
-import com.hellguy39.hellnotes.feature.reminder_edit.components.RepeatDialogSelection
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -87,15 +88,31 @@ fun ReminderEditScreen(
         )
     )
 
-    RepeatDialog(
+    CustomDialog(
         state = repeatDialogState,
-        repeatDialogSelection = RepeatDialogSelection(
-            repeat = uiState.repeat,
-            onRepeatChange = { repeat ->
-                selection.onRepeatUpdate(repeat)
-                repeatDialogState.dismiss()
+        title = "Repeat",
+        onCancel = { repeatDialogState.dismiss() },
+        limitMaxHeight = false,
+        content = {
+            val repeats = listOf(Repeat.DoesNotRepeat, Repeat.Daily, Repeat.Weekly, Repeat.Monthly)
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth(),
+            ) {
+                items(repeats) { repeat ->
+                    val isSelected = repeat == uiState.repeat
+                    SelectionIconItem(
+                        title = repeat.getDisplayName(),
+                        heroIcon = if (isSelected) painterResource(id = HellNotesIcons.Done) else null,
+                        onClick = {
+                            selection.onRepeatUpdate(repeat)
+                            repeatDialogState.dismiss()
+                        },
+                        colorize = isSelected
+                    )
+                }
             }
-        )
+        }
     )
 
     Scaffold(

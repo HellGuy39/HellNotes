@@ -14,7 +14,7 @@ import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.components.items.SelectionCheckItem
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -77,7 +77,7 @@ fun LabelSelectionScreen(
                     }
                     if (isShowCreateNewLabelItem(uiState.labels, uiState.search)) {
                         item {
-                            SelectionItem(
+                            SelectionIconItem(
                                 heroIcon = painterResource(id = HellNotesIcons.NewLabel),
                                 title = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
                                 onClick = { selection.onCreateNewLabel() }

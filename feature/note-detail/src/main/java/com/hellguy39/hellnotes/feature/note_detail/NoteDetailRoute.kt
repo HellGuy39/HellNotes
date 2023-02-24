@@ -6,6 +6,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -13,10 +15,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.isNoteValid
+import com.hellguy39.hellnotes.core.ui.components.CustomDialog
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.note_detail.components.*
@@ -34,25 +40,48 @@ fun NoteDetailRoute(
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
     val shareDialogState = rememberDialogState()
+    val confirmDialogState = rememberDialogState()
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    ShareDialog(
+    CustomDialog(
         state = shareDialogState,
-        selection = ShareDialogSelection(
-            shareAsPlainText = {
-                ShareHelper(context).share(
-                    uiState.note,
-                    ShareType.PlainText
-                )
-            },
-            shareAsTxtFile = {
-                ShareHelper(context).share(
-                    uiState.note,
-                    ShareType.TxtFile
-                )
-            }
-        )
+        heroIcon = painterResource(id = HellNotesIcons.Share),
+        title = "Share",
+        message = "Choose which way to share the note. After that you will be able to choose the recipient and the method of sending.",
+        onCancel = { shareDialogState.dismiss() },
+        content = {
+            SelectionItem(
+                title = stringResource(id = HellNotesStrings.MenuItem.TxtFile),
+                onClick = {
+                    ShareHelper(context).share(
+                        uiState.note,
+                        ShareType.TxtFile
+                    )
+                },
+            )
+            SelectionItem(
+                title = stringResource(id = HellNotesStrings.MenuItem.PlainText),
+                onClick = {
+                    ShareHelper(context).share(
+                        uiState.note,
+                        ShareType.PlainText
+                    )
+                },
+            )
+        }
+    )
+
+    CustomDialog(
+        state = confirmDialogState,
+        heroIcon = painterResource(id = HellNotesIcons.Delete),
+        title = "Delete a note?",
+        message = "The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned and deleted.",
+        onCancel = { confirmDialogState.dismiss() },
+        onAccept = {
+            noteDetailViewModel.onDeleteNote()
+            navController.popBackStack()
+        }
     )
 
     BackHandler(
@@ -111,8 +140,7 @@ fun NoteDetailRoute(
                 }
             },
             onDelete = {
-                noteDetailViewModel.onDeleteNote()
-                navController.popBackStack()
+                confirmDialogState.show()
             },
         ),
         topAppBarSelection = NoteDetailTopAppBarSelection(

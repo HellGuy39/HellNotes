@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.util.Language
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -38,7 +38,7 @@ fun LanguageSelectionScreen(
                     .padding(paddingValues),
             ) {
                 items(Language.languageCodes) { code ->
-                    SelectionItem(
+                    SelectionIconItem(
                         heroIcon = if (code == uiState.languageCode)
                             painterResource(id = HellNotesIcons.Done)
                         else null,

@@ -1,14 +1,19 @@
 package com.hellguy39.hellnotes.core.ui.components.cards
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
@@ -23,10 +28,27 @@ fun NoteCard(
     noteDetailWrapper: NoteDetailWrapper,
     isSelected: Boolean = false,
 ) {
-    val cardBorder = if (isSelected)
-        BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
-    else
-        CardDefaults.outlinedCardBorder()
+
+    val fraction = if (isSelected) 1f else 0f
+    val borderColor by animateColorAsState(
+                targetValue = lerp(
+                    MaterialTheme.colorScheme.outline,
+                    MaterialTheme.colorScheme.primary,
+                    FastOutSlowInEasing.transform(fraction)
+                ),
+                animationSpec = tween(200)//spring(stiffness = Spring.StiffnessLow)
+            )
+
+    val borderSize by animateDpAsState(
+        targetValue = lerp(
+            1.dp,
+            2.dp,
+            FastOutLinearInEasing.transform(fraction)
+        ),
+        animationSpec = tween(200)//spring(stiffness = Spring.StiffnessLow)
+    )
+
+    val cardBorder = BorderStroke(borderSize, borderColor)
 
     val colors = CardDefaults.outlinedCardColors(
         containerColor = if (noteDetailWrapper.note.colorHex == ColorParam.DefaultColor)

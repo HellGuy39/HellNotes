@@ -2,8 +2,18 @@ package com.hellguy39.hellnotes.core.ui
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.ui.unit.dp
 
 object UiDefaults {
+
+    object Elevation {
+        val Level0 = 0.dp
+        val Level1 = 1.dp
+        val Level2 = 3.dp
+        val Level3 = 6.dp
+        val Level4 = 8.dp
+        val Level5 = 12.dp
+    }
 
     object Alpha {
 
