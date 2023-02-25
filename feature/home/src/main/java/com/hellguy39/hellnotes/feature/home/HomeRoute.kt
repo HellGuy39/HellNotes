@@ -136,36 +136,9 @@ fun HomeRoute(
         }
     }
 
-    val actionLabel = stringResource(id = HellNotesStrings.Button.Undo)
-    val noteMovedToTrash = stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
-    val notesMovedToTrash = stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
-
     val onChangeListStyle = {
         homeViewModel.updateListStyle()
     }
-
-//    fun showOnDeleteNotesSnack(screen: HomeScreen) {
-//        if (screen == HomeScreen.NoteList) {
-//            val isSingleNote = noteListUiState.selectedNotes.size == 1
-//            scope.launch {
-//                snackbarHostState.showSnackbar(
-//                    if (isSingleNote)
-//                        noteMovedToTrash
-//                    else
-//                        notesMovedToTrash,
-//                    actionLabel = actionLabel,
-//                    duration = SnackbarDuration.Long,
-//                ).let { result ->
-//                    when (result) {
-//                        SnackbarResult.ActionPerformed -> {
-//                            noteListViewModel.undoDelete()
-//                        }
-//                        else -> Unit
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,

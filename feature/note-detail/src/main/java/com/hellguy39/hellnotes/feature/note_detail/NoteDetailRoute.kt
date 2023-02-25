@@ -45,6 +45,12 @@ fun NoteDetailRoute(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val onBackNavigation: () -> Unit = {
+        navController.popBackStack()
+    }
+
+    BackHandler(onBack = onBackNavigation)
+
     CustomDialog(
         state = shareDialogState,
         heroIcon = painterResource(id = HellNotesIcons.Share),
@@ -55,6 +61,7 @@ fun NoteDetailRoute(
             SelectionItem(
                 title = stringResource(id = HellNotesStrings.MenuItem.TxtFile),
                 onClick = {
+                    shareDialogState.dismiss()
                     ShareHelper(context).share(
                         uiState.note,
                         ShareType.TxtFile
@@ -64,6 +71,7 @@ fun NoteDetailRoute(
             SelectionItem(
                 title = stringResource(id = HellNotesStrings.MenuItem.PlainText),
                 onClick = {
+                    shareDialogState.dismiss()
                     ShareHelper(context).share(
                         uiState.note,
                         ShareType.PlainText
@@ -80,13 +88,8 @@ fun NoteDetailRoute(
         message = stringResource(id = HellNotesStrings.Helper.DeleteNoteDialog),
         onCancel = { confirmDialogState.dismiss() },
         onAccept = {
+            confirmDialogState.dismiss()
             noteDetailViewModel.onDeleteNote()
-            navController.popBackStack()
-        }
-    )
-
-    BackHandler(
-        onBack = {
             navController.popBackStack()
         }
     )
@@ -125,7 +128,6 @@ fun NoteDetailRoute(
             },
             onLabelClick = { label ->
                 navController.navigateToLabelSelection(uiState.note.id)
-                //labelDialogState.show()
             }
         ),
         dropdownMenuSelection = NoteDetailDropdownMenuSelection(
@@ -146,9 +148,7 @@ fun NoteDetailRoute(
         ),
         topAppBarSelection = NoteDetailTopAppBarSelection(
             note = uiState.note,
-            onNavigationButtonClick = {
-                navController.popBackStack()
-            },
+            onNavigationButtonClick = onBackNavigation,
             onPin = { isPinned ->
                 noteDetailViewModel.onUpdateIsPinned(isPinned)
                 snackbarHostState.currentSnackbarData?.dismiss()

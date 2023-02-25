@@ -25,6 +25,8 @@ object Modules {
         const val LockSelection = ":feature:lock-selection"
         const val LockSetup = ":feature:lock-setup"
         const val LanguageSelection = ":feature:language-selection"
+        const val NoteStyleEdit = ":feature:note-style-edit"
+        const val NoteSwipesEdit = ":feature:note-swipe-edit"
     }
 
 }

@@ -113,7 +113,7 @@ object Libs {
     object MaxKeppler {
 
         object ComposeDialogs {
-            private const val version = "1.0.2"
+            private const val version = "1.1.0"
 
             const val Core = "com.maxkeppeler.sheets-compose-dialogs:core:$version"
             const val Calendar = "com.maxkeppeler.sheets-compose-dialogs:calendar:$version"

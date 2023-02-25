@@ -32,7 +32,7 @@ fun AboutAppScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource(id = HellNotesIcons.StickyNote),
+                painter = painterResource(id = HellNotesIcons.DoubleStickyNote),
                 contentDescription = null,
                 modifier = Modifier
                     .width(128.dp)

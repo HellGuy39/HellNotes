@@ -124,7 +124,7 @@
     <string name="helper_unlocked">Разблокировано</string>
     <string name="helper_wrong_pin">Неверный PIN-код</string>
     <string name="helper_share_dialog">Выберите, каким способом поделиться заметкой. После этого вы сможете выбрать получателя и способ отправки.</string>
-    <string name="helper_delete_dialog">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены и удалены.</string>
+    <string name="helper_delete_dialog">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
     <string name="helper_restore_dialog">После восстановления вы сможете снова открыть и отредактировать эту заметку.</string>
     <string name="helper_empty_trash_dialog">Все заметки в корзине будут безвозвратно удалены.</string>
 

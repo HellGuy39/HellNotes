@@ -91,7 +91,7 @@
     <string name="helper_unlocked">Unlocked</string>
     <string name="helper_wrong_pin">Wrong PIN</string>
     <string name="helper_share_dialog">Choose which way to share the note. After that you will be able to choose the recipient and the method of sending.</string>
-    <string name="helper_delete_dialog">The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned and deleted.</string>
+    <string name="helper_delete_dialog">The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned.</string>
     <string name="helper_restore_dialog">After restoring, you will be able to open and edit this note again.</string>
     <string name="helper_empty_trash_dialog">All notes in the trash will be permanently deleted.</string>
 

@@ -30,11 +30,10 @@ fun SwipeableNoteCard(
     )
 
     SwipeToDismiss(
+        modifier = Modifier,
         state = dismissState,
         directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
-        background = {
-
-        },
+        background = {},
         dismissContent = {
             val visibility = if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
 

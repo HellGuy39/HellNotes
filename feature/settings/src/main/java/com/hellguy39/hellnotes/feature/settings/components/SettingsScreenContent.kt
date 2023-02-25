@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.Language
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
+import com.hellguy39.hellnotes.core.ui.components.CustomSwitch
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -35,22 +36,46 @@ fun SettingsScreenContent(
     ) {
         item {
             Column(
-                modifier = Modifier.padding(vertical = 12.dp)
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
             ) {
                 SectionHeader(
-                    modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    title = "General",
+                    icon = painterResource(id = HellNotesIcons.Settings)
+                )
+                Option(
+                    modifier = Modifier.fillMaxWidth()
+                        .height(72.dp)
+                        .clickable { selection.onLanguage() },
+                    title = "Language",
+                    value =  Language.from(uiState.lanCode).getDisplayName(),
+                )
+            }
+        }
+        item {
+            Column(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+            ) {
+                SectionHeader(
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                     title = stringResource(id = HellNotesStrings.Label.Security),
                     icon = painterResource(id = HellNotesIcons.SecurityVerified)
                 )
                 Option(
+                    modifier = Modifier.fillMaxWidth()
+                        .height(72.dp)
+                        .clickable { selection.onLockScreen() },
                     title = stringResource(id = HellNotesStrings.Setting.ScreenLock),
                     value = uiState.appSettings.appLockType.getDisplayName(),
-                    onClick = { selection.onLockScreen() }
                 )
                 CustomSwitch(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 12.dp, horizontal = 16.dp),
+                    modifier = Modifier.fillMaxWidth()
+                        .height(72.dp)
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    title = stringResource(id = HellNotesStrings.Setting.UseBiometric),
                     checked = uiState.appSettings.isUseBiometricData,
                     enabled = uiState.isBioAuthAvailable,
                     onCheckedChange = { checked ->
@@ -60,98 +85,45 @@ fun SettingsScreenContent(
             }
         }
         item {
-            CustomDivider(
-                paddingValues = PaddingValues(horizontal = 16.dp),
-                alpha = UiDefaults.Alpha.Inconspicuous,
-                color = MaterialTheme.colorScheme.outline
-            )
-        }
-        item {
             Column(
-                modifier = Modifier.padding(
-                    vertical = 12.dp
-                )
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
             ) {
                 SectionHeader(
                     modifier = Modifier
-                        .padding(vertical = 12.dp, horizontal = 16.dp),
-                    title = "Style",
-                    icon = painterResource(id = HellNotesIcons.Palette)
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    title = "Gestures",
+                    icon = painterResource(id = HellNotesIcons.Gesture)
                 )
                 Option(
-                    title = "Theme",
-                    value = "Default",
-                    onClick = {}
+                    modifier = Modifier.fillMaxWidth()
+                        .height(72.dp)
+                        .clickable { selection.onNoteSwipeEdit() },
+                    title = "Note swipes",
+                    value = "Enabled",
                 )
             }
-        }
-        item {
-            CustomDivider(
-                paddingValues = PaddingValues(horizontal = 16.dp),
-                alpha = UiDefaults.Alpha.Inconspicuous,
-                color = MaterialTheme.colorScheme.outline
-            )
         }
         item {
             Column(
-                modifier = Modifier.padding(
-                    vertical = 12.dp
-                )
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
             ) {
                 SectionHeader(
-                    modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
-                    title = stringResource(id = HellNotesStrings.Label.Language),
-                    icon = painterResource(id = HellNotesIcons.Language)
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    title = "Personalization",
+                    icon = painterResource(id = HellNotesIcons.Palette)
                 )
                 Option(
-                    title = stringResource(id = HellNotesStrings.Setting.ChangeLanguage),
-                    value =  Language.from(uiState.lanCode).getDisplayName(),
-                    onClick = { selection.onLanguage() }
+                    modifier = Modifier.fillMaxWidth()
+                        .height(72.dp)
+                        .clickable { selection.onNoteStyleEdit() },
+                    title = "Note style",
+                    value = "Outlined",
                 )
             }
         }
-    }
-}
-
-@Composable
-fun CustomSwitch(
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    checked: Boolean = true,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        val switchTextModifier = if (enabled)
-            Modifier
-        else
-            Modifier.alpha(UiDefaults.Alpha.Emphasize)
-
-        Text(
-            modifier = switchTextModifier,
-            text = stringResource(id = HellNotesStrings.Setting.UseBiometric),
-            style = MaterialTheme.typography.bodyLarge
-        )
-
-        Switch(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            enabled = enabled,
-            thumbContent = if (checked) {
-                {
-                    Icon(
-                        painterResource(id = HellNotesIcons.Done),
-                        contentDescription = null,
-                        modifier = Modifier.size(SwitchDefaults.IconSize),
-                    )
-                }
-            } else {
-                null
-            }
-        )
     }
 }
 
@@ -187,37 +159,38 @@ fun SectionHeader(
 
 @Composable
 fun Option(
+    modifier: Modifier = Modifier,
     title: String = "",
     value: String = "",
-    onClick: () -> Unit = {},
     horizontalPadding: Dp = 16.dp,
-    verticalPadding: Dp = 12.dp
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
+        modifier = modifier,
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             modifier = Modifier
-                .padding(top = verticalPadding)
                 .padding(horizontal = horizontalPadding),
             text = title,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.titleMedium
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            modifier = Modifier
-                .padding(horizontal = horizontalPadding)
-                .padding(bottom = verticalPadding)
-                .alpha(UiDefaults.Alpha.Accented),
-            text = value,
-            style = MaterialTheme.typography.bodyMedium
-        )
+        if (value.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = horizontalPadding)
+                    .alpha(UiDefaults.Alpha.Accented),
+                text = value,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 }
 
 data class SettingsScreenSelection(
+    val onNoteSwipeEdit: () -> Unit,
+    val onNoteStyleEdit: () -> Unit,
     val onLockScreen: () -> Unit,
     val onLanguage: () -> Unit,
     val onUseBiometric: (Boolean) -> Unit

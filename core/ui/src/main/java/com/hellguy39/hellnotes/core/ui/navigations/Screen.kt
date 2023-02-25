@@ -17,6 +17,8 @@ sealed class Screen(val route: String) {
     object AboutApp : Screen(route = "about_app_screen")
     object LabelEdit : Screen(route = "label_edit_screen")
     object LabelSelection : Screen(route = "label_selection_screen")
+    object NoteStyleEdit : Screen(route = "note_style_edit")
+    object NoteSwipeEdit : Screen(route = "note_swipe_edit")
 
     fun withArgs(vararg args: String): String {
         return buildString {
@@ -149,6 +151,20 @@ fun NavController.navigateToLockSelection(navOptions: NavOptions? = null) {
 fun NavController.navigateToLanguageSelection(navOptions: NavOptions? = null) {
     navigate(
         route = Screen.LanguageSelection.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToNoteStyleEdit(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.NoteStyleEdit.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToNoteSwipeEdit(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.NoteSwipeEdit.route,
         navOptions = navOptions
     )
 }

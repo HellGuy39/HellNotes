@@ -10,10 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedback
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,9 +21,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.*
+import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
+import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToSearch
@@ -35,7 +34,6 @@ import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurati
 import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurationSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBar
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
-import com.hellguy39.hellnotes.feature.home.util.HomeScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -52,8 +50,31 @@ fun NoteListScreen(
     val scope = rememberCoroutineScope()
     val sortingMenuState = rememberDropdownMenuState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     val uiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
+
+    fun showOnDeleteNotesSnack(
+        isSingleNote: Boolean = uiState.selectedNotes.size == 1
+    ) {
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                if (isSingleNote)
+                    context.getString(HellNotesStrings.Snack.NoteMovedToTrash)
+                else
+                    context.getString(HellNotesStrings.Snack.NotesMovedToTrash),
+                actionLabel = context.getString(HellNotesStrings.Button.Undo),
+                duration = SnackbarDuration.Long,
+            ).let { result ->
+                when (result) {
+                    SnackbarResult.ActionPerformed -> {
+                        noteListViewModel.undoDelete()
+                    }
+                    else -> Unit
+                }
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -68,7 +89,7 @@ fun NoteListScreen(
                     onCancelSelection = { noteListViewModel.cancelNoteSelection() },
                     onNavigation = { scope.launch { drawerState.open() } },
                     onDeleteSelected = {
-                        //showOnDeleteNotesSnack(HomeScreen.NoteList)
+                        showOnDeleteNotesSnack()
                         noteListViewModel.deleteAllSelected()
                     },
                     onSearch = { navController.navigateToSearch() },
@@ -106,7 +127,9 @@ fun NoteListScreen(
                             }
                         },
                         onDismiss = { direction, note ->
-                            false
+                            showOnDeleteNotesSnack(true)
+                            noteListViewModel.deleteNote(note)
+                            true
                         }
                     ),
                     categories = listOf(
@@ -158,9 +181,7 @@ fun NoteListScreen(
                     modifier = Modifier.padding(12.dp),
                     action = {
                         TextButton(
-                            onClick = {
-                                data.performAction()
-                            },
+                            onClick = { data.performAction() },
                         ) {
                             Text(
                                 text = data.visuals.actionLabel ?: "",

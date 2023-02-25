@@ -74,6 +74,8 @@ dependencies {
     implementation(project(Modules.Feature.LanguageSelection))
     implementation(project(Modules.Feature.LockSetup))
     implementation(project(Modules.Feature.LabelSelection))
+    implementation(project(Modules.Feature.NoteStyleEdit))
+    implementation(project(Modules.Feature.NoteSwipesEdit))
 
     implementation(project(Modules.Core.Ui))
     implementation(project(Modules.Core.Data))
