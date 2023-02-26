@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
@@ -33,6 +34,7 @@ fun LabelScreen(
     navController: NavController,
     drawerState: DrawerState,
     listStyle: ListStyle,
+    noteStyle: NoteStyle,
     labelViewModel: LabelViewModel = hiltViewModel(),
 ) {
     val topAppBarState = rememberTopAppBarState()
@@ -50,6 +52,7 @@ fun LabelScreen(
             NoteList(
                 innerPadding = paddingValues,
                 noteSelection = NoteSelection(
+                    noteStyle = noteStyle,
                     onClick = { note ->
                         if (uiState.selectedNotes.isEmpty()) {
                             navController.navigateToNoteDetail(note.id ?: -1)

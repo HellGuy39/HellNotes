@@ -24,6 +24,9 @@
     <string name="label_language">Язык</string>
     <string name="label_security">Безопасность</string>
     <string name="label_labels">Метки</string>
+    <string name="label_gestures">Жесты</string>
+    <string name="label_general">Основные</string>
+    <string name="label_personalization">Персонализация</string>
 
     <!-- Text -->
     <string name="text_sort_by">Сортировать по \'%s\'</string>
@@ -66,7 +69,9 @@
     <string name="stg_app_lock">Блокировка приложения</string>
     <string name="stg_use_biometric">Использовать биометрию</string>
     <string name="stg_screen_lock">Экран блокировки</string>
-    <string name="stg_change_language">Сменить язык</string>
+    <string name="stg_language">Язык</string>
+    <string name="stg_note_swipes">Свайпы заметок</string>
+    <string name="stg_note_style">Стиль заметок</string>
 
     <!-- MenuItem -->
     <string name="menu_item_settings">Настройки</string>
@@ -90,6 +95,8 @@
     <string name="menu_item_daily">Ежедневно</string>
     <string name="menu_item_weekly">Еженедельно</string>
     <string name="menu_item_monthly">Ежемесячно</string>
+    <string name="menu_item_outlined">Очерченный</string>
+    <string name="menu_item_elevated">Приподнятый</string>
 
     <!-- Language-->
     <string name="lan_system_default">Системный</string>
@@ -111,12 +118,13 @@
     <string name="title_repeat">Повторение</string>
     <string name="title_edit_reminder">Редактировать напоминание</string>
     <string name="title_choose_a_new_lock_screen">Выберите новый экран блокировки</string>
-    <string name="title_change_language">Сменить язык</string>
+    <string name="title_language">Язык</string>
     <string name="title_set_a_pin">Установите PIN-код</string>
     <string name="title_re_enter_your_pin">Повторите PIN-код</string>
     <string name="title_delete_this_note">Удалить заметку?</string>
     <string name="title_restore_this_note">Восстановить заметку?</string>
-    <string name="title_empty_the_trash">Очистить корзину?</string>
+    <string name="title_empty_the_trash">Очистить корзину?</string>\
+    <string name="title_note_style">Стиль заметок</string>
 
     <!-- Helper -->
     <string name="helper_pin_must_be_only_4_digits">PIN-код должен состоять только из 4 цифр</string>
@@ -127,6 +135,7 @@
     <string name="helper_delete_dialog">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
     <string name="helper_restore_dialog">После восстановления вы сможете снова открыть и отредактировать эту заметку.</string>
     <string name="helper_empty_trash_dialog">Все заметки в корзине будут безвозвратно удалены.</string>
+    <string name="helper_label_selection_placeholder">Здесь будут отображаться ваши метки</string>
 
     <!-- Snack -->
     <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>

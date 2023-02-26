@@ -6,6 +6,7 @@ import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -28,6 +29,9 @@ class HomeViewModel @Inject constructor(
     private val _listStyle: MutableStateFlow<ListStyle> = MutableStateFlow(ListStyle.Column)
     val listStyle = _listStyle.asStateFlow()
 
+    private val _noteStyle: MutableStateFlow<NoteStyle> = MutableStateFlow(NoteStyle.Outlined)
+    val noteStyle = _noteStyle.asStateFlow()
+
     private val _drawerItem = MutableStateFlow(DrawerItem())
     val drawerItem = _drawerItem.asStateFlow()
 
@@ -44,6 +48,11 @@ class HomeViewModel @Inject constructor(
             launch {
                 dataStoreRepository.readAppSettings().collect { appSettings ->
                     _appSettings.update { appSettings }
+                }
+            }
+            launch {
+                dataStoreRepository.readNoteStyleState().collect { noteStyle ->
+                    _noteStyle.update { noteStyle }
                 }
             }
         }

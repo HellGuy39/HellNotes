@@ -24,6 +24,9 @@
     <string name="label_pinned">Pinned</string>
     <string name="label_others">Others</string>
     <string name="label_labels">Labels</string>
+    <string name="label_gestures">Gestures</string>
+    <string name="label_general">General</string>
+    <string name="label_personalization">Personalization</string>
 
     <!-- Text -->
     <string name="text_sort_by">Sort by \'%s\'</string>
@@ -64,6 +67,8 @@
     <string name="menu_item_daily">Daily</string>
     <string name="menu_item_weekly">Weekly</string>
     <string name="menu_item_monthly">Monthly</string>
+    <string name="menu_item_outlined">Outlined</string>
+    <string name="menu_item_elevated">Elevated</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>
@@ -78,12 +83,13 @@
     <string name="title_repeat">Repeat</string>
     <string name="title_edit_reminder">Edit reminder</string>
     <string name="title_choose_a_new_lock_screen">Choose a new lock screen</string>
-    <string name="title_change_language">Change language</string>
+    <string name="title_language">Language</string>
     <string name="title_set_a_pin">Set a PIN</string>
     <string name="title_re_enter_your_pin">Re-enter your pin</string>
     <string name="title_delete_this_note">Delete this note?</string>
     <string name="title_restore_this_note">Restore this note?</string>
     <string name="title_empty_the_trash">Empty the trash?</string>
+    <string name="title_note_style">Note style</string>
 
     <!-- Helper -->
     <string name="helper_pin_must_be_only_4_digits">PIN must be only 4 digits</string>
@@ -94,6 +100,7 @@
     <string name="helper_delete_dialog">The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned.</string>
     <string name="helper_restore_dialog">After restoring, you will be able to open and edit this note again.</string>
     <string name="helper_empty_trash_dialog">All notes in the trash will be permanently deleted.</string>
+    <string name="helper_label_selection_placeholder">Your labels will be displayed here</string>
 
     <!-- Language-->
     <string name="lan_system_default">System default</string>
@@ -126,7 +133,9 @@
     <string name="stg_app_lock">App lock</string>
     <string name="stg_use_biometric">Use biometric</string>
     <string name="stg_screen_lock">Screen lock</string>
-    <string name="stg_change_language">Change language</string>
+    <string name="stg_language">Language</string>
+    <string name="stg_note_swipes">Note Swipes</string>
+    <string name="stg_note_style">Note style</string>
 
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">New note</string>

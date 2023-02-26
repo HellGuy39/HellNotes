@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.util.Language
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.model.util.Repeat
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -37,5 +38,13 @@ fun Repeat.getDisplayName(): String {
         Repeat.Daily -> stringResource(id = HellNotesStrings.MenuItem.Daily)
         Repeat.Weekly -> stringResource(id = HellNotesStrings.MenuItem.Weekly)
         Repeat.Monthly -> stringResource(id = HellNotesStrings.MenuItem.Monthly)
+    }
+}
+
+@Composable
+fun NoteStyle.getDisplayName(): String {
+    return when(this) {
+        NoteStyle.Outlined -> stringResource(id = HellNotesStrings.MenuItem.Outlined)
+        NoteStyle.Elevated -> stringResource(id = HellNotesStrings.MenuItem.Elevated)
     }
 }

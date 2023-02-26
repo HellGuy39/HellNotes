@@ -8,6 +8,7 @@ import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -27,6 +28,9 @@ class SearchViewModel @Inject constructor(
     private val _listStyle: MutableStateFlow<ListStyle> = MutableStateFlow(ListStyle.Column)
     val listStyle = _listStyle.asStateFlow()
 
+    private val _noteStyle: MutableStateFlow<NoteStyle> = MutableStateFlow(NoteStyle.Outlined)
+    val noteStyle = _noteStyle.asStateFlow()
+
     val uiState = searchViewModelState
         .map(SearchViewModelState::toUiState)
         .stateIn(
@@ -38,10 +42,14 @@ class SearchViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-
             launch {
                 dataStoreRepository.readListStyleState().collect { listStyle ->
                     _listStyle.update { listStyle }
+                }
+            }
+            launch {
+                dataStoreRepository.readNoteStyleState().collect { noteStyle ->
+                    _noteStyle.update { noteStyle }
                 }
             }
 

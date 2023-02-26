@@ -8,6 +8,7 @@ import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.core.model.util.Language
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -45,6 +46,13 @@ class SettingsViewModel @Inject constructor(
                     }
                 }
             }
+            launch {
+                dataStoreRepository.readNoteStyleState().collect { noteStyle ->
+                    settingsViewModelState.update { state ->
+                        state.copy(noteStyle = noteStyle)
+                    }
+                }
+            }
         }
     }
 
@@ -73,16 +81,19 @@ class SettingsViewModel @Inject constructor(
 private data class SettingsViewModelState(
     val appSettings: AppSettings = AppSettings(),
     val lanCode: String = Language.SystemDefault.code,
-    val isBioAuthAvailable: Boolean = false
+    val isBioAuthAvailable: Boolean = false,
+    val noteStyle: NoteStyle = NoteStyle.Outlined
 ) {
     fun toUiState() = SettingsUiState(
         appSettings = appSettings,
         isBioAuthAvailable = isBioAuthAvailable,
-        lanCode = lanCode
+        lanCode = lanCode,
+        noteStyle = noteStyle
     )
 }
 data class SettingsUiState(
     val appSettings: AppSettings,
     val lanCode: String,
-    val isBioAuthAvailable: Boolean
+    val isBioAuthAvailable: Boolean,
+    val noteStyle: NoteStyle
 )

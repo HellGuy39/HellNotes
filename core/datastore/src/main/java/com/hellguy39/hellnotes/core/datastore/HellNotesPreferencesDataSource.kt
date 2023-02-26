@@ -7,6 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.model.util.Sorting
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +28,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
         val appLockType = stringPreferencesKey(name = "app_lock_type")
         val isUseBiometricData = booleanPreferencesKey(name = "is_use_biometric_data")
         val listStyle = stringPreferencesKey(name = "list_style")
+        val noteStyle = stringPreferencesKey(name = "note_style")
         val sorting = stringPreferencesKey(name = "sorting")
         val appCode = stringPreferencesKey(name = "app_code")
     }
@@ -66,6 +68,12 @@ class HellNotesPreferencesDataSource @Inject constructor(
     suspend fun saveAppLockType(lockScreenType: LockScreenType) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.appLockType] = lockScreenType.parse()
+        }
+    }
+
+    suspend fun saveNoteStyleState(noteStyle: NoteStyle) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.noteStyle] = noteStyle.parse()
         }
     }
 
@@ -110,6 +118,12 @@ class HellNotesPreferencesDataSource @Inject constructor(
         .catchExceptions()
         .map { preferences ->
             Sorting.from(preferences[PreferencesKey.sorting] ?: "")
+        }
+
+    fun readNoteStyleState() = dataStore.data
+        .catchExceptions()
+        .map { preferences ->
+            NoteStyle.from(preferences[PreferencesKey.noteStyle] ?: "")
         }
 
 }

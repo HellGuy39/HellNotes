@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
@@ -29,6 +30,7 @@ fun TrashScreen(
     drawerState: DrawerState,
     onCloseTip: () -> Unit,
     isTipVisible: Boolean,
+    noteStyle: NoteStyle,
     trashViewModel: TrashViewModel = hiltViewModel(),
 ) {
     val topAppBarState = rememberTopAppBarState()
@@ -95,6 +97,7 @@ fun TrashScreen(
             NoteList(
                 innerPadding = paddingValues,
                 noteSelection = NoteSelection(
+                    noteStyle = noteStyle,
                     onClick = { note ->
                         if (uiState.selectedNotes.isEmpty()) {
                             trashViewModel.selectSingleNote(note)

@@ -38,7 +38,7 @@ fun LabelSelectionScreen(
                 content = {
                     CustomTextField(
                         value = uiState.search,
-                        hint = stringResource(id = HellNotesStrings.Hint.Search),
+                        hint = stringResource(id = HellNotesStrings.Hint.Label),
                         onValueChange = { newText -> selection.onSearchUpdate(newText) },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = MaterialTheme.typography.bodyLarge
@@ -56,7 +56,7 @@ fun LabelSelectionScreen(
                 if (uiState.labels.isEmpty() && uiState.search.isEmpty()) {
                     EmptyContentPlaceholder(
                         heroIcon = painterResource(id = HellNotesIcons.Label),
-                        message = "Your labels will be displayed here"
+                        message = stringResource(id = HellNotesStrings.Helper.LabelSelectionPlaceholder)
                     )
                     return@Crossfade
                 }

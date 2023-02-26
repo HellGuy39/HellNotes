@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.core.domain.repository
 import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.model.util.Sorting
 import kotlinx.coroutines.flow.Flow
 
@@ -13,6 +14,8 @@ interface DataStoreRepository {
     suspend fun saveListStyleState(listStyle: ListStyle)
 
     suspend fun saveListSortState(sorting: Sorting)
+
+    suspend fun saveNoteStyleState(noteStyle: NoteStyle)
 
     suspend fun saveAppSettings(appSettings: AppSettings)
 
@@ -29,5 +32,7 @@ interface DataStoreRepository {
     fun readListSortState(): Flow<Sorting>
 
     fun readListStyleState(): Flow<ListStyle>
+
+    fun readNoteStyleState(): Flow<NoteStyle>
 
 }

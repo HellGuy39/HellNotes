@@ -21,13 +21,11 @@ import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.util.ColorParam
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OutlinedNoteCard(
     modifier: Modifier = Modifier,
     noteDetailWrapper: NoteDetailWrapper,
     isSelected: Boolean = false,
-    onClick: () -> Unit = {}
 ) {
 
     val fraction = if (isSelected) 1f else 0f
@@ -63,7 +61,6 @@ fun OutlinedNoteCard(
     val isChipsValid = noteDetailWrapper.labels.isNotEmpty() || noteDetailWrapper.reminders.isNotEmpty()
 
     OutlinedCard(
-        onClick = onClick,
         modifier = modifier,
         colors = colors,
         border = cardBorder

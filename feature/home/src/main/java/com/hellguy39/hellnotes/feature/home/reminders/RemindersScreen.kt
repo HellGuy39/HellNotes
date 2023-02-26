@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
@@ -38,7 +39,8 @@ fun RemindersScreen(
     remindersViewModel: RemindersViewModel = hiltViewModel(),
     listStyle: ListStyle,
     drawerState: DrawerState,
-    onChangeListStyle: () -> Unit
+    onChangeListStyle: () -> Unit,
+    noteStyle: NoteStyle
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -68,6 +70,7 @@ fun RemindersScreen(
                 NoteList(
                     innerPadding = paddingValues,
                     noteSelection = NoteSelection(
+                        noteStyle = noteStyle,
                         onClick = { note ->
                             if (uiState.selectedNotes.isEmpty()) {
                                 navController.navigateToNoteDetail(note.id)

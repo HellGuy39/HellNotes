@@ -42,14 +42,15 @@ fun SettingsScreenContent(
                 SectionHeader(
                     modifier = Modifier
                         .padding(vertical = 8.dp, horizontal = 16.dp),
-                    title = "General",
+                    title = stringResource(id = HellNotesStrings.Label.General),
                     icon = painterResource(id = HellNotesIcons.Settings)
                 )
                 Option(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .height(72.dp)
                         .clickable { selection.onLanguage() },
-                    title = "Language",
+                    title = stringResource(id = HellNotesStrings.Setting.Language),
                     value =  Language.from(uiState.lanCode).getDisplayName(),
                 )
             }
@@ -65,14 +66,16 @@ fun SettingsScreenContent(
                     icon = painterResource(id = HellNotesIcons.SecurityVerified)
                 )
                 Option(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .height(72.dp)
                         .clickable { selection.onLockScreen() },
                     title = stringResource(id = HellNotesStrings.Setting.ScreenLock),
                     value = uiState.appSettings.appLockType.getDisplayName(),
                 )
                 CustomSwitch(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .height(72.dp)
                         .padding(vertical = 8.dp, horizontal = 16.dp),
                     title = stringResource(id = HellNotesStrings.Setting.UseBiometric),
@@ -92,14 +95,15 @@ fun SettingsScreenContent(
                 SectionHeader(
                     modifier = Modifier
                         .padding(vertical = 8.dp, horizontal = 16.dp),
-                    title = "Gestures",
+                    title = stringResource(id = HellNotesStrings.Label.Gestures),
                     icon = painterResource(id = HellNotesIcons.Gesture)
                 )
                 Option(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .height(72.dp)
                         .clickable { selection.onNoteSwipeEdit() },
-                    title = "Note swipes",
+                    title = stringResource(id = HellNotesStrings.Setting.NoteSwipes),
                     value = "Enabled",
                 )
             }
@@ -112,15 +116,16 @@ fun SettingsScreenContent(
                 SectionHeader(
                     modifier = Modifier
                         .padding(vertical = 8.dp, horizontal = 16.dp),
-                    title = "Personalization",
+                    title = stringResource(id = HellNotesStrings.Label.Personalization),
                     icon = painterResource(id = HellNotesIcons.Palette)
                 )
                 Option(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .height(72.dp)
                         .clickable { selection.onNoteStyleEdit() },
-                    title = "Note style",
-                    value = "Outlined",
+                    title = stringResource(id = HellNotesStrings.Setting.NoteStyle),
+                    value = uiState.noteStyle.getDisplayName(),
                 )
             }
         }

@@ -6,11 +6,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwipeableNoteCard(
     modifier: Modifier = Modifier,
+    noteStyle: NoteStyle,
     noteDetailWrapper: NoteDetailWrapper,
     isSelected: Boolean = false,
     onDismissed: (DismissDirection, Note) -> Boolean
@@ -40,7 +42,8 @@ fun SwipeableNoteCard(
             NoteCard(
                 modifier = modifier.alpha(visibility),
                 noteDetailWrapper = noteDetailWrapper,
-                isSelected = isSelected
+                isSelected = isSelected,
+                noteStyle = noteStyle
             )
         }
     )

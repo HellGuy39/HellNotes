@@ -5,6 +5,7 @@ import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.model.AppSettings
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.model.util.Sorting
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -23,6 +24,10 @@ class DataStoreRepositoryImpl @Inject constructor(
 
     override suspend fun saveListSortState(sorting: Sorting) {
         dataSource.saveListSortState(sorting = sorting)
+    }
+
+    override suspend fun saveNoteStyleState(noteStyle: NoteStyle) {
+        dataSource.saveNoteStyleState(noteStyle = noteStyle)
     }
 
     override suspend fun saveAppSettings(appSettings: AppSettings) {
@@ -55,6 +60,10 @@ class DataStoreRepositoryImpl @Inject constructor(
 
     override fun readListStyleState(): Flow<ListStyle> {
         return dataSource.readListStyleState()
+    }
+
+    override fun readNoteStyleState(): Flow<NoteStyle> {
+        return dataSource.readNoteStyleState()
     }
 
 }

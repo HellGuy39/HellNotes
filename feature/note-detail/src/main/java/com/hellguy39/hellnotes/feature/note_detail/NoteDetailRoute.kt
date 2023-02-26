@@ -1,13 +1,17 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
 import android.content.Context
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -58,6 +62,7 @@ fun NoteDetailRoute(
         message = stringResource(id = HellNotesStrings.Helper.ShareDialog),
         onCancel = { shareDialogState.dismiss() },
         content = {
+            Spacer(modifier = Modifier.height(8.dp))
             SelectionItem(
                 title = stringResource(id = HellNotesStrings.MenuItem.TxtFile),
                 onClick = {
@@ -78,6 +83,7 @@ fun NoteDetailRoute(
                     )
                 },
             )
+            Spacer(modifier = Modifier.height(8.dp))
         }
     )
 

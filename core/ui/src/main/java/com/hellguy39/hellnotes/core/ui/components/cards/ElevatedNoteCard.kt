@@ -22,11 +22,9 @@ import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ElevatedNoteCard(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
     noteDetailWrapper: NoteDetailWrapper,
     isSelected: Boolean = false,
 ) {
@@ -59,7 +57,6 @@ fun ElevatedNoteCard(
             color = borderColor,
             shape = RoundedCornerShape(12.dp)
         ),
-        onClick = onClick,
     ) {
         Column(
             modifier = Modifier

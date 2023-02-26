@@ -49,6 +49,7 @@ fun HomeRoute(
     labelViewModel: LabelViewModel = hiltViewModel(),
 ) {
     val listStyle by homeViewModel.listStyle.collectAsStateWithLifecycle()
+    val noteStyle by homeViewModel.noteStyle.collectAsStateWithLifecycle()
     val labels by homeViewModel.labels.collectAsStateWithLifecycle()
     val appSettings by homeViewModel.appSettings.collectAsStateWithLifecycle()
     val selectedDrawerItem by homeViewModel.drawerItem.collectAsStateWithLifecycle()
@@ -162,14 +163,16 @@ fun HomeRoute(
                                 navController = navController,
                                 drawerState = drawerState,
                                 listStyle = listStyle,
-                                onChangeListStyle = onChangeListStyle
+                                onChangeListStyle = onChangeListStyle,
+                                noteStyle = noteStyle
                             )
                         } else {
                             RemindersScreen(
                                 navController = navController,
                                 listStyle = listStyle,
                                 drawerState = drawerState,
-                                onChangeListStyle = onChangeListStyle
+                                onChangeListStyle = onChangeListStyle,
+                                noteStyle = noteStyle
                             )
                         }
                     }
@@ -179,11 +182,13 @@ fun HomeRoute(
                                 navController = navController,
                                 drawerState = drawerState,
                                 listStyle = listStyle,
+                                noteStyle = noteStyle
                             )
                         } else {
                             TrashScreen(
                                 drawerState = drawerState,
                                 listStyle = listStyle,
+                                noteStyle = noteStyle,
                                 isTipVisible = !appSettings.isTrashTipChecked,
                                 onCloseTip = { homeViewModel.setTrashTipChecked(true) }
                             )
@@ -194,7 +199,8 @@ fun HomeRoute(
                             navController = navController,
                             drawerState = drawerState,
                             listStyle = listStyle,
-                            labelViewModel = labelViewModel
+                            labelViewModel = labelViewModel,
+                            noteStyle = noteStyle
                         )
                     }
                     else -> Unit

@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
@@ -30,6 +31,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ArchiveScreen(
     navController: NavController,
+    noteStyle: NoteStyle,
     listStyle: ListStyle,
     drawerState: DrawerState,
     archiveViewModel: ArchiveViewModel = hiltViewModel(),
@@ -60,6 +62,7 @@ fun ArchiveScreen(
             NoteList(
                 innerPadding = paddingValues,
                 noteSelection = NoteSelection(
+                    noteStyle = noteStyle,
                     onClick = { note ->
                         if (uiState.selectedNotes.isEmpty()) {
                             navController.navigateToNoteDetail(note.id ?: -1)
@@ -83,9 +86,7 @@ fun ArchiveScreen(
                     }
                 ),
                 categories = listOf(
-                    NoteCategory(
-                        notes = uiState.notes
-                    )
+                    NoteCategory(notes = uiState.notes)
                 ),
                 selectedNotes = uiState.selectedNotes,
                 listStyle = listStyle,

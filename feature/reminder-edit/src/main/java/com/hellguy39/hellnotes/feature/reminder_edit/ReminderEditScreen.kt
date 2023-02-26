@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -22,7 +24,7 @@ import com.google.accompanist.permissions.shouldShowRationale
 import com.hellguy39.hellnotes.core.model.util.Repeat
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
+import com.hellguy39.hellnotes.core.ui.components.CustomRadioButton
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
@@ -95,23 +97,31 @@ fun ReminderEditScreen(
         limitMaxHeight = false,
         content = {
             val repeats = listOf(Repeat.DoesNotRepeat, Repeat.Daily, Repeat.Weekly, Repeat.Monthly)
+            Spacer(modifier = Modifier.height(8.dp))
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth(),
             ) {
                 items(repeats) { repeat ->
                     val isSelected = repeat == uiState.repeat
-                    SelectionIconItem(
+                    CustomRadioButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .selectable(
+                                selected = isSelected,
+                                onClick = {
+                                    selection.onRepeatUpdate(repeat)
+                                    repeatDialogState.dismiss()
+                                },
+                                role = Role.RadioButton
+                            ),
                         title = repeat.getDisplayName(),
-                        heroIcon = if (isSelected) painterResource(id = HellNotesIcons.Done) else null,
-                        onClick = {
-                            selection.onRepeatUpdate(repeat)
-                            repeatDialogState.dismiss()
-                        },
-                        colorize = isSelected
+                        isSelected = isSelected
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(8.dp))
         }
     )
 

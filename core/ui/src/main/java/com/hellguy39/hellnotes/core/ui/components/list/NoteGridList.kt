@@ -89,7 +89,8 @@ internal fun NoteGridList(
                             ),
                         noteDetailWrapper = wrapper,
                         isSelected = selectedNotes.contains(wrapper.note),
-                        onDismissed = noteSelection.onDismiss
+                        onDismissed = noteSelection.onDismiss,
+                        noteStyle = noteSelection.noteStyle,
                     )
                 }
             }

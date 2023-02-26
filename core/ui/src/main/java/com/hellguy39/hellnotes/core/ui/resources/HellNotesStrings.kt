@@ -78,6 +78,9 @@ object HellNotesStrings {
         val Daily = R.string.menu_item_daily
         val Weekly = R.string.menu_item_weekly
         val Monthly = R.string.menu_item_monthly
+
+        val Outlined = R.string.menu_item_outlined
+        val Elevated = R.string.menu_item_elevated
     }
 
     object Title {
@@ -93,12 +96,13 @@ object HellNotesStrings {
         val EditReminder = R.string.title_edit_reminder
         val Share = R.string.title_share
         val ChooseANewLockScreen = R.string.title_choose_a_new_lock_screen
-        val ChangeLanguage = R.string.title_change_language
+        val Language = R.string.title_language
         val SetAPin = R.string.title_set_a_pin
         val ReEnterYourPin = R.string.title_re_enter_your_pin
         val DeleteThisNote = R.string.title_delete_this_note
         val RestoreThisNote = R.string.title_restore_this_note
         val EmptyTrash = R.string.title_empty_the_trash
+        val NoteStyle= R.string.title_note_style
     }
 
     object Label {
@@ -109,6 +113,9 @@ object HellNotesStrings {
         val Security = R.string.label_security
         val Language = R.string.label_language
         val Labels = R.string.label_labels
+        val General = R.string.label_general
+        val Gestures = R.string.label_gestures
+        val Personalization = R.string.label_personalization
     }
 
     object Lan {
@@ -141,6 +148,7 @@ object HellNotesStrings {
         val DeleteNoteDialog = R.string.helper_delete_dialog
         val RestoreNoteDialog = R.string.helper_restore_dialog
         val EmptyTrashDialog = R.string.helper_empty_trash_dialog
+        val LabelSelectionPlaceholder = R.string.helper_label_selection_placeholder
     }
 
     object Action {
@@ -165,7 +173,9 @@ object HellNotesStrings {
         val AppLock = R.string.stg_app_lock
         val UseBiometric = R.string.stg_use_biometric
         val ScreenLock = R.string.stg_screen_lock
-        val ChangeLanguage = R.string.stg_change_language
+        val Language = R.string.stg_language
+        val NoteStyle = R.string.stg_note_style
+        val NoteSwipes = R.string.stg_note_swipes
     }
 
     object Notification {

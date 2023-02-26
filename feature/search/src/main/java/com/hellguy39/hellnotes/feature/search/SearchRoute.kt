@@ -20,6 +20,7 @@ fun SearchRoute(
     searchViewModel: SearchViewModel = hiltViewModel(),
 ) {
     val uiState by searchViewModel.uiState.collectAsStateWithLifecycle()
+    val noteStyle by searchViewModel.noteStyle.collectAsStateWithLifecycle()
     val listStyle by searchViewModel.listStyle.collectAsStateWithLifecycle()
 
     SearchScreen(
@@ -28,6 +29,7 @@ fun SearchRoute(
         listStyle = listStyle,
         onQueryChanged = { newQuery -> searchViewModel.updateSearchQuery(newQuery) },
         noteSelection = NoteSelection(
+            noteStyle = noteStyle,
             onClick = { note ->
                 navController.navigateToNoteDetail(noteId = note.id)
             },
