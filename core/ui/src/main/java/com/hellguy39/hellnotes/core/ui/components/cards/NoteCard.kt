@@ -35,6 +35,7 @@ fun NoteCard(
 
 data class NoteSelection @OptIn(ExperimentalMaterial3Api::class) constructor(
     val noteStyle: NoteStyle,
+    val isSwipeable: Boolean,
     val onClick: (Note) -> Unit,
     val onLongClick: (Note) -> Unit,
     val onDismiss: (DismissDirection, Note) -> Boolean

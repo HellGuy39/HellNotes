@@ -15,37 +15,46 @@ fun SwipeableNoteCard(
     noteStyle: NoteStyle,
     noteDetailWrapper: NoteDetailWrapper,
     isSelected: Boolean = false,
+    isSwipeable: Boolean = true,
     onDismissed: (DismissDirection, Note) -> Boolean
 ) {
-    val dismissState = rememberDismissState(
-        confirmValueChange = {
-            when (it) {
-                DismissValue.DismissedToEnd -> {
-                    onDismissed(DismissDirection.StartToEnd, noteDetailWrapper.note)
+    if (isSwipeable) {
+        val dismissState = rememberDismissState(
+            confirmValueChange = { dismissValue ->
+                when (dismissValue) {
+                    DismissValue.DismissedToEnd -> {
+                        onDismissed(DismissDirection.StartToEnd, noteDetailWrapper.note)
+                    }
+                    DismissValue.DismissedToStart -> {
+                        onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
+                    }
+                    else -> { false }
                 }
-                DismissValue.DismissedToStart -> {
-                    onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
-                }
-                else -> { false }
             }
-        },
-    )
+        )
+        SwipeToDismiss(
+            modifier = Modifier,
+            state = dismissState,
+            directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
+            background = {},
+            dismissContent = {
+                val visibility = if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
 
-    SwipeToDismiss(
-        modifier = Modifier,
-        state = dismissState,
-        directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
-        background = {},
-        dismissContent = {
-            val visibility = if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
-
-            NoteCard(
-                modifier = modifier.alpha(visibility),
-                noteDetailWrapper = noteDetailWrapper,
-                isSelected = isSelected,
-                noteStyle = noteStyle
-            )
-        }
-    )
+                NoteCard(
+                    modifier = modifier.alpha(visibility),
+                    noteDetailWrapper = noteDetailWrapper,
+                    isSelected = isSelected,
+                    noteStyle = noteStyle
+                )
+            }
+        )
+    } else {
+        NoteCard(
+            modifier = modifier,
+            noteDetailWrapper = noteDetailWrapper,
+            isSelected = isSelected,
+            noteStyle = noteStyle
+        )
+    }
 
 }

@@ -3,6 +3,11 @@ object Libs {
     private const val junitVersion = "4.13.2"
     const val JUnit = "junit:junit:$junitVersion"
 
+    object Gradle {
+        private const val version = "7.4.2"
+        const val Plugin = "com.android.tools.build:gradle:$version"
+    }
+
     object SquareUp {
 
         private const val moshiVersion = "1.14.0"
@@ -27,6 +32,9 @@ object Libs {
         private const val lifecycleVersion = "2.5.1"
         private const val splashScreenVersion = "1.0.0"
         private const val biometricVersion = "1.2.0-alpha05"
+        private const val profileInstallerVersion = "1.3.0-rc01"
+
+        const val ProfileInstaller = "androidx.profileinstaller:profileinstaller:$profileInstallerVersion"
 
         const val SplashScreen ="androidx.core:core-splashscreen:$splashScreenVersion"
         const val Biometric = "androidx.biometric:biometric-ktx:$biometricVersion"
@@ -94,7 +102,6 @@ object Libs {
             const val Pager = "com.google.accompanist:accompanist-pager:$version"
             const val PagerIndicators =
                 "com.google.accompanist:accompanist-pager-indicators:$version"
-
 
         }
 

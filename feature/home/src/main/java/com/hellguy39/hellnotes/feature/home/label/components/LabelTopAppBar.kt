@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -19,6 +20,11 @@ fun LabelTopAppBar(
     selection: LabelTopAppBarSelection,
     label: Label
 ) {
+    val listStyleIcon = if(selection.listStyle == ListStyle.Column)
+        painterResource(id = HellNotesIcons.GridView)
+    else
+        painterResource(id = HellNotesIcons.ListView)
+
     AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
         TopAppBar(
             scrollBehavior = scrollBehavior,
@@ -79,6 +85,23 @@ fun LabelTopAppBar(
                             contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete)
                         )
                     }
+                } else {
+                    IconButton(
+                        onClick = { selection.onSearch() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Search),
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
+                        onClick = { selection.onChangeListStyle() }
+                    ) {
+                        Icon(
+                            painter = listStyleIcon,
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         )
@@ -87,6 +110,9 @@ fun LabelTopAppBar(
 
 data class LabelTopAppBarSelection(
     val selectedNotes: List<Note>,
+    val listStyle: ListStyle,
+    val onSearch: () -> Unit,
+    val onChangeListStyle: () -> Unit,
     val onArchiveSelected: () -> Unit,
     val onCancelSelection: () -> Unit,
     val onDeleteSelected: () -> Unit,

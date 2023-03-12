@@ -2,10 +2,7 @@ package com.hellguy39.hellnotes.core.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.util.Language
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
-import com.hellguy39.hellnotes.core.model.util.NoteStyle
-import com.hellguy39.hellnotes.core.model.util.Repeat
+import com.hellguy39.hellnotes.core.model.util.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
@@ -46,5 +43,14 @@ fun NoteStyle.getDisplayName(): String {
     return when(this) {
         NoteStyle.Outlined -> stringResource(id = HellNotesStrings.MenuItem.Outlined)
         NoteStyle.Elevated -> stringResource(id = HellNotesStrings.MenuItem.Elevated)
+    }
+}
+
+@Composable
+fun NoteSwipe.getDisplayName(): String {
+    return when(this) {
+        NoteSwipe.None -> stringResource(id = HellNotesStrings.MenuItem.None)
+        NoteSwipe.ArchiveOrUnarchive -> stringResource(id = HellNotesStrings.MenuItem.ArchiveOrUnarchive)
+        NoteSwipe.DeleteOrRestore -> stringResource(id = HellNotesStrings.MenuItem.DeleteOrRestore)
     }
 }

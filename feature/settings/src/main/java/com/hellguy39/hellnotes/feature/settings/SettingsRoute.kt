@@ -45,7 +45,7 @@ fun SettingsRoute(
                 }
             },
             onLockScreen = {
-                if (uiState.appSettings.appLockType != LockScreenType.None) {
+                if (uiState.securityState.lockType != LockScreenType.None) {
                     (context as ProofOfIdentity).confirmAppAccess(cancelable = true) {
                         navController.navigateToLockSelection()
                     }

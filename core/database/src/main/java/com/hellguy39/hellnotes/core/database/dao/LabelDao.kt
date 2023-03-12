@@ -16,9 +16,8 @@ interface LabelDao {
     @Update
     suspend fun updateLabel(labelEntity: LabelEntity)
 
-//    @Query("SELECT * FROM labels_table " +
-//            "WHERE name LIKE '%' || :query || '%'")
-//    fun getAllLabelsStream(query: String): Flow<List<LabelEntity>>
+    @Query("SELECT * FROM labels_table")
+    suspend fun getAllLabels(): List<LabelEntity>
 
     @Query("SELECT * FROM labels_table")
     fun getAllLabelsStream(): Flow<List<LabelEntity>>

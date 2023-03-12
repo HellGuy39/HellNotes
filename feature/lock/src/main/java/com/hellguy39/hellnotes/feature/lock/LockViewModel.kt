@@ -34,10 +34,10 @@ class LockViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             launch {
-                dataStoreRepository.readAppSettings().collect { settings ->
+                dataStoreRepository.readSecurityState().collect { settings ->
                     lockViewModelState.update { state ->
                         state.copy(
-                            appPin = settings.appCode,
+                            appPin = settings.password,
                             isBiometricsAllowed = settings.isUseBiometricData
                         )
                     }

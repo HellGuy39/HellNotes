@@ -27,6 +27,10 @@
     <string name="label_gestures">Жесты</string>
     <string name="label_general">Основные</string>
     <string name="label_personalization">Персонализация</string>
+    <string name="label_swipe_right">Свайп вправо</string>
+    <string name="label_swipe_left">Свайп влево</string>
+    <string name="label_enabled">Включено</string>
+    <string name="label_disabled">Выключено</string>
 
     <!-- Text -->
     <string name="text_sort_by">Сортировать по \'%s\'</string>
@@ -48,7 +52,7 @@
     <!-- Button -->
     <string name="btn_request_permission">Запросить разрешение</string>
     <string name="btn_create">Создать</string>
-    <string name="btn_edit">Изменить</string>
+    <string name="btn_edit">Редактировать</string>
     <string name="btn_delete">Удалить</string>
     <string name="btn_edit_pin">Изменить PIN</string>
     <string name="btn_setup_pin">Установить PIN</string>
@@ -56,6 +60,9 @@
     <string name="btn_save">Сохранить</string>
     <string name="btn_cancel">Отменить</string>
     <string name="btn_accept">Принять</string>
+    <string name="btn_clear">Очистить</string>
+    <string name="btn_next">Далее</string>
+    <string name="btn_confirm">Подтвердить</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>
@@ -67,7 +74,6 @@
 
     <!-- Setting -->
     <string name="stg_app_lock">Блокировка приложения</string>
-    <string name="stg_use_biometric">Использовать биометрию</string>
     <string name="stg_screen_lock">Экран блокировки</string>
     <string name="stg_language">Язык</string>
     <string name="stg_note_swipes">Свайпы заметок</string>
@@ -97,6 +103,8 @@
     <string name="menu_item_monthly">Ежемесячно</string>
     <string name="menu_item_outlined">Очерченный</string>
     <string name="menu_item_elevated">Приподнятый</string>
+    <string name="menu_item_delete_or_restore">Удалить/Восстановить</string>
+    <string name="menu_item_archive_or_unarchive">Архивировать/Разархивировать</string>
 
     <!-- Language-->
     <string name="lan_system_default">Системный</string>
@@ -125,9 +133,10 @@
     <string name="title_restore_this_note">Восстановить заметку?</string>
     <string name="title_empty_the_trash">Очистить корзину?</string>\
     <string name="title_note_style">Стиль заметок</string>
+    <string name="title_note_swipes">Свайпы заметок</string>
 
     <!-- Helper -->
-    <string name="helper_pin_must_be_only_4_digits">PIN-код должен состоять только из 4 цифр</string>
+    <string name="helper_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
     <string name="helper_enter_pin">Введите PIN-код</string>
     <string name="helper_unlocked">Разблокировано</string>
     <string name="helper_wrong_pin">Неверный PIN-код</string>
@@ -138,12 +147,18 @@
     <string name="helper_label_selection_placeholder">Здесь будут отображаться ваши метки</string>
 
     <!-- Snack -->
-    <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>
-    <string name="snack_notes_moved_to_trash">Заметки перемещена в корзину</string>
+    <string name="snack_note_moved_to_trash">Заметка перемещены в корзину</string>
+    <string name="snack_notes_moved_to_trash">Заметки перемещены в корзину</string>
     <string name="snack_note_archived">Заметка архивирована</string>
     <string name="snack_note_unarchived">Заметка разархивирована</string>
+    <string name="snack_notes_archived">Заметки архивированы</string>
+    <string name="snack_notes_unarchived">Заметки разархивированы</string>
     <string name="snack_note_pinned">Заметка закреплена</string>
     <string name="snack_note_unpinned">Заметка откреплена</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric">Использовать биометрию</string>
+    <string name="switch_use_note_swipes">Использовать свайпы заметок</string>
 
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">Новая заметка</string>

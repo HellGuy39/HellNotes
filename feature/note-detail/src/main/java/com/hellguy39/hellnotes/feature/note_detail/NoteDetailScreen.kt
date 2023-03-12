@@ -35,10 +35,8 @@ fun NoteDetailScreen(
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(key1 = uiState.isLoading) {
-        uiState.let {
-            if (!uiState.note.isNoteValid() && !uiState.isLoading) {
-                focusRequester.requestFocus()
-            }
+        if (!uiState.note.isNoteValid() && !uiState.isLoading) {
+            focusRequester.requestFocus()
         }
     }
 

@@ -16,7 +16,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 @Composable
 fun RemindersTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    selection: ReminderTopAppBarSelection
+    selection: ReminderTopAppBarSelection,
 ) {
     val listStyleIcon = if(selection.listStyle == ListStyle.Column)
         painterResource(id = HellNotesIcons.GridView)
@@ -77,6 +77,14 @@ fun RemindersTopAppBar(
                     }
                 } else {
                     IconButton(
+                        onClick = { selection.onSearch() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Search),
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
                         onClick = { selection.onChangeListStyle() }
                     ) {
                         Icon(
@@ -95,7 +103,8 @@ data class ReminderTopAppBarSelection(
     val listStyle: ListStyle,
     val selectedNotes: List<Note>,
     val onNavigation: () -> Unit,
+    val onSearch: () -> Unit,
+    val onChangeListStyle: () -> Unit,
     val onCancelSelection: () -> Unit,
     val onDeleteSelected: () -> Unit,
-    val onChangeListStyle: () -> Unit
 )

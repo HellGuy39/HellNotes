@@ -3,7 +3,9 @@ package com.hellguy39.hellnotes.feature.settings.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,7 +18,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.Language
 import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.components.CustomDivider
 import com.hellguy39.hellnotes.core.ui.components.CustomSwitch
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -71,15 +72,15 @@ fun SettingsScreenContent(
                         .height(72.dp)
                         .clickable { selection.onLockScreen() },
                     title = stringResource(id = HellNotesStrings.Setting.ScreenLock),
-                    value = uiState.appSettings.appLockType.getDisplayName(),
+                    value = uiState.securityState.lockType.getDisplayName(),
                 )
                 CustomSwitch(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(72.dp)
                         .padding(vertical = 8.dp, horizontal = 16.dp),
-                    title = stringResource(id = HellNotesStrings.Setting.UseBiometric),
-                    checked = uiState.appSettings.isUseBiometricData,
+                    title = stringResource(id = HellNotesStrings.Switch.UseBiometric),
+                    checked = uiState.securityState.isUseBiometricData,
                     enabled = uiState.isBioAuthAvailable,
                     onCheckedChange = { checked ->
                         selection.onUseBiometric(checked)
@@ -104,7 +105,7 @@ fun SettingsScreenContent(
                         .height(72.dp)
                         .clickable { selection.onNoteSwipeEdit() },
                     title = stringResource(id = HellNotesStrings.Setting.NoteSwipes),
-                    value = "Enabled",
+                    value = if (uiState.noteSwipesState.enabled) stringResource(id = HellNotesStrings.Label.Enabled) else stringResource(id = HellNotesStrings.Label.Disabled),
                 )
             }
         }

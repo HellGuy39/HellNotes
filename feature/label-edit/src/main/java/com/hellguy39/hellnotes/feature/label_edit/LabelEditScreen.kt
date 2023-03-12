@@ -1,23 +1,26 @@
 package com.hellguy39.hellnotes.feature.label_edit
 
+import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.label_edit.components.LabelItemSelection
-import com.hellguy39.hellnotes.feature.label_edit.components.LabelScreenContent
+import com.hellguy39.hellnotes.feature.label_edit.components.LabelEditScreenContent
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LabelsScreen(
-    labels: List<Label>,
+fun LabelEditScreen(
+    uiState: LabelEditUiState,
     onNavigationButtonClick: () -> Unit,
     labelItemSelection: LabelItemSelection,
     snackbarHostState: SnackbarHostState
@@ -27,16 +30,27 @@ fun LabelsScreen(
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
 
+    val context = LocalContext.current
+
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(key1 = uiState.isLoading) {
+        if (!uiState.isLoading && uiState.action == context.getString(HellNotesStrings.Action.Create)) {
+            focusRequester.requestFocus()
+        }
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { paddingValues ->
-            Crossfade(targetState = labels) { labels ->
-                LabelScreenContent(
+            Crossfade(targetState = uiState.labels) { labels ->
+                LabelEditScreenContent(
                     paddingValues = paddingValues,
                     labels = labels,
-                    labelItemSelection = labelItemSelection
+                    labelItemSelection = labelItemSelection,
+                    focusRequester = focusRequester
                 )
             }
         },

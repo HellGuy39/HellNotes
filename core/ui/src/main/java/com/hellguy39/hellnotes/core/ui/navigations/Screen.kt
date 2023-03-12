@@ -44,6 +44,7 @@ object ArgumentKeys {
     const val NoteId = "noteId"
     const val ReminderId = "reminderId"
     const val LockType = "lockType"
+    const val Action = "action"
 }
 
 object ArgumentDefaultValues {
@@ -127,9 +128,12 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavController.navigateToLabels(navOptions: NavOptions? = null) {
+fun NavController.navigateToLabelEdit(
+    navOptions: NavOptions? = null,
+    action: String
+) {
     navigate(
-        route = Screen.LabelEdit.route,
+        route = Screen.LabelEdit.withArgs(action),
         navOptions = navOptions
     )
 }

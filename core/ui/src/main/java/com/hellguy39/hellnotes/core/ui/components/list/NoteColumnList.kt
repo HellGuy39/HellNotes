@@ -75,6 +75,7 @@ internal fun NoteColumnList(
                             )
                             .animateItemPlacement(),
                         noteDetailWrapper = wrapper,
+                        isSwipeable = noteSelection.isSwipeable,
                         isSelected = selectedNotes.contains(wrapper.note),
                         onDismissed = noteSelection.onDismiss,
                         noteStyle = noteSelection.noteStyle

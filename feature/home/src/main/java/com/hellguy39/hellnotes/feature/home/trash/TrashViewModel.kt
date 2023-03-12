@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.feature.home.trash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
 import com.hellguy39.hellnotes.core.model.Note
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class TrashViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val trashRepository: TrashRepository,
+    private val dataStoreRepository: DataStoreRepository
 ): ViewModel() {
 
     private val trashViewModelState = MutableStateFlow(TrashViewModelState())
@@ -29,6 +31,11 @@ class TrashViewModel @Inject constructor(
                     trashViewModelState.update {
                         it.copy(trashNotes = trashNotes)
                     }
+                }
+            }
+            launch {
+                dataStoreRepository.readTrashTipState().collect { completed ->
+                    trashViewModelState.update { state -> state.copy(trashTipCompleted = completed) }
                 }
             }
         }
@@ -47,6 +54,12 @@ class TrashViewModel @Inject constructor(
             trashViewModelState.update { state ->
                 state.copy(singleNote = note)
             }
+        }
+    }
+
+    fun trashTipCompleted(completed: Boolean) {
+        viewModelScope.launch {
+            dataStoreRepository.saveTrashTipState(completed)
         }
     }
 
@@ -129,6 +142,7 @@ class TrashViewModel @Inject constructor(
 }
 
 private data class TrashViewModelState(
+    val trashTipCompleted: Boolean = false,
     val trashNotes: List<Trash> = listOf(),
     val selectedNotes: List<Note> = listOf(),
     val singleNote: Note? = null,
@@ -143,10 +157,12 @@ private data class TrashViewModelState(
         },
         singleNote = singleNote,
         selectedNotes = selectedNotes,
+        trashTipCompleted = trashTipCompleted
     )
 }
 
 data class TrashUiState(
+    val trashTipCompleted: Boolean,
     val trashNotes: List<NoteDetailWrapper>,
     val selectedNotes: List<Note>,
     val singleNote: Note?

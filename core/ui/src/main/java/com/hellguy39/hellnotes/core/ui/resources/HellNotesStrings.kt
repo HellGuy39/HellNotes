@@ -81,6 +81,8 @@ object HellNotesStrings {
 
         val Outlined = R.string.menu_item_outlined
         val Elevated = R.string.menu_item_elevated
+        val DeleteOrRestore = R.string.menu_item_delete_or_restore
+        val ArchiveOrUnarchive = R.string.menu_item_archive_or_unarchive
     }
 
     object Title {
@@ -103,6 +105,7 @@ object HellNotesStrings {
         val RestoreThisNote = R.string.title_restore_this_note
         val EmptyTrash = R.string.title_empty_the_trash
         val NoteStyle= R.string.title_note_style
+        val NoteSwipe = R.string.title_note_swipes
     }
 
     object Label {
@@ -116,6 +119,10 @@ object HellNotesStrings {
         val General = R.string.label_general
         val Gestures = R.string.label_gestures
         val Personalization = R.string.label_personalization
+        val SwipeRight = R.string.label_swipe_right
+        val SwipeLeft = R.string.label_swipe_left
+        val Enabled = R.string.label_enabled
+        val Disabled = R.string.label_disabled
     }
 
     object Lan {
@@ -137,10 +144,13 @@ object HellNotesStrings {
         val Save = R.string.btn_save
         val Cancel = R.string.btn_cancel
         val Accept = R.string.btn_accept
+        val Confirm = R.string.btn_confirm
+        val Next = R.string.btn_next
+        val Clear = R.string.btn_clear
     }
 
     object Helper {
-        val PinMustBeOnly4Digits = R.string.helper_pin_must_be_only_4_digits
+        val PinMustBeAtLeast4Digits = R.string.helper_pin_must_be_at_least_4_digits
         val EnterPin = R.string.helper_enter_pin
         val WrongPin = R.string.helper_wrong_pin
         val Unlocked = R.string.helper_unlocked
@@ -156,6 +166,8 @@ object HellNotesStrings {
         val Reminders = R.string.action_reminders
         val Archive = R.string.action_archive
         val Trash = R.string.action_trash
+        val Create = R.string.action_create
+        val Edit = R.string.action_edit
     }
 
     object Snack {
@@ -165,17 +177,24 @@ object HellNotesStrings {
         val NoteArchived = R.string.snack_note_archived
         val NoteUnarchived = R.string.snack_note_unarchived
 
+        val NotesArchived = R.string.snack_notes_archived
+        val NotesUnarchived = R.string.snack_notes_unarchived
+
         val NotePinned = R.string.snack_note_pinned
         val NoteUnpinned = R.string.snack_note_unpinned
     }
 
     object Setting {
         val AppLock = R.string.stg_app_lock
-        val UseBiometric = R.string.stg_use_biometric
         val ScreenLock = R.string.stg_screen_lock
         val Language = R.string.stg_language
         val NoteStyle = R.string.stg_note_style
         val NoteSwipes = R.string.stg_note_swipes
+    }
+
+    object Switch {
+        val UseBiometric = R.string.switch_use_biometric
+        val UseNoteSwipes = R.string.switch_use_note_swipes
     }
 
     object Notification {

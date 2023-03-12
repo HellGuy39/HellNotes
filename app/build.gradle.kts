@@ -90,6 +90,7 @@ dependencies {
     implementation(Libs.AndroidX.AppCompat)
     implementation(Libs.AndroidX.Biometric)
     implementation(Libs.AndroidX.SplashScreen)
+    implementation(Libs.AndroidX.ProfileInstaller)
 
     implementation(Libs.Google.Material)
 
@@ -122,6 +123,5 @@ dependencies {
     implementation(Libs.SquareUp.Moshi)
 
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("androidx.profileinstaller:profileinstaller:1.3.0-beta01")
 
 }

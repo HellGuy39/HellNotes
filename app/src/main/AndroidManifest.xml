@@ -39,11 +39,13 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+
         <activity
             android:name=".activity.crash.CrashActivity"
             android:exported="false"
             android:process=":error_handler"
             android:theme="@style/Theme.HellNotes" />
+
         <activity
             android:name=".feature.welcome.WelcomeActivity"
             android:exported="false"

@@ -27,6 +27,10 @@
     <string name="label_gestures">Gestures</string>
     <string name="label_general">General</string>
     <string name="label_personalization">Personalization</string>
+    <string name="label_swipe_right">Swipe right</string>
+    <string name="label_swipe_left">Swipe left</string>
+    <string name="label_enabled">Enabled</string>
+    <string name="label_disabled">Disabled</string>
 
     <!-- Text -->
     <string name="text_sort_by">Sort by \'%s\'</string>
@@ -69,6 +73,8 @@
     <string name="menu_item_monthly">Monthly</string>
     <string name="menu_item_outlined">Outlined</string>
     <string name="menu_item_elevated">Elevated</string>
+    <string name="menu_item_delete_or_restore">Delete/Restore</string>
+    <string name="menu_item_archive_or_unarchive">Archive/Unarchive</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>
@@ -90,9 +96,10 @@
     <string name="title_restore_this_note">Restore this note?</string>
     <string name="title_empty_the_trash">Empty the trash?</string>
     <string name="title_note_style">Note style</string>
+    <string name="title_note_swipes">Note Swipes</string>
 
     <!-- Helper -->
-    <string name="helper_pin_must_be_only_4_digits">PIN must be only 4 digits</string>
+    <string name="helper_pin_must_be_at_least_4_digits">PIN must be at least 4 digits</string>
     <string name="helper_enter_pin">Enter your PIN</string>
     <string name="helper_unlocked">Unlocked</string>
     <string name="helper_wrong_pin">Wrong PIN</string>
@@ -128,10 +135,12 @@
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_accept">Accept</string>
+    <string name="btn_clear">Clear</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_confirm">Confirm</string>
 
     <!-- Setting -->
     <string name="stg_app_lock">App lock</string>
-    <string name="stg_use_biometric">Use biometric</string>
     <string name="stg_screen_lock">Screen lock</string>
     <string name="stg_language">Language</string>
     <string name="stg_note_swipes">Note Swipes</string>
@@ -148,8 +157,14 @@
     <string name="snack_notes_moved_to_trash">Notes moved to trash</string>
     <string name="snack_note_archived">Note archived</string>
     <string name="snack_note_unarchived">Note unarchived</string>
+    <string name="snack_notes_archived">Notes archived</string>
+    <string name="snack_notes_unarchived">Notes unarchived</string>
     <string name="snack_note_pinned">Note pinned</string>
     <string name="snack_note_unpinned">Note unpinned</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric">Use biometric</string>
+    <string name="switch_use_note_swipes">Use note swipes</string>
 
     <!-- Notification -->
     <string name="ntf_reminder_title">Reminder!</string>
@@ -161,5 +176,8 @@
     <string name="action_reminders" translatable="false">com.hellguy39.hellnotes.REMINDERS</string>
     <string name="action_archive" translatable="false">com.hellguy39.hellnotes.ARCHIVE</string>
     <string name="action_trash" translatable="false">com.hellguy39.hellnotes.TRASH</string>
+
+    <string name="action_edit" translatable="false">com.hellguy39.hellnotes.EDIT</string>
+    <string name="action_create" translatable="false">com.hellguy39.hellnotes.CREATE</string>
 
 </resources>

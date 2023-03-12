@@ -41,14 +41,6 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
             !splashViewModel.isLoading.value
         }
         setContent { App() }
-
-//        ViewCompat.setOnApplyWindowInsetsListener(
-//            findViewById(android.R.id.content)
-//        ) { view, insets ->
-//            val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-//            view.updatePadding(bottom = bottom)
-//            insets
-//        }
     }
 
     @Composable
@@ -62,14 +54,14 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
             var isIdentityProofed by rememberSaveable { mutableStateOf(false) }
 
             LaunchedEffect(key1 = splashViewModel.isLoading.value) {
-                val lockScreenType by splashViewModel.lockScreenType
+                val securityState = splashViewModel.securityState.value
                 val isOnBoardingCompleted by splashViewModel.isOnBoardingCompleted
 
                 if (!isOnBoardingCompleted) {
                     //navigateToWelcomeScreen()
                 }
 
-                if (lockScreenType != LockScreenType.None && !isIdentityProofed) {
+                if (securityState.lockType != LockScreenType.None && !isIdentityProofed) {
                     confirmAppAccess(cancelable = false, onSuccess = { isIdentityProofed = true })
                 }
 

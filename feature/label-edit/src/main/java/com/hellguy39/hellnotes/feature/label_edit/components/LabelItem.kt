@@ -40,11 +40,7 @@ fun LazyItemScope.LabelItem(
     Row(
         modifier = Modifier
             .padding(8.dp)
-            .animateItemPlacement(
-                animationSpec = tween(
-                    durationMillis = 300
-                )
-            ),
+            .animateItemPlacement(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

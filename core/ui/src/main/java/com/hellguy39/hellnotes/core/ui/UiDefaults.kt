@@ -6,6 +6,13 @@ import androidx.compose.ui.unit.dp
 
 object UiDefaults {
 
+    object ListItem {
+
+        val DefaultHeight = 56.dp
+        val LargeHeight = 72.dp
+
+    }
+
     object Elevation {
         val Level0 = 0.dp
         val Level1 = 1.dp

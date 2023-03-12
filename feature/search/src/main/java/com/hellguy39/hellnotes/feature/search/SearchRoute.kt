@@ -36,7 +36,8 @@ fun SearchRoute(
             onLongClick = { note -> },
             onDismiss = { dismissDirection, note ->
                 false
-            }
+            },
+            isSwipeable = false
         ),
         categories = listOf(
             NoteCategory(

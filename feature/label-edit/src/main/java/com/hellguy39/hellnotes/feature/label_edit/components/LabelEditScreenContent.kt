@@ -11,6 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -23,10 +25,11 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
-fun LabelScreenContent(
+fun LabelEditScreenContent(
     paddingValues: PaddingValues,
     labels: List<Label>,
-    labelItemSelection: LabelItemSelection
+    labelItemSelection: LabelItemSelection,
+    focusRequester: FocusRequester
 ) {
     var isFocused by remember { mutableStateOf(false) }
     var newLabel by remember { mutableStateOf("") }
@@ -74,6 +77,7 @@ fun LabelScreenContent(
                     onValueChange = { newText -> newLabel = newText },
                     hint = stringResource(id = HellNotesStrings.Hint.CreateNewLabel),
                     modifier = Modifier
+                        .focusRequester(focusRequester)
                         .weight(1f)
                         .onFocusChanged { state ->
                             isFocused = state.isFocused
@@ -100,7 +104,7 @@ fun LabelScreenContent(
 
             CustomDivider(isVisible = isFocused)
         }
-        items(labels) { label ->
+        items(items = labels, key = { label -> label.id ?: 0 }) { label ->
             LabelItem(
                 label = label,
                 selection = labelItemSelection

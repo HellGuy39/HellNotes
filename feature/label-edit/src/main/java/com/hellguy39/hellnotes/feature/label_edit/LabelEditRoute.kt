@@ -18,22 +18,22 @@ fun LabelEditRoute(
     navController: NavController,
     labelEditViewModel: LabelEditViewModel = hiltViewModel()
 ) {
-    val labels by labelEditViewModel.labels.collectAsStateWithLifecycle()
+    val uiState by labelEditViewModel.uiState.collectAsStateWithLifecycle()
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
     val labelAlreadyExist = stringResource(id = HellNotesStrings.Text.LabelAlreadyExist)
 
-    LabelsScreen(
+    LabelEditScreen(
         onNavigationButtonClick = { navController.popBackStack() },
-        labels = labels,
+        uiState = uiState,
         labelItemSelection = LabelItemSelection(
             onDeleteLabel = { label ->
                 labelEditViewModel.deleteLabel(label)
             },
             onLabelUpdated = { label ->
-                labels.find { it.name == label.name }.let {
+                uiState.labels.find { it.name == label.name }.let {
                     if (it != null) {
                         scope.launch {
                             snackbarHostState.showSnackbar(labelAlreadyExist)
@@ -44,7 +44,7 @@ fun LabelEditRoute(
                 }
             },
             onCreateLabel = { label ->
-                labels.find { it.name == label.name }.let {
+                uiState.labels.find { it.name == label.name }.let {
                     if (it != null) {
                         scope.launch {
                             snackbarHostState.showSnackbar(labelAlreadyExist)
