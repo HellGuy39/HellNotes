@@ -49,7 +49,7 @@ fun DrawerSheetContent(
                                 append("Notes")
                             }
                         },
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 }
                 

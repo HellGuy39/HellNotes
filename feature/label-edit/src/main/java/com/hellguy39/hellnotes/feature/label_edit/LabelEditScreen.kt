@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.feature.label_edit
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -13,9 +12,8 @@ import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
-import com.hellguy39.hellnotes.feature.label_edit.components.LabelItemSelection
 import com.hellguy39.hellnotes.feature.label_edit.components.LabelEditScreenContent
-import kotlinx.coroutines.delay
+import com.hellguy39.hellnotes.feature.label_edit.components.LabelItemSelection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

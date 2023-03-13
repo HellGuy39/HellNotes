@@ -41,10 +41,12 @@ fun LabelEditScreenContent(
     ) {
         item {
 
-            CustomDivider(isVisible = isFocused)
+            //CustomDivider(isVisible = isFocused)
 
             Row(
-                modifier = Modifier.padding(8.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {

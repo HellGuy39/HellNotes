@@ -30,7 +30,7 @@ fun LabelEditRoute(
         uiState = uiState,
         labelItemSelection = LabelItemSelection(
             onDeleteLabel = { label ->
-                labelEditViewModel.deleteLabel(label)
+                labelEditViewModel.send(LabelEditScreenUiEvent.DeleteLabel(label))
             },
             onLabelUpdated = { label ->
                 uiState.labels.find { it.name == label.name }.let {
@@ -39,7 +39,7 @@ fun LabelEditRoute(
                             snackbarHostState.showSnackbar(labelAlreadyExist)
                         }
                     } else {
-                        labelEditViewModel.updateLabel(label)
+                        labelEditViewModel.send(LabelEditScreenUiEvent.UpdateLabel(label))
                     }
                 }
             },
@@ -50,7 +50,7 @@ fun LabelEditRoute(
                             snackbarHostState.showSnackbar(labelAlreadyExist)
                         }
                     } else {
-                        labelEditViewModel.insertLabel(label)
+                        labelEditViewModel.send(LabelEditScreenUiEvent.InsertLabel(label))
                     }
                 }
             }

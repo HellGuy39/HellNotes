@@ -5,6 +5,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -35,11 +36,11 @@ fun LazyItemScope.LabelItem(
     var isFocused by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf(label.name) }
 
-    CustomDivider(isVisible = isFocused)
+    //CustomDivider(isVisible = isFocused)
 
     Row(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(4.dp)
             .animateItemPlacement(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically

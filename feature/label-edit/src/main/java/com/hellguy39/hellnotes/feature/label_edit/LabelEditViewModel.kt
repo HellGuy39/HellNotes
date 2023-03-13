@@ -9,6 +9,7 @@ import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.lang.Thread.State
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,42 +18,47 @@ class LabelEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private val labels = labelRepository.getAllLabelsStream()
-        .stateIn(
-            initialValue = listOf(),
-            started = SharingStarted.WhileSubscribed(5_000),
-            scope = viewModelScope
-        )
-
-    private val labelEditViewModel = MutableStateFlow(
-        LabelViewModelState(action = savedStateHandle.get<String>(ArgumentKeys.Action) ?: "")
-    )
-
-    val uiState = labelEditViewModel
-        .combine(
-            labels
-        ) { viewModelState, labels ->
-            viewModelState.toUiState(labels = labels, isLoading = false)
+    val uiState: StateFlow<LabelEditUiState> = labelRepository.getAllLabelsStream()
+        .map { labels ->
+            LabelEditUiState(
+                labels = labels.sortedByDescending { label -> label.id },
+                action = savedStateHandle.get<String>(ArgumentKeys.Action) ?: "",
+                isLoading = false,
+            )
         }
         .stateIn(
-            initialValue = labelEditViewModel.value.toUiState(isLoading = true),
+            initialValue = LabelEditUiState.initialInstance(),
             started = SharingStarted.WhileSubscribed(5_000),
             scope = viewModelScope
         )
 
-    fun insertLabel(label: Label) {
+    fun send(uiEvent: LabelEditScreenUiEvent) {
+        when(uiEvent) {
+            is LabelEditScreenUiEvent.InsertLabel -> {
+                insertLabel(uiEvent.label)
+            }
+            is LabelEditScreenUiEvent.UpdateLabel -> {
+                updateLabel(uiEvent.label)
+            }
+            is LabelEditScreenUiEvent.DeleteLabel -> {
+                deleteLabel(uiEvent.label)
+            }
+        }
+    }
+
+    private fun insertLabel(label: Label) {
         viewModelScope.launch {
             labelRepository.insertLabel(label)
         }
     }
 
-    fun deleteLabel(label: Label) {
+    private fun deleteLabel(label: Label) {
         viewModelScope.launch {
             labelRepository.deleteLabel(label)
         }
     }
 
-    fun updateLabel(label: Label) {
+    private fun updateLabel(label: Label) {
         viewModelScope.launch {
             labelRepository.updateLabel(label)
         }
@@ -60,21 +66,22 @@ class LabelEditViewModel @Inject constructor(
 
 }
 
-private data class LabelViewModelState(
-    val action: String = "",
-) {
-    fun toUiState(
-        labels: List<Label> = listOf(),
-        isLoading: Boolean
-    ) = LabelEditUiState(
-        labels = labels.sortedByDescending { label -> label.id },
-        action = action,
-        isLoading = isLoading
-    )
-}
-
 data class LabelEditUiState(
     val labels: List<Label>,
     val action: String,
     val isLoading: Boolean
-)
+) {
+    companion object {
+        fun initialInstance() = LabelEditUiState(
+            labels = listOf(),
+            action = "",
+            isLoading = true
+        )
+    }
+}
+
+sealed class LabelEditScreenUiEvent {
+    data class InsertLabel(val label: Label): LabelEditScreenUiEvent()
+    data class DeleteLabel(val label: Label): LabelEditScreenUiEvent()
+    data class UpdateLabel(val label: Label): LabelEditScreenUiEvent()
+}
