@@ -3,10 +3,7 @@ package com.hellguy39.hellnotes.feature.home.label
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -17,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.hellguy39.hellnotes.core.model.util.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
@@ -74,7 +72,22 @@ fun LabelScreen(
                             }
                         },
                         onDismiss = { direction, note ->
-                            false
+                            val swipeAction = if (direction == DismissDirection.StartToEnd)
+                                visualsSelection.noteSwipesState.swipeRight
+                            else
+                                visualsSelection.noteSwipesState.swipeLeft
+
+                            when(swipeAction) {
+                                NoteSwipe.None -> false
+                                NoteSwipe.Delete -> {
+                                    multiActionSelection.onDeleteNote(note)
+                                    true
+                                }
+                                NoteSwipe.Archive -> {
+                                    multiActionSelection.onArchiveNote(note, true)
+                                    true
+                                }
+                            }
                         },
                         isSwipeable = visualsSelection.noteSwipesState.enabled
                     ),

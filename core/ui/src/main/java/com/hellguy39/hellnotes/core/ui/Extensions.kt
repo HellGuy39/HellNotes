@@ -50,7 +50,7 @@ fun NoteStyle.getDisplayName(): String {
 fun NoteSwipe.getDisplayName(): String {
     return when(this) {
         NoteSwipe.None -> stringResource(id = HellNotesStrings.MenuItem.None)
-        NoteSwipe.ArchiveOrUnarchive -> stringResource(id = HellNotesStrings.MenuItem.ArchiveOrUnarchive)
-        NoteSwipe.DeleteOrRestore -> stringResource(id = HellNotesStrings.MenuItem.DeleteOrRestore)
+        NoteSwipe.Archive -> stringResource(id = HellNotesStrings.MenuItem.Archive)
+        NoteSwipe.Delete -> stringResource(id = HellNotesStrings.MenuItem.Delete)
     }
 }

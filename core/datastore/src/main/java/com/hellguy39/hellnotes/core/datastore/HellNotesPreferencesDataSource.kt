@@ -130,11 +130,11 @@ class HellNotesPreferencesDataSource @Inject constructor(
                 enabled = preferences[PreferencesKey.noteSwipesEnabled] ?: true,
                 swipeLeft = NoteSwipe.from(
                     preferences[PreferencesKey.noteSwipeLeft],
-                    NoteSwipe.ArchiveOrUnarchive
+                    NoteSwipe.Archive
                 ),
                 swipeRight = NoteSwipe.from(
                     preferences[PreferencesKey.noteSwipeRight],
-                    NoteSwipe.DeleteOrRestore
+                    NoteSwipe.Delete
                 )
             )
         }

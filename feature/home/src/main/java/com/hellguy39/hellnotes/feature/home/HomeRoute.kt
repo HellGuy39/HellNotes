@@ -55,17 +55,17 @@ fun HomeRoute(
         drawerState = drawerState,
         snackbarHost = {
             CustomSnackbarHost(
-                state = snackbarHostState,
+                state = snackbarHostState
             )
         }
     )
 
     fun showOnActionSnack(message: String, onActionPerformed: () -> Unit) {
-        showSnackbar(
+        snackbarHostState.showDismissableSnackbar(
             scope = scope,
             message = message,
             actionLabel = context.getString(HellNotesStrings.Button.Undo),
-            hostState = snackbarHostState,
+            duration = SnackbarDuration.Long,
             onActionPerformed = onActionPerformed
         )
     }
@@ -76,14 +76,14 @@ fun HomeRoute(
         onArchiveSelectedNotes = { isArchived ->
             val snackAction = if (isArchived) SnackAction.Archive else SnackAction.Unarchive
             showOnActionSnack(
-                message = getSnackMessage(snackAction, context, uiState.selectedNotes.size == 1),
+                message = snackAction.getSnackMessage(context, uiState.selectedNotes.size == 1),
                 onActionPerformed = { homeViewModel.undoArchiveSelected(isArchived = isArchived) }
             )
             homeViewModel.archiveSelectedNotes(isArchived)
         },
         onDeleteSelectedNotes = {
             showOnActionSnack(
-                message = getSnackMessage(SnackAction.Delete, context, uiState.selectedNotes.size == 1),
+                message = SnackAction.Delete.getSnackMessage(context, uiState.selectedNotes.size == 1),
                 onActionPerformed = { homeViewModel.undoDeleteSelected() }
             )
             homeViewModel.deleteSelectedNotes()
@@ -93,18 +93,23 @@ fun HomeRoute(
         onArchiveNote = { note, isArchived ->
             val snackAction = if (isArchived) SnackAction.Archive else SnackAction.Unarchive
             showOnActionSnack(
-                message = getSnackMessage(snackAction, context, uiState.selectedNotes.size == 1),
+                message = snackAction.getSnackMessage(context, true),
                 onActionPerformed = { homeViewModel.undoArchiveSelected(isArchived = isArchived) }
             )
             homeViewModel.archiveNote(clearBuffer = true, note = note, isArchived = isArchived)
         },
         onDeleteNote = { note ->
             showOnActionSnack(
-                message = getSnackMessage(SnackAction.Delete, context, uiState.selectedNotes.size == 1),
+                message = SnackAction.Delete.getSnackMessage(context, true),
                 onActionPerformed = { homeViewModel.undoDeleteSelected() }
             )
             homeViewModel.deleteNote(clearBuffer = true, note = note)
         },
+        onDeleteSelectedNotesFromTrash = { homeViewModel.deleteSelectedNotesFromTrash() },
+        onRestoreSelectedNotesFromTrash = { homeViewModel.restoreSelectedNotesFromTrash() },
+        onRestoreNote = { note ->
+            homeViewModel.restoreNoteFromTrash(note)
+        }
     )
 
     val onDrawerItemClick: (DrawerItem) -> Unit = { drawerItem ->
@@ -230,7 +235,8 @@ fun HomeRoute(
                             )
                         } else {
                             TrashScreen(
-                                visualsSelection = visualsSelection
+                                visualsSelection = visualsSelection,
+                                multiActionSelection = multiActionSelection
                             )
                         }
                     }
@@ -264,7 +270,10 @@ data class HomeScreenMultiActionSelection(
     val onUnselectNote: (Note) -> Unit,
     val onDeleteNote: (Note) -> Unit,
     val onArchiveNote: (Note, isArchived: Boolean) -> Unit,
+    val onRestoreNote: (Note) -> Unit,
     val onCancelSelection: () -> Unit,
     val onDeleteSelectedNotes: () -> Unit,
+    val onDeleteSelectedNotesFromTrash: () -> Unit,
+    val onRestoreSelectedNotesFromTrash: () -> Unit,
     val onArchiveSelectedNotes: (isArchive: Boolean) -> Unit,
 )

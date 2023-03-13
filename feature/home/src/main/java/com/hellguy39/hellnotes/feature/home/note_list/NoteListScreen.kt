@@ -107,11 +107,11 @@ fun NoteListScreen(
 
                             when(swipeAction) {
                                 NoteSwipe.None -> false
-                                NoteSwipe.DeleteOrRestore -> {
+                                NoteSwipe.Delete -> {
                                     multiActionSelection.onDeleteNote(note)
                                     true
                                 }
-                                NoteSwipe.ArchiveOrUnarchive -> {
+                                NoteSwipe.Archive -> {
                                     multiActionSelection.onArchiveNote(note, true)
                                     true
                                 }

@@ -98,13 +98,12 @@ fun RemindersScreen(
 
                             when(swipeAction) {
                                 NoteSwipe.None -> false
-                                NoteSwipe.DeleteOrRestore -> {
-                                    //showOnDeleteNotesSnack(true)
-                                    //noteListViewModel.deleteNote(note)
+                                NoteSwipe.Delete -> {
+                                    multiActionSelection.onDeleteNote(note)
                                     true
                                 }
-                                NoteSwipe.ArchiveOrUnarchive -> {
-                                    //noteListViewModel.archiveNote(note)
+                                NoteSwipe.Archive -> {
+                                    multiActionSelection.onArchiveNote(note, true)
                                     true
                                 }
                             }

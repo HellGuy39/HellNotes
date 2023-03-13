@@ -22,7 +22,7 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailScreen(
-    snackbarHostState: SnackbarHostState,
+    snackbarHost: @Composable () -> Unit,
     noteDetailContentSelection: NoteDetailContentSelection,
     dropdownMenuSelection: NoteDetailDropdownMenuSelection,
     uiState: NoteDetailUiState,
@@ -119,7 +119,7 @@ fun NoteDetailScreen(
             }
 
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = snackbarHost,
     )
 }
 

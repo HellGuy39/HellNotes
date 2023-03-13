@@ -103,8 +103,7 @@
     <string name="menu_item_monthly">Ежемесячно</string>
     <string name="menu_item_outlined">Очерченный</string>
     <string name="menu_item_elevated">Приподнятый</string>
-    <string name="menu_item_delete_or_restore">Удалить/Восстановить</string>
-    <string name="menu_item_archive_or_unarchive">Архивировать/Разархивировать</string>
+    <string name="menu_item_archive">Архивировать</string>
 
     <!-- Language-->
     <string name="lan_system_default">Системный</string>
@@ -147,7 +146,7 @@
     <string name="helper_label_selection_placeholder">Здесь будут отображаться ваши метки</string>
 
     <!-- Snack -->
-    <string name="snack_note_moved_to_trash">Заметка перемещены в корзину</string>
+    <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>
     <string name="snack_notes_moved_to_trash">Заметки перемещены в корзину</string>
     <string name="snack_note_archived">Заметка архивирована</string>
     <string name="snack_note_unarchived">Заметка разархивирована</string>

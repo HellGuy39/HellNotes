@@ -81,8 +81,8 @@ object HellNotesStrings {
 
         val Outlined = R.string.menu_item_outlined
         val Elevated = R.string.menu_item_elevated
-        val DeleteOrRestore = R.string.menu_item_delete_or_restore
-        val ArchiveOrUnarchive = R.string.menu_item_archive_or_unarchive
+
+        val Archive = R.string.menu_item_archive
     }
 
     object Title {

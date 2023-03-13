@@ -22,6 +22,10 @@ import com.hellguy39.hellnotes.core.model.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
+import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
+import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
+import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
@@ -33,7 +37,6 @@ import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailDropdown
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailTopAppBarSelection
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareHelper
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
-import kotlinx.coroutines.launch
 
 @Composable
 fun NoteDetailRoute(
@@ -121,7 +124,9 @@ fun NoteDetailRoute(
 
 
     NoteDetailScreen(
-        snackbarHostState = snackbarHostState,
+        snackbarHost = {
+            CustomSnackbarHost(state = snackbarHostState)
+        },
         uiState = uiState,
         noteDetailContentSelection = NoteDetailContentSelection(
             onTitleTextChanged = { newText -> noteDetailViewModel.onUpdateNoteTitle(newText) },
@@ -141,11 +146,11 @@ fun NoteDetailRoute(
                 if (uiState.note.isNoteValid()) {
                     shareDialogState.show()
                 } else {
-                    scope.launch {
-                        snackbarHostState.showSnackbar(
-                            message = context.getString(HellNotesStrings.Text.NothingToShare)
-                        )
-                    }
+                    snackbarHostState.showDismissableSnackbar(
+                        scope = scope,
+                        message = context.getString(HellNotesStrings.Text.NothingToShare),
+                        duration = SnackbarDuration.Short
+                    )
                 }
             },
             onDelete = {
@@ -157,31 +162,22 @@ fun NoteDetailRoute(
             onNavigationButtonClick = onBackNavigation,
             onPin = { isPinned ->
                 noteDetailViewModel.onUpdateIsPinned(isPinned)
-                snackbarHostState.currentSnackbarData?.dismiss()
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = if (isPinned)
-                            context.getString(HellNotesStrings.Snack.NotePinned)
-                        else
-                            context.getString( HellNotesStrings.Snack.NoteUnpinned),
-                        duration = SnackbarDuration.Short,
-                        withDismissAction = true
-                    )
-                }
+
+                val snackAction = if (isPinned) SnackAction.Pinned else SnackAction.Unpinned
+                snackbarHostState.showDismissableSnackbar(
+                    scope = scope,
+                    message = snackAction.getSnackMessage(context),
+                    duration = SnackbarDuration.Short
+                )
             },
             onArchive = { isArchived ->
                 noteDetailViewModel.onUpdateIsArchived(isArchived)
-                snackbarHostState.currentSnackbarData?.dismiss()
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = if (isArchived)
-                            context.getString(HellNotesStrings.Snack.NoteArchived)
-                        else
-                            context.getString(HellNotesStrings.Snack.NoteUnarchived),
-                        duration = SnackbarDuration.Short,
-                        withDismissAction = true
-                    )
-                }
+                val snackAction = if (isArchived) SnackAction.Archive else SnackAction.Unarchive
+                snackbarHostState.showDismissableSnackbar(
+                    scope = scope,
+                    message = snackAction.getSnackMessage(context = context, isSingleItem = true),
+                    duration = SnackbarDuration.Short
+                )
             }
         ),
         bottomBarSelection = NoteDetailBottomBarSelection(

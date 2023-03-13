@@ -104,6 +104,25 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun restoreSelectedNotesFromTrash() {
+        viewModelScope.launch {
+            selectedNotes.value.forEach { note ->
+                trashRepository.deleteTrashByNote(note)
+                noteRepository.insertNote(note)
+            }
+            cancelNoteSelection()
+        }
+    }
+
+    fun deleteSelectedNotesFromTrash() {
+        viewModelScope.launch {
+            selectedNotes.value.forEach { note ->
+                trashRepository.deleteTrashByNote(note)
+            }
+            cancelNoteSelection()
+        }
+    }
+
     fun deleteSelectedNotes() {
         viewModelScope.launch {
             lastActionNotes.update { listOf() }
@@ -142,6 +161,13 @@ class HomeViewModel @Inject constructor(
             noteRepository.updateNote(note.copy(isArchived = isArchived))
 
             lastActionNotes.update { notes -> notes.plus(note) }
+        }
+    }
+
+    fun restoreNoteFromTrash(note: Note) {
+        viewModelScope.launch {
+            trashRepository.deleteTrashByNote(note)
+            noteRepository.insertNote(note)
         }
     }
 

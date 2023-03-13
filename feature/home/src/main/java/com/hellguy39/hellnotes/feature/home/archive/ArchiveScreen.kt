@@ -89,9 +89,7 @@ fun ArchiveScreen(
                                 multiActionSelection.onSelectNote(note)
                             }
                         },
-                        onDismiss = { direction, note ->
-                            false
-                        },
+                        onDismiss = { _, _ -> false },
                         isSwipeable = visualsSelection.noteSwipesState.enabled
                     ),
                     categories = listOf(

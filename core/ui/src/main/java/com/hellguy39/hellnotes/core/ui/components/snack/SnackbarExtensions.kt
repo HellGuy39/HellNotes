@@ -8,23 +8,24 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-fun showSnackbar(
+fun SnackbarHostState.showDismissableSnackbar(
     scope: CoroutineScope,
-    hostState: SnackbarHostState,
-    message: String,
-    actionLabel: String,
-    onActionPerformed: () -> Unit
+    message: String = "",
+    actionLabel: String? = null,
+    onActionPerformed: () -> Unit = {},
+    duration: SnackbarDuration = SnackbarDuration.Long
 ) {
+    currentSnackbarData?.dismiss()
     scope.launch {
-        hostState.showSnackbar(
+        showSnackbar(
             message = message,
             actionLabel = actionLabel,
-            duration = SnackbarDuration.Long,
+            duration = duration,
             withDismissAction = false
         ).let { result ->
             when (result) {
                 SnackbarResult.ActionPerformed -> onActionPerformed()
-                SnackbarResult.Dismissed -> hostState.currentSnackbarData?.dismiss()
+                SnackbarResult.Dismissed -> currentSnackbarData?.dismiss()
                 else -> Unit
             }
         }
@@ -32,7 +33,7 @@ fun showSnackbar(
 }
 
 @Composable
-fun getSnackMessage(snackAction: SnackAction, isSingleItem: Boolean) = when(snackAction) {
+fun SnackAction.getSnackMessage(isSingleItem: Boolean = true) = when(this) {
     SnackAction.Archive -> {
         if (isSingleItem)
             stringResource(id = HellNotesStrings.Snack.NoteArchived)
@@ -51,9 +52,21 @@ fun getSnackMessage(snackAction: SnackAction, isSingleItem: Boolean) = when(snac
         else
             stringResource(id = HellNotesStrings.Snack.NotesUnarchived)
     }
+    SnackAction.Restore -> {
+        if (isSingleItem)
+            ""
+        else
+            ""
+    }
+    SnackAction.Pinned -> {
+        stringResource(HellNotesStrings.Snack.NotePinned)
+    }
+    SnackAction.Unpinned -> {
+        stringResource(HellNotesStrings.Snack.NotePinned)
+    }
 }
 
-fun getSnackMessage(snackAction: SnackAction, context: Context, isSingleItem: Boolean) = when(snackAction) {
+fun SnackAction.getSnackMessage(context: Context, isSingleItem: Boolean = true) = when(this) {
     SnackAction.Archive -> {
         if (isSingleItem)
             context.getString(HellNotesStrings.Snack.NoteArchived)
@@ -71,5 +84,17 @@ fun getSnackMessage(snackAction: SnackAction, context: Context, isSingleItem: Bo
             context.getString(HellNotesStrings.Snack.NoteUnarchived)
         else
             context.getString(HellNotesStrings.Snack.NotesUnarchived)
+    }
+    SnackAction.Restore -> {
+        if (isSingleItem)
+            ""
+        else
+            ""
+    }
+    SnackAction.Pinned -> {
+        context.getString(HellNotesStrings.Snack.NotePinned)
+    }
+    SnackAction.Unpinned -> {
+        context.getString(HellNotesStrings.Snack.NoteUnpinned)
     }
 }

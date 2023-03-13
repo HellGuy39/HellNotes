@@ -73,8 +73,7 @@
     <string name="menu_item_monthly">Monthly</string>
     <string name="menu_item_outlined">Outlined</string>
     <string name="menu_item_elevated">Elevated</string>
-    <string name="menu_item_delete_or_restore">Delete/Restore</string>
-    <string name="menu_item_archive_or_unarchive">Archive/Unarchive</string>
+    <string name="menu_item_archive">Archive</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>
