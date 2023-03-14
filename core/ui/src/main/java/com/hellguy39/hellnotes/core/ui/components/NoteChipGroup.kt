@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.core.ui.components
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -48,6 +49,7 @@ fun NoteChipGroup(
                 },
                 leadingIcon = {
                     Icon(
+                        modifier = Modifier.size(FilterChipDefaults.IconSize),
                         painter = painterResource(id = HellNotesIcons.Alarm),
                         contentDescription = null
                     )

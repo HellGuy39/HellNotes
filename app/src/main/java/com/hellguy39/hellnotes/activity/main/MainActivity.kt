@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         installSplashScreen().setKeepOnScreenCondition {
-            !splashViewModel.isLoading.value
+            !splashViewModel.splashState.value.isLoading
         }
         setContent { App() }
     }
@@ -52,19 +53,24 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
 
             var isStartUpActionPassed by rememberSaveable { mutableStateOf(false) }
             var isIdentityProofed by rememberSaveable { mutableStateOf(false) }
+            val splashState by splashViewModel.splashState.collectAsStateWithLifecycle()
 
-            LaunchedEffect(key1 = splashViewModel.isLoading.value) {
-                val securityState = splashViewModel.securityState.value
-                val isOnBoardingCompleted by splashViewModel.isOnBoardingCompleted
+            LaunchedEffect(key1 = splashState) {
+                if (!splashState.isLoading) {
+                    val securityState = splashState.securityState
+                    val isOnBoardingCompleted = splashState.onBoardingState
 
-                if (!isOnBoardingCompleted) {
-                    //navigateToWelcomeScreen()
+                    if (!isOnBoardingCompleted) {
+                        //navigateToWelcomeScreen()
+                    }
+
+                    if (securityState.lockType != LockScreenType.None && !isIdentityProofed) {
+                        confirmAppAccess(
+                            cancelable = false,
+                            onSuccess = { isIdentityProofed = true }
+                        )
+                    }
                 }
-
-                if (securityState.lockType != LockScreenType.None && !isIdentityProofed) {
-                    confirmAppAccess(cancelable = false, onSuccess = { isIdentityProofed = true })
-                }
-
             }
 
             Surface(

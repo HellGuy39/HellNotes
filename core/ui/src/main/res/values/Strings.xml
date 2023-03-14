@@ -137,6 +137,7 @@
     <string name="btn_clear">Clear</string>
     <string name="btn_next">Next</string>
     <string name="btn_confirm">Confirm</string>
+    <string name="btn_biometrics">Biometrics</string>
 
     <!-- Setting -->
     <string name="stg_app_lock">App lock</string>

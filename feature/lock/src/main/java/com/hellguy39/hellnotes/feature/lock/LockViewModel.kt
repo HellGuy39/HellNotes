@@ -63,27 +63,30 @@ class LockViewModel @Inject constructor(
         viewModelScope.launch {
             when (key) {
                 NumberKeyboardKeys.KeyBackspace -> {
-                    lockViewModelState.update {
-                        it.copy(
-                            inputPin = it.inputPin.dropLast(1)
-                        )
+                    lockViewModelState.update { state ->
+                        state.copy(inputPin = state.inputPin.dropLast(1))
                     }
                 }
+                NumberKeyboardKeys.KeyEnter -> {
+                    enterPin()
+                }
                 else -> {
-                    lockViewModelState.update {
-                        it.copy(
-                            inputPin = it.inputPin.plus(key)
-                        )
+                    lockViewModelState.update { state ->
+                        state.copy(inputPin = state.inputPin.plus(key))
                     }
                 }
             }
-            checkPin()
+
+            lockViewModelState.update { state ->
+                state.copy(lockState = LockState.Locked)
+            }
+
         }
     }
 
-    private fun checkPin() {
-        lockViewModelState.value.let { state ->
-            if (state.inputPin.length >= 4) {
+    private fun enterPin() {
+        viewModelScope.launch {
+            lockViewModelState.value.let { state ->
                 if (state.inputPin == state.appPin) {
                     lockViewModelState.update {
                         state.copy(lockState = LockState.Unlocked)
@@ -94,17 +97,13 @@ class LockViewModel @Inject constructor(
                     }
                     clearPin()
                 }
-            } else {
-                lockViewModelState.update {
-                    state.copy(lockState = LockState.Locked)
-                }
             }
         }
     }
 
     fun clearPin() {
         viewModelScope.launch {
-            lockViewModelState.update { it.copy(inputPin = "") }
+            lockViewModelState.update { state -> state.copy(inputPin = "") }
         }
     }
 

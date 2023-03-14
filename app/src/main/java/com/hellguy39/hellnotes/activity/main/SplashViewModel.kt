@@ -1,41 +1,51 @@
 package com.hellguy39.hellnotes.activity.main
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.model.SecurityState
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(
     dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
 
-    private val _isLoading: MutableState<Boolean> = mutableStateOf(true)
-    val isLoading: State<Boolean> = _isLoading
+    val splashState: StateFlow<SplashState> =
+        combine(
+            dataStoreRepository.readSecurityState(),
+            dataStoreRepository.readOnBoardingState()
+        ) { securityState, onBoardingState ->
 
-    private val _isOnBoardingCompleted: MutableState<Boolean> = mutableStateOf(false)
-    val isOnBoardingCompleted: State<Boolean> = _isOnBoardingCompleted
+            val isLoading = securityState.hashCode() == SecurityState.initialInstance().hashCode()
 
-    val securityState = dataStoreRepository.readSecurityState()
-        .stateIn(
-            initialValue = SecurityState.initialInstance(),
-            started = SharingStarted.WhileSubscribed(5_000),
-            scope = viewModelScope
-        )
-
-    init {
-        viewModelScope.launch {
-            dataStoreRepository.readOnBoardingState().collect { completed ->
-                _isOnBoardingCompleted.value = completed
-            }
-            _isLoading.value = false
+            SplashState(
+                securityState = securityState,
+                onBoardingState = onBoardingState,
+                isLoading = isLoading
+            )
         }
-    }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = SplashState.initialInstance()
+            )
 
+}
+
+data class SplashState(
+    val isLoading: Boolean,
+    val securityState: SecurityState,
+    val onBoardingState: Boolean
+) {
+    companion object {
+        fun initialInstance() = SplashState(
+            isLoading = true,
+            securityState = SecurityState.initialInstance(),
+            onBoardingState = false
+        )
+    }
 }

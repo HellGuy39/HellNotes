@@ -90,8 +90,9 @@ fun NumberKeyboard(
         )
     ) {
         KeyboardNumberButton(
-            key = NumberKeyboardKeys.KeyBio,
+            key = NumberKeyboardKeys.KeyBackspace,
             onClick = selection.onClick,
+            onLongClick = selection.onLongClick,
             disabledButtonKeys = disabledButtonKeys
         )
         KeyboardNumberButton(
@@ -100,13 +101,11 @@ fun NumberKeyboard(
             disabledButtonKeys = disabledButtonKeys
         )
         KeyboardNumberButton(
-            key = NumberKeyboardKeys.KeyBackspace,
+            key = NumberKeyboardKeys.KeyEnter,
             onClick = selection.onClick,
-            onLongClick = selection.onLongClick,
             disabledButtonKeys = disabledButtonKeys
         )
     }
-    Spacer(modifier = Modifier.size(width = 0.dp, height = 16.dp))
 }
 
 data class NumberKeyboardSelection(
@@ -136,7 +135,7 @@ fun KeyboardNumberButton(
                 )
             }
         }
-        NumberKeyboardKeys.KeyBio -> {
+        NumberKeyboardKeys.KeyEnter -> {
             FilledIconButton(
                 enabled = !disabledButtonKeys.contains(key),
                 onClick = { onClick(key) },
@@ -144,7 +143,7 @@ fun KeyboardNumberButton(
                 shape = CircleShape
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.Fingerprint),
+                    painter = painterResource(id = HellNotesIcons.KeyboardTab),
                     contentDescription = null,
                     modifier = Modifier.size(32.dp)
                 )
@@ -178,5 +177,5 @@ object NumberKeyboardKeys {
     const val Key9 = "9"
     const val Key0 = "0"
     const val KeyBackspace = "backspace"
-    const val KeyBio = "bio"
+    const val KeyEnter = "enter"
 }

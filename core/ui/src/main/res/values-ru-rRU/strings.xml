@@ -63,6 +63,7 @@
     <string name="btn_clear">Очистить</string>
     <string name="btn_next">Далее</string>
     <string name="btn_confirm">Подтвердить</string>
+    <string name="btn_biometrics">Биометрия</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>

@@ -147,6 +147,7 @@ object HellNotesStrings {
         val Confirm = R.string.btn_confirm
         val Next = R.string.btn_next
         val Clear = R.string.btn_clear
+        val Biometrics = R.string.btn_biometrics
     }
 
     object Helper {
