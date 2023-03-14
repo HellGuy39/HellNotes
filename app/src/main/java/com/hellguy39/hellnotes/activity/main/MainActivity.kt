@@ -4,28 +4,25 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.domain.system_features.ProofOfIdentity
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.feature.lock.LockScreenDialog
 import com.hellguy39.hellnotes.navigation.SetupNavGraph
-import com.hellguy39.hellnotes.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -42,17 +39,9 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         installSplashScreen().setKeepOnScreenCondition {
-            !splashViewModel.isLoading.value
+            !splashViewModel.splashState.value.isLoading
         }
         setContent { App() }
-
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(android.R.id.content)
-        ) { view, insets ->
-            val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-            view.updatePadding(bottom = bottom)
-            insets
-        }
     }
 
     @Composable
@@ -64,23 +53,30 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
 
             var isStartUpActionPassed by rememberSaveable { mutableStateOf(false) }
             var isIdentityProofed by rememberSaveable { mutableStateOf(false) }
+            val splashState by splashViewModel.splashState.collectAsStateWithLifecycle()
 
-            LaunchedEffect(key1 = splashViewModel.isLoading.value) {
-                val lockScreenType by splashViewModel.lockScreenType
-                val isOnBoardingCompleted by splashViewModel.isOnBoardingCompleted
+            LaunchedEffect(key1 = splashState) {
+                if (!splashState.isLoading) {
+                    val securityState = splashState.securityState
+                    val isOnBoardingCompleted = splashState.onBoardingState
 
-                if (!isOnBoardingCompleted) {
-                    //navigateToWelcomeScreen()
+                    if (!isOnBoardingCompleted) {
+                        //navigateToWelcomeScreen()
+                    }
+
+                    if (securityState.lockType != LockScreenType.None && !isIdentityProofed) {
+                        confirmAppAccess(
+                            cancelable = false,
+                            onSuccess = { isIdentityProofed = true }
+                        )
+                    }
                 }
-
-                if (lockScreenType != LockScreenType.None && !isIdentityProofed) {
-                    confirmAppAccess(cancelable = false, onSuccess = { isIdentityProofed = true })
-                }
-
             }
 
             Surface(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .imePadding(),
                 color = MaterialTheme.colorScheme.background
             ) {
                 TransparentSystemBars()

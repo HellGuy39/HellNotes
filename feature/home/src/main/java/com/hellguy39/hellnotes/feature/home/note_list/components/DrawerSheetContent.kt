@@ -35,7 +35,8 @@ fun DrawerSheetContent(
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 8.dp)
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                        .padding(top = 24.dp, bottom = 8.dp)
                 ) {
                     Text(
                         text = buildAnnotatedString {
@@ -49,7 +50,6 @@ fun DrawerSheetContent(
                             }
                         },
                         style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.padding(12.dp)
                     )
                 }
                 
@@ -67,9 +67,9 @@ fun DrawerSheetContent(
                     Divider(
                         modifier = Modifier
                             .alpha(0.5f)
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = 8.dp, horizontal = 32.dp),
                         thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.surfaceTint
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Row(
@@ -82,6 +82,16 @@ fun DrawerSheetContent(
                             modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
                         )
                         Spacer(modifier = Modifier.weight(1f))
+//                        IconButton(
+//                            modifier = Modifier.padding(horizontal = 16.dp),
+//                            onClick = {  }
+//                        ) {
+//                            Icon(
+//                                painter = painterResource(id = HellNotesIcons.Edit),
+//                                //tint = MaterialTheme.colorScheme.primary,
+//                                contentDescription = null
+//                            )
+//                        }
                         TextButton(
                             onClick = { labelSelection.onEditLabel() },
                             modifier = Modifier.padding(horizontal = 16.dp)
@@ -89,7 +99,7 @@ fun DrawerSheetContent(
                             Text(
                                 text = stringResource(id = HellNotesStrings.Button.Edit),
                                 modifier = Modifier.padding(horizontal = 4.dp),
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.labelLarge
                             )
                         }
                     }
@@ -113,9 +123,9 @@ fun DrawerSheetContent(
                     Divider(
                         modifier = Modifier
                             .alpha(0.5f)
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = 8.dp, horizontal = 32.dp),
                         thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.surfaceTint
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                 }

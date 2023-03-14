@@ -56,7 +56,7 @@ class ShareHelper(
     }
 
     private fun Note.buildContent(): String {
-        val date = DateFormat.format("MMMM dd yyyy, h:mm aa", lastEditDate).toString()
+        val date = DateFormat.format("MMMM dd yyyy, h:mm aa", editedAt).toString()
         return "${this.title}\n\n${this.note}\n\n${date}"
     }
 

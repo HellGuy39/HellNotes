@@ -1,11 +1,12 @@
 package com.hellguy39.hellnotes.navigation
 
-import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.hellguy39.hellnotes.activity.main.MainActivity
@@ -16,15 +17,19 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
 import com.hellguy39.hellnotes.feature.home.util.HomeScreen
-import com.hellguy39.hellnotes.feature.labels.navigation.labelsScreen
+import com.hellguy39.hellnotes.feature.label_edit.navigation.labelEditScreen
+import com.hellguy39.hellnotes.feature.label_selection.navigation.labelSelectionScreen
 import com.hellguy39.hellnotes.feature.language_selection.navigation.languageSelectionScreen
 import com.hellguy39.hellnotes.feature.lock_selection.navigation.lockSelectionScreen
 import com.hellguy39.hellnotes.feature.lock_setup.navigation.lockSetupScreen
 import com.hellguy39.hellnotes.feature.note_detail.navigations.noteDetailScreen
+import com.hellguy39.hellnotes.feature.note_style_edit.navigation.noteStyleEditScreen
+import com.hellguy39.hellnotes.feature.note_swipe_edit.navigation.noteSwipeEditScreen
+import com.hellguy39.hellnotes.feature.reminder_edit.navigations.reminderEditScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SetupNavGraph(
     extraNoteId: Long?,
@@ -32,8 +37,6 @@ fun SetupNavGraph(
     isStartUpActionPassed: Boolean,
     onStartUpActionPassed: () -> Unit
 ) {
-    val context = LocalContext.current
-
     val navController = rememberAnimatedNavController()
 
     val actionNewNote = stringResource(id = HellNotesStrings.Action.NewNote)
@@ -42,6 +45,10 @@ fun SetupNavGraph(
     val actionArchive = stringResource(id = HellNotesStrings.Action.Archive)
 
     AnimatedNavHost(
+        modifier = Modifier
+            .semantics {
+                testTagsAsResourceId = true
+            },
         navController = navController,
         startDestination = Screen.Home.route
     ) {
@@ -57,9 +64,13 @@ fun SetupNavGraph(
 
         noteDetailScreen(navController)
 
+        reminderEditScreen(navController)
+
+        labelSelectionScreen(navController)
+
         searchScreen(navController)
 
-        labelsScreen(navController)
+        labelEditScreen(navController)
 
         settingsScreen(navController)
 
@@ -68,6 +79,10 @@ fun SetupNavGraph(
         lockSetupScreen(navController)
 
         languageSelectionScreen(navController)
+
+        noteStyleEditScreen(navController)
+
+        noteSwipeEditScreen(navController)
 
         aboutAppScreen(navController)
     }.also {

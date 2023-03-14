@@ -30,6 +30,9 @@ object HellNotesIcons {
     val Cancel = R.drawable.ic_cancel_24
     val NewLabel = R.drawable.ic_new_label_24
     val RestoreFromTrash = R.drawable.ic_restore_from_trash_24
+    val DoubleStickyNote = R.drawable.ic_double_sticky_note_24
+    val Gesture = R.drawable.ic_gesture_24
+    val KeyboardTab = R.drawable.ic_keyboard_tab_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24
@@ -49,4 +52,9 @@ object HellNotesIcons {
     val Password = R.drawable.ic_password_24
     val Pattern = R.drawable.ic_pattern_24
     val SwipeRight = R.drawable.ic_swipe_right_24
+    val SwipeLeft = R.drawable.ic_swipe_left_24
+
+    val Event = R.drawable.ic_event_24
+    val Schedule = R.drawable.ic_schedule_24
+    val Repeat = R.drawable.ic_repeat_24
 }

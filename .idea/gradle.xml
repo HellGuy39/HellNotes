@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/benchmark" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/common" />
@@ -24,12 +25,16 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/about-app" />
             <option value="$PROJECT_DIR$/feature/home" />
-            <option value="$PROJECT_DIR$/feature/labels" />
+            <option value="$PROJECT_DIR$/feature/label-edit" />
+            <option value="$PROJECT_DIR$/feature/label-selection" />
             <option value="$PROJECT_DIR$/feature/language-selection" />
             <option value="$PROJECT_DIR$/feature/lock" />
             <option value="$PROJECT_DIR$/feature/lock-selection" />
             <option value="$PROJECT_DIR$/feature/lock-setup" />
             <option value="$PROJECT_DIR$/feature/note-detail" />
+            <option value="$PROJECT_DIR$/feature/note-style-edit" />
+            <option value="$PROJECT_DIR$/feature/note-swipe-edit" />
+            <option value="$PROJECT_DIR$/feature/reminder-edit" />
             <option value="$PROJECT_DIR$/feature/search" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/welcome" />

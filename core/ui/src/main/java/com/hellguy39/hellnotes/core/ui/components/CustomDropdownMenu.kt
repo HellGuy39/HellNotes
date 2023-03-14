@@ -8,40 +8,50 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import java.io.Serializable
 
 @Composable
 fun CustomDropdownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit
+    items: List<CustomDropdownItemSelection>
 ) {
     DropdownMenu(
         expanded = expanded,
         onDismissRequest = onDismissRequest,
     ) {
-        content()
+        repeat(items.size) { index ->
+            CustomDropdownItem(items[index])
+        }
     }
 }
 
+data class CustomDropdownItemSelection(
+    val leadingIconId: Painter? = null,
+    val text: String = "",
+    val onClick: () -> Unit = {}
+)
+
 @Composable
 fun CustomDropdownItem(
-    leadingIconId: Painter? = null,
-    text: String = "",
-    onClick: () -> Unit = {}
+    selection: CustomDropdownItemSelection
 ) {
     DropdownMenuItem(
         text = {
             Text(
-                text = text,
+                text = selection.text,
                 style = MaterialTheme.typography.labelLarge
             )
         },
-        onClick = onClick,
+        onClick = selection.onClick,
         leadingIcon = {
-            if (leadingIconId != null) {
+            if (selection.leadingIconId != null) {
                 Icon(
-                    painter = leadingIconId,
+                    painter = selection.leadingIconId,
                     contentDescription = null
                 )
             }

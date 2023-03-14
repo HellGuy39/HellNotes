@@ -12,7 +12,7 @@ import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
 import com.hellguy39.hellnotes.feature.lock_selection.util.LockScreenTypeItemHolder
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +62,7 @@ fun LockSelectionScreen(
                 contentPadding = paddingValues
             ) {
                 items(screenTypes) { item ->
-                    SelectionItem(
+                    SelectionIconItem(
                         title = item.title,
                         heroIcon = item.icon,
                         onClick = { onLockScreenTypeSelected(item.lockScreenType) }

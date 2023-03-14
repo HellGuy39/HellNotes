@@ -13,8 +13,8 @@ sealed interface Sorting {
 
     companion object {
 
-        const val DATE_OF_CREATION = "date_of_creation"
-        const val DATE_OF_LAST_EDIT = "date_of_last_edit"
+        private const val DATE_OF_CREATION = "date_of_creation"
+        private const val DATE_OF_LAST_EDIT = "date_of_last_edit"
 
         fun from(s: String) = when(s) {
             DATE_OF_LAST_EDIT -> DateOfLastEdit

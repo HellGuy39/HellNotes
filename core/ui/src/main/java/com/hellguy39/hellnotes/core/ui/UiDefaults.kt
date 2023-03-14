@@ -2,8 +2,25 @@ package com.hellguy39.hellnotes.core.ui
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.ui.unit.dp
 
 object UiDefaults {
+
+    object ListItem {
+
+        val DefaultHeight = 56.dp
+        val LargeHeight = 72.dp
+
+    }
+
+    object Elevation {
+        val Level0 = 0.dp
+        val Level1 = 1.dp
+        val Level2 = 3.dp
+        val Level3 = 6.dp
+        val Level4 = 8.dp
+        val Level5 = 12.dp
+    }
 
     object Alpha {
 
@@ -17,29 +34,33 @@ object UiDefaults {
 
     object Motion {
 
+        private const val FAST_DURATION = 200
+        private const val MEDIUM_DURATION = 300
+        private const val SLOW_DURATION = 400
+
         val ScreenEnterTransition =
             slideInHorizontally(
                 initialOffsetX = { fullWidth -> fullWidth },
-                animationSpec = tween(300)
-            ) + fadeIn(animationSpec = tween(300))
+                animationSpec = tween(durationMillis = MEDIUM_DURATION)
+            ) + fadeIn(animationSpec = tween(durationMillis = MEDIUM_DURATION))
 
         val ScreenExitTransition =
             slideOutHorizontally(
                 targetOffsetX = { fullWidth -> -fullWidth },
-                animationSpec = tween(300)
-            ) + fadeOut(animationSpec = tween(300))
+                animationSpec = tween(durationMillis = MEDIUM_DURATION)
+            ) + fadeOut(animationSpec = tween(durationMillis = MEDIUM_DURATION))
 
         val ScreenPopEnterTransition =
             slideInHorizontally(
                 initialOffsetX = { fullWidth -> -fullWidth },
-                animationSpec = tween(300)
-            ) + fadeIn(animationSpec = tween(300))
+                animationSpec = tween(durationMillis = MEDIUM_DURATION)
+            ) + fadeIn(animationSpec = tween(durationMillis = MEDIUM_DURATION))
 
         val ScreenPopExitTransition =
             slideOutHorizontally(
                 targetOffsetX = { fullWidth -> fullWidth },
-                animationSpec = tween(300)
-            ) + fadeOut(animationSpec = tween(300))
+                animationSpec = tween(durationMillis = MEDIUM_DURATION)
+            ) + fadeOut(animationSpec = tween(durationMillis = MEDIUM_DURATION))
 
     }
 

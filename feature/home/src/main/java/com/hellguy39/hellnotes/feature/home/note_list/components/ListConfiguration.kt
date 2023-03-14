@@ -9,13 +9,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.Sorting
 import com.hellguy39.hellnotes.core.ui.components.CustomDialogState
+import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
 fun ListConfiguration(
     selection: ListConfigurationSelection,
-    menuState: CustomDialogState
+    menuState: CustomDropdownMenuState
 ) {
     val sortName = when(selection.sorting) {
         is Sorting.DateOfLastEdit -> stringResource(id = HellNotesStrings.Text.DateOfLastEdit)
@@ -28,16 +29,19 @@ fun ListConfiguration(
         TextButton(
             modifier = Modifier.padding(start = 12.dp),
             onClick = { menuState.show() },
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
         ) {
             Icon(
                 painter = painterResource(id = HellNotesIcons.Sort),
-                contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Sort)
+                contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Sort),
+                modifier = Modifier.size(ButtonDefaults.IconSize)
             )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text(
                 text = sortName,
                 modifier = Modifier
                     .padding(horizontal = 4.dp),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.labelLarge
             )
             SortDropdownMenu(
                 expanded = menuState.visible,
@@ -49,7 +53,6 @@ fun ListConfiguration(
                     selection.onSortingSelected(sorting)
                 }
             )
-
         }
     }
 }

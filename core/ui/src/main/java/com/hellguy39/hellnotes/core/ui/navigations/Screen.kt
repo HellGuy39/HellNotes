@@ -12,18 +12,44 @@ sealed class Screen(val route: String) {
     object Home : Screen(route = "home_screen")
     object Settings : Screen(route = "settings_screen")
     object NoteDetail : Screen(route = "note_detail_screen")
+    object ReminderEdit : Screen(route = "reminder_edit_screen")
     object Search : Screen(route = "search_screen")
     object AboutApp : Screen(route = "about_app_screen")
-    object Labels : Screen(route = "labels_screen")
+    object LabelEdit : Screen(route = "label_edit_screen")
+    object LabelSelection : Screen(route = "label_selection_screen")
+    object NoteStyleEdit : Screen(route = "note_style_edit")
+    object NoteSwipeEdit : Screen(route = "note_swipe_edit")
+
+    fun withArgs(vararg args: String): String {
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/$arg")
+            }
+        }
+    }
+
+    fun withArgKeys(vararg args: String): String {
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/{$arg}")
+            }
+        }
+    }
+
 }
 
 object ArgumentKeys {
     const val NoteId = "noteId"
+    const val ReminderId = "reminderId"
     const val LockType = "lockType"
+    const val Action = "action"
 }
 
 object ArgumentDefaultValues {
     const val NewNote: Long = -1
+    const val NewReminder: Long = -1
 }
 
 fun NavController.navigateToNoteDetail(
@@ -33,7 +59,33 @@ fun NavController.navigateToNoteDetail(
     val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
 
     navigate(
-        route = "${Screen.NoteDetail.route}/$noteIdArg",
+        route = Screen.NoteDetail.withArgs(noteIdArg.toString()),
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToReminderEdit(
+    noteId: Long? = ArgumentDefaultValues.NewNote,
+    reminderId: Long? = ArgumentDefaultValues.NewReminder,
+    navOptions: NavOptions? = null
+) {
+    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
+    val reminderIdArg = reminderId ?: ArgumentDefaultValues.NewReminder
+
+    navigate(
+        route = Screen.ReminderEdit.withArgs(noteIdArg.toString(), reminderIdArg.toString()),
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToLabelSelection(
+    noteId: Long? = ArgumentDefaultValues.NewNote,
+    navOptions: NavOptions? = null
+) {
+    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
+
+    navigate(
+        route = Screen.LabelSelection.withArgs(noteIdArg.toString()),
         navOptions = navOptions
     )
 }
@@ -43,7 +95,7 @@ fun NavController.navigateToLockSetup(
     navOptions: NavOptions? = null
 ) {
     navigate(
-        route = "${Screen.LockSetup.route}/${lockType.parse()}",
+        route = Screen.LockSetup.withArgs(lockType.parse()),
         navOptions = navOptions
     )
 }
@@ -76,9 +128,12 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavController.navigateToLabels(navOptions: NavOptions? = null) {
+fun NavController.navigateToLabelEdit(
+    navOptions: NavOptions? = null,
+    action: String
+) {
     navigate(
-        route = Screen.Labels.route,
+        route = Screen.LabelEdit.withArgs(action),
         navOptions = navOptions
     )
 }
@@ -100,6 +155,20 @@ fun NavController.navigateToLockSelection(navOptions: NavOptions? = null) {
 fun NavController.navigateToLanguageSelection(navOptions: NavOptions? = null) {
     navigate(
         route = Screen.LanguageSelection.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToNoteStyleEdit(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.NoteStyleEdit.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToNoteSwipeEdit(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.NoteSwipeEdit.route,
         navOptions = navOptions
     )
 }

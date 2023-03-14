@@ -1,10 +1,12 @@
-import org.gradle.internal.impldep.com.google.api.services.storage.model.Bucket.Lifecycle
-import java.awt.SplashScreen
-
 object Libs {
 
     private const val junitVersion = "4.13.2"
     const val JUnit = "junit:junit:$junitVersion"
+
+    object Gradle {
+        private const val version = "7.4.2"
+        const val Plugin = "com.android.tools.build:gradle:$version"
+    }
 
     object SquareUp {
 
@@ -13,10 +15,13 @@ object Libs {
         const val MoshiKotlin = "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     }
 
-    object KotlinX {
+    object Kotlin {
 
         private val coroutinesVersion = "1.6.4"
         val Coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+        private val plugineVersion = "1.8.10"
+        val Plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugineVersion"
 
     }
 
@@ -27,6 +32,9 @@ object Libs {
         private const val lifecycleVersion = "2.5.1"
         private const val splashScreenVersion = "1.0.0"
         private const val biometricVersion = "1.2.0-alpha05"
+        private const val profileInstallerVersion = "1.3.0-rc01"
+
+        const val ProfileInstaller = "androidx.profileinstaller:profileinstaller:$profileInstallerVersion"
 
         const val SplashScreen ="androidx.core:core-splashscreen:$splashScreenVersion"
         const val Biometric = "androidx.biometric:biometric-ktx:$biometricVersion"
@@ -65,7 +73,7 @@ object Libs {
             const val Activty = "androidx.activity:activity-compose:1.6.1"
             const val Ui = "androidx.compose.ui:ui:$composeVersion"
             const val ToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
-            const val Material3 = "androidx.compose.material3:material3:1.1.0-alpha05"
+            const val Material3 = "androidx.compose.material3:material3:1.1.0-alpha06"
             const val Navigation = "androidx.navigation:navigation-compose:2.5.3"
 
             const val UiTestJUnit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
@@ -95,13 +103,13 @@ object Libs {
             const val PagerIndicators =
                 "com.google.accompanist:accompanist-pager-indicators:$version"
 
-
         }
 
         object Hilt {
 
-            private const val version = "2.44.2"
+            private const val version = "2.45"
 
+            const val Plugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
             const val Android = "com.google.dagger:hilt-android:$version"
             const val Compiler = "com.google.dagger:hilt-compiler:$version"
             const val NavigationCompsoe= "androidx.hilt:hilt-navigation-compose:1.0.0"
@@ -112,7 +120,7 @@ object Libs {
     object MaxKeppler {
 
         object ComposeDialogs {
-            private const val version = "1.0.2"
+            private const val version = "1.1.0"
 
             const val Core = "com.maxkeppeler.sheets-compose-dialogs:core:$version"
             const val Calendar = "com.maxkeppeler.sheets-compose-dialogs:calendar:$version"

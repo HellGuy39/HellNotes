@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.core.database.di
 import com.hellguy39.hellnotes.core.database.HellNotesDatabase
 import com.hellguy39.hellnotes.core.database.dao.LabelDao
 import com.hellguy39.hellnotes.core.database.dao.NoteDao
-import com.hellguy39.hellnotes.core.database.dao.RemindDao
+import com.hellguy39.hellnotes.core.database.dao.ReminderDao
 import com.hellguy39.hellnotes.core.database.dao.TrashDao
 import dagger.Module
 import dagger.Provides
@@ -22,7 +22,7 @@ object DaoModule {
     @Provides
     fun providesRemindDao(
         database: HellNotesDatabase,
-    ): RemindDao = database.remindDao
+    ): ReminderDao = database.reminderDao
 
     @Provides
     fun provideLabelDao(

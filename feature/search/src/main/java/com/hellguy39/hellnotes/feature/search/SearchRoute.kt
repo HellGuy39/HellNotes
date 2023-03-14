@@ -8,7 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
@@ -18,11 +18,9 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 fun SearchRoute(
     navController: NavController,
     searchViewModel: SearchViewModel = hiltViewModel(),
-    dateHelper: DateHelper = searchViewModel.dateHelper
 ) {
-    val haptic = LocalHapticFeedback.current
-
     val uiState by searchViewModel.uiState.collectAsStateWithLifecycle()
+    val noteStyle by searchViewModel.noteStyle.collectAsStateWithLifecycle()
     val listStyle by searchViewModel.listStyle.collectAsStateWithLifecycle()
 
     SearchScreen(
@@ -31,13 +29,15 @@ fun SearchRoute(
         listStyle = listStyle,
         onQueryChanged = { newQuery -> searchViewModel.updateSearchQuery(newQuery) },
         noteSelection = NoteSelection(
-            dateHelper = dateHelper,
+            noteStyle = noteStyle,
             onClick = { note ->
                 navController.navigateToNoteDetail(noteId = note.id)
             },
-            onLongClick = { note ->
-                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-            }
+            onLongClick = { note -> },
+            onDismiss = { dismissDirection, note ->
+                false
+            },
+            isSwipeable = false
         ),
         categories = listOf(
             NoteCategory(

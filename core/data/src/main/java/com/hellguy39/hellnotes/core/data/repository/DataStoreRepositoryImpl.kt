@@ -2,9 +2,10 @@ package com.hellguy39.hellnotes.core.data.repository
 
 import com.hellguy39.hellnotes.core.datastore.HellNotesPreferencesDataSource
 import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
-import com.hellguy39.hellnotes.core.model.AppSettings
+import com.hellguy39.hellnotes.core.model.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.SecurityState
 import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.model.util.Sorting
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -12,6 +13,14 @@ import javax.inject.Inject
 class DataStoreRepositoryImpl @Inject constructor(
     private val dataSource: HellNotesPreferencesDataSource
 ) : DataStoreRepository {
+
+    override fun readNoteSwipesState(): Flow<NoteSwipesState> {
+        return dataSource.readNoteSwipesState()
+    }
+
+    override suspend fun saveNoteSwipesState(state: NoteSwipesState) {
+        dataSource.saveNoteSwipesState(state)
+    }
 
     override suspend fun saveOnBoardingState(completed: Boolean) {
         dataSource.saveOnBoardingState(completed = completed)
@@ -25,28 +34,28 @@ class DataStoreRepositoryImpl @Inject constructor(
         dataSource.saveListSortState(sorting = sorting)
     }
 
-    override suspend fun saveAppSettings(appSettings: AppSettings) {
-        dataSource.saveAppSettings(appSettings)
+    override suspend fun saveNoteStyleState(noteStyle: NoteStyle) {
+        dataSource.saveNoteStyleState(noteStyle = noteStyle)
     }
 
-    override suspend fun saveIsUseBiometricData(isUseBiometricData: Boolean) {
-        dataSource.saveIsUseBiometricData(isUseBiometricData = isUseBiometricData)
+    override suspend fun saveSecurityState(securityState: SecurityState) {
+        dataSource.saveSecurityState(securityState)
     }
 
-    override suspend fun saveAppCode(code: String) {
-        dataSource.saveAppCode(code)
+    override suspend fun saveTrashTipState(completed: Boolean) {
+        dataSource.saveTrashTipState(completed)
     }
 
-    override suspend fun saveTrashTipChecked(isChecked: Boolean) {
-        dataSource.saveOnTrashTipChecked(isChecked)
+    override fun readOnBoardingState(): Flow<Boolean> {
+        return dataSource.readOnBoardingState()
     }
 
-    override suspend fun saveAppLockType(lockScreenType: LockScreenType) {
-        dataSource.saveAppLockType(lockScreenType)
+    override fun readTrashTipState(): Flow<Boolean> {
+        return dataSource.readTrashTipState()
     }
 
-    override fun readAppSettings(): Flow<AppSettings> {
-        return dataSource.readAppSettings()
+    override fun readSecurityState(): Flow<SecurityState> {
+        return dataSource.readSecurityState()
     }
 
     override fun readListSortState(): Flow<Sorting> {
@@ -55,6 +64,10 @@ class DataStoreRepositoryImpl @Inject constructor(
 
     override fun readListStyleState(): Flow<ListStyle> {
         return dataSource.readListStyleState()
+    }
+
+    override fun readNoteStyleState(): Flow<NoteStyle> {
+        return dataSource.readNoteStyleState()
     }
 
 }

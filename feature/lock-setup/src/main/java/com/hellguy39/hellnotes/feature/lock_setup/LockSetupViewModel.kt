@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
+import com.hellguy39.hellnotes.core.model.SecurityState
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,13 @@ class LockSetupViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val lockSetupViewModel = MutableStateFlow(LockSetupViewModelState())
+
+    private val securityState = dataStoreRepository.readSecurityState()
+        .stateIn(
+            initialValue = SecurityState.initialInstance(),
+            started = SharingStarted.WhileSubscribed(5_000),
+            scope = viewModelScope
+        )
 
     val uiState = lockSetupViewModel
         .map(LockSetupViewModelState::toUiState)
@@ -38,8 +46,13 @@ class LockSetupViewModel @Inject constructor(
 
     fun saveAppCode(code: String) {
         viewModelScope.launch {
-            dataStoreRepository.saveAppCode(code)
-            dataStoreRepository.saveAppLockType(lockSetupViewModel.value.newLockScreenType)
+            val securityState = securityState.value
+            dataStoreRepository.saveSecurityState(
+                securityState.copy(
+                    password = code,
+                    lockType = lockSetupViewModel.value.newLockScreenType
+                )
+            )
         }
     }
 

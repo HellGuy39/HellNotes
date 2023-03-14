@@ -1,21 +1,24 @@
 package com.hellguy39.hellnotes.feature.language_selection
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import com.hellguy39.hellnotes.core.model.util.Language
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
+import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.components.CustomRadioButton
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 
@@ -34,18 +37,30 @@ fun LanguageSelectionScreen(
     Scaffold(
         content = { paddingValues ->
             LazyColumn(
-                modifier = Modifier
-                    .padding(paddingValues),
+                modifier = Modifier,
+                contentPadding = paddingValues,
             ) {
-                items(Language.languageCodes) { code ->
-                    SelectionItem(
-                        heroIcon = if (code == uiState.languageCode)
-                            painterResource(id = HellNotesIcons.Done)
-                        else null,
-                        title = Language.from(code).getDisplayName(),
-                        onClick = { onLanguageSelected(code) },
-                        colorize = code == uiState.languageCode
-                    )
+                item {
+                    Column(
+                        modifier = Modifier.selectableGroup(),
+                    ) {
+                        Language.languageCodes.forEach { code ->
+                            val isSelected = code == uiState.languageCode
+
+                            CustomRadioButton(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(UiDefaults.ListItem.DefaultHeight)
+                                    .selectable(
+                                        selected = isSelected,
+                                        onClick = { onLanguageSelected(code) },
+                                        role = Role.RadioButton
+                                    ),
+                                title = Language.from(code).getDisplayName(),
+                                isSelected = isSelected
+                            )
+                        }
+                    }
                 }
             }
         },
@@ -53,7 +68,7 @@ fun LanguageSelectionScreen(
             CustomLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationBack,
-                title = stringResource(id = HellNotesStrings.Title.ChangeLanguage)
+                title = stringResource(id = HellNotesStrings.Title.Language)
             )
         }
     )

@@ -4,10 +4,9 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.hellguy39.hellnotes.core.model.AppSettings
-import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
-import com.hellguy39.hellnotes.core.model.util.Sorting
+import com.hellguy39.hellnotes.core.model.SecurityState
+import com.hellguy39.hellnotes.core.model.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.util.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -23,12 +22,17 @@ class HellNotesPreferencesDataSource @Inject constructor(
 
     private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")
-        val onTrashTipKey = booleanPreferencesKey(name = "on_trash_tip_checked")
-        val appLockType = stringPreferencesKey(name = "app_lock_type")
+        val trashTipKey = booleanPreferencesKey(name = "trash_tip_checked")
+        val lockType = stringPreferencesKey(name = "lock_type")
         val isUseBiometricData = booleanPreferencesKey(name = "is_use_biometric_data")
         val listStyle = stringPreferencesKey(name = "list_style")
+        val noteStyle = stringPreferencesKey(name = "note_style")
         val sorting = stringPreferencesKey(name = "sorting")
-        val appCode = stringPreferencesKey(name = "app_code")
+        val password = stringPreferencesKey(name = "password")
+
+        val noteSwipesEnabled = booleanPreferencesKey(name = "note_swipes_enabled")
+        val noteSwipeRight = stringPreferencesKey(name = "note_swipe_left")
+        val noteSwipeLeft = stringPreferencesKey(name = "note_swipe_right")
     }
 
     private val dataStore = context.dataStore
@@ -51,52 +55,53 @@ class HellNotesPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun saveAppCode(code: String) {
+    suspend fun saveNoteStyleState(noteStyle: NoteStyle) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.appCode] = code
+            preferences[PreferencesKey.noteStyle] = noteStyle.parse()
         }
     }
 
-    suspend fun saveIsUseBiometricData(isUseBiometricData: Boolean) {
+    suspend fun saveSecurityState(state: SecurityState) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.isUseBiometricData] = isUseBiometricData
+            preferences[PreferencesKey.lockType] = state.lockType.parse()
+            preferences[PreferencesKey.isUseBiometricData] = state.isUseBiometricData
+            preferences[PreferencesKey.password] = state.password
         }
     }
 
-    suspend fun saveAppLockType(lockScreenType: LockScreenType) {
+    suspend fun saveNoteSwipesState(state: NoteSwipesState) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.appLockType] = lockScreenType.parse()
+            preferences[PreferencesKey.noteSwipesEnabled] = state.enabled
+            preferences[PreferencesKey.noteSwipeLeft] = state.swipeLeft.parse()
+            preferences[PreferencesKey.noteSwipeRight] = state.swipeRight.parse()
         }
     }
 
-    suspend fun saveAppSettings(
-        appSettings: AppSettings
-    ) {
+    suspend fun saveTrashTipState(completed: Boolean) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.appLockType] = appSettings.appLockType.parse()
-            preferences[PreferencesKey.isUseBiometricData] = appSettings.isUseBiometricData
-            preferences[PreferencesKey.appCode] = appSettings.appCode
-            preferences[PreferencesKey.onBoardingKey] = appSettings.isOnBoardingCompleted
+            preferences[PreferencesKey.trashTipKey] = completed
         }
     }
 
-    suspend fun saveOnTrashTipChecked(
-        onChecked: Boolean
-    ) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKey.onTrashTipKey] = onChecked
-        }
-    }
-
-    fun readAppSettings() = dataStore.data
+    fun readOnBoardingState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
-            AppSettings(
-                appLockType = LockScreenType.from(preferences[PreferencesKey.appLockType]),
-                appCode = preferences[PreferencesKey.appCode] ?: "",
+            preferences[PreferencesKey.onBoardingKey] ?: false
+        }
+
+    fun readTrashTipState() = dataStore.data
+        .catchExceptions()
+        .map { preferences ->
+            preferences[PreferencesKey.trashTipKey] ?: false
+        }
+
+    fun readSecurityState() = dataStore.data
+        .catchExceptions()
+        .map { preferences ->
+            SecurityState(
+                lockType = LockScreenType.from(preferences[PreferencesKey.lockType]),
+                password = preferences[PreferencesKey.password] ?: "",
                 isUseBiometricData = preferences[PreferencesKey.isUseBiometricData] ?: false,
-                isOnBoardingCompleted = preferences[PreferencesKey.onBoardingKey] ?: false,
-                isTrashTipChecked = preferences[PreferencesKey.onTrashTipKey] ?: false,
             )
         }
 
@@ -110,6 +115,28 @@ class HellNotesPreferencesDataSource @Inject constructor(
         .catchExceptions()
         .map { preferences ->
             Sorting.from(preferences[PreferencesKey.sorting] ?: "")
+        }
+
+    fun readNoteStyleState() = dataStore.data
+        .catchExceptions()
+        .map { preferences ->
+            NoteStyle.from(preferences[PreferencesKey.noteStyle] ?: "")
+        }
+
+    fun readNoteSwipesState() = dataStore.data
+        .catchExceptions()
+        .map { preferences ->
+            NoteSwipesState(
+                enabled = preferences[PreferencesKey.noteSwipesEnabled] ?: true,
+                swipeLeft = NoteSwipe.from(
+                    preferences[PreferencesKey.noteSwipeLeft],
+                    NoteSwipe.Archive
+                ),
+                swipeRight = NoteSwipe.from(
+                    preferences[PreferencesKey.noteSwipeRight],
+                    NoteSwipe.Delete
+                )
+            )
         }
 
 }

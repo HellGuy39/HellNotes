@@ -30,12 +30,12 @@ android {
 
 dependencies {
 
-    implementation(project(Project.Core.Database))
-    implementation(project(Project.Core.Datastore))
-    implementation(project(Project.Core.Model))
-    implementation(project(Project.Core.Domain))
+    implementation(project(Modules.Core.Database))
+    implementation(project(Modules.Core.Datastore))
+    implementation(project(Modules.Core.Model))
+    implementation(project(Modules.Core.Domain))
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

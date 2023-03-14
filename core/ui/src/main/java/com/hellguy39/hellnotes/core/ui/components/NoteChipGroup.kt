@@ -1,28 +1,27 @@
 package com.hellguy39.hellnotes.core.ui.components
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Remind
+import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteChipGroup(
     modifier: Modifier = Modifier,
-    reminders: List<Remind>,
+    reminders: List<Reminder>,
     labels: List<Label>,
     limitElements: Boolean = false,
     maxElements: Int = 2,
-    onRemindClick: (remind: Remind) -> Unit = {},
+    onRemindClick: (reminder: Reminder) -> Unit = {},
     onLabelClick: (label: Label) -> Unit = {},
-    dateHelper: DateHelper
 ) {
     val chipsCount = reminders.size + labels.size
     var counter = 0
@@ -50,13 +49,14 @@ fun NoteChipGroup(
                 },
                 leadingIcon = {
                     Icon(
+                        modifier = Modifier.size(FilterChipDefaults.IconSize),
                         painter = painterResource(id = HellNotesIcons.Alarm),
                         contentDescription = null
                     )
                 },
                 label = {
                     Text(
-                        text = dateHelper.epochMillisToFormattedDate(reminder.triggerDate),
+                        text = DateTimeUtils.formatBest(reminder.triggerDate),
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
@@ -82,20 +82,20 @@ fun NoteChipGroup(
                 label = {
                     Text(
                         text = label.name,
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelLarge
                     )
                 },
             )
         }
 
-        if (limitElements && counter >= maxElements) {
+        if ((limitElements && counter >= maxElements) && (chipsCount - counter) != 0) {
             FilterChip(
                 selected = true,
                 onClick = {},
                 label = {
                     Text(
                         text = "+${chipsCount - counter}",
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelLarge
                     )
                 },
             )

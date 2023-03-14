@@ -22,7 +22,7 @@ fun SettingsScreen(
     BackHandler(onBack = onNavigationButtonClick)
 
     val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
     Scaffold(
         modifier = Modifier
@@ -30,6 +30,7 @@ fun SettingsScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
             SettingsScreenContent(
+                modifier = Modifier.fillMaxSize(),
                 innerPadding = innerPadding,
                 uiState = uiState,
                 selection = selection

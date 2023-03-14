@@ -8,7 +8,8 @@ import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.ui.DateHelper
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,13 +21,15 @@ class SearchViewModel @Inject constructor(
     private val labelRepository: LabelRepository,
     private val reminderRepository: ReminderRepository,
     private val noteRepository: NoteRepository,
-    val dateHelper: DateHelper,
 ): ViewModel() {
 
     private val searchViewModelState = MutableStateFlow(SearchViewModelState())
 
     private val _listStyle: MutableStateFlow<ListStyle> = MutableStateFlow(ListStyle.Column)
     val listStyle = _listStyle.asStateFlow()
+
+    private val _noteStyle: MutableStateFlow<NoteStyle> = MutableStateFlow(NoteStyle.Outlined)
+    val noteStyle = _noteStyle.asStateFlow()
 
     val uiState = searchViewModelState
         .map(SearchViewModelState::toUiState)
@@ -39,10 +42,14 @@ class SearchViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-
             launch {
                 dataStoreRepository.readListStyleState().collect { listStyle ->
                     _listStyle.update { listStyle }
+                }
+            }
+            launch {
+                dataStoreRepository.readNoteStyleState().collect { noteStyle ->
+                    _noteStyle.update { noteStyle }
                 }
             }
 
@@ -54,7 +61,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
             launch {
-                reminderRepository.getAllRemindsStream().collect { reminders ->
+                reminderRepository.getAllRemindersStream().collect { reminders ->
                     searchViewModelState.update { it.copy(reminders = reminders) }
                 }
             }
@@ -78,7 +85,7 @@ private data class SearchViewModelState(
     val isLoading: Boolean = true,
     val notes: List<Note> = listOf(),
     val labels: List<Label> = listOf(),
-    val reminders: List<Remind> = listOf(),
+    val reminders: List<Reminder> = listOf(),
 ) {
     fun toUiState(): SearchUiState {
 

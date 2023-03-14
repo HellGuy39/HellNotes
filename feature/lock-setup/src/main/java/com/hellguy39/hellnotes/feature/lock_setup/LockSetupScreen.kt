@@ -18,7 +18,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
-import com.hellguy39.hellnotes.core.ui.components.CustomDialogState
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -62,10 +61,11 @@ fun LockSetupPin(
     val wrongPinMessage = stringResource(id = HellNotesStrings.Helper.WrongPin)
 
     fun onValueChange(newText: String) {
-
         value = newText
         isError = false
+    }
 
+    fun onConfirm() {
         if(value.length >= 4) {
             when(state) {
                 SetupPinState.SetPin -> {
@@ -83,6 +83,10 @@ fun LockSetupPin(
             }
             value = ""
         }
+    }
+
+    fun onClear() {
+        value = ""
     }
 
     val title = when (state) {
@@ -104,10 +108,13 @@ fun LockSetupPin(
         }
     }
 
+    val duration = 300
+
     AnimatedContent(
         targetState = state,
         transitionSpec = {
-            fadeIn(animationSpec = tween(300)) with fadeOut(animationSpec = tween(300))
+            slideInHorizontally(animationSpec = tween(duration)) { fullWidth -> fullWidth } + fadeIn(animationSpec = tween(duration)) with
+                    slideOutHorizontally(animationSpec = tween(duration)) { fullWidth -> -fullWidth } + fadeOut(animationSpec = tween(duration))
         }
     ) { state ->
         Scaffold(
@@ -121,10 +128,11 @@ fun LockSetupPin(
                         alignment = Alignment.CenterVertically
                     )
                 ) {
-                    Text(
-                        text = subtitle,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
+//                    Text(
+//                        text = subtitle,
+//                        style = MaterialTheme.typography.bodyLarge
+//                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -132,22 +140,32 @@ fun LockSetupPin(
                         value = value,
                         onValueChange = { newText -> onValueChange(newText) },
                         singleLine = true,
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(
+                            textAlign = TextAlign.Center
+                        ),
                         isError = isError,
                         supportingText = {
-                            if (!isError) {
+                            val isVisible = isError || (state == SetupPinState.SetPin && value.length < 4)
+                            val text = if (isError)
+                                errorMessage
+                            else if (value.length < 4)
+                                stringResource(id = HellNotesStrings.Helper.PinMustBeAtLeast4Digits)
+                            else ""
+                            val color = if (isError)
+                                MaterialTheme.colorScheme.error
+                            else
+                                MaterialTheme.colorScheme.onSurfaceVariant
+
+                            AnimatedVisibility(
+                                visible = isVisible,
+                                enter = fadeIn(tween(300)),
+                                exit = fadeOut(tween(300))
+                            ) {
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
-                                    text = stringResource(id = HellNotesStrings.Helper.PinMustBeOnly4Digits),
+                                    text = text,
                                     style = MaterialTheme.typography.bodySmall,
-                                    textAlign = TextAlign.Center
-                                )
-                            } else {
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = errorMessage,
-                                    style = MaterialTheme.typography.bodySmall.copy(
-                                        color = MaterialTheme.colorScheme.error
-                                    ),
+                                    color = color,
                                     textAlign = TextAlign.Center
                                 )
                             }
@@ -157,6 +175,37 @@ fun LockSetupPin(
                             keyboardType = KeyboardType.NumberPassword
                         )
                     )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        TextButton(
+                            modifier = Modifier,
+                            onClick = { onClear() },
+                            contentPadding = ButtonDefaults.TextButtonContentPadding
+                        ) {
+                            Text(
+                                text = stringResource(id = HellNotesStrings.Button.Clear),
+                                modifier = Modifier,
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                        Button(
+                            modifier = Modifier,
+                            enabled = value.length >= 4,
+                            onClick = { onConfirm() },
+                        ) {
+                            Text(
+                                text = when(state) {
+                                    is SetupPinState.SetPin -> stringResource(id = HellNotesStrings.Button.Next)
+                                    is SetupPinState.ConfirmPin -> stringResource(id = HellNotesStrings.Button.Confirm)
+                                },
+                                modifier = Modifier,
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                    }
                 }
             },
             topBar = {

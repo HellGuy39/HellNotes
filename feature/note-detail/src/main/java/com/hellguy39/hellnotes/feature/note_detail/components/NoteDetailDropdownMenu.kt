@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.feature.note_detail.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.ui.components.CustomDropdownItem
+import com.hellguy39.hellnotes.core.ui.components.CustomDropdownItemSelection
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenu
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -16,46 +16,37 @@ fun NoteDetailDropdownMenu(
 ) {
     CustomDropdownMenu(
         expanded = state.visible,
-        onDismissRequest = { state.dismiss() }
-    ) {
-//        CustomDropdownItem(
-//            leadingIconId = painterResource(id = HellNotesIcons.Palette),
-//            text = stringResource(id = HellNotesStrings.MenuItem.Color),
-//            onClick = {
-//                state.dismiss()
-//                selection.onColor()
-//            }
-//        )
-        CustomDropdownItem(
-            leadingIconId = painterResource(id = HellNotesIcons.Label),
-            text = stringResource(id = HellNotesStrings.MenuItem.Labels),
-            onClick = {
-                state.dismiss()
-                selection.onLabels()
-            }
+        onDismissRequest = { state.dismiss() },
+        items = listOf(
+//            CustomDropdownItemSelection(
+//                leadingIconId = painterResource(id = HellNotesIcons.Label),
+//                text = stringResource(id = HellNotesStrings.MenuItem.Labels),
+//                onClick = {
+//                    state.dismiss()
+//                    selection.onLabels()
+//                }
+//            ),
+            CustomDropdownItemSelection(
+                leadingIconId = painterResource(id = HellNotesIcons.Share),
+                text = stringResource(id = HellNotesStrings.MenuItem.Share),
+                onClick = {
+                    state.dismiss()
+                    selection.onShare()
+                }
+            ),
+            CustomDropdownItemSelection(
+                leadingIconId = painterResource(id = HellNotesIcons.Delete),
+                text = stringResource(id = HellNotesStrings.MenuItem.Delete),
+                onClick = {
+                    state.dismiss()
+                    selection.onDelete()
+                }
+            )
         )
-        CustomDropdownItem(
-            leadingIconId = painterResource(id = HellNotesIcons.Share),
-            text = stringResource(id = HellNotesStrings.MenuItem.Share),
-            onClick = {
-                state.dismiss()
-                selection.onShare()
-            }
-        )
-        CustomDropdownItem(
-            leadingIconId = painterResource(id = HellNotesIcons.Delete),
-            text = stringResource(id = HellNotesStrings.MenuItem.Delete),
-            onClick = {
-                state.dismiss()
-                selection.onDelete()
-            }
-        )
-    }
+    )
 }
 
 data class NoteDetailDropdownMenuSelection(
-    val onColor: () -> Unit,
-    val onLabels: () -> Unit,
     val onShare: () -> Unit,
     val onDelete: () -> Unit
 )

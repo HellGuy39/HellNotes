@@ -33,4 +33,15 @@ class LabelRepositoryImpl @Inject constructor(
     override suspend fun getLabelById(id: Long): Label {
         return labelDao.getLabelById(id).toLabel()
     }
+
+    override suspend fun deleteNoteIdFromLabels(noteId: Long) {
+        val labels = labelDao.getAllLabels()
+        labels.forEach { labelEntity ->
+            if (labelEntity.noteIds.contains(noteId)) {
+                val newLabel = labelEntity.copy(noteIds = labelEntity.noteIds.minus(noteId))
+                labelDao.updateLabel(newLabel)
+            }
+        }
+    }
+
 }

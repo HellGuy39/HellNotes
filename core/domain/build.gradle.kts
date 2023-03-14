@@ -28,10 +28,10 @@ android {
 
 dependencies {
 
-    implementation(project(Project.Core.Model))
+    implementation(project(Modules.Core.Model))
 
     implementation(Libs.AndroidX.AppCompat)
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
 }

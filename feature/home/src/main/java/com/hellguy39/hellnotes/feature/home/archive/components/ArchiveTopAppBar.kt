@@ -8,6 +8,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -17,6 +18,11 @@ fun ArchiveTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     selection: ArchiveTopAppBarSelection,
 ) {
+    val listStyleIcon = if(selection.listStyle == ListStyle.Column)
+        painterResource(id = HellNotesIcons.GridView)
+    else
+        painterResource(id = HellNotesIcons.ListView)
+
     AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
         TopAppBar(
             scrollBehavior = scrollBehavior,
@@ -62,7 +68,7 @@ fun ArchiveTopAppBar(
             actions = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onArchiveSelected() }
+                        onClick = { selection.onUnarchiveSelected() }
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Unarchive),
@@ -77,6 +83,23 @@ fun ArchiveTopAppBar(
                             contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete)
                         )
                     }
+                } else {
+                    IconButton(
+                        onClick = { selection.onSearch() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Search),
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
+                        onClick = { selection.onChangeListStyle() }
+                    ) {
+                        Icon(
+                            painter = listStyleIcon,
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         )
@@ -85,8 +108,11 @@ fun ArchiveTopAppBar(
 
 data class ArchiveTopAppBarSelection(
     val selectedNotes: List<Note>,
+    val listStyle: ListStyle,
+    val onSearch: () -> Unit,
+    val onChangeListStyle: () -> Unit,
     val onCancelSelection: () -> Unit,
     val onDeleteSelected: () -> Unit,
-    val onArchiveSelected: () -> Unit,
+    val onUnarchiveSelected: () -> Unit,
     val onNavigation: () -> Unit,
 )

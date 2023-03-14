@@ -58,13 +58,7 @@ fun LockRoute(
         numberKeyboardSelection = NumberKeyboardSelection(
             onClick = { key ->
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-                if (key == NumberKeyboardKeys.KeyBio) {
-                    lockViewModel.authByBiometric {
-                        biometricAuth.authenticate(context as AppCompatActivity)
-                    }
-                } else {
-                    lockViewModel.enterKey(key)
-                }
+                lockViewModel.enterKey(key)
             },
             onLongClick = { key ->
                 if (key == NumberKeyboardKeys.KeyBackspace) {
@@ -73,6 +67,11 @@ fun LockRoute(
                 }
             }
         ),
-        snackbarHostState = snackbarHostState
+        snackbarHostState = snackbarHostState,
+        onBiometricsAuth = {
+            lockViewModel.authByBiometric {
+                biometricAuth.authenticate(context as AppCompatActivity)
+            }
+        }
     )
 }

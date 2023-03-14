@@ -12,7 +12,6 @@ import com.hellguy39.hellnotes.core.ui.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutAppScreenContent(
     innerPadding: PaddingValues,
@@ -33,7 +32,7 @@ fun AboutAppScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource(id = HellNotesIcons.StickyNote),
+                painter = painterResource(id = HellNotesIcons.DoubleStickyNote),
                 contentDescription = null,
                 modifier = Modifier
                     .width(128.dp)

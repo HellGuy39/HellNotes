@@ -36,9 +36,9 @@ android {
 
 dependencies {
 
-    implementation(project(Project.Core.Ui))
-    implementation(project(Project.Core.Domain))
-    implementation(project(Project.Core.Model))
+    implementation(project(Modules.Core.Ui))
+    implementation(project(Modules.Core.Domain))
+    implementation(project(Modules.Core.Model))
 
     implementation(Libs.AndroidX.CoreKtx)
     implementation(Libs.AndroidX.LifecycleKtx)
@@ -61,7 +61,7 @@ dependencies {
     implementation(Libs.Google.Accompanist.FlowLayout)
     implementation(Libs.Google.Accompanist.Permissions)
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

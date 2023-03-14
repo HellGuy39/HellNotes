@@ -17,7 +17,7 @@ android {
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = 1
-        versionName = "1.0-rc02"
+        versionName = "1.0-rc03"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -30,6 +30,11 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
         }
     }
 
@@ -56,31 +61,36 @@ android {
 
 dependencies {
 
-    implementation(project(Project.Feature.Welcome))
-    implementation(project(Project.Feature.Lock))
-    implementation(project(Project.Feature.Search))
-    implementation(project(Project.Feature.Home))
-    implementation(project(Project.Feature.Labels))
-    implementation(project(Project.Feature.NoteDetail))
-    implementation(project(Project.Feature.AboutApp))
-    implementation(project(Project.Feature.Settings))
-    implementation(project(Project.Feature.LockSelection))
-    implementation(project(Project.Feature.LanguageSelection))
-    implementation(project(Project.Feature.LockSetup))
+    implementation(project(Modules.Feature.Welcome))
+    implementation(project(Modules.Feature.Lock))
+    implementation(project(Modules.Feature.Search))
+    implementation(project(Modules.Feature.Home))
+    implementation(project(Modules.Feature.LabelEdit))
+    implementation(project(Modules.Feature.NoteDetail))
+    implementation(project(Modules.Feature.ReminderEdit))
+    implementation(project(Modules.Feature.AboutApp))
+    implementation(project(Modules.Feature.Settings))
+    implementation(project(Modules.Feature.LockSelection))
+    implementation(project(Modules.Feature.LanguageSelection))
+    implementation(project(Modules.Feature.LockSetup))
+    implementation(project(Modules.Feature.LabelSelection))
+    implementation(project(Modules.Feature.NoteStyleEdit))
+    implementation(project(Modules.Feature.NoteSwipesEdit))
 
-    implementation(project(Project.Core.Ui))
-    implementation(project(Project.Core.Data))
-    implementation(project(Project.Core.Common))
-    implementation(project(Project.Core.Domain))
-    implementation(project(Project.Core.Database))
-    implementation(project(Project.Core.Datastore))
-    implementation(project(Project.Core.Model))
+    implementation(project(Modules.Core.Ui))
+    implementation(project(Modules.Core.Data))
+    implementation(project(Modules.Core.Common))
+    implementation(project(Modules.Core.Domain))
+    implementation(project(Modules.Core.Database))
+    implementation(project(Modules.Core.Datastore))
+    implementation(project(Modules.Core.Model))
 
     implementation(Libs.AndroidX.CoreKtx)
     implementation(Libs.AndroidX.LifecycleKtx)
     implementation(Libs.AndroidX.AppCompat)
     implementation(Libs.AndroidX.Biometric)
     implementation(Libs.AndroidX.SplashScreen)
+    implementation(Libs.AndroidX.ProfileInstaller)
 
     implementation(Libs.Google.Material)
 
@@ -104,7 +114,7 @@ dependencies {
     implementation(Libs.AndroidX.Room.RoomKtx)
     kapt(Libs.AndroidX.Room.RoomCompiler)
 
-    implementation(Libs.KotlinX.Coroutines)
+    implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

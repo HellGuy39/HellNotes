@@ -18,11 +18,10 @@ fun NavGraphBuilder.lockSetupScreen(
     navController: NavController
 ) {
     composable(
-        route = "${Screen.LockSetup.route}/{${ArgumentKeys.LockType}}",
+        route = Screen.LockSetup.withArgKeys(ArgumentKeys.LockType),
         arguments = listOf(
             navArgument(name = ArgumentKeys.LockType) {
                 type = NavType.StringType
-                //defaultValue = ArgumentDefaultValues.NewNote
             }
         ),
         enterTransition = {

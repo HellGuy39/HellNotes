@@ -1,12 +1,15 @@
 package com.hellguy39.hellnotes.core.domain.repository
 
-import com.hellguy39.hellnotes.core.model.AppSettings
+import com.hellguy39.hellnotes.core.model.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.SecurityState
 import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.model.util.Sorting
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepository {
+
+    suspend fun saveNoteSwipesState(state: NoteSwipesState)
 
     suspend fun saveOnBoardingState(completed: Boolean)
 
@@ -14,20 +17,24 @@ interface DataStoreRepository {
 
     suspend fun saveListSortState(sorting: Sorting)
 
-    suspend fun saveAppSettings(appSettings: AppSettings)
+    suspend fun saveNoteStyleState(noteStyle: NoteStyle)
 
-    suspend fun saveIsUseBiometricData(isUseBiometricData: Boolean)
+    suspend fun saveSecurityState(securityState: SecurityState)
 
-    suspend fun saveAppCode(code: String)
+    suspend fun saveTrashTipState(completed: Boolean)
 
-    suspend fun saveTrashTipChecked(isChecked: Boolean)
+    fun readOnBoardingState(): Flow<Boolean>
 
-    suspend fun saveAppLockType(lockScreenType: LockScreenType)
+    fun readTrashTipState(): Flow<Boolean>
 
-    fun readAppSettings(): Flow<AppSettings>
+    fun readSecurityState(): Flow<SecurityState>
+
+    fun readNoteSwipesState(): Flow<NoteSwipesState>
 
     fun readListSortState(): Flow<Sorting>
 
     fun readListStyleState(): Flow<ListStyle>
+
+    fun readNoteStyleState(): Flow<NoteStyle>
 
 }
