@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.core.database.dao
 
 import androidx.room.*
+import com.hellguy39.hellnotes.core.database.entity.LABELS_TABLE_NAME
 import com.hellguy39.hellnotes.core.database.entity.LabelEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -16,14 +17,20 @@ interface LabelDao {
     @Update
     suspend fun updateLabel(labelEntity: LabelEntity)
 
-    @Query("SELECT * FROM labels_table")
+    @Query("""
+        SELECT * FROM $LABELS_TABLE_NAME
+    """)
     suspend fun getAllLabels(): List<LabelEntity>
 
-    @Query("SELECT * FROM labels_table")
+    @Query("""
+        SELECT * FROM $LABELS_TABLE_NAME
+    """)
     fun getAllLabelsStream(): Flow<List<LabelEntity>>
 
-    @Query("SELECT * FROM labels_table " +
-            "WHERE id = :id")
+    @Query("""
+        SELECT * FROM $LABELS_TABLE_NAME
+        WHERE id = :id
+    """)
     suspend fun getLabelById(id: Long): LabelEntity
 
 }

@@ -17,11 +17,11 @@ object Libs {
 
     object Kotlin {
 
-        private val coroutinesVersion = "1.6.4"
-        val Coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+        private const val coroutinesVersion = "1.6.4"
+        const val Coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
-        private val plugineVersion = "1.8.10"
-        val Plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugineVersion"
+        private const val plugineVersion = "1.8.10"
+        const val Plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugineVersion"
 
     }
 
@@ -67,14 +67,18 @@ object Libs {
 
         object Compose {
 
-            private const val composeVersion = "1.3.3"
-
-            const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha04"
-            const val Activty = "androidx.activity:activity-compose:1.6.1"
+            private const val composeVersion = "1.4.0-rc1"
+            private const val lifecycleVersion = "2.6.0"
+            private const val navigationVersion = "2.5.3"
+            private const val material3Version = "1.1.0-alpha08"
+            private const val activityVersion = "1.6.1"
+            
+            const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
+            const val Activity = "androidx.activity:activity-compose:$activityVersion"
             const val Ui = "androidx.compose.ui:ui:$composeVersion"
             const val ToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
-            const val Material3 = "androidx.compose.material3:material3:1.1.0-alpha06"
-            const val Navigation = "androidx.navigation:navigation-compose:2.5.3"
+            const val Material3 = "androidx.compose.material3:material3:$material3Version"
+            const val Navigation = "androidx.navigation:navigation-compose:$navigationVersion"
 
             const val UiTestJUnit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
             const val UiTooling = "androidx.compose.ui:ui-tooling:$composeVersion"
@@ -91,7 +95,7 @@ object Libs {
 
         object Accompanist {
 
-            private const val version = "0.28.0"
+            private const val version = "0.29.2-rc"
 
             const val NavigationAnimation =
                 "com.google.accompanist:accompanist-navigation-animation:$version"
@@ -108,11 +112,12 @@ object Libs {
         object Hilt {
 
             private const val version = "2.45"
+            private const val navigationVersion = "1.0.0"
 
             const val Plugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
             const val Android = "com.google.dagger:hilt-android:$version"
             const val Compiler = "com.google.dagger:hilt-compiler:$version"
-            const val NavigationCompsoe= "androidx.hilt:hilt-navigation-compose:1.0.0"
+            const val NavigationCompose= "androidx.hilt:hilt-navigation-compose:$navigationVersion"
         }
 
     }

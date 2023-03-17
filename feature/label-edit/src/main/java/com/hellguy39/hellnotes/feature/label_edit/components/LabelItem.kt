@@ -2,13 +2,9 @@ package com.hellguy39.hellnotes.feature.label_edit.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,23 +21,19 @@ import com.hellguy39.hellnotes.core.ui.components.CustomDivider
 import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LazyItemScope.LabelItem(
+fun LabelItem(
     label: Label,
-    selection: LabelItemSelection
+    selection: LabelItemSelection,
+    modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
 
     var isFocused by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf(label.name) }
 
-    //CustomDivider(isVisible = isFocused)
-
     Row(
-        modifier = Modifier
-            .padding(4.dp)
-            .animateItemPlacement(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

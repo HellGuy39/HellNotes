@@ -32,10 +32,11 @@ import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
+import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailContentSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailDropdownMenuSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailTopAppBarSelection
-import com.hellguy39.hellnotes.feature.note_detail.util.ShareHelper
+import com.hellguy39.hellnotes.feature.note_detail.util.ShareUtils
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
 
 @Composable
@@ -56,6 +57,14 @@ fun NoteDetailRoute(
         navController.popBackStack()
     }
 
+    fun onShare(type: ShareType)  {
+        ShareUtils.share(
+            context = context,
+            note = uiState.note,
+            type = type
+        )
+    }
+
     BackHandler(onBack = onBackNavigation)
 
     CustomDialog(
@@ -70,20 +79,14 @@ fun NoteDetailRoute(
                 title = stringResource(id = HellNotesStrings.MenuItem.TxtFile),
                 onClick = {
                     shareDialogState.dismiss()
-                    ShareHelper(context).share(
-                        uiState.note,
-                        ShareType.TxtFile
-                    )
+                    onShare(ShareType.TxtFile)
                 },
             )
             SelectionItem(
                 title = stringResource(id = HellNotesStrings.MenuItem.PlainText),
                 onClick = {
                     shareDialogState.dismiss()
-                    ShareHelper(context).share(
-                        uiState.note,
-                        ShareType.PlainText
-                    )
+                    onShare(ShareType.PlainText)
                 },
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -124,9 +127,7 @@ fun NoteDetailRoute(
 
 
     NoteDetailScreen(
-        snackbarHost = {
-            CustomSnackbarHost(state = snackbarHostState)
-        },
+        snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
         uiState = uiState,
         noteDetailContentSelection = NoteDetailContentSelection(
             onTitleTextChanged = { newText -> noteDetailViewModel.onUpdateNoteTitle(newText) },
@@ -189,6 +190,23 @@ fun NoteDetailRoute(
             },
             onLabels = {
                 navController.navigateToLabelSelection(uiState.note.id)
+            },
+            onChecklist = {
+                noteDetailViewModel.onAddChecklistItem()
+            }
+        ),
+        noteDetailChecklistSelection = NoteDetailChecklistSelection(
+            onRemoveItem = { item ->
+                noteDetailViewModel.onRemoveChecklistItem(item)
+            },
+            onChangeText = { item, text ->
+                noteDetailViewModel.onUpdateChecklistItemText(item, text)
+            },
+            onCheckedChange = { item, isChecked ->
+                noteDetailViewModel.onUpdateChecklistItemChecked(item, isChecked)
+            },
+            onNewItem = {
+                noteDetailViewModel.onAddChecklistItem()
             }
         )
     )

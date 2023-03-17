@@ -9,18 +9,16 @@ import androidx.core.content.FileProvider
 import com.hellguy39.hellnotes.core.model.Note
 import java.io.File
 
-class ShareHelper(
-    private var context: Context
-) {
-    fun share(note: Note, type: ShareType) {
+object ShareUtils {
+    fun share(context: Context, note: Note, type: ShareType) {
         val shareIntent = when(type) {
             is ShareType.PlainText -> {
                 sharePlainTextIntent(note)
             }
             is ShareType.TxtFile -> {
-                val file = createTempFile()
+                val file = context.createTempFile()
                 file.writeText(text = note.buildContent(), charset = Charsets.UTF_8)
-                shareTxtFileIntent(file)
+                context.shareTxtFileIntent(file)
             }
         }
         ContextCompat.startActivity(
@@ -38,19 +36,19 @@ class ShareHelper(
         return Intent.createChooser(intent, null)
     }
 
-    private fun shareTxtFileIntent(file: File): Intent {
+    private fun Context.shareTxtFileIntent(file: File): Intent {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = TYPE_TXT_FILE
         intent.putExtra(
             Intent.EXTRA_STREAM,
-            FileProvider.getUriForFile(context, context.packageName + ".provider", file)
+            FileProvider.getUriForFile(this, this.packageName + ".provider", file)
         )
         return intent
     }
 
-    private fun createTempFile(): File {
+    private fun Context.createTempFile(): File {
         return File(
-            context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+            getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
             "note_" + System.currentTimeMillis().toString() + ".txt"
         )
     }
@@ -60,10 +58,9 @@ class ShareHelper(
         return "${this.title}\n\n${this.note}\n\n${date}"
     }
 
-    companion object {
-        private const val TYPE_PLAIN_TEXT = "text/plain"
-        private const val TYPE_TXT_FILE = "text/*"
-    }
+
+    private const val TYPE_PLAIN_TEXT = "text/plain"
+    private const val TYPE_TXT_FILE = "text/*"
 
 }
 

@@ -33,6 +33,8 @@ object HellNotesIcons {
     val DoubleStickyNote = R.drawable.ic_double_sticky_note_24
     val Gesture = R.drawable.ic_gesture_24
     val KeyboardTab = R.drawable.ic_keyboard_tab_24
+    val Checklist = R.drawable.ic_checklist_24
+    val DragHandle = R.drawable.ic_drag_handle_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24
@@ -57,4 +59,7 @@ object HellNotesIcons {
     val Event = R.drawable.ic_event_24
     val Schedule = R.drawable.ic_schedule_24
     val Repeat = R.drawable.ic_repeat_24
+
+    val CheckboxChecked = R.drawable.ic_checkbox_checked_24
+    val CheckboxUnchecked = R.drawable.ic_checkbox_unchecked_24
 }

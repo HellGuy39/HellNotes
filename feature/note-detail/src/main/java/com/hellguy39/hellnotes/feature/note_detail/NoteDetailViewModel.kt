@@ -34,7 +34,7 @@ class NoteDetailViewModel @Inject constructor(
         .map(NoteDetailViewModelState::toUiState)
         .stateIn(
             viewModelScope,
-            SharingStarted.Eagerly,
+            SharingStarted.WhileSubscribed(5_000),
             noteViewModelState.value.toUiState()
         )
 
@@ -52,56 +52,45 @@ class NoteDetailViewModel @Inject constructor(
             } ?: return@launch
 
             launch {
-
                 noteRepository.getNoteById(noteId).let { note ->
                     noteViewModelState.update { state ->
                         state.copy(note = note, isLoading = false)
                     }
                 }
-
-//                noteRepository.getNoteByIdStream(noteId).collect { note ->
-//                    if (note.labelIds != noteViewModelState.value.note.labelIds) {
-//                        noteViewModelState.update { state ->
-//                            state.copy(note = note, isLoading = false)
-//                        }
-//                    }
-//                }
             }
 
             launch {
                 labelRepository.getAllLabelsStream().collect { labels ->
                     noteViewModelState.update { state ->
-                        state.copy(allLabels = labels)
+                        state.copy(noteLabels = labels.filter { label ->
+                                label.noteIds.contains(noteId)
+                            }
+                        )
                     }
                 }
             }
 
             launch {
                 reminderRepository.getRemindersByNoteIdStream(noteId).collect { reminders ->
-                    noteViewModelState.update { state ->
-                        state.copy(noteReminders = reminders)
-                    }
+                    noteViewModelState.update { state -> state.copy(noteReminders = reminders) }
                 }
             }
         }
     }
 
-    fun onUpdateNoteContent(text: String) = viewModelScope.launch {
-        val currentTime = Calendar.getInstance().time.time
+    fun onUpdateNoteContent(text: String) {
+        viewModelScope.launch {
+            noteViewModelState.update { state ->
+                state.copy(
+                    note = state.note.copy(
+                        note = text,
+                        editedAt = DateTimeUtils.getCurrentTimeInEpochMilli()
+                    )
+                )
+            }
 
-        noteViewModelState.update { state ->
-
-            val updatedNote = state.note.copy(
-                note = text,
-                editedAt = currentTime
-            )
-
-            state.copy(
-                note =  updatedNote
-            )
+            saveNote()
         }
-
-        saveNote()
     }
 
     fun onUpdateNoteTitle(text: String) = viewModelScope.launch {
@@ -143,7 +132,7 @@ class NoteDetailViewModel @Inject constructor(
             val id = state.note.id
             if (id != null) {
                 val reminds = reminderRepository.getRemindersByNoteId(id)
-                if (!state.note.isNoteValid() && reminds.isEmpty()) {
+                if (!state.note.isNoteValid() && reminds.isEmpty() && state.noteLabels.isEmpty()) {
                     onDeleteNote()
                 }
             }
@@ -167,25 +156,85 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
-    private fun saveNote() = viewModelScope.launch {
-        noteRepository.updateNote(note = noteViewModelState.value.note)
+    private fun saveNote() {
+        viewModelScope.launch {
+            noteRepository.updateNote(note = noteViewModelState.value.note)
+        }
+    }
+
+    fun onAddChecklistItem() {
+        viewModelScope.launch {
+            noteViewModelState.update { state ->
+                state.copy(
+                    note = state.note.copy(
+                        checklist = state.note.checklist.plus(
+                            CheckItem.newInstance(position = state.note.checklist.size + 1)
+                        )
+                    )
+                )
+            }
+            saveNote()
+        }
+    }
+
+    fun onUpdateChecklistItemText(item: CheckItem, text: String) {
+        viewModelScope.launch {
+            val checklist = noteViewModelState.value.note.checklist
+                .minus(item)
+                .plus(item.copy(text = text))
+
+            noteViewModelState.update { state ->
+                state.copy(
+                    note = state.note.copy(checklist = checklist)
+                )
+            }
+
+            saveNote()
+        }
+    }
+
+    fun onUpdateChecklistItemChecked(item: CheckItem, isChecked: Boolean) {
+        viewModelScope.launch {
+            val checklist = noteViewModelState.value.note.checklist
+                .minus(item)
+                .plus(item.copy(isChecked = isChecked))
+
+            noteViewModelState.update { state ->
+                state.copy(
+                    note = state.note.copy(checklist = checklist)
+                )
+            }
+
+            saveNote()
+        }
+    }
+
+    fun onRemoveChecklistItem(item: CheckItem) {
+        viewModelScope.launch {
+            val checklist = noteViewModelState.value.note.checklist
+                .minus(item)
+
+            noteViewModelState.update { state ->
+                state.copy(
+                    note = state.note.copy(checklist = checklist)
+                )
+            }
+            saveNote()
+        }
     }
 
 }
 
 private data class NoteDetailViewModelState(
     val note: Note = Note(),
-    val allLabels: List<Label> = listOf(),
+    val noteLabels: List<Label> = listOf(),
     val noteReminders: List<Reminder> = listOf(),
-    val labelSearch: String = "",
     val isLoading: Boolean = true
 ) {
     fun toUiState() = NoteDetailUiState(
         note = note,
-        noteLabels = allLabels.filter { label -> label.noteIds.contains(note.id) },
-        searchedLabels = allLabels.filter { it.name.contains(labelSearch) },
+        noteLabels = noteLabels,
         noteReminders = noteReminders,
-        labelSearch = labelSearch,
         isLoading = isLoading
     )
 }
@@ -194,7 +243,5 @@ data class NoteDetailUiState(
     val note: Note,
     val isLoading: Boolean,
     val noteLabels: List<Label>,
-    val searchedLabels: List<Label>,
     val noteReminders: List<Reminder>,
-    val labelSearch: String
 )

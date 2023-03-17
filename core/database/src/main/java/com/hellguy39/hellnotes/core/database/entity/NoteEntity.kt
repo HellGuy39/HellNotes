@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.core.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.hellguy39.hellnotes.core.model.CheckItem
 
 const val NOTES_TABLE_NAME = "notes_table"
 
@@ -16,4 +17,6 @@ data class NoteEntity(
     @ColumnInfo(name = "is_archived", defaultValue = "0") val isArchived: Boolean,
     @ColumnInfo(name = "created_at", defaultValue = "0") val createdAt: Long,
     val colorHex: Long,
+    @ColumnInfo(name = "checklist", defaultValue = "[]")
+    val checklist: List<CheckItem>
 )

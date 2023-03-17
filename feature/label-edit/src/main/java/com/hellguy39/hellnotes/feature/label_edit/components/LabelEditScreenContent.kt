@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.feature.label_edit.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LabelEditScreenContent(
     paddingValues: PaddingValues,
@@ -40,9 +42,6 @@ fun LabelEditScreenContent(
         contentPadding = paddingValues
     ) {
         item {
-
-            //CustomDivider(isVisible = isFocused)
-
             Row(
                 modifier = Modifier
                     .padding(4.dp)
@@ -81,9 +80,7 @@ fun LabelEditScreenContent(
                     modifier = Modifier
                         .focusRequester(focusRequester)
                         .weight(1f)
-                        .onFocusChanged { state ->
-                            isFocused = state.isFocused
-                        },
+                        .onFocusChanged { state -> isFocused = state.isFocused },
                     textStyle = MaterialTheme.typography.titleMedium
                 )
                 AnimatedVisibility (isFocused) {
@@ -108,6 +105,9 @@ fun LabelEditScreenContent(
         }
         items(items = labels, key = { label -> label.id ?: 0 }) { label ->
             LabelItem(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .animateItemPlacement(),
                 label = label,
                 selection = labelItemSelection
             )

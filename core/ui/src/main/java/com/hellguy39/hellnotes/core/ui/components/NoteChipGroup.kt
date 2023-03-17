@@ -5,12 +5,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.google.accompanist.flowlayout.SizeMode
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Reminder
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,8 +32,10 @@ fun NoteChipGroup(
 
     FlowRow(
         modifier = modifier,
-        mainAxisSpacing = 12.dp,
+        mainAxisSpacing = 4.dp,
         crossAxisSpacing = 0.dp,
+        mainAxisAlignment = FlowMainAxisAlignment.Start,
+        mainAxisSize = SizeMode.Wrap
     ) {
         for (i in reminders.indices) {
             val reminder = reminders[i]
@@ -43,6 +49,7 @@ fun NoteChipGroup(
             }
 
             FilterChip(
+                modifier = Modifier,
                 selected = true,
                 onClick = {
                     onRemindClick(reminder)
@@ -75,6 +82,7 @@ fun NoteChipGroup(
             }
 
             FilterChip(
+                modifier = Modifier,
                 selected = true,
                 onClick = {
                     onLabelClick(label)
@@ -90,6 +98,7 @@ fun NoteChipGroup(
 
         if ((limitElements && counter >= maxElements) && (chipsCount - counter) != 0) {
             FilterChip(
+                modifier = Modifier,
                 selected = true,
                 onClick = {},
                 label = {
@@ -100,7 +109,19 @@ fun NoteChipGroup(
                 },
             )
         }
-
     }
+}
 
+@Preview
+@Composable
+fun NoteChipGroupPreview() {
+    HellNotesTheme {
+        NoteChipGroup(
+            reminders = listOf(),
+            labels = listOf(
+                Label(name = "123"),
+                Label(name = "123")
+            )
+        )
+    }
 }

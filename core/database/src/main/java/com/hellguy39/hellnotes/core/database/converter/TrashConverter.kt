@@ -13,6 +13,7 @@ class TrashConverter {
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
+
     private val jsonAdapter = moshi.adapter(Note::class.java)
 
     @TypeConverter

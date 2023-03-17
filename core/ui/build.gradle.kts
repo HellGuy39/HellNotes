@@ -45,7 +45,7 @@ dependencies {
     implementation(Libs.Google.Material)
 
     implementation(Libs.AndroidX.Compose.Lifecycle)
-    implementation(Libs.AndroidX.Compose.Activty)
+    implementation(Libs.AndroidX.Compose.Activity)
     implementation(Libs.AndroidX.Compose.Ui)
     implementation(Libs.AndroidX.Compose.ToolingPreview)
     implementation(Libs.AndroidX.Compose.Material3)

@@ -40,7 +40,8 @@ interface ReminderDao {
     suspend fun getRemindById(id: Long): ReminderEntity
 
     @Query("""
-        SELECT * FROM $REMINDERS_TABLE_NAME WHERE noteId = :noteId
+        SELECT * FROM $REMINDERS_TABLE_NAME 
+        WHERE noteId = :noteId
     """)
     suspend fun getRemindsByNoteId(noteId: Long): List<ReminderEntity>
 

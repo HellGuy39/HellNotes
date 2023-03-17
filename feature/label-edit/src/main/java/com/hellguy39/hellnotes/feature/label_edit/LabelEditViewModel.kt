@@ -7,9 +7,11 @@ import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.lang.Thread.State
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,11 +20,14 @@ class LabelEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    val uiState: StateFlow<LabelEditUiState> = labelRepository.getAllLabelsStream()
-        .map { labels ->
+    val uiState: StateFlow<LabelEditUiState> =
+        combine(
+            savedStateHandle.getStateFlow(ArgumentKeys.Action, ""),
+            labelRepository.getAllLabelsStream()
+        ) { action, labels ->
             LabelEditUiState(
                 labels = labels.sortedByDescending { label -> label.id },
-                action = savedStateHandle.get<String>(ArgumentKeys.Action) ?: "",
+                action = action,
                 isLoading = false,
             )
         }

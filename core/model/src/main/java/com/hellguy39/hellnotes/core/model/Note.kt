@@ -11,10 +11,11 @@ data class Note(
     val isArchived: Boolean = false,
     val isPinned: Boolean = false,
     val colorHex: Long = ColorParam.DefaultColor,
+    val checklist: List<CheckItem> = listOf()
 )
 
 fun Note.isNoteValid(): Boolean {
-    return note.isTextValid() || title.isTextValid()
+    return note.isTextValid() || title.isTextValid() || checklist.isNotEmpty()
 }
 
 private fun String.isTextValid() = this.isNotEmpty() && this.isNotBlank()
