@@ -67,13 +67,21 @@ fun ArchiveScreen(
         snackbarHost = visualsSelection.snackbarHost,
         content = { paddingValues ->
             AnimatedContent(targetState = visualsSelection.listStyle) { listStyle ->
+
+                if (uiState.notes.isEmpty()) {
+                    EmptyContentPlaceholder(
+                        heroIcon = painterResource(id = HellNotesIcons.Archive),
+                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                    )
+                }
+
                 NoteList(
                     innerPadding = paddingValues,
                     noteSelection = NoteSelection(
                         noteStyle = visualsSelection.noteStyle,
                         onClick = { note ->
                             if (multiActionSelection.selectedNotes.isEmpty()) {
-                                navController.navigateToNoteDetail(note.id ?: -1)
+                                navController.navigateToNoteDetail(note.id)
                             } else {
                                 if (multiActionSelection.selectedNotes.contains(note)) {
                                     multiActionSelection.onUnselectNote(note)
@@ -97,12 +105,6 @@ fun ArchiveScreen(
                     ),
                     selectedNotes = multiActionSelection.selectedNotes,
                     listStyle = listStyle,
-                    placeholder = {
-                        EmptyContentPlaceholder(
-                            heroIcon = painterResource(id = HellNotesIcons.Archive),
-                            message = stringResource(id = HellNotesStrings.Text.Empty)
-                        )
-                    }
                 )
             }
         }

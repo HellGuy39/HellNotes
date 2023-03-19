@@ -7,10 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.*
@@ -21,14 +23,14 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: SearchUiState,
     listStyle: ListStyle,
     noteSelection: NoteSelection,
-    onQueryChanged: (query: String) -> Unit,
+    searchScreenSelection: SearchScreenSelection,
     categories: List<NoteCategory>
 ) {
     BackHandler(onBack = onNavigationButtonClick)
@@ -36,7 +38,7 @@ fun SearchScreen(
     val focusRequester = remember { FocusRequester() }
 
     val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -51,8 +53,9 @@ fun SearchScreen(
                 onNavigationButtonClick = onNavigationButtonClick,
                 scrollBehavior = scrollBehavior,
                 query = uiState.search,
-                onQueryChanged = { newQuery -> onQueryChanged(newQuery) },
-                focusRequester = focusRequester
+                onQueryChanged = searchScreenSelection.onQueryChanged,
+                focusRequester = focusRequester,
+                onClearQuery = searchScreenSelection.onClearQuery
             )
         },
         content = { innerPadding ->
@@ -62,20 +65,98 @@ fun SearchScreen(
             }
 
             Crossfade(targetState = categories) { categories ->
+
+                if (uiState.notes.isEmpty()) {
+                    EmptyContentPlaceholder(
+                        paddingValues = innerPadding,
+                        heroIcon = painterResource(id = HellNotesIcons.Search),
+                        message = stringResource(id = HellNotesStrings.Text.NothingWasFound)
+                    )
+                }
+
                 NoteList(
                     innerPadding = innerPadding,
                     noteSelection = noteSelection,
                     categories = categories,
                     listStyle = listStyle,
-                    placeholder = {
-                        EmptyContentPlaceholder(
-                            paddingValues = innerPadding,
-                            heroIcon = painterResource(id = HellNotesIcons.Search),
-                            message = stringResource(id = HellNotesStrings.Text.NothingWasFound)
-                        )
+                    listHeader = {
+                        Column {
+                            FlowRow(
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                FilterChip(
+                                    selected = uiState.filters.withChecklist,
+                                    onClick = {
+                                        searchScreenSelection.onUpdateChecklistFilter(!uiState.filters.withChecklist)
+                                    },
+                                    label = {
+                                        Text("Checklist")
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = HellNotesIcons.Checklist),
+                                            contentDescription = null
+                                        )
+                                    }
+                                )
+
+                                FilterChip(
+                                    selected = uiState.filters.withReminder,
+                                    onClick = {
+                                        searchScreenSelection.onUpdateReminderFilter(!uiState.filters.withReminder)
+                                    },
+                                    label = {
+                                        Text("Reminder")
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = HellNotesIcons.Alarm),
+                                            contentDescription = null
+                                        )
+                                    }
+                                )
+
+                                FilterChip(
+                                    selected = uiState.filters.withArchive,
+                                    onClick = {
+                                        searchScreenSelection.onUpdateArchiveFilter(!uiState.filters.withArchive)
+                                    },
+                                    label = {
+                                        Text("Archive")
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = HellNotesIcons.Archive),
+                                            contentDescription = null
+                                        )
+                                    }
+                                )
+                            }
+
+                            Divider(
+                                modifier = Modifier
+                                    .padding(vertical = 0.dp, horizontal = 8.dp)
+                                    .padding(bottom = 8.dp, top = 4.dp)
+                                    .alpha(0.5f),
+                                thickness = 1.dp,
+                                color = MaterialTheme.colorScheme.outline
+                            )
+                        }
                     }
                 )
             }
         },
     )
 }
+
+data class SearchScreenSelection(
+    val onQueryChanged: (query: String) -> Unit,
+    val onClearQuery: () -> Unit,
+    val onUpdateReminderFilter: (Boolean) -> Unit,
+    val onUpdateChecklistFilter: (Boolean) -> Unit,
+    val onUpdateArchiveFilter: (Boolean) -> Unit,
+)

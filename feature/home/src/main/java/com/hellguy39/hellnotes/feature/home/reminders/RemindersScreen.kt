@@ -68,6 +68,15 @@ fun RemindersScreen(
         snackbarHost = visualsSelection.snackbarHost,
         content = { paddingValues ->
             AnimatedContent(targetState = visualsSelection.listStyle) { listStyle ->
+
+                if (uiState.notes.isEmpty()) {
+                    EmptyContentPlaceholder(
+                        paddingValues = paddingValues,
+                        heroIcon = painterResource(id = HellNotesIcons.Notifications),
+                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                    )
+                }
+
                 NoteList(
                     innerPadding = paddingValues,
                     noteSelection = NoteSelection(
@@ -115,13 +124,6 @@ fun RemindersScreen(
                     ),
                     listStyle = listStyle,
                     selectedNotes = multiActionSelection.selectedNotes,
-                    placeholder = {
-                        EmptyContentPlaceholder(
-                            paddingValues = paddingValues,
-                            heroIcon = painterResource(id = HellNotesIcons.Notifications),
-                            message = stringResource(id = HellNotesStrings.Text.Empty)
-                        )
-                    },
                     listHeader = {
                         Text(
                             text = stringResource(id = HellNotesStrings.Label.Upcoming),

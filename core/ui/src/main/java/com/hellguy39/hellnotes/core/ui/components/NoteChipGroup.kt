@@ -1,5 +1,8 @@
 package com.hellguy39.hellnotes.core.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -7,16 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.flowlayout.FlowMainAxisAlignment
-import com.google.accompanist.flowlayout.FlowRow
-import com.google.accompanist.flowlayout.SizeMode
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun NoteChipGroup(
     modifier: Modifier = Modifier,
@@ -32,10 +32,7 @@ fun NoteChipGroup(
 
     FlowRow(
         modifier = modifier,
-        mainAxisSpacing = 4.dp,
-        crossAxisSpacing = 0.dp,
-        mainAxisAlignment = FlowMainAxisAlignment.Start,
-        mainAxisSize = SizeMode.Wrap
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         for (i in reminders.indices) {
             val reminder = reminders[i]

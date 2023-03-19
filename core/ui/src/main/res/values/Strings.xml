@@ -33,7 +33,6 @@
     <string name="label_disabled">Disabled</string>
 
     <!-- Text -->
-    <string name="text_sort_by">Sort by \'%s\'</string>
     <string name="text_date_of_creation">Date of creation</string>
     <string name="text_date_of_last_edit">Date of last edit</string>
     <string name="text_empty">So far, it\'s empty here…</string>
@@ -98,6 +97,8 @@
     <string name="title_note_swipes">Note Swipes</string>
 
     <!-- Helper -->
+    <string name="helper_unchecked_items">+%s unchecked items</string>
+    <string name="helper_unchecked_item">+%s unchecked item</string>
     <string name="helper_pin_must_be_at_least_4_digits">PIN must be at least 4 digits</string>
     <string name="helper_enter_pin">Enter your PIN</string>
     <string name="helper_unlocked">Unlocked</string>
@@ -128,8 +129,6 @@
     <string name="btn_create">Create</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_delete">Delete</string>
-    <string name="btn_edit_pin">Edit PIN</string>
-    <string name="btn_setup_pin">Set PIN</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
@@ -140,7 +139,6 @@
     <string name="btn_biometrics">Biometrics</string>
 
     <!-- Setting -->
-    <string name="stg_app_lock">App lock</string>
     <string name="stg_screen_lock">Screen lock</string>
     <string name="stg_language">Language</string>
     <string name="stg_note_swipes">Note Swipes</string>

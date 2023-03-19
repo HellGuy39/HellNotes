@@ -24,10 +24,26 @@ fun SearchRoute(
     val listStyle by searchViewModel.listStyle.collectAsStateWithLifecycle()
 
     SearchScreen(
-        onNavigationButtonClick = { navController.popBackStack() },
+        onNavigationButtonClick = navController::popBackStack,
         uiState = uiState,
         listStyle = listStyle,
-        onQueryChanged = { newQuery -> searchViewModel.updateSearchQuery(newQuery) },
+        searchScreenSelection = SearchScreenSelection(
+            onQueryChanged = { search ->
+                searchViewModel.send(SearchScreenUiEvent.OnSearchChange(search))
+            },
+            onClearQuery = {
+                searchViewModel.send(SearchScreenUiEvent.OnClearSearch)
+            },
+            onUpdateArchiveFilter = { enabled ->
+                searchViewModel.send(SearchScreenUiEvent.OnToggleArchiveFilter(enabled))
+            },
+            onUpdateChecklistFilter = { enabled ->
+                searchViewModel.send(SearchScreenUiEvent.OnToggleChecklistFilter(enabled))
+            },
+            onUpdateReminderFilter = { enabled ->
+                searchViewModel.send(SearchScreenUiEvent.OnToggleReminderFilter(enabled))
+            }
+        ),
         noteSelection = NoteSelection(
             noteStyle = noteStyle,
             onClick = { note ->
@@ -43,10 +59,6 @@ fun SearchRoute(
             NoteCategory(
                 notes = uiState.notes
             ),
-            NoteCategory(
-                title = stringResource(id = HellNotesStrings.Label.Archived),
-                notes = uiState.archivedNotes
-            )
         )
     )
 }

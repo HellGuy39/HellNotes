@@ -22,19 +22,7 @@ fun NoteList(
     listStyle: ListStyle = ListStyle.Column,
     selectedNotes: List<Note> = listOf(),
     listHeader: @Composable () -> Unit = {},
-    placeholder: @Composable () -> Unit = {
-        EmptyContentPlaceholder(
-            heroIcon = painterResource(id = HellNotesIcons.Info),
-            message = stringResource(id = HellNotesStrings.Text.Empty)
-        )
-    }
 ) {
-
-    if (categories.isNotesEmpty()) {
-        placeholder()
-        return
-    }
-
     when(listStyle) {
         ListStyle.Column -> {
             NoteColumnList(

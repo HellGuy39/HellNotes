@@ -62,4 +62,7 @@ object HellNotesIcons {
 
     val CheckboxChecked = R.drawable.ic_checkbox_checked_24
     val CheckboxUnchecked = R.drawable.ic_checkbox_unchecked_24
+
+    val ArrowDropDown = R.drawable.ic_arrow_drop_down_24
+    val ArrowDropUp = R.drawable.ic_arrow_drop_up_24
 }

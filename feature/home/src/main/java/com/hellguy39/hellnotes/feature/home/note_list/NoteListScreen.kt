@@ -76,6 +76,15 @@ fun NoteListScreen(
             }
 
             AnimatedContent(visualsSelection.listStyle) { listStyle ->
+
+                if (uiState.pinnedNotes.isEmpty() && uiState.unpinnedNotes.isEmpty()) {
+                    EmptyContentPlaceholder(
+                        paddingValues = innerPadding,
+                        heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
+                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                    )
+                }
+
                 NoteList(
                     innerPadding = innerPadding,
                     noteSelection = NoteSelection(
@@ -142,13 +151,6 @@ fun NoteListScreen(
                             menuState = sortingMenuState
                         )
                     },
-                    placeholder = {
-                        EmptyContentPlaceholder(
-                            paddingValues = innerPadding,
-                            heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
-                            message = stringResource(id = HellNotesStrings.Text.Empty)
-                        )
-                    }
                 )
             }
         },

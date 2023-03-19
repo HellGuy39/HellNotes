@@ -49,6 +49,14 @@ fun LabelScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { paddingValues ->
             AnimatedContent(targetState = visualsSelection.listStyle) { listStyle ->
+
+                if (uiState.notes.isEmpty()) {
+                    EmptyContentPlaceholder(
+                        heroIcon = painterResource(id = HellNotesIcons.Label),
+                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                    )
+                }
+
                 NoteList(
                     innerPadding = paddingValues,
                     noteSelection = NoteSelection(
@@ -98,12 +106,6 @@ fun LabelScreen(
                     ),
                     selectedNotes = multiActionSelection.selectedNotes,
                     listStyle = listStyle,
-                    placeholder = {
-                        EmptyContentPlaceholder(
-                            heroIcon = painterResource(id = HellNotesIcons.Label),
-                            message = stringResource(id = HellNotesStrings.Text.Empty)
-                        )
-                    }
                 )
             }
         },

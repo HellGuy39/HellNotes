@@ -70,6 +70,10 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
                             onSuccess = { isIdentityProofed = true }
                         )
                     }
+
+                    if (securityState.lockType == LockScreenType.None && !isIdentityProofed) {
+                        isIdentityProofed = true
+                    }
                 }
             }
 

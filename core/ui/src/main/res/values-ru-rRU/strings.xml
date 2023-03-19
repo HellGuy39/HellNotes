@@ -33,7 +33,6 @@
     <string name="label_disabled">Выключено</string>
 
     <!-- Text -->
-    <string name="text_sort_by">Сортировать по \'%s\'</string>
     <string name="text_date_of_creation">Дата создания</string>
     <string name="text_date_of_last_edit">Дата посл. изменения</string>
     <string name="text_notification_permission_rationale">К сожалению, без разрешения мы не сможем отправлять вам уведомления. Обещаем, что будет отправлять только уведомления для установленных вами напоминаний.</string>
@@ -54,8 +53,6 @@
     <string name="btn_create">Создать</string>
     <string name="btn_edit">Редактировать</string>
     <string name="btn_delete">Удалить</string>
-    <string name="btn_edit_pin">Изменить PIN</string>
-    <string name="btn_setup_pin">Установить PIN</string>
     <string name="btn_undo">Отменить</string>
     <string name="btn_save">Сохранить</string>
     <string name="btn_cancel">Отменить</string>
@@ -74,7 +71,6 @@
     <string name="hint_create_new_label">Создать новую метку</string>
 
     <!-- Setting -->
-    <string name="stg_app_lock">Блокировка приложения</string>
     <string name="stg_screen_lock">Экран блокировки</string>
     <string name="stg_language">Язык</string>
     <string name="stg_note_swipes">Свайпы заметок</string>
@@ -136,6 +132,8 @@
     <string name="title_note_swipes">Свайпы заметок</string>
 
     <!-- Helper -->
+    <string name="helper_unchecked_items">+%s непроверенных пунктов</string>
+    <string name="helper_unchecked_item">+%s непроверенный пункт</string>
     <string name="helper_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
     <string name="helper_enter_pin">Введите PIN-код</string>
     <string name="helper_unlocked">Разблокировано</string>

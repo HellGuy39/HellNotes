@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.feature.note_detail.components
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -13,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -32,6 +34,10 @@ import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 
 @Composable
 fun NoteDetailContent(
@@ -42,10 +48,18 @@ fun NoteDetailContent(
     focusRequester: FocusRequester,
     lazyListState: LazyListState
 ) {
+    val reorderState = rememberReorderableLazyListState(
+        listState = lazyListState,
+        canDragOver = { draggedOver, dragging -> (draggedOver.index - 2) !in 0..uiState.note.checklist.size },
+        onMove = { from, to ->
+            checklistSelection.onMoveItem(from.index - 2, to.index - 2)
+        }
+    )
     LazyColumn(
-        state = lazyListState,
+        state = reorderState.listState,
         contentPadding = innerPadding,
         modifier = Modifier.fillMaxSize()
+            .reorderable(reorderState)
     ) {
         item {
             Column(
@@ -84,20 +98,28 @@ fun NoteDetailContent(
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
-        items(items = uiState.note.checklist) { item ->
-            CheckListItem(
-                modifier = Modifier
-                    .padding(4.dp),
-                item = item,
-                checklistSelection = checklistSelection
-            )
+        items(
+            items = uiState.note.checklist,
+            key = { item -> item.hashCode() }
+        ) { item ->
+            ReorderableItem(reorderState, item.hashCode()) { dragging ->
+                val elevation = animateDpAsState(if (dragging) 8.dp else 0.dp)
+                CheckListItem(
+                    modifier = Modifier
+                        .padding(vertical = 4.dp, horizontal = 8.dp)
+                        .shadow(elevation.value),
+                    dragHandleModifier = Modifier.detectReorderAfterLongPress(reorderState),
+                    item = item,
+                    checklistSelection = checklistSelection
+                )
+            }
         }
         item {
             if (uiState.note.checklist.isNotEmpty()) {
                 SelectionIconItem(
                     heroIcon = painterResource(id = HellNotesIcons.Add),
                     title = "Add new item",
-                    onClick = checklistSelection.onNewItem
+                    onClick = checklistSelection.onNewItem,
                 )
             }
         }
@@ -123,6 +145,7 @@ fun NoteDetailContent(
 @Composable
 fun CheckListItem(
     modifier: Modifier = Modifier,
+    dragHandleModifier: Modifier = Modifier,
     item: CheckItem,
     checklistSelection: NoteDetailChecklistSelection
 ) {
@@ -151,7 +174,7 @@ fun CheckListItem(
     ) {
 
         Box(
-            modifier = Modifier.size(40.dp),
+            modifier = dragHandleModifier.size(40.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -171,23 +194,28 @@ fun CheckListItem(
             value = text,
             hint = "Item",
             onValueChange = { newText -> onTextChange(newText) },
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
                 .onFocusChanged { state -> isFocused = state.isFocused }
                 .alpha(if (checked) UiDefaults.Alpha.Hint else 1f),
+            isSingleLine = false,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 textDecoration = if (checked) TextDecoration.LineThrough else null,
             ),
         )
-
-        AnimatedVisibility(visible = isFocused) {
+        
+        if (isFocused) {
             IconButton(
-                onClick = { checklistSelection.onRemoveItem(item) }
+                onClick = { checklistSelection.onRemoveItem(item) },
+                modifier = Modifier.size(40.dp)
             ) {
                 Icon(
                     painter = painterResource(id = HellNotesIcons.Delete),
                     contentDescription = null
                 )
             }
+        } else {
+            Box(modifier = Modifier.size(40.dp))
         }
     }
 }
@@ -202,6 +230,7 @@ data class NoteDetailContentSelection(
 data class NoteDetailChecklistSelection(
     val onCheckedChange: (CheckItem, Boolean) -> Unit,
     val onChangeText: (CheckItem, String) -> Unit,
+    val onMoveItem: (fromIndex: Int, toIndex: Int) -> Unit,
     val onRemoveItem: (CheckItem) -> Unit,
     val onNewItem: () -> Unit,
 )

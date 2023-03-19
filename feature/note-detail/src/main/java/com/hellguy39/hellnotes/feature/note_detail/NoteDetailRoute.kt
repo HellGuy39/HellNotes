@@ -207,6 +207,9 @@ fun NoteDetailRoute(
             },
             onNewItem = {
                 noteDetailViewModel.onAddChecklistItem()
+            },
+            onMoveItem = { fromIndex, toIndex ->
+                noteDetailViewModel.onMoveChecklistItem(toIndex = toIndex, fromIndex = fromIndex)
             }
         )
     )

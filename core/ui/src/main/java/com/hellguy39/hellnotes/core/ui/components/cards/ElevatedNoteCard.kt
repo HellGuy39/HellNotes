@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.components.NoteChecklistGroup
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 
 @Composable
@@ -47,9 +48,14 @@ fun ElevatedNoteCard(
         animationSpec = tween(200)
     )
 
+    val filteredChecklist = noteDetailWrapper.note.checklist
+        .filter { !it.isChecked }
+        .sortedBy { it.position }
+
     val isTitleValid = noteDetailWrapper.note.title.isNotEmpty() || noteDetailWrapper.note.title.isNotBlank()
     val isNoteValid = noteDetailWrapper.note.note.isNotEmpty() || noteDetailWrapper.note.note.isNotBlank()
     val isChipsValid = noteDetailWrapper.labels.isNotEmpty() || noteDetailWrapper.reminders.isNotEmpty()
+    val isChecklistValid = filteredChecklist.isNotEmpty()
 
     ElevatedCard(
         modifier = modifier.border(
@@ -71,20 +77,26 @@ fun ElevatedNoteCard(
                     overflow = TextOverflow.Ellipsis
                 )
             }
+
             if (isNoteValid) {
                 Text(
                     text = noteDetailWrapper.note.note,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 3,
-                    modifier = Modifier.padding(top = if (isTitleValid) 6.dp else 0.dp),
+                    modifier = Modifier,
                     overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            if (isChecklistValid) {
+                NoteChecklistGroup(
+                    checklist = filteredChecklist
                 )
             }
 
             if (isChipsValid) {
                 NoteChipGroup(
-                    modifier = Modifier
-                        .padding(top = if (isTitleValid || isNoteValid) 6.dp else 0.dp),
+                    modifier = Modifier,
                     reminders = noteDetailWrapper.reminders,
                     labels = noteDetailWrapper.labels,
                     limitElements = true,

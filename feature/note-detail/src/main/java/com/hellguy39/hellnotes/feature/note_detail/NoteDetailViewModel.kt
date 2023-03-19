@@ -157,7 +157,7 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     private fun saveNote() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             noteRepository.updateNote(note = noteViewModelState.value.note)
         }
     }
@@ -179,9 +179,10 @@ class NoteDetailViewModel @Inject constructor(
 
     fun onUpdateChecklistItemText(item: CheckItem, text: String) {
         viewModelScope.launch {
-            val checklist = noteViewModelState.value.note.checklist
-                .minus(item)
-                .plus(item.copy(text = text))
+            val checklist = noteViewModelState.value.note.checklist.toMutableList()
+
+            val index = checklist.indexOf(item)
+            checklist[index] = checklist[index].copy(text = text)
 
             noteViewModelState.update { state ->
                 state.copy(
@@ -195,9 +196,10 @@ class NoteDetailViewModel @Inject constructor(
 
     fun onUpdateChecklistItemChecked(item: CheckItem, isChecked: Boolean) {
         viewModelScope.launch {
-            val checklist = noteViewModelState.value.note.checklist
-                .minus(item)
-                .plus(item.copy(isChecked = isChecked))
+            val checklist = noteViewModelState.value.note.checklist.toMutableList()
+            val index = checklist.indexOf(item)
+
+            checklist[index] = checklist[index].copy(isChecked = isChecked)
 
             noteViewModelState.update { state ->
                 state.copy(
@@ -211,14 +213,30 @@ class NoteDetailViewModel @Inject constructor(
 
     fun onRemoveChecklistItem(item: CheckItem) {
         viewModelScope.launch {
-            val checklist = noteViewModelState.value.note.checklist
-                .minus(item)
+            val checklist = noteViewModelState.value.note.checklist.toMutableList()
+            checklist.remove(item)
 
             noteViewModelState.update { state ->
                 state.copy(
                     note = state.note.copy(checklist = checklist)
                 )
             }
+            saveNote()
+        }
+    }
+
+    fun onMoveChecklistItem(fromIndex: Int, toIndex: Int) {
+        viewModelScope.launch {
+            val checklist = noteViewModelState.value.note.checklist.toMutableList()
+            checklist.apply {
+                add(toIndex, removeAt(fromIndex))
+            }
+            noteViewModelState.update { state ->
+                state.copy(
+                    note = state.note.copy(checklist = checklist)
+                )
+            }
+
             saveNote()
         }
     }

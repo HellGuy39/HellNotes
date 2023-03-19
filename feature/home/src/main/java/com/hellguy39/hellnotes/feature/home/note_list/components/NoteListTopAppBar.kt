@@ -55,11 +55,13 @@ fun NoteListTopAppBar(
                         style = MaterialTheme.typography.headlineSmall
                     )
                 } else {
-
-                    ElevatedCard(
+                    Card(
                         onClick = { selection.onSearch() },
                         shape = RoundedCornerShape(32.dp),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(UiDefaults.Elevation.Level3)
+                        ),
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.Center,
@@ -76,8 +78,7 @@ fun NoteListTopAppBar(
                                 )
                             }
                             Text(
-                                modifier = Modifier
-                                    .alpha(UiDefaults.Alpha.Hint),
+                                modifier = Modifier,
                                 text = stringResource(
                                     id = HellNotesStrings.Hint.Search,
                                 ),

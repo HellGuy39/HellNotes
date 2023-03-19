@@ -28,7 +28,7 @@ class LabelEditViewModel @Inject constructor(
             LabelEditUiState(
                 labels = labels.sortedByDescending { label -> label.id },
                 action = action,
-                isLoading = false,
+                isLoading = labels.isEmpty(), // LabelEditScreen available only when Labels exist
             )
         }
         .stateIn(

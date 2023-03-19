@@ -26,8 +26,8 @@ fun AboutAppScreenContent(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxHeight(0.9f)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .weight(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -65,11 +65,18 @@ fun AboutAppScreenContent(
         }
         Column(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
         ) {
             Text(
-                text = "HellGuy39\n© 2023",
+                text = "HellGuy39",
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "© 2023",
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()

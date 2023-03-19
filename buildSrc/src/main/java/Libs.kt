@@ -122,7 +122,7 @@ object Libs {
 
     }
 
-    object MaxKeppler {
+    object ThirdParty {
 
         object ComposeDialogs {
             private const val version = "1.1.0"
@@ -131,6 +131,13 @@ object Libs {
             const val Calendar = "com.maxkeppeler.sheets-compose-dialogs:calendar:$version"
             const val Clock = "com.maxkeppeler.sheets-compose-dialogs:clock:$version"
 
+        }
+
+        object ReorderList {
+            private const val version = "0.9.6"
+
+            const val ComposeReorderableList =
+                "org.burnoutcrew.composereorderable:reorderable:$version"
         }
 
     }

@@ -67,7 +67,7 @@ dependencies {
     kapt(Libs.Google.Hilt.Compiler)
     implementation(Libs.Google.Hilt.NavigationCompose)
 
-    implementation (Libs.MaxKeppler.ComposeDialogs.Core)
-    implementation (Libs.MaxKeppler.ComposeDialogs.Calendar)
-    implementation (Libs.MaxKeppler.ComposeDialogs.Clock)
+    implementation (Libs.ThirdParty.ComposeDialogs.Core)
+    implementation (Libs.ThirdParty.ComposeDialogs.Calendar)
+    implementation (Libs.ThirdParty.ComposeDialogs.Clock)
 }

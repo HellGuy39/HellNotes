@@ -10,7 +10,7 @@ data class SecurityState(
     companion object {
         fun initialInstance() = SecurityState(
             lockType = LockScreenType.None,
-            password = "",
+            password = "initial_instance",
             isUseBiometricData = false,
         )
     }

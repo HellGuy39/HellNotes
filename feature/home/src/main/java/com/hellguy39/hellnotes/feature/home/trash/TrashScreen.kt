@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.home.trash
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -98,6 +99,15 @@ fun TrashScreen(
         },
         snackbarHost = visualsSelection.snackbarHost,
         content = { paddingValues ->
+
+            if (uiState.trashNotes.isEmpty()) {
+                EmptyContentPlaceholder(
+                    paddingValues = paddingValues,
+                    heroIcon = painterResource(id = HellNotesIcons.Delete),
+                    message = stringResource(id = HellNotesStrings.Text.NoNotesInTrash)
+                )
+            }
+
             NoteList(
                 innerPadding = paddingValues,
                 noteSelection = NoteSelection(
@@ -136,13 +146,6 @@ fun TrashScreen(
                         onClose = { trashViewModel.trashTipCompleted(true) }
                     )
                 },
-                placeholder = {
-                    EmptyContentPlaceholder(
-                        paddingValues = paddingValues,
-                        heroIcon = painterResource(id = HellNotesIcons.Delete),
-                        message = stringResource(id = HellNotesStrings.Text.NoNotesInTrash)
-                    )
-                }
             )
         }
     )

@@ -36,7 +36,6 @@ object HellNotesStrings {
         val Edited = R.string.text_edited
         val DateOfCreation = R.string.text_date_of_creation
         val DateOfLastEdit = R.string.text_date_of_last_edit
-        val SortBy = R.string.text_sort_by
         val Selected = R.string.text_selected
 
         val NotificationPermissionRationale = R.string.text_notification_permission_rationale
@@ -138,8 +137,6 @@ object HellNotesStrings {
         val Create = R.string.btn_create
         val Edit = R.string.btn_edit
         val Delete = R.string.btn_delete
-        val EditPin = R.string.btn_edit_pin
-        val SetupPin = R.string.btn_setup_pin
         val Undo = R.string.btn_undo
         val Save = R.string.btn_save
         val Cancel = R.string.btn_cancel
@@ -151,6 +148,8 @@ object HellNotesStrings {
     }
 
     object Helper {
+        val UncheckedItems = R.string.helper_unchecked_items
+        val UncheckedItem = R.string.helper_unchecked_item
         val PinMustBeAtLeast4Digits = R.string.helper_pin_must_be_at_least_4_digits
         val EnterPin = R.string.helper_enter_pin
         val WrongPin = R.string.helper_wrong_pin
@@ -186,7 +185,6 @@ object HellNotesStrings {
     }
 
     object Setting {
-        val AppLock = R.string.stg_app_lock
         val ScreenLock = R.string.stg_screen_lock
         val Language = R.string.stg_language
         val NoteStyle = R.string.stg_note_style
