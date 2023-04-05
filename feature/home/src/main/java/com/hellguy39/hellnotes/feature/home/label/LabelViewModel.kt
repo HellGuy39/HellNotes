@@ -6,6 +6,7 @@ import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
+import com.hellguy39.hellnotes.core.domain.use_case.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.feature.home.reminders.RemindersUiState
@@ -16,9 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LabelViewModel @Inject constructor(
-    noteRepository: NoteRepository,
-    labelRepository: LabelRepository,
-    reminderRepository: ReminderRepository,
+    private val labelRepository: LabelRepository,
+    getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase
 ): ViewModel() {
 
     private val selectedLabel = MutableStateFlow(Label())
@@ -26,21 +26,15 @@ class LabelViewModel @Inject constructor(
     val uiState: StateFlow<LabelUiState> =
         combine(
             selectedLabel,
-            noteRepository.getAllNotesStream(),
             labelRepository.getAllLabelsStream(),
-            reminderRepository.getAllRemindersStream(),
-        ) { selectedLabel, notes, labels, reminders ->
+            getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
+        ) { selectedLabel, labels, notes ->
             LabelUiState(
                 notes = notes
-                    .filter { !it.isArchived }
-                    .map { note ->
-                        note.toNoteDetailWrapper(
-                            reminders = reminders,
-                            labels = labels
-                        )
-                    }
-                    .filter { it.labels.contains(selectedLabel) },
-                label = selectedLabel
+                    .filter { wrapper -> !wrapper.note.isArchived }
+                    .filter { wrapper -> wrapper.labels.contains(selectedLabel) },
+                label = selectedLabel,
+                allLabels = labels
             )
         }
             .stateIn(
@@ -49,22 +43,62 @@ class LabelViewModel @Inject constructor(
                 scope = viewModelScope
             )
 
-    fun selectLabel(label: Label) {
+    fun send(uiEvent: LabelUiEvent) {
+        when(uiEvent) {
+            is LabelUiEvent.DeleteLabel -> {
+                deleteLabel()
+            }
+            is LabelUiEvent.RenameLabel -> {
+                renameLabel(uiEvent.name)
+            }
+            is LabelUiEvent.SelectLabel -> {
+                selectLabel(uiEvent.label)
+            }
+        }
+    }
+
+    private fun selectLabel(label: Label) {
         viewModelScope.launch {
             selectedLabel.update { label }
         }
     }
 
+    private fun deleteLabel() {
+        viewModelScope.launch {
+            val label = selectedLabel.value
+            labelRepository.deleteLabel(label)
+        }
+    }
+
+    private fun renameLabel(name: String) {
+        viewModelScope.launch {
+            val label = selectedLabel.value.copy(name = name)
+            labelRepository.updateLabel(label)
+            selectedLabel.update { label }
+        }
+    }
+
+    fun isLabelUnique(name: String) =
+        uiState.value.allLabels.find { label -> label.name == name } == null
+
+}
+
+sealed class LabelUiEvent {
+    data class RenameLabel(val name: String): LabelUiEvent()
+    object DeleteLabel: LabelUiEvent()
+    data class SelectLabel(val label: Label): LabelUiEvent()
 }
 
 data class LabelUiState(
     val label: Label,
+    val allLabels: List<Label>,
     val notes: List<NoteDetailWrapper>,
 ) {
     companion object {
         fun initialInstance() = LabelUiState(
             label = Label(),
-            notes = listOf()
+            notes = listOf(),
+            allLabels = listOf()
         )
     }
 }

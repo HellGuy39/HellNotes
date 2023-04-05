@@ -6,20 +6,21 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.NoteChecklistGroup
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 
@@ -48,15 +49,6 @@ fun ElevatedNoteCard(
         animationSpec = tween(200)
     )
 
-    val filteredChecklist = noteDetailWrapper.note.checklist
-        .filter { !it.isChecked }
-        .sortedBy { it.position }
-
-    val isTitleValid = noteDetailWrapper.note.title.isNotEmpty() || noteDetailWrapper.note.title.isNotBlank()
-    val isNoteValid = noteDetailWrapper.note.note.isNotEmpty() || noteDetailWrapper.note.note.isNotBlank()
-    val isChipsValid = noteDetailWrapper.labels.isNotEmpty() || noteDetailWrapper.reminders.isNotEmpty()
-    val isChecklistValid = filteredChecklist.isNotEmpty()
-
     ElevatedCard(
         modifier = modifier.border(
             width = borderSize,
@@ -64,45 +56,6 @@ fun ElevatedNoteCard(
             shape = RoundedCornerShape(12.dp)
         ),
     ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .padding(top = 12.dp, bottom = if (isChipsValid) 8.dp else 12.dp)
-        ) {
-            if (isTitleValid) {
-                Text(
-                    text = noteDetailWrapper.note.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
-            if (isNoteValid) {
-                Text(
-                    text = noteDetailWrapper.note.note,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 3,
-                    modifier = Modifier,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
-            if (isChecklistValid) {
-                NoteChecklistGroup(
-                    checklist = filteredChecklist
-                )
-            }
-
-            if (isChipsValid) {
-                NoteChipGroup(
-                    modifier = Modifier,
-                    reminders = noteDetailWrapper.reminders,
-                    labels = noteDetailWrapper.labels,
-                    limitElements = true,
-                    maxElements = 2,
-                )
-            }
-        }
+        NoteCardContent(noteDetailWrapper = noteDetailWrapper)
     }
 }

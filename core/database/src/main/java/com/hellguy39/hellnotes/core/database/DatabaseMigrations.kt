@@ -4,6 +4,9 @@ import androidx.room.DeleteColumn
 import androidx.room.RenameColumn
 import androidx.room.RenameTable
 import androidx.room.migration.AutoMigrationSpec
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.hellguy39.hellnotes.core.database.entity.CHECKLIST_TABLE_NAME
 import com.hellguy39.hellnotes.core.database.entity.NOTES_TABLE_NAME
 import com.hellguy39.hellnotes.core.database.entity.REMINDERS_TABLE_NAME
 import com.hellguy39.hellnotes.core.database.entity.REMINDS_TABLE_NAME
@@ -25,5 +28,10 @@ object DatabaseMigrations {
     )
     class Schema2to3 : AutoMigrationSpec
 
+    class Schema3to4 : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `$CHECKLIST_TABLE_NAME` (`id` INTEGER PRIMARY KEY AUTOINCREMENT `noteId` INTEGER NOT NULL `items` TEXT NOT NULL `name` TEXT NOT NULL)")
+        }
+    }
 
 }

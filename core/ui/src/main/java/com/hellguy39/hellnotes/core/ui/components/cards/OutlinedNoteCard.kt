@@ -61,59 +61,11 @@ fun OutlinedNoteCard(
             Color(noteDetailWrapper.note.colorHex)
     )
 
-    val filteredChecklist = noteDetailWrapper.note.checklist
-        .filter { !it.isChecked }
-        .sortedBy { it.position }
-
-    val isTitleValid = noteDetailWrapper.note.title.isNotEmpty() || noteDetailWrapper.note.title.isNotBlank()
-    val isNoteValid = noteDetailWrapper.note.note.isNotEmpty() || noteDetailWrapper.note.note.isNotBlank()
-    val isChipsValid = noteDetailWrapper.labels.isNotEmpty() || noteDetailWrapper.reminders.isNotEmpty()
-    val isChecklistValid = filteredChecklist.isNotEmpty()
-
     OutlinedCard(
         modifier = modifier,
         colors = colors,
         border = cardBorder
     ) {
-        Column(
-            modifier = Modifier
-                .padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            if (isTitleValid) {
-                Text(
-                    text = noteDetailWrapper.note.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
-            if (isNoteValid) {
-                Text(
-                    text = noteDetailWrapper.note.note,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 3,
-                    modifier = Modifier,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
-            if (isChecklistValid) {
-                NoteChecklistGroup(
-                    checklist = filteredChecklist
-                )
-            }
-
-            if (isChipsValid) {
-                NoteChipGroup(
-                    modifier = Modifier,
-                    reminders = noteDetailWrapper.reminders,
-                    labels = noteDetailWrapper.labels,
-                    limitElements = true,
-                    maxElements = 2,
-                )
-            }
-        }
+        NoteCardContent(noteDetailWrapper = noteDetailWrapper)
     }
 }

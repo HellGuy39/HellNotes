@@ -33,6 +33,7 @@ fun CustomDialog(
     onAccept: (() -> Unit)? = null,
     limitMaxHeight: Boolean = true,
     limitMinHeight: Boolean = false,
+    showContentDividers: Boolean = true,
     content: (@Composable () -> Unit)? = null
 ) {
     if (!state.visible)
@@ -95,9 +96,22 @@ fun CustomDialog(
                 }
                 if (content != null) {
                     Column {
-                        CustomDivider(paddingValues = PaddingValues(horizontal = 16.dp), color = MaterialTheme.colorScheme.outline)
+                        if (showContentDividers) {
+                            CustomDivider(
+                                paddingValues = PaddingValues(horizontal = 16.dp),
+                                color = MaterialTheme.colorScheme.outline
+                            )
+                        }
+
                         content()
-                        CustomDivider(paddingValues = PaddingValues(horizontal = 16.dp), color = MaterialTheme.colorScheme.outline)
+
+                        if (showContentDividers) {
+                            CustomDivider(
+                                paddingValues = PaddingValues(horizontal = 16.dp),
+                                color = MaterialTheme.colorScheme.outline
+                            )
+                        }
+
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }

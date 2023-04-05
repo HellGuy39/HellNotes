@@ -12,16 +12,12 @@ fun LabelSelectionRoute(
     navController: NavController,
     labelSelectionViewModel: LabelSelectionViewModel = hiltViewModel()
 ) {
-    val onNavigationBack: () -> Unit = {
-        navController.popBackStack()
-    }
-
-    BackHandler(onBack = onNavigationBack)
+    BackHandler(onBack = navController::popBackStack)
 
     val uiState by labelSelectionViewModel.uiState.collectAsStateWithLifecycle()
 
     LabelSelectionScreen(
-        onNavigationBack = onNavigationBack,
+        onNavigationBack = navController::popBackStack,
         uiState = uiState,
         selection = LabelSelectionScreenSelection(
             onLabelSelectedUpdate = { label, checked ->

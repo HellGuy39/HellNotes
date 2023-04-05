@@ -18,6 +18,8 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.hellguy39.hellnotes.core.model.Checklist
+import com.hellguy39.hellnotes.core.model.ChecklistItem
 import com.hellguy39.hellnotes.core.model.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
@@ -27,6 +29,7 @@ import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
 import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToChecklistEdit
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -53,10 +56,6 @@ fun NoteDetailRoute(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val onBackNavigation: () -> Unit = {
-        navController.popBackStack()
-    }
-
     fun onShare(type: ShareType)  {
         ShareUtils.share(
             context = context,
@@ -65,7 +64,7 @@ fun NoteDetailRoute(
         )
     }
 
-    BackHandler(onBack = onBackNavigation)
+    BackHandler(onBack = navController::popBackStack)
 
     CustomDialog(
         state = shareDialogState,
@@ -160,7 +159,7 @@ fun NoteDetailRoute(
         ),
         topAppBarSelection = NoteDetailTopAppBarSelection(
             note = uiState.note,
-            onNavigationButtonClick = onBackNavigation,
+            onNavigationButtonClick = navController::popBackStack,
             onPin = { isPinned ->
                 noteDetailViewModel.onUpdateIsPinned(isPinned)
 
@@ -192,24 +191,37 @@ fun NoteDetailRoute(
                 navController.navigateToLabelSelection(uiState.note.id)
             },
             onChecklist = {
-                noteDetailViewModel.onAddChecklistItem()
+                noteDetailViewModel.onAddChecklist()
+//                navController.navigateToChecklistEdit(
+//                    noteId = uiState.note.id,
+//                    checklistId = uiState.checklist.id
+//                )
             }
         ),
         noteDetailChecklistSelection = NoteDetailChecklistSelection(
-            onRemoveItem = { item ->
-                noteDetailViewModel.onRemoveChecklistItem(item)
+            onCheckedChange = { checklist, item, isChecked ->
+                noteDetailViewModel.onUpdateChecklistItemChecked(checklist, item, isChecked)
             },
-            onChangeText = { item, text ->
-                noteDetailViewModel.onUpdateChecklistItemText(item, text)
+            onDoneAll = { checklist ->
+                noteDetailViewModel.onCheckAllItems(checklist)
             },
-            onCheckedChange = { item, isChecked ->
-                noteDetailViewModel.onUpdateChecklistItemChecked(item, isChecked)
+            onRemoveDone = { checklist ->
+                noteDetailViewModel.onUncheckAllItems(checklist)
             },
-            onNewItem = {
-                noteDetailViewModel.onAddChecklistItem()
+            onAddChecklistItem = { checklist ->
+                noteDetailViewModel.onAddChecklistItem(checklist)
             },
-            onMoveItem = { fromIndex, toIndex ->
-                noteDetailViewModel.onMoveChecklistItem(toIndex = toIndex, fromIndex = fromIndex)
+            onDelete = { checklist ->
+                noteDetailViewModel.onDeleteChecklist(checklist)
+            },
+            onDeleteChecklistItem = { checklist, checklistItem ->
+                noteDetailViewModel.onDeleteChecklistItem(checklist, checklistItem)
+            },
+            onChecklistNameChange = { checklist, name ->
+                noteDetailViewModel.onUpdateChecklistName(checklist, name)
+            },
+            onUpdateChecklistItemText = { checklist, checklistItem, text ->
+                noteDetailViewModel.onUpdateChecklistItemText(checklist, checklistItem, text)
             }
         )
     )

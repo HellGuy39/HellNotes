@@ -140,17 +140,17 @@ fun NoteListScreen(
                     ),
                     selectedNotes = multiActionSelection.selectedNotes,
                     listStyle = listStyle,
-                    listHeader = {
-                        ListConfiguration(
-                            selection = ListConfigurationSelection(
-                                sorting = uiState.sorting,
-                                onSortingSelected = { sorting ->
-                                    noteListViewModel.updateSorting(sorting)
-                                }
-                            ),
-                            menuState = sortingMenuState
-                        )
-                    },
+//                    listHeader = {
+//                        ListConfiguration(
+//                            selection = ListConfigurationSelection(
+//                                sorting = uiState.sorting,
+//                                onSortingSelected = { sorting ->
+//                                    noteListViewModel.updateSorting(sorting)
+//                                }
+//                            ),
+//                            menuState = sortingMenuState
+//                        )
+//                    },
                 )
             }
         },

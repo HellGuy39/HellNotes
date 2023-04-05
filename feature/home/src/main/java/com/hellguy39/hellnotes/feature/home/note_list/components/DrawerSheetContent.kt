@@ -82,16 +82,7 @@ fun DrawerSheetContent(
                             modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
                         )
                         Spacer(modifier = Modifier.weight(1f))
-//                        IconButton(
-//                            modifier = Modifier.padding(horizontal = 16.dp),
-//                            onClick = {  }
-//                        ) {
-//                            Icon(
-//                                painter = painterResource(id = HellNotesIcons.Edit),
-//                                //tint = MaterialTheme.colorScheme.primary,
-//                                contentDescription = null
-//                            )
-//                        }
+
                         TextButton(
                             onClick = { labelSelection.onEditLabel() },
                             modifier = Modifier.padding(horizontal = 16.dp)
@@ -158,7 +149,15 @@ fun CustomNavDrawerItem(
     selectedItem: DrawerItem
 ) {
     NavigationDrawerItem(
-        icon = { drawerItem.icon?.let { Icon(it, contentDescription = null) } },
+        icon = {
+            drawerItem.icon?.let { icon ->
+                Icon(
+                    painter = icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        },
         label = {
             Text(
                 text = drawerItem.title,

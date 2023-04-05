@@ -22,6 +22,10 @@ class LabelRepositoryImpl @Inject constructor(
         labelDao.deleteLabel(label.toLabelEntity())
     }
 
+    override suspend fun deleteLabelById(id: Long) {
+        labelDao.deleteLabelById(id)
+    }
+
     override suspend fun updateLabel(label: Label) {
         labelDao.updateLabel(label.toLabelEntity())
     }
@@ -32,6 +36,10 @@ class LabelRepositoryImpl @Inject constructor(
 
     override suspend fun getLabelById(id: Long): Label {
         return labelDao.getLabelById(id).toLabel()
+    }
+
+    override suspend fun getAllLabels(): List<Label> {
+        return labelDao.getAllLabels().map { labelEntity -> labelEntity.toLabel() }
     }
 
     override suspend fun deleteNoteIdFromLabels(noteId: Long) {

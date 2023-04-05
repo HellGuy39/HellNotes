@@ -20,6 +20,7 @@ object Modules {
         const val AboutApp= ":feature:about-app"
         const val Settings = ":feature:settings"
         const val LabelEdit = ":feature:label-edit"
+        //const val ChecklistEdit = ":feature:checklist-edit"
         const val LabelSelection = ":feature:label-selection"
         const val Lock = ":feature:lock"
         const val LockSelection = ":feature:lock-selection"

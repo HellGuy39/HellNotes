@@ -26,11 +26,12 @@
     <string name="label_labels">Метки</string>
     <string name="label_gestures">Жесты</string>
     <string name="label_general">Основные</string>
-    <string name="label_personalization">Персонализация</string>
+    <string name="label_appearance">Внешний вид</string>
     <string name="label_swipe_right">Свайп вправо</string>
     <string name="label_swipe_left">Свайп влево</string>
     <string name="label_enabled">Включено</string>
     <string name="label_disabled">Выключено</string>
+    <string name="label_current_lock_screen">Текущий экран блокировки</string>
 
     <!-- Text -->
     <string name="text_date_of_creation">Дата создания</string>
@@ -44,9 +45,9 @@
     <string name="text_remind_time_is_too_late">Невозможно установить напоминание, время напоминания позднее системного.</string>
     <string name="text_no_notes_in_trash">В Корзине нет заметок</string>
     <string name="text_label_already_exist">Метка с таким именем уже сущесвует</string>
+    <string name="text_label_cannot_be_empty">Метка не может быть пустой</string>
     <string name="text_nothing_to_share">Нечем делиться</string>
     <string name="text_auto_delete_trash">Заметки в корзине автоматически удаляются через 7 дней</string>
-    <string name="text_for_added_security_set_a_pin">Для дополнительной безопасности установите PIN-код, чтобы разблокировать все ваши заметки</string>
 
     <!-- Button -->
     <string name="btn_request_permission">Запросить разрешение</string>
@@ -61,6 +62,7 @@
     <string name="btn_next">Далее</string>
     <string name="btn_confirm">Подтвердить</string>
     <string name="btn_biometrics">Биометрия</string>
+    <string name="btn_rename">Переименовать</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>
@@ -69,6 +71,9 @@
     <string name="hint_label">Метка…</string>
     <string name="hint_message">Сообщение</string>
     <string name="hint_create_new_label">Создать новую метку</string>
+    <string name="hint_new_checklist">Новый список</string>
+    <string name="hint_add_new_item">Добавить пункт</string>
+    <string name="hint_item">Пункт</string>
 
     <!-- Setting -->
     <string name="stg_screen_lock">Экран блокировки</string>
@@ -81,6 +86,7 @@
     <string name="menu_item_about_app">О приложении</string>
     <string name="menu_item_reminders">Напоминания</string>
     <string name="menu_item_labels">Метки</string>
+    <string name="menu_item_rename">Переименовать</string>
     <string name="menu_item_delete">Удалить</string>
     <string name="menu_item_plain_text">Обычный текст</string>
     <string name="menu_item_txt_file">.txt файл</string>
@@ -101,6 +107,8 @@
     <string name="menu_item_outlined">Очерченный</string>
     <string name="menu_item_elevated">Приподнятый</string>
     <string name="menu_item_archive">Архивировать</string>
+    <string name="menu_item_check_all_items">Выполнить все пункты</string>
+    <string name="menu_item_uncheck_all_items">Снять все пункты</string>
 
     <!-- Language-->
     <string name="lan_system_default">Системный</string>
@@ -125,22 +133,30 @@
     <string name="title_language">Язык</string>
     <string name="title_set_a_pin">Установите PIN-код</string>
     <string name="title_re_enter_your_pin">Повторите PIN-код</string>
+    <string name="title_set_a_password">Установите пароль</string>
+    <string name="title_re_enter_your_password">Повторите пароль</string>
     <string name="title_delete_this_note">Удалить заметку?</string>
+    <string name="title_delete_this_label">Удалить метку?</string>
     <string name="title_restore_this_note">Восстановить заметку?</string>
-    <string name="title_empty_the_trash">Очистить корзину?</string>\
+    <string name="title_empty_the_trash">Очистить корзину?</string>
     <string name="title_note_style">Стиль заметок</string>
     <string name="title_note_swipes">Свайпы заметок</string>
 
     <!-- Helper -->
     <string name="helper_unchecked_items">+%s непроверенных пунктов</string>
     <string name="helper_unchecked_item">+%s непроверенный пункт</string>
+    <string name="helper_checklist">+%s список</string>
+    <string name="helper_checklists">+%s списков</string>
     <string name="helper_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
+    <string name="helper_password_must_be_at_least_4_characters">Пароль должен состоять не менее чем из 4 символов</string>
     <string name="helper_enter_pin">Введите PIN-код</string>
     <string name="helper_unlocked">Разблокировано</string>
     <string name="helper_wrong_pin">Неверный PIN-код</string>
+    <string name="helper_wrong_password">Неверный пароль</string>
     <string name="helper_share_dialog">Выберите, каким способом поделиться заметкой. После этого вы сможете выбрать получателя и способ отправки.</string>
-    <string name="helper_delete_dialog">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
+    <string name="helper_delete_note_dialog">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
     <string name="helper_restore_dialog">После восстановления вы сможете снова открыть и отредактировать эту заметку.</string>
+    <string name="helper_delete_label_dialog">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
     <string name="helper_empty_trash_dialog">Все заметки в корзине будут безвозвратно удалены.</string>
     <string name="helper_label_selection_placeholder">Здесь будут отображаться ваши метки</string>
 

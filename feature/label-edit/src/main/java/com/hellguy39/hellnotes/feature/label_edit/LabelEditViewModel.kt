@@ -7,10 +7,7 @@ import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,19 +17,17 @@ class LabelEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    val uiState: StateFlow<LabelEditUiState> =
-        combine(
-            savedStateHandle.getStateFlow(ArgumentKeys.Action, ""),
-            labelRepository.getAllLabelsStream()
-        ) { action, labels ->
-            LabelEditUiState(
+    private val action = savedStateHandle.get<String>(ArgumentKeys.Action) ?: ""
+
+    val uiState: StateFlow<LabelEditUiState> = labelRepository.getAllLabelsStream()
+        .map { labels ->
+            LabelEditUiState.Success(
                 labels = labels.sortedByDescending { label -> label.id },
                 action = action,
-                isLoading = labels.isEmpty(), // LabelEditScreen available only when Labels exist
             )
         }
         .stateIn(
-            initialValue = LabelEditUiState.initialInstance(),
+            initialValue = LabelEditUiState.Loading,
             started = SharingStarted.WhileSubscribed(5_000),
             scope = viewModelScope
         )
@@ -71,18 +66,15 @@ class LabelEditViewModel @Inject constructor(
 
 }
 
-data class LabelEditUiState(
-    val labels: List<Label>,
-    val action: String,
-    val isLoading: Boolean
-) {
-    companion object {
-        fun initialInstance() = LabelEditUiState(
-            labels = listOf(),
-            action = "",
-            isLoading = true
-        )
-    }
+sealed interface LabelEditUiState {
+
+    object Loading: LabelEditUiState
+
+    data class Success(
+        val action: String,
+        val labels: List<Label>
+    ) : LabelEditUiState
+
 }
 
 sealed class LabelEditScreenUiEvent {

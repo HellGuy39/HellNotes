@@ -6,7 +6,7 @@ sealed interface Repeat {
     object Weekly: Repeat
     object Monthly: Repeat
 
-    fun parse(): String {
+    fun string(): String {
         return when(this) {
             is DoesNotRepeat -> DOES_NOT_REPEAT
             is Daily -> DAILY

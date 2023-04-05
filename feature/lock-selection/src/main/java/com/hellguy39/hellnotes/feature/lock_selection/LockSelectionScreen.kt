@@ -12,13 +12,15 @@ import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionItemDefault
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionItemLarge
 import com.hellguy39.hellnotes.feature.lock_selection.util.LockScreenTypeItemHolder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LockSelectionScreen(
     onNavigationBack: () -> Unit,
+    uiState: LockSelectionUiState,
     onLockScreenTypeSelected: (LockScreenType) -> Unit,
     snackbarHostState: SnackbarHostState
 ) {
@@ -43,16 +45,16 @@ fun LockSelectionScreen(
             icon = painterResource(id = HellNotesIcons.Password),
             lockScreenType = LockScreenType.Password,
         ),
-        LockScreenTypeItemHolder(
-            title = stringResource(id = HellNotesStrings.MenuItem.Pattern),
-            icon = painterResource(id = HellNotesIcons.Pattern),
-            lockScreenType = LockScreenType.Pattern,
-        ),
-        LockScreenTypeItemHolder(
-            title = stringResource(id = HellNotesStrings.MenuItem.Slide),
-            icon = painterResource(id = HellNotesIcons.SwipeRight),
-            lockScreenType = LockScreenType.Slide,
-        ),
+//        LockScreenTypeItemHolder(
+//            title = stringResource(id = HellNotesStrings.MenuItem.Pattern),
+//            icon = painterResource(id = HellNotesIcons.Pattern),
+//            lockScreenType = LockScreenType.Pattern,
+//        ),
+//        LockScreenTypeItemHolder(
+//            title = stringResource(id = HellNotesStrings.MenuItem.Slide),
+//            icon = painterResource(id = HellNotesIcons.SwipeRight),
+//            lockScreenType = LockScreenType.Slide,
+//        ),
     )
 
     Scaffold(
@@ -62,8 +64,11 @@ fun LockSelectionScreen(
                 contentPadding = paddingValues
             ) {
                 items(screenTypes) { item ->
-                    SelectionIconItem(
+                    SelectionItemDefault(
                         title = item.title,
+                        subtitle = if (uiState.securityState.lockType == item.lockScreenType)
+                            stringResource(id = HellNotesStrings.Label.CurrentLockScreen)
+                        else "",
                         heroIcon = item.icon,
                         onClick = { onLockScreenTypeSelected(item.lockScreenType) }
                     )

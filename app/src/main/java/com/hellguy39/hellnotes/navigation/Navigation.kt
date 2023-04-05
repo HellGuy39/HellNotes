@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,9 +35,9 @@ import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
 fun SetupNavGraph(
     extraNoteId: Long?,
     action: String?,
-    isStartUpActionPassed: Boolean,
-    onStartUpActionPassed: () -> Unit
 ) {
+    var isStartUpActionPassed by rememberSaveable { mutableStateOf(false) }
+
     val navController = rememberAnimatedNavController()
 
     val actionNewNote = stringResource(id = HellNotesStrings.Action.NewNote)
@@ -68,6 +69,8 @@ fun SetupNavGraph(
 
         labelSelectionScreen(navController)
 
+        //checklistEditScreen(navController)
+
         searchScreen(navController)
 
         labelEditScreen(navController)
@@ -89,7 +92,7 @@ fun SetupNavGraph(
         LaunchedEffect(key1 = isStartUpActionPassed) {
             if (!isStartUpActionPassed) {
 
-                onStartUpActionPassed()
+                isStartUpActionPassed = true
 
                 if (extraNoteId != null && extraNoteId != MainActivity.EMPTY_ARG) {
                     navController.navigateToNoteDetail(noteId = extraNoteId)

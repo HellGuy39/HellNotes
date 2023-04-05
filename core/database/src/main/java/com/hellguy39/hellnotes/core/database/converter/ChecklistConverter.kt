@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.database.converter
 
 import androidx.room.TypeConverter
-import com.hellguy39.hellnotes.core.model.CheckItem
+import com.hellguy39.hellnotes.core.model.ChecklistItem
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -15,18 +15,18 @@ class ChecklistConverter {
         .build()
 
     private val type: ParameterizedType = Types.newParameterizedType(
-        List::class.java, CheckItem::class.javaObjectType
+        List::class.java, ChecklistItem::class.javaObjectType
     )
 
-    private val jsonAdapter: JsonAdapter<List<CheckItem>> = moshi.adapter(type)
+    private val jsonAdapter: JsonAdapter<List<ChecklistItem>> = moshi.adapter(type)
 
     @TypeConverter
-    fun fromChecklist(list: List<CheckItem>?): String? {
+    fun fromChecklist(list: List<ChecklistItem>?): String? {
         return jsonAdapter.toJson(list)
     }
 
     @TypeConverter
-    fun toChecklist(jsonStr: String?): List<CheckItem>? {
+    fun toChecklist(jsonStr: String?): List<ChecklistItem>? {
         return jsonStr?.let { jsonAdapter.fromJson(jsonStr) }
     }
 }

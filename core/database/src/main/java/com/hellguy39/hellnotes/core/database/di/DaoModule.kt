@@ -1,10 +1,7 @@
 package com.hellguy39.hellnotes.core.database.di
 
 import com.hellguy39.hellnotes.core.database.HellNotesDatabase
-import com.hellguy39.hellnotes.core.database.dao.LabelDao
-import com.hellguy39.hellnotes.core.database.dao.NoteDao
-import com.hellguy39.hellnotes.core.database.dao.ReminderDao
-import com.hellguy39.hellnotes.core.database.dao.TrashDao
+import com.hellguy39.hellnotes.core.database.dao.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +25,11 @@ object DaoModule {
     fun provideLabelDao(
         database: HellNotesDatabase,
     ): LabelDao = database.labelDao
+
+    @Provides
+    fun provideChecklistDao(
+        database: HellNotesDatabase,
+    ): ChecklistDao = database.checklistDao
 
     @Provides
     fun provideTrashDao(

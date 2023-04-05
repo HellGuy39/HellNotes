@@ -4,7 +4,7 @@ sealed interface ListStyle {
     object Column: ListStyle
     object Grid: ListStyle
 
-    fun parse(): String {
+    fun string(): String {
         return when(this) {
             is Grid -> GRID
             is Column -> COLUMN

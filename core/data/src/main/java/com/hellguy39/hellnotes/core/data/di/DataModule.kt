@@ -27,6 +27,11 @@ interface DataModule {
     ): LabelRepository
 
     @Binds
+    fun bindChecklistRepository(
+        i: ChecklistRepositoryImpl
+    ): ChecklistRepository
+
+    @Binds
     fun bindTrashRepository(
         i: TrashRepositoryImpl
     ): TrashRepository

@@ -20,6 +20,6 @@ fun Reminder.toRemindEntity(): ReminderEntity {
         noteId = noteId,
         message = message,
         triggerDate = triggerDate,
-        repeat = repeat.parse()
+        repeat = repeat.string()
     )
 }

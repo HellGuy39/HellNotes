@@ -6,6 +6,7 @@ import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.use_case.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.toNoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.util.ListStyle
@@ -18,9 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     dataStoreRepository: DataStoreRepository,
-    labelRepository: LabelRepository,
-    reminderRepository: ReminderRepository,
-    noteRepository: NoteRepository,
+    getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase
 ): ViewModel() {
 
     private val _listStyle: MutableStateFlow<ListStyle> = MutableStateFlow(ListStyle.Column)
@@ -35,21 +34,14 @@ class SearchViewModel @Inject constructor(
 
     val uiState: StateFlow<SearchUiState> =
         combine(
-            noteRepository.getAllNotesStream(),
-            reminderRepository.getAllRemindersStream(),
-            labelRepository.getAllLabelsStream(),
+            getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
             search,
             filters
-        ) { notes, reminders, labels, search, filters ->
-            val allNotes = notes.map { note ->
-                note.toNoteDetailWrapper(
-                    reminders = reminders,
-                    labels = labels
-                )
-            }
+        ) { notes, search, filters ->
 
-            var searchedNotes: List<NoteDetailWrapper> = allNotes.filter { note ->
-                note.note.note.contains(search, true) || note.note.title.contains(search, true)
+            var searchedNotes: List<NoteDetailWrapper> = notes.filter { note ->
+                note.note.note.contains(search, true) ||
+                        note.note.title.contains(search, true)
             }
 
             if (filters.withArchive) {
@@ -59,7 +51,7 @@ class SearchViewModel @Inject constructor(
             }
 
             if (filters.withChecklist) {
-                searchedNotes = searchedNotes.filter { note -> note.note.checklist.isNotEmpty() }
+                searchedNotes = searchedNotes.filter { note -> note.checklists.isNotEmpty() }
             }
 
             if (filters.withReminder) {

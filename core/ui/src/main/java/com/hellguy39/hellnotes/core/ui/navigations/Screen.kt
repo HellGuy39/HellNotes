@@ -13,6 +13,7 @@ sealed class Screen(val route: String) {
     object Settings : Screen(route = "settings_screen")
     object NoteDetail : Screen(route = "note_detail_screen")
     object ReminderEdit : Screen(route = "reminder_edit_screen")
+    object ChecklistEdit : Screen(route = "checklist_edit_screen")
     object Search : Screen(route = "search_screen")
     object AboutApp : Screen(route = "about_app_screen")
     object LabelEdit : Screen(route = "label_edit_screen")
@@ -42,6 +43,7 @@ sealed class Screen(val route: String) {
 
 object ArgumentKeys {
     const val NoteId = "noteId"
+    const val ChecklistId = "checklistId"
     const val ReminderId = "reminderId"
     const val LockType = "lockType"
     const val Action = "action"
@@ -50,6 +52,7 @@ object ArgumentKeys {
 object ArgumentDefaultValues {
     const val NewNote: Long = -1
     const val NewReminder: Long = -1
+    const val NewChecklist: Long = -1
 }
 
 fun NavController.navigateToNoteDetail(
@@ -90,12 +93,26 @@ fun NavController.navigateToLabelSelection(
     )
 }
 
+fun NavController.navigateToChecklistEdit(
+    checklistId: Long? = ArgumentDefaultValues.NewChecklist,
+    noteId: Long? = ArgumentDefaultValues.NewNote,
+    navOptions: NavOptions? = null
+) {
+    navigate(
+        route = Screen.ChecklistEdit.withArgs(
+            (checklistId ?: ArgumentDefaultValues.NewChecklist).toString(),
+            (noteId ?: ArgumentDefaultValues.NewNote).toString()
+        ),
+        navOptions = navOptions
+    )
+}
+
 fun NavController.navigateToLockSetup(
     lockType: LockScreenType,
     navOptions: NavOptions? = null
 ) {
     navigate(
-        route = Screen.LockSetup.withArgs(lockType.parse()),
+        route = Screen.LockSetup.withArgs(lockType.string()),
         navOptions = navOptions
     )
 }

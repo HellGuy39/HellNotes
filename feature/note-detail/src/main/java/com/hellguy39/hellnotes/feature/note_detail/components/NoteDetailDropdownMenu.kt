@@ -18,14 +18,6 @@ fun NoteDetailDropdownMenu(
         expanded = state.visible,
         onDismissRequest = { state.dismiss() },
         items = listOf(
-//            CustomDropdownItemSelection(
-//                leadingIconId = painterResource(id = HellNotesIcons.Label),
-//                text = stringResource(id = HellNotesStrings.MenuItem.Labels),
-//                onClick = {
-//                    state.dismiss()
-//                    selection.onLabels()
-//                }
-//            ),
             CustomDropdownItemSelection(
                 leadingIconId = painterResource(id = HellNotesIcons.Share),
                 text = stringResource(id = HellNotesStrings.MenuItem.Share),

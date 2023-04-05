@@ -17,9 +17,6 @@ class NoteRepositoryImpl @Inject constructor(
     override fun getAllNotesStream(): Flow<List<Note>>  =
         noteDao.getAllNotesStream().map { it.map(NoteEntity::toNote) }
 
-    override fun getAllNotesWithQueryStream(query: String): Flow<List<Note>> =
-        noteDao.getAllNotesByQueryStream(query).map { it.map(NoteEntity::toNote) }
-
     override fun getNoteByIdStream(id: Long): Flow<Note> {
         return noteDao.getNoteByIdStream(id).map(NoteEntity::toNote)
     }

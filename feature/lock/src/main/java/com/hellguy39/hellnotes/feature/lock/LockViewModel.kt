@@ -6,6 +6,7 @@ import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.model.SecurityState
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -18,38 +19,37 @@ class LockViewModel @Inject constructor(
     val biometricAuth: BiometricAuthenticator
 ): ViewModel() {
 
-    private var _errorMessage = MutableStateFlow("")
-    val errorMessage = _errorMessage.asStateFlow()
+    private val errorMessage = MutableStateFlow("")
+    private val lockState: MutableStateFlow<LockState> = MutableStateFlow(LockState.Locked)
+    private val password = MutableStateFlow("")
 
-    private val lockViewModelState = MutableStateFlow(LockViewModelState())
-
-    val uiState = lockViewModelState
-        .map(LockViewModelState::toUiState)
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Eagerly,
-            lockViewModelState.value.toUiState()
-        )
+    val uiState: StateFlow<LockUiState> =
+        combine(
+            dataStoreRepository.readSecurityState(),
+            password,
+            lockState,
+            errorMessage
+        ) { securityState, password, lockState, errorMessage ->
+            LockUiState(
+                securityState = securityState,
+                password = password,
+                lockState = lockState,
+                errorMessage = errorMessage
+            )
+        }
+            .stateIn(
+                initialValue = LockUiState.initialInstance(),
+                started = SharingStarted.WhileSubscribed(5_000),
+                scope = viewModelScope
+            )
 
     init {
         viewModelScope.launch {
             launch {
-                dataStoreRepository.readSecurityState().collect { settings ->
-                    lockViewModelState.update { state ->
-                        state.copy(
-                            appPin = settings.password,
-                            isBiometricsAllowed = settings.isUseBiometricData
-                        )
-                    }
-                }
-            }
-            launch {
                 biometricAuth.setOnAuthListener { result ->
                     when (result) {
                         is AuthenticationResult.Success -> {
-                            lockViewModelState.update { state ->
-                                state.copy(lockState = LockState.Unlocked)
-                            }
+                            lockState.update { LockState.Unlocked }
                         }
                         is AuthenticationResult.Failed -> Unit
                         is AuthenticationResult.Error -> Unit
@@ -63,100 +63,87 @@ class LockViewModel @Inject constructor(
         viewModelScope.launch {
             when (key) {
                 NumberKeyboardKeys.KeyBackspace -> {
-                    lockViewModelState.update { state ->
-                        state.copy(inputPin = state.inputPin.dropLast(1))
-                    }
+                    password.update { state -> state.dropLast(1) }
                 }
-                NumberKeyboardKeys.KeyEnter -> {
-                    enterPin()
-                }
+                NumberKeyboardKeys.KeyEnter -> { enterPassword() }
                 else -> {
-                    lockViewModelState.update { state ->
-                        state.copy(inputPin = state.inputPin.plus(key))
-                    }
+                    password.update { state -> state.plus(key) }
                 }
             }
 
-            lockViewModelState.update { state ->
-                state.copy(lockState = LockState.Locked)
-            }
-
+            lockState.update { LockState.Locked }
         }
     }
 
-    private fun enterPin() {
+    fun enterValue(value: String) {
         viewModelScope.launch {
-            lockViewModelState.value.let { state ->
-                if (state.inputPin == state.appPin) {
-                    lockViewModelState.update {
-                        state.copy(lockState = LockState.Unlocked)
-                    }
-                } else {
-                    lockViewModelState.update {
-                        state.copy(lockState = LockState.WrongPin)
-                    }
-                    clearPin()
-                }
+            password.update { value }
+        }
+    }
+
+    fun enterPassword() {
+        viewModelScope.launch {
+            if (password.value == uiState.value.securityState.password) {
+                lockState.update {LockState.Unlocked }
+            } else {
+                lockState.update { LockState.WrongPin }
+                clearPassword()
             }
         }
     }
 
-    fun clearPin() {
+    fun clearPassword() {
         viewModelScope.launch {
-            lockViewModelState.update { state -> state.copy(inputPin = "") }
+            password.update { "" }
         }
     }
 
     fun authByBiometric(onSuccess: () -> Unit) {
         when (biometricAuth.deviceBiometricSupportStatus()) {
             DeviceBiometricStatus.Success -> {
-                if (lockViewModelState.value.isBiometricsAllowed) {
+                if (uiState.value.securityState.isUseBiometricData) {
                     onSuccess()
                 } else {
-                    _errorMessage.update { "Biometric data is not allowed" }
+                    errorMessage.update { "Biometric data is not allowed" }
                 }
             }
             DeviceBiometricStatus.NoHardware -> {
-                _errorMessage.update { "No hardware" }
+                errorMessage.update { "No hardware" }
             }
             DeviceBiometricStatus.Unsupported -> {
-                _errorMessage.update { "Unsupported" }
+                errorMessage.update { "Unsupported" }
             }
             DeviceBiometricStatus.HardwareUnavailable -> {
-                _errorMessage.update { "Hardware unavailable" }
+                errorMessage.update { "Hardware unavailable" }
             }
             DeviceBiometricStatus.NoneEnrolled -> {
-                _errorMessage.update { "Biometric none enrolled" }
+                errorMessage.update { "Biometric none enrolled" }
             }
             DeviceBiometricStatus.SecurityUpdateRequired -> {
-                _errorMessage.update { "Security update required" }
+                errorMessage.update { "Security update required" }
             }
             DeviceBiometricStatus.StatusUnknown -> {
-                _errorMessage.update { "Status unknown" }
+                errorMessage.update { "Status unknown" }
             }
         }
     }
-
-}
-
-private data class LockViewModelState(
-    val appPin: String = "",
-    val inputPin: String = "",
-    val lockState: LockState = LockState.Locked,
-    val isBiometricsAllowed: Boolean = false
-) {
-    fun toUiState() = LockUiState(
-        pin = inputPin,
-        lockState = lockState,
-        isBiometricsAllowed = isBiometricsAllowed
-    )
 }
 
 data class LockUiState(
-    val pin: String,
+    val securityState: SecurityState,
+    val errorMessage: String,
+    val password: String,
     val lockState: LockState,
-    val isBiometricsAllowed: Boolean
-)
+) {
+    companion object {
+        fun initialInstance() = LockUiState(
+            securityState = SecurityState.initialInstance(),
+            password = "",
+            lockState = LockState.Locked,
+            errorMessage = ""
+        )
+    }
+}
 
 sealed interface LockState {
     object WrongPin : LockState

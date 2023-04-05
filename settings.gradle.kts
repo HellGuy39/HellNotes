@@ -19,6 +19,7 @@ rootProject.name = "HellNotes"
 
 /* App */
 include (":app")
+include(":benchmark")
 
 /* Core */
 include (":core:database")
@@ -43,6 +44,5 @@ include(":feature:language-selection")
 include(":feature:lock-setup")
 include(":feature:reminder-edit")
 include(":feature:label-selection")
-include(":benchmark")
 include(":feature:note-style-edit")
 include(":feature:note-swipe-edit")

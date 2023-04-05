@@ -15,21 +15,14 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 fun CustomSwitch(
     modifier: Modifier = Modifier,
     title: String = "",
-    supportingText: String = "",
     enabled: Boolean = true,
     checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val switchTextModifier = if (enabled)
-            Modifier
-        else
-            Modifier.alpha(UiDefaults.Alpha.Emphasize)
-
         Column(
             modifier = Modifier,
             horizontalAlignment = Alignment.Start,
@@ -38,21 +31,13 @@ fun CustomSwitch(
             Text(
                 modifier = Modifier,
                 text = title,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.bodyLarge
             )
-            if (supportingText.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    modifier = switchTextModifier,
-                    text = title,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
         }
 
         Switch(
             checked = checked,
-            onCheckedChange = onCheckedChange,
+            onCheckedChange = null,
             enabled = enabled,
             thumbContent = if (checked) {
                 {

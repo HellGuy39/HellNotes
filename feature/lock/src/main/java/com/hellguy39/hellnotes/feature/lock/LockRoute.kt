@@ -24,7 +24,6 @@ fun LockRoute(
     context: Context = LocalContext.current
 ) {
     val uiState by lockViewModel.uiState.collectAsStateWithLifecycle()
-    val errorMessage by lockViewModel.errorMessage.collectAsStateWithLifecycle()
 
     val hapticFeedback = LocalHapticFeedback.current
     val view = LocalView.current
@@ -37,18 +36,18 @@ fun LockRoute(
         }
     }
 
-    LaunchedEffect(key1 = uiState.isBiometricsAllowed) {
-        if (uiState.isBiometricsAllowed) {
+    LaunchedEffect(key1 = uiState.securityState.isUseBiometricData) {
+        if (uiState.securityState.isUseBiometricData) {
             lockViewModel.authByBiometric {
                 biometricAuth.authenticate(context as AppCompatActivity)
             }
         }
     }
 
-    if (errorMessage.isNotEmpty()) {
-        LaunchedEffect(key1 = errorMessage, block = {
+    if (uiState.errorMessage.isNotEmpty()) {
+        LaunchedEffect(key1 = uiState.errorMessage, block = {
             scope.launch {
-                snackbarHostState.showSnackbar(errorMessage)
+                snackbarHostState.showSnackbar(uiState.errorMessage)
             }
         })
     }
@@ -62,10 +61,15 @@ fun LockRoute(
             },
             onLongClick = { key ->
                 if (key == NumberKeyboardKeys.KeyBackspace) {
-                    lockViewModel.clearPin()
+                    lockViewModel.clearPassword()
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 }
             }
+        ),
+        passwordSelection = PasswordSelection(
+            onClear = lockViewModel::clearPassword,
+            onEntered = lockViewModel::enterPassword,
+            onValueChange = lockViewModel::enterValue
         ),
         snackbarHostState = snackbarHostState,
         onBiometricsAuth = {

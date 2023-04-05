@@ -8,7 +8,6 @@ interface NoteRepository {
 
     fun getAllNotesStream(): Flow<List<Note>>
 
-    fun getAllNotesWithQueryStream(query: String): Flow<List<Note>>
 
     fun getNoteByIdStream(id: Long): Flow<Note>
 

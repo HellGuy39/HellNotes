@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.lock
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,10 @@ class LockScreenDialog: DialogFragment() {
         setStyle(STYLE_NO_FRAME, R.style.FullScreenDialog)
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return super.onCreateDialog(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,9 +51,7 @@ class LockScreenDialog: DialogFragment() {
                     ) {
                         TransparentSystemBars()
                         LockRoute(
-                            onUnlock = {
-                                callback?.onSuccess()
-                            }
+                            onUnlock = { callback?.onSuccess() }
                         )
                     }
                 }

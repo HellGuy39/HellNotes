@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
             val extraNoteId = intent.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID, EMPTY_ARG)
             val action = intent.action
 
-            var isStartUpActionPassed by rememberSaveable { mutableStateOf(false) }
             var isIdentityProofed by rememberSaveable { mutableStateOf(false) }
             val splashState by splashViewModel.splashState.collectAsStateWithLifecycle()
 
@@ -87,8 +86,6 @@ class MainActivity : AppCompatActivity(), ProofOfIdentity {
                 SetupNavGraph(
                     extraNoteId = extraNoteId,
                     action = action,
-                    isStartUpActionPassed = isStartUpActionPassed,
-                    onStartUpActionPassed = { isStartUpActionPassed = true }
                 )
             }
         }

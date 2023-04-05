@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    kotlin ("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 @Suppress("UnstableApiUsage")
@@ -33,5 +35,8 @@ dependencies {
     implementation(Libs.AndroidX.AppCompat)
 
     implementation(Libs.Kotlin.Coroutines)
+
+    implementation(Libs.Google.Hilt.Android)
+    kapt(Libs.Google.Hilt.Compiler)
 
 }

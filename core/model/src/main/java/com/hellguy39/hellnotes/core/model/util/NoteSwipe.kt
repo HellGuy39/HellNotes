@@ -5,7 +5,7 @@ sealed interface NoteSwipe {
     object Delete: NoteSwipe
     object Archive: NoteSwipe
 
-    fun parse(): String {
+    fun string(): String {
         return when(this) {
             is None -> NONE
             is Delete -> DELETE

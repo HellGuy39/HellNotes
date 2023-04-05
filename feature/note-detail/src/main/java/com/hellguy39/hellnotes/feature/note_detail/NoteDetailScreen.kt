@@ -96,7 +96,7 @@ fun NoteDetailScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     IconButton(
-                        onClick = { bottomBarSelection.onLabels() }
+                        onClick = bottomBarSelection.onLabels
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Label),
@@ -105,7 +105,7 @@ fun NoteDetailScreen(
                     }
 
                     IconButton(
-                        onClick = { bottomBarSelection.onReminder() }
+                        onClick = bottomBarSelection.onReminder
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Notifications),
@@ -114,7 +114,7 @@ fun NoteDetailScreen(
                     }
 
                     IconButton(
-                        onClick = { bottomBarSelection.onChecklist() }
+                        onClick = bottomBarSelection.onChecklist
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Checklist),
@@ -135,7 +135,6 @@ fun NoteDetailScreen(
                         style = MaterialTheme.typography.labelMedium,
                         textAlign = TextAlign.Center
                     )
-
                 }
             }
         },

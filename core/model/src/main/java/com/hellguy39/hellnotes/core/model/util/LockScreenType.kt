@@ -7,7 +7,7 @@ sealed class LockScreenType {
     object Slide: LockScreenType()
     object Pattern: LockScreenType()
 
-    fun parse(): String {
+    fun string(): String {
         return when(this) {
             None -> NONE
             Pin -> PIN

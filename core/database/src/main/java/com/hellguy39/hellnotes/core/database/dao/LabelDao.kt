@@ -14,6 +14,12 @@ interface LabelDao {
     @Delete
     suspend fun deleteLabel(labelEntity: LabelEntity)
 
+    @Query("""
+        DELETE FROM $LABELS_TABLE_NAME 
+        WHERE id = :id
+    """)
+    suspend fun deleteLabelById(id: Long)
+
     @Update
     suspend fun updateLabel(labelEntity: LabelEntity)
 

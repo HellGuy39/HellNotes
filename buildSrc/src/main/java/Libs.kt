@@ -67,10 +67,10 @@ object Libs {
 
         object Compose {
 
-            private const val composeVersion = "1.4.0-rc1"
+            private const val composeVersion = "1.4.0"
             private const val lifecycleVersion = "2.6.0"
             private const val navigationVersion = "2.5.3"
-            private const val material3Version = "1.1.0-alpha08"
+            private const val material3Version = "1.1.0-beta01"
             private const val activityVersion = "1.6.1"
             
             const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
@@ -95,7 +95,7 @@ object Libs {
 
         object Accompanist {
 
-            private const val version = "0.29.2-rc"
+            private const val version = "0.30.0"
 
             const val NavigationAnimation =
                 "com.google.accompanist:accompanist-navigation-animation:$version"
@@ -117,7 +117,7 @@ object Libs {
             const val Plugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
             const val Android = "com.google.dagger:hilt-android:$version"
             const val Compiler = "com.google.dagger:hilt-compiler:$version"
-            const val NavigationCompose= "androidx.hilt:hilt-navigation-compose:$navigationVersion"
+            const val NavigationCompose = "androidx.hilt:hilt-navigation-compose:$navigationVersion"
         }
 
     }

@@ -21,6 +21,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
 import com.hellguy39.hellnotes.feature.home.label.LabelScreen
+import com.hellguy39.hellnotes.feature.home.label.LabelUiEvent
 import com.hellguy39.hellnotes.feature.home.label.LabelViewModel
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListScreen
 import com.hellguy39.hellnotes.feature.home.note_list.components.DrawerSheetContent
@@ -47,18 +48,6 @@ fun HomeRoute(
     val scope = rememberCoroutineScope()
 
     val snackbarHostState = remember { SnackbarHostState() }
-    val visualsSelection = HomeScreenVisualsSelection(
-        listStyle = uiState.listStyle,
-        noteStyle = uiState.noteStyle,
-        onUpdateListStyle = { homeViewModel.updateListStyle() },
-        noteSwipesState = uiState.noteSwipesState,
-        drawerState = drawerState,
-        snackbarHost = {
-            CustomSnackbarHost(
-                state = snackbarHostState
-            )
-        }
-    )
 
     fun showOnActionSnack(message: String, onActionPerformed: () -> Unit) {
         snackbarHostState.showDismissableSnackbar(
@@ -183,7 +172,7 @@ fun HomeRoute(
                 scope.launch { drawerState.close() }
                 snackbarHostState.currentSnackbarData?.dismiss()
                 multiActionSelection.onCancelSelection()
-                labelViewModel.selectLabel(label)
+                labelViewModel.send(LabelUiEvent.SelectLabel(label))
                 homeViewModel.setDrawerItem(drawerItem)
             }
         )
@@ -194,6 +183,20 @@ fun HomeRoute(
             homeViewModel.setDrawerItem(drawerItems[startScreen.index])
         }
     }
+
+    val visualsSelection = HomeScreenVisualsSelection(
+        listStyle = uiState.listStyle,
+        noteStyle = uiState.noteStyle,
+        onUpdateListStyle = homeViewModel::updateListStyle,
+        noteSwipesState = uiState.noteSwipesState,
+        drawerState = drawerState,
+        snackbarHost = {
+            CustomSnackbarHost(state = snackbarHostState)
+        },
+        resetDrawerRoute = {
+            onDrawerItemClick(drawerItems[0])
+        }
+    )
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -261,6 +264,7 @@ data class HomeScreenVisualsSelection(
     val drawerState: DrawerState,
     val noteSwipesState: NoteSwipesState,
     val onUpdateListStyle: () -> Unit,
+    val resetDrawerRoute: () -> Unit,
     val snackbarHost: @Composable () -> Unit
 )
 

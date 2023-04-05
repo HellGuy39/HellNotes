@@ -1,13 +1,11 @@
 package com.hellguy39.hellnotes.core.model
 
-data class CheckItem(
-    val position: Int,
+data class ChecklistItem(
     val isChecked: Boolean,
     val text: String
 ) {
     companion object {
-        fun newInstance(position: Int) = CheckItem(
-            position = position,
+        fun newInstance() = ChecklistItem(
             isChecked = false,
             text = ""
         )

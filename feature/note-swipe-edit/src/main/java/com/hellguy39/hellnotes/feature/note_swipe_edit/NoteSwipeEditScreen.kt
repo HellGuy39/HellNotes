@@ -24,6 +24,7 @@ import com.hellguy39.hellnotes.core.model.util.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.CustomRadioButton
 import com.hellguy39.hellnotes.core.ui.components.CustomSwitch
+import com.hellguy39.hellnotes.core.ui.components.items.ItemHeader
 import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -66,31 +67,43 @@ fun NoteSwipeEditScreen(
                         ),
                         animationSpec = tween(200)
                     )
-                    
-                    Spacer(modifier = Modifier.height(16.dp))
+
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 16.dp),
                         shape = RoundedCornerShape(32.dp),
                         colors = CardDefaults.cardColors(containerColor = containerColor)
                     ) {
-                        Column(
-                            modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp)
+                        val isChecked = uiState.noteSwipesState.enabled
+                        Box(
+                            modifier = Modifier
+                                .selectable(
+                                    selected = isChecked,
+                                    onClick = { selection.onNoteSwipesEnabled(!isChecked) },
+                                    role = Role.Switch
+                                )
                         ) {
-                            CustomSwitch(
-                                modifier = Modifier.fillMaxWidth(),
-                                title = stringResource(id = HellNotesStrings.Switch.UseNoteSwipes),
-                                checked = uiState.noteSwipesState.enabled,
-                                onCheckedChange = { checked ->
-                                    selection.onNoteSwipesEnabled(checked)
-                                }
-                            )
+                            Column(
+                                modifier = Modifier
+                                    .padding(
+                                        vertical = 24.dp,
+                                        horizontal = 24.dp
+                                    )
+                            ) {
+                                CustomSwitch(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    title = stringResource(id = HellNotesStrings.Switch.UseNoteSwipes),
+                                    checked = isChecked,
+                                )
+                            }
                         }
                     }
+
                 }
                 item {
-                    SectionHeader(
+                    ItemHeader(
                         modifier = Modifier
                             .padding(vertical = 8.dp, horizontal = 16.dp),
                         title = stringResource(id = HellNotesStrings.Label.SwipeLeft),
@@ -119,7 +132,7 @@ fun NoteSwipeEditScreen(
                     }
                 }
                 item {
-                    SectionHeader(
+                    ItemHeader(
                         modifier = Modifier
                             .padding(vertical = 8.dp, horizontal = 16.dp),
                         title = stringResource(id = HellNotesStrings.Label.SwipeRight),
@@ -157,33 +170,3 @@ data class NoteSwipeEditScreenSelection(
     val onSwipeRightActionSelected: (NoteSwipe) -> Unit,
     val onSwipeLeftActionSelected: (NoteSwipe) -> Unit
 )
-
-@Composable
-fun SectionHeader(
-    modifier: Modifier = Modifier,
-    title: String = "",
-    icon: Painter? = null,
-    color: Color = MaterialTheme.colorScheme.primary
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (icon != null) {
-            Icon(
-                modifier = Modifier.size(16.dp),
-                painter = icon,
-                contentDescription = null,
-                tint = color
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-        }
-        Text(
-            text = title,
-            style = MaterialTheme.typography.labelLarge.copy(
-                color = color
-            )
-        )
-    }
-}

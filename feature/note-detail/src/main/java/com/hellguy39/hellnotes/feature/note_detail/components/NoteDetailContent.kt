@@ -1,43 +1,40 @@
 package com.hellguy39.hellnotes.feature.note_detail.components
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.CheckItem
+import com.hellguy39.hellnotes.core.model.Checklist
+import com.hellguy39.hellnotes.core.model.ChecklistItem
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.components.CustomDivider
+import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
+import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
 
 @Composable
 fun NoteDetailContent(
@@ -48,86 +45,190 @@ fun NoteDetailContent(
     focusRequester: FocusRequester,
     lazyListState: LazyListState
 ) {
-    val reorderState = rememberReorderableLazyListState(
-        listState = lazyListState,
-        canDragOver = { draggedOver, dragging -> (draggedOver.index - 2) !in 0..uiState.note.checklist.size },
-        onMove = { from, to ->
-            checklistSelection.onMoveItem(from.index - 2, to.index - 2)
-        }
-    )
     LazyColumn(
-        state = reorderState.listState,
+        state = lazyListState,
         contentPadding = innerPadding,
-        modifier = Modifier.fillMaxSize()
-            .reorderable(reorderState)
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            Column(
+            CustomTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                CustomTextField(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = uiState.note.title,
-                    isSingleLine = false,
-                    onValueChange = { newText -> selection.onTitleTextChanged(newText) },
-                    hint = stringResource(id = HellNotesStrings.Hint.Title),
-                    textStyle = MaterialTheme.typography.titleLarge
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(16.dp)
-                        .fillMaxWidth()
-                )
-                CustomTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .focusRequester(focusRequester),
-                    value = uiState.note.note,
-                    isSingleLine = false,
-                    onValueChange = { newText -> selection.onNoteTextChanged(newText) },
-                    hint = stringResource(id = HellNotesStrings.Hint.Note),
-                    textStyle = MaterialTheme.typography.bodyLarge
-                )
-            }
+                    .padding(horizontal = 16.dp),
+                value = uiState.note.title,
+                isSingleLine = false,
+                onValueChange = { newText -> selection.onTitleTextChanged(newText) },
+                hint = stringResource(id = HellNotesStrings.Hint.Title),
+                textStyle = MaterialTheme.typography.titleLarge
+            )
         }
         item {
-            if (uiState.note.checklist.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+            CustomTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .focusRequester(focusRequester),
+                value = uiState.note.note,
+                isSingleLine = false,
+                onValueChange = { newText -> selection.onNoteTextChanged(newText) },
+                hint = stringResource(id = HellNotesStrings.Hint.Note),
+                textStyle = MaterialTheme.typography.bodyLarge
+            )
         }
+
         items(
-            items = uiState.note.checklist,
-            key = { item -> item.hashCode() }
-        ) { item ->
-            ReorderableItem(reorderState, item.hashCode()) { dragging ->
-                val elevation = animateDpAsState(if (dragging) 8.dp else 0.dp)
-                CheckListItem(
+            items = uiState.checklists
+        ) { checklist ->
+
+            var isVisible by rememberSaveable { mutableStateOf(true) }
+            val dropdownMenuState = rememberDropdownMenuState()
+
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Column(
                     modifier = Modifier
-                        .padding(vertical = 4.dp, horizontal = 8.dp)
-                        .shadow(elevation.value),
-                    dragHandleModifier = Modifier.detectReorderAfterLongPress(reorderState),
-                    item = item,
-                    checklistSelection = checklistSelection
-                )
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 8.dp, alignment = Alignment.CenterHorizontally
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(
+                            modifier = Modifier.size(48.dp),
+                            onClick = { isVisible = !isVisible }
+                        ) {
+                            val painterId = if (isVisible) HellNotesIcons.ExpandLess else HellNotesIcons.ExpandMore
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                painter = painterResource(id = painterId),
+                                contentDescription = null
+                            )
+                        }
+
+                        var isFocused by remember { mutableStateOf(false) }
+
+                        CustomTextField(
+                            modifier = Modifier
+                                .weight(1f)
+                                .onFocusChanged { state -> isFocused = state.isFocused },
+                            value = checklist.name,
+                            onValueChange = { newText ->
+                                checklistSelection.onChecklistNameChange(checklist, newText)
+                            },
+                            isSingleLine = true,
+                            hint = stringResource(id = HellNotesStrings.Hint.NewChecklist)
+                        )
+
+                        IconButton(
+                            modifier = Modifier.size(48.dp),
+                            onClick = { dropdownMenuState.show() }
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                painter = painterResource(id = HellNotesIcons.MoreHoriz),
+                                contentDescription = null
+                            )
+
+                            ChecklistDropdownMenu(
+                                state = dropdownMenuState,
+                                selection = ChecklistDropdownMenuSelection(
+                                    onDeleteChecklist = {
+                                        checklistSelection.onDelete(checklist)
+                                    },
+                                    onDoneAllItems = {
+                                        checklistSelection.onDoneAll(checklist)
+                                    },
+                                    onRemoveDoneItems = {
+                                        checklistSelection.onRemoveDone(checklist)
+                                    }
+                                )
+                            )
+                        }
+                    }
+                    AnimatedVisibility(visible = isVisible) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            checklist.items.forEach { item ->
+                                CheckListItem(
+                                    modifier = Modifier
+                                        .clickable(
+                                            role = Role.Checkbox,
+                                            onClick = {
+                                                checklistSelection.onCheckedChange(
+                                                    checklist, item, !item.isChecked
+                                                )
+                                            }
+                                        ),
+                                    item = item,
+                                    startPadding = 56.dp,
+                                    paddingValues = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
+                                    onValueChange = { text ->
+                                        checklistSelection.onUpdateChecklistItemText(
+                                            checklist, item, text
+                                        )
+                                    },
+                                    onDeleteItem = {
+                                        checklistSelection.onDeleteChecklistItem(checklist, item)
+                                    }
+                                )
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .size(UiDefaults.ListItem.DefaultHeight)
+                                    .clickable { checklistSelection.onAddChecklistItem(checklist) },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Box(
+                                    modifier = Modifier
+                                        .size(48.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(24.dp),
+                                        painter = painterResource(id = HellNotesIcons.Add),
+                                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        contentDescription = null
+                                    )
+                                }
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = stringResource(id = HellNotesStrings.Hint.AddNewItem),
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        textAlign = TextAlign.Start,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
-        }
-        item {
-            if (uiState.note.checklist.isNotEmpty()) {
-                SelectionIconItem(
-                    heroIcon = painterResource(id = HellNotesIcons.Add),
-                    title = "Add new item",
-                    onClick = checklistSelection.onNewItem,
-                )
-            }
+
         }
         item {
             NoteChipGroup(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .padding(horizontal = 16.dp),
                 reminders = uiState.noteReminders,
                 labels = uiState.noteLabels,
                 onRemindClick = { remind ->
@@ -136,86 +237,63 @@ fun NoteDetailContent(
                 onLabelClick = { label ->
                     selection.onLabelClick(label)
                 },
+                crossAxisSpacing = 16.dp,
+                mainAxisSpacing = 16.dp
             )
         }
-
     }
 }
 
 @Composable
 fun CheckListItem(
     modifier: Modifier = Modifier,
-    dragHandleModifier: Modifier = Modifier,
-    item: CheckItem,
-    checklistSelection: NoteDetailChecklistSelection
+    paddingValues: PaddingValues,
+    startPadding: Dp = 0.dp,
+    item: ChecklistItem,
+    onDeleteItem: () -> Unit,
+    onValueChange: (String) -> Unit,
 ) {
-    val focusManager = LocalFocusManager.current
+
     var isFocused by remember { mutableStateOf(false) }
 
-    var checked by remember { mutableStateOf(item.isChecked) }
-    var text by remember { mutableStateOf(item.text) }
-
-    fun onCheckedChange(isChecked: Boolean) {
-        checked = isChecked
-        checklistSelection.onCheckedChange(item, isChecked)
-    }
-
-    fun onTextChange(newText: String) {
-        text = newText
-        checklistSelection.onChangeText(item, newText)
-    }
-
-    CustomDivider(color = MaterialTheme.colorScheme.outline)
-
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+    Box(
+        modifier = modifier
     ) {
-
-        Box(
-            modifier = dragHandleModifier.size(40.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                painter = painterResource(id = HellNotesIcons.DragHandle),
-                contentDescription = null
-            )
-        }
-
-        Checkbox(
-            modifier = Modifier,
-            checked = checked,
-            onCheckedChange = { isChecked -> onCheckedChange(isChecked) }
-        )
-
-        CustomTextField(
-            value = text,
-            hint = "Item",
-            onValueChange = { newText -> onTextChange(newText) },
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .onFocusChanged { state -> isFocused = state.isFocused }
-                .alpha(if (checked) UiDefaults.Alpha.Hint else 1f),
-            isSingleLine = false,
-            textStyle = MaterialTheme.typography.bodyLarge.copy(
-                textDecoration = if (checked) TextDecoration.LineThrough else null,
-            ),
-        )
-        
-        if (isFocused) {
-            IconButton(
-                onClick = { checklistSelection.onRemoveItem(item) },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.Delete),
-                    contentDescription = null
-                )
-            }
-        } else {
-            Box(modifier = Modifier.size(40.dp))
+                .padding(paddingValues)
+                .padding(start = startPadding),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Checkbox(
+                modifier = Modifier,
+                checked = item.isChecked,
+                onCheckedChange = null
+            )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            CustomTextField(
+                value = item.text,
+                modifier = Modifier
+                    .onFocusChanged { state -> isFocused = state.isFocused }
+                    .weight(1f)
+                    .alpha(if (item.isChecked) UiDefaults.Alpha.Hint else 1f),
+                onValueChange = onValueChange,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(
+                    textDecoration = if (item.isChecked) TextDecoration.LineThrough else null
+                ),
+                hint = stringResource(id = HellNotesStrings.Hint.Item),
+            )
+
+            HNIconButton(
+                enabled = isFocused,
+                onClick = onDeleteItem,
+                enabledPainter = painterResource(id = HellNotesIcons.Delete),
+                containerSize = 48.dp
+            )
         }
     }
 }
@@ -228,9 +306,12 @@ data class NoteDetailContentSelection(
 )
 
 data class NoteDetailChecklistSelection(
-    val onCheckedChange: (CheckItem, Boolean) -> Unit,
-    val onChangeText: (CheckItem, String) -> Unit,
-    val onMoveItem: (fromIndex: Int, toIndex: Int) -> Unit,
-    val onRemoveItem: (CheckItem) -> Unit,
-    val onNewItem: () -> Unit,
+    val onCheckedChange: (Checklist, ChecklistItem, Boolean) -> Unit,
+    val onAddChecklistItem: (Checklist) -> Unit,
+    val onDeleteChecklistItem: (Checklist, ChecklistItem) -> Unit,
+    val onChecklistNameChange: (Checklist, String) -> Unit,
+    val onUpdateChecklistItemText: (Checklist, ChecklistItem, String)-> Unit,
+    val onDoneAll: (Checklist) -> Unit,
+    val onRemoveDone: (Checklist) -> Unit,
+    val onDelete: (Checklist) -> Unit
 )

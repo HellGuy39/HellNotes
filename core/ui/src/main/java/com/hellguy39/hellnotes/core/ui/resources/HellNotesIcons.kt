@@ -14,6 +14,7 @@ object HellNotesIcons {
     val Add = R.drawable.ic_add_24
     val Palette = R.drawable.ic_palette_24
     val MoreVert = R.drawable.ic_more_vert_24
+    val MoreHoriz = R.drawable.ic_more_horiz_24
     val Settings = R.drawable.ic_settings_24
     val Info = R.drawable.ic_info_24
     val ArrowBack = R.drawable.ic_arrow_back_24
@@ -35,6 +36,7 @@ object HellNotesIcons {
     val KeyboardTab = R.drawable.ic_keyboard_tab_24
     val Checklist = R.drawable.ic_checklist_24
     val DragHandle = R.drawable.ic_drag_handle_24
+    val Error = R.drawable.ic_error_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24
@@ -65,4 +67,10 @@ object HellNotesIcons {
 
     val ArrowDropDown = R.drawable.ic_arrow_drop_down_24
     val ArrowDropUp = R.drawable.ic_arrow_drop_up_24
+
+    val ExpandMore = R.drawable.ic_expand_more_24
+    val ExpandLess = R.drawable.ic_expand_less_24
+
+    val DoneAll = R.drawable.ic_done_all_24
+    val RemoveDone = R.drawable.ic_remove_done_24
 }

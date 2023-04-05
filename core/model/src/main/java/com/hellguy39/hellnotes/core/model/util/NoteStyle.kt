@@ -4,7 +4,7 @@ sealed interface NoteStyle {
     object Outlined: NoteStyle
     object Elevated: NoteStyle
 
-    fun parse(): String {
+    fun string(): String {
         return when(this) {
             is Outlined -> OUTLINED
             is Elevated -> ELEVATED

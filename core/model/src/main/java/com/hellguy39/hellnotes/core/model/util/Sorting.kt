@@ -4,7 +4,7 @@ sealed interface Sorting {
     object DateOfCreation: Sorting
     object DateOfLastEdit: Sorting
 
-    fun parse(): String {
+    fun string(): String {
         return when(this) {
             is DateOfLastEdit -> DATE_OF_LAST_EDIT
             is DateOfCreation -> DATE_OF_CREATION

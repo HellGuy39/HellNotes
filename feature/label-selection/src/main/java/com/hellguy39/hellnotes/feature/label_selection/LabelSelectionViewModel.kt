@@ -4,9 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
 import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -15,41 +14,32 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LabelSelectionViewModel @Inject constructor(
-    private val noteRepository: NoteRepository,
     private val labelRepository: LabelRepository,
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
-    private val labelSelectionViewModelState = MutableStateFlow(LabelSelectionViewModelState())
+    private val search = MutableStateFlow("")
+    private val noteId = savedStateHandle.get<Long>(ArgumentKeys.NoteId)
 
-    val uiState = labelSelectionViewModelState
-        .map(LabelSelectionViewModelState::toUiState)
-        .stateIn(
-            started = SharingStarted.Eagerly,
-            scope = viewModelScope,
-            initialValue = labelSelectionViewModelState.value.toUiState()
-        )
-
-    init {
-        savedStateHandle.get<Long>(ArgumentKeys.NoteId)?.let { noteId ->
-            viewModelScope.launch {
-                launch {
-                    noteRepository.getNoteByIdStream(noteId).collect { note ->
-                        labelSelectionViewModelState.update { state ->
-                            state.copy(note = note)
-                        }
-                    }
-                }
-                launch {
-                    labelRepository.getAllLabelsStream().collect { labels ->
-                        labelSelectionViewModelState.update { state ->
-                            state.copy(labels = labels, isLoading = false)
-                        }
-                    }
-                }
-            }
+    val uiState: StateFlow<LabelSelectionUiState> =
+        combine(
+            labelRepository.getAllLabelsStream(),
+            search
+        ) { labels, search ->
+            LabelSelectionUiState(
+                search = search,
+                labels = labels
+                    .filter { label -> label.name.contains(search) }
+                    .sortedByDescending { label -> label.id },
+                noteId = noteId ?: ArgumentDefaultValues.NewNote,
+                isLoading = false
+            )
         }
-    }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = LabelSelectionUiState.initialInstance()
+        )
 
     fun sendEvent(event: LabelSelectionUiEvent) {
         when(event) {
@@ -60,7 +50,7 @@ class LabelSelectionViewModel @Inject constructor(
                 unselectLabel(label = event.label)
             }
             is LabelSelectionUiEvent.UpdateSearch -> {
-                updateSearch(search = event.search)
+                updateSearch(s = event.search)
             }
             is LabelSelectionUiEvent.CreateNewLabel -> {
                 createNewLabel()
@@ -70,33 +60,37 @@ class LabelSelectionViewModel @Inject constructor(
 
     private fun selectLabel(label: Label) {
         viewModelScope.launch {
-            val note = labelSelectionViewModelState.value.note
+
+            if (noteId == null)
+                return@launch
+
             labelRepository.updateLabel(
-                label.copy(noteIds = label.noteIds.plus(note.id ?: return@launch))
+                label.copy(noteIds = label.noteIds.plus(noteId))
             )
         }
     }
 
     private fun unselectLabel(label: Label) {
         viewModelScope.launch {
-            val note = labelSelectionViewModelState.value.note
+
+            if (noteId == null)
+                return@launch
+
             labelRepository.updateLabel(
-                label.copy(noteIds = label.noteIds.minus(note.id ?: return@launch))
+                label.copy(noteIds = label.noteIds.minus(noteId))
             )
         }
     }
 
-    private fun updateSearch(search: String) {
+    private fun updateSearch(s: String) {
         viewModelScope.launch {
-            labelSelectionViewModelState.update { state ->
-                state.copy(search = search)
-            }
+            search.update { s }
         }
     }
 
     private fun createNewLabel() {
         viewModelScope.launch {
-            val label = Label(name = labelSelectionViewModelState.value.search)
+            val label = Label(name = search.value)
             val labelId = labelRepository.insertLabel(label)
             selectLabel(labelRepository.getLabelById(labelId))
         }
@@ -111,23 +105,18 @@ sealed class LabelSelectionUiEvent {
     object CreateNewLabel: LabelSelectionUiEvent()
 }
 
-private data class LabelSelectionViewModelState(
-    val search: String = "",
-    val note: Note = Note(),
-    val labels: List<Label> = listOf(),
-    val isLoading: Boolean = true,
-) {
-    fun toUiState() = LabelSelectionUiState(
-        search = search,
-        note = note,
-        labels = labels.filter { it.name.contains(search) },
-        isLoading = isLoading
-    )
-}
-
 data class LabelSelectionUiState(
     val isLoading: Boolean,
+    val noteId: Long,
     val search: String,
-    val note: Note,
     val labels: List<Label>
-)
+) {
+    companion object {
+        fun initialInstance() = LabelSelectionUiState(
+            isLoading = false,
+            search = "",
+            labels = emptyList(),
+            noteId = ArgumentDefaultValues.NewNote
+        )
+    }
+}

@@ -12,7 +12,6 @@ fun NoteEntity.toNote(): Note {
         isPinned = isPinned,
         colorHex = colorHex,
         isArchived = isArchived,
-        checklist = checklist
     )
 }
 
@@ -26,6 +25,5 @@ fun Note.toNoteEntity(): NoteEntity {
         colorHex = colorHex,
         isArchived = isArchived,
         createdAt = createdAt,
-        checklist = checklist
     )
 }

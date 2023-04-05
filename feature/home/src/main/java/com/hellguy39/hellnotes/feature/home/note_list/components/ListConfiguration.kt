@@ -27,8 +27,10 @@ fun ListConfiguration(
     Row(
         modifier = Modifier.fillMaxWidth()
             .padding(horizontal = 4.dp)
+            .padding(bottom = 6.dp, top = 2.dp)
     ) {
         InputChip(
+            modifier = Modifier.height(InputChipDefaults.Height),
             selected = true,
             onClick = { menuState.show() },
             label = {

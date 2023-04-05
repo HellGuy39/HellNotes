@@ -45,25 +45,25 @@ class HellNotesPreferencesDataSource @Inject constructor(
 
     suspend fun saveListStyleState(style: ListStyle) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.listStyle] = style.parse()
+            preferences[PreferencesKey.listStyle] = style.string()
         }
     }
 
     suspend fun saveListSortState(sorting: Sorting) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.sorting] = sorting.parse()
+            preferences[PreferencesKey.sorting] = sorting.string()
         }
     }
 
     suspend fun saveNoteStyleState(noteStyle: NoteStyle) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.noteStyle] = noteStyle.parse()
+            preferences[PreferencesKey.noteStyle] = noteStyle.string()
         }
     }
 
     suspend fun saveSecurityState(state: SecurityState) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.lockType] = state.lockType.parse()
+            preferences[PreferencesKey.lockType] = state.lockType.string()
             preferences[PreferencesKey.isUseBiometricData] = state.isUseBiometricData
             preferences[PreferencesKey.password] = state.password
         }
@@ -72,8 +72,8 @@ class HellNotesPreferencesDataSource @Inject constructor(
     suspend fun saveNoteSwipesState(state: NoteSwipesState) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.noteSwipesEnabled] = state.enabled
-            preferences[PreferencesKey.noteSwipeLeft] = state.swipeLeft.parse()
-            preferences[PreferencesKey.noteSwipeRight] = state.swipeRight.parse()
+            preferences[PreferencesKey.noteSwipeLeft] = state.swipeLeft.string()
+            preferences[PreferencesKey.noteSwipeRight] = state.swipeRight.string()
         }
     }
 

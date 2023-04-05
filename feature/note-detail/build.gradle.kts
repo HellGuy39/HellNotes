@@ -70,6 +70,4 @@ dependencies {
     implementation (Libs.ThirdParty.ComposeDialogs.Core)
     implementation (Libs.ThirdParty.ComposeDialogs.Calendar)
     implementation (Libs.ThirdParty.ComposeDialogs.Clock)
-
-    implementation (Libs.ThirdParty.ReorderList.ComposeReorderableList)
 }
