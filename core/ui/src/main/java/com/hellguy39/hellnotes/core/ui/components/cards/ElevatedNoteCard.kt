@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.NoteChecklistGroup
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 
@@ -55,6 +57,7 @@ fun ElevatedNoteCard(
             color = borderColor,
             shape = RoundedCornerShape(12.dp)
         ),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
     ) {
         NoteCardContent(noteDetailWrapper = noteDetailWrapper)
     }

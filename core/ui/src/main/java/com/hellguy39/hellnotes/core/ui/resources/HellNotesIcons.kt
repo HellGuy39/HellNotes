@@ -37,6 +37,9 @@ object HellNotesIcons {
     val Checklist = R.drawable.ic_checklist_24
     val DragHandle = R.drawable.ic_drag_handle_24
     val Error = R.drawable.ic_error_24
+    val BugReport = R.drawable.ic_bug_report_24
+    val RestartAlt = R.drawable.ic_restart_alt_24
+    val Logout = R.drawable.ic_logout_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24
@@ -73,4 +76,6 @@ object HellNotesIcons {
 
     val DoneAll = R.drawable.ic_done_all_24
     val RemoveDone = R.drawable.ic_remove_done_24
+
+    val GitHub = R.drawable.ic_github_24
 }

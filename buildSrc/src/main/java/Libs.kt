@@ -32,7 +32,7 @@ object Libs {
         private const val lifecycleVersion = "2.5.1"
         private const val splashScreenVersion = "1.0.0"
         private const val biometricVersion = "1.2.0-alpha05"
-        private const val profileInstallerVersion = "1.3.0-rc01"
+        private const val profileInstallerVersion = "1.3.0"
 
         const val ProfileInstaller = "androidx.profileinstaller:profileinstaller:$profileInstallerVersion"
 
@@ -59,7 +59,7 @@ object Libs {
         }
 
         object Room {
-            private const val version = "2.5.0"
+            private const val version = "2.5.1"
 
             const val RoomKtx = "androidx.room:room-ktx:$version"
             const val RoomCompiler = "androidx.room:room-compiler:$version"
@@ -67,10 +67,10 @@ object Libs {
 
         object Compose {
 
-            private const val composeVersion = "1.4.0"
-            private const val lifecycleVersion = "2.6.0"
+            private const val composeVersion = "1.4.1"
+            private const val lifecycleVersion = "2.6.1"
             private const val navigationVersion = "2.5.3"
-            private const val material3Version = "1.1.0-beta01"
+            private const val material3Version = "1.1.0-beta02"
             private const val activityVersion = "1.6.1"
             
             const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
@@ -79,6 +79,7 @@ object Libs {
             const val ToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
             const val Material3 = "androidx.compose.material3:material3:$material3Version"
             const val Navigation = "androidx.navigation:navigation-compose:$navigationVersion"
+            const val LiveData = "androidx.compose.runtime:runtime-livedata:$composeVersion"
 
             const val UiTestJUnit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
             const val UiTooling = "androidx.compose.ui:ui-tooling:$composeVersion"
@@ -95,7 +96,7 @@ object Libs {
 
         object Accompanist {
 
-            private const val version = "0.30.0"
+            private const val version = "0.30.1"
 
             const val NavigationAnimation =
                 "com.google.accompanist:accompanist-navigation-animation:$version"

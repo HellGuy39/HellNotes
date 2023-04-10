@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.feature.home
 import androidx.compose.animation.Crossfade
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,8 +39,17 @@ fun HomeRoute(
     navController: NavController,
     startScreen: HomeScreen = HomeScreen.NoteList,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    labelViewModel: LabelViewModel = hiltViewModel()
+    labelViewModel: LabelViewModel = hiltViewModel(),
+    onStartupAction: () -> Unit = {}
 ) {
+    var isStartupActionPassed by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(key1 = Unit) {
+        if (!isStartupActionPassed) {
+            onStartupAction()
+            isStartupActionPassed = true
+        }
+    }
+
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val drawerUiState by homeViewModel.drawerUiState.collectAsStateWithLifecycle()
 

@@ -69,7 +69,7 @@ fun NoteListTopAppBar(
                         ) {
                             Spacer(modifier = Modifier.width(4.dp))
                             IconButton(
-                                modifier = Modifier.padding(vertical = 4.dp),
+                                modifier = Modifier.padding(vertical = 0.dp),
                                 onClick = { selection.onNavigation() }
                             ) {
                                 Icon(
@@ -86,7 +86,7 @@ fun NoteListTopAppBar(
                             )
                             Spacer(modifier = Modifier.weight(1f))
                             IconButton(
-                                modifier = Modifier.padding(vertical = 4.dp),
+                                modifier = Modifier.padding(vertical = 0.dp),
                                 onClick = { selection.onChangeListStyle() }
                             ) {
                                 Icon(

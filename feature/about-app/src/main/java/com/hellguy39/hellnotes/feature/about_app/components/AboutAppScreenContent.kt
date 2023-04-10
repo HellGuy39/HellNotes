@@ -1,14 +1,20 @@
 package com.hellguy39.hellnotes.feature.about_app.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.ProjectInfoProvider
+import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.components.items.ItemHeader
+import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
 
@@ -19,68 +25,133 @@ fun AboutAppScreenContent(
 ) {
     var easterEggCounter by remember { mutableStateOf(0) }
 
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize()
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = innerPadding
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                painter = painterResource(id = HellNotesIcons.DoubleStickyNote),
-                contentDescription = null,
+        item {
+            ElevatedCard(
                 modifier = Modifier
-                    .width(128.dp)
-                    .height(128.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Text(
-                text = "HellNotes",
-                style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Center
-            )
-
-            AssistChip(
-                label = {
-                    Text(
-                        text = ProjectInfoProvider.appConfig.versionName,
-                        style = MaterialTheme.typography.labelLarge,
-                        textAlign = TextAlign.Center
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Image(
+                        modifier = Modifier.size(128.dp),
+                        painter = painterResource(id = HellNotesIcons.DoubleStickyNote),
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary),
+                        contentDescription = null
                     )
-                },
-                onClick = {
-                    if (easterEggCounter >= 5) {
-                        easterEggCounter = 0
-                        onEasterEgg()
-                    } else {
-                        easterEggCounter++
+                    Column {
+                        Text(
+                            text = "HellNotes",
+                            style = MaterialTheme.typography.headlineMedium,
+                            textAlign = TextAlign.Start
+                        )
+                        Text(
+                            text = ProjectInfoProvider.appConfig.buildType,
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Start
+                        )
+                        Text(
+                            text = ProjectInfoProvider.appConfig.versionName,
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Start
+                        )
                     }
                 }
-            )
+            }
         }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-        ) {
-            Text(
-                text = "HellGuy39",
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "© 2023",
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
+        item {
+            ElevatedCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = "Developed and designed by",
+                            style = MaterialTheme.typography.bodyMedium,
+                            textAlign = TextAlign.Start
+                        )
+                        Text(
+                            text = "Aleksey Gadzhiev",
+                            style = MaterialTheme.typography.titleMedium,
+                            textAlign = TextAlign.Start,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    OutlinedIconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.GitHub),
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+        }
+        item {
+            ElevatedCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+            ) {
+                SelectionItem(
+                    "Changelog"
+                )
+
+                SelectionItem(
+                    "License agreement"
+                )
+
+                SelectionItem(
+                    "Privacy policy"
+                )
+
+                SelectionItem(
+                    "Terms & Conditions"
+                )
+
+                SelectionItem(
+                    "Provide feedback"
+                )
+
+                SelectionItem(
+                    "Rate on Play Store"
+                )
+            }
+        }
+        item {
+            ElevatedCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+            ) {
+                SelectionItem(
+                    "Reset app"
+                )
+            }
         }
     }
 }

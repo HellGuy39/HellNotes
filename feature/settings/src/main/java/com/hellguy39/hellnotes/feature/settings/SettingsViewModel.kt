@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
-    private val biometricAuth: BiometricAuthenticator,
+    val biometricAuth: BiometricAuthenticator,
     private val languageHolder: LanguageHolder
 ): ViewModel() {
 

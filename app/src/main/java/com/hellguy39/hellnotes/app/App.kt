@@ -29,5 +29,7 @@ class App : Application() {
                 isDebug = BuildConfig.DEBUG,
             )
         )
+
+        GlobalExceptionHandler.initialize(this, CrashActivity::class.java)
     }
 }

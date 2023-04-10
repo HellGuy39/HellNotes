@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.core.ui.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,18 +28,22 @@ fun NoteChecklistGroup(
         val uncheckedCount = if (items.size > 3) items.size - 3 else 0
 
         Column {
-            Card {
+            Card(
+                shape = RoundedCornerShape(8.dp)
+            ) {
                 Column(
                     modifier = modifier.padding(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text(
-                        text = checklist.name,
-                        modifier = Modifier,
-                        style = MaterialTheme.typography.bodySmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    if (checklist.name.isNotEmpty() && checklist.name.isNotBlank()) {
+                        Text(
+                            text = checklist.name,
+                            modifier = Modifier,
+                            style = MaterialTheme.typography.bodySmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                     repeat(if (items.size > 3) 3 else items.size) { index ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically
@@ -84,5 +89,4 @@ fun NoteChecklistGroup(
             }
         }
     }
-
 }

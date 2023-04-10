@@ -56,6 +56,7 @@ fun LabelItem(
             keyboardActions = KeyboardActions(
                 onDone = {
                     saveLabel()
+                    focusManager.clearFocus()
                 }
             )
         )

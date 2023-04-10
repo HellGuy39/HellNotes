@@ -2,9 +2,12 @@ package com.hellguy39.hellnotes.core.ui.navigations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
+import com.hellguy39.hellnotes.core.model.util.LockRequest
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
 
 sealed class Screen(val route: String) {
+    object Startup : Screen(route = "startup_screen")
+    object OnBoarding : Screen(route = "on_boarding_screen")
     object Lock : Screen(route = "lock_screen")
     object LockSetup : Screen(route = "lock_setup_screen")
     object LanguageSelection : Screen(route = "language_selection_screen")
@@ -13,7 +16,6 @@ sealed class Screen(val route: String) {
     object Settings : Screen(route = "settings_screen")
     object NoteDetail : Screen(route = "note_detail_screen")
     object ReminderEdit : Screen(route = "reminder_edit_screen")
-    object ChecklistEdit : Screen(route = "checklist_edit_screen")
     object Search : Screen(route = "search_screen")
     object AboutApp : Screen(route = "about_app_screen")
     object LabelEdit : Screen(route = "label_edit_screen")
@@ -42,17 +44,28 @@ sealed class Screen(val route: String) {
 }
 
 object ArgumentKeys {
-    const val NoteId = "noteId"
-    const val ChecklistId = "checklistId"
-    const val ReminderId = "reminderId"
-    const val LockType = "lockType"
+    const val NoteId = "note_id"
+    const val ChecklistId = "checklist_id"
+    const val ReminderId = "reminder_id"
+    const val LockType = "lock_type"
+    const val LockRequest = "lock_request"
     const val Action = "action"
 }
 
 object ArgumentDefaultValues {
+    const val Empty: Long = -2
     const val NewNote: Long = -1
     const val NewReminder: Long = -1
     const val NewChecklist: Long = -1
+}
+
+fun NavController.navigateToOnBoarding(
+    navOptions: NavOptions? = null
+) {
+    navigate(
+        route = Screen.OnBoarding.route,
+        navOptions = navOptions
+    )
 }
 
 fun NavController.navigateToNoteDetail(
@@ -89,20 +102,6 @@ fun NavController.navigateToLabelSelection(
 
     navigate(
         route = Screen.LabelSelection.withArgs(noteIdArg.toString()),
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToChecklistEdit(
-    checklistId: Long? = ArgumentDefaultValues.NewChecklist,
-    noteId: Long? = ArgumentDefaultValues.NewNote,
-    navOptions: NavOptions? = null
-) {
-    navigate(
-        route = Screen.ChecklistEdit.withArgs(
-            (checklistId ?: ArgumentDefaultValues.NewChecklist).toString(),
-            (noteId ?: ArgumentDefaultValues.NewNote).toString()
-        ),
         navOptions = navOptions
     )
 }
@@ -155,7 +154,9 @@ fun NavController.navigateToLabelEdit(
     )
 }
 
-fun NavController.navigateToLock(navOptions: NavOptions? = null) {
+fun NavController.navigateToLock(
+    navOptions: NavOptions? = null
+) {
     navigate(
         route = Screen.Lock.route,
         navOptions = navOptions

@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.feature.search
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -80,18 +81,19 @@ fun SearchScreen(
                     categories = categories,
                     listStyle = listStyle,
                     listHeader = {
-                        Column {
-                            FlowRow(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
+                        LazyRow(
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            item {
                                 FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
                                     selected = uiState.filters.withChecklist,
                                     onClick = {
                                         searchScreenSelection.onUpdateChecklistFilter(!uiState.filters.withChecklist)
                                     },
                                     label = {
-                                        Text("Checklist")
+                                        Text(text = stringResource(id = HellNotesStrings.Label.Checklist))
                                     },
                                     leadingIcon = {
                                         Icon(
@@ -101,14 +103,16 @@ fun SearchScreen(
                                         )
                                     }
                                 )
-
+                            }
+                            item {
                                 FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
                                     selected = uiState.filters.withReminder,
                                     onClick = {
                                         searchScreenSelection.onUpdateReminderFilter(!uiState.filters.withReminder)
                                     },
                                     label = {
-                                        Text("Reminder")
+                                        Text(text = stringResource(id = HellNotesStrings.Label.Reminder))
                                     },
                                     leadingIcon = {
                                         Icon(
@@ -118,14 +122,16 @@ fun SearchScreen(
                                         )
                                     }
                                 )
-
+                            }
+                            item {
                                 FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
                                     selected = uiState.filters.withArchive,
                                     onClick = {
                                         searchScreenSelection.onUpdateArchiveFilter(!uiState.filters.withArchive)
                                     },
                                     label = {
-                                        Text("Archive")
+                                        Text(text = stringResource(id = HellNotesStrings.Label.Archive))
                                     },
                                     leadingIcon = {
                                         Icon(
@@ -136,16 +142,16 @@ fun SearchScreen(
                                     }
                                 )
                             }
-
+                        }
+//                        Column {
                             Divider(
                                 modifier = Modifier
-                                    .padding(vertical = 0.dp, horizontal = 8.dp)
-                                    .padding(bottom = 8.dp, top = 4.dp)
+                                    .padding(vertical = 4.dp, horizontal = 8.dp)
                                     .alpha(0.5f),
                                 thickness = 1.dp,
                                 color = MaterialTheme.colorScheme.outline
                             )
-                        }
+//                        }
                     }
                 )
             }

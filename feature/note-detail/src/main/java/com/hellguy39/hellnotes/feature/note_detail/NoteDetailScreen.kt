@@ -42,12 +42,6 @@ fun NoteDetailScreen(
 
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(key1 = uiState.isLoading) {
-        if (!uiState.note.isNoteValid() && !uiState.isLoading) {
-            focusRequester.requestFocus()
-        }
-    }
-
     val lazyListState = rememberLazyListState()
 
     Scaffold(
@@ -55,14 +49,16 @@ fun NoteDetailScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
-            NoteDetailContent(
-                innerPadding = innerPadding,
-                selection = noteDetailContentSelection,
-                checklistSelection = noteDetailChecklistSelection,
-                focusRequester = focusRequester,
-                uiState = uiState,
-                lazyListState = lazyListState
-            )
+            if (uiState is NoteDetailUiState.Success) {
+                NoteDetailContent(
+                    innerPadding = innerPadding,
+                    selection = noteDetailContentSelection,
+                    checklistSelection = noteDetailChecklistSelection,
+                    focusRequester = focusRequester,
+                    uiState = uiState,
+                    lazyListState = lazyListState
+                )
+            }
         },
         topBar = {
             NoteDetailTopAppBar(
@@ -124,17 +120,21 @@ fun NoteDetailScreen(
 
                     Spacer(modifier = Modifier.weight(1f))
 
+
                     Text(
-                        text = stringResource(
-                            id = HellNotesStrings.Text.Edited,
-                            formatArgs = arrayOf(
-                                DateTimeUtils.formatBest(uiState.note.editedAt)
+                        text = if (uiState is NoteDetailUiState.Success)
+                            stringResource(
+                                id = HellNotesStrings.Text.Edited,
+                                formatArgs = arrayOf(
+                                    DateTimeUtils.formatBest(uiState.wrapper.note.editedAt)
+                                )
                             )
-                        ),
+                        else "",
                         modifier = Modifier.padding(end = 16.dp),
                         style = MaterialTheme.typography.labelMedium,
                         textAlign = TextAlign.Center
                     )
+
                 }
             }
         },

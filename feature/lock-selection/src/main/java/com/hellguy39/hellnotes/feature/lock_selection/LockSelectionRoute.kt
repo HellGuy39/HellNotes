@@ -34,18 +34,7 @@ fun LockSelectionRoute(
                 LockScreenType.Password -> {
                     navController.navigateToLockSetup(lockType = type)
                 }
-                else -> {
-//                    if(type != LockScreenType.Pin) {
-//                        scope.launch {
-//                            snackbarHostState.currentSnackbarData?.dismiss()
-//                            snackbarHostState.showSnackbar(
-//                                "Unfortunately this option is not available yet",
-//                                duration = SnackbarDuration.Short,
-//                                withDismissAction = true
-//                            )
-//                        }
-//                    }
-                }
+                else -> Unit
             }
         },
         snackbarHostState = snackbarHostState

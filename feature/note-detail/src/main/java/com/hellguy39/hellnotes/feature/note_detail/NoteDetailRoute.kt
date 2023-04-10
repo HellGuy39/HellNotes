@@ -18,8 +18,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.Checklist
-import com.hellguy39.hellnotes.core.model.ChecklistItem
 import com.hellguy39.hellnotes.core.model.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
@@ -29,7 +27,6 @@ import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
 import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToChecklistEdit
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -39,8 +36,8 @@ import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailChecklis
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailContentSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailDropdownMenuSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailTopAppBarSelection
-import com.hellguy39.hellnotes.feature.note_detail.util.ShareUtils
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
+import com.hellguy39.hellnotes.feature.note_detail.util.ShareUtils
 
 @Composable
 fun NoteDetailRoute(
@@ -56,12 +53,16 @@ fun NoteDetailRoute(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    fun onShare(type: ShareType)  {
-        ShareUtils.share(
-            context = context,
-            note = uiState.note,
-            type = type
-        )
+    fun onShare(type: ShareType) {
+        uiState.let { state ->
+            if (state is NoteDetailUiState.Success) {
+                ShareUtils.share(
+                    context = context,
+                    note = state.wrapper.note,
+                    type = type
+                )
+            }
+        }
     }
 
     BackHandler(onBack = navController::popBackStack)
@@ -100,13 +101,13 @@ fun NoteDetailRoute(
         onCancel = { confirmDialogState.dismiss() },
         onAccept = {
             confirmDialogState.dismiss()
-            noteDetailViewModel.onDeleteNote()
+            noteDetailViewModel.send(NoteDetailUiEvent.DeleteNote)
             navController.popBackStack()
         }
     )
 
     val currentOnStop by rememberUpdatedState {
-        noteDetailViewModel.onDiscardNoteIfEmpty()
+        noteDetailViewModel.send(NoteDetailUiEvent.Close)
     }
 
     DisposableEffect(lifecycleOwner) {
@@ -129,28 +130,44 @@ fun NoteDetailRoute(
         snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
         uiState = uiState,
         noteDetailContentSelection = NoteDetailContentSelection(
-            onTitleTextChanged = { newText -> noteDetailViewModel.onUpdateNoteTitle(newText) },
-            onNoteTextChanged = { newText -> noteDetailViewModel.onUpdateNoteContent(newText) },
+            onTitleTextChanged = { newText ->
+                noteDetailViewModel.send(NoteDetailUiEvent.UpdateNoteTitle(newText))
+            },
+            onNoteTextChanged = { newText ->
+                noteDetailViewModel.send(NoteDetailUiEvent.UpdateNoteContent(newText))
+            },
             onReminderClick = { reminder ->
-                navController.navigateToReminderEdit(
-                    noteId = uiState.note.id,
-                    reminderId = reminder.id
-                )
+                uiState.let { state ->
+                    if (state is NoteDetailUiState.Success) {
+                        navController.navigateToReminderEdit(
+                            noteId = state.wrapper.note.id,
+                            reminderId = reminder.id
+                        )
+                    }
+                }
             },
             onLabelClick = { label ->
-                navController.navigateToLabelSelection(uiState.note.id)
+                uiState.let { state ->
+                    if (state is NoteDetailUiState.Success) {
+                        navController.navigateToLabelSelection(state.wrapper.note.id)
+                    }
+                }
             }
         ),
         dropdownMenuSelection = NoteDetailDropdownMenuSelection(
             onShare = {
-                if (uiState.note.isNoteValid()) {
-                    shareDialogState.show()
-                } else {
-                    snackbarHostState.showDismissableSnackbar(
-                        scope = scope,
-                        message = context.getString(HellNotesStrings.Text.NothingToShare),
-                        duration = SnackbarDuration.Short
-                    )
+                uiState.let { state ->
+                    if (state is NoteDetailUiState.Success) {
+                        if (state.wrapper.note.isNoteValid()) {
+                            shareDialogState.show()
+                        } else {
+                            snackbarHostState.showDismissableSnackbar(
+                                scope = scope,
+                                message = context.getString(HellNotesStrings.Text.NothingToShare),
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
                 }
             },
             onDelete = {
@@ -158,12 +175,13 @@ fun NoteDetailRoute(
             },
         ),
         topAppBarSelection = NoteDetailTopAppBarSelection(
-            note = uiState.note,
+            uiState = uiState,
             onNavigationButtonClick = navController::popBackStack,
             onPin = { isPinned ->
-                noteDetailViewModel.onUpdateIsPinned(isPinned)
+                noteDetailViewModel.send(NoteDetailUiEvent.UpdateIsPinned(isPinned))
 
                 val snackAction = if (isPinned) SnackAction.Pinned else SnackAction.Unpinned
+
                 snackbarHostState.showDismissableSnackbar(
                     scope = scope,
                     message = snackAction.getSnackMessage(context),
@@ -171,8 +189,10 @@ fun NoteDetailRoute(
                 )
             },
             onArchive = { isArchived ->
-                noteDetailViewModel.onUpdateIsArchived(isArchived)
+                noteDetailViewModel.send(NoteDetailUiEvent.UpdateIsArchived(isArchived))
+
                 val snackAction = if (isArchived) SnackAction.Archive else SnackAction.Unarchive
+
                 snackbarHostState.showDismissableSnackbar(
                     scope = scope,
                     message = snackAction.getSnackMessage(context = context, isSingleItem = true),
@@ -182,46 +202,56 @@ fun NoteDetailRoute(
         ),
         bottomBarSelection = NoteDetailBottomBarSelection(
             onReminder = {
-                navController.navigateToReminderEdit(
-                    noteId = uiState.note.id,
-                    reminderId = ArgumentDefaultValues.NewReminder
-                )
+                uiState.let { state ->
+                    if (state is NoteDetailUiState.Success) {
+                        navController.navigateToReminderEdit(
+                            noteId = state.wrapper.note.id,
+                            reminderId = ArgumentDefaultValues.NewReminder
+                        )
+                    }
+                }
             },
             onLabels = {
-                navController.navigateToLabelSelection(uiState.note.id)
+                uiState.let { state ->
+                    if (state is NoteDetailUiState.Success) {
+                        navController.navigateToLabelSelection(state.wrapper.note.id)
+                    }
+                }
             },
-            onChecklist = {
-                noteDetailViewModel.onAddChecklist()
-//                navController.navigateToChecklistEdit(
-//                    noteId = uiState.note.id,
-//                    checklistId = uiState.checklist.id
-//                )
-            }
+            onChecklist = { noteDetailViewModel.send(NoteDetailUiEvent.AddChecklist) }
         ),
         noteDetailChecklistSelection = NoteDetailChecklistSelection(
             onCheckedChange = { checklist, item, isChecked ->
-                noteDetailViewModel.onUpdateChecklistItemChecked(checklist, item, isChecked)
+                noteDetailViewModel.send(
+                    NoteDetailUiEvent.UpdateChecklistItem(
+                        checklist, item, item.copy(isChecked = isChecked)
+                    )
+                )
             },
             onDoneAll = { checklist ->
-                noteDetailViewModel.onCheckAllItems(checklist)
+                noteDetailViewModel.send(NoteDetailUiEvent.CheckAllChecklistItems(checklist, true))
             },
             onRemoveDone = { checklist ->
-                noteDetailViewModel.onUncheckAllItems(checklist)
+                noteDetailViewModel.send(NoteDetailUiEvent.CheckAllChecklistItems(checklist, false))
             },
             onAddChecklistItem = { checklist ->
-                noteDetailViewModel.onAddChecklistItem(checklist)
+                noteDetailViewModel.send(NoteDetailUiEvent.AddChecklistItem(checklist))
             },
             onDelete = { checklist ->
-                noteDetailViewModel.onDeleteChecklist(checklist)
+                noteDetailViewModel.send(NoteDetailUiEvent.DeleteChecklist(checklist))
             },
-            onDeleteChecklistItem = { checklist, checklistItem ->
-                noteDetailViewModel.onDeleteChecklistItem(checklist, checklistItem)
+            onDeleteChecklistItem = { checklist, item ->
+                noteDetailViewModel.send(NoteDetailUiEvent.DeleteChecklistItem(checklist, item))
             },
             onChecklistNameChange = { checklist, name ->
-                noteDetailViewModel.onUpdateChecklistName(checklist, name)
+                noteDetailViewModel.send(NoteDetailUiEvent.UpdateChecklistName(checklist, name))
             },
-            onUpdateChecklistItemText = { checklist, checklistItem, text ->
-                noteDetailViewModel.onUpdateChecklistItemText(checklist, checklistItem, text)
+            onUpdateChecklistItemText = { checklist, item, text ->
+                noteDetailViewModel.send(
+                    NoteDetailUiEvent.UpdateChecklistItem(
+                        checklist, item, item.copy(text = text)
+                    )
+                )
             }
         )
     )

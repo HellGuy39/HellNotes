@@ -20,7 +20,9 @@
     <string name="label_language">Language</string>
     <string name="label_security">Security</string>
     <string name="label_upcoming">Upcoming</string>
-    <string name="label_archived">Archived</string>
+    <string name="label_checklist">Checklist</string>
+    <string name="label_reminder">Reminder</string>
+    <string name="label_archive">Archive</string>
     <string name="label_pinned">Pinned</string>
     <string name="label_others">Others</string>
     <string name="label_labels">Labels</string>
@@ -111,6 +113,7 @@
     <string name="helper_pin_must_be_at_least_4_digits">PIN must be at least 4 digits</string>
     <string name="helper_password_must_be_at_least_4_characters">Password must be at least 4 characters</string>
     <string name="helper_enter_pin">Enter your PIN</string>
+    <string name="helper_enter_password">Enter your password</string>
     <string name="helper_unlocked">Unlocked</string>
     <string name="helper_wrong_pin">Wrong PIN</string>
     <string name="helper_wrong_password">Wrong password</string>
@@ -143,6 +146,7 @@
     <string name="btn_request_permission">Request permission</string>
     <string name="btn_create">Create</string>
     <string name="btn_edit">Edit</string>
+    <string name="btn_enter">Enter</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_save">Save</string>

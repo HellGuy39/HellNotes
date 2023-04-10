@@ -13,7 +13,11 @@ fun Note.toNoteDetailWrapper(
     checklists: List<Checklist> = listOf()
 ) = NoteDetailWrapper(
     note = this,
-    labels = labels.filter { label -> label.noteIds.contains(id)  },
+    labels = labels.filter { label -> label.noteIds.contains(id) },
     reminders = reminders.filter { reminder -> id == reminder.noteId },
     checklists = checklists.filter { checklist -> id == checklist.noteId },
 )
+
+fun NoteDetailWrapper.isNoteWrapperInvalid(): Boolean {
+    return !note.isNoteValid() && reminders.isEmpty() && labels.isEmpty() && checklists.isEmpty()
+}

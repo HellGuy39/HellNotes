@@ -34,10 +34,11 @@
             <option value="$PROJECT_DIR$/feature/note-detail" />
             <option value="$PROJECT_DIR$/feature/note-style-edit" />
             <option value="$PROJECT_DIR$/feature/note-swipe-edit" />
+            <option value="$PROJECT_DIR$/feature/on-boarding" />
             <option value="$PROJECT_DIR$/feature/reminder-edit" />
             <option value="$PROJECT_DIR$/feature/search" />
             <option value="$PROJECT_DIR$/feature/settings" />
-            <option value="$PROJECT_DIR$/feature/welcome" />
+            <option value="$PROJECT_DIR$/feature/startup" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -7,8 +7,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -26,11 +30,19 @@ fun LockScreenPassword(
     onBiometricsAuth: () -> Unit,
     passwordSelection: PasswordSelection,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(key1 = Unit) {
+        focusRequester.requestFocus()
+    }
+
     Column(
         modifier = Modifier
-            .padding(paddingValues)
+            .padding(top = paddingValues.calculateTopPadding())
             .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
+            .navigationBarsPadding()
+            .padding(horizontal = 16.dp)
+            .padding(top = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(
             space = 16.dp,
@@ -44,9 +56,9 @@ fun LockScreenPassword(
         }
 
         val titleText = when (uiState.lockState) {
-            is LockState.Locked -> stringResource(id = HellNotesStrings.Helper.EnterPin)
+            is LockState.Locked -> stringResource(id = HellNotesStrings.Helper.EnterPassword)
             is LockState.Unlocked -> stringResource(id = HellNotesStrings.Helper.Unlocked)
-            is LockState.WrongPin -> stringResource(id = HellNotesStrings.Helper.WrongPin)
+            is LockState.WrongPin -> stringResource(id = HellNotesStrings.Helper.WrongPassword)
         }
 
         Icon(
@@ -72,13 +84,13 @@ fun LockScreenPassword(
         Spacer(modifier = Modifier.weight(1f))
 
         TextField(
-            modifier = Modifier,
+            modifier = Modifier.focusRequester(focusRequester),
             value = uiState.password,
             onValueChange = passwordSelection.onValueChange,
             textStyle = MaterialTheme.typography.displaySmall.copy(textAlign = TextAlign.Center),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.NumberPassword
+                keyboardType = KeyboardType.Password
             )
         )
 
@@ -89,7 +101,7 @@ fun LockScreenPassword(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             TextButton(
-                modifier = Modifier,
+                modifier = Modifier.width(96.dp),
                 onClick = passwordSelection.onClear,
                 contentPadding = ButtonDefaults.TextButtonContentPadding
             ) {
@@ -118,12 +130,12 @@ fun LockScreenPassword(
                 shape = RoundedCornerShape(16.dp)
             )
             Button(
-                modifier = Modifier,
+                modifier = Modifier.width(96.dp),
                 enabled = uiState.password.length >= 4,
                 onClick = passwordSelection.onEntered,
             ) {
                 Text(
-                    text = "Enter",
+                    text = stringResource(id = HellNotesStrings.Button.Enter),
                     modifier = Modifier,
                     style = MaterialTheme.typography.labelLarge
                 )

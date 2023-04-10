@@ -13,6 +13,7 @@ import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.util.ColorParam
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,8 +22,11 @@ fun NoteDetailTopAppBar(
     topAppBarSelection: NoteDetailTopAppBarSelection,
     dropdownMenuSelection: NoteDetailDropdownMenuSelection
 ) {
-
-    val note = topAppBarSelection.note
+    val note = if (topAppBarSelection.uiState is NoteDetailUiState.Success) {
+        topAppBarSelection.uiState.wrapper.note
+    } else {
+        Note()
+    }
 
     val pinIcon = painterResource(
         id = if (note.isPinned) HellNotesIcons.PinActivated else HellNotesIcons.PinDisabled
@@ -92,7 +96,7 @@ fun NoteDetailTopAppBar(
 }
 
 data class NoteDetailTopAppBarSelection(
-    val note: Note,
+    val uiState: NoteDetailUiState,
     val onNavigationButtonClick: () -> Unit,
     val onPin: (isPinned: Boolean) -> Unit,
     val onArchive: (isArchived: Boolean) -> Unit,

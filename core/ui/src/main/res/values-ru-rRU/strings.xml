@@ -20,7 +20,9 @@
     <string name="label_upcoming">Предстоящие</string>
     <string name="label_pinned">Закреплённые</string>
     <string name="label_others">Другие</string>
-    <string name="label_archived">Архивированные</string>
+    <string name="label_checklist">Чеклист</string>
+    <string name="label_reminder">Напоминание</string>
+    <string name="label_archive">Архив</string>
     <string name="label_language">Язык</string>
     <string name="label_security">Безопасность</string>
     <string name="label_labels">Метки</string>
@@ -54,6 +56,7 @@
     <string name="btn_create">Создать</string>
     <string name="btn_edit">Редактировать</string>
     <string name="btn_delete">Удалить</string>
+    <string name="btn_enter">Ввести</string>
     <string name="btn_undo">Отменить</string>
     <string name="btn_save">Сохранить</string>
     <string name="btn_cancel">Отменить</string>
@@ -150,6 +153,7 @@
     <string name="helper_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
     <string name="helper_password_must_be_at_least_4_characters">Пароль должен состоять не менее чем из 4 символов</string>
     <string name="helper_enter_pin">Введите PIN-код</string>
+    <string name="helper_enter_password">Введите пароль</string>
     <string name="helper_unlocked">Разблокировано</string>
     <string name="helper_wrong_pin">Неверный PIN-код</string>
     <string name="helper_wrong_password">Неверный пароль</string>

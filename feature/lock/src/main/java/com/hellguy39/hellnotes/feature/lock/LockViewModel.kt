@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.lock
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
@@ -7,7 +8,9 @@ import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.model.SecurityState
+import com.hellguy39.hellnotes.core.model.util.LockRequest
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -16,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LockViewModel @Inject constructor(
     dataStoreRepository: DataStoreRepository,
-    val biometricAuth: BiometricAuthenticator
+    val biometricAuth: BiometricAuthenticator,
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     private val errorMessage = MutableStateFlow("")
@@ -84,7 +88,7 @@ class LockViewModel @Inject constructor(
     fun enterPassword() {
         viewModelScope.launch {
             if (password.value == uiState.value.securityState.password) {
-                lockState.update {LockState.Unlocked }
+                lockState.update { LockState.Unlocked }
             } else {
                 lockState.update { LockState.WrongPin }
                 clearPassword()

@@ -50,6 +50,7 @@ dependencies {
     implementation(Libs.AndroidX.Compose.ToolingPreview)
     implementation(Libs.AndroidX.Compose.Material3)
     implementation(Libs.AndroidX.Compose.Navigation)
+    implementation(Libs.AndroidX.Compose.LiveData)
     androidTestImplementation(Libs.AndroidX.Compose.UiTestJUnit)
     debugImplementation(Libs.AndroidX.Compose.UiTooling)
     debugImplementation(Libs.AndroidX.Compose.UiTestManifest)

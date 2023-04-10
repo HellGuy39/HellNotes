@@ -23,10 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.Checklist
-import com.hellguy39.hellnotes.core.model.ChecklistItem
-import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Reminder
+import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
@@ -39,12 +36,18 @@ import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 @Composable
 fun NoteDetailContent(
     innerPadding: PaddingValues,
-    uiState: NoteDetailUiState,
+    uiState: NoteDetailUiState.Success,
     selection: NoteDetailContentSelection,
     checklistSelection: NoteDetailChecklistSelection,
     focusRequester: FocusRequester,
     lazyListState: LazyListState
 ) {
+    LaunchedEffect(key1 = uiState) {
+        if (!uiState.wrapper.note.isNoteValid()) {
+            focusRequester.requestFocus()
+        }
+    }
+
     LazyColumn(
         state = lazyListState,
         contentPadding = innerPadding,
@@ -57,7 +60,7 @@ fun NoteDetailContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                value = uiState.note.title,
+                value = uiState.wrapper.note.title,
                 isSingleLine = false,
                 onValueChange = { newText -> selection.onTitleTextChanged(newText) },
                 hint = stringResource(id = HellNotesStrings.Hint.Title),
@@ -70,7 +73,7 @@ fun NoteDetailContent(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .focusRequester(focusRequester),
-                value = uiState.note.note,
+                value = uiState.wrapper.note.note,
                 isSingleLine = false,
                 onValueChange = { newText -> selection.onNoteTextChanged(newText) },
                 hint = stringResource(id = HellNotesStrings.Hint.Note),
@@ -79,7 +82,7 @@ fun NoteDetailContent(
         }
 
         items(
-            items = uiState.checklists
+            items = uiState.wrapper.checklists
         ) { checklist ->
 
             var isVisible by rememberSaveable { mutableStateOf(true) }
@@ -222,24 +225,26 @@ fun NoteDetailContent(
                     }
                 }
             }
-
         }
-        item {
-            NoteChipGroup(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                reminders = uiState.noteReminders,
-                labels = uiState.noteLabels,
-                onRemindClick = { remind ->
-                    selection.onReminderClick(remind)
-                },
-                onLabelClick = { label ->
-                    selection.onLabelClick(label)
-                },
-                crossAxisSpacing = 16.dp,
-                mainAxisSpacing = 16.dp
-            )
+
+        if (uiState.wrapper.reminders.isNotEmpty() || uiState.wrapper.labels.isNotEmpty()) {
+            item {
+                NoteChipGroup(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    reminders = uiState.wrapper.reminders,
+                    labels = uiState.wrapper.labels,
+                    onRemindClick = { remind ->
+                        selection.onReminderClick(remind)
+                    },
+                    onLabelClick = { label ->
+                        selection.onLabelClick(label)
+                    },
+                    crossAxisSpacing = 16.dp,
+                    mainAxisSpacing = 16.dp
+                )
+            }
         }
     }
 }

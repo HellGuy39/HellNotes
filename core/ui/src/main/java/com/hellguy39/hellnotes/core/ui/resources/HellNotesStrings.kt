@@ -120,7 +120,9 @@ object HellNotesStrings {
         val Pinned = R.string.label_pinned
         val Others = R.string.label_others
         val Upcoming = R.string.label_upcoming
-        val Archived = R.string.label_archived
+        val Checklist = R.string.label_checklist
+        val Reminder = R.string.label_reminder
+        val Archive = R.string.label_archive
         val Security = R.string.label_security
         val Language = R.string.label_language
         val Labels = R.string.label_labels
@@ -147,6 +149,7 @@ object HellNotesStrings {
         val Create = R.string.btn_create
         val Edit = R.string.btn_edit
         val Delete = R.string.btn_delete
+        val Enter = R.string.btn_enter
         val Undo = R.string.btn_undo
         val Save = R.string.btn_save
         val Cancel = R.string.btn_cancel
@@ -165,6 +168,7 @@ object HellNotesStrings {
         val Checklists = R.string.helper_checklists
         val PinMustBeAtLeast4Digits = R.string.helper_pin_must_be_at_least_4_digits
         val EnterPin = R.string.helper_enter_pin
+        val EnterPassword = R.string.helper_enter_password
         val WrongPin = R.string.helper_wrong_pin
         val WrongPassword = R.string.helper_wrong_password
         val PasswordMustBeAtLeast4Characters = R.string.helper_password_must_be_at_least_4_characters

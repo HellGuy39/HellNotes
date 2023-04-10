@@ -10,6 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.isChecklistsValid
+import com.hellguy39.hellnotes.core.model.removeCompletedChecklists
+import com.hellguy39.hellnotes.core.model.sortByPriority
 import com.hellguy39.hellnotes.core.ui.components.NoteChecklistGroup
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 
@@ -20,7 +23,11 @@ internal fun NoteCardContent(
     val isTitleValid = noteDetailWrapper.note.title.isNotEmpty() || noteDetailWrapper.note.title.isNotBlank()
     val isNoteValid = noteDetailWrapper.note.note.isNotEmpty() || noteDetailWrapper.note.note.isNotBlank()
     val isChipsValid = noteDetailWrapper.labels.isNotEmpty() || noteDetailWrapper.reminders.isNotEmpty()
-    val isChecklistValid = noteDetailWrapper.checklists.isNotEmpty()
+
+    val filteredChecklists = noteDetailWrapper.checklists
+        .removeCompletedChecklists()
+        .sortByPriority()
+    val isChecklistValid = filteredChecklists.isChecklistsValid()
 
     Column(
         modifier = Modifier
@@ -48,7 +55,7 @@ internal fun NoteCardContent(
 
         if (isChecklistValid) {
             NoteChecklistGroup(
-                checklists = noteDetailWrapper.checklists
+                checklists = filteredChecklists
             )
         }
 
