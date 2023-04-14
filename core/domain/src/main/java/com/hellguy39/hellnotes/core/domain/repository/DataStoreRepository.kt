@@ -37,4 +37,6 @@ interface DataStoreRepository {
 
     fun readNoteStyleState(): Flow<NoteStyle>
 
+    suspend fun resetToDefault()
+
 }

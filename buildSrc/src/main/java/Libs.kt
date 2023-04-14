@@ -33,6 +33,7 @@ object Libs {
         private const val splashScreenVersion = "1.0.0"
         private const val biometricVersion = "1.2.0-alpha05"
         private const val profileInstallerVersion = "1.3.0"
+        private const val workVersion = "2.8.1"
 
         const val ProfileInstaller = "androidx.profileinstaller:profileinstaller:$profileInstallerVersion"
 
@@ -42,6 +43,7 @@ object Libs {
         const val CoreKtx = "androidx.core:core-ktx:$coreVersion"
         const val LifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
         const val AppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
+        const val WorkKtx = "androidx.work:work-runtime-ktx:$workVersion"
 
         private const val junitVersion = "1.1.5"
         private const val espressoVersion = "3.5.1"

@@ -33,9 +33,7 @@ fun StartupRoute(
 
                     if (!state.onBoardingState) {
                         navController.navigateToOnBoarding()
-                    }
-
-                    if (state.securityState.lockType != LockScreenType.None) {
+                    } else if (state.securityState.lockType != LockScreenType.None) {
                         navController.navigateToLock(
                             navOptions {
                                 popUpTo(Screen.Startup.route) {
@@ -57,5 +55,4 @@ fun StartupRoute(
             }
         }
     }
-
 }

@@ -15,8 +15,8 @@ import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutAppScreen(
-    onNavigationButtonClick: () -> Unit,
-    onEasterEgg: () -> Unit
+    onNavigationButtonClick: () -> Unit = {},
+    selection: AboutAppScreenSelection = AboutAppScreenSelection()
 ) {
     BackHandler(onBack = onNavigationButtonClick)
 
@@ -27,7 +27,7 @@ fun AboutAppScreen(
         content = { innerPadding ->
             AboutAppScreenContent(
                 innerPadding = innerPadding,
-                onEasterEgg = onEasterEgg
+                selection = selection
             )
         },
         topBar = {
@@ -39,13 +39,21 @@ fun AboutAppScreen(
     )
 }
 
+data class AboutAppScreenSelection(
+    val onGithub: () -> Unit = {},
+    val onChangelog: () -> Unit = {},
+    val onPrivacyPolicy: () -> Unit = {},
+    val onTermsAndConditions: () -> Unit = {},
+    val onProvideFeedback: () -> Unit = {},
+    val onRateOnPlayStore: () -> Unit = {},
+    val onReset: () -> Unit = {},
+    val onCheckForUpdates: () -> Unit = {}
+)
+
 @Preview(showBackground = true)
 @Composable
 fun AboutAppScreenPreview() {
     HellNotesTheme {
-        AboutAppScreen(
-            onNavigationButtonClick = {},
-            onEasterEgg = {}
-        )
+        AboutAppScreen()
     }
 }

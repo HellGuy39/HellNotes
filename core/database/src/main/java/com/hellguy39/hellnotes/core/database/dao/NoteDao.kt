@@ -61,4 +61,9 @@ interface NoteDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateNotes(noteEntities: List<NoteEntity>)
 
+    @Query("""
+        DELETE FROM $NOTES_TABLE_NAME
+    """)
+    suspend fun deleteAll()
+
 }

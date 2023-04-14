@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.activity.crash
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
@@ -26,11 +27,12 @@ class CrashActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val error = GlobalExceptionHandler.getThrowableFromIntent(intent)
+        //Log.e("CRASH", error.toString())
+
         setContent {
             HellNotesTheme {
-
-                val error = GlobalExceptionHandler.getThrowableFromIntent(intent)
-
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

@@ -66,6 +66,9 @@
     <string name="btn_confirm">Подтвердить</string>
     <string name="btn_biometrics">Биометрия</string>
     <string name="btn_rename">Переименовать</string>
+    <string name="btn_finish">Закончить</string>
+    <string name="btn_skip">Пропустить</string>
+    <string name="btn_reset">Сбросить</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>
@@ -112,6 +115,14 @@
     <string name="menu_item_archive">Архивировать</string>
     <string name="menu_item_check_all_items">Выполнить все пункты</string>
     <string name="menu_item_uncheck_all_items">Снять все пункты</string>
+    <string name="menu_item_changelog">Журнал изменений</string>
+    <string name="menu_item_license_agreement">Лицензионное соглашение</string>
+    <string name="menu_item_privacy_policy">Политика конфиденциальности</string>
+    <string name="menu_item_terms_and_conditions">Правила и условия</string>
+    <string name="menu_item_provide_feedback">Оставить обратную связь</string>
+    <string name="menu_item_rate_on_play_store">Оценить в Play Store</string>
+    <string name="menu_item_reset">Сброс</string>
+    <string name="menu_item_check_for_updates">Проверить наличие обновлений</string>
 
     <!-- Language-->
     <string name="lan_system_default">Системный</string>
@@ -144,6 +155,11 @@
     <string name="title_empty_the_trash">Очистить корзину?</string>
     <string name="title_note_style">Стиль заметок</string>
     <string name="title_note_swipes">Свайпы заметок</string>
+    <string name="title_changelog">Журнал изменений</string>
+    <string name="title_license_agreement">Лицензионное соглашение</string>
+    <string name="title_privacy_policy">Политика конфиденциальности</string>
+    <string name="title_terms_and_conditions">Правила и условия</string>
+    <string name="title_reset">Сброс</string>
 
     <!-- Helper -->
     <string name="helper_unchecked_items">+%s непроверенных пунктов</string>
@@ -163,6 +179,8 @@
     <string name="helper_delete_label_dialog">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
     <string name="helper_empty_trash_dialog">Все заметки в корзине будут безвозвратно удалены.</string>
     <string name="helper_label_selection_placeholder">Здесь будут отображаться ваши метки</string>
+    <string name="helper_coming_soon">Скоро будет</string>
+    <string name="helper_select_actions">Выберите действия</string>
 
     <!-- Snack -->
     <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>
@@ -173,6 +191,10 @@
     <string name="snack_notes_unarchived">Заметки разархивированы</string>
     <string name="snack_note_pinned">Заметка закреплена</string>
     <string name="snack_note_unpinned">Заметка откреплена</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database">Очистить базу данных: заметки, напоминания, метки, чеклисты и корзину</string>
+    <string name="checkbox_reset_settings">Сбросить настройки приложения до значений умолчанию</string>
 
     <!-- Switch -->
     <string name="switch_use_biometric">Использовать биометрию</string>
@@ -189,5 +211,17 @@
     <string name="ntf_reminder_empty_message">Вы не оставили сообщения. Нажмите, чтобы открыть заметку.</string>
     <string name="ntf_reminder_channel_description">Используется для напоминаний</string>
 
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">Добро пожаловать!</string>
+    <string name="on_boarding_second_page_title">Создайте свою первую заметку</string>
+    <string name="on_boarding_third_page_title">Организуйте свои заметки</string>
+    <string name="on_boarding_fourth_page_title">Настройте напоминания и уведомления</string>
+    <string name="on_boarding_fifth_page_title">Приступим?</string>
+
+    <string name="on_boarding_first_page_description">Здесь вы можете хранить заметки, списки задач и многое другое. Давайте начнем!</string>
+    <string name="on_boarding_second_page_description">Начните создавать заметки прямо сейчас! Вы можете добавлять заголовки, текст, изображения и многое другое.</string>
+    <string name="on_boarding_third_page_description">Вы можете создавать категории и теги, чтобы упорядочить свои заметки, а также использовать функцию поиска для быстрого доступа.</string>
+    <string name="on_boarding_fourth_page_description">Настройте уведомления, чтобы не пропустить важные задачи или события. Мы отправим вам напоминание в удобное время.</string>
+    <string name="on_boarding_fifth_page_description">Теперь вы знаете ключевые функции приложения. Кажется, самое время приступать к работе.</string>
 
 </resources>

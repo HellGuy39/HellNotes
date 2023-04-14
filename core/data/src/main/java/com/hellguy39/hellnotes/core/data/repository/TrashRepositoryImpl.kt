@@ -8,7 +8,6 @@ import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.Trash
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -35,7 +34,7 @@ class TrashRepositoryImpl @Inject constructor(
         trashDao.insertTrash(trash.toTrashEntity())
     }
 
-    override suspend fun deleteAllTrash() {
-        trashDao.deleteAllTrash()
+    override suspend fun deleteAll() {
+        trashDao.deleteAll()
     }
 }

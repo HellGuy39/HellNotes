@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/about-app" />
+            <option value="$PROJECT_DIR$/feature/changelog" />
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/label-edit" />
             <option value="$PROJECT_DIR$/feature/label-selection" />
@@ -35,10 +36,13 @@
             <option value="$PROJECT_DIR$/feature/note-style-edit" />
             <option value="$PROJECT_DIR$/feature/note-swipe-edit" />
             <option value="$PROJECT_DIR$/feature/on-boarding" />
+            <option value="$PROJECT_DIR$/feature/privacy-policy" />
             <option value="$PROJECT_DIR$/feature/reminder-edit" />
+            <option value="$PROJECT_DIR$/feature/reset" />
             <option value="$PROJECT_DIR$/feature/search" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/startup" />
+            <option value="$PROJECT_DIR$/feature/terms-and-conditions" />
           </set>
         </option>
       </GradleProjectSettings>

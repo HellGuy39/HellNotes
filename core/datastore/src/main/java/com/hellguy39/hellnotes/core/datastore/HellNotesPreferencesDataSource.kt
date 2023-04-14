@@ -37,6 +37,26 @@ class HellNotesPreferencesDataSource @Inject constructor(
 
     private val dataStore = context.dataStore
 
+    suspend fun resetToDefault() {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.onBoardingKey] = false
+
+            preferences[PreferencesKey.listStyle] = ListStyle.Column.string()
+            preferences[PreferencesKey.sorting] = Sorting.DateOfLastEdit.string()
+            preferences[PreferencesKey.noteStyle] = NoteStyle.Outlined.string()
+
+            preferences[PreferencesKey.lockType] = LockScreenType.None.string()
+            preferences[PreferencesKey.isUseBiometricData] = false
+            preferences[PreferencesKey.password] = ""
+
+            preferences[PreferencesKey.noteSwipesEnabled] = true
+            preferences[PreferencesKey.noteSwipeLeft] = NoteSwipe.Archive.string()
+            preferences[PreferencesKey.noteSwipeRight] = NoteSwipe.Delete.string()
+
+            preferences[PreferencesKey.trashTipKey] = false
+        }
+    }
+
     suspend fun saveOnBoardingState(completed: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.onBoardingKey] = completed

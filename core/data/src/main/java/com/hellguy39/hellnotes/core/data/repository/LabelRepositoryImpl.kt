@@ -52,4 +52,8 @@ class LabelRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteAll() {
+        labelDao.deleteAll()
+    }
+
 }

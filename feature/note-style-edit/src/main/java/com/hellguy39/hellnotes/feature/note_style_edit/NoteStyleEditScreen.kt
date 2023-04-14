@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.feature.note_style_edit
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
@@ -21,6 +22,7 @@ import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.util.NoteStyle
+import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.CustomRadioButton
 import com.hellguy39.hellnotes.core.ui.components.cards.ElevatedNoteCard
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteCard
@@ -75,7 +77,7 @@ fun NoteStyleEditScreen(
                     ) {
                         Box(
                             modifier = Modifier
-                                .background(color = Color.Black)
+                                .background(color = if (isSystemInDarkTheme()) Color.Black else Color.White)
                                 .fillMaxSize(),
                             contentAlignment = Alignment.Center,
                         ) {

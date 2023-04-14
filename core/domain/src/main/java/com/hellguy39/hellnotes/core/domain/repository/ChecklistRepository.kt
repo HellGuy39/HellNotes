@@ -27,4 +27,6 @@ interface ChecklistRepository {
 
     fun getChecklistByNoteIdStream(noteId: Long): Flow<Checklist>
 
+    suspend fun deleteAll()
+
 }

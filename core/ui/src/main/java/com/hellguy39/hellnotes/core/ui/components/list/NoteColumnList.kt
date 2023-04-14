@@ -3,7 +3,6 @@ package com.hellguy39.hellnotes.core.ui.components.list
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.ui.NoteCategory
@@ -26,6 +24,7 @@ import com.hellguy39.hellnotes.core.ui.isSingleList
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun NoteColumnList(
+    modifier: Modifier = Modifier,
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteSelection: NoteSelection,
     categories: List<NoteCategory>,
@@ -35,10 +34,7 @@ internal fun NoteColumnList(
     val haptic = LocalHapticFeedback.current
 
     LazyColumn(
-        modifier = Modifier
-            .padding(horizontal = 4.dp, vertical = 4.dp)
-            .fillMaxSize()
-            .testTag("item_list"),
+        modifier = modifier,
         contentPadding = innerPadding
     ) {
         item {

@@ -4,27 +4,27 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.components.items.ItemHeader
 import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.feature.about_app.AboutAppScreenSelection
 
 @Composable
 fun AboutAppScreenContent(
     innerPadding: PaddingValues,
-    onEasterEgg: () -> Unit
+    selection: AboutAppScreenSelection
 ) {
-    var easterEggCounter by remember { mutableStateOf(0) }
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -37,7 +37,7 @@ fun AboutAppScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2),
             ) {
                 Row(
                     modifier = Modifier.padding(16.dp),
@@ -68,15 +68,16 @@ fun AboutAppScreenContent(
                         )
                     }
                 }
-            }
-        }
-        item {
-            ElevatedCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
-            ) {
+
+                Divider(
+                    modifier = Modifier
+                        .alpha(0.5f)
+                        .padding(horizontal = 16.dp),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+
                 Row(
                     modifier = Modifier.padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -97,9 +98,11 @@ fun AboutAppScreenContent(
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
+
                     Spacer(modifier = Modifier.weight(1f))
+
                     OutlinedIconButton(
-                        onClick = { }
+                        onClick = selection.onGithub
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.GitHub),
@@ -117,27 +120,33 @@ fun AboutAppScreenContent(
                 elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
             ) {
                 SelectionItem(
-                    "Changelog"
+                    title = stringResource(id = HellNotesStrings.MenuItem.Changelog),
+                    onClick = selection.onChangelog
                 )
 
                 SelectionItem(
-                    "License agreement"
+                    title = stringResource(id = HellNotesStrings.MenuItem.PrivacyPolicy),
+                    onClick = selection.onPrivacyPolicy
                 )
 
                 SelectionItem(
-                    "Privacy policy"
+                    title = stringResource(id = HellNotesStrings.MenuItem.TermsAndConditions),
+                    onClick = selection.onTermsAndConditions
                 )
 
                 SelectionItem(
-                    "Terms & Conditions"
+                    title = stringResource(id = HellNotesStrings.MenuItem.ProvideFeedback),
+                    onClick = selection.onProvideFeedback
                 )
 
                 SelectionItem(
-                    "Provide feedback"
+                    title = stringResource(id = HellNotesStrings.MenuItem.RateOnPlayStore),
+                    onClick = selection.onRateOnPlayStore
                 )
 
                 SelectionItem(
-                    "Rate on Play Store"
+                    title = stringResource(id = HellNotesStrings.MenuItem.CheckForUpdates),
+                    onClick = selection.onCheckForUpdates
                 )
             }
         }
@@ -149,7 +158,8 @@ fun AboutAppScreenContent(
                 elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
             ) {
                 SelectionItem(
-                    "Reset app"
+                    title = stringResource(id = HellNotesStrings.MenuItem.Reset),
+                    onClick = selection.onReset
                 )
             }
         }

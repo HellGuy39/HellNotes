@@ -88,6 +88,15 @@ object HellNotesStrings {
         val Archive = R.string.menu_item_archive
         val CheckAllItems = R.string.menu_item_check_all_items
         val UncheckAllItems = R.string.menu_item_uncheck_all_items
+
+        val Changelog = R.string.menu_item_changelog
+        val LicenseAgreement = R.string.menu_item_license_agreement
+        val PrivacyPolicy = R.string.menu_item_privacy_policy
+        val TermsAndConditions = R.string.menu_item_terms_and_conditions
+        val ProvideFeedback = R.string.menu_item_provide_feedback
+        val RateOnPlayStore = R.string.menu_item_rate_on_play_store
+        val Reset = R.string.menu_item_reset
+        val CheckForUpdates = R.string.menu_item_check_for_updates
     }
 
     object Title {
@@ -114,6 +123,11 @@ object HellNotesStrings {
         val EmptyTrash = R.string.title_empty_the_trash
         val NoteStyle= R.string.title_note_style
         val NoteSwipe = R.string.title_note_swipes
+        val PrivacyPolicy = R.string.title_privacy_policy
+        val Changelog = R.string.title_changelog
+        val TermsAndConditions = R.string.title_terms_and_conditions
+        val Reset = R.string.title_reset
+        val LicenseAgreement = R.string.title_license_agreement
     }
 
     object Label {
@@ -159,6 +173,9 @@ object HellNotesStrings {
         val Clear = R.string.btn_clear
         val Biometrics = R.string.btn_biometrics
         val Rename = R.string.btn_rename
+        val Skip = R.string.btn_skip
+        val Finish = R.string.btn_finish
+        val Reset = R.string.btn_reset
     }
 
     object Helper {
@@ -179,6 +196,8 @@ object HellNotesStrings {
         val RestoreNoteDialog = R.string.helper_restore_dialog
         val EmptyTrashDialog = R.string.helper_empty_trash_dialog
         val LabelSelectionPlaceholder = R.string.helper_label_selection_placeholder
+        val ComingSoon = R.string.helper_coming_soon
+        val SelectActions = R.string.helper_select_actions
     }
 
     object Action {
@@ -220,6 +239,24 @@ object HellNotesStrings {
         val ReminderTitle = R.string.ntf_reminder_title
         val ReminderEmptyMessage = R.string.ntf_reminder_empty_message
         val ReminderChannelDescription = R.string.ntf_reminder_channel_description
+    }
+
+    object Checkbox {
+        val ClearDatabase = R.string.checkbox_clear_the_database
+        val ResetSettings = R.string.checkbox_reset_settings
+    }
+
+    object OnBoarding {
+        val FirstPageTitle = R.string.on_boarding_first_page_title
+        val FirstPageDescription = R.string.on_boarding_first_page_description
+        val SecondPageTitle = R.string.on_boarding_second_page_title
+        val SecondPageDescription = R.string.on_boarding_second_page_description
+        val ThirdPageTitle = R.string.on_boarding_third_page_title
+        val ThirdPageDescription = R.string.on_boarding_third_page_description
+        val FourthPageTitle = R.string.on_boarding_fourth_page_title
+        val FourthPageDescription = R.string.on_boarding_fourth_page_description
+        val FifthPageTitle = R.string.on_boarding_fifth_page_title
+        val FifthPageDescription = R.string.on_boarding_fifth_page_description
     }
 
 }

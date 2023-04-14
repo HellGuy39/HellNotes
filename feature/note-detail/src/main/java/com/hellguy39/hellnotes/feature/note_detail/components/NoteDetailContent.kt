@@ -1,6 +1,8 @@
 package com.hellguy39.hellnotes.feature.note_detail.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,6 +35,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteDetailContent(
     innerPadding: PaddingValues,
@@ -55,7 +58,9 @@ fun NoteDetailContent(
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
+        item(
+            key = -1
+        ) {
             CustomTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -67,7 +72,9 @@ fun NoteDetailContent(
                 textStyle = MaterialTheme.typography.titleLarge
             )
         }
-        item {
+        item(
+            key = -2
+        ) {
             CustomTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -82,10 +89,11 @@ fun NoteDetailContent(
         }
 
         items(
-            items = uiState.wrapper.checklists
+            items = uiState.wrapper.checklists,
+            key = { checklist -> checklist.id ?: 0 }
         ) { checklist ->
 
-            var isVisible by rememberSaveable { mutableStateOf(true) }
+            var isVisible by rememberSaveable { mutableStateOf(!checklist.isItemsCompleted()) }
             val dropdownMenuState = rememberDropdownMenuState()
 
             Card(
@@ -228,7 +236,9 @@ fun NoteDetailContent(
         }
 
         if (uiState.wrapper.reminders.isNotEmpty() || uiState.wrapper.labels.isNotEmpty()) {
-            item {
+            item(
+                key = -3
+            ) {
                 NoteChipGroup(
                     modifier = Modifier
                         .fillMaxWidth()

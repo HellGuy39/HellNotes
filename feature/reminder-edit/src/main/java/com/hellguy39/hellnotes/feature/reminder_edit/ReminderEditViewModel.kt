@@ -4,7 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
+import com.hellguy39.hellnotes.core.domain.use_case.reminder.CreateReminderUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.reminder.DeleteReminderUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.reminder.UpdateReminderUseCase
 import com.hellguy39.hellnotes.core.model.Reminder
 import com.hellguy39.hellnotes.core.model.util.Repeat
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
@@ -21,7 +23,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ReminderEditViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
-    private val alarmScheduler: AlarmScheduler,
+    private val deleteReminderUseCase: DeleteReminderUseCase,
+    private val createReminderUseCase: CreateReminderUseCase,
+    private val updateReminderUseCase: UpdateReminderUseCase,
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
@@ -81,11 +85,7 @@ class ReminderEditViewModel @Inject constructor(
                     repeat = state.repeat
                 )
 
-                val newReminderId = reminderRepository.insertReminder(reminder)
-
-                alarmScheduler.scheduleAlarm(
-                    reminder.copy(id = newReminderId)
-                )
+                createReminderUseCase.invoke(reminder)
             }
         }
     }
@@ -93,10 +93,9 @@ class ReminderEditViewModel @Inject constructor(
     fun deleteReminder() {
         viewModelScope.launch {
             reminderEditViewModelState.value.let { state ->
-                val reminder = reminderRepository.getReminderById(state.reminderId ?: return@launch)
+                val id = state.reminderId ?: return@launch
 
-                reminderRepository.deleteReminder(reminder)
-                alarmScheduler.cancelAlarm(reminder)
+                deleteReminderUseCase.invoke(id)
             }
         }
     }
@@ -113,11 +112,7 @@ class ReminderEditViewModel @Inject constructor(
                     repeat = state.repeat
                 )
 
-                val oldReminder = reminderRepository.getReminderById(state.reminderId)
-                reminderRepository.updateReminder(reminder)
-
-                alarmScheduler.cancelAlarm(oldReminder)
-                alarmScheduler.scheduleAlarm(reminder)
+                updateReminderUseCase.invoke(reminder)
             }
         }
     }

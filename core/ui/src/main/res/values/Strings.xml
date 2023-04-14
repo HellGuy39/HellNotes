@@ -79,6 +79,14 @@
     <string name="menu_item_archive">Archive</string>
     <string name="menu_item_check_all_items">Check all items</string>
     <string name="menu_item_uncheck_all_items">Uncheck all items</string>
+    <string name="menu_item_changelog">Changelog</string>
+    <string name="menu_item_license_agreement">License agreement</string>
+    <string name="menu_item_privacy_policy">Privacy policy</string>
+    <string name="menu_item_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="menu_item_provide_feedback">Provide feedback</string>
+    <string name="menu_item_rate_on_play_store">Rate on Play Store</string>
+    <string name="menu_item_reset">Reset</string>
+    <string name="menu_item_check_for_updates">Check for updates</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>
@@ -104,6 +112,11 @@
     <string name="title_empty_the_trash">Empty the trash?</string>
     <string name="title_note_style">Note style</string>
     <string name="title_note_swipes">Note Swipes</string>
+    <string name="title_changelog">Changelog</string>
+    <string name="title_license_agreement">License agreement</string>
+    <string name="title_privacy_policy">Privacy policy</string>
+    <string name="title_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="title_reset">Reset</string>
 
     <!-- Helper -->
     <string name="helper_unchecked_items">+%s unchecked items</string>
@@ -123,6 +136,8 @@
     <string name="helper_restore_dialog">After restoring, you will be able to open and edit this note again.</string>
     <string name="helper_empty_trash_dialog">All notes in the trash will be permanently deleted.</string>
     <string name="helper_label_selection_placeholder">Your labels will be displayed here</string>
+    <string name="helper_coming_soon">Coming soon</string>
+    <string name="helper_select_actions">Select actions</string>
 
     <!-- Language-->
     <string name="lan_system_default">System default</string>
@@ -157,6 +172,9 @@
     <string name="btn_confirm">Confirm</string>
     <string name="btn_biometrics">Biometrics</string>
     <string name="btn_rename">Rename</string>
+    <string name="btn_finish">Finish</string>
+    <string name="btn_skip">Skip</string>
+    <string name="btn_reset">Reset</string>
 
     <!-- Setting -->
     <string name="stg_screen_lock">Screen lock</string>
@@ -180,6 +198,10 @@
     <string name="snack_note_pinned">Note pinned</string>
     <string name="snack_note_unpinned">Note unpinned</string>
 
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database">Clear the database: notes, reminders, labels, checklists and trash</string>
+    <string name="checkbox_reset_settings">Reset application settings to default values</string>
+
     <!-- Switch -->
     <string name="switch_use_biometric">Use biometric</string>
     <string name="switch_use_note_swipes">Use note swipes</string>
@@ -194,8 +216,20 @@
     <string name="action_reminders" translatable="false">com.hellguy39.hellnotes.REMINDERS</string>
     <string name="action_archive" translatable="false">com.hellguy39.hellnotes.ARCHIVE</string>
     <string name="action_trash" translatable="false">com.hellguy39.hellnotes.TRASH</string>
-
     <string name="action_edit" translatable="false">com.hellguy39.hellnotes.EDIT</string>
     <string name="action_create" translatable="false">com.hellguy39.hellnotes.CREATE</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">Welcome!</string>
+    <string name="on_boarding_second_page_title">Create your first note</string>
+    <string name="on_boarding_third_page_title">Organize your notes</string>
+    <string name="on_boarding_fourth_page_title">Set up reminders and notifications</string>
+    <string name="on_boarding_fifth_page_title">Shall we proceed?</string>
+
+    <string name="on_boarding_first_page_description">Here you can store notes, task lists, and more. Let\'s get started!</string>
+    <string name="on_boarding_second_page_description">Start creating notes right now! You can add titles, text, images, and more.</string>
+    <string name="on_boarding_third_page_description">You can create categories and tags to organize your notes, as well as use the search function for quick access.</string>
+    <string name="on_boarding_fourth_page_description">Set up notifications so that you don\'t miss important tasks or events. We will send you a reminder at a convenient time.</string>
+    <string name="on_boarding_fifth_page_description">Now you know the key functions of the application. It seems like it\'s time to get to work.</string>
 
 </resources>

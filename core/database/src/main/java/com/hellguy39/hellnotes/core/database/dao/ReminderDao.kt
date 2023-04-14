@@ -9,43 +9,52 @@ import kotlinx.coroutines.flow.Flow
 interface ReminderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRemind(remindEntity: ReminderEntity): Long
+    suspend fun insertReminder(remindEntity: ReminderEntity): Long
 
     @Delete
-    suspend fun deleteRemind(remindEntity: ReminderEntity)
+    suspend fun deleteReminder(remindEntity: ReminderEntity)
 
     @Query("""
-        DELETE FROM $REMINDERS_TABLE_NAME WHERE id = :id
+        DELETE FROM $REMINDERS_TABLE_NAME 
+        WHERE id = :id
     """)
-    suspend fun deleteRemindById(id: Long)
+    suspend fun deleteReminderById(id: Long)
 
     @Query("""
-        DELETE FROM $REMINDERS_TABLE_NAME WHERE noteId = :noteId
+        DELETE FROM $REMINDERS_TABLE_NAME 
+        WHERE noteId = :noteId
     """)
-    suspend fun deleteRemindByNoteId(noteId: Long)
+    suspend fun deleteReminderByNoteId(noteId: Long)
 
     @Query("""
-        SELECT * FROM reminders_table
+        SELECT * FROM $REMINDERS_TABLE_NAME
     """)
-    fun getAllRemindsStream(): Flow<List<ReminderEntity>>
+    fun getAllRemindersStream(): Flow<List<ReminderEntity>>
 
     @Query("""
-        SELECT * FROM $REMINDERS_TABLE_NAME WHERE noteId = :noteId
+        SELECT * FROM $REMINDERS_TABLE_NAME
     """)
-    fun getRemindsByNoteIdStream(noteId: Long): Flow<List<ReminderEntity>>
-
-    @Query("""
-        SELECT * FROM $REMINDERS_TABLE_NAME WHERE id = :id
-    """)
-    suspend fun getRemindById(id: Long): ReminderEntity
+    suspend fun getAllReminders(): List<ReminderEntity>
 
     @Query("""
         SELECT * FROM $REMINDERS_TABLE_NAME 
         WHERE noteId = :noteId
     """)
-    suspend fun getRemindsByNoteId(noteId: Long): List<ReminderEntity>
+    fun getRemindersByNoteIdStream(noteId: Long): Flow<List<ReminderEntity>>
+
+    @Query("""
+        SELECT * FROM $REMINDERS_TABLE_NAME 
+        WHERE id = :id
+    """)
+    suspend fun getReminderById(id: Long): ReminderEntity
+
+    @Query("""
+        SELECT * FROM $REMINDERS_TABLE_NAME 
+        WHERE noteId = :noteId
+    """)
+    suspend fun getRemindersByNoteId(noteId: Long): List<ReminderEntity>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateRemind(remindEntity: ReminderEntity)
+    suspend fun updateReminder(remindEntity: ReminderEntity)
 
 }

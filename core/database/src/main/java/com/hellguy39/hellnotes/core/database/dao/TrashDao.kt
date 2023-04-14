@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.core.database.dao
 
 import androidx.room.*
-import com.hellguy39.hellnotes.core.database.entity.NoteEntity
 import com.hellguy39.hellnotes.core.database.entity.TrashEntity
 import com.hellguy39.hellnotes.core.model.Note
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +34,6 @@ interface TrashDao {
     @Query("""
         DELETE FROM trash_table
     """)
-    suspend fun deleteAllTrash()
+    suspend fun deleteAll()
 
 }

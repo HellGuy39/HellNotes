@@ -16,8 +16,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.on_boarding.util.OnBoardingPage
 import kotlinx.coroutines.launch
 
@@ -64,15 +66,17 @@ fun WelcomeScreen(
                 )
 
                 TextButton(
-                    modifier = Modifier.width(96.dp)
+                    modifier = Modifier
+                        .width(96.dp)
                         .alpha(animatedSkipButton),
                     onClick = onSkip
                 ) {
-                    Text(text = "Skip")
+                    Text(text = stringResource(id = HellNotesStrings.Button.Skip))
                 }
 
                 LinearProgressIndicator(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
                         .clip(RoundedCornerShape(8.dp)),
                     progress = animatedProgress
                 )
@@ -90,7 +94,10 @@ fun WelcomeScreen(
                     }
                 ) {
                     Text(
-                        text = if (pagerState.currentPage == pages.size - 1) "Finish" else "Next"
+                        text = if (pagerState.currentPage == pages.size - 1)
+                            stringResource(id = HellNotesStrings.Button.Finish)
+                        else
+                            stringResource(id = HellNotesStrings.Button.Next)
                     )
                 }
             }
@@ -117,7 +124,7 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
         Text(
             modifier = Modifier
                 .fillMaxWidth(),
-            text = onBoardingPage.title,
+            text = stringResource(id = onBoardingPage.title),
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center
         )
@@ -126,37 +133,9 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp)
                 .padding(top = 24.dp),
-            text = onBoardingPage.description,
+            text = stringResource(id = onBoardingPage.description),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
     }
 }
-
-//@OptIn(ExperimentalFoundationApi::class)
-//@Composable
-//fun FinishButton(
-//    modifier: Modifier,
-//    pagerState: PagerState,
-//    onClick: () -> Unit
-//) {
-//    Row(
-//        modifier = modifier
-//            .padding(horizontal = 48.dp),
-//        verticalAlignment = Alignment.Top,
-//        horizontalArrangement = Arrangement.Center
-//    ) {
-//        AnimatedVisibility(
-//            modifier = Modifier.fillMaxWidth(),
-//            visible = pagerState.currentPage == 3,
-//            enter = fadeIn(animationSpec = tween(300)),
-//            exit = fadeOut(animationSpec = tween(300))
-//        ) {
-//            Button(
-//                onClick = onClick
-//            ) {
-//                Text(text = "Finish")
-//            }
-//        }
-//    }
-//}

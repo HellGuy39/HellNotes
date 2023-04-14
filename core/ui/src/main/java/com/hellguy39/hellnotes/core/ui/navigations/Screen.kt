@@ -2,7 +2,6 @@ package com.hellguy39.hellnotes.core.ui.navigations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import com.hellguy39.hellnotes.core.model.util.LockRequest
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
 
 sealed class Screen(val route: String) {
@@ -20,8 +19,12 @@ sealed class Screen(val route: String) {
     object AboutApp : Screen(route = "about_app_screen")
     object LabelEdit : Screen(route = "label_edit_screen")
     object LabelSelection : Screen(route = "label_selection_screen")
-    object NoteStyleEdit : Screen(route = "note_style_edit")
-    object NoteSwipeEdit : Screen(route = "note_swipe_edit")
+    object NoteStyleEdit : Screen(route = "note_style_edit_screen")
+    object NoteSwipeEdit : Screen(route = "note_swipe_edit_screen")
+    object Changelog : Screen(route = "changelog_screen")
+    object Reset : Screen(route = "reset_screen")
+    object PrivacyPolicy : Screen(route = "privacy_policy_screen")
+    object TermsAndConditions : Screen(route = "terms_and_conditions_screen")
 
     fun withArgs(vararg args: String): String {
         return buildString {
@@ -187,6 +190,34 @@ fun NavController.navigateToNoteStyleEdit(navOptions: NavOptions? = null) {
 fun NavController.navigateToNoteSwipeEdit(navOptions: NavOptions? = null) {
     navigate(
         route = Screen.NoteSwipeEdit.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToReset(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.Reset.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToChangelog(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.Changelog.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToPrivacyPolicy(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.PrivacyPolicy.route,
+        navOptions = navOptions
+    )
+}
+
+fun NavController.navigateToTermsAndConditions(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.TermsAndConditions.route,
         navOptions = navOptions
     )
 }

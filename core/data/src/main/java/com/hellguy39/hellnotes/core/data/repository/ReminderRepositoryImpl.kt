@@ -14,39 +14,43 @@ class ReminderRepositoryImpl @Inject constructor(
     private val reminderDao: ReminderDao
 ): ReminderRepository {
     override suspend fun insertReminder(reminder: Reminder): Long {
-        return reminderDao.insertRemind(reminder.toRemindEntity())
+        return reminderDao.insertReminder(reminder.toRemindEntity())
     }
 
     override suspend fun deleteReminder(reminder: Reminder) {
-        reminderDao.deleteRemind(reminder.toRemindEntity())
+        reminderDao.deleteReminder(reminder.toRemindEntity())
     }
 
     override suspend fun deleteReminderById(id: Long) {
-        reminderDao.deleteRemindById(id)
+        reminderDao.deleteReminderById(id)
     }
 
     override suspend fun deleteReminderByNoteId(noteId: Long) {
-        reminderDao.deleteRemindByNoteId(noteId)
+        reminderDao.deleteReminderByNoteId(noteId)
     }
 
     override fun getAllRemindersStream(): Flow<List<Reminder>> {
-        return reminderDao.getAllRemindsStream().map { it.map(ReminderEntity::toRemind) }
+        return reminderDao.getAllRemindersStream().map { it.map(ReminderEntity::toRemind) }
     }
 
     override suspend fun getReminderById(id: Long): Reminder {
-        return reminderDao.getRemindById(id).toRemind()
+        return reminderDao.getReminderById(id).toRemind()
     }
 
     override suspend fun getRemindersByNoteId(noteId: Long): List<Reminder> {
-        return reminderDao.getRemindsByNoteId(noteId).map { it.toRemind() }
+        return reminderDao.getRemindersByNoteId(noteId).map { it.toRemind() }
     }
 
     override fun getRemindersByNoteIdStream(noteId: Long): Flow<List<Reminder>> {
-        return reminderDao.getRemindsByNoteIdStream(noteId).map { it.map(ReminderEntity::toRemind) }
+        return reminderDao.getRemindersByNoteIdStream(noteId).map { it.map(ReminderEntity::toRemind) }
     }
 
     override suspend fun updateReminder(reminder: Reminder) {
-        reminderDao.updateRemind(reminder.toRemindEntity())
+        reminderDao.updateReminder(reminder.toRemindEntity())
+    }
+
+    override suspend fun getAllReminders(): List<Reminder> {
+        return reminderDao.getAllReminders().map { reminderEntity -> reminderEntity.toRemind() }
     }
 
 }

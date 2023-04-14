@@ -51,18 +51,7 @@ class NoteRepositoryImpl @Inject constructor(
         noteDao.deleteNoteById(id)
     }
 
-//    override suspend fun deleteLabelFromNotes(labelId: Long) {
-//        val notes = noteDao.getAllNotes()
-//
-//        for (i in notes.indices) {
-//            if (notes[i].labelIds.contains(labelId)) {
-//                val note = notes[i].copy(
-//                    labelIds = notes[i].labelIds.minus(labelId)
-//                )
-//                noteDao.updateNote(note)
-//            }
-//        }
-//
-//    }
-
+    override suspend fun deleteAll() {
+        noteDao.deleteAll()
+    }
 }

@@ -45,6 +45,11 @@ interface ChecklistDao {
 
     @Query("""
         DELETE FROM $CHECKLIST_TABLE_NAME 
+    """)
+    suspend fun deleteAll()
+
+    @Query("""
+        DELETE FROM $CHECKLIST_TABLE_NAME 
         WHERE noteId = :noteId
     """)
     suspend fun deleteChecklistByNoteId(noteId: Long)

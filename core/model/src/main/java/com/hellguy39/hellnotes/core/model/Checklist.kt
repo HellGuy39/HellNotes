@@ -23,6 +23,15 @@ fun Checklist.isChecklistValid(): Boolean {
     return this.name.isNotBlank() || this.name.isNotEmpty() || this.items.isItemsValid()
 }
 
+fun Checklist.isItemsCompleted(): Boolean {
+    this.items.forEach { item ->
+        if (!item.isChecked) {
+            return false
+        }
+    }
+    return true
+}
+
 fun List<Checklist>.isChecklistsValid(): Boolean {
     for (i in this.indices) {
         if (this[i].isChecklistValid()) {

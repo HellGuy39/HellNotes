@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.core.ui.components
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -7,9 +8,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.PopupProperties
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import java.io.Serializable
@@ -22,7 +27,7 @@ fun CustomDropdownMenu(
 ) {
     DropdownMenu(
         expanded = expanded,
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = onDismissRequest
     ) {
         repeat(items.size) { index ->
             CustomDropdownItem(items[index])

@@ -61,7 +61,7 @@ class TrashViewModel @Inject constructor(
 
     fun emptyTrash() {
         viewModelScope.launch {
-            trashRepository.deleteAllTrash()
+            trashRepository.deleteAll()
         }
     }
 
@@ -86,7 +86,7 @@ data class TrashUiState(
 ) {
     companion object {
         fun initialInstance() = TrashUiState(
-            trashTipCompleted = false,
+            trashTipCompleted = true,
             trashNotes = listOf(),
         )
     }

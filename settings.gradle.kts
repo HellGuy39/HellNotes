@@ -12,6 +12,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
     }
 }
 
@@ -47,3 +48,7 @@ include(":feature:label-selection")
 include(":feature:note-style-edit")
 include(":feature:note-swipe-edit")
 include(":feature:startup")
+include(":feature:changelog")
+include(":feature:reset")
+include(":feature:privacy-policy")
+include(":feature:terms-and-conditions")

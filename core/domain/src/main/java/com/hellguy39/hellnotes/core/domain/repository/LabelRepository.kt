@@ -21,4 +21,5 @@ interface LabelRepository {
 
     suspend fun deleteNoteIdFromLabels(noteId: Long)
 
+    suspend fun deleteAll()
 }

@@ -13,15 +13,8 @@ import com.hellguy39.hellnotes.feature.on_boarding.util.OnBoardingPage
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardingRoute(
-    onBoardingViewModel: OnBoardingViewModel = hiltViewModel(),
     onFinish: () -> Unit = {}
 ) {
-    LaunchedEffect(key1 = Unit) {
-        // Save onBoardingState on start, because if we gonna
-        // save it onFinish, a viewModelScope will be destroyed before it saves
-        onBoardingViewModel.saveOnBoardingState(completed = true)
-    }
-
     BackHandler(
         onBack = onFinish
     )

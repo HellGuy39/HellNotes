@@ -144,9 +144,8 @@ fun ReminderEditScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .imePadding()
                     .navigationBarsPadding()
-                    .padding(horizontal = 16.dp, vertical = 16.dp),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {

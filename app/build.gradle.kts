@@ -77,6 +77,10 @@ dependencies {
     implementation(project(Modules.Feature.LabelSelection))
     implementation(project(Modules.Feature.NoteStyleEdit))
     implementation(project(Modules.Feature.NoteSwipesEdit))
+    implementation(project(Modules.Feature.Changelog))
+    implementation(project(Modules.Feature.PrivacyPolicy))
+    implementation(project(Modules.Feature.TermsAndConditions))
+    implementation(project(Modules.Feature.Reset))
 
     implementation(project(Modules.Core.Ui))
     implementation(project(Modules.Core.Data))
@@ -89,6 +93,7 @@ dependencies {
     implementation(Libs.AndroidX.CoreKtx)
     implementation(Libs.AndroidX.LifecycleKtx)
     implementation(Libs.AndroidX.AppCompat)
+    implementation(Libs.AndroidX.WorkKtx)
     implementation(Libs.AndroidX.Biometric)
     implementation(Libs.AndroidX.SplashScreen)
     implementation(Libs.AndroidX.ProfileInstaller)

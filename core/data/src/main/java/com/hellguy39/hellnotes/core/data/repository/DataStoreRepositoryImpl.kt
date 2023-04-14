@@ -70,4 +70,8 @@ class DataStoreRepositoryImpl @Inject constructor(
         return dataSource.readNoteStyleState()
     }
 
+    override suspend fun resetToDefault() {
+        dataSource.resetToDefault()
+    }
+
 }

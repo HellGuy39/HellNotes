@@ -63,4 +63,8 @@ class ChecklistRepositoryImpl @Inject constructor(
         checklistDao.deleteChecklistByNoteId(noteId)
     }
 
+    override suspend fun deleteAll() {
+        checklistDao.deleteAll()
+    }
+
 }

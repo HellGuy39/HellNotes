@@ -31,6 +31,7 @@ import com.hellguy39.hellnotes.core.ui.isSingleList
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun NoteGridList(
+    modifier: Modifier = Modifier,
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteSelection: NoteSelection,
     categories: List<NoteCategory>,
@@ -44,10 +45,7 @@ internal fun NoteGridList(
     } else StaggeredGridCells.Fixed(2)
 
     LazyVerticalStaggeredGrid(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 4.dp, vertical = 4.dp)
-            .testTag("item_list"),
+        modifier = modifier,
         contentPadding = innerPadding,
         columns = cellConfiguration
     ) {

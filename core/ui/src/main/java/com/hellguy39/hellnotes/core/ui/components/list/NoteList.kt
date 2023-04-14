@@ -1,7 +1,11 @@
 package com.hellguy39.hellnotes.core.ui.components.list
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -23,9 +27,15 @@ fun NoteList(
     selectedNotes: List<Note> = listOf(),
     listHeader: @Composable () -> Unit = {},
 ) {
+    val listModifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 4.dp, vertical = 4.dp)
+        .testTag("item_list")
+
     when(listStyle) {
         ListStyle.Column -> {
             NoteColumnList(
+                modifier = listModifier,
                 innerPadding = innerPadding,
                 noteSelection = noteSelection,
                 categories = categories,
@@ -35,6 +45,7 @@ fun NoteList(
         }
         ListStyle.Grid -> {
             NoteGridList(
+                modifier = listModifier,
                 innerPadding = innerPadding,
                 noteSelection = noteSelection,
                 categories = categories,

@@ -17,6 +17,7 @@ class GlobalExceptionHandler private constructor(
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
         try {
             launchActivity(applicationContext, activityToBeLaunched, throwable)
+            Log.e(TAG, throwable.stackTraceToString())
             exitProcess(0)
         } catch (e: Exception) {
             defaultHandler.uncaughtException(thread, throwable)

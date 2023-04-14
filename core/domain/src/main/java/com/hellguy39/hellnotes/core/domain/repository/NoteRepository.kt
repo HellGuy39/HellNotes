@@ -27,6 +27,5 @@ interface NoteRepository {
 
     suspend fun deleteNoteById(id: Long)
 
-    //suspend fun deleteLabelFromNotes(labelId: Long)
-
+    suspend fun deleteAll()
 }

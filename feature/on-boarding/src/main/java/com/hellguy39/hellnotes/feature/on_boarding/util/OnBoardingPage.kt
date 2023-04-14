@@ -1,42 +1,43 @@
 package com.hellguy39.hellnotes.feature.on_boarding.util
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 sealed class OnBoardingPage(
-    @DrawableRes
-    val image: Int,
-    val title: String,
-    val description: String
+    @DrawableRes val image: Int,
+    @StringRes val title: Int,
+    @StringRes val description: Int
 ) {
     object First : OnBoardingPage(
         image = HellNotesIcons.DoubleStickyNote,
-        title = "Добро пожаловать!",
-        description = "Здесь вы можете хранить заметки, списки задач и многое другое. Давайте начнем!"
+        title = HellNotesStrings.OnBoarding.FirstPageTitle,
+        description = HellNotesStrings.OnBoarding.FirstPageDescription
     )
 
     object Second : OnBoardingPage(
         image = HellNotesIcons.StickyNote,
-        title = "Создайте свою первую заметку",
-        description = "Начните создавать заметки прямо сейчас! Вы можете добавлять заголовки, текст, изображения и многое другое."
+        title = HellNotesStrings.OnBoarding.SecondPageTitle,
+        description = HellNotesStrings.OnBoarding.SecondPageDescription
     )
 
     object Third : OnBoardingPage(
         image = HellNotesIcons.Label,
-        title = "Организуйте свои заметки",
-        description = "Вы можете создавать категории и теги, чтобы упорядочить свои заметки, а также использовать функцию поиска для быстрого доступа."
+        title = HellNotesStrings.OnBoarding.ThirdPageTitle,
+        description = HellNotesStrings.OnBoarding.ThirdPageDescription
     )
 
     object Fourth : OnBoardingPage(
         image = HellNotesIcons.Notifications,
-        title = "Настройте напоминания и уведомления",
-        description = "Настройте уведомления, чтобы не пропустить важные задачи или события. Мы отправим вам напоминание в удобное время."
+        title = HellNotesStrings.OnBoarding.FourthPageTitle,
+        description = HellNotesStrings.OnBoarding.FourthPageDescription
     )
 
     object Fifth : OnBoardingPage(
         image = HellNotesIcons.DoneAll,
-        title = "Приступим?",
-        description = "Теперь вы знаете ключевые функции приложения. Кажется, самое время приступать к работе."
+        title = HellNotesStrings.OnBoarding.FifthPageTitle,
+        description = HellNotesStrings.OnBoarding.FifthPageDescription
     )
 
 }

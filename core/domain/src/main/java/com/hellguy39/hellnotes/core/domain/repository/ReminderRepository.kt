@@ -15,6 +15,8 @@ interface ReminderRepository {
 
     fun getAllRemindersStream(): Flow<List<Reminder>>
 
+    suspend fun getAllReminders(): List<Reminder>
+
     suspend fun getReminderById(id: Long): Reminder
 
     suspend fun getRemindersByNoteId(noteId: Long): List<Reminder>
