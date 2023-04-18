@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.feature.reminder_edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.CreateReminderUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.DeleteReminderUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.UpdateReminderUseCase

@@ -1,6 +1,6 @@
 package com.hellguy39.hellnotes.core.domain.use_case
 
-import com.hellguy39.hellnotes.core.domain.repository.*
+import com.hellguy39.hellnotes.core.domain.repository.local.*
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.DeleteReminderUseCase
 import javax.inject.Inject
 

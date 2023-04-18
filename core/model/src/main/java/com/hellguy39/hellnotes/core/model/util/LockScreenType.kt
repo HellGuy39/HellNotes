@@ -25,14 +25,17 @@ sealed class LockScreenType {
         private const val SLIDE = "slide"
         private const val PATTERN = "pattern"
 
-        fun from(s: String?): LockScreenType {
+        fun from(
+            s: String?,
+            defaultValue: LockScreenType = None
+        ): LockScreenType {
             return when(s) {
                 NONE -> None
                 PIN -> Pin
                 PASSWORD -> Password
                 SLIDE -> Slide
                 PATTERN -> Pattern
-                else -> None
+                else -> defaultValue
             }
         }
 

@@ -1,6 +1,6 @@
 package com.hellguy39.hellnotes.core.domain.use_case.reminder
 
-import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import javax.inject.Inject
 

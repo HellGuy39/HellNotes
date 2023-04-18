@@ -2,10 +2,10 @@ package com.hellguy39.hellnotes.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
 import com.hellguy39.hellnotes.core.domain.use_case.MoveNoteToTrashUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.RestoreNoteFromTrashUseCase
 import com.hellguy39.hellnotes.core.model.Label

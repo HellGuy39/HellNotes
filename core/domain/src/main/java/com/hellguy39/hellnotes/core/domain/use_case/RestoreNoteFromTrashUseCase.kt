@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.domain.use_case
 
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
 import com.hellguy39.hellnotes.core.model.Note
 import javax.inject.Inject
 

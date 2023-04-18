@@ -70,6 +70,7 @@ fun ArchiveScreen(
 
                 if (uiState.notes.isEmpty()) {
                     EmptyContentPlaceholder(
+                        paddingValues = paddingValues,
                         heroIcon = painterResource(id = HellNotesIcons.Archive),
                         message = stringResource(id = HellNotesStrings.Text.Empty)
                     )

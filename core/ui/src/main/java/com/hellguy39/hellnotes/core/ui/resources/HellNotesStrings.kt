@@ -4,6 +4,8 @@ import com.hellguy39.hellnotes.core.ui.R
 
 object HellNotesStrings {
 
+    val AppName = R.string.app_name
+
     object ContentDescription {
         val Pin = R.string.content_description_pin
         val Back = R.string.content_description_back
@@ -128,6 +130,7 @@ object HellNotesStrings {
         val TermsAndConditions = R.string.title_terms_and_conditions
         val Reset = R.string.title_reset
         val LicenseAgreement = R.string.title_license_agreement
+        val AuthRequired = R.string.title_auth_required
     }
 
     object Label {

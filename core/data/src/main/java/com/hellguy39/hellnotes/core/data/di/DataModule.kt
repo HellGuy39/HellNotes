@@ -1,7 +1,11 @@
 package com.hellguy39.hellnotes.core.data.di
 
 import com.hellguy39.hellnotes.core.data.repository.*
+import com.hellguy39.hellnotes.core.data.repository.local.*
+import com.hellguy39.hellnotes.core.data.repository.remote.ReleaseServiceImpl
 import com.hellguy39.hellnotes.core.domain.repository.*
+import com.hellguy39.hellnotes.core.domain.repository.local.*
+import com.hellguy39.hellnotes.core.domain.repository.remote.ReleaseService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -40,5 +44,10 @@ interface DataModule {
     fun bindDataStoreRepository(
         i: DataStoreRepositoryImpl
     ): DataStoreRepository
+
+    @Binds
+    fun bindReleaseService(
+        i: ReleaseServiceImpl
+    ): ReleaseService
 
 }

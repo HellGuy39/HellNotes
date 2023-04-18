@@ -16,11 +16,14 @@ sealed interface NoteStyle {
         const val OUTLINED = "outlined"
         const val ELEVATED = "elevated"
 
-        fun from(s: String): NoteStyle {
+        fun from(
+            s: String?,
+            defaultValue: NoteStyle = Outlined
+        ): NoteStyle {
             return when(s) {
                 OUTLINED -> Outlined
                 ELEVATED -> Elevated
-                else -> Outlined
+                else -> defaultValue
             }
         }
     }

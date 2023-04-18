@@ -8,6 +8,7 @@ object Modules {
         const val Datastore = ":core:datastore"
         const val Model = ":core:model"
         const val Domain = ":core:domain"
+        const val Network = ":core:network"
     }
 
     object Feature {

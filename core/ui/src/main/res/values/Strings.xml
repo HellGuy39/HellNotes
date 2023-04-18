@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="app_name" translatable="false">HellNotes</string>
+
     <!-- Content description -->
     <string name="content_description_back">Back</string>
     <string name="content_description_labels">Labels</string>
@@ -117,6 +120,7 @@
     <string name="title_privacy_policy">Privacy policy</string>
     <string name="title_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="title_reset">Reset</string>
+    <string name="title_auth_required">Authentication required</string>
 
     <!-- Helper -->
     <string name="helper_unchecked_items">+%s unchecked items</string>

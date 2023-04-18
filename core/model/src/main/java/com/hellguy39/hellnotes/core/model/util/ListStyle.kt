@@ -21,11 +21,14 @@ sealed interface ListStyle {
         const val GRID = "list_style_grid"
         const val COLUMN = "list_style_column"
 
-        fun from(s: String): ListStyle {
+        fun from(
+            s: String?,
+            defaultValue: ListStyle = Column
+        ): ListStyle {
             return when(s) {
                 GRID -> Grid
                 COLUMN -> Column
-                else -> Column
+                else -> defaultValue
             }
         }
     }

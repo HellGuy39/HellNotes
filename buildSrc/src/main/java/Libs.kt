@@ -20,8 +20,12 @@ object Libs {
         private const val coroutinesVersion = "1.6.4"
         const val Coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
+//        private const val serializationVersion = "1.5.0"
+//        const val Serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion"
+
         private const val plugineVersion = "1.8.10"
         const val Plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugineVersion"
+        const val SerializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$plugineVersion"
 
     }
 
@@ -96,6 +100,9 @@ object Libs {
         private const val materialVersion = "1.8.0"
         const val Material = "com.google.android.material:material:$materialVersion"
 
+        private const val servicesPluginVersion = "4.3.15"
+        const val ServicesPlugin = "com.google.gms:google-services:$servicesPluginVersion"
+
         object Accompanist {
 
             private const val version = "0.30.1"
@@ -122,6 +129,31 @@ object Libs {
             const val Compiler = "com.google.dagger:hilt-compiler:$version"
             const val NavigationCompose = "androidx.hilt:hilt-navigation-compose:$navigationVersion"
         }
+
+        object Firebase {
+
+            private const val crashlyticsVersion = "18.3.6"
+            private const val analyticsVersion = "21.2.2"
+
+            const val Crashlytics = "com.google.firebase:firebase-crashlytics-ktx:$crashlyticsVersion"
+            const val Analytics = "com.google.firebase:firebase-analytics-ktx:$analyticsVersion"
+
+            private const val crashlyticsPluginVersion = "2.9.5"
+            const val CrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsPluginVersion"
+        }
+
+    }
+
+    object Ktor {
+
+        private const val version = "2.2.4"
+
+        const val Core = "io.ktor:ktor-client-core:$version"
+        const val Android = "io.ktor:ktor-client-android:$version"
+        //const val Serialization = "io.ktor:ktor-client-serialization:$version"
+        const val ContentNegotiation = "io.ktor:ktor-client-content-negotiation:$version"
+        const val JsonSerializer = "io.ktor:ktor-serialization-kotlinx-json:$version"
+        const val Logging = "io.ktor:ktor-client-logging:$version"
 
     }
 

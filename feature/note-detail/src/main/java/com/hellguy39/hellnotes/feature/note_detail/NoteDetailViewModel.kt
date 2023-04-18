@@ -3,12 +3,13 @@ package com.hellguy39.hellnotes.feature.note_detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.ChecklistRepository
-import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.use_case.DeleteNoteUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.MoveNoteToTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.PostProcessNoteUseCase
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
@@ -25,6 +26,7 @@ class NoteDetailViewModel @Inject constructor(
     private val checklistRepository: ChecklistRepository,
     private val moveNoteToTrashUseCase: MoveNoteToTrashUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase,
+    private val postProcessNoteUseCase: PostProcessNoteUseCase,
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
@@ -111,25 +113,30 @@ class NoteDetailViewModel @Inject constructor(
             uiState.value.let { state ->
                 if (state is NoteDetailUiState.Success) {
 
-                    checklists.value.forEach { checklist ->
+                    var postProcessedNote = postProcessNoteUseCase.invoke(state.wrapper)
+                    val invalidChecklists = mutableListOf<Checklist>()
+
+                    for (i in postProcessedNote.checklists.indices) {
+
+                        val checklist = postProcessedNote.checklists[i]
+
                         if (checklist.isChecklistValid()) {
                             checklistRepository.updateChecklist(checklist)
                         } else {
-                            checklists.update { checklists -> checklists.minus(checklist) }
+                            invalidChecklists.add(checklist)
                             checklistRepository.deleteChecklistById(checklist.id ?: return@launch)
                         }
                     }
-                }
-            }
-            uiState.value.let { state ->
-                if (state is NoteDetailUiState.Success) {
 
-                    val noteWrapper = state.wrapper
+                    postProcessedNote = postProcessedNote.copy(
+                        checklists = postProcessedNote.checklists.toMutableList()
+                            .apply { removeAll(invalidChecklists) }
+                    )
 
-                    if (noteWrapper.isNoteWrapperInvalid()) {
+                    if (postProcessedNote.isNoteWrapperInvalid()) {
                         deleteNote()
                     } else {
-                        noteRepository.updateNote(noteWrapper.note)
+                        noteRepository.updateNote(postProcessedNote.note)
                     }
                 }
             }

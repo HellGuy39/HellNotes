@@ -16,10 +16,13 @@ sealed interface Sorting {
         private const val DATE_OF_CREATION = "date_of_creation"
         private const val DATE_OF_LAST_EDIT = "date_of_last_edit"
 
-        fun from(s: String) = when(s) {
+        fun from(
+            s: String?,
+            defaultValue: Sorting = DateOfCreation
+        ) = when(s) {
             DATE_OF_LAST_EDIT -> DateOfLastEdit
             DATE_OF_CREATION -> DateOfCreation
-            else -> DateOfCreation
+            else -> defaultValue
         }
     }
 

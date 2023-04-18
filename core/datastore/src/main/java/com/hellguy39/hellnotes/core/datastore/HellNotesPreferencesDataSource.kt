@@ -21,45 +21,54 @@ class HellNotesPreferencesDataSource @Inject constructor(
 ) {
 
     private object PreferencesKey {
-        val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")
-        val trashTipKey = booleanPreferencesKey(name = "trash_tip_checked")
+        val onBoarding = booleanPreferencesKey(name = "on_boarding_completed")
+        val trashTip = booleanPreferencesKey(name = "trash_tip_checked")
         val lockType = stringPreferencesKey(name = "lock_type")
         val isUseBiometricData = booleanPreferencesKey(name = "is_use_biometric_data")
         val listStyle = stringPreferencesKey(name = "list_style")
         val noteStyle = stringPreferencesKey(name = "note_style")
         val sorting = stringPreferencesKey(name = "sorting")
         val password = stringPreferencesKey(name = "password")
-
         val noteSwipesEnabled = booleanPreferencesKey(name = "note_swipes_enabled")
         val noteSwipeRight = stringPreferencesKey(name = "note_swipe_left")
         val noteSwipeLeft = stringPreferencesKey(name = "note_swipe_right")
+    }
+
+    private object PreferencesDefaultValues {
+        const val onBoarding = false
+        const val trashTip = false
+        val lockType = LockScreenType.None
+        const val isUseBiometricData = false
+        val listStyle = ListStyle.Column
+        val noteStyle = NoteStyle.Outlined
+        val sorting = Sorting.DateOfLastEdit
+        const val password = ""
+        const val noteSwipesEnabled = true
+        val noteSwipeRight = NoteSwipe.Delete
+        val noteSwipeLeft = NoteSwipe.Archive
     }
 
     private val dataStore = context.dataStore
 
     suspend fun resetToDefault() {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.onBoardingKey] = false
-
-            preferences[PreferencesKey.listStyle] = ListStyle.Column.string()
-            preferences[PreferencesKey.sorting] = Sorting.DateOfLastEdit.string()
-            preferences[PreferencesKey.noteStyle] = NoteStyle.Outlined.string()
-
-            preferences[PreferencesKey.lockType] = LockScreenType.None.string()
-            preferences[PreferencesKey.isUseBiometricData] = false
-            preferences[PreferencesKey.password] = ""
-
-            preferences[PreferencesKey.noteSwipesEnabled] = true
-            preferences[PreferencesKey.noteSwipeLeft] = NoteSwipe.Archive.string()
-            preferences[PreferencesKey.noteSwipeRight] = NoteSwipe.Delete.string()
-
-            preferences[PreferencesKey.trashTipKey] = false
+            preferences[PreferencesKey.onBoarding] = PreferencesDefaultValues.onBoarding
+            preferences[PreferencesKey.listStyle] = PreferencesDefaultValues.listStyle.string()
+            preferences[PreferencesKey.sorting] = PreferencesDefaultValues.sorting.string()
+            preferences[PreferencesKey.noteStyle] = PreferencesDefaultValues.noteStyle.string()
+            preferences[PreferencesKey.lockType] = PreferencesDefaultValues.lockType.string()
+            preferences[PreferencesKey.isUseBiometricData] = PreferencesDefaultValues.isUseBiometricData
+            preferences[PreferencesKey.password] = PreferencesDefaultValues.password
+            preferences[PreferencesKey.noteSwipesEnabled] = PreferencesDefaultValues.noteSwipesEnabled
+            preferences[PreferencesKey.noteSwipeLeft] = PreferencesDefaultValues.noteSwipeLeft.string()
+            preferences[PreferencesKey.noteSwipeRight] = PreferencesDefaultValues.noteSwipeRight.string()
+            preferences[PreferencesKey.trashTip] = PreferencesDefaultValues.trashTip
         }
     }
 
     suspend fun saveOnBoardingState(completed: Boolean) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.onBoardingKey] = completed
+            preferences[PreferencesKey.onBoarding] = completed
         }
     }
 
@@ -99,62 +108,74 @@ class HellNotesPreferencesDataSource @Inject constructor(
 
     suspend fun saveTrashTipState(completed: Boolean) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.trashTipKey] = completed
+            preferences[PreferencesKey.trashTip] = completed
         }
     }
 
     fun readOnBoardingState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
-            preferences[PreferencesKey.onBoardingKey] ?: false
+            preferences[PreferencesKey.onBoarding] ?: PreferencesDefaultValues.onBoarding
         }
 
     fun readTrashTipState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
-            preferences[PreferencesKey.trashTipKey] ?: false
+            preferences[PreferencesKey.trashTip] ?: PreferencesDefaultValues.trashTip
         }
 
     fun readSecurityState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
             SecurityState(
-                lockType = LockScreenType.from(preferences[PreferencesKey.lockType]),
-                password = preferences[PreferencesKey.password] ?: "",
-                isUseBiometricData = preferences[PreferencesKey.isUseBiometricData] ?: false,
+                lockType = LockScreenType.from(
+                    s = preferences[PreferencesKey.lockType],
+                    defaultValue = PreferencesDefaultValues.lockType
+                ),
+                password = preferences[PreferencesKey.password] ?: PreferencesDefaultValues.password,
+                isUseBiometricData = preferences[PreferencesKey.isUseBiometricData] ?: PreferencesDefaultValues.isUseBiometricData,
             )
         }
 
     fun readListStyleState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
-            ListStyle.from(preferences[PreferencesKey.listStyle] ?: "")
+            ListStyle.from(
+                s = preferences[PreferencesKey.listStyle],
+                defaultValue = PreferencesDefaultValues.listStyle
+            )
         }
 
     fun readListSortState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
-            Sorting.from(preferences[PreferencesKey.sorting] ?: "")
+            Sorting.from(
+                s = preferences[PreferencesKey.sorting],
+                defaultValue = PreferencesDefaultValues.sorting
+            )
         }
 
     fun readNoteStyleState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
-            NoteStyle.from(preferences[PreferencesKey.noteStyle] ?: "")
+            NoteStyle.from(
+                s = preferences[PreferencesKey.noteStyle],
+                defaultValue = PreferencesDefaultValues.noteStyle
+            )
         }
 
     fun readNoteSwipesState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
             NoteSwipesState(
-                enabled = preferences[PreferencesKey.noteSwipesEnabled] ?: true,
+                enabled = preferences[PreferencesKey.noteSwipesEnabled] ?: PreferencesDefaultValues.noteSwipesEnabled,
                 swipeLeft = NoteSwipe.from(
-                    preferences[PreferencesKey.noteSwipeLeft],
-                    NoteSwipe.Archive
+                    s = preferences[PreferencesKey.noteSwipeLeft],
+                    defaultValue = PreferencesDefaultValues.noteSwipeLeft
                 ),
                 swipeRight = NoteSwipe.from(
-                    preferences[PreferencesKey.noteSwipeRight],
-                    NoteSwipe.Delete
+                    s = preferences[PreferencesKey.noteSwipeRight],
+                    defaultValue = PreferencesDefaultValues.noteSwipeRight
                 )
             )
         }

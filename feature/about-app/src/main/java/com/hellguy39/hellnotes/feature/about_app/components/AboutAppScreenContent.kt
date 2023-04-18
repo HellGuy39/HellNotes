@@ -139,10 +139,10 @@ fun AboutAppScreenContent(
                     onClick = selection.onProvideFeedback
                 )
 
-                SelectionItem(
-                    title = stringResource(id = HellNotesStrings.MenuItem.RateOnPlayStore),
-                    onClick = selection.onRateOnPlayStore
-                )
+//                SelectionItem(
+//                    title = stringResource(id = HellNotesStrings.MenuItem.RateOnPlayStore),
+//                    onClick = selection.onRateOnPlayStore
+//                )
 
                 SelectionItem(
                     title = stringResource(id = HellNotesStrings.MenuItem.CheckForUpdates),

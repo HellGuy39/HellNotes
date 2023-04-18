@@ -25,12 +25,14 @@ sealed interface NoteSwipe {
             Archive
         )
 
-
-        fun from(s: String?, default: NoteSwipe = None) = when(s) {
+        fun from(
+            s: String?,
+            defaultValue: NoteSwipe = None
+        ) = when(s) {
             NONE -> None
             DELETE -> Delete
             ARCHIVE -> Archive
-            else -> default
+            else -> defaultValue
         }
     }
 

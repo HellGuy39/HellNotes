@@ -160,6 +160,7 @@
     <string name="title_privacy_policy">Политика конфиденциальности</string>
     <string name="title_terms_and_conditions">Правила и условия</string>
     <string name="title_reset">Сброс</string>
+    <string name="title_auth_required">Требуется аутентификация</string>
 
     <!-- Helper -->
     <string name="helper_unchecked_items">+%s непроверенных пунктов</string>

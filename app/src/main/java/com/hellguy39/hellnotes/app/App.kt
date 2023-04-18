@@ -30,6 +30,6 @@ class App : Application() {
             )
         )
 
-        GlobalExceptionHandler.initialize(this, CrashActivity::class.java)
+        //GlobalExceptionHandler.initialize(this, CrashActivity::class.java)
     }
 }

@@ -1,10 +1,9 @@
 package com.hellguy39.hellnotes.core.domain.use_case
 
-import com.hellguy39.hellnotes.core.domain.repository.ChecklistRepository
-import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.core.model.Checklist
+import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.toNoteDetailWrapper
 import kotlinx.coroutines.flow.Flow

@@ -5,6 +5,8 @@ plugins {
     kotlin("android")
     kotlin ("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 @Suppress("UnstableApiUsage")
@@ -16,8 +18,8 @@ android {
         applicationId = Config.ApplicationId
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 6
+        versionName = "1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -127,6 +129,9 @@ dependencies {
     implementation(Libs.Google.Hilt.NavigationCompose)
 
     implementation(Libs.SquareUp.Moshi)
+
+    implementation(Libs.Google.Firebase.Analytics)
+    implementation(Libs.Google.Firebase.Crashlytics)
 
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 

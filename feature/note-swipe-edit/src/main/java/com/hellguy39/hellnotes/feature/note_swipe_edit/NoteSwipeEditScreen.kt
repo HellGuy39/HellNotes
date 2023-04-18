@@ -100,7 +100,6 @@ fun NoteSwipeEditScreen(
                             }
                         }
                     }
-
                 }
                 item {
                     ItemHeader(
@@ -109,6 +108,7 @@ fun NoteSwipeEditScreen(
                         title = stringResource(id = HellNotesStrings.Label.SwipeLeft),
                         icon = painterResource(id = HellNotesIcons.SwipeLeft)
                     )
+
                     Column(
                         modifier = Modifier.selectableGroup()
                     ) {
@@ -123,10 +123,12 @@ fun NoteSwipeEditScreen(
                                         onClick = {
                                             selection.onSwipeLeftActionSelected(swipeAction)
                                         },
+                                        enabled = uiState.noteSwipesState.enabled,
                                         role = Role.RadioButton
                                     ),
                                 isSelected = isSelected,
-                                title = swipeAction.getDisplayName()
+                                title = swipeAction.getDisplayName(),
+                                enabled = uiState.noteSwipesState.enabled,
                             )
                         }
                     }
@@ -152,10 +154,12 @@ fun NoteSwipeEditScreen(
                                         onClick = {
                                             selection.onSwipeRightActionSelected(swipeAction)
                                         },
+                                        enabled = uiState.noteSwipesState.enabled,
                                         role = Role.RadioButton
                                     ),
                                 isSelected = isSelected,
-                                title = swipeAction.getDisplayName()
+                                title = swipeAction.getDisplayName(),
+                                enabled = uiState.noteSwipesState.enabled,
                             )
                         }
                     }

@@ -32,6 +32,7 @@ dependencies {
 
     implementation(project(Modules.Core.Database))
     implementation(project(Modules.Core.Datastore))
+    implementation(project(Modules.Core.Network))
     implementation(project(Modules.Core.Model))
     implementation(project(Modules.Core.Domain))
 

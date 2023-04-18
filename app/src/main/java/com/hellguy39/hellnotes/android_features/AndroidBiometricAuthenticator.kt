@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 class AndroidBiometricAuthenticator(
@@ -42,14 +43,13 @@ class AndroidBiometricAuthenticator(
         onAuthListener.invoke(AuthenticationResult.Success)
     }
 
-    private val promptInfo = BiometricPrompt.PromptInfo.Builder()
-        .setTitle("Proof of identity for HellNotes")
-        .setSubtitle("Confirm identity using your biometric credential")
-        .setNegativeButtonText("Cancel")
-
-        .build()
-
     override fun authenticate(activity: AppCompatActivity) {
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(context.getString(HellNotesStrings.Title.AuthRequired))
+            .setSubtitle(context.getString(HellNotesStrings.AppName))
+            .setNegativeButtonText(context.getString(HellNotesStrings.Button.Cancel))
+            .build()
 
         val biometricPrompt = BiometricPrompt(activity, executor, this)
 
