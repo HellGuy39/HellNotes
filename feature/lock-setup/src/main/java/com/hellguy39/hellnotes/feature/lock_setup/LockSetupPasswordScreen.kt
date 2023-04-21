@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -171,7 +171,7 @@ fun LockSetupPasswordScreen(
                 }
             },
             topBar = {
-                CustomLargeTopAppBar(
+                HNLargeTopAppBar(
                     scrollBehavior = scrollBehavior,
                     onNavigationButtonClick = onNavigationBack,
                     title = when (state) {

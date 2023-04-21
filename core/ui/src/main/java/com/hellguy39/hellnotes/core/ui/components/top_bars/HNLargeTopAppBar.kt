@@ -6,13 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.sp
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomLargeTopAppBar(
+fun HNLargeTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     onNavigationButtonClick: () -> Unit,
     title: String,
@@ -23,25 +22,15 @@ fun CustomLargeTopAppBar(
     LargeTopAppBar(
         scrollBehavior = scrollBehavior,
         title = {
-            if (isExpanded) {
-                Text(
-                    text = title,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.headlineMedium
-                )
-            } else {
-                Text(
-                    text = title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
+            Text(
+                text = title,
+                maxLines = if (isExpanded) 2 else 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         },
         navigationIcon = {
             IconButton(
-                onClick = { onNavigationButtonClick() }
+                onClick = onNavigationButtonClick
             ) {
                 Icon(
                     painter = painterResource(id = HellNotesIcons.ArrowBack),

@@ -16,9 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
@@ -69,7 +69,10 @@ fun SearchScreen(
 
                 if (uiState.notes.isEmpty()) {
                     EmptyContentPlaceholder(
-                        paddingValues = innerPadding,
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(innerPadding)
+                            .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Search),
                         message = stringResource(id = HellNotesStrings.Text.NothingWasFound)
                     )

@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.feature.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.use_case.GetAllNotesWithRemindersAndLabelsStreamUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.model.util.NoteStyle

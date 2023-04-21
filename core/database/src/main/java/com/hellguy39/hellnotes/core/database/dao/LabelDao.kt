@@ -28,6 +28,9 @@ interface LabelDao {
     @Update
     suspend fun updateLabel(labelEntity: LabelEntity)
 
+    @Update
+    suspend fun updateLabels(labelEntities: List<LabelEntity>)
+
     @Query("""
         SELECT * FROM $LABELS_TABLE_NAME
     """)

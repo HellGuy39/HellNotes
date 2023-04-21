@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.hellguy39.hellnotes.ui.theme.*
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,

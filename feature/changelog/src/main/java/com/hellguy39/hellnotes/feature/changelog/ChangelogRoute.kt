@@ -18,6 +18,9 @@ fun ChangelogRoute(
 
     ChangelogScreen(
         onNavigationButtonClick = navController::popBackStack,
-        uiState = uiState
+        uiState = uiState,
+        onTryAgain = {
+            changelogViewModel.send(ChangelogUiEvent.TryAgain)
+        }
     )
 }

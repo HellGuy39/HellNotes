@@ -30,6 +30,10 @@ class LabelRepositoryImpl @Inject constructor(
         labelDao.updateLabel(label.toLabelEntity())
     }
 
+    override suspend fun updateLabels(labels: List<Label>) {
+        labelDao.updateLabels(labels.map { label -> label.toLabelEntity() } )
+    }
+
     override fun getAllLabelsStream(): Flow<List<Label>> {
         return labelDao.getAllLabelsStream().map { it.map(LabelEntity::toLabel) }
     }

@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ItemHeader(
+fun HNListHeader(
     modifier: Modifier = Modifier,
     title: String = "",
     icon: Painter? = null,

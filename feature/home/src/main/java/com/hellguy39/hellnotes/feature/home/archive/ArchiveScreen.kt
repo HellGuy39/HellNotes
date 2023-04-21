@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.feature.home.archive
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -14,11 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
@@ -70,7 +72,10 @@ fun ArchiveScreen(
 
                 if (uiState.notes.isEmpty()) {
                     EmptyContentPlaceholder(
-                        paddingValues = paddingValues,
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(paddingValues)
+                            .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Archive),
                         message = stringResource(id = HellNotesStrings.Text.Empty)
                     )

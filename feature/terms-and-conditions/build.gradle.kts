@@ -63,4 +63,7 @@ dependencies {
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
     implementation(Libs.Google.Hilt.NavigationCompose)
+
+    implementation(Libs.ThirdParty.ComposeRichText.RichTextUiMaterial3)
+    implementation(Libs.ThirdParty.ComposeRichText.RichTextCommonMark)
 }

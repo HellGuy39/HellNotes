@@ -11,7 +11,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopAppBar(
+fun HNTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     onNavigationButtonClick: () -> Unit = {},
     title: String = "",
@@ -34,7 +34,7 @@ fun CustomTopAppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopAppBar(
+fun HNTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     onNavigationButtonClick: () -> Unit = {},
     content: @Composable () -> Unit,
@@ -63,7 +63,7 @@ private fun SmallTopAppBar(
         },
         navigationIcon = {
             IconButton(
-                onClick = { onNavigationButtonClick() }
+                onClick = onNavigationButtonClick
             ) {
                 Icon(
                     painter = painterResource(id = HellNotesIcons.ArrowBack),

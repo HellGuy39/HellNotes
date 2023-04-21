@@ -6,8 +6,8 @@ import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
-import com.hellguy39.hellnotes.core.domain.use_case.MoveNoteToTrashUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.RestoreNoteFromTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.MoveNoteToTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.RestoreNoteFromTrashUseCase
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.NoteSwipesState

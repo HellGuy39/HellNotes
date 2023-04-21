@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.domain.use_case
+package com.hellguy39.hellnotes.core.domain.use_case.note
 
 import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository

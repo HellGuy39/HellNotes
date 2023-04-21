@@ -40,6 +40,13 @@ object HellNotesIcons {
     val BugReport = R.drawable.ic_bug_report_24
     val RestartAlt = R.drawable.ic_restart_alt_24
     val Logout = R.drawable.ic_logout_24
+    val ContentCopy = R.drawable.ic_content_copy_24
+    val NotificationAdd = R.drawable.ic_notification_add_24
+    val Attachment = R.drawable.ic_attachment_24
+    val PinDrop = R.drawable.ic_pin_drop_24
+    val Image = R.drawable.ic_image_24
+    val Mic = R.drawable.ic_mic_24
+    val PhotoCamera = R.drawable.ic_photo_camera_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24

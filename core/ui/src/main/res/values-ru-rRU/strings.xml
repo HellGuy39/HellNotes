@@ -69,6 +69,7 @@
     <string name="btn_finish">Закончить</string>
     <string name="btn_skip">Пропустить</string>
     <string name="btn_reset">Сбросить</string>
+    <string name="btn_try_again">Попробовать снова</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>
@@ -123,6 +124,12 @@
     <string name="menu_item_rate_on_play_store">Оценить в Play Store</string>
     <string name="menu_item_reset">Сброс</string>
     <string name="menu_item_check_for_updates">Проверить наличие обновлений</string>
+    <string name="menu_item_checklist">Чеклист</string>
+    <string name="menu_item_image">Изображение</string>
+    <string name="menu_item_recording">Аудиозапись</string>
+    <string name="menu_item_take_a_photo">Сделать фотографию</string>
+    <string name="menu_item_place">Место</string>
+    <string name="menu_item_make_a_copy">Сделать копию</string>
 
     <!-- Language-->
     <string name="lan_system_default">Системный</string>
@@ -176,12 +183,13 @@
     <string name="helper_wrong_password">Неверный пароль</string>
     <string name="helper_share_dialog">Выберите, каким способом поделиться заметкой. После этого вы сможете выбрать получателя и способ отправки.</string>
     <string name="helper_delete_note_dialog">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
-    <string name="helper_restore_dialog">После восстановления вы сможете снова открыть и отредактировать эту заметку.</string>
+    <string name="helper_restore_dialog">После восстановления можно снова открыть и редактировать эту заметку.</string>
     <string name="helper_delete_label_dialog">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
     <string name="helper_empty_trash_dialog">Все заметки в корзине будут безвозвратно удалены.</string>
     <string name="helper_label_selection_placeholder">Здесь будут отображаться ваши метки</string>
     <string name="helper_coming_soon">Скоро будет</string>
     <string name="helper_select_actions">Выберите действия</string>
+    <string name="helper_failed_to_load_data">Не удалось загрузить данные</string>
 
     <!-- Snack -->
     <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>
@@ -219,7 +227,7 @@
     <string name="on_boarding_fourth_page_title">Настройте напоминания и уведомления</string>
     <string name="on_boarding_fifth_page_title">Приступим?</string>
 
-    <string name="on_boarding_first_page_description">Здесь вы можете хранить заметки, списки задач и многое другое. Давайте начнем!</string>
+    <string name="on_boarding_first_page_description">Здесь можно хранить заметки, списки задач и многое другое. Давайте начнем!</string>
     <string name="on_boarding_second_page_description">Начните создавать заметки прямо сейчас! Вы можете добавлять заголовки, текст, изображения и многое другое.</string>
     <string name="on_boarding_third_page_description">Вы можете создавать категории и теги, чтобы упорядочить свои заметки, а также использовать функцию поиска для быстрого доступа.</string>
     <string name="on_boarding_fourth_page_description">Настройте уведомления, чтобы не пропустить важные задачи или события. Мы отправим вам напоминание в удобное время.</string>

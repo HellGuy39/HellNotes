@@ -9,7 +9,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.label_edit.components.LabelEditScreenContent
@@ -60,7 +60,7 @@ fun LabelEditScreen(
             }
         },
         topBar = {
-            CustomTopAppBar(
+            HNTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
                 title = stringResource(id = HellNotesStrings.Title.Labels)

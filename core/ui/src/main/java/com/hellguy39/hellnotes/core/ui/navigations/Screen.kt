@@ -53,6 +53,7 @@ object ArgumentKeys {
     const val LockType = "lock_type"
     const val LockRequest = "lock_request"
     const val Action = "action"
+    const val ShortcutAction = "shortcut_action"
 }
 
 object ArgumentDefaultValues {

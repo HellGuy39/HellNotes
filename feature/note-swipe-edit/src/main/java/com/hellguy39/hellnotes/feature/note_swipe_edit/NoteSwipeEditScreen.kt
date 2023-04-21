@@ -10,22 +10,18 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.NoteSwipe
-import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.components.CustomRadioButton
-import com.hellguy39.hellnotes.core.ui.components.CustomSwitch
-import com.hellguy39.hellnotes.core.ui.components.items.ItemHeader
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
+import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
+import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -45,7 +41,7 @@ fun NoteSwipeEditScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CustomLargeTopAppBar(
+            HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
                 title = stringResource(id = HellNotesStrings.Title.NoteSwipe)
@@ -77,32 +73,21 @@ fun NoteSwipeEditScreen(
                         colors = CardDefaults.cardColors(containerColor = containerColor)
                     ) {
                         val isChecked = uiState.noteSwipesState.enabled
-                        Box(
-                            modifier = Modifier
-                                .selectable(
-                                    selected = isChecked,
-                                    onClick = { selection.onNoteSwipesEnabled(!isChecked) },
-                                    role = Role.Switch
-                                )
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .padding(
-                                        vertical = 24.dp,
-                                        horizontal = 24.dp
-                                    )
-                            ) {
-                                CustomSwitch(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    title = stringResource(id = HellNotesStrings.Switch.UseNoteSwipes),
-                                    checked = isChecked,
-                                )
-                            }
-                        }
+
+                        HNSwitchItem(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(
+                                    vertical = 24.dp,
+                                    horizontal = 24.dp
+                                ),
+                            title = stringResource(id = HellNotesStrings.Switch.UseNoteSwipes),
+                            checked = isChecked,
+                            onClick = { selection.onNoteSwipesEnabled(!isChecked) },
+                        )
                     }
                 }
                 item {
-                    ItemHeader(
+                    HNListHeader(
                         modifier = Modifier
                             .padding(vertical = 8.dp, horizontal = 16.dp),
                         title = stringResource(id = HellNotesStrings.Label.SwipeLeft),
@@ -113,28 +98,19 @@ fun NoteSwipeEditScreen(
                         modifier = Modifier.selectableGroup()
                     ) {
                         NoteSwipe.actions.forEach { swipeAction ->
-                            val isSelected = uiState.noteSwipesState.swipeLeft == swipeAction
-                            CustomRadioButton(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(UiDefaults.ListItem.DefaultHeight)
-                                    .selectable(
-                                        selected = isSelected,
-                                        onClick = {
-                                            selection.onSwipeLeftActionSelected(swipeAction)
-                                        },
-                                        enabled = uiState.noteSwipesState.enabled,
-                                        role = Role.RadioButton
-                                    ),
-                                isSelected = isSelected,
+                            HNRadioButtonItem(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(16.dp),
+                                isSelected = uiState.noteSwipesState.swipeLeft == swipeAction,
                                 title = swipeAction.getDisplayName(),
                                 enabled = uiState.noteSwipesState.enabled,
+                                onClick = { selection.onSwipeLeftActionSelected(swipeAction) },
                             )
                         }
                     }
                 }
                 item {
-                    ItemHeader(
+                    HNListHeader(
                         modifier = Modifier
                             .padding(vertical = 8.dp, horizontal = 16.dp),
                         title = stringResource(id = HellNotesStrings.Label.SwipeRight),
@@ -144,22 +120,13 @@ fun NoteSwipeEditScreen(
                         modifier = Modifier.selectableGroup()
                     ) {
                         NoteSwipe.actions.forEach { swipeAction ->
-                            val isSelected = uiState.noteSwipesState.swipeRight == swipeAction
-                            CustomRadioButton(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(UiDefaults.ListItem.DefaultHeight)
-                                    .selectable(
-                                        selected = isSelected,
-                                        onClick = {
-                                            selection.onSwipeRightActionSelected(swipeAction)
-                                        },
-                                        enabled = uiState.noteSwipesState.enabled,
-                                        role = Role.RadioButton
-                                    ),
-                                isSelected = isSelected,
+                            HNRadioButtonItem(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(16.dp),
+                                isSelected = uiState.noteSwipesState.swipeRight == swipeAction,
                                 title = swipeAction.getDisplayName(),
                                 enabled = uiState.noteSwipesState.enabled,
+                                onClick = { selection.onSwipeRightActionSelected(swipeAction) },
                             )
                         }
                     }

@@ -14,7 +14,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 
 @Composable
-fun CustomTextField(
+fun HNClearTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,

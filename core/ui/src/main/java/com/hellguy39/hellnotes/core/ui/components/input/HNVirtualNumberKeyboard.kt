@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
 @Composable
-fun NumberKeyboard(
+fun HNVirtualNumberKeyboard(
     selection: NumberKeyboardSelection,
     disabledButtonKeys: List<String> = listOf()
 ) {

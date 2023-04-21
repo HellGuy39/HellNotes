@@ -24,9 +24,9 @@ import com.google.accompanist.permissions.shouldShowRationale
 import com.hellguy39.hellnotes.core.model.util.Repeat
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.CustomRadioButton
+import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -103,21 +103,15 @@ fun ReminderEditScreen(
                     .fillMaxWidth(),
             ) {
                 items(repeats) { repeat ->
-                    val isSelected = repeat == uiState.repeat
-                    CustomRadioButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .selectable(
-                                selected = isSelected,
-                                onClick = {
-                                    selection.onRepeatUpdate(repeat)
-                                    repeatDialogState.dismiss()
-                                },
-                                role = Role.RadioButton
-                            ),
+                    HNRadioButtonItem(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(16.dp),
                         title = repeat.getDisplayName(),
-                        isSelected = isSelected
+                        isSelected = repeat == uiState.repeat,
+                        onClick = {
+                            selection.onRepeatUpdate(repeat)
+                            repeatDialogState.dismiss()
+                        },
                     )
                 }
             }
@@ -130,7 +124,7 @@ fun ReminderEditScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CustomLargeTopAppBar(
+            HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationBack,
                 title = if (uiState.isEdit)

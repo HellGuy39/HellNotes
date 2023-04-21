@@ -3,16 +3,22 @@
 
     <!-- New note-->
     <shortcut
-        android:shortcutId="id1"
+        android:shortcutId="new_note"
         android:enabled="true"
-        android:icon="@drawable/ic_note_add_24"
+        android:icon="@mipmap/ic_shortcut_new_note"
         android:shortcutShortLabel="@string/shortcut_label_new_note"
         android:shortcutLongLabel="@string/shortcut_label_new_note">
 
         <intent
-            android:action="com.hellguy39.hellnotes.NEW_NOTE"
+            android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity" />
+            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
+
+            <extra
+                android:name="shortcut_action"
+                android:value="com.hellguy39.hellnotes.NEW_NOTE" />
+
+        </intent>
 
         <categories android:name="android.shortcut.conversation" />
 
@@ -20,16 +26,22 @@
 
     <!-- Reminders -->
     <shortcut
-        android:shortcutId="id2"
+        android:shortcutId="reminders"
         android:enabled="true"
-        android:icon="@drawable/ic_notifications_24"
+        android:icon="@mipmap/ic_shortcut_reminders"
         android:shortcutShortLabel="@string/shortcut_label_reminders"
         android:shortcutLongLabel="@string/shortcut_label_reminders">
 
         <intent
-            android:action="com.hellguy39.hellnotes.REMINDERS"
+            android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity" />
+            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
+
+            <extra
+                android:name="shortcut_action"
+                android:value="com.hellguy39.hellnotes.REMINDERS" />
+
+        </intent>
 
         <categories android:name="android.shortcut.conversation" />
 
@@ -37,16 +49,22 @@
 
     <!-- Archive -->
     <shortcut
-        android:shortcutId="id3"
+        android:shortcutId="archive"
         android:enabled="true"
-        android:icon="@drawable/ic_archive_24"
+        android:icon="@mipmap/ic_shortcut_archive"
         android:shortcutShortLabel="@string/shortcut_label_archive"
         android:shortcutLongLabel="@string/shortcut_label_archive">
 
         <intent
-            android:action="com.hellguy39.hellnotes.ARCHIVE"
+            android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity" />
+            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
+
+            <extra
+                android:name="shortcut_action"
+                android:value="com.hellguy39.hellnotes.ARCHIVE" />
+
+        </intent>
 
         <categories android:name="android.shortcut.conversation" />
 
@@ -54,16 +72,22 @@
 
     <!-- Trash -->
     <shortcut
-        android:shortcutId="id4"
+        android:shortcutId="trash"
         android:enabled="true"
-        android:icon="@drawable/ic_delete_24"
+        android:icon="@mipmap/ic_shortcut_trash"
         android:shortcutShortLabel="@string/shortcut_label_trash"
         android:shortcutLongLabel="@string/shortcut_label_trash">
 
         <intent
-            android:action="com.hellguy39.hellnotes.TRASH"
+            android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity" />
+            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
+
+            <extra
+                android:name="shortcut_action"
+                android:value="com.hellguy39.hellnotes.TRASH" />
+
+        </intent>
 
         <categories android:name="android.shortcut.conversation" />
 

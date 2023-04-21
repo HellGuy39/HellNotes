@@ -2,23 +2,21 @@ package com.hellguy39.hellnotes.feature.label_selection
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.components.CustomCheckbox
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItemDefault
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
+import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
+import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
+import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -32,13 +30,17 @@ fun LabelSelectionScreen(
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
+    val listItemModifier = Modifier
+        .padding(horizontal = 16.dp, vertical = 16.dp)
+        .fillMaxWidth()
+
     Scaffold(
         topBar = {
-            CustomTopAppBar(
+            HNTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationBack,
                 content = {
-                    CustomTextField(
+                    HNClearTextField(
                         value = uiState.search,
                         hint = stringResource(id = HellNotesStrings.Hint.Label),
                         onValueChange = { newText -> selection.onSearchUpdate(newText) },
@@ -56,6 +58,10 @@ fun LabelSelectionScreen(
 
             if (uiState.labels.isEmpty() && uiState.search.isEmpty()) {
                 EmptyContentPlaceholder(
+                    modifier = Modifier
+                        .padding(horizontal = 32.dp)
+                        .padding(paddingValues)
+                        .fillMaxSize(),
                     heroIcon = painterResource(id = HellNotesIcons.Label),
                     message = stringResource(id = HellNotesStrings.Helper.LabelSelectionPlaceholder)
                 )
@@ -71,28 +77,25 @@ fun LabelSelectionScreen(
                     key = { label -> label.id ?: 0 }
                 ) { label ->
                     val isChecked = label.noteIds.contains(uiState.noteId)
-                    CustomCheckbox(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(UiDefaults.ListItem.DefaultHeight)
-                            .selectable(
-                                selected = isChecked,
-                                onClick = { selection.onLabelSelectedUpdate(label, !isChecked) },
-                                role = Role.RadioButton
-                            ),
+                    HNCheckboxItem(
+                        modifier = listItemModifier,
+                        onClick = { selection.onLabelSelectedUpdate(label, !isChecked) },
                         heroIcon = painterResource(id = HellNotesIcons.Label),
                         title = label.name,
                         checked = isChecked,
+                        iconSize = 24.dp
                     )
                 }
                 if (isShowCreateNewLabelItem(uiState.labels, uiState.search)) {
                     item(
                         key = -1
                     ) {
-                        SelectionItemDefault(
+                        HNListItem(
+                            modifier = listItemModifier,
                             heroIcon = painterResource(id = HellNotesIcons.NewLabel),
                             title = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
-                            onClick = selection.onCreateNewLabel
+                            onClick = selection.onCreateNewLabel,
+                            iconSize = 24.dp
                         )
                     }
                 }

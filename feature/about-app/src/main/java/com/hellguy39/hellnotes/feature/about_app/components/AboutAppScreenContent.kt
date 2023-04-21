@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
+import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.about_app.AboutAppScreenSelection
@@ -25,6 +25,8 @@ fun AboutAppScreenContent(
     innerPadding: PaddingValues,
     selection: AboutAppScreenSelection
 ) {
+    val listItemModifier = Modifier.padding(16.dp)
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -52,7 +54,7 @@ fun AboutAppScreenContent(
                     )
                     Column {
                         Text(
-                            text = "HellNotes",
+                            text = stringResource(id = HellNotesStrings.AppName),
                             style = MaterialTheme.typography.headlineMedium,
                             textAlign = TextAlign.Start
                         )
@@ -119,22 +121,26 @@ fun AboutAppScreenContent(
                     .padding(horizontal = 16.dp),
                 elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
             ) {
-                SelectionItem(
+                HNListItem(
+                    modifier = listItemModifier,
                     title = stringResource(id = HellNotesStrings.MenuItem.Changelog),
                     onClick = selection.onChangelog
                 )
 
-                SelectionItem(
+                HNListItem(
+                    modifier = listItemModifier,
                     title = stringResource(id = HellNotesStrings.MenuItem.PrivacyPolicy),
                     onClick = selection.onPrivacyPolicy
                 )
 
-                SelectionItem(
+                HNListItem(
+                    modifier = listItemModifier,
                     title = stringResource(id = HellNotesStrings.MenuItem.TermsAndConditions),
                     onClick = selection.onTermsAndConditions
                 )
 
-                SelectionItem(
+                HNListItem(
+                    modifier = listItemModifier,
                     title = stringResource(id = HellNotesStrings.MenuItem.ProvideFeedback),
                     onClick = selection.onProvideFeedback
                 )
@@ -144,7 +150,8 @@ fun AboutAppScreenContent(
 //                    onClick = selection.onRateOnPlayStore
 //                )
 
-                SelectionItem(
+                HNListItem(
+                    modifier = listItemModifier,
                     title = stringResource(id = HellNotesStrings.MenuItem.CheckForUpdates),
                     onClick = selection.onCheckForUpdates
                 )
@@ -157,7 +164,8 @@ fun AboutAppScreenContent(
                     .padding(horizontal = 16.dp),
                 elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
             ) {
-                SelectionItem(
+                HNListItem(
+                    modifier = listItemModifier,
                     title = stringResource(id = HellNotesStrings.MenuItem.Reset),
                     onClick = selection.onReset
                 )

@@ -1,11 +1,13 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -20,7 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItem
+import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
@@ -28,17 +30,20 @@ import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailContentSelection
-import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailDropdownMenuSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailTopAppBarSelection
+import com.hellguy39.hellnotes.feature.note_detail.util.BottomSheetMenuItemHolder
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareUtils
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailRoute(
     navController: NavController,
@@ -74,15 +79,18 @@ fun NoteDetailRoute(
         message = stringResource(id = HellNotesStrings.Helper.ShareDialog),
         onCancel = { shareDialogState.dismiss() },
         content = {
+            val listItemModifier = Modifier.padding(16.dp)
             Spacer(modifier = Modifier.height(8.dp))
-            SelectionItem(
+            HNListItem(
+                modifier = listItemModifier,
                 title = stringResource(id = HellNotesStrings.MenuItem.TxtFile),
                 onClick = {
                     shareDialogState.dismiss()
                     onShare(ShareType.TxtFile)
                 },
             )
-            SelectionItem(
+            HNListItem(
+                modifier = listItemModifier,
                 title = stringResource(id = HellNotesStrings.MenuItem.PlainText),
                 onClick = {
                     shareDialogState.dismiss()
@@ -125,6 +133,174 @@ fun NoteDetailRoute(
         }
     }
 
+    var isOpenMenuBottomSheet by rememberSaveable { mutableStateOf(false) }
+    val attachmentBottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = false
+    )
+
+    var isOpenAttachmentBottomSheet by rememberSaveable { mutableStateOf(false) }
+    val menuBottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = false
+    )
+
+    fun closeMenuBottomSheet() {
+        scope.launch {
+            menuBottomSheetState.hide()
+        }.invokeOnCompletion {
+            if (!menuBottomSheetState.isVisible) {
+                isOpenMenuBottomSheet = false
+            }
+        }
+    }
+
+    fun closeAttachmentBottomSheet() {
+        scope.launch {
+            attachmentBottomSheetState.hide()
+        }.invokeOnCompletion {
+            if (!attachmentBottomSheetState.isVisible) {
+                isOpenAttachmentBottomSheet = false
+            }
+        }
+    }
+
+    val listItemModifier = Modifier.padding(16.dp)
+
+    val toast = Toast.makeText(context, context.getString(HellNotesStrings.Helper.ComingSoon), Toast.LENGTH_SHORT)
+
+    val menuBottomSheetItems = listOf(
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.Delete),
+            icon = painterResource(id = HellNotesIcons.Delete),
+            onClick = {
+                closeMenuBottomSheet()
+                confirmDialogState.show()
+            }
+        ),
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.MakeACopy),
+            icon = painterResource(id = HellNotesIcons.ContentCopy),
+            onClick = {
+                closeMenuBottomSheet()
+                noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
+                    onCopied = { id ->
+                        navController.popBackStack()
+                        navController.navigateToNoteDetail(id)
+                    }
+                ))
+            }
+        ),
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.Share),
+            icon = painterResource(id = HellNotesIcons.Share),
+            onClick = {
+                closeMenuBottomSheet()
+                uiState.let { state ->
+                    if (state is NoteDetailUiState.Success) {
+                        if (state.wrapper.note.isNoteValid()) {
+                            shareDialogState.show()
+                        } else {
+                            snackbarHostState.showDismissableSnackbar(
+                                scope = scope,
+                                message = context.getString(HellNotesStrings.Text.NothingToShare),
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
+                }
+            }
+        )
+    )
+
+    val attachmentSheetItems = listOf(
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.TakeAPhoto),
+            icon = painterResource(id = HellNotesIcons.PhotoCamera),
+            onClick = {
+                closeAttachmentBottomSheet()
+                toast.show()
+            }
+        ),
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.Image),
+            icon = painterResource(id = HellNotesIcons.Image),
+            onClick = {
+                closeAttachmentBottomSheet()
+                toast.show()
+            }
+        ),
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.Recording),
+            icon = painterResource(id = HellNotesIcons.Mic),
+            onClick = {
+                closeAttachmentBottomSheet()
+                toast.show()
+            }
+        ),
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.Place),
+            icon = painterResource(id = HellNotesIcons.PinDrop),
+            onClick = {
+                closeAttachmentBottomSheet()
+                toast.show()
+            }
+        ),
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.Checklist),
+            icon = painterResource(id = HellNotesIcons.Checklist),
+            onClick = {
+                closeAttachmentBottomSheet()
+                noteDetailViewModel.send(NoteDetailUiEvent.AddChecklist)
+            }
+        ),
+        BottomSheetMenuItemHolder(
+            title = stringResource(id = HellNotesStrings.MenuItem.Labels),
+            icon = painterResource(id = HellNotesIcons.Label),
+            onClick = {
+                closeAttachmentBottomSheet()
+                uiState.let { state ->
+                    if (state is NoteDetailUiState.Success) {
+                        navController.navigateToLabelSelection(state.wrapper.note.id)
+                    }
+                }
+            }
+        )
+    )
+
+    if (isOpenMenuBottomSheet) {
+        ModalBottomSheet(
+            modifier = Modifier,
+            onDismissRequest = { isOpenMenuBottomSheet = false },
+            sheetState = menuBottomSheetState,
+        ) {
+            menuBottomSheetItems.forEach { item ->
+                HNListItem(
+                    modifier = listItemModifier,
+                    title = item.title,
+                    iconSize = 24.dp,
+                    heroIcon = item.icon,
+                    onClick = item.onClick
+                )
+            }
+        }
+    }
+
+    if (isOpenAttachmentBottomSheet) {
+        ModalBottomSheet(
+            modifier = Modifier,
+            onDismissRequest = { isOpenAttachmentBottomSheet = false },
+            sheetState = attachmentBottomSheetState,
+        ) {
+            attachmentSheetItems.forEach { item ->
+                HNListItem(
+                    modifier = listItemModifier,
+                    title = item.title,
+                    iconSize = 24.dp,
+                    heroIcon = item.icon,
+                    onClick = item.onClick
+                )
+            }
+        }
+    }
 
     NoteDetailScreen(
         snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
@@ -154,26 +330,6 @@ fun NoteDetailRoute(
                 }
             }
         ),
-        dropdownMenuSelection = NoteDetailDropdownMenuSelection(
-            onShare = {
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        if (state.wrapper.note.isNoteValid()) {
-                            shareDialogState.show()
-                        } else {
-                            snackbarHostState.showDismissableSnackbar(
-                                scope = scope,
-                                message = context.getString(HellNotesStrings.Text.NothingToShare),
-                                duration = SnackbarDuration.Short
-                            )
-                        }
-                    }
-                }
-            },
-            onDelete = {
-                confirmDialogState.show()
-            },
-        ),
         topAppBarSelection = NoteDetailTopAppBarSelection(
             uiState = uiState,
             onNavigationButtonClick = navController::popBackStack,
@@ -198,9 +354,7 @@ fun NoteDetailRoute(
                     message = snackAction.getSnackMessage(context = context, isSingleItem = true),
                     duration = SnackbarDuration.Short
                 )
-            }
-        ),
-        bottomBarSelection = NoteDetailBottomBarSelection(
+            },
             onReminder = {
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
@@ -210,15 +364,15 @@ fun NoteDetailRoute(
                         )
                     }
                 }
+            }
+        ),
+        bottomBarSelection = NoteDetailBottomBarSelection(
+            onMenu = {
+                isOpenMenuBottomSheet = !isOpenAttachmentBottomSheet
             },
-            onLabels = {
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        navController.navigateToLabelSelection(state.wrapper.note.id)
-                    }
-                }
-            },
-            onChecklist = { noteDetailViewModel.send(NoteDetailUiEvent.AddChecklist) }
+            onAttachment = {
+                isOpenAttachmentBottomSheet = !isOpenAttachmentBottomSheet
+            }
         ),
         noteDetailChecklistSelection = NoteDetailChecklistSelection(
             onCheckedChange = { checklist, item, isChecked ->

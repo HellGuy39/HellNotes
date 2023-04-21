@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.feature.note_detail.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,7 +28,7 @@ import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
-import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
+import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -61,7 +60,7 @@ fun NoteDetailContent(
         item(
             key = -1
         ) {
-            CustomTextField(
+            HNClearTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
@@ -75,7 +74,7 @@ fun NoteDetailContent(
         item(
             key = -2
         ) {
-            CustomTextField(
+            HNClearTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -129,7 +128,7 @@ fun NoteDetailContent(
 
                         var isFocused by remember { mutableStateOf(false) }
 
-                        CustomTextField(
+                        HNClearTextField(
                             modifier = Modifier
                                 .weight(1f)
                                 .onFocusChanged { state -> isFocused = state.isFocused },
@@ -290,7 +289,7 @@ fun CheckListItem(
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            CustomTextField(
+            HNClearTextField(
                 value = item.text,
                 modifier = Modifier
                     .onFocusChanged { state -> isFocused = state.isFocused }

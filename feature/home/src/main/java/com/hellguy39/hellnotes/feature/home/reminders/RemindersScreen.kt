@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.util.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
@@ -71,7 +71,10 @@ fun RemindersScreen(
 
                 if (uiState.notes.isEmpty()) {
                     EmptyContentPlaceholder(
-                        paddingValues = paddingValues,
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(paddingValues)
+                            .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Notifications),
                         message = stringResource(id = HellNotesStrings.Text.Empty)
                     )

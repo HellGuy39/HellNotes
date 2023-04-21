@@ -1,14 +1,10 @@
 package com.hellguy39.hellnotes.feature.note_detail.components
 
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.util.ColorParam
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
@@ -20,7 +16,6 @@ import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 fun NoteDetailTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     topAppBarSelection: NoteDetailTopAppBarSelection,
-    dropdownMenuSelection: NoteDetailDropdownMenuSelection
 ) {
     val note = if (topAppBarSelection.uiState is NoteDetailUiState.Success) {
         topAppBarSelection.uiState.wrapper.note
@@ -43,9 +38,6 @@ fun NoteDetailTopAppBar(
             containerColor = Color(note.colorHex),
             scrolledContainerColor = Color(note.colorHex)
         )
-
-
-    val noteDetailDropdownMenuState = rememberDropdownMenuState()
 
     TopAppBar(
         colors = topAppBarColors,
@@ -70,25 +62,22 @@ fun NoteDetailTopAppBar(
                     contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Pin)
                 )
             }
+
+            IconButton(
+                onClick = { topAppBarSelection.onReminder() }
+            ) {
+                Icon(
+                    painter = painterResource(id = HellNotesIcons.NotificationAdd),
+                    contentDescription = null
+                )
+            }
+
             IconButton(
                 onClick = { topAppBarSelection.onArchive(!note.isArchived) }
             ) {
                 Icon(
                     painter = archiveIcon,
                     contentDescription = null
-                )
-            }
-            IconButton(
-                modifier = Modifier.size(48.dp),
-                onClick = { noteDetailDropdownMenuState.show() }
-            ) {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.MoreVert),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More)
-                )
-                NoteDetailDropdownMenu(
-                    state = noteDetailDropdownMenuState,
-                    selection = dropdownMenuSelection
                 )
             }
         }
@@ -100,4 +89,5 @@ data class NoteDetailTopAppBarSelection(
     val onNavigationButtonClick: () -> Unit,
     val onPin: (isPinned: Boolean) -> Unit,
     val onArchive: (isArchived: Boolean) -> Unit,
+    val onReminder: () -> Unit
 )

@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
 import com.hellguy39.hellnotes.core.ui.components.HNIconButton
-import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
+import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 
 @Composable
@@ -46,7 +46,7 @@ fun LabelItem(
             disabledPainter = painterResource(id = HellNotesIcons.Label)
         )
 
-        CustomTextField(
+        HNClearTextField(
             value = text,
             onValueChange = { newText -> text = newText },
             modifier = Modifier

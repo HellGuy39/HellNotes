@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.ui.components
+package com.hellguy39.hellnotes.core.ui.components.placeholer
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -14,33 +14,37 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EmptyContentPlaceholder(
-    paddingValues: PaddingValues = PaddingValues(),
+    modifier: Modifier = Modifier,
     heroIcon: Painter,
     message: String,
-    heroIconSize: Dp = 128.dp
+    heroIconSize: Dp = 128.dp,
+    actions: (@Composable RowScope.() -> Unit)? = null
 ) {
     Column(
-        modifier = Modifier
-            .padding(horizontal = 32.dp)
-            .padding(paddingValues)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
             painter = heroIcon,
             contentDescription = null,
             modifier = Modifier
-                .width(heroIconSize)
-                .height(heroIconSize),
+                .size(heroIconSize),
             tint = MaterialTheme.colorScheme.primary
         )
         Text(
             text = message,
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(top = 16.dp)
-                .fillMaxWidth(),
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier,
             textAlign = TextAlign.Center
         )
+        if (actions != null) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                actions()
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.Label
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
-import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
+import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -62,7 +62,7 @@ fun LabelSearchItem(
                 }
             }
         }
-        CustomTextField(
+        HNClearTextField(
             value = newLabel,
             onValueChange = { newText -> newLabel = newText },
             hint = stringResource(id = HellNotesStrings.Hint.CreateNewLabel),

@@ -6,6 +6,8 @@ object HellNotesStrings {
 
     val AppName = R.string.app_name
 
+    val Markdown = R.string.markdown
+
     object ContentDescription {
         val Pin = R.string.content_description_pin
         val Back = R.string.content_description_back
@@ -72,6 +74,11 @@ object HellNotesStrings {
         val WhatsNew = R.string.menu_item_whats_new
         val CreateNewLabel = R.string.menu_item_create_new_label
         val EmptyTrash = R.string.menu_item_empty_trash
+        val TakeAPhoto = R.string.menu_item_take_a_photo
+        val Image = R.string.menu_item_image
+        val Recording = R.string.menu_item_recording
+        val Place = R.string.menu_item_place
+        val Checklist = R.string.menu_item_checklist
 
         val None = R.string.menu_item_none
         val Pin = R.string.menu_item_pin
@@ -99,6 +106,7 @@ object HellNotesStrings {
         val RateOnPlayStore = R.string.menu_item_rate_on_play_store
         val Reset = R.string.menu_item_reset
         val CheckForUpdates = R.string.menu_item_check_for_updates
+        val MakeACopy = R.string.menu_item_make_a_copy
     }
 
     object Title {
@@ -179,6 +187,7 @@ object HellNotesStrings {
         val Skip = R.string.btn_skip
         val Finish = R.string.btn_finish
         val Reset = R.string.btn_reset
+        val TryAgain = R.string.btn_try_again
     }
 
     object Helper {
@@ -201,6 +210,7 @@ object HellNotesStrings {
         val LabelSelectionPlaceholder = R.string.helper_label_selection_placeholder
         val ComingSoon = R.string.helper_coming_soon
         val SelectActions = R.string.helper_select_actions
+        val FailedToLoadData = R.string.helper_failed_to_load_data
     }
 
     object Action {

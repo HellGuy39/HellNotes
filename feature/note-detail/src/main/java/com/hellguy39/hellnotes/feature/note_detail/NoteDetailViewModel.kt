@@ -7,9 +7,10 @@ import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
-import com.hellguy39.hellnotes.core.domain.use_case.DeleteNoteUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.MoveNoteToTrashUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.PostProcessNoteUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.CopyNoteUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.DeleteNoteUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.MoveNoteToTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.PostProcessNoteUseCase
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
@@ -27,6 +28,7 @@ class NoteDetailViewModel @Inject constructor(
     private val moveNoteToTrashUseCase: MoveNoteToTrashUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase,
     private val postProcessNoteUseCase: PostProcessNoteUseCase,
+    private val copyNoteUseCase: CopyNoteUseCase,
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
@@ -105,6 +107,20 @@ class NoteDetailViewModel @Inject constructor(
                 deleteChecklistItem(uiEvent.checklist, uiEvent.item)
 
             is NoteDetailUiEvent.DeleteNote -> moveNoteToTrash()
+
+            is NoteDetailUiEvent.CopyNote -> copyNote(uiEvent.onCopied)
+        }
+    }
+
+    private fun copyNote(onCopied: (id: Long) -> Unit) {
+        viewModelScope.launch {
+            uiState.value.let { state ->
+                if (state is NoteDetailUiState.Success) {
+                    val wrapper = state.wrapper
+                    val noteId = copyNoteUseCase.invoke(wrapper)
+                    onCopied(noteId)
+                }
+            }
         }
     }
 
@@ -303,6 +319,7 @@ sealed class NoteDetailUiEvent {
     data class AddChecklistItem(val checklist: Checklist): NoteDetailUiEvent()
     object DeleteNote: NoteDetailUiEvent()
     object Close: NoteDetailUiEvent()
+    data class CopyNote(val onCopied: (id: Long) -> Unit): NoteDetailUiEvent()
 
 }
 

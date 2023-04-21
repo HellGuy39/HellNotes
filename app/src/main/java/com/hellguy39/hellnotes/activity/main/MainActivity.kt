@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.core.model.util.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.navigation.SetupNavGraph
@@ -54,8 +55,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun Intent.getOnStartupArgs(): OnStartupArguments = OnStartupArguments(
-        extraNoteId = this.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID) ?: ArgumentDefaultValues.Empty,
-        action = this.action ?: ""
+        extraNoteId = this.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID, ArgumentDefaultValues.Empty) ?: ArgumentDefaultValues.Empty,
+        action = this.extras?.getString(ArgumentKeys.ShortcutAction, "") ?: ""
     )
 
 }

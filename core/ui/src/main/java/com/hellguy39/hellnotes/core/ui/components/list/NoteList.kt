@@ -6,17 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Note
 import com.hellguy39.hellnotes.core.model.util.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.isNotesEmpty
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
 fun NoteList(

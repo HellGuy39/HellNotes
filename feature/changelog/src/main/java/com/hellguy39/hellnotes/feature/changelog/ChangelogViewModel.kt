@@ -1,10 +1,10 @@
 package com.hellguy39.hellnotes.feature.changelog
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.remote.ReleaseService
+import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
 import com.hellguy39.hellnotes.core.model.Release
+import com.hellguy39.hellnotes.core.model.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,29 +14,64 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChangelogViewModel @Inject constructor(
-    private val releaseService: ReleaseService
+    private val githubRepositoryService: GithubRepositoryService
 ): ViewModel() {
 
-    private val _uiState: MutableStateFlow<ChangelogUiState> = MutableStateFlow(ChangelogUiState.Loading)
+    private val _uiState: MutableStateFlow<ChangelogUiState> = MutableStateFlow(ChangelogUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            val releases = releaseService.getReleases()
+        fetchReleases()
+    }
 
-            _uiState.update {
-                ChangelogUiState.Success(releases = releases)
+    fun send(uiEvent: ChangelogUiEvent) {
+        when(uiEvent) {
+            ChangelogUiEvent.TryAgain -> {
+                fetchReleases()
             }
         }
     }
 
+    private fun fetchReleases() {
+        viewModelScope.launch {
+            githubRepositoryService.getReleases().collect { resource ->
+                when(resource) {
+                    is Resource.Success -> {
+                        _uiState.update { state ->
+                            state.copy(
+                                releases = resource.data ?: emptyList(),
+                                isError = false,
+                                errorMessage = ""
+                            )
+                        }
+                    }
+                    is Resource.Loading -> {
+                        _uiState.update { state ->
+                            state.copy(isLoading = resource.isLoading)
+                        }
+                    }
+                    is Resource.Error -> {
+                        _uiState.update { state ->
+                            state.copy(
+                                releases = resource.data ?: emptyList(),
+                                isError = true,
+                                errorMessage = resource.message ?: ""
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
-sealed class ChangelogUiState {
-
-    data class Success(
-        val releases: List<Release>
-    ): ChangelogUiState()
-
-    object Loading: ChangelogUiState()
+sealed class ChangelogUiEvent {
+    object TryAgain: ChangelogUiEvent()
 }
+
+data class ChangelogUiState (
+    val releases: List<Release> = emptyList(),
+    val isLoading: Boolean = true,
+    val isError: Boolean = false,
+    val errorMessage: String = ""
+)

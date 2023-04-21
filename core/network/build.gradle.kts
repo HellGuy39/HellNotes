@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
+@Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes.core.network"
     compileSdk = Config.compileSdk
@@ -19,10 +20,16 @@ android {
             isMinifyEnabled = false
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+//    packagingOptions {
+//        resources.excludes.add("/META-INF/INDEX.LIST")
+//    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -37,6 +44,7 @@ dependencies {
     implementation(Libs.Ktor.Logging)
     implementation(Libs.Ktor.ContentNegotiation)
     implementation(Libs.Ktor.JsonSerializer)
+//    implementation(Libs.Ktor.Logback)
 
     implementation(Libs.Kotlin.Coroutines)
 

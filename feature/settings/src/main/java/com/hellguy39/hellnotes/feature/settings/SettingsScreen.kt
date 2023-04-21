@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.settings.components.SettingsScreenContent
@@ -37,7 +37,7 @@ fun SettingsScreen(
             )
         },
         topBar = {
-            CustomLargeTopAppBar(
+            HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
                 title = stringResource(id = HellNotesStrings.Title.Settings)

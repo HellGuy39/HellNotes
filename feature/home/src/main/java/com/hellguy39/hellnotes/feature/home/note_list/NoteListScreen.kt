@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.feature.home.note_list
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,12 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.util.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
@@ -27,8 +29,6 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.HomeScreenMultiActionSelection
 import com.hellguy39.hellnotes.feature.home.HomeScreenVisualsSelection
-import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfiguration
-import com.hellguy39.hellnotes.feature.home.note_list.components.ListConfigurationSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBar
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
 import kotlinx.coroutines.launch
@@ -79,7 +79,10 @@ fun NoteListScreen(
 
                 if (uiState.pinnedNotes.isEmpty() && uiState.unpinnedNotes.isEmpty()) {
                     EmptyContentPlaceholder(
-                        paddingValues = innerPadding,
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(innerPadding)
+                            .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
                         message = stringResource(id = HellNotesStrings.Text.Empty)
                     )

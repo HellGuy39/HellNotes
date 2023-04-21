@@ -12,6 +12,7 @@ interface LabelRepository {
     suspend fun deleteLabelById(id: Long)
 
     suspend fun updateLabel(label: Label)
+    suspend fun updateLabels(labels: List<Label>)
 
     fun getAllLabelsStream(): Flow<List<Label>>
 

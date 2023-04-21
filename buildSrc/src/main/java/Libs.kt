@@ -147,6 +147,7 @@ object Libs {
     object Ktor {
 
         private const val version = "2.2.4"
+        private const val logbackVersion = "1.4.6"
 
         const val Core = "io.ktor:ktor-client-core:$version"
         const val Android = "io.ktor:ktor-client-android:$version"
@@ -154,6 +155,7 @@ object Libs {
         const val ContentNegotiation = "io.ktor:ktor-client-content-negotiation:$version"
         const val JsonSerializer = "io.ktor:ktor-serialization-kotlinx-json:$version"
         const val Logging = "io.ktor:ktor-client-logging:$version"
+        const val Logback = "ch.qos.logback:logback-classic:$logbackVersion"
 
     }
 
@@ -175,6 +177,14 @@ object Libs {
                 "org.burnoutcrew.composereorderable:reorderable:$version"
         }
 
-    }
+        object ComposeRichText {
+            private const val version = "0.16.0"
 
+            const val RichTextUi = "com.halilibo.compose-richtext:richtext-ui:$version"
+            const val RichTextCommonMark ="com.halilibo.compose-richtext:richtext-commonmark:$version"
+            const val RichTextUiMaterial3 = "com.halilibo.compose-richtext:richtext-ui-material3:$version"
+
+        }
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.lock_selection
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
@@ -7,13 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.LockScreenType
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItemDefault
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItemLarge
 import com.hellguy39.hellnotes.feature.lock_selection.util.LockScreenTypeItemHolder
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +65,8 @@ fun LockSelectionScreen(
                 contentPadding = paddingValues
             ) {
                 items(screenTypes) { item ->
-                    SelectionItemDefault(
+                    HNListItem(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
                         title = item.title,
                         subtitle = if (uiState.securityState.lockType == item.lockScreenType)
                             stringResource(id = HellNotesStrings.Label.CurrentLockScreen)
@@ -76,7 +78,7 @@ fun LockSelectionScreen(
             }
         },
         topBar = {
-            CustomLargeTopAppBar(
+            HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationBack,
                 title = stringResource(id = HellNotesStrings.Title.ChooseANewLockScreen)

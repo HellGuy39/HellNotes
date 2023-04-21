@@ -1,6 +1,6 @@
 package com.hellguy39.hellnotes.domain.use_case
 
-import com.hellguy39.hellnotes.core.domain.use_case.PostProcessNoteUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.PostProcessNoteUseCase
 import com.hellguy39.hellnotes.core.model.Checklist
 import com.hellguy39.hellnotes.core.model.ChecklistItem
 import com.hellguy39.hellnotes.core.model.Note

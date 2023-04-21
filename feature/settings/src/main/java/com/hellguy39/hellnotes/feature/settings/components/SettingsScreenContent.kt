@@ -3,27 +3,19 @@ package com.hellguy39.hellnotes.feature.settings.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.util.Language
 import com.hellguy39.hellnotes.core.model.util.NoteStyle
 import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.components.CustomSwitch
-import com.hellguy39.hellnotes.core.ui.components.items.ItemHeader
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItemDefault
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionItemLarge
+import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
+import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
+import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -36,6 +28,8 @@ fun SettingsScreenContent(
     selection: SettingsScreenSelection,
     uiState: SettingsUiState
 ) {
+    val listItemModifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+
     LazyColumn(
         contentPadding = innerPadding,
         modifier = modifier
@@ -45,13 +39,14 @@ fun SettingsScreenContent(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
             ) {
-                ItemHeader(
+                HNListHeader(
                     modifier = Modifier
                         .padding(vertical = 8.dp, horizontal = 16.dp),
                     title = stringResource(id = HellNotesStrings.Label.General),
                     icon = painterResource(id = HellNotesIcons.Settings)
                 )
-                SelectionItemLarge(
+                HNListItem(
+                    modifier = listItemModifier,
                     onClick = selection.onLanguage,
                     title = stringResource(id = HellNotesStrings.Setting.Language),
                     subtitle =  Language.from(uiState.lanCode).getDisplayName(),
@@ -63,12 +58,14 @@ fun SettingsScreenContent(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
             ) {
-                ItemHeader(
+                HNListHeader(
                     modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                     title = stringResource(id = HellNotesStrings.Label.Security),
                     icon = painterResource(id = HellNotesIcons.SecurityVerified)
                 )
-                SelectionItemLarge(
+
+                HNListItem(
+                    modifier = listItemModifier,
                     onClick = selection.onLockScreen,
                     title = stringResource(id = HellNotesStrings.Setting.ScreenLock),
                     subtitle = uiState.securityState.lockType.getDisplayName(),
@@ -76,26 +73,15 @@ fun SettingsScreenContent(
 
                 val isChecked = uiState.securityState.isUseBiometricData
 
-                Box(
+                HNSwitchItem(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(UiDefaults.ListItem.LargeHeight)
-                        .selectable(
-                            selected = uiState.noteStyle == NoteStyle.Elevated,
-                            onClick = { selection.onUseBiometric(!isChecked) },
-                            role = Role.Switch
-                        ),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    CustomSwitch(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp, horizontal = 16.dp),
-                        title = stringResource(id = HellNotesStrings.Switch.UseBiometric),
-                        checked = isChecked,
-                        enabled = uiState.isBioAuthAvailable,
-                    )
-                }
+                        .padding(vertical = 16.dp, horizontal = 16.dp),
+                    title = stringResource(id = HellNotesStrings.Switch.UseBiometric),
+                    checked = isChecked,
+                    enabled = uiState.isBioAuthAvailable,
+                    onClick = { selection.onUseBiometric(!isChecked) },
+                )
             }
         }
         item {
@@ -103,13 +89,14 @@ fun SettingsScreenContent(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
             ) {
-                ItemHeader(
+                HNListHeader(
                     modifier = Modifier
                         .padding(vertical = 8.dp, horizontal = 16.dp),
                     title = stringResource(id = HellNotesStrings.Label.Gestures),
                     icon = painterResource(id = HellNotesIcons.Gesture)
                 )
-                SelectionItemLarge(
+                HNListItem(
+                    modifier = listItemModifier,
                     onClick = selection.onNoteSwipeEdit,
                     title = stringResource(id = HellNotesStrings.Setting.NoteSwipes),
                     subtitle = if (uiState.noteSwipesState.enabled)
@@ -124,13 +111,14 @@ fun SettingsScreenContent(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
             ) {
-                ItemHeader(
+                HNListHeader(
                     modifier = Modifier
                         .padding(vertical = 8.dp, horizontal = 16.dp),
                     title = stringResource(id = HellNotesStrings.Label.Appearance),
                     icon = painterResource(id = HellNotesIcons.Palette)
                 )
-                SelectionItemLarge(
+                HNListItem(
+                    modifier = listItemModifier,
                     onClick = selection.onNoteStyleEdit,
                     title = stringResource(id = HellNotesStrings.Setting.NoteStyle),
                     subtitle = uiState.noteStyle.getDisplayName(),

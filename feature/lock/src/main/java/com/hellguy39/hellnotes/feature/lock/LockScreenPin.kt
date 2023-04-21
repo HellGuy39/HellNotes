@@ -15,8 +15,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
-import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboard
+import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
+import com.hellguy39.hellnotes.core.ui.components.input.HNVirtualNumberKeyboard
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -74,7 +74,7 @@ fun LockScreenPin(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        CustomTextField(
+        HNClearTextField(
             value = uiState.password,
             onValueChange = {},
             readOnly = true,
@@ -87,7 +87,7 @@ fun LockScreenPin(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        NumberKeyboard(
+        HNVirtualNumberKeyboard(
             selection = numberKeyboardSelection,
             disabledButtonKeys = listOf()
         )

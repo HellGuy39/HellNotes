@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.util.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
@@ -202,6 +202,10 @@ fun LabelScreen(
 
                 if (uiState.notes.isEmpty()) {
                     EmptyContentPlaceholder(
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(paddingValues)
+                            .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Label),
                         message = stringResource(id = HellNotesStrings.Text.Empty)
                     )
