@@ -107,6 +107,7 @@ object HellNotesStrings {
         val Reset = R.string.menu_item_reset
         val CheckForUpdates = R.string.menu_item_check_for_updates
         val MakeACopy = R.string.menu_item_make_a_copy
+        val Backup = R.string.menu_item_backup
     }
 
     object Title {
@@ -139,6 +140,7 @@ object HellNotesStrings {
         val Reset = R.string.title_reset
         val LicenseAgreement = R.string.title_license_agreement
         val AuthRequired = R.string.title_auth_required
+        val Backup = R.string.title_backup
     }
 
     object Label {
@@ -188,6 +190,8 @@ object HellNotesStrings {
         val Finish = R.string.btn_finish
         val Reset = R.string.btn_reset
         val TryAgain = R.string.btn_try_again
+        val CreateBackup = R.string.btn_create_backup
+        val RestoreFromBackup = R.string.btn_restore_from_backup
     }
 
     object Helper {
@@ -211,6 +215,9 @@ object HellNotesStrings {
         val ComingSoon = R.string.helper_coming_soon
         val SelectActions = R.string.helper_select_actions
         val FailedToLoadData = R.string.helper_failed_to_load_data
+        val Backup = R.string.helper_backup
+        val LastCopy = R.string.helper_last_copy
+        val Never = R.string.helper_never
     }
 
     object Action {

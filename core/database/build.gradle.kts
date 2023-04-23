@@ -37,7 +37,7 @@ dependencies {
 
     implementation(project(Modules.Core.Model))
 
-    implementation(Libs.AndroidX.Room.RoomKtx)
+    api(Libs.AndroidX.Room.RoomKtx)
     kapt(Libs.AndroidX.Room.RoomCompiler)
 
     implementation (Libs.Kotlin.Coroutines)

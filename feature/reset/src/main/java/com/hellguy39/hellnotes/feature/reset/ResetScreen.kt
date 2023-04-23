@@ -50,13 +50,11 @@ fun ResetScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    modifier = Modifier.size(256.dp),
+                    modifier = Modifier.size(192.dp),
                     painter = painterResource(id = HellNotesIcons.RestartAlt),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
                 )
-
-                Spacer(modifier = Modifier.height(0.dp))
 
                 Text(
                     text = stringResource(id = HellNotesStrings.Helper.SelectActions),
@@ -95,18 +93,10 @@ fun ResetScreen(
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .align(Alignment.End)
                         .padding(horizontal = 16.dp, vertical = 16.dp),
                     onClick = { onReset(isResetDatabase, isResetSettings) },
                     enabled = isResetSettings || isResetDatabase,
-                    //contentPadding = ButtonDefaults.ButtonWithIconContentPadding
                 ) {
-//                    Icon(
-//                        painter = painterResource(id = HellNotesIcons.RestartAlt),
-//                        contentDescription = null,
-//                        modifier = Modifier.size(ButtonDefaults.IconSize)
-//                    )
-//                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                     Text(
                         text = stringResource(id = HellNotesStrings.Button.Reset),
                         style = MaterialTheme.typography.labelLarge
@@ -120,7 +110,6 @@ fun ResetScreen(
 @Composable
 fun CustomCheckboxItem(
     modifier: Modifier = Modifier,
-    //heroIcon: Painter ,
     title: String = "",
     checked: Boolean,
 ) {

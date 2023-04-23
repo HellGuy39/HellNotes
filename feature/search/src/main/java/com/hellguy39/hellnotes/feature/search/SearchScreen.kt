@@ -24,7 +24,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     onNavigationButtonClick: () -> Unit,

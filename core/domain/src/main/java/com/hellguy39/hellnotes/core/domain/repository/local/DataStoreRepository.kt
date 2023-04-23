@@ -23,6 +23,8 @@ interface DataStoreRepository {
 
     suspend fun saveTrashTipState(completed: Boolean)
 
+    suspend fun saveLastBackupDate(millis: Long)
+
     fun readOnBoardingState(): Flow<Boolean>
 
     fun readTrashTipState(): Flow<Boolean>
@@ -36,6 +38,8 @@ interface DataStoreRepository {
     fun readListStyleState(): Flow<ListStyle>
 
     fun readNoteStyleState(): Flow<NoteStyle>
+
+    fun readLastBackupDate(): Flow<Long>
 
     suspend fun resetToDefault()
 

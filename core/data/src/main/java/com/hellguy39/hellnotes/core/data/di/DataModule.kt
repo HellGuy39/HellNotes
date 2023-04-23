@@ -1,8 +1,10 @@
 package com.hellguy39.hellnotes.core.data.di
 
+import com.hellguy39.hellnotes.core.data.database.BackupManagerImpl
 import com.hellguy39.hellnotes.core.data.repository.*
 import com.hellguy39.hellnotes.core.data.repository.local.*
 import com.hellguy39.hellnotes.core.data.repository.remote.GithubRepositoryServiceImpl
+import com.hellguy39.hellnotes.core.domain.database.BackupManager
 import com.hellguy39.hellnotes.core.domain.repository.*
 import com.hellguy39.hellnotes.core.domain.repository.local.*
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
@@ -49,5 +51,10 @@ interface DataModule {
     fun bindReleaseService(
         i: GithubRepositoryServiceImpl
     ): GithubRepositoryService
+
+    @Binds
+    fun bindBackupManager(
+        i: BackupManagerImpl
+    ): BackupManager
 
 }

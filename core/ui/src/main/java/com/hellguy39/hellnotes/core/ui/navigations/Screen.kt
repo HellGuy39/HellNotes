@@ -25,6 +25,8 @@ sealed class Screen(val route: String) {
     object Reset : Screen(route = "reset_screen")
     object PrivacyPolicy : Screen(route = "privacy_policy_screen")
     object TermsAndConditions : Screen(route = "terms_and_conditions_screen")
+    object Update : Screen(route = "update_screen")
+    object Backup : Screen(route = "backup_screen")
 
     fun withArgs(vararg args: String): String {
         return buildString {
@@ -219,6 +221,22 @@ fun NavController.navigateToPrivacyPolicy(navOptions: NavOptions? = null) {
 fun NavController.navigateToTermsAndConditions(navOptions: NavOptions? = null) {
     navigate(
         route = Screen.TermsAndConditions.route,
+        navOptions = navOptions
+    )
+}
+
+
+fun NavController.navigateToUpdate(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.Update.route,
+        navOptions = navOptions
+    )
+}
+
+
+fun NavController.navigateToBackup(navOptions: NavOptions? = null) {
+    navigate(
+        route = Screen.Backup.route,
         navOptions = navOptions
     )
 }

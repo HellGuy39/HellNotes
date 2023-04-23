@@ -23,7 +23,7 @@ object Libs {
 //        private const val serializationVersion = "1.5.0"
 //        const val Serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion"
 
-        private const val plugineVersion = "1.8.10"
+        private const val plugineVersion = "1.8.20"
         const val Plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugineVersion"
         const val SerializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$plugineVersion"
 
@@ -73,10 +73,10 @@ object Libs {
 
         object Compose {
 
-            private const val composeVersion = "1.4.1"
+            private const val composeVersion = "1.4.2"
             private const val lifecycleVersion = "2.6.1"
             private const val navigationVersion = "2.5.3"
-            private const val material3Version = "1.1.0-beta02"
+            private const val material3Version = "1.1.0-rc01"
             private const val activityVersion = "1.6.1"
             
             const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
@@ -97,7 +97,7 @@ object Libs {
 
     object Google {
 
-        private const val materialVersion = "1.8.0"
+        private const val materialVersion = "1.9.0-rc01"
         const val Material = "com.google.android.material:material:$materialVersion"
 
         private const val servicesPluginVersion = "4.3.15"

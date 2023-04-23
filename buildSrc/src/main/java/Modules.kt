@@ -33,6 +33,8 @@ object Modules {
         const val LanguageSelection = ":feature:language-selection"
         const val NoteStyleEdit = ":feature:note-style-edit"
         const val NoteSwipesEdit = ":feature:note-swipe-edit"
+        const val Update = ":feature:update"
+        const val Backup = ":feature:backup"
     }
 
 }

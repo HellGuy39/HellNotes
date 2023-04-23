@@ -1,23 +1,16 @@
 package com.hellguy39.hellnotes.feature.settings
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.navOptions
 import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
-import com.hellguy39.hellnotes.core.domain.system_features.ProofOfIdentity
-import com.hellguy39.hellnotes.core.model.util.LockRequest
-import com.hellguy39.hellnotes.core.model.util.LockResult
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
-import com.hellguy39.hellnotes.core.ui.GetResultOnce
-import com.hellguy39.hellnotes.core.ui.ResultKey
 import com.hellguy39.hellnotes.core.ui.navigations.*
 import com.hellguy39.hellnotes.feature.settings.components.SettingsScreenSelection
 
@@ -28,10 +21,26 @@ fun SettingsRoute(
 ) {
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
 
+    val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = Unit) {
-        settingsViewModel.updateLanguageCode()
+    val currentOnStart by rememberUpdatedState {
+        settingsViewModel.send(SettingsUiEvent.Start)
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when(event) {
+                Lifecycle.Event.ON_START -> currentOnStart()
+                else -> Unit
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     SettingsScreen(
@@ -44,15 +53,15 @@ fun SettingsRoute(
             onUseBiometric = { isUseBiometricData ->
                 if (isUseBiometricData) {
                     if (settingsViewModel.biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success) {
-                        settingsViewModel.biometricAuth.setOnAuthListener {
-                            if (it == AuthenticationResult.Success) {
-                                settingsViewModel.saveIsUseBiometricData(isUseBiometricData)
+                        settingsViewModel.biometricAuth.setOnAuthListener { result ->
+                            if (result == AuthenticationResult.Success) {
+                                settingsViewModel.send(SettingsUiEvent.ToggleIsUseBiometricData(isUseBiometricData))
                             }
                         }
                         settingsViewModel.biometricAuth.authenticate(context as AppCompatActivity)
                     }
                 } else {
-                    settingsViewModel.saveIsUseBiometricData(isUseBiometricData)
+                    settingsViewModel.send(SettingsUiEvent.ToggleIsUseBiometricData(isUseBiometricData))
                 }
             },
             onLockScreen = {
@@ -63,6 +72,9 @@ fun SettingsRoute(
             },
             onNoteSwipeEdit = {
                 navController.navigateToNoteSwipeEdit()
+            },
+            onBackup = {
+                navController.navigateToBackup()
             }
         )
     )

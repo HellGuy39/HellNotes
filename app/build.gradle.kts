@@ -84,6 +84,8 @@ dependencies {
     implementation(project(Modules.Feature.PrivacyPolicy))
     implementation(project(Modules.Feature.TermsAndConditions))
     implementation(project(Modules.Feature.Reset))
+    implementation(project(Modules.Feature.Update))
+    implementation(project(Modules.Feature.Backup))
 
     implementation(project(Modules.Core.Ui))
     implementation(project(Modules.Core.Data))

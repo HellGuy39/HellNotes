@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.ui
+package com.hellguy39.hellnotes.core.domain
 
 import com.hellguy39.hellnotes.core.model.AppConfig
 

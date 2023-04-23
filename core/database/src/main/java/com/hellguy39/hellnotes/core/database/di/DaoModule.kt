@@ -12,6 +12,11 @@ import dagger.hilt.components.SingletonComponent
 object DaoModule {
 
     @Provides
+    fun provideCommonDao(
+        database: HellNotesDatabase,
+    ): CommonDao = database.commonDao
+
+    @Provides
     fun providesNoteDao(
         database: HellNotesDatabase,
     ): NoteDao = database.noteDao

@@ -32,6 +32,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
         val noteSwipesEnabled = booleanPreferencesKey(name = "note_swipes_enabled")
         val noteSwipeRight = stringPreferencesKey(name = "note_swipe_left")
         val noteSwipeLeft = stringPreferencesKey(name = "note_swipe_right")
+        val lastBackupDate = longPreferencesKey(name = "last_backup_date")
     }
 
     private object PreferencesDefaultValues {
@@ -46,6 +47,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
         const val noteSwipesEnabled = true
         val noteSwipeRight = NoteSwipe.Delete
         val noteSwipeLeft = NoteSwipe.Archive
+        const val lastBackupDate = 0L
     }
 
     private val dataStore = context.dataStore
@@ -63,6 +65,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
             preferences[PreferencesKey.noteSwipeLeft] = PreferencesDefaultValues.noteSwipeLeft.string()
             preferences[PreferencesKey.noteSwipeRight] = PreferencesDefaultValues.noteSwipeRight.string()
             preferences[PreferencesKey.trashTip] = PreferencesDefaultValues.trashTip
+            preferences[PreferencesKey.lastBackupDate] = PreferencesDefaultValues.lastBackupDate
         }
     }
 
@@ -109,6 +112,12 @@ class HellNotesPreferencesDataSource @Inject constructor(
     suspend fun saveTrashTipState(completed: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.trashTip] = completed
+        }
+    }
+
+    suspend fun saveLastBackupDate(millis: Long) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.lastBackupDate] = millis
         }
     }
 
@@ -178,6 +187,12 @@ class HellNotesPreferencesDataSource @Inject constructor(
                     defaultValue = PreferencesDefaultValues.noteSwipeRight
                 )
             )
+        }
+
+    fun readLastBackupDate() = dataStore.data
+        .catchExceptions()
+        .map { preferences ->
+            preferences[PreferencesKey.lastBackupDate] ?: PreferencesDefaultValues.lastBackupDate
         }
 
 }

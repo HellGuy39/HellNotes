@@ -11,6 +11,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.hellguy39.hellnotes.core.model.util.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
+import com.hellguy39.hellnotes.feature.backup.navigation.backupScreen
 import com.hellguy39.hellnotes.feature.changelog.navigation.changelogScreen
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
 import com.hellguy39.hellnotes.feature.label_edit.navigation.labelEditScreen
@@ -30,6 +31,7 @@ import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
 import com.hellguy39.hellnotes.feature.startup.navigation.startupScreen
 import com.hellguy39.hellnotes.feature.terms_and_conditions.navigation.termsAndConditionsScreen
+import com.hellguy39.hellnotes.feature.update.navigation.updateScreen
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -86,6 +88,10 @@ fun SetupNavGraph(
         privacyPolicyScreen(navController)
 
         resetScreen(navController)
+
+        updateScreen(navController)
+
+        backupScreen(navController)
 
     }
 }

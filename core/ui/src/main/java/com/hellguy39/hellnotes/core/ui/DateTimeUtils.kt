@@ -81,6 +81,7 @@ object DateTimeUtils {
         return localDateTimeToEpochMillis(localDateTime.plusMonths(months))
     }
 
+    const val NEW_FILE_PATTERN = "MMM_dd_yyyy_HH_mm_ss"
     const val TIME_PATTERN = "HH:mm"
     const val DATE_PATTERN = "MMMM dd"
     const val CHANGELOG_RELEASE_PATTERN = "dd/MM/yyyy"

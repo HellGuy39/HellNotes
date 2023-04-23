@@ -46,6 +46,10 @@ class DataStoreRepositoryImpl @Inject constructor(
         dataSource.saveTrashTipState(completed)
     }
 
+    override suspend fun saveLastBackupDate(millis: Long) {
+        dataSource.saveLastBackupDate(millis)
+    }
+
     override fun readOnBoardingState(): Flow<Boolean> {
         return dataSource.readOnBoardingState()
     }
@@ -68,6 +72,10 @@ class DataStoreRepositoryImpl @Inject constructor(
 
     override fun readNoteStyleState(): Flow<NoteStyle> {
         return dataSource.readNoteStyleState()
+    }
+
+    override fun readLastBackupDate(): Flow<Long> {
+        return dataSource.readLastBackupDate()
     }
 
     override suspend fun resetToDefault() {

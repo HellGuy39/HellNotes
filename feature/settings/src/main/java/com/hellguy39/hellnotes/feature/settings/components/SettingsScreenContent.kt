@@ -1,18 +1,18 @@
 package com.hellguy39.hellnotes.feature.settings.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.model.util.Language
-import com.hellguy39.hellnotes.core.model.util.NoteStyle
-import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
@@ -50,6 +50,16 @@ fun SettingsScreenContent(
                     onClick = selection.onLanguage,
                     title = stringResource(id = HellNotesStrings.Setting.Language),
                     subtitle =  Language.from(uiState.lanCode).getDisplayName(),
+                )
+
+                HNListItem(
+                    modifier = listItemModifier,
+                    onClick = selection.onBackup,
+                    title = stringResource(id = HellNotesStrings.MenuItem.Backup),
+                    subtitle = stringResource(
+                        id = HellNotesStrings.Helper.LastCopy,
+                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Helper.Never) else DateTimeUtils.formatBest(uiState.lastBackupDate)
+                    )
                 )
             }
         }
@@ -133,5 +143,6 @@ data class SettingsScreenSelection(
     val onNoteStyleEdit: () -> Unit,
     val onLockScreen: () -> Unit,
     val onLanguage: () -> Unit,
+    val onBackup: () -> Unit,
     val onUseBiometric: (Boolean) -> Unit
 )

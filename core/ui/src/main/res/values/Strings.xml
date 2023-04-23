@@ -98,6 +98,7 @@
     <string name="menu_item_take_a_photo">Take a photo</string>
     <string name="menu_item_place">Place</string>
     <string name="menu_item_make_a_copy">Make a copy</string>
+    <string name="menu_item_backup">Backup</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>
@@ -129,6 +130,7 @@
     <string name="title_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="title_reset">Reset</string>
     <string name="title_auth_required">Authentication required</string>
+    <string name="title_backup">Backup</string>
 
     <!-- Helper -->
     <string name="helper_unchecked_items">+%s unchecked items</string>
@@ -151,6 +153,9 @@
     <string name="helper_coming_soon">Coming soon</string>
     <string name="helper_select_actions">Select actions</string>
     <string name="helper_failed_to_load_data">Failed to load data</string>
+    <string name="helper_backup">Creating a backup copy will help keep your notes safe and protect against possible loss of important information. Please do not close the application or turn off the device during the copying process.</string>
+    <string name="helper_last_copy">Last copy: %s</string>
+    <string name="helper_never">Never</string>
 
     <!-- Language-->
     <string name="lan_system_default">System default</string>
@@ -189,6 +194,8 @@
     <string name="btn_skip">Skip</string>
     <string name="btn_reset">Reset</string>
     <string name="btn_try_again">Try again</string>
+    <string name="btn_create_backup">Create backup</string>
+    <string name="btn_restore_from_backup">Restore from backup</string>
 
     <!-- Setting -->
     <string name="stg_screen_lock">Screen lock</string>

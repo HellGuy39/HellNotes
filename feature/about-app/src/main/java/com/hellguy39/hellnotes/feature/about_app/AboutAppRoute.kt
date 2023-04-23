@@ -1,13 +1,14 @@
 package com.hellguy39.hellnotes.feature.about_app
 
-import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.ui.navigations.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.feature.about_app.util.openGithub
+import com.hellguy39.hellnotes.feature.about_app.util.provideFeedback
 
 @Composable
 fun AboutAppRoute(
@@ -22,16 +23,20 @@ fun AboutAppRoute(
             onReset = navController::navigateToReset,
             onChangelog = navController::navigateToChangelog,
             onGithub = {
-                val browserIntent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://github.com/hellguy39")
-                )
-                context.startActivity(browserIntent)
+                context.openGithub()
             },
             onPrivacyPolicy = navController::navigateToPrivacyPolicy,
-            onProvideFeedback = { toast.show() },
+            onProvideFeedback = {
+                context.provideFeedback()
+            },
             onRateOnPlayStore = { toast.show() },
-            onCheckForUpdates = { toast.show() },
+            onCheckForUpdates = {
+                if (ProjectInfoProvider.appConfig.isDebug) {
+                    navController.navigateToUpdate()
+                } else {
+                    toast.show()
+                }
+            },
             onTermsAndConditions = navController::navigateToTermsAndConditions
         ),
     )

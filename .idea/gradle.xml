@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/about-app" />
+            <option value="$PROJECT_DIR$/feature/backup" />
             <option value="$PROJECT_DIR$/feature/changelog" />
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/label-edit" />
@@ -44,6 +45,7 @@
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/startup" />
             <option value="$PROJECT_DIR$/feature/terms-and-conditions" />
+            <option value="$PROJECT_DIR$/feature/update" />
           </set>
         </option>
       </GradleProjectSettings>

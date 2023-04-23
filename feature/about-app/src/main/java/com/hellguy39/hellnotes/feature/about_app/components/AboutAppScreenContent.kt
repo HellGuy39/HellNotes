@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.ProjectInfoProvider
+import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
