@@ -2,24 +2,27 @@
 
 # HellNotes
 
-**HellNotes** is a example of modern notekeeping Android application. Written in Kotlin, using Jetpack Compose UI toolkit. 
+**HellNotes** is a modern notekeeping Android application. It is focused on the latest versions of Android and uses all the features and advantages of this OS. As a design system uses the Material 3 with support for Material You. The user interface of the application is simple and easy to understand, which makes the application accessible to everyone.
 
 ## Features
 
-- Create notes, set reminders and add labels.
+- Create notes, set reminders, add labels and more.
 - Quick access from home screen using [shortcuts](https://developer.android.com/develop/ui/views/launch/shortcuts).
 - Using Material You design system.
-- Entrance by biometrics and PIN-code lock.
-- Private with no data collection and no internet permission at all.
+- Entrance by password, PIN-code and biometrics.
+- Backup and restore.
 
 ## Technologies
 
-- 100% Kotlin
+- Kotlin
 - Jetpack Compose
 - Room
 - Dagger Hilt
 - Kotlin Coroutines
 - Accompanist
+- Ktor client
+- DataStore
+- Firebase
 
 ## UI
 
