@@ -7,8 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.util.Sorting
-import com.hellguy39.hellnotes.core.ui.components.CustomDialogState
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.Sorting
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings

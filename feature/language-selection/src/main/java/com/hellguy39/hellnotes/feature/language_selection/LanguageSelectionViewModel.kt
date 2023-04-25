@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.feature.language_selection
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
-import com.hellguy39.hellnotes.core.model.util.Language
+import com.hellguy39.hellnotes.core.model.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

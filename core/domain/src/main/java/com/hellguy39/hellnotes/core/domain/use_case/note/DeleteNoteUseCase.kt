@@ -4,7 +4,7 @@ import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import javax.inject.Inject
 
 class DeleteNoteUseCase @Inject constructor(

@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.domain.repository.local
 
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.Trash
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Trash
 import kotlinx.coroutines.flow.Flow
 
 interface TrashRepository {

@@ -5,7 +5,7 @@ import com.hellguy39.hellnotes.core.database.dao.NoteDao
 import com.hellguy39.hellnotes.core.database.entity.NoteEntity
 import com.hellguy39.hellnotes.core.database.mapper.toNote
 import com.hellguy39.hellnotes.core.database.mapper.toNoteEntity
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

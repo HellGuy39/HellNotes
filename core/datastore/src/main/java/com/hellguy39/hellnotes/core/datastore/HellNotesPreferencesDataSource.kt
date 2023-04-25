@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.hellguy39.hellnotes.core.model.SecurityState
-import com.hellguy39.hellnotes.core.model.NoteSwipesState
-import com.hellguy39.hellnotes.core.model.util.*
+import com.hellguy39.hellnotes.core.model.LockScreenType
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

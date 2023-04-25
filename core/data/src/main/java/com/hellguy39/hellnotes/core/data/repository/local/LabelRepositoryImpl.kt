@@ -5,7 +5,7 @@ import com.hellguy39.hellnotes.core.database.dao.LabelDao
 import com.hellguy39.hellnotes.core.database.entity.LabelEntity
 import com.hellguy39.hellnotes.core.database.mapper.toLabel
 import com.hellguy39.hellnotes.core.database.mapper.toLabelEntity
-import com.hellguy39.hellnotes.core.model.Label
+import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

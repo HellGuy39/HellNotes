@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.feature.lock_setup
 
 import androidx.compose.runtime.Composable
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.LockScreenType
 
 @Composable
 fun LockSetupScreen(

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.util.NoteSwipe
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder

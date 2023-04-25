@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.database.mapper
 
 import com.hellguy39.hellnotes.core.database.entity.NoteEntity
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 
 fun NoteEntity.toNote(): Note {
     return Note(

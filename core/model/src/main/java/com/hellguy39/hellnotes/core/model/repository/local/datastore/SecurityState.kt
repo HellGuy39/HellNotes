@@ -1,6 +1,6 @@
-package com.hellguy39.hellnotes.core.model
+package com.hellguy39.hellnotes.core.model.repository.local.datastore
 
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.LockScreenType
 
 data class SecurityState(
     val lockType: LockScreenType,

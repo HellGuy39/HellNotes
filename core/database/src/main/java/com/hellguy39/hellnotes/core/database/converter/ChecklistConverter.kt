@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.database.converter
 
 import androidx.room.TypeConverter
-import com.hellguy39.hellnotes.core.model.ChecklistItem
+import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types

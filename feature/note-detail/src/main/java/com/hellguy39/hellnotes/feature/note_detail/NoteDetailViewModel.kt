@@ -12,6 +12,10 @@ import com.hellguy39.hellnotes.core.domain.use_case.note.DeleteNoteUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.note.MoveNoteToTrashUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.note.PostProcessNoteUseCase
 import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
+import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklistValid
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -80,6 +84,8 @@ class NoteDetailViewModel @Inject constructor(
         when(uiEvent) {
             is NoteDetailUiEvent.UpdateNoteTitle -> updateNoteTitle(uiEvent.title)
 
+            is NoteDetailUiEvent.Minimize -> minimize()
+
             is NoteDetailUiEvent.Close -> close()
 
             is NoteDetailUiEvent.UpdateChecklistName ->
@@ -124,30 +130,25 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
+    private fun minimize() {
+        viewModelScope.launch {
+            uiState.value.let { state ->
+                if (state is NoteDetailUiState.Success) {
+
+                    val postProcessedNote = prepareNoteForSave(state)
+
+                    noteRepository.updateNote(postProcessedNote.note)
+                }
+            }
+        }
+    }
+
     private fun close() {
         viewModelScope.launch {
             uiState.value.let { state ->
                 if (state is NoteDetailUiState.Success) {
 
-                    var postProcessedNote = postProcessNoteUseCase.invoke(state.wrapper)
-                    val invalidChecklists = mutableListOf<Checklist>()
-
-                    for (i in postProcessedNote.checklists.indices) {
-
-                        val checklist = postProcessedNote.checklists[i]
-
-                        if (checklist.isChecklistValid()) {
-                            checklistRepository.updateChecklist(checklist)
-                        } else {
-                            invalidChecklists.add(checklist)
-                            checklistRepository.deleteChecklistById(checklist.id ?: return@launch)
-                        }
-                    }
-
-                    postProcessedNote = postProcessedNote.copy(
-                        checklists = postProcessedNote.checklists.toMutableList()
-                            .apply { removeAll(invalidChecklists) }
-                    )
+                    val postProcessedNote = prepareNoteForSave(state)
 
                     if (postProcessedNote.isNoteWrapperInvalid()) {
                         deleteNote()
@@ -157,6 +158,29 @@ class NoteDetailViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private suspend fun prepareNoteForSave(state: NoteDetailUiState.Success): NoteDetailWrapper {
+        var postProcessedNote = postProcessNoteUseCase.invoke(state.wrapper)
+        val invalidChecklists = mutableListOf<Checklist>()
+
+        for (i in postProcessedNote.checklists.indices) {
+            val checklist = postProcessedNote.checklists[i]
+
+            if (checklist.isChecklistValid()) {
+                checklistRepository.updateChecklist(checklist)
+            } else {
+                invalidChecklists.add(checklist)
+                checklist.id?.let { id -> checklistRepository.deleteChecklistById(id) }
+            }
+        }
+
+        postProcessedNote = postProcessedNote.copy(
+            checklists = postProcessedNote.checklists.toMutableList()
+                .apply { removeAll(invalidChecklists) }
+        )
+
+        return postProcessedNote
     }
 
     private fun updateNoteContent(text: String) {
@@ -318,6 +342,7 @@ sealed class NoteDetailUiEvent {
     data class DeleteChecklistItem(val checklist: Checklist, val item: ChecklistItem): NoteDetailUiEvent()
     data class AddChecklistItem(val checklist: Checklist): NoteDetailUiEvent()
     object DeleteNote: NoteDetailUiEvent()
+    object Minimize: NoteDetailUiEvent()
     object Close: NoteDetailUiEvent()
     data class CopyNote(val onCopied: (id: Long) -> Unit): NoteDetailUiEvent()
 

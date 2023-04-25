@@ -1,6 +1,4 @@
-package com.hellguy39.hellnotes.core.model
-
-import com.hellguy39.hellnotes.core.model.util.NoteSwipe
+package com.hellguy39.hellnotes.core.model.repository.local.datastore
 
 data class NoteSwipesState(
     val enabled: Boolean,

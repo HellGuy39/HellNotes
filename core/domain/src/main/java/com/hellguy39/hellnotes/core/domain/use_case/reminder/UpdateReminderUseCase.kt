@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.core.domain.use_case.reminder
 
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
-import com.hellguy39.hellnotes.core.model.Reminder
+import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import javax.inject.Inject
 
 class UpdateReminderUseCase @Inject constructor(

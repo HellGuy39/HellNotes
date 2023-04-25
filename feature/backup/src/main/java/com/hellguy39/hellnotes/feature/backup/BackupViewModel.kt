@@ -6,7 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.use_case.BackupDatabaseUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.RestoreDatabaseUseCase
-import com.hellguy39.hellnotes.core.model.util.Resource
+import com.hellguy39.hellnotes.core.model.Resource
+import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
+import com.hellguy39.hellnotes.core.model.repository.local.file.Restore
+import com.hellguy39.hellnotes.core.ui.UiText
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,15 +23,16 @@ class BackupViewModel @Inject constructor(
     private val restoreDatabaseUseCase: RestoreDatabaseUseCase
 ): ViewModel() {
 
-    private val isLoading = MutableStateFlow(false)
+    private val backupViewModelState = MutableStateFlow(BackupViewModelState())
 
     val uiState = combine(
-        isLoading,
+        backupViewModelState,
         dataStoreRepository.readLastBackupDate()
-    ) { isLoading, lastBackupDate ->
+    ) { backupViewModelState, lastBackupDate ->
         BackupUiState(
-            isLoading = isLoading,
-            lastBackupDate = lastBackupDate
+            isLoading = backupViewModelState.isLoading,
+            lastBackupDate = lastBackupDate,
+            message = backupViewModelState.message
         )
     }
         .stateIn(
@@ -38,52 +43,72 @@ class BackupViewModel @Inject constructor(
 
     fun send(uiEvent: BackupUiEvent) {
         when(uiEvent) {
-            is BackupUiEvent.Backup -> {
-                backupDatabase(filepath = uiEvent.filepath)
-            }
-            is BackupUiEvent.Restore -> {
-                restoreDatabase(filepath = uiEvent.filepath)
-            }
+            is BackupUiEvent.Backup -> backupDatabase(filepath = uiEvent.filepath)
+
+            is BackupUiEvent.Restore -> restoreDatabase(filepath = uiEvent.filepath)
         }
     }
 
     private fun restoreDatabase(filepath: Uri) {
         viewModelScope.launch {
-            try {
-                restoreDatabaseUseCase.invoke(filepath).collect { resource ->
-                    when(resource) {
-                        is Resource.Loading -> { isLoading.update { resource.isLoading } }
-                        is Resource.Success -> {}
-                        is Resource.Error -> {}
+            restoreDatabaseUseCase.invoke(filepath).collect { resource ->
+                when(resource) {
+                    is Resource.Loading -> { backupViewModelState.update { state -> state.copy(isLoading = resource.isLoading) } }
+                    is Resource.Success -> {
+                        backupViewModelState.update { state ->
+                            state.copy(
+                                message = UiText
+                                    .StringResources(HellNotesStrings.Message.StorageRestored)
+                            )
+                        }
+                    }
+                    is Resource.Error -> {
+                        backupViewModelState.update { state ->
+                            state.copy(
+                                message = UiText.DynamicString(resource.message.toString())
+                            )
+                        }
                     }
                 }
-            } catch (e: Exception) {
-
             }
         }
     }
 
     private fun backupDatabase(filepath: Uri) {
         viewModelScope.launch {
-            try {
-                backupDatabaseUseCase.invoke(filepath).collect { resource ->
-                    when(resource) {
-                        is Resource.Loading -> { isLoading.update { resource.isLoading } }
-                        is Resource.Success -> {}
-                        is Resource.Error -> {}
+            backupDatabaseUseCase.invoke(filepath).collect { resource ->
+                when(resource) {
+                    is Resource.Loading -> { backupViewModelState.update { state -> state.copy(isLoading = resource.isLoading) } }
+                    is Resource.Success -> {
+                        backupViewModelState.update { state ->
+                            state.copy(
+                                message = UiText
+                                    .StringResources(HellNotesStrings.Message.BackupCreated)
+                            )
+                        }
+                    }
+                    is Resource.Error -> {
+                        backupViewModelState.update { state ->
+                            state.copy(
+                                message = UiText.DynamicString(resource.message.toString())
+                            )
+                        }
                     }
                 }
-            } catch (e: Exception) {
-
             }
         }
     }
 
 }
 
+data class BackupViewModelState(
+    val isLoading: Boolean = false,
+    val message: UiText = UiText.Empty,
+)
+
 data class BackupUiState(
     val isLoading: Boolean = false,
-    val errorMessage: String = "",
+    val message: UiText = UiText.Empty,
     val lastBackupDate: Long = 0
 )
 

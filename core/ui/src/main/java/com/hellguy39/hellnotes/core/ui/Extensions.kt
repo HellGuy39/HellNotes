@@ -2,7 +2,11 @@ package com.hellguy39.hellnotes.core.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.util.*
+import com.hellguy39.hellnotes.core.model.Language
+import com.hellguy39.hellnotes.core.model.LockScreenType
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable

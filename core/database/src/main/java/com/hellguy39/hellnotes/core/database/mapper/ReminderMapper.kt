@@ -1,8 +1,8 @@
 package com.hellguy39.hellnotes.core.database.mapper
 
 import com.hellguy39.hellnotes.core.database.entity.ReminderEntity
-import com.hellguy39.hellnotes.core.model.Reminder
-import com.hellguy39.hellnotes.core.model.util.Repeat
+import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
 
 fun ReminderEntity.toRemind(): Reminder {
     return Reminder(

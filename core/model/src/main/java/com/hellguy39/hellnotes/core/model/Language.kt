@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.model.util
+package com.hellguy39.hellnotes.core.model
 
 sealed class Language(val code: String) {
 

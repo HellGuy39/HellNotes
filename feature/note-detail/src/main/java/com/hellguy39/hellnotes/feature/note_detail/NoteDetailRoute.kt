@@ -20,7 +20,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.isNoteValid
+import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
@@ -115,6 +115,10 @@ fun NoteDetailRoute(
     )
 
     val currentOnStop by rememberUpdatedState {
+        noteDetailViewModel.send(NoteDetailUiEvent.Minimize)
+    }
+
+    val currentOnDestroy by rememberUpdatedState {
         noteDetailViewModel.send(NoteDetailUiEvent.Close)
     }
 
@@ -122,6 +126,7 @@ fun NoteDetailRoute(
         val observer = LifecycleEventObserver { _, event ->
             when(event) {
                 Lifecycle.Event.ON_STOP -> currentOnStop()
+                Lifecycle.Event.ON_DESTROY -> currentOnDestroy()
                 else -> Unit
             }
         }

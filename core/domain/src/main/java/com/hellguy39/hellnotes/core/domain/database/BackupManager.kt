@@ -1,11 +1,13 @@
 package com.hellguy39.hellnotes.core.domain.database
 
 import android.net.Uri
+import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
+import com.hellguy39.hellnotes.core.model.repository.local.file.Restore
 
 interface BackupManager {
 
-    suspend fun restore(filepath: Uri)
+    suspend fun restoreFromBackup(filepath: Uri): Restore
 
-    suspend fun backup(filepath: Uri)
+    suspend fun createBackup(filepath: Uri): Backup
 
 }

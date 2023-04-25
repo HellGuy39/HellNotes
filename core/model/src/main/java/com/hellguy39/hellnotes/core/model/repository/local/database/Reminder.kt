@@ -1,6 +1,6 @@
-package com.hellguy39.hellnotes.core.model
+package com.hellguy39.hellnotes.core.model.repository.local.database
 
-import com.hellguy39.hellnotes.core.model.util.Repeat
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
 
 data class Reminder(
     val id: Long? = null,

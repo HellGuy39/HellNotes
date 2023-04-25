@@ -10,8 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
-import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Reminder
+import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
@@ -49,13 +49,15 @@ fun NoteChipGroup(
             }
 
             FilterChip(
+                modifier = Modifier.height(FilterChipDefaults.Height),
                 selected = true,
                 onClick = {
                     onRemindClick(reminder)
                 },
                 leadingIcon = {
                     Icon(
-                        modifier = Modifier.size(FilterChipDefaults.IconSize),
+                        modifier = Modifier
+                            .size(FilterChipDefaults.IconSize),
                         painter = painterResource(id = HellNotesIcons.Alarm),
                         contentDescription = null
                     )
@@ -63,7 +65,7 @@ fun NoteChipGroup(
                 label = {
                     Text(
                         text = DateTimeUtils.formatBest(reminder.triggerDate),
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelLarge
                     )
                 },
             )

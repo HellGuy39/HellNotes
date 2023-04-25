@@ -3,13 +3,21 @@ package com.hellguy39.hellnotes.feature.backup
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.hellguy39.hellnotes.core.ui.UiText
+import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
+import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -21,9 +29,25 @@ fun BackupScreen(
     uiState: BackupUiState,
     selection: BackupScreenSelection,
 ) {
-
+    val context = LocalContext.current
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
+
+    val scope = rememberCoroutineScope()
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(key1 = uiState.message) {
+        uiState.message.let { message ->
+            if (message !is UiText.Empty) {
+                snackbarHostState.showDismissableSnackbar(
+                    scope = scope,
+                    message = message.asString(context),
+                    duration = SnackbarDuration.Long
+                )
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -65,7 +89,9 @@ fun BackupScreen(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = stringResource(
                         id = HellNotesStrings.Helper.LastCopy,
-                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Helper.Never) else DateTimeUtils.formatBest(uiState.lastBackupDate)
+                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Helper.Never) else DateTimeUtils.formatBest(
+                            uiState.lastBackupDate
+                        )
                     ),
                     style = MaterialTheme.typography.titleLarge,
                 )
@@ -75,13 +101,20 @@ fun BackupScreen(
                     text = stringResource(id = HellNotesStrings.Helper.Backup),
                     style = MaterialTheme.typography.bodyLarge,
                 )
-
-                Spacer(modifier = Modifier.weight(1f))
-
+            }
+        },
+        bottomBar = {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surface
+            ) {
                 Column(
                     modifier = Modifier
+                        .navigationBarsPadding()
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Button(
@@ -101,7 +134,8 @@ fun BackupScreen(
                     }
                 }
             }
-        }
+        },
+        snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
     )
 
 }

@@ -10,10 +10,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.NoteSwipesState
-import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.model.util.NoteStyle
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.ui.components.snack.*
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToAboutApp
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelEdit

@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.core.model
 
+import com.hellguy39.hellnotes.core.model.repository.local.database.*
+
 data class NoteDetailWrapper(
     val note: Note,
     val labels: List<Label> = listOf(),

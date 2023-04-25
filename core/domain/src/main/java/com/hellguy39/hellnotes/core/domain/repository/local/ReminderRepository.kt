@@ -1,6 +1,6 @@
 package com.hellguy39.hellnotes.core.domain.repository.local
 
-import com.hellguy39.hellnotes.core.model.Reminder
+import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import kotlinx.coroutines.flow.Flow
 
 interface ReminderRepository {

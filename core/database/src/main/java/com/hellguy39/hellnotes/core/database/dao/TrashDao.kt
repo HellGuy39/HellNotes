@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.core.database.dao
 
 import androidx.room.*
 import com.hellguy39.hellnotes.core.database.entity.TrashEntity
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import kotlinx.coroutines.flow.Flow
 
 @Dao

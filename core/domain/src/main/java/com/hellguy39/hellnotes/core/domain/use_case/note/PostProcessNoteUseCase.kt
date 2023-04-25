@@ -1,8 +1,8 @@
 package com.hellguy39.hellnotes.core.domain.use_case.note
 
-import com.hellguy39.hellnotes.core.model.Checklist
-import com.hellguy39.hellnotes.core.model.ChecklistItem
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
+import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import javax.inject.Inject
 

@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.core.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.hellguy39.hellnotes.core.model.ChecklistItem
+import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
 
 const val CHECKLIST_TABLE_NAME = "checklist_table"
 

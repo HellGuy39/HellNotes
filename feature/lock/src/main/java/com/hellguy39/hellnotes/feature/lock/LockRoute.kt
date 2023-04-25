@@ -12,7 +12,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
-import com.hellguy39.hellnotes.core.model.util.LockRequest
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
 import com.hellguy39.hellnotes.core.ui.system.BackHandler

@@ -253,4 +253,8 @@
     <string name="on_boarding_fourth_page_description">Set up notifications so that you don\'t miss important tasks or events. We will send you a reminder at a convenient time.</string>
     <string name="on_boarding_fifth_page_description">Now you know the key functions of the application. It seems like it\'s time to get to work.</string>
 
+    <!-- Message -->
+    <string name="message_backup_created">Backup was successfully created</string>
+    <string name="message_storage_restored">Storage was successfully restored</string>
+
 </resources>

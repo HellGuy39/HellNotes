@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.isChecklistsValid
-import com.hellguy39.hellnotes.core.model.removeCompletedChecklists
-import com.hellguy39.hellnotes.core.model.sortByPriority
+import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklistsValid
+import com.hellguy39.hellnotes.core.model.repository.local.database.removeCompletedChecklists
+import com.hellguy39.hellnotes.core.model.repository.local.database.sortByPriority
 import com.hellguy39.hellnotes.core.ui.components.NoteChecklistGroup
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 

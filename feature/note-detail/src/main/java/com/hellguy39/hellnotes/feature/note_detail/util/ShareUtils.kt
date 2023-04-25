@@ -6,7 +6,7 @@ import android.os.Environment
 import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import java.io.File
 
 object ShareUtils {

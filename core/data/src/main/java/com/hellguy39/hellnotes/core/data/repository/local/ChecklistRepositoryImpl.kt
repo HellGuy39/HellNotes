@@ -4,7 +4,7 @@ import com.hellguy39.hellnotes.core.database.dao.ChecklistDao
 import com.hellguy39.hellnotes.core.database.mapper.toChecklist
 import com.hellguy39.hellnotes.core.database.mapper.toChecklistEntity
 import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
-import com.hellguy39.hellnotes.core.model.Checklist
+import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

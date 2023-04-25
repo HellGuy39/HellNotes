@@ -1,6 +1,6 @@
-package com.hellguy39.hellnotes.core.model
+package com.hellguy39.hellnotes.core.model.repository.local.database
 
-import com.hellguy39.hellnotes.core.model.util.ColorParam
+import com.hellguy39.hellnotes.core.model.ColorParam
 
 data class Note(
     val id: Long? = null,

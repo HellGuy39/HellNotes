@@ -71,6 +71,8 @@
     <string name="btn_skip">Skippen</string>
     <string name="btn_reset">Zurücksetzen</string>
     <string name="btn_try_again">Nochmal versuchen</string>
+    <string name="btn_create_backup">Backup erstellen</string>
+    <string name="btn_restore_from_backup">Aus Backup wiederherstellen</string>
 
     <!--  Hint  -->
     <string name="hint_title">Überschrift</string>
@@ -131,6 +133,7 @@
     <string name="menu_item_take_a_photo">Foto machen</string>
     <string name="menu_item_place">Ort</string>
     <string name="menu_item_make_a_copy">Kopie erstellen</string>
+    <string name="menu_item_backup">Sicherung</string>
 
     <!--  Language -->
     <string name="lan_system_default">Systemisch</string>
@@ -169,6 +172,7 @@
     <string name="title_terms_and_conditions">Nutzungsbedingungen</string>
     <string name="title_reset">Reset</string>
     <string name="title_auth_required">Authentifizierung erforderlich</string>
+    <string name="title_backup">Sicherung</string>
 
     <!--  Helper  -->
     <string name="helper_unchecked_items">+%s ungeprüfte Punkte</string>
@@ -191,6 +195,9 @@
     <string name="helper_coming_soon">Kommt bald</string>
     <string name="helper_select_actions">Aktionen auswählen</string>
     <string name="helper_failed_to_load_data">Die Daten konnten nicht geladen werden</string>
+    <string name="helper_backup">Das Erstellen einer Sicherungskopie hilft, Ihre Notizen sicher zu halten und vor möglichem Verlust wichtiger Informationen zu schützen. Bitte schließen Sie die Anwendung nicht und schalten Sie das Gerät während des Kopiervorgangs nicht aus.</string>
+    <string name="helper_last_copy">Letztes Exemplar: %s</string>
+    <string name="helper_never">Nie</string>
 
     <!--  Snack  -->
     <string name="snack_note_moved_to_trash">Notiz wurde in den Papierkorb verschoben</string>
@@ -232,5 +239,9 @@
     <string name="on_boarding_third_page_description">Man kann Kategorien und Tags erstellen, um  Notizen zu organisieren, und die Suchfunktion für den schnellen Zugriff verwenden.</string>
     <string name="on_boarding_fourth_page_description">Richte Benachrichtigungen ein, damit wichtige Aufgaben oder Ereignisse nicht verpassen. Wir senden eine Erinnerung zu einem passenden Zeitpunkt.</string>
     <string name="on_boarding_fifth_page_description">Jetzt sind die wichtigsten Funktionen der App bekannt. Es scheint Zeit zu beginnen</string>
+
+    <!-- Message -->
+    <string name="message_backup_created">Backup wurde erfolgreich erstellt</string>
+    <string name="message_storage_restored">Der Speicher wurde erfolgreich wiederhergestellt</string>
 
 </resources>

@@ -6,7 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.core.model.util.OnStartupArguments
+import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail

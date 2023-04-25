@@ -13,8 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.Checklist
-import com.hellguy39.hellnotes.core.model.ChecklistItem
+import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 

@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.feature.startup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.model.SecurityState
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

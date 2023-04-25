@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
 import com.hellguy39.hellnotes.core.model.Release
-import com.hellguy39.hellnotes.core.model.util.Resource
+import com.hellguy39.hellnotes.core.model.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

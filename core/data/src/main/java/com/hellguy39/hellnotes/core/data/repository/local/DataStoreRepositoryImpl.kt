@@ -2,11 +2,11 @@ package com.hellguy39.hellnotes.core.data.repository.local
 
 import com.hellguy39.hellnotes.core.datastore.HellNotesPreferencesDataSource
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.model.NoteSwipesState
-import com.hellguy39.hellnotes.core.model.SecurityState
-import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.model.util.NoteStyle
-import com.hellguy39.hellnotes.core.model.util.Sorting
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.Sorting
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

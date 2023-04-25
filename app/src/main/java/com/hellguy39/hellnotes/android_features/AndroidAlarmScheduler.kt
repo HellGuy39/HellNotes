@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import com.hellguy39.hellnotes.broadcast.ReminderBroadcastReceiver
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
-import com.hellguy39.hellnotes.core.model.Reminder
+import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

@@ -279,4 +279,9 @@ object HellNotesStrings {
         val FifthPageDescription = R.string.on_boarding_fifth_page_description
     }
 
+    object Message {
+        val BackupCreated = R.string.message_backup_created
+        val StorageRestored = R.string.message_storage_restored
+    }
+
 }

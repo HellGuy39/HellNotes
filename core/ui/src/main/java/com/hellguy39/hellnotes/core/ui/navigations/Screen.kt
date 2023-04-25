@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.core.ui.navigations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.LockScreenType
 
 sealed class Screen(val route: String) {
     object Startup : Screen(route = "startup_screen")

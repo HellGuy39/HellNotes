@@ -7,8 +7,8 @@ import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.CreateReminderUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.DeleteReminderUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.UpdateReminderUseCase
-import com.hellguy39.hellnotes.core.model.Reminder
-import com.hellguy39.hellnotes.core.model.util.Repeat
+import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys

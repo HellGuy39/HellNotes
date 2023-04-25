@@ -132,7 +132,7 @@
     <string name="menu_item_take_a_photo">Сделать фотографию</string>
     <string name="menu_item_place">Место</string>
     <string name="menu_item_make_a_copy">Сделать копию</string>
-    <string name="menu_item_backup">Резервная копия</string>
+    <string name="menu_item_backup">Резервное копирование</string>
 
     <!-- Language-->
     <string name="lan_system_default">Системный</string>
@@ -171,7 +171,7 @@
     <string name="title_terms_and_conditions">Правила и условия</string>
     <string name="title_reset">Сброс</string>
     <string name="title_auth_required">Требуется аутентификация</string>
-    <string name="title_backup">Резервная копия</string>
+    <string name="title_backup">Резервное копирование</string>
 
     <!-- Helper -->
     <string name="helper_unchecked_items">+%s непроверенных пунктов</string>
@@ -239,5 +239,9 @@
     <string name="on_boarding_third_page_description">Вы можете создавать категории и теги, чтобы упорядочить свои заметки, а также использовать функцию поиска для быстрого доступа.</string>
     <string name="on_boarding_fourth_page_description">Настройте уведомления, чтобы не пропустить важные задачи или события. Мы отправим вам напоминание в удобное время.</string>
     <string name="on_boarding_fifth_page_description">Теперь вы знаете ключевые функции приложения. Кажется, самое время приступать к работе.</string>
+
+    <!-- Message -->
+    <string name="message_backup_created">Резервная копия была успешно создана</string>
+    <string name="message_storage_restored">Хранилище было успешно восстановлено</string>
 
 </resources>

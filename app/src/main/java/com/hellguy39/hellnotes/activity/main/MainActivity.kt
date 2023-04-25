@@ -16,7 +16,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
-import com.hellguy39.hellnotes.core.model.util.OnStartupArguments
+import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars

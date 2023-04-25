@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import com.hellguy39.hellnotes.core.database.HellNotesDatabase
 import com.hellguy39.hellnotes.core.domain.database.BackupManager
+import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
+import com.hellguy39.hellnotes.core.model.repository.local.file.Restore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
@@ -12,7 +14,7 @@ class BackupManagerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : BackupManager {
 
-    override suspend fun restore(filepath: Uri) {
+    override suspend fun restoreFromBackup(filepath: Uri): Restore {
         val contentResolver = context.contentResolver
         val database = HellNotesDatabase.getDatabase(context)
 
@@ -21,9 +23,11 @@ class BackupManagerImpl @Inject constructor(
         contentResolver.openInputStream(filepath)?.use { stream ->
             databaseFile.writeBytes(stream.readBytes())
         }
+
+        return Restore(uri = filepath.toString())
     }
 
-    override suspend fun backup(filepath: Uri) {
+    override suspend fun createBackup(filepath: Uri): Backup {
         val contentResolver = context.contentResolver
         val database = HellNotesDatabase.getDatabase(context)
 
@@ -32,6 +36,8 @@ class BackupManagerImpl @Inject constructor(
         contentResolver.openOutputStream(filepath)?.use { stream ->
             stream.write(databaseFile.readBytes())
         }
+
+        return Backup(uri = filepath.toString())
     }
 
 }

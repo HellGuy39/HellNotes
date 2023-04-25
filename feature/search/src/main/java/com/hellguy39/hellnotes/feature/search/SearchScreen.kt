@@ -14,7 +14,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
@@ -84,69 +84,69 @@ fun SearchScreen(
                     categories = categories,
                     listStyle = listStyle,
                     listHeader = {
-                        LazyRow(
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            item {
-                                FilterChip(
-                                    modifier = Modifier.height(FilterChipDefaults.Height),
-                                    selected = uiState.filters.withChecklist,
-                                    onClick = {
-                                        searchScreenSelection.onUpdateChecklistFilter(!uiState.filters.withChecklist)
-                                    },
-                                    label = {
-                                        Text(text = stringResource(id = HellNotesStrings.Label.Checklist))
-                                    },
-                                    leadingIcon = {
-                                        Icon(
-                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                            painter = painterResource(id = HellNotesIcons.Checklist),
-                                            contentDescription = null
-                                        )
-                                    }
-                                )
+                        Column {
+                            LazyRow(
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                item {
+                                    FilterChip(
+                                        modifier = Modifier.height(FilterChipDefaults.Height),
+                                        selected = uiState.filters.withChecklist,
+                                        onClick = {
+                                            searchScreenSelection.onUpdateChecklistFilter(!uiState.filters.withChecklist)
+                                        },
+                                        label = {
+                                            Text(text = stringResource(id = HellNotesStrings.Label.Checklist))
+                                        },
+                                        leadingIcon = {
+                                            Icon(
+                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                                painter = painterResource(id = HellNotesIcons.Checklist),
+                                                contentDescription = null
+                                            )
+                                        }
+                                    )
+                                }
+                                item {
+                                    FilterChip(
+                                        modifier = Modifier.height(FilterChipDefaults.Height),
+                                        selected = uiState.filters.withReminder,
+                                        onClick = {
+                                            searchScreenSelection.onUpdateReminderFilter(!uiState.filters.withReminder)
+                                        },
+                                        label = {
+                                            Text(text = stringResource(id = HellNotesStrings.Label.Reminder))
+                                        },
+                                        leadingIcon = {
+                                            Icon(
+                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                                painter = painterResource(id = HellNotesIcons.Alarm),
+                                                contentDescription = null
+                                            )
+                                        }
+                                    )
+                                }
+                                item {
+                                    FilterChip(
+                                        modifier = Modifier.height(FilterChipDefaults.Height),
+                                        selected = uiState.filters.withArchive,
+                                        onClick = {
+                                            searchScreenSelection.onUpdateArchiveFilter(!uiState.filters.withArchive)
+                                        },
+                                        label = {
+                                            Text(text = stringResource(id = HellNotesStrings.Label.Archive))
+                                        },
+                                        leadingIcon = {
+                                            Icon(
+                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                                painter = painterResource(id = HellNotesIcons.Archive),
+                                                contentDescription = null
+                                            )
+                                        }
+                                    )
+                                }
                             }
-                            item {
-                                FilterChip(
-                                    modifier = Modifier.height(FilterChipDefaults.Height),
-                                    selected = uiState.filters.withReminder,
-                                    onClick = {
-                                        searchScreenSelection.onUpdateReminderFilter(!uiState.filters.withReminder)
-                                    },
-                                    label = {
-                                        Text(text = stringResource(id = HellNotesStrings.Label.Reminder))
-                                    },
-                                    leadingIcon = {
-                                        Icon(
-                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                            painter = painterResource(id = HellNotesIcons.Alarm),
-                                            contentDescription = null
-                                        )
-                                    }
-                                )
-                            }
-                            item {
-                                FilterChip(
-                                    modifier = Modifier.height(FilterChipDefaults.Height),
-                                    selected = uiState.filters.withArchive,
-                                    onClick = {
-                                        searchScreenSelection.onUpdateArchiveFilter(!uiState.filters.withArchive)
-                                    },
-                                    label = {
-                                        Text(text = stringResource(id = HellNotesStrings.Label.Archive))
-                                    },
-                                    leadingIcon = {
-                                        Icon(
-                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                            painter = painterResource(id = HellNotesIcons.Archive),
-                                            contentDescription = null
-                                        )
-                                    }
-                                )
-                            }
-                        }
-//                        Column {
                             Divider(
                                 modifier = Modifier
                                     .padding(vertical = 4.dp, horizontal = 8.dp)
@@ -154,7 +154,7 @@ fun SearchScreen(
                                 thickness = 1.dp,
                                 color = MaterialTheme.colorScheme.outline
                             )
-//                        }
+                        }
                     }
                 )
             }

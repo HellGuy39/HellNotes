@@ -8,7 +8,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.hellguy39.hellnotes.core.model.util.OnStartupArguments
+import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.feature.backup.navigation.backupScreen

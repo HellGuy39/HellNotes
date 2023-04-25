@@ -5,7 +5,7 @@ import com.hellguy39.hellnotes.core.database.dao.ReminderDao
 import com.hellguy39.hellnotes.core.database.entity.ReminderEntity
 import com.hellguy39.hellnotes.core.database.mapper.toRemind
 import com.hellguy39.hellnotes.core.database.mapper.toRemindEntity
-import com.hellguy39.hellnotes.core.model.Reminder
+import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -7,5 +7,7 @@ import androidx.navigation.NavController
 fun UpdateRoute(
     navController: NavController
 ) {
+    
 
+    UpdateScreen()
 }

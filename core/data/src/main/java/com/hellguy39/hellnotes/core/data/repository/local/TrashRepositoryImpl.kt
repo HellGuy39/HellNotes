@@ -5,8 +5,8 @@ import com.hellguy39.hellnotes.core.database.entity.TrashEntity
 import com.hellguy39.hellnotes.core.database.mapper.toTrash
 import com.hellguy39.hellnotes.core.database.mapper.toTrashEntity
 import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.Trash
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Trash
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

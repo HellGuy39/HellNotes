@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.core.domain.use_case.note
 
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import javax.inject.Inject
 
 class RestoreNoteFromTrashUseCase @Inject constructor(

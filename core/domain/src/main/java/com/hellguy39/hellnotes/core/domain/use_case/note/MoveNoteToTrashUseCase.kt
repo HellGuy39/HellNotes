@@ -1,8 +1,8 @@
 package com.hellguy39.hellnotes.core.domain.use_case.note
 
 import com.hellguy39.hellnotes.core.domain.repository.local.*
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.Trash
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Trash
 import javax.inject.Inject
 
 class MoveNoteToTrashUseCase @Inject constructor(
