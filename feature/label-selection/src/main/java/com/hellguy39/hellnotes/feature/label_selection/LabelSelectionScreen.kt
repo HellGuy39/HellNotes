@@ -63,7 +63,7 @@ fun LabelSelectionScreen(
                         .padding(paddingValues)
                         .fillMaxSize(),
                     heroIcon = painterResource(id = HellNotesIcons.Label),
-                    message = stringResource(id = HellNotesStrings.Helper.LabelSelectionPlaceholder)
+                    message = stringResource(id = HellNotesStrings.Placeholder.LabelSelection)
                 )
                 return@Scaffold
             }

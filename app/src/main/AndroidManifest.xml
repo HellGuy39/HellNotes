@@ -50,8 +50,15 @@
             android:theme="@style/Theme.HellNotes" />
 
         <receiver
-            android:name=".broadcast.ReminderBroadcastReceiver"
+            android:name=".broadcast.ReminderReceiver"
             android:enabled="true" />
+
+        <receiver android:name=".broadcast.DownloadCompletedReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

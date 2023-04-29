@@ -16,6 +16,30 @@
     <string name="content_description_close">Закрыть</string>
     <string name="content_description_edit">Редактировать</string>
 
+    <!-- Subtitle -->
+    <string name="subtitle_enabled">Включено</string>
+    <string name="subtitle_disabled">Выключено</string>
+    <string name="subtitle_current_lock_screen">Текущий экран блокировки</string>
+    <string name="subtitle_unchecked_items">+%s непроверенных пунктов</string>
+    <string name="subtitle_unchecked_item">+%s непроверенный пункт</string>
+    <string name="subtitle_checklist">+%s список</string>
+    <string name="subtitle_checklists">+%s списков</string>
+    <string name="subtitle_date_of_creation">Дата создания</string>
+    <string name="subtitle_date_of_last_edit">Дата посл. изменения</string>
+    <string name="subtitle_edited">Редактировано %s</string>
+    <string name="subtitle_select_actions">Выберите действия</string>
+    <string name="subtitle_last_copy">Последняя копия: %s</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">Заметки в корзине автоматически удаляются через 7 дней</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">В Корзине нет заметок</string>
+    <string name="placeholder_empty">Пока что здесь пусто…</string>
+    <string name="placeholder_nothing_was_found">К сожалению, по вашему запросу ничего не нашлось…</string>
+    <string name="placeholder_failed_to_load_data">Не удалось загрузить данные</string>
+    <string name="placeholder_label_selection">Здесь будут отображаться ваши метки</string>
+
     <!-- Label -->
     <string name="label_upcoming">Предстоящие</string>
     <string name="label_pinned">Закреплённые</string>
@@ -23,7 +47,6 @@
     <string name="label_checklist">Чеклист</string>
     <string name="label_reminder">Напоминание</string>
     <string name="label_archive">Архив</string>
-    <string name="label_language">Язык</string>
     <string name="label_security">Безопасность</string>
     <string name="label_labels">Метки</string>
     <string name="label_gestures">Жесты</string>
@@ -31,25 +54,10 @@
     <string name="label_appearance">Внешний вид</string>
     <string name="label_swipe_right">Свайп вправо</string>
     <string name="label_swipe_left">Свайп влево</string>
-    <string name="label_enabled">Включено</string>
-    <string name="label_disabled">Выключено</string>
-    <string name="label_current_lock_screen">Текущий экран блокировки</string>
 
-    <!-- Text -->
-    <string name="text_date_of_creation">Дата создания</string>
-    <string name="text_date_of_last_edit">Дата посл. изменения</string>
-    <string name="text_notification_permission_rationale">К сожалению, без разрешения мы не сможем отправлять вам уведомления. Обещаем, что будет отправлять только уведомления для установленных вами напоминаний.</string>
-    <string name="text_notification_permission_default">Для этой функции необходимо разрешение на отправку уведомлений.\nПожалуйста, одобрите разрешение.</string>
-    <string name="text_nothing_was_found">К сожалению, по вашему запросу ничего не нашлось…</string>
-    <string name="text_empty">Пока что здесь пусто…</string>
-    <string name="text_edited">Редактировано %s</string>
-    <string name="text_selected">Выбрано %s</string>
-    <string name="text_remind_time_is_too_late">Невозможно установить напоминание, время напоминания позднее системного.</string>
-    <string name="text_no_notes_in_trash">В Корзине нет заметок</string>
-    <string name="text_label_already_exist">Метка с таким именем уже сущесвует</string>
-    <string name="text_label_cannot_be_empty">Метка не может быть пустой</string>
-    <string name="text_nothing_to_share">Нечем делиться</string>
-    <string name="text_auto_delete_trash">Заметки в корзине автоматически удаляются через 7 дней</string>
+    <!-- Permission -->
+    <string name="permission_notification_rationale">К сожалению, без разрешения мы не сможем отправлять вам уведомления. Обещаем, что будет отправлять только уведомления для установленных вами напоминаний.</string>
+    <string name="permission_notification_default">Для этой функции необходимо разрешение на отправку уведомлений.\nПожалуйста, одобрите разрешение.</string>
 
     <!-- Button -->
     <string name="btn_request_permission">Запросить разрешение</string>
@@ -172,31 +180,25 @@
     <string name="title_reset">Сброс</string>
     <string name="title_auth_required">Требуется аутентификация</string>
     <string name="title_backup">Резервное копирование</string>
+    <string name="title_selected">Выбрано %s</string>
+    <string name="title_enter_pin">Введите PIN-код</string>
+    <string name="title_enter_password">Введите пароль</string>
+    <string name="title_unlocked">Разблокировано</string>
 
-    <!-- Helper -->
-    <string name="helper_unchecked_items">+%s непроверенных пунктов</string>
-    <string name="helper_unchecked_item">+%s непроверенный пункт</string>
-    <string name="helper_checklist">+%s список</string>
-    <string name="helper_checklists">+%s списков</string>
-    <string name="helper_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
-    <string name="helper_password_must_be_at_least_4_characters">Пароль должен состоять не менее чем из 4 символов</string>
-    <string name="helper_enter_pin">Введите PIN-код</string>
-    <string name="helper_enter_password">Введите пароль</string>
-    <string name="helper_unlocked">Разблокировано</string>
-    <string name="helper_wrong_pin">Неверный PIN-код</string>
-    <string name="helper_wrong_password">Неверный пароль</string>
-    <string name="helper_share_dialog">Выберите, каким способом поделиться заметкой. После этого вы сможете выбрать получателя и способ отправки.</string>
-    <string name="helper_delete_note_dialog">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
-    <string name="helper_restore_dialog">После восстановления можно снова открыть и редактировать эту заметку.</string>
-    <string name="helper_delete_label_dialog">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
-    <string name="helper_empty_trash_dialog">Все заметки в корзине будут безвозвратно удалены.</string>
-    <string name="helper_label_selection_placeholder">Здесь будут отображаться ваши метки</string>
-    <string name="helper_coming_soon">Скоро будет</string>
-    <string name="helper_select_actions">Выберите действия</string>
-    <string name="helper_failed_to_load_data">Не удалось загрузить данные</string>
-    <string name="helper_backup">Создание резервной копии поможет сохранить ваши заметки в безопасности и защитить от возможной потери важной информации. Пожалуйста, не закрывайте приложение и не выключайте устройство во время процесса копирования.</string>
-    <string name="helper_last_copy">Последняя копия: %s</string>
-    <string name="helper_never">Никогда</string>
+    <!-- Supporting -->
+    <string name="supporting_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
+    <string name="supporting_password_must_be_at_least_4_characters">Пароль должен состоять не менее чем из 4 символов</string>
+    <string name="supporting_share_note">Выберите, каким способом поделиться заметкой. После этого вы сможете выбрать получателя и способ отправки.</string>
+    <string name="supporting_delete_note">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
+    <string name="supporting_restore_note">После восстановления можно снова открыть и редактировать эту заметку.</string>
+    <string name="supporting_delete_label">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
+    <string name="supporting_empty_trash">Все заметки в корзине будут безвозвратно удалены.</string>
+    <string name="supporting_backup">Создание резервной копии поможет сохранить ваши заметки в безопасности и защитить от возможной потери важной информации. Пожалуйста, не закрывайте приложение и не выключайте устройство во время процесса копирования.</string>
+    <string name="supporting_wrong_pin">Неверный PIN-код</string>
+    <string name="supporting_wrong_password">Неверный пароль</string>
+
+    <!-- Value -->
+    <string name="value_never">Никогда</string>
 
     <!-- Snack -->
     <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>
@@ -207,6 +209,15 @@
     <string name="snack_notes_unarchived">Заметки разархивированы</string>
     <string name="snack_note_pinned">Заметка закреплена</string>
     <string name="snack_note_unpinned">Заметка откреплена</string>
+    <string name="snack_backup_created">Резервная копия была успешно создана</string>
+    <string name="snack_storage_restored">Хранилище было успешно восстановлено</string>
+    <string name="snack_remind_time_is_too_late">Невозможно установить напоминание, время напоминания позднее системного.</string>
+    <string name="snack_label_already_exist">Метка с таким именем уже сущесвует</string>
+    <string name="snack_label_cannot_be_empty">Метка не может быть пустой</string>
+    <string name="snack_nothing_to_share">Нечем делиться</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">Скоро будет</string>
 
     <!-- Checkbox -->
     <string name="checkbox_clear_the_database">Очистить базу данных: заметки, напоминания, метки, чеклисты и корзину</string>
@@ -239,9 +250,5 @@
     <string name="on_boarding_third_page_description">Вы можете создавать категории и теги, чтобы упорядочить свои заметки, а также использовать функцию поиска для быстрого доступа.</string>
     <string name="on_boarding_fourth_page_description">Настройте уведомления, чтобы не пропустить важные задачи или события. Мы отправим вам напоминание в удобное время.</string>
     <string name="on_boarding_fifth_page_description">Теперь вы знаете ключевые функции приложения. Кажется, самое время приступать к работе.</string>
-
-    <!-- Message -->
-    <string name="message_backup_created">Резервная копия была успешно создана</string>
-    <string name="message_storage_restored">Хранилище было успешно восстановлено</string>
 
 </resources>

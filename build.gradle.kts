@@ -10,8 +10,11 @@ buildscript {
         classpath(Libs.Kotlin.SerializationPlugin)
         classpath(Libs.Google.ServicesPlugin)
         classpath(Libs.Google.Firebase.CrashlyticsPlugin)
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
     }
+}
+
+plugins {
+    id("com.google.devtools.ksp") version "1.8.20-1.0.11" apply false
 }
 
 tasks.register("clean", Delete::class) {

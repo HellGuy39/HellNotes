@@ -88,8 +88,8 @@ fun BackupScreen(
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = stringResource(
-                        id = HellNotesStrings.Helper.LastCopy,
-                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Helper.Never) else DateTimeUtils.formatBest(
+                        id = HellNotesStrings.Subtitle.LastCopy,
+                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Value.Never) else DateTimeUtils.formatBest(
                             uiState.lastBackupDate
                         )
                     ),
@@ -98,7 +98,7 @@ fun BackupScreen(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    text = stringResource(id = HellNotesStrings.Helper.Backup),
+                    text = stringResource(id = HellNotesStrings.Supporting.Backup),
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }

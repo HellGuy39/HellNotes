@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -57,7 +58,7 @@ fun ResetScreen(
                 )
 
                 Text(
-                    text = stringResource(id = HellNotesStrings.Helper.SelectActions),
+                    text = stringResource(id = HellNotesStrings.Subtitle.SelectActions),
                     style = MaterialTheme.typography.titleLarge,
                 )
 
@@ -66,25 +67,18 @@ fun ResetScreen(
                         .fillMaxWidth()
                         .selectableGroup()
                 ) {
-                    CustomCheckboxItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .selectable(
-                                selected = isResetDatabase,
-                                onClick = { isResetDatabase = !isResetDatabase },
-                                role = Role.RadioButton
-                            ),
-                        title = stringResource(id = HellNotesStrings.Checkbox.ClearDatabase),
+                    HNCheckboxItem(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 16.dp),
+                        onClick = { isResetDatabase = !isResetDatabase },
                         checked = isResetDatabase,
+                        title = stringResource(id = HellNotesStrings.Checkbox.ClearDatabase)
                     )
-                    CustomCheckboxItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .selectable(
-                                selected = isResetSettings,
-                                onClick = { isResetSettings = !isResetSettings },
-                                role = Role.RadioButton
-                            ),
+
+                    HNCheckboxItem(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 16.dp),
+                        onClick = { isResetSettings = !isResetSettings },
                         title = stringResource(id = HellNotesStrings.Checkbox.ResetSettings),
                         checked = isResetSettings,
                     )
@@ -105,37 +99,4 @@ fun ResetScreen(
             }
         }
     )
-}
-
-@Composable
-fun CustomCheckboxItem(
-    modifier: Modifier = Modifier,
-    title: String = "",
-    checked: Boolean,
-) {
-    Box(
-        modifier = modifier
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-
-            Text(
-                modifier = Modifier.weight(1f),
-                text = title,
-                style = MaterialTheme.typography.bodyLarge
-            )
-
-            Box(modifier = Modifier) {
-                Checkbox(
-                    modifier = Modifier
-                        .padding(0.dp),
-                    checked = checked,
-                    onCheckedChange = null
-                )
-            }
-        }
-    }
 }

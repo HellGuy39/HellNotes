@@ -77,7 +77,7 @@ fun ArchiveScreen(
                             .padding(paddingValues)
                             .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Archive),
-                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                        message = stringResource(id = HellNotesStrings.Placeholder.Empty)
                     )
                 }
 

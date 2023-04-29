@@ -58,7 +58,7 @@ class BackupViewModel @Inject constructor(
                         backupViewModelState.update { state ->
                             state.copy(
                                 message = UiText
-                                    .StringResources(HellNotesStrings.Message.StorageRestored)
+                                    .StringResources(HellNotesStrings.Snack.StorageRestored)
                             )
                         }
                     }
@@ -83,7 +83,7 @@ class BackupViewModel @Inject constructor(
                         backupViewModelState.update { state ->
                             state.copy(
                                 message = UiText
-                                    .StringResources(HellNotesStrings.Message.BackupCreated)
+                                    .StringResources(HellNotesStrings.Snack.BackupCreated)
                             )
                         }
                     }

@@ -74,7 +74,7 @@ fun SearchScreen(
                             .padding(innerPadding)
                             .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Search),
-                        message = stringResource(id = HellNotesStrings.Text.NothingWasFound)
+                        message = stringResource(id = HellNotesStrings.Placeholder.NothingWasFound)
                     )
                 }
 

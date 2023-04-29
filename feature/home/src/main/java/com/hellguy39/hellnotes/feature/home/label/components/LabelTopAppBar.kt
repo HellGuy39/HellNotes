@@ -39,7 +39,7 @@ fun LabelTopAppBar(
                 if (isNoteSelection) {
                     Text(
                         text = stringResource(
-                            id = HellNotesStrings.Text.Selected,
+                            id = HellNotesStrings.Title.Selected,
                             selection.selectedNotes.count()
                         ),
                         style = MaterialTheme.typography.headlineSmall

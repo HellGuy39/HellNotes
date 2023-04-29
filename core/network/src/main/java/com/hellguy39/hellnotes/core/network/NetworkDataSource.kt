@@ -21,46 +21,19 @@ class NetworkDataSource @Inject constructor() {
         install(ContentNegotiation) { json() }
     }
 
-    suspend fun getReleases(
-        onSuccess: suspend (releasesDto: List<ReleaseDto>) -> Unit,
-        onException: suspend (message: String) -> Unit
-    ) {
-        withExceptions(
-            block = {
-                val response = client.get { url(HttpRoutes.RELEASES) }
-                val releasesDto = response.body<List<ReleaseDto>>()
-                onSuccess(releasesDto)
-            },
-            onException = onException
-        )
+    suspend fun getReleases(): List<ReleaseDto> {
+        val response = client.get { url(HttpRoutes.RELEASES) }
+        return response.body()
     }
 
-    suspend fun getPrivacyPolicy(
-        onSuccess: suspend (privacyPolicy: String) -> Unit,
-        onException: suspend (message: String) -> Unit
-    ) {
-        withExceptions(
-            block = {
-                val response = client.get { url(HttpRoutes.PRIVACY_POLICY) }
-                val privacyPolicy = response.body<String>()
-                onSuccess(privacyPolicy)
-            },
-            onException = onException
-        )
+    suspend fun getPrivacyPolicy(): String {
+        val response = client.get { url(HttpRoutes.PRIVACY_POLICY) }
+        return response.body<String>()
     }
 
-    suspend fun getTermsAndConditions(
-        onSuccess: suspend (termsAndConditions: String) -> Unit,
-        onException: suspend (message: String) -> Unit
-    ) {
-        withExceptions(
-            block = {
-                val response = client.get { url(HttpRoutes.TERMS_AND_CONDITIONS) }
-                val termsAndConditions = response.body<String>()
-                onSuccess(termsAndConditions)
-            },
-            onException = onException
-        )
+    suspend fun getTermsAndConditions(): String {
+        val response = client.get { url(HttpRoutes.TERMS_AND_CONDITIONS) }
+        return response.body<String>()
     }
 
     companion object {
@@ -69,30 +42,30 @@ class NetworkDataSource @Inject constructor() {
 
 }
 
-private suspend fun withExceptions(
-    block: suspend () -> Unit,
-    onException: suspend (message: String) -> Unit
-) {
-    try {
-        block()
-    } catch (e: RedirectResponseException) {
-        // 3xx - responses
-        val errorMessage = e.response.status.description
-        Log.d(NetworkDataSource.TAG, errorMessage)
-        onException(errorMessage)
-    } catch (e: ClientRequestException) {
-        // 4xx - responses
-        val errorMessage = e.response.status.description
-        Log.d(NetworkDataSource.TAG, errorMessage)
-        onException(errorMessage)
-    } catch (e: ServerResponseException) {
-        // 5xx - responses
-        val errorMessage = e.response.status.description
-        Log.d(NetworkDataSource.TAG, errorMessage)
-        onException(errorMessage)
-    } catch (e: Exception) {
-        val errorMessage =e.message.toString()
-        Log.d(NetworkDataSource.TAG, errorMessage)
-        onException(errorMessage)
+fun handleException(cause: Throwable): String {
+    return when (cause) {
+        is RedirectResponseException -> {
+            // 3xx - responses
+            val errorMessage = cause.response.status.description
+            Log.d(NetworkDataSource.TAG, errorMessage)
+            errorMessage
+        }
+        is ClientRequestException -> {
+            // 4xx - responses
+            val errorMessage = cause.response.status.description
+            Log.d(NetworkDataSource.TAG, errorMessage)
+            errorMessage
+        }
+        is ServerResponseException -> {
+            // 5xx - responses
+            val errorMessage = cause.response.status.description
+            Log.d(NetworkDataSource.TAG, errorMessage)
+            errorMessage
+        }
+        else -> {
+            val errorMessage = cause.message.toString()
+            Log.d(NetworkDataSource.TAG, errorMessage)
+            errorMessage
+        }
     }
 }

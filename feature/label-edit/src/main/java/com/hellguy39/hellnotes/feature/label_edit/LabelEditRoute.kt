@@ -38,7 +38,7 @@ fun LabelEditRoute(
     fun showLabelIsAlreadyExistSnack() {
         snackbarHostState.showDismissableSnackbar(
             scope = scope,
-            message = context.getString(HellNotesStrings.Text.LabelAlreadyExist),
+            message = context.getString(HellNotesStrings.Snack.LabelAlreadyExist),
             duration = SnackbarDuration.Short
         )
     }

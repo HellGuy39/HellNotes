@@ -22,7 +22,6 @@
     <string name="content_description_edit">Edit</string>
 
     <!-- Label -->
-    <string name="label_language">Language</string>
     <string name="label_security">Security</string>
     <string name="label_upcoming">Upcoming</string>
     <string name="label_checklist">Checklist</string>
@@ -36,25 +35,33 @@
     <string name="label_appearance">Appearance</string>
     <string name="label_swipe_right">Swipe right</string>
     <string name="label_swipe_left">Swipe left</string>
-    <string name="label_enabled">Enabled</string>
-    <string name="label_disabled">Disabled</string>
-    <string name="label_current_lock_screen">Current lock screen</string>
 
-    <!-- Text -->
-    <string name="text_date_of_creation">Date of creation</string>
-    <string name="text_date_of_last_edit">Date of last edit</string>
-    <string name="text_empty">So far, it\'s empty here…</string>
-    <string name="text_edited">Edited %s</string>
-    <string name="text_selected">Selected %s</string>
-    <string name="text_nothing_was_found">Unfortunately, nothing was found for your request…</string>
-    <string name="text_notification_permission_rationale">Unfortunately, we will not be able to send you notifications without permission. We promise that it will only send notifications for the reminders you set.</string>
-    <string name="text_notification_permission_default">Notification permission required for this feature to be available.\nPlease grant the permission</string>
-    <string name="text_remind_time_is_too_late">It is impossible to set a reminder, the reminder time is later than the system time.</string>
-    <string name="text_no_notes_in_trash">No notes in Trash</string>
-    <string name="text_label_already_exist">Label with this name already exists</string>
-    <string name="text_label_cannot_be_empty">The label cannot be empty</string>
-    <string name="text_nothing_to_share">Nothing to share</string>
-    <string name="text_auto_delete_trash">Notes in the trash are deleted automatically after 7 days</string>
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">Current lock screen</string>
+    <string name="subtitle_select_actions">Select actions</string>
+    <string name="subtitle_enabled">Enabled</string>
+    <string name="subtitle_disabled">Disabled</string>
+    <string name="subtitle_edited">Edited %s</string>
+    <string name="subtitle_unchecked_items">+%s unchecked items</string>
+    <string name="subtitle_unchecked_item">+%s unchecked item</string>
+    <string name="subtitle_checklist">+%s checklist</string>
+    <string name="subtitle_checklists">+%s checklists</string>
+    <string name="subtitle_date_of_creation">Date of creation</string>
+    <string name="subtitle_date_of_last_edit">Date of last edit</string>
+    <string name="subtitle_last_copy">Last copy: %s</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">Notes in the trash are deleted automatically after 7 days</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">No notes in Trash</string>
+    <string name="placeholder_empty">So far, it\'s empty here…</string>
+    <string name="placeholder_nothing_was_found">Unfortunately, nothing was found for your request…</string>
+    <string name="placeholder_failed_to_load_data">Failed to load data</string>
+    <string name="placeholder_label_selection">Your labels will be displayed here</string>
+
+    <!-- Value -->
+    <string name="value_never">Never</string>
 
     <!-- MenuItem -->
     <string name="menu_item_settings">Settings</string>
@@ -131,31 +138,26 @@
     <string name="title_reset">Reset</string>
     <string name="title_auth_required">Authentication required</string>
     <string name="title_backup">Backup</string>
+    <string name="title_selected">Selected %s</string>
+    <string name="title_enter_pin">Enter your PIN</string>
+    <string name="title_enter_password">Enter your password</string>
+    <string name="title_unlocked">Unlocked</string>
 
-    <!-- Helper -->
-    <string name="helper_unchecked_items">+%s unchecked items</string>
-    <string name="helper_unchecked_item">+%s unchecked item</string>
-    <string name="helper_checklist">+%s checklist</string>
-    <string name="helper_checklists">+%s checklists</string>
-    <string name="helper_pin_must_be_at_least_4_digits">PIN must be at least 4 digits</string>
-    <string name="helper_password_must_be_at_least_4_characters">Password must be at least 4 characters</string>
-    <string name="helper_enter_pin">Enter your PIN</string>
-    <string name="helper_enter_password">Enter your password</string>
-    <string name="helper_unlocked">Unlocked</string>
-    <string name="helper_wrong_pin">Wrong PIN</string>
-    <string name="helper_wrong_password">Wrong password</string>
-    <string name="helper_share_dialog">Choose which way to share the note. After that you will be able to choose the recipient and the method of sending.</string>
-    <string name="helper_delete_note_dialog">The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned.</string>
-    <string name="helper_delete_label_dialog">The label will be permanently deleted. All notes with this label will lose it.</string>
-    <string name="helper_restore_dialog">After restoring, you will be able to open and edit this note again.</string>
-    <string name="helper_empty_trash_dialog">All notes in the trash will be permanently deleted.</string>
-    <string name="helper_label_selection_placeholder">Your labels will be displayed here</string>
-    <string name="helper_coming_soon">Coming soon</string>
-    <string name="helper_select_actions">Select actions</string>
-    <string name="helper_failed_to_load_data">Failed to load data</string>
-    <string name="helper_backup">Creating a backup copy will help keep your notes safe and protect against possible loss of important information. Please do not close the application or turn off the device during the copying process.</string>
-    <string name="helper_last_copy">Last copy: %s</string>
-    <string name="helper_never">Never</string>
+    <!-- Permission -->
+    <string name="permission_notification_rationale">Unfortunately, we will not be able to send you notifications without permission. We promise that it will only send notifications for the reminders you set.</string>
+    <string name="permission_notification_default">Notification permission required for this feature to be available.\nPlease grant the permission</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">PIN must be at least 4 digits</string>
+    <string name="supporting_password_must_be_at_least_4_characters">Password must be at least 4 characters</string>
+    <string name="supporting_share_note">Choose which way to share the note. After that you will be able to choose the recipient and the method of sending.</string>
+    <string name="supporting_delete_note">The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned.</string>
+    <string name="supporting_delete_label">The label will be permanently deleted. All notes with this label will lose it.</string>
+    <string name="supporting_restore_note">After restoring, you will be able to open and edit this note again.</string>
+    <string name="supporting_empty_trash">All notes in the trash will be permanently deleted.</string>
+    <string name="supporting_backup">Creating a backup copy will help keep your notes safe and protect against possible loss of important information. Please do not close the application or turn off the device during the copying process.</string>
+    <string name="supporting_wrong_pin">Wrong PIN</string>
+    <string name="supporting_wrong_password">Wrong password</string>
 
     <!-- Language-->
     <string name="lan_system_default">System default</string>
@@ -218,6 +220,13 @@
     <string name="snack_notes_unarchived">Notes unarchived</string>
     <string name="snack_note_pinned">Note pinned</string>
     <string name="snack_note_unpinned">Note unpinned</string>
+    <string name="snack_backup_created">Backup was successfully created</string>
+    <string name="snack_storage_restored">Storage was successfully restored</string>
+    <string name="snack_label_already_exist">Label with this name already exists</string>
+    <string name="snack_label_cannot_be_empty">The label cannot be empty</string>
+    <string name="snack_nothing_to_share">Nothing to share</string>
+    <string name="snack_remind_time_is_too_late">It is impossible to set a reminder, the reminder time is later than the system time.</string>
+
 
     <!-- Checkbox -->
     <string name="checkbox_clear_the_database">Clear the database: notes, reminders, labels, checklists and trash</string>
@@ -253,8 +262,7 @@
     <string name="on_boarding_fourth_page_description">Set up notifications so that you don\'t miss important tasks or events. We will send you a reminder at a convenient time.</string>
     <string name="on_boarding_fifth_page_description">Now you know the key functions of the application. It seems like it\'s time to get to work.</string>
 
-    <!-- Message -->
-    <string name="message_backup_created">Backup was successfully created</string>
-    <string name="message_storage_restored">Storage was successfully restored</string>
+    <!-- Toast -->
+    <string name="toast_coming_soon">Coming soon</string>
 
 </resources>

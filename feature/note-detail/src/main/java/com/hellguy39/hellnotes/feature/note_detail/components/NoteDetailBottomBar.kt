@@ -67,7 +67,7 @@ fun NoteDetailBottomBar(
             Text(
                 text = if (uiState is NoteDetailUiState.Success)
                     stringResource(
-                        id = HellNotesStrings.Text.Edited,
+                        id = HellNotesStrings.Subtitle.Edited,
                         formatArgs = arrayOf(
                             DateTimeUtils.formatBest(uiState.wrapper.note.editedAt)
                         )

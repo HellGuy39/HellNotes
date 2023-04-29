@@ -16,7 +16,7 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ReminderBroadcastReceiver : BroadcastReceiver() {
+class ReminderReceiver : BroadcastReceiver() {
 
     @Inject lateinit var reminderRepository: ReminderRepository
 

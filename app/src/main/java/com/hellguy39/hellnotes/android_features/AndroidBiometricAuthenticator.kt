@@ -10,8 +10,9 @@ import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticato
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class AndroidBiometricAuthenticator(
+class AndroidBiometricAuthenticator @Inject constructor(
     @ApplicationContext private val context: Context
 ) : BiometricPrompt.AuthenticationCallback(), BiometricAuthenticator {
 

@@ -47,9 +47,9 @@ fun LockScreenPin(
         }
 
         val titleText = when (uiState.lockState) {
-            is LockState.Locked -> stringResource(id = HellNotesStrings.Helper.EnterPin)
-            is LockState.Unlocked -> stringResource(id = HellNotesStrings.Helper.Unlocked)
-            is LockState.WrongPin -> stringResource(id = HellNotesStrings.Helper.WrongPin)
+            is LockState.Locked -> stringResource(id = HellNotesStrings.Title.EnterPin)
+            is LockState.Unlocked -> stringResource(id = HellNotesStrings.Title.Unlocked)
+            is LockState.WrongPin -> stringResource(id = HellNotesStrings.Supporting.WrongPin)
         }
 
         Icon(

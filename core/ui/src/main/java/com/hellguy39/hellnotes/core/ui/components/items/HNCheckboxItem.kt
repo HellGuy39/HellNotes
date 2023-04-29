@@ -50,12 +50,10 @@ fun HNCheckboxItem(
             }
 
             Text(
-                modifier = Modifier,
+                modifier = Modifier.weight(1f),
                 text = title,
                 style = MaterialTheme.typography.bodyLarge
             )
-
-            Spacer(modifier = Modifier.weight(1f))
 
             Checkbox(
                 modifier = Modifier,

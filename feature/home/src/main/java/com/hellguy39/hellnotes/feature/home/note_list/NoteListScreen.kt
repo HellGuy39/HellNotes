@@ -18,10 +18,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
-import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToSearch
@@ -44,13 +43,11 @@ fun NoteListScreen(
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
     val scope = rememberCoroutineScope()
-    val sortingMenuState = rememberDropdownMenuState()
 
     val uiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             NoteListTopAppBar(
@@ -84,7 +81,7 @@ fun NoteListScreen(
                             .padding(innerPadding)
                             .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.NoteAdd),
-                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                        message = stringResource(id = HellNotesStrings.Placeholder.Empty)
                     )
                 }
 
@@ -94,7 +91,7 @@ fun NoteListScreen(
                         noteStyle = visualsSelection.noteStyle,
                         onClick = { note ->
                             if (multiActionSelection.selectedNotes.isEmpty()) {
-                                navController.navigateToNoteDetail(note.id)
+                                navController.navigateToNoteDetail(note.id,)
                             } else {
                                 if (multiActionSelection.selectedNotes.contains(note)) {
                                     multiActionSelection.onUnselectNote(note)
@@ -143,17 +140,6 @@ fun NoteListScreen(
                     ),
                     selectedNotes = multiActionSelection.selectedNotes,
                     listStyle = listStyle,
-//                    listHeader = {
-//                        ListConfiguration(
-//                            selection = ListConfigurationSelection(
-//                                sorting = uiState.sorting,
-//                                onSortingSelected = { sorting ->
-//                                    noteListViewModel.updateSorting(sorting)
-//                                }
-//                            ),
-//                            menuState = sortingMenuState
-//                        )
-//                    },
                 )
             }
         },
@@ -162,7 +148,7 @@ fun NoteListScreen(
                 onClick = { navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote) }
             ) {
                 Icon(
-                    painterResource(id = HellNotesIcons.Add),
+                    painter = painterResource(id = HellNotesIcons.Add),
                     contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote)
                 )
             }

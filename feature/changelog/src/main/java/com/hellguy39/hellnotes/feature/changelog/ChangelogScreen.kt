@@ -78,7 +78,7 @@ fun ChangelogScreen(
                         .padding(horizontal = 32.dp)
                         .fillMaxSize(),
                     heroIcon = painterResource(id = HellNotesIcons.Error),
-                    message = stringResource(id = HellNotesStrings.Helper.FailedToLoadData),
+                    message = stringResource(id = HellNotesStrings.Placeholder.FailedToLoadData),
                     actions = {
                         TextButton(
                             onClick = onTryAgain

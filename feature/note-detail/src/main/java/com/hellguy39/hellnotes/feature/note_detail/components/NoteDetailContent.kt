@@ -2,10 +2,12 @@ package com.hellguy39.hellnotes.feature.note_detail.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -14,9 +16,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -24,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.model.repository.local.database.*
 import com.hellguy39.hellnotes.core.ui.UiDefaults
@@ -34,8 +39,9 @@ import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
+import com.hellguy39.hellnotes.feature.note_detail.R
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailContent(
     innerPadding: PaddingValues,
@@ -54,8 +60,7 @@ fun NoteDetailContent(
     LazyColumn(
         state = lazyListState,
         contentPadding = innerPadding,
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item(
@@ -254,6 +259,62 @@ fun NoteDetailContent(
                     crossAxisSpacing = 16.dp,
                     mainAxisSpacing = 16.dp
                 )
+            }
+        }
+
+        if (ProjectInfoProvider.appConfig.isDebug) {
+            val images = listOf(
+                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+            )
+            item(
+                key = -4
+            ) {
+                LazyRow(
+                    modifier = Modifier,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
+                    items(images) { imageId ->
+                        Image(
+                            modifier = Modifier
+                                .height(256.dp)
+                                .width(256.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .clickable(
+                                    onClick = {
+
+                                    }
+                                )
+                            ,
+                            painter = painterResource(id = imageId),
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null
+                        )
+                    }
+                    item {
+                        ElevatedCard(
+                            modifier = Modifier
+                                .height(256.dp)
+                                .width(256.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            onClick = {}
+                        ) {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    modifier = Modifier.size(48.dp),
+                                    painter = painterResource(id = HellNotesIcons.Add),
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }

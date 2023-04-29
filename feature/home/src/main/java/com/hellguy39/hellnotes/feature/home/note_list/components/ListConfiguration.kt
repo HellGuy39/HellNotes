@@ -19,8 +19,8 @@ fun ListConfiguration(
     menuState: CustomDropdownMenuState
 ) {
     val sortName = when(selection.sorting) {
-        is Sorting.DateOfLastEdit -> stringResource(id = HellNotesStrings.Text.DateOfLastEdit)
-        is Sorting.DateOfCreation -> stringResource(id = HellNotesStrings.Text.DateOfCreation)
+        is Sorting.DateOfLastEdit -> stringResource(id = HellNotesStrings.Subtitle.DateOfLastEdit)
+        is Sorting.DateOfCreation -> stringResource(id = HellNotesStrings.Subtitle.DateOfCreation)
     }
 
     Row(

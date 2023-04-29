@@ -76,7 +76,7 @@ fun RemindersScreen(
                             .padding(paddingValues)
                             .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Notifications),
-                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                        message = stringResource(id = HellNotesStrings.Placeholder.Empty)
                     )
                 }
 

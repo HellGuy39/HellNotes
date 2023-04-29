@@ -37,28 +37,6 @@ object HellNotesStrings {
         val NewChecklist = R.string.hint_new_checklist
     }
 
-    object Text {
-        val Empty = R.string.text_empty
-
-        val Edited = R.string.text_edited
-        val DateOfCreation = R.string.text_date_of_creation
-        val DateOfLastEdit = R.string.text_date_of_last_edit
-        val Selected = R.string.text_selected
-
-        val NotificationPermissionRationale = R.string.text_notification_permission_rationale
-        val NotificationPermissionDefault = R.string.text_notification_permission_default
-        val NothingWasFound = R.string.text_nothing_was_found
-        val RemindTimeIsTooLate = R.string.text_remind_time_is_too_late
-
-        val NoNotesInTrash = R.string.text_no_notes_in_trash
-
-        val LabelAlreadyExist = R.string.text_label_already_exist
-        val LabelCannotBeEmpty = R.string.text_label_cannot_be_empty
-        val NothingToShare = R.string.text_nothing_to_share
-        val AutoDeleteTrash = R.string.text_auto_delete_trash
-
-    }
-
     object MenuItem {
         val Reminders = R.string.menu_item_reminders
         val Settings = R.string.menu_item_settings
@@ -141,6 +119,27 @@ object HellNotesStrings {
         val LicenseAgreement = R.string.title_license_agreement
         val AuthRequired = R.string.title_auth_required
         val Backup = R.string.title_backup
+        val Selected = R.string.title_selected
+        val EnterPin = R.string.title_enter_pin
+        val EnterPassword = R.string.title_enter_password
+        val Unlocked = R.string.title_unlocked
+    }
+
+    object Supporting {
+        val PinMustBeAtLeast4Digits = R.string.supporting_pin_must_be_at_least_4_digits
+        val PasswordMustBeAtLeast4Characters = R.string.supporting_password_must_be_at_least_4_characters
+        val ShareNote = R.string.supporting_share_note
+        val DeleteNote = R.string.supporting_delete_note
+        val RestoreNote = R.string.supporting_restore_note
+        val DeleteLabel = R.string.supporting_delete_label
+        val EmptyTrash = R.string.supporting_empty_trash
+        val Backup = R.string.supporting_backup
+        val WrongPin = R.string.supporting_wrong_pin
+        val WrongPassword = R.string.supporting_wrong_password
+    }
+
+    object Value {
+        val Never = R.string.value_never
     }
 
     object Label {
@@ -151,16 +150,12 @@ object HellNotesStrings {
         val Reminder = R.string.label_reminder
         val Archive = R.string.label_archive
         val Security = R.string.label_security
-        val Language = R.string.label_language
         val Labels = R.string.label_labels
         val General = R.string.label_general
         val Gestures = R.string.label_gestures
         val Appearance = R.string.label_appearance
         val SwipeRight = R.string.label_swipe_right
         val SwipeLeft = R.string.label_swipe_left
-        val Enabled = R.string.label_enabled
-        val Disabled = R.string.label_disabled
-        val CurrentLockScreen = R.string.label_current_lock_screen
     }
 
     object Lan {
@@ -194,32 +189,6 @@ object HellNotesStrings {
         val RestoreFromBackup = R.string.btn_restore_from_backup
     }
 
-    object Helper {
-        val UncheckedItems = R.string.helper_unchecked_items
-        val UncheckedItem = R.string.helper_unchecked_item
-        val Checklist = R.string.helper_checklist
-        val Checklists = R.string.helper_checklists
-        val PinMustBeAtLeast4Digits = R.string.helper_pin_must_be_at_least_4_digits
-        val EnterPin = R.string.helper_enter_pin
-        val EnterPassword = R.string.helper_enter_password
-        val WrongPin = R.string.helper_wrong_pin
-        val WrongPassword = R.string.helper_wrong_password
-        val PasswordMustBeAtLeast4Characters = R.string.helper_password_must_be_at_least_4_characters
-        val Unlocked = R.string.helper_unlocked
-        val ShareDialog = R.string.helper_share_dialog
-        val DeleteNoteDialog = R.string.helper_delete_note_dialog
-        val DeleteLabelDialog = R.string.helper_delete_label_dialog
-        val RestoreNoteDialog = R.string.helper_restore_dialog
-        val EmptyTrashDialog = R.string.helper_empty_trash_dialog
-        val LabelSelectionPlaceholder = R.string.helper_label_selection_placeholder
-        val ComingSoon = R.string.helper_coming_soon
-        val SelectActions = R.string.helper_select_actions
-        val FailedToLoadData = R.string.helper_failed_to_load_data
-        val Backup = R.string.helper_backup
-        val LastCopy = R.string.helper_last_copy
-        val Never = R.string.helper_never
-    }
-
     object Action {
         val NewNote = R.string.action_new_note
         val Reminders = R.string.action_reminders
@@ -241,6 +210,12 @@ object HellNotesStrings {
 
         val NotePinned = R.string.snack_note_pinned
         val NoteUnpinned = R.string.snack_note_unpinned
+        val BackupCreated = R.string.snack_backup_created
+        val StorageRestored = R.string.snack_storage_restored
+        val RemindTimeIsTooLate = R.string.snack_remind_time_is_too_late
+        val LabelAlreadyExist = R.string.snack_label_already_exist
+        val LabelCannotBeEmpty = R.string.snack_label_cannot_be_empty
+        val NothingToShare = R.string.snack_nothing_to_share
     }
 
     object Setting {
@@ -279,9 +254,40 @@ object HellNotesStrings {
         val FifthPageDescription = R.string.on_boarding_fifth_page_description
     }
 
-    object Message {
-        val BackupCreated = R.string.message_backup_created
-        val StorageRestored = R.string.message_storage_restored
+    object Subtitle {
+        val Enabled = R.string.subtitle_enabled
+        val Disabled = R.string.subtitle_disabled
+        val CurrentLockScreen = R.string.subtitle_current_lock_screen
+        val UncheckedItems = R.string.subtitle_unchecked_items
+        val UncheckedItem = R.string.subtitle_unchecked_item
+        val Checklist = R.string.subtitle_checklist
+        val Checklists = R.string.subtitle_checklists
+        val DateOfCreation = R.string.subtitle_date_of_creation
+        val DateOfLastEdit = R.string.subtitle_date_of_last_edit
+        val Edited = R.string.subtitle_edited
+        val SelectActions = R.string.subtitle_select_actions
+        val LastCopy = R.string.subtitle_last_copy
+    }
+
+    object Tip {
+        val AutoDeleteTrash = R.string.tip_auto_delete_trash
+    }
+
+    object Placeholder {
+        val NoNotesInTrash = R.string.placeholder_no_notes_in_trash
+        val Empty = R.string.placeholder_empty
+        val NothingWasFound = R.string.placeholder_nothing_was_found
+        val FailedToLoadData = R.string.placeholder_failed_to_load_data
+        val LabelSelection = R.string.placeholder_label_selection
+    }
+
+    object Permission {
+        val NotificationRationale = R.string.permission_notification_rationale
+        val NotificationDefault = R.string.permission_notification_default
+    }
+
+    object Toast {
+        val ComingSoon = R.string.toast_coming_soon
     }
 
 }

@@ -30,7 +30,7 @@ fun SortDropdownMenu(
             ),
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.DateOfCreation),
+                    text = stringResource(id = HellNotesStrings.Subtitle.DateOfCreation),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -48,7 +48,7 @@ fun SortDropdownMenu(
             ),
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.DateOfLastEdit),
+                    text = stringResource(id = HellNotesStrings.Subtitle.DateOfLastEdit),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },

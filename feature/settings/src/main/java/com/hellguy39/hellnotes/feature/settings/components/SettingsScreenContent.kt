@@ -56,8 +56,8 @@ fun SettingsScreenContent(
                     onClick = selection.onBackup,
                     title = stringResource(id = HellNotesStrings.MenuItem.Backup),
                     subtitle = stringResource(
-                        id = HellNotesStrings.Helper.LastCopy,
-                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Helper.Never) else DateTimeUtils.formatBest(uiState.lastBackupDate)
+                        id = HellNotesStrings.Subtitle.LastCopy,
+                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Value.Never) else DateTimeUtils.formatBest(uiState.lastBackupDate)
                     )
                 )
             }
@@ -109,9 +109,9 @@ fun SettingsScreenContent(
                     onClick = selection.onNoteSwipeEdit,
                     title = stringResource(id = HellNotesStrings.Setting.NoteSwipes),
                     subtitle = if (uiState.noteSwipesState.enabled)
-                        stringResource(id = HellNotesStrings.Label.Enabled)
+                        stringResource(id = HellNotesStrings.Subtitle.Enabled)
                     else
-                        stringResource(id = HellNotesStrings.Label.Disabled),
+                        stringResource(id = HellNotesStrings.Subtitle.Disabled),
                 )
             }
         }

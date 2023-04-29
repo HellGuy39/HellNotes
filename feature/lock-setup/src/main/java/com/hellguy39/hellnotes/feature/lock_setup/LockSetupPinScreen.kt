@@ -55,7 +55,7 @@ fun LockSetupPinScreen(
                         onPinEntered(pin)
                     } else {
                         isError = true
-                        errorMessage = context.getString(HellNotesStrings.Helper.WrongPin)
+                        errorMessage = context.getString(HellNotesStrings.Supporting.WrongPin)
                     }
                 }
             }
@@ -112,7 +112,7 @@ fun LockSetupPinScreen(
                             val text = if (isError)
                                 errorMessage
                             else if (value.length < 4)
-                                stringResource(id = HellNotesStrings.Helper.PinMustBeAtLeast4Digits)
+                                stringResource(id = HellNotesStrings.Supporting.PinMustBeAtLeast4Digits)
                             else ""
                             val color = if (isError)
                                 MaterialTheme.colorScheme.error

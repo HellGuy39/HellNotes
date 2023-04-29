@@ -69,7 +69,7 @@ fun LockSelectionScreen(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
                         title = item.title,
                         subtitle = if (uiState.securityState.lockType == item.lockScreenType)
-                            stringResource(id = HellNotesStrings.Label.CurrentLockScreen)
+                            stringResource(id = HellNotesStrings.Subtitle.CurrentLockScreen)
                         else "",
                         heroIcon = item.icon,
                         onClick = { onLockScreenTypeSelected(item.lockScreenType) }

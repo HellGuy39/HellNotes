@@ -65,9 +65,9 @@ fun NoteChecklistGroup(
                     if (uncheckedCount >= 1) {
                         Text(
                             text = if (uncheckedCount == 1)
-                                stringResource(id = HellNotesStrings.Helper.UncheckedItem, uncheckedCount)
+                                stringResource(id = HellNotesStrings.Subtitle.UncheckedItem, uncheckedCount)
                             else
-                                stringResource(id = HellNotesStrings.Helper.UncheckedItems, uncheckedCount),
+                                stringResource(id = HellNotesStrings.Subtitle.UncheckedItems, uncheckedCount),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.secondary
                         )
@@ -79,9 +79,9 @@ fun NoteChecklistGroup(
                 val count = checklists.size - 1
                 Text(
                     text = if (count == 1)
-                        stringResource(id = HellNotesStrings.Helper.Checklist, count)
+                        stringResource(id = HellNotesStrings.Subtitle.Checklist, count)
                     else
-                        stringResource(id = HellNotesStrings.Helper.Checklists, count),
+                        stringResource(id = HellNotesStrings.Subtitle.Checklists, count),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary
                 )

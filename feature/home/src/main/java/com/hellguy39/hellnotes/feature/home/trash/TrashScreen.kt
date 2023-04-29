@@ -45,7 +45,7 @@ fun TrashScreen(
         state = emptyTrashDialogState,
         heroIcon = painterResource(id = HellNotesIcons.Delete),
         title = stringResource(id = HellNotesStrings.Title.EmptyTrash),
-        message = stringResource(id = HellNotesStrings.Helper.EmptyTrashDialog),
+        message = stringResource(id = HellNotesStrings.Supporting.EmptyTrash),
         onCancel = {
             emptyTrashDialogState.dismiss()
         },
@@ -59,7 +59,7 @@ fun TrashScreen(
         state = restoreDialogState,
         heroIcon = painterResource(id = HellNotesIcons.RestoreFromTrash),
         title = stringResource(id = HellNotesStrings.Title.RestoreThisNote),
-        message = stringResource(id = HellNotesStrings.Helper.RestoreNoteDialog),
+        message = stringResource(id = HellNotesStrings.Supporting.RestoreNote),
         onClose = {
             trashViewModel.clearSelectedNote()
             restoreDialogState.dismiss()
@@ -109,7 +109,7 @@ fun TrashScreen(
                         .padding(paddingValues)
                         .fillMaxSize(),
                     heroIcon = painterResource(id = HellNotesIcons.Delete),
-                    message = stringResource(id = HellNotesStrings.Text.NoNotesInTrash)
+                    message = stringResource(id = HellNotesStrings.Placeholder.NoNotesInTrash)
                 )
             }
 
@@ -147,7 +147,7 @@ fun TrashScreen(
                 listHeader = {
                     TipCard(
                         isVisible = !uiState.trashTipCompleted,
-                        message = stringResource(id = HellNotesStrings.Text.AutoDeleteTrash),
+                        message = stringResource(id = HellNotesStrings.Tip.AutoDeleteTrash),
                         onClose = { trashViewModel.trashTipCompleted(true) }
                     )
                 },

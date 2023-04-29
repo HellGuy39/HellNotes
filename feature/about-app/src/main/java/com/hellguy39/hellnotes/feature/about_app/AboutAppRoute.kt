@@ -15,7 +15,7 @@ fun AboutAppRoute(
     navController: NavController
 ) {
     val context = LocalContext.current
-    val toast = Toast.makeText(context, context.getString(HellNotesStrings.Helper.ComingSoon), Toast.LENGTH_SHORT)
+    val toast = Toast.makeText(context, context.getString(HellNotesStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
 
     AboutAppScreen(
         onNavigationButtonClick = navController::popBackStack,

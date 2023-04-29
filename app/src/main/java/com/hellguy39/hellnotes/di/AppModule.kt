@@ -1,53 +1,39 @@
 package com.hellguy39.hellnotes.di
 
-import android.app.Application
-import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
-import com.hellguy39.hellnotes.android_features.AndroidBiometricAuthenticator
-import com.hellguy39.hellnotes.android_features.AndroidLanguageHolder
-import com.hellguy39.hellnotes.android_features.AndroidNotificationSender
-import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
-import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
-import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
-import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
+import com.hellguy39.hellnotes.android_features.*
+import com.hellguy39.hellnotes.core.domain.system_features.*
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+interface AppModule {
 
-    @Singleton
-    @Provides
-    fun provideAlarmScheduler(
-        app: Application
-    ): AlarmScheduler {
-        return AndroidAlarmScheduler(app)
-    }
+    @Binds
+    fun bindAlarmScheduler(
+        i: AndroidAlarmScheduler
+    ): AlarmScheduler
 
-    @Singleton
-    @Provides
-    fun provideBiometricAuthenticator(
-        app: Application
-    ): BiometricAuthenticator {
-        return AndroidBiometricAuthenticator(app)
-    }
+    @Binds
+    fun bindBiometricAuthenticator(
+        i: AndroidBiometricAuthenticator
+    ): BiometricAuthenticator
 
-    @Singleton
-    @Provides
-    fun provideNotificationSender(
-        app: Application
-    ): NotificationSender {
-        return AndroidNotificationSender(app)
-    }
+    @Binds
+    fun bindNotificationSender(
+        i: AndroidNotificationSender
+    ): NotificationSender
 
-    @Singleton
-    @Provides
-    fun provideLanguageHolder(
-        app: Application
-    ): LanguageHolder {
-        return AndroidLanguageHolder(app)
-    }
+    @Binds
+    fun bindLanguageHolder(
+        i: AndroidLanguageHolder
+    ): LanguageHolder
+
+    @Binds
+    fun bindDownloader(
+        i: AndroidDownloader
+    ): Downloader
+
 }

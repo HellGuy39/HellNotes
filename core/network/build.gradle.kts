@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("com.google.devtools.ksp")
     kotlin ("kapt")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
@@ -26,10 +27,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-//    packagingOptions {
-//        resources.excludes.add("/META-INF/INDEX.LIST")
-//    }
-
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -44,7 +41,6 @@ dependencies {
     implementation(Libs.Ktor.Logging)
     implementation(Libs.Ktor.ContentNegotiation)
     implementation(Libs.Ktor.JsonSerializer)
-//    implementation(Libs.Ktor.Logback)
 
     implementation(Libs.Kotlin.Coroutines)
 

@@ -28,7 +28,6 @@ import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -47,8 +46,6 @@ fun ReminderEditScreen(
     selection: ReminderEditScreenSelection,
     snackbarHostState: SnackbarHostState,
 ) {
-    BackHandler(onBack = onNavigationBack)
-
     val calendarState = rememberSheetState()
     val clockState = rememberSheetState()
     val repeatDialogState = rememberDialogState()
@@ -189,9 +186,9 @@ fun ReminderEditScreen(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 
                 val textToShow = if (notificationPermissionState?.status?.shouldShowRationale == true) {
-                    stringResource(id = HellNotesStrings.Text.NotificationPermissionRationale)
+                    stringResource(id = HellNotesStrings.Permission.NotificationRationale)
                 } else {
-                    stringResource(id = HellNotesStrings.Text.NotificationPermissionDefault)
+                    stringResource(id = HellNotesStrings.Permission.NotificationDefault)
                 }
 
                 if(notificationPermissionState?.status?.isGranted == false) {

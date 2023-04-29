@@ -76,7 +76,7 @@ fun NoteDetailRoute(
         state = shareDialogState,
         heroIcon = painterResource(id = HellNotesIcons.Share),
         title = stringResource(id = HellNotesStrings.Title.Share),
-        message = stringResource(id = HellNotesStrings.Helper.ShareDialog),
+        message = stringResource(id = HellNotesStrings.Supporting.ShareNote),
         onCancel = { shareDialogState.dismiss() },
         content = {
             val listItemModifier = Modifier.padding(16.dp)
@@ -105,7 +105,7 @@ fun NoteDetailRoute(
         state = confirmDialogState,
         heroIcon = painterResource(id = HellNotesIcons.Delete),
         title = stringResource(id = HellNotesStrings.Title.DeleteThisNote),
-        message = stringResource(id = HellNotesStrings.Helper.DeleteNoteDialog),
+        message = stringResource(id = HellNotesStrings.Supporting.DeleteNote),
         onCancel = { confirmDialogState.dismiss() },
         onAccept = {
             confirmDialogState.dismiss()
@@ -170,7 +170,7 @@ fun NoteDetailRoute(
 
     val listItemModifier = Modifier.padding(16.dp)
 
-    val toast = Toast.makeText(context, context.getString(HellNotesStrings.Helper.ComingSoon), Toast.LENGTH_SHORT)
+    val toast = Toast.makeText(context, context.getString(HellNotesStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
 
     val menuBottomSheetItems = listOf(
         BottomSheetMenuItemHolder(
@@ -206,7 +206,7 @@ fun NoteDetailRoute(
                         } else {
                             snackbarHostState.showDismissableSnackbar(
                                 scope = scope,
-                                message = context.getString(HellNotesStrings.Text.NothingToShare),
+                                message = context.getString(HellNotesStrings.Snack.NothingToShare),
                                 duration = SnackbarDuration.Short
                             )
                         }

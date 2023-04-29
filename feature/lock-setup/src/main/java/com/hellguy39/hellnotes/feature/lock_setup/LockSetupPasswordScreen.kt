@@ -57,7 +57,7 @@ fun LockSetupPasswordScreen(
                         onPasswordEntered(password)
                     } else {
                         isError = true
-                        errorMessage = context.getString(HellNotesStrings.Helper.WrongPassword)
+                        errorMessage = context.getString(HellNotesStrings.Supporting.WrongPassword)
                     }
                 }
             }
@@ -111,7 +111,7 @@ fun LockSetupPasswordScreen(
                             val text = if (isError)
                                 errorMessage
                             else if (value.length < 4)
-                                stringResource(id = HellNotesStrings.Helper.PasswordMustBeAtLeast4Characters)
+                                stringResource(id = HellNotesStrings.Supporting.PasswordMustBeAtLeast4Characters)
                             else ""
                             val color = if (isError)
                                 MaterialTheme.colorScheme.error

@@ -56,9 +56,9 @@ fun LockScreenPassword(
         }
 
         val titleText = when (uiState.lockState) {
-            is LockState.Locked -> stringResource(id = HellNotesStrings.Helper.EnterPassword)
-            is LockState.Unlocked -> stringResource(id = HellNotesStrings.Helper.Unlocked)
-            is LockState.WrongPin -> stringResource(id = HellNotesStrings.Helper.WrongPassword)
+            is LockState.Locked -> stringResource(id = HellNotesStrings.Title.EnterPassword)
+            is LockState.Unlocked -> stringResource(id = HellNotesStrings.Title.Unlocked)
+            is LockState.WrongPin -> stringResource(id = HellNotesStrings.Supporting.WrongPassword)
         }
 
         Icon(

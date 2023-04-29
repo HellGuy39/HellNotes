@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,7 @@ fun NoteListTopAppBar(
                 if (targetState) {
                     Text(
                         text = stringResource(
-                            id = HellNotesStrings.Text.Selected,
+                            id = HellNotesStrings.Title.Selected,
                             selectedNotes.count()
                         ),
                         style = MaterialTheme.typography.headlineSmall
@@ -77,7 +78,8 @@ fun NoteListTopAppBar(
                                 )
                             }
                             Text(
-                                modifier = Modifier,
+                                modifier = Modifier
+                                    .alpha(UiDefaults.Alpha.Hint),
                                 text = stringResource(
                                     id = HellNotesStrings.Hint.Search,
                                 ),

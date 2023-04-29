@@ -87,7 +87,7 @@ fun LabelScreen(
 
                 fun validate() {
                     if (name.text.isEmpty() || name.text.isBlank()) {
-                        errorMessage = context.getString(HellNotesStrings.Text.LabelCannotBeEmpty)
+                        errorMessage = context.getString(HellNotesStrings.Snack.LabelCannotBeEmpty)
                         isError = true
                         return
                     }
@@ -95,7 +95,7 @@ fun LabelScreen(
                         labelViewModel.send(LabelUiEvent.RenameLabel(name.text))
                         renameDialogState.dismiss()
                     } else {
-                        errorMessage = context.getString(HellNotesStrings.Text.LabelAlreadyExist)
+                        errorMessage = context.getString(HellNotesStrings.Snack.LabelAlreadyExist)
                         isError = true
                     }
                 }
@@ -182,7 +182,7 @@ fun LabelScreen(
         state = deleteDialogState,
         heroIcon = painterResource(id = HellNotesIcons.Delete),
         title = stringResource(id = HellNotesStrings.Title.DeleteThisLabel),
-        message = stringResource(id = HellNotesStrings.Helper.DeleteLabelDialog),
+        message = stringResource(id = HellNotesStrings.Supporting.DeleteLabel),
         onCancel = {
             deleteDialogState.dismiss()
         },
@@ -207,7 +207,7 @@ fun LabelScreen(
                             .padding(paddingValues)
                             .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Label),
-                        message = stringResource(id = HellNotesStrings.Text.Empty)
+                        message = stringResource(id = HellNotesStrings.Placeholder.Empty)
                     )
                 }
 
