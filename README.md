@@ -35,6 +35,18 @@ The app has two themes:
 
 Each theme also supports dark mode. 
 
+## Credits
+
+### Code contributors: 
+- [Aleksey Gadzhiev](https://github.com/HellGuy39)
+
+### UX/UI
+- [Vladislav Kovalev](https://github.com/macmarsalaa) (until v1.0-rc02)
+
+### Translators
+- [Anton Baranov](https://github.com/antnbaranov) (German)
+- [Aleksandr Stihin](https://github.com/StAl15) (French)
+
 ## License
 
 **HellNotes** is distributed under the terms of the Apache License (Version 2.0). See the
