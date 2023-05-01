@@ -115,6 +115,8 @@ class NoteDetailViewModel @Inject constructor(
             is NoteDetailUiEvent.DeleteNote -> moveNoteToTrash()
 
             is NoteDetailUiEvent.CopyNote -> copyNote(uiEvent.onCopied)
+
+            is NoteDetailUiEvent.ExpandChecklist -> expandChecklist(uiEvent.checklist, uiEvent.isExpanded)
         }
     }
 
@@ -292,6 +294,17 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
+    private fun expandChecklist(checklist: Checklist, isExpanded: Boolean) {
+        viewModelScope.launch {
+            checklists.update { state ->
+                val checklists = state.toMutableList()
+                checklists[checklists.indexOf(checklist)] = checklist.copy(isExpanded = isExpanded)
+
+                checklists
+            }
+        }
+    }
+
     private fun updateChecklistItem(
         checklist: Checklist,
         oldItem: ChecklistItem,
@@ -331,19 +344,35 @@ class NoteDetailViewModel @Inject constructor(
 sealed class NoteDetailUiEvent {
 
     data class UpdateNoteTitle(val title: String): NoteDetailUiEvent()
+
     data class UpdateNoteContent(val text: String): NoteDetailUiEvent()
+
     data class UpdateIsPinned(val isPinned: Boolean): NoteDetailUiEvent()
+
     data class UpdateIsArchived(val isArchived: Boolean): NoteDetailUiEvent()
+
     data class CheckAllChecklistItems(val checklist: Checklist, val isCheck: Boolean): NoteDetailUiEvent()
+
     data class UpdateChecklistItem(val checklist: Checklist, val oldItem: ChecklistItem, val newItem: ChecklistItem): NoteDetailUiEvent()
+
     data class UpdateChecklistName(val checklist: Checklist, val name: String): NoteDetailUiEvent()
+
+    data class ExpandChecklist(val checklist: Checklist, val isExpanded: Boolean): NoteDetailUiEvent()
+
     object AddChecklist: NoteDetailUiEvent()
+
     data class DeleteChecklist(val checklist: Checklist): NoteDetailUiEvent()
+
     data class DeleteChecklistItem(val checklist: Checklist, val item: ChecklistItem): NoteDetailUiEvent()
+
     data class AddChecklistItem(val checklist: Checklist): NoteDetailUiEvent()
+
     object DeleteNote: NoteDetailUiEvent()
+
     object Minimize: NoteDetailUiEvent()
+
     object Close: NoteDetailUiEvent()
+
     data class CopyNote(val onCopied: (id: Long) -> Unit): NoteDetailUiEvent()
 
 }

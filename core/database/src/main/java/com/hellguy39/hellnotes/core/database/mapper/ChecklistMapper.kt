@@ -8,7 +8,8 @@ fun Checklist.toChecklistEntity(): ChecklistEntity {
         id = id,
         noteId = noteId,
         items = items,
-        name = name
+        name = name,
+        isExpanded = isExpanded
     )
 }
 
@@ -17,6 +18,7 @@ fun ChecklistEntity.toChecklist(): Checklist {
         id = id,
         noteId = noteId,
         items = items,
-        name = name
+        name = name,
+        isExpanded = isExpanded
     )
 }

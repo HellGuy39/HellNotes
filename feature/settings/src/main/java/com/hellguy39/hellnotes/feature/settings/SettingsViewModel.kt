@@ -25,14 +25,15 @@ class SettingsViewModel @Inject constructor(
     private val isBiometricAuthAvailable =
         biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success
 
-    private var languageCode = languageHolder.getLanguageCode()
+    private val languageCode = MutableStateFlow(languageHolder.getLanguageCode())
 
     val uiState = combine(
         dataStoreRepository.readSecurityState(),
         dataStoreRepository.readNoteStyleState(),
         dataStoreRepository.readNoteSwipesState(),
-        dataStoreRepository.readLastBackupDate()
-    ) { securityState, noteStyle, noteSwipesState, lastBackupDate ->
+        dataStoreRepository.readLastBackupDate(),
+        languageCode,
+    ) { securityState, noteStyle, noteSwipesState, lastBackupDate, languageCode ->
         SettingsUiState(
             securityState = securityState,
             noteStyle = noteStyle,
@@ -52,7 +53,7 @@ class SettingsViewModel @Inject constructor(
     fun send(uiEvent: SettingsUiEvent) {
         when(uiEvent) {
             is SettingsUiEvent.Start -> {
-                languageCode = languageHolder.getLanguageCode()
+                languageCode.update { languageHolder.getLanguageCode() }
             }
             is SettingsUiEvent.ToggleIsUseBiometricData -> {
                saveIsUseBiometricData(uiEvent.isUseBiometric)

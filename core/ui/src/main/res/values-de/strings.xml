@@ -1,247 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    &lt;!&ndash;  Content description  &ndash;&gt;-->
-<!--    <string name="content_description_back">Zurück</string>-->
-<!--    <string name="content_description_labels">Markierung</string>-->
-<!--    <string name="content_description_pin">Befestigen</string>-->
-<!--    <string name="content_description_reminder">Erinnerung</string>-->
-<!--    <string name="content_description_delete">Entfernen</string>-->
-<!--    <string name="content_description_add_note">Notiz hinzufügen</string>-->
-<!--    <string name="content_description_color">Farbe</string>-->
-<!--    <string name="content_description_view_type">Anzeigentyp</string>-->
-<!--    <string name="content_description_more">Mehr</string>-->
-<!--    <string name="content_description_sort">Sortierung</string>-->
-<!--    <string name="content_description_search">Suche</string>-->
-<!--    <string name="content_description_cancel">Abbrechen</string>-->
-<!--    <string name="content_description_close">Schließen</string>-->
-<!--    <string name="content_description_edit">Ändern</string>-->
+    <!--  Content description  -->
+    <string name="content_description_back">Zurück</string>
+    <string name="content_description_labels">Markierung</string>
+    <string name="content_description_pin">Befestigen</string>
+    <string name="content_description_reminder">Erinnerung</string>
+    <string name="content_description_delete">Entfernen</string>
+    <string name="content_description_add_note">Notiz hinzufügen</string>
+    <string name="content_description_color">Farbe</string>
+    <string name="content_description_view_type">Anzeigentyp</string>
+    <string name="content_description_more">Mehr</string>
+    <string name="content_description_sort">Sortierung</string>
+    <string name="content_description_search">Suche</string>
+    <string name="content_description_cancel">Abbrechen</string>
+    <string name="content_description_close">Schließen</string>
+    <string name="content_description_edit">Ändern</string>
 
-<!--    &lt;!&ndash;  Label  &ndash;&gt;-->
-<!--    <string name="label_upcoming">Bevorstehend</string>-->
-<!--    <string name="label_pinned">Festigtet</string>-->
-<!--    <string name="label_others">Andere</string>-->
-<!--    <string name="label_checklist">Checkliste</string>-->
-<!--    <string name="label_reminder">Erinnerung</string>-->
-<!--    <string name="label_archive">Archiv</string>-->
-<!--    <string name="label_language">Sprache</string>-->
-<!--    <string name="label_security">Sicherheit</string>-->
-<!--    <string name="label_labels">Markierungen</string>-->
-<!--    <string name="label_gestures">Gestik</string>-->
-<!--    <string name="label_general">Allgemein</string>-->
-<!--    <string name="label_appearance">Aussehen</string>-->
-<!--    <string name="label_swipe_right">Swipe nach rechts</string>-->
-<!--    <string name="label_swipe_left">Swipe nach links</string>-->
-<!--    <string name="label_enabled">Aktiviert</string>-->
-<!--    <string name="label_disabled">Deaktiviert</string>-->
-<!--    <string name="label_current_lock_screen">Aktueller Sperrbildschirm</string>-->
+    <!--  Label  -->
+    <string name="label_upcoming">Bevorstehend</string>
+    <string name="label_pinned">Festigtet</string>
+    <string name="label_others">Andere</string>
+    <string name="label_checklist">Checkliste</string>
+    <string name="label_reminder">Erinnerung</string>
+    <string name="label_archive">Archiv</string>
+    <string name="label_security">Sicherheit</string>
+    <string name="label_labels">Markierungen</string>
+    <string name="label_gestures">Gestik</string>
+    <string name="label_general">Allgemein</string>
+    <string name="label_appearance">Aussehen</string>
+    <string name="label_swipe_right">Swipe nach rechts</string>
+    <string name="label_swipe_left">Swipe nach links</string>
 
-<!--    &lt;!&ndash;  Text  &ndash;&gt;-->
-<!--    <string name="text_date_of_creation">Erstellungsdatum</string>-->
-<!--    <string name="text_date_of_last_edit">Datum der letzten Bearbeitung</string>-->
-<!--    <string name="text_notification_permission_rationale">Leider können wir ohne Erlaubnis keine Benachrichtigungen senden. Wir versprechen, dass nur Benachrichtigungen für die von Ihnen festgelegten Erinnerungen gesendet werden.</string>-->
-<!--    <string name="text_notification_permission_default">Für diese Funktion ist die Berechtigung zum Senden von Benachrichtigungen erforderlich.\bitte genehmige die Genehmigung.</string>-->
-<!--    <string name="text_nothing_was_found">Leider wurde auf diese Anfrage nichts gefunden…</string>-->
-<!--    <string name="text_empty">Bisher ist es hier leer…</string>-->
-<!--    <string name="text_edited">Bearbeitet %s</string>-->
-<!--    <string name="text_selected">Ausgewählt %s</string>-->
-<!--    <string name="text_remind_time_is_too_late">Die Erinnerung kann nicht eingestellt werden, die Erinnerungszeit ist später als das System.</string>-->
-<!--    <string name="text_no_notes_in_trash">Es gibt keine Notizen im Papierkorb</string>-->
-<!--    <string name="text_label_already_exist">Eine Bezeichnung mit diesem Namen existiert bereits</string>-->
-<!--    <string name="text_label_cannot_be_empty">Diese Bezeichnung darf nicht leer sein</string>-->
-<!--    <string name="text_nothing_to_share">Es gibt nichts zu teilen</string>-->
-<!--    <string name="text_auto_delete_trash">Notizen im Papierkorb werden nach 7 Tagen automatisch gelöscht</string>-->
+    <!-- Subtitle -->
+    <string name="subtitle_enabled">Aktiviert</string>
+    <string name="subtitle_disabled">Deaktiviert</string>
+    <string name="subtitle_current_lock_screen">Aktueller Sperrbildschirm</string>
+    <string name="subtitle_unchecked_items">+%s ungeprüfte Punkte</string>
+    <string name="subtitle_unchecked_item">+%s ungeprüftes Element</string>
+    <string name="subtitle_checklist">+%s Liste</string>
+    <string name="subtitle_checklists">+%s Listen</string>
+    <string name="subtitle_select_actions">Aktionen auswählen</string>
+    <string name="subtitle_last_copy">Letztes Exemplar: %s</string>
 
-<!--    &lt;!&ndash;  Button  &ndash;&gt;-->
-<!--    <string name="btn_request_permission">Erlaubnis anfordern</string>-->
-<!--    <string name="btn_create">Erstellen</string>-->
-<!--    <string name="btn_edit">Bearbeiten</string>-->
-<!--    <string name="btn_delete">Entfernen</string>-->
-<!--    <string name="btn_enter">Eingeben</string>-->
-<!--    <string name="btn_undo">Abbrechen</string>-->
-<!--    <string name="btn_save">Speichern</string>-->
-<!--    <string name="btn_cancel">Abbrechen</string>-->
-<!--    <string name="btn_accept">Annehmen</string>-->
-<!--    <string name="btn_clear">Löschen</string>-->
-<!--    <string name="btn_next">Weiter</string>-->
-<!--    <string name="btn_confirm">Bestätigen</string>-->
-<!--    <string name="btn_biometrics">Biometrie</string>-->
-<!--    <string name="btn_rename">Umbenennen</string>-->
-<!--    <string name="btn_finish">Beenden</string>-->
-<!--    <string name="btn_skip">Skippen</string>-->
-<!--    <string name="btn_reset">Zurücksetzen</string>-->
-<!--    <string name="btn_try_again">Nochmal versuchen</string>-->
-<!--    <string name="btn_create_backup">Backup erstellen</string>-->
-<!--    <string name="btn_restore_from_backup">Aus Backup wiederherstellen</string>-->
+    <!--  Text  -->
+    <string name="subtitle_date_of_creation">Erstellungsdatum</string>
+    <string name="subtitle_date_of_last_edit">Datum der letzten Bearbeitung</string>
+    <string name="subtitle_edited">Bearbeitet %s</string>
 
-<!--    &lt;!&ndash;  Hint  &ndash;&gt;-->
-<!--    <string name="hint_title">Überschrift</string>-->
-<!--    <string name="hint_note">Notiz</string>-->
-<!--    <string name="hint_search">Suche…</string>-->
-<!--    <string name="hint_label">Markierung…</string>-->
-<!--    <string name="hint_message">Nachricht</string>-->
-<!--    <string name="hint_create_new_label">neues Label erstellen</string>-->
-<!--    <string name="hint_new_checklist">Neue Liste</string>-->
-<!--    <string name="hint_add_new_item">Element hinzufügen</string>-->
-<!--    <string name="hint_item">Element</string>-->
+    <!-- Placeholder -->
+    <string name="placeholder_nothing_was_found">Leider wurde auf diese Anfrage nichts gefunden…</string>
+    <string name="placeholder_empty">Bisher ist es hier leer…</string>
+    <string name="placeholder_no_notes_in_trash">Es gibt keine Notizen im Papierkorb</string>
+    <string name="placeholder_failed_to_load_data">Die Daten konnten nicht geladen werden</string>
+    <string name="placeholder_label_selection">hier werden Labels angezeigt</string>
 
-<!--    &lt;!&ndash;  Setting  &ndash;&gt;-->
-<!--    <string name="stg_screen_lock">Sperrbildschirm</string>-->
-<!--    <string name="stg_language">Sprache</string>-->
-<!--    <string name="stg_note_swipes">Swipe von Notizen</string>-->
-<!--    <string name="stg_note_style">Stil der Notizen</string>-->
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">Notizen im Papierkorb werden nach 7 Tagen automatisch gelöscht</string>
 
-<!--    &lt;!&ndash;  MenuItem  &ndash;&gt;-->
-<!--    <string name="menu_item_settings">Einstellungen</string>-->
-<!--    <string name="menu_item_about_app">Über die App</string>-->
-<!--    <string name="menu_item_reminders">Erinnerungen</string>-->
-<!--    <string name="menu_item_labels">Markierungen</string>-->
-<!--    <string name="menu_item_rename">Umbenennen</string>-->
-<!--    <string name="menu_item_delete">Entfernen</string>-->
-<!--    <string name="menu_item_plain_text">Klartext</string>-->
-<!--    <string name="menu_item_txt_file">.txt-Datei</string>-->
-<!--    <string name="menu_item_share">Teilen</string>-->
-<!--    <string name="menu_item_whats_new">Was gibt\'s Neues?</string>-->
-<!--    <string name="menu_item_color">Farbe</string>-->
-<!--    <string name="menu_item_create_new_label">Neues label erstellen</string>-->
-<!--    <string name="menu_item_empty_trash">Papierkorb leeren</string>-->
-<!--    <string name="menu_item_none">Nein</string>-->
-<!--    <string name="menu_item_pin">PIN-Code</string>-->
-<!--    <string name="menu_item_password">Passwort</string>-->
-<!--    <string name="menu_item_pattern">Zeichnung</string>-->
-<!--    <string name="menu_item_slide">Folie</string>-->
-<!--    <string name="menu_item_does_not_repeat">Nicht wiederholen</string>-->
-<!--    <string name="menu_item_daily">Täglich</string>-->
-<!--    <string name="menu_item_weekly">Wöchentlich</string>-->
-<!--    <string name="menu_item_monthly">Monatlich</string>-->
-<!--    <string name="menu_item_outlined">Umreißen</string>-->
-<!--    <string name="menu_item_elevated">Erhöhten</string>-->
-<!--    <string name="menu_item_archive">Archivieren</string>-->
-<!--    <string name="menu_item_check_all_items">alle Elemente ausführen</string>-->
-<!--    <string name="menu_item_uncheck_all_items">alle Elemente entfernen</string>-->
-<!--    <string name="menu_item_changelog">Änderungsprotokoll</string>-->
-<!--    <string name="menu_item_license_agreement">Lizenzvereinbarung</string>-->
-<!--    <string name="menu_item_privacy_policy">Datenschutz</string>-->
-<!--    <string name="menu_item_terms_and_conditions">Nutzungsbedingungen</string>-->
-<!--    <string name="menu_item_provide_feedback">Feedback hinterlassen</string>-->
-<!--    <string name="menu_item_rate_on_play_store">im Play Store bewerten</string>-->
-<!--    <string name="menu_item_reset">Zurücksetzen</string>-->
-<!--    <string name="menu_item_check_for_updates">Nach Updates suchen</string>-->
-<!--    <string name="menu_item_checklist">Checkliste</string>-->
-<!--    <string name="menu_item_image">Bild</string>-->
-<!--    <string name="menu_item_recording">Aufnahme</string>-->
-<!--    <string name="menu_item_take_a_photo">Foto machen</string>-->
-<!--    <string name="menu_item_place">Ort</string>-->
-<!--    <string name="menu_item_make_a_copy">Kopie erstellen</string>-->
-<!--    <string name="menu_item_backup">Sicherung</string>-->
+    <!-- Supporting -->
+    <string name="supporting_share_note">Wähle aus, wie man die Notiz freigeben möchte. Danach kann man den Empfänger und die Versandmethode auswählen.</string>
+    <string name="supporting_delete_note">Die Notiz wird in den Papierkorb verschoben, wo sie vollständig gelöscht oder wiederhergestellt werden kann. Alle Markierungen und Erinnerungen werden entfernt.</string>
+    <string name="supporting_restore_note">Nach der Wiederherstellung kann man die Notiz erneut öffnen und bearbeiten.</string>
+    <string name="supporting_delete_label">Das Label wird dauerhaft gelöscht. Alle Notizen mit diesem Etikett verlieren es..</string>
+    <string name="supporting_empty_trash">Alle Notizen im Papierkorb werden dauerhaft gelöscht.</string>
+    <string name="supporting_backup">Das Erstellen einer Sicherungskopie hilft, Ihre Notizen sicher zu halten und vor möglichem Verlust wichtiger Informationen zu schützen. Bitte schließen Sie die Anwendung nicht und schalten Sie das Gerät während des Kopiervorgangs nicht aus.</string>
+    <string name="supporting_wrong_pin">Falsche PIN</string>
+    <string name="supporting_wrong_password">Falsches Passwort</string>
+    <string name="supporting_pin_must_be_at_least_4_digits">Die PIN muss aus mindestens 4 Ziffern bestehen</string>
+    <string name="supporting_password_must_be_at_least_4_characters">Das Passwort muss aus mindestens 4 Zeichen bestehen</string>
 
-<!--    &lt;!&ndash;  Language &ndash;&gt;-->
-<!--    <string name="lan_system_default">Systemisch</string>-->
-<!--    <string name="lan_ru">Russisch</string>-->
-<!--    <string name="lan_en">Englisch</string>-->
-<!--    <string name="lan_de">Deutsch</string>-->
-<!--    <string name="lan_fr">Französisch</string>-->
+    <!-- Toast -->
+    <string name="toast_coming_soon">Kommt bald</string>
 
-<!--    &lt;!&ndash;  Title  &ndash;&gt;-->
-<!--    <string name="title_notes">Notizen</string>-->
-<!--    <string name="title_archive">Archiv</string>-->
-<!--    <string name="title_trash">Korb</string>-->
-<!--    <string name="title_settings">Einstellungen</string>-->
-<!--    <string name="title_about_app">Über die App</string>-->
-<!--    <string name="title_reminders">Erinnerungen</string>-->
-<!--    <string name="title_labels">Markierungen</string>-->
-<!--    <string name="title_new_reminder">Neue Erinnerung</string>-->
-<!--    <string name="title_share">Teilen</string>-->
-<!--    <string name="title_repeat">Wiederholung</string>-->
-<!--    <string name="title_edit_reminder">Erinnerung bearbeiten</string>-->
-<!--    <string name="title_choose_a_new_lock_screen">Wähle einen neuen Sperrbildschirm aus</string>-->
-<!--    <string name="title_language">Sprache</string>-->
-<!--    <string name="title_set_a_pin">PIN festlegen</string>-->
-<!--    <string name="title_re_enter_your_pin">Wiederhole PIN</string>-->
-<!--    <string name="title_set_a_password">Passwort festlegen</string>-->
-<!--    <string name="title_re_enter_your_password">Passwort wiederholen</string>-->
-<!--    <string name="title_delete_this_note">Notiz entfernen</string>-->
-<!--    <string name="title_delete_this_label">Label entfernen?</string>-->
-<!--    <string name="title_restore_this_note">Notiz wiederherstellen?</string>-->
-<!--    <string name="title_empty_the_trash">Papierkorb leeren</string>-->
-<!--    <string name="title_note_style">Stil der Notizen</string>-->
-<!--    <string name="title_note_swipes">Swipe von Notizen</string>-->
-<!--    <string name="title_changelog">Änderungsprotokoll</string>-->
-<!--    <string name="title_license_agreement">Lizenzvereinbarung</string>-->
-<!--    <string name="title_privacy_policy">Datenschutz</string>-->
-<!--    <string name="title_terms_and_conditions">Nutzungsbedingungen</string>-->
-<!--    <string name="title_reset">Reset</string>-->
-<!--    <string name="title_auth_required">Authentifizierung erforderlich</string>-->
-<!--    <string name="title_backup">Sicherung</string>-->
+    <!-- Value -->
+    <string name="value_never">Nie</string>
 
-<!--    &lt;!&ndash;  Helper  &ndash;&gt;-->
-<!--    <string name="helper_unchecked_items">+%s ungeprüfte Punkte</string>-->
-<!--    <string name="helper_unchecked_item">+%s ungeprüftes Element</string>-->
-<!--    <string name="helper_checklist">+%s Liste</string>-->
-<!--    <string name="helper_checklists">+%s Listen</string>-->
-<!--    <string name="helper_pin_must_be_at_least_4_digits">Die PIN muss aus mindestens 4 Ziffern bestehen</string>-->
-<!--    <string name="helper_password_must_be_at_least_4_characters">Das Passwort muss aus mindestens 4 Zeichen bestehen</string>-->
-<!--    <string name="helper_enter_pin">PIN eingeben</string>-->
-<!--    <string name="helper_enter_password">Passwort eingeben</string>-->
-<!--    <string name="helper_unlocked">Freigeschaltet</string>-->
-<!--    <string name="helper_wrong_pin">Falsche PIN</string>-->
-<!--    <string name="helper_wrong_password">Falsches Passwort</string>-->
-<!--    <string name="helper_share_dialog">Wähle aus, wie man die Notiz freigeben möchte. Danach kann man den Empfänger und die Versandmethode auswählen.</string>-->
-<!--    <string name="helper_delete_note_dialog">Die Notiz wird in den Papierkorb verschoben, wo sie vollständig gelöscht oder wiederhergestellt werden kann. Alle Markierungen und Erinnerungen werden entfernt.</string>-->
-<!--    <string name="helper_restore_dialog">Nach der Wiederherstellung kann man die Notiz erneut öffnen und bearbeiten.</string>-->
-<!--    <string name="helper_delete_label_dialog">Das Label wird dauerhaft gelöscht. Alle Notizen mit diesem Etikett verlieren es..</string>-->
-<!--    <string name="helper_empty_trash_dialog">Alle Notizen im Papierkorb werden dauerhaft gelöscht.</string>-->
-<!--    <string name="helper_label_selection_placeholder">hier werden Labels angezeigt</string>-->
-<!--    <string name="helper_coming_soon">Kommt bald</string>-->
-<!--    <string name="helper_select_actions">Aktionen auswählen</string>-->
-<!--    <string name="helper_failed_to_load_data">Die Daten konnten nicht geladen werden</string>-->
-<!--    <string name="helper_backup">Das Erstellen einer Sicherungskopie hilft, Ihre Notizen sicher zu halten und vor möglichem Verlust wichtiger Informationen zu schützen. Bitte schließen Sie die Anwendung nicht und schalten Sie das Gerät während des Kopiervorgangs nicht aus.</string>-->
-<!--    <string name="helper_last_copy">Letztes Exemplar: %s</string>-->
-<!--    <string name="helper_never">Nie</string>-->
+    <!--  Button  -->
+    <string name="btn_request_permission">Erlaubnis anfordern</string>
+    <string name="btn_create">Erstellen</string>
+    <string name="btn_edit">Bearbeiten</string>
+    <string name="btn_delete">Entfernen</string>
+    <string name="btn_enter">Eingeben</string>
+    <string name="btn_undo">Abbrechen</string>
+    <string name="btn_save">Speichern</string>
+    <string name="btn_cancel">Abbrechen</string>
+    <string name="btn_accept">Annehmen</string>
+    <string name="btn_clear">Löschen</string>
+    <string name="btn_next">Weiter</string>
+    <string name="btn_confirm">Bestätigen</string>
+    <string name="btn_biometrics">Biometrie</string>
+    <string name="btn_rename">Umbenennen</string>
+    <string name="btn_finish">Beenden</string>
+    <string name="btn_skip">Skippen</string>
+    <string name="btn_reset">Zurücksetzen</string>
+    <string name="btn_try_again">Nochmal versuchen</string>
+    <string name="btn_create_backup">Backup erstellen</string>
+    <string name="btn_restore_from_backup">Aus Backup wiederherstellen</string>
 
-<!--    &lt;!&ndash;  Snack  &ndash;&gt;-->
-<!--    <string name="snack_note_moved_to_trash">Notiz wurde in den Papierkorb verschoben</string>-->
-<!--    <string name="snack_notes_moved_to_trash">Notizen wurden in den Papierkorb verschoben</string>-->
-<!--    <string name="snack_note_archived">Notiz archiviert</string>-->
-<!--    <string name="snack_note_unarchived">Notiz entpackt</string>-->
-<!--    <string name="snack_notes_archived">Notizen werden archiviert</string>-->
-<!--    <string name="snack_notes_unarchived">Notizen entpackt</string>-->
-<!--    <string name="snack_note_pinned">Notiz ist fixiert</string>-->
-<!--    <string name="snack_note_unpinned">Notiz unpinnen</string>-->
+    <!--  Hint  -->
+    <string name="hint_title">Überschrift</string>
+    <string name="hint_note">Notiz</string>
+    <string name="hint_search">Suche…</string>
+    <string name="hint_label">Markierung…</string>
+    <string name="hint_message">Nachricht</string>
+    <string name="hint_create_new_label">neues Label erstellen</string>
+    <string name="hint_new_checklist">Neue Liste</string>
+    <string name="hint_add_new_item">Element hinzufügen</string>
+    <string name="hint_item">Element</string>
 
-<!--    &lt;!&ndash;  Checkbox  &ndash;&gt;-->
-<!--    <string name="checkbox_clear_the_database">Datenbank löschen: Notizen, Erinnerungen, Tags, Checklisten und Papierkorb</string>-->
-<!--    <string name="checkbox_reset_settings">Einstellungen rücksetzen</string>-->
+    <!--  Setting  -->
+    <string name="stg_screen_lock">Sperrbildschirm</string>
+    <string name="stg_language">Sprache</string>
+    <string name="stg_note_swipes">Swipe von Notizen</string>
+    <string name="stg_note_style">Stil der Notizen</string>
 
-<!--    &lt;!&ndash;  Switch  &ndash;&gt;-->
-<!--    <string name="switch_use_biometric">Biometrie verwenden</string>-->
-<!--    <string name="switch_use_note_swipes">Swipes von Notizen verwenden</string>-->
+    <!--  MenuItem  -->
+    <string name="menu_item_settings">Einstellungen</string>
+    <string name="menu_item_about_app">Über die App</string>
+    <string name="menu_item_reminders">Erinnerungen</string>
+    <string name="menu_item_labels">Markierungen</string>
+    <string name="menu_item_rename">Umbenennen</string>
+    <string name="menu_item_delete">Entfernen</string>
+    <string name="menu_item_plain_text">Klartext</string>
+    <string name="menu_item_txt_file">.txt-Datei</string>
+    <string name="menu_item_share">Teilen</string>
+    <string name="menu_item_whats_new">Was gibt\'s Neues?</string>
+    <string name="menu_item_color">Farbe</string>
+    <string name="menu_item_create_new_label">Neues label erstellen</string>
+    <string name="menu_item_empty_trash">Papierkorb leeren</string>
+    <string name="menu_item_none">Nein</string>
+    <string name="menu_item_pin">PIN-Code</string>
+    <string name="menu_item_password">Passwort</string>
+    <string name="menu_item_pattern">Zeichnung</string>
+    <string name="menu_item_slide">Folie</string>
+    <string name="menu_item_does_not_repeat">Nicht wiederholen</string>
+    <string name="menu_item_daily">Täglich</string>
+    <string name="menu_item_weekly">Wöchentlich</string>
+    <string name="menu_item_monthly">Monatlich</string>
+    <string name="menu_item_outlined">Umreißen</string>
+    <string name="menu_item_elevated">Erhöhten</string>
+    <string name="menu_item_archive">Archivieren</string>
+    <string name="menu_item_check_all_items">alle Elemente ausführen</string>
+    <string name="menu_item_uncheck_all_items">alle Elemente entfernen</string>
+    <string name="menu_item_changelog">Änderungsprotokoll</string>
+    <string name="menu_item_license_agreement">Lizenzvereinbarung</string>
+    <string name="menu_item_privacy_policy">Datenschutz</string>
+    <string name="menu_item_terms_and_conditions">Nutzungsbedingungen</string>
+    <string name="menu_item_provide_feedback">Feedback hinterlassen</string>
+    <string name="menu_item_rate_on_play_store">im Play Store bewerten</string>
+    <string name="menu_item_reset">Zurücksetzen</string>
+    <string name="menu_item_check_for_updates">Nach Updates suchen</string>
+    <string name="menu_item_checklist">Checkliste</string>
+    <string name="menu_item_image">Bild</string>
+    <string name="menu_item_recording">Aufnahme</string>
+    <string name="menu_item_take_a_photo">Foto machen</string>
+    <string name="menu_item_place">Ort</string>
+    <string name="menu_item_make_a_copy">Kopie erstellen</string>
+    <string name="menu_item_backup">Sicherung</string>
 
-<!--    &lt;!&ndash;  Shortcuts  &ndash;&gt;-->
-<!--    <string name="shortcut_label_new_note">Neue Notiz</string>-->
-<!--    <string name="shortcut_label_reminders">Erinnerungen</string>-->
-<!--    <string name="shortcut_label_archive">Archiv</string>-->
-<!--    <string name="shortcut_label_trash">Korb</string>-->
+    <!--  Language -->
+    <string name="lan_system_default">Systemisch</string>
+    <string name="lan_ru">Russisch</string>
+    <string name="lan_en">Englisch</string>
+    <string name="lan_de">Deutsch</string>
+    <string name="lan_fr">Französisch</string>
 
-<!--    &lt;!&ndash;  Notification  &ndash;&gt;-->
-<!--    <string name="ntf_reminder_title">Erinnerung!</string>-->
-<!--    <string name="ntf_reminder_empty_message">keine Nachricht hinterlassen. Tippe auf, um die Notiz zu öffnen.</string>-->
-<!--    <string name="ntf_reminder_channel_description">wird für Erinnerungen verwendet</string>-->
+    <!--  Title  -->
+    <string name="title_notes">Notizen</string>
+    <string name="title_archive">Archiv</string>
+    <string name="title_trash">Korb</string>
+    <string name="title_settings">Einstellungen</string>
+    <string name="title_about_app">Über die App</string>
+    <string name="title_reminders">Erinnerungen</string>
+    <string name="title_labels">Markierungen</string>
+    <string name="title_new_reminder">Neue Erinnerung</string>
+    <string name="title_share">Teilen</string>
+    <string name="title_repeat">Wiederholung</string>
+    <string name="title_edit_reminder">Erinnerung bearbeiten</string>
+    <string name="title_choose_a_new_lock_screen">Wähle einen neuen Sperrbildschirm aus</string>
+    <string name="title_language">Sprache</string>
+    <string name="title_set_a_pin">PIN festlegen</string>
+    <string name="title_re_enter_your_pin">Wiederhole PIN</string>
+    <string name="title_set_a_password">Passwort festlegen</string>
+    <string name="title_re_enter_your_password">Passwort wiederholen</string>
+    <string name="title_delete_this_note">Notiz entfernen</string>
+    <string name="title_delete_this_label">Label entfernen?</string>
+    <string name="title_restore_this_note">Notiz wiederherstellen?</string>
+    <string name="title_empty_the_trash">Papierkorb leeren</string>
+    <string name="title_note_style">Stil der Notizen</string>
+    <string name="title_note_swipes">Swipe von Notizen</string>
+    <string name="title_changelog">Änderungsprotokoll</string>
+    <string name="title_license_agreement">Lizenzvereinbarung</string>
+    <string name="title_privacy_policy">Datenschutz</string>
+    <string name="title_terms_and_conditions">Nutzungsbedingungen</string>
+    <string name="title_reset">Reset</string>
+    <string name="title_auth_required">Authentifizierung erforderlich</string>
+    <string name="title_backup">Sicherung</string>
+    <string name="title_selected">Ausgewählt %s</string>
+    <string name="title_enter_pin">PIN eingeben</string>
+    <string name="title_enter_password">Passwort eingeben</string>
+    <string name="title_unlocked">Freigeschaltet</string>
 
-<!--    &lt;!&ndash;  On boarding  &ndash;&gt;-->
-<!--    <string name="on_boarding_first_page_title">Herzlich willkommen!</string>-->
-<!--    <string name="on_boarding_second_page_title">Erstelle erste Notiz</string>-->
-<!--    <string name="on_boarding_third_page_title">Organisiere Notizen</string>-->
-<!--    <string name="on_boarding_fourth_page_title">Erinnerungen und Benachrichtigungen einrichten</string>-->
-<!--    <string name="on_boarding_fifth_page_title">Beginnen?</string>-->
-<!--    <string name="on_boarding_first_page_description">Hier kann man Notizen, Aufgabenlisten und vieles mehr speichern. Fangen wir an!</string>-->
-<!--    <string name="on_boarding_second_page_description">Beginne jetzt mit dem Erstellen von Notizen! Man kann Titel, Text, Bilder und mehr hinzufügen.</string>-->
-<!--    <string name="on_boarding_third_page_description">Man kann Kategorien und Tags erstellen, um  Notizen zu organisieren, und die Suchfunktion für den schnellen Zugriff verwenden.</string>-->
-<!--    <string name="on_boarding_fourth_page_description">Richte Benachrichtigungen ein, damit wichtige Aufgaben oder Ereignisse nicht verpassen. Wir senden eine Erinnerung zu einem passenden Zeitpunkt.</string>-->
-<!--    <string name="on_boarding_fifth_page_description">Jetzt sind die wichtigsten Funktionen der App bekannt. Es scheint Zeit zu beginnen</string>-->
+    <!-- Permission -->
+    <string name="permission_notification_rationale">Leider können wir ohne Erlaubnis keine Benachrichtigungen senden. Wir versprechen, dass nur Benachrichtigungen für die von Ihnen festgelegten Erinnerungen gesendet werden.</string>
+    <string name="permission_notification_default">Für diese Funktion ist die Berechtigung zum Senden von Benachrichtigungen erforderlich. Bitte genehmige die Genehmigung.</string>
 
-<!--    &lt;!&ndash; Message &ndash;&gt;-->
-<!--    <string name="message_backup_created">Backup wurde erfolgreich erstellt</string>-->
-<!--    <string name="message_storage_restored">Der Speicher wurde erfolgreich wiederhergestellt</string>-->
+    <!--  Snack  -->
+    <string name="snack_note_moved_to_trash">Notiz wurde in den Papierkorb verschoben</string>
+    <string name="snack_notes_moved_to_trash">Notizen wurden in den Papierkorb verschoben</string>
+    <string name="snack_note_archived">Notiz archiviert</string>
+    <string name="snack_note_unarchived">Notiz entpackt</string>
+    <string name="snack_notes_archived">Notizen werden archiviert</string>
+    <string name="snack_notes_unarchived">Notizen entpackt</string>
+    <string name="snack_note_pinned">Notiz ist fixiert</string>
+    <string name="snack_note_unpinned">Notiz unpinnen</string>
+    <string name="snack_backup_created">Backup wurde erfolgreich erstellt</string>
+    <string name="snack_storage_restored">Der Speicher wurde erfolgreich wiederhergestellt</string>
+    <string name="snack_label_already_exist">Eine Bezeichnung mit diesem Namen existiert bereits</string>
+    <string name="snack_label_cannot_be_empty">Diese Bezeichnung darf nicht leer sein</string>
+    <string name="snack_nothing_to_share">Es gibt nichts zu teilen</string>
+    <string name="snack_remind_time_is_too_late">Die Erinnerung kann nicht eingestellt werden, die Erinnerungszeit ist später als das System.</string>
+
+    <!--  Checkbox  -->
+    <string name="checkbox_clear_the_database">Datenbank löschen: Notizen, Erinnerungen, Tags, Checklisten und Papierkorb</string>
+    <string name="checkbox_reset_settings">Einstellungen rücksetzen</string>
+
+    <!--  Switch  -->
+    <string name="switch_use_biometric">Biometrie verwenden</string>
+    <string name="switch_use_note_swipes">Swipes von Notizen verwenden</string>
+
+    <!--  Shortcuts  -->
+    <string name="shortcut_label_new_note">Neue Notiz</string>
+    <string name="shortcut_label_reminders">Erinnerungen</string>
+    <string name="shortcut_label_archive">Archiv</string>
+    <string name="shortcut_label_trash">Korb</string>
+
+    <!--  Notification  -->
+    <string name="ntf_reminder_title">Erinnerung!</string>
+    <string name="ntf_reminder_empty_message">keine Nachricht hinterlassen. Tippe auf, um die Notiz zu öffnen.</string>
+    <string name="ntf_reminder_channel_description">wird für Erinnerungen verwendet</string>
+
+    <!--  On boarding  -->
+    <string name="on_boarding_first_page_title">Herzlich willkommen!</string>
+    <string name="on_boarding_second_page_title">Erstelle erste Notiz</string>
+    <string name="on_boarding_third_page_title">Organisiere Notizen</string>
+    <string name="on_boarding_fourth_page_title">Erinnerungen und Benachrichtigungen einrichten</string>
+    <string name="on_boarding_fifth_page_title">Beginnen?</string>
+    <string name="on_boarding_first_page_description">Hier kann man Notizen, Aufgabenlisten und vieles mehr speichern. Fangen wir an!</string>
+    <string name="on_boarding_second_page_description">Beginne jetzt mit dem Erstellen von Notizen! Man kann Titel, Text, Bilder und mehr hinzufügen.</string>
+    <string name="on_boarding_third_page_description">Man kann Kategorien und Tags erstellen, um  Notizen zu organisieren, und die Suchfunktion für den schnellen Zugriff verwenden.</string>
+    <string name="on_boarding_fourth_page_description">Richte Benachrichtigungen ein, damit wichtige Aufgaben oder Ereignisse nicht verpassen. Wir senden eine Erinnerung zu einem passenden Zeitpunkt.</string>
+    <string name="on_boarding_fifth_page_description">Jetzt sind die wichtigsten Funktionen der App bekannt. Es scheint Zeit zu beginnen</string>
 
 </resources>

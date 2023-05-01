@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.core.model.repository.local.database
 
 data class Checklist(
     val id: Long? = null,
+    val isExpanded: Boolean,
     val name: String,
     val noteId: Long,
     val items: List<ChecklistItem>
@@ -9,12 +10,14 @@ data class Checklist(
     companion object {
         fun initialInstance(
             name: String = "",
+            isExpanded: Boolean = true,
             noteId: Long = -1,
             items: List<ChecklistItem> = listOf()
         ) = Checklist(
             name = name,
             noteId = noteId,
-            items = items
+            items = items,
+            isExpanded = isExpanded
         )
     }
 }

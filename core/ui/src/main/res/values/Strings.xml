@@ -227,7 +227,6 @@
     <string name="snack_nothing_to_share">Nothing to share</string>
     <string name="snack_remind_time_is_too_late">It is impossible to set a reminder, the reminder time is later than the system time.</string>
 
-
     <!-- Checkbox -->
     <string name="checkbox_clear_the_database">Clear the database: notes, reminders, labels, checklists and trash</string>
     <string name="checkbox_reset_settings">Reset application settings to default values</string>

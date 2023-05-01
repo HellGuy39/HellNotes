@@ -12,9 +12,13 @@ const val REMINDERS_TABLE_NAME = "reminders_table"
 data class ReminderEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
+
     val noteId: Long,
+
     val message: String,
+
     val triggerDate: Long,
+
     @ColumnInfo(name = "repeat", defaultValue = Repeat.DOES_NOT_REPEAT)
     val repeat: String
 )

@@ -41,7 +41,6 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 import com.hellguy39.hellnotes.feature.note_detail.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailContent(
     innerPadding: PaddingValues,
@@ -98,7 +97,7 @@ fun NoteDetailContent(
             key = { checklist -> checklist.id ?: 0 }
         ) { checklist ->
 
-            var isVisible by rememberSaveable { mutableStateOf(!checklist.isItemsCompleted()) }
+            val isVisible = checklist.isExpanded
             val dropdownMenuState = rememberDropdownMenuState()
 
             Card(
@@ -122,7 +121,7 @@ fun NoteDetailContent(
                     ) {
                         IconButton(
                             modifier = Modifier.size(48.dp),
-                            onClick = { isVisible = !isVisible }
+                            onClick = { checklistSelection.onUpdateIsChecklistExpanded(checklist, !isVisible) }
                         ) {
                             val painterId = if (isVisible) HellNotesIcons.ExpandLess else HellNotesIcons.ExpandMore
                             Icon(
@@ -262,61 +261,61 @@ fun NoteDetailContent(
             }
         }
 
-        if (ProjectInfoProvider.appConfig.isDebug) {
-            val images = listOf(
-                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
-                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
-                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
-            )
-            item(
-                key = -4
-            ) {
-                LazyRow(
-                    modifier = Modifier,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp)
-                ) {
-                    items(images) { imageId ->
-                        Image(
-                            modifier = Modifier
-                                .height(256.dp)
-                                .width(256.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .clickable(
-                                    onClick = {
-
-                                    }
-                                )
-                            ,
-                            painter = painterResource(id = imageId),
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null
-                        )
-                    }
-                    item {
-                        ElevatedCard(
-                            modifier = Modifier
-                                .height(256.dp)
-                                .width(256.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            onClick = {}
-                        ) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    modifier = Modifier.size(48.dp),
-                                    painter = painterResource(id = HellNotesIcons.Add),
-                                    tint = MaterialTheme.colorScheme.primary,
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        if (ProjectInfoProvider.appConfig.isDebug) {
+//            val images = listOf(
+//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+//            )
+//            item(
+//                key = -4
+//            ) {
+//                LazyRow(
+//                    modifier = Modifier,
+//                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+//                    contentPadding = PaddingValues(horizontal = 16.dp)
+//                ) {
+//                    items(images) { imageId ->
+//                        Image(
+//                            modifier = Modifier
+//                                .height(256.dp)
+//                                .width(256.dp)
+//                                .clip(RoundedCornerShape(16.dp))
+//                                .clickable(
+//                                    onClick = {
+//
+//                                    }
+//                                )
+//                            ,
+//                            painter = painterResource(id = imageId),
+//                            contentScale = ContentScale.Crop,
+//                            contentDescription = null
+//                        )
+//                    }
+//                    item {
+//                        ElevatedCard(
+//                            modifier = Modifier
+//                                .height(256.dp)
+//                                .width(256.dp),
+//                            shape = RoundedCornerShape(16.dp),
+//                            onClick = {}
+//                        ) {
+//                            Box(
+//                                modifier = Modifier.fillMaxSize(),
+//                                contentAlignment = Alignment.Center
+//                            ) {
+//                                Icon(
+//                                    modifier = Modifier.size(48.dp),
+//                                    painter = painterResource(id = HellNotesIcons.Add),
+//                                    tint = MaterialTheme.colorScheme.primary,
+//                                    contentDescription = null
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }
 
@@ -386,7 +385,8 @@ data class NoteDetailChecklistSelection(
     val onAddChecklistItem: (Checklist) -> Unit,
     val onDeleteChecklistItem: (Checklist, ChecklistItem) -> Unit,
     val onChecklistNameChange: (Checklist, String) -> Unit,
-    val onUpdateChecklistItemText: (Checklist, ChecklistItem, String)-> Unit,
+    val onUpdateChecklistItemText: (Checklist, ChecklistItem, String) -> Unit,
+    val onUpdateIsChecklistExpanded: (Checklist, Boolean) -> Unit,
     val onDoneAll: (Checklist) -> Unit,
     val onRemoveDone: (Checklist) -> Unit,
     val onDelete: (Checklist) -> Unit

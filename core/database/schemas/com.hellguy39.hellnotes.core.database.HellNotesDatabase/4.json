@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "09d1b61e6e4786090de722d9ad615a66",
+    "identityHash": "470d1de6fd4655bfcfc13257f4c844c2",
     "entities": [
       {
         "tableName": "notes_table",
@@ -181,7 +181,7 @@
       },
       {
         "tableName": "checklist_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `noteId` INTEGER NOT NULL, `items` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `noteId` INTEGER NOT NULL, `name` TEXT NOT NULL, `is_expanded` INTEGER NOT NULL, `items` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -196,14 +196,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "items",
-            "columnName": "items",
+            "fieldPath": "name",
+            "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
+            "fieldPath": "isExpanded",
+            "columnName": "is_expanded",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "items",
+            "columnName": "items",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -221,7 +227,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '09d1b61e6e4786090de722d9ad615a66')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '470d1de6fd4655bfcfc13257f4c844c2')"
     ]
   }
 }

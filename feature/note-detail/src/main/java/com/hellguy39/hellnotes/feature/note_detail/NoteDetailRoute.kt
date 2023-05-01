@@ -411,6 +411,9 @@ fun NoteDetailRoute(
                         checklist, item, item.copy(text = text)
                     )
                 )
+            },
+            onUpdateIsChecklistExpanded = { checklist, isExpanded ->
+                noteDetailViewModel.send(NoteDetailUiEvent.ExpandChecklist(checklist, isExpanded))
             }
         )
     )

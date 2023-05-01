@@ -14,6 +14,7 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.ui.components.HNNavigationDrawer
 import com.hellguy39.hellnotes.core.ui.components.snack.*
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToAboutApp
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelEdit
@@ -208,9 +209,9 @@ fun HomeRoute(
         }
     )
 
-    ModalNavigationDrawer(
+    HNNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = {
+        drawerSheet = {
             DrawerSheetContent(
                 selectedItem = drawerUiState.drawerItem,
                 drawerItems = drawerItems,
@@ -218,7 +219,8 @@ fun HomeRoute(
                 labelSelection = LabelSelection(
                     onEditLabel = { navController.navigateToLabelEdit(action = context.getString(HellNotesStrings.Action.Edit)) },
                     onCreateNewLabel = { navController.navigateToLabelEdit(action = context.getString(HellNotesStrings.Action.Create)) }
-                )
+                ),
+                onClose = { scope.launch { drawerState.close() } }
             )
         },
         content = {

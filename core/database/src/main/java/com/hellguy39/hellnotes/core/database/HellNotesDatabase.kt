@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.core.database
 
-import android.app.Application
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -53,8 +52,8 @@ abstract class HellNotesDatabase: RoomDatabase() {
                         HellNotesDatabase::class.java,
                         DATABASE_NAME
                     )
+                    .addMigrations(DatabaseMigrations.Schema3to4)
                     .setJournalMode(JournalMode.TRUNCATE)
-                    .addMigrations(DatabaseMigrations.Schema3to4())
                     .build()
                 this.instance = instance
                 return instance

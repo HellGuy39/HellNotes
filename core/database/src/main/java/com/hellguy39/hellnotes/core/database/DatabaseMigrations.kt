@@ -28,9 +28,17 @@ object DatabaseMigrations {
     )
     class Schema2to3 : AutoMigrationSpec
 
-    class Schema3to4 : Migration(3, 4) {
+    val Schema3to4 = object : Migration(3, 4) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("CREATE TABLE IF NOT EXISTS `$CHECKLIST_TABLE_NAME` (`id` INTEGER PRIMARY KEY AUTOINCREMENT `noteId` INTEGER NOT NULL `items` TEXT NOT NULL `name` TEXT NOT NULL)")
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `$CHECKLIST_TABLE_NAME` (
+                    `id` INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    `noteId` INTEGER NOT NULL, 
+                    `name` TEXT NOT NULL, 
+                    `is_expanded` INTEGER NOT NULL, 
+                    `items` TEXT NOT NULL
+                )
+            """.trimIndent())
         }
     }
 

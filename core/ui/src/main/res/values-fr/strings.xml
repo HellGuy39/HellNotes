@@ -1,4 +1,255 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Content description -->
+    <string name="content_description_back">Retour</string>
+    <string name="content_description_labels">Label</string>
+    <string name="content_description_pin">Fixer</string>
+    <string name="content_description_reminder">Rappel</string>
+    <string name="content_description_delete">Supprimer</string>
+    <string name="content_description_add_note">Ajouter une note</string>
+    <string name="content_description_color">Couleur</string>
+    <string name="content_description_view_type">Type de visualisation</string>
+    <string name="content_description_more">Plus</string>
+    <string name="content_description_sort">Trier</string>
+    <string name="content_description_search">Recherche</string>
+    <string name="content_description_cancel">Annuler</string>
+    <string name="content_description_close">Fermer</string>
+    <string name="content_description_edit">Modifier</string>
+
+    <!-- Label -->
+    <string name="label_upcoming">Prochains</string>
+    <string name="label_pinned">Fixes</string>
+    <string name="label_others">Autres</string>
+    <string name="label_checklist">Checklist</string>
+    <string name="label_reminder">Rappel</string>
+    <string name="label_archive">Archive</string>
+    <string name="label_security">Sécurité</string>
+    <string name="label_labels">Labels</string>
+    <string name="label_gestures">Gestes</string>
+    <string name="label_general">Générales</string>
+    <string name="label_appearance">Decoration</string>
+    <string name="label_swipe_right">Swipe à droite</string>
+    <string name="label_swipe_left">Swipe à gauche</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">Les notes dans la corbeille sont automatiquement supprimés après 7 jours</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_empty">Jusqu\'à présent, il n\'y a rien…</string>
+    <string name="placeholder_nothing_was_found">Malheureusement, rien n\'a été trouvé pour votre demande…</string>
+    <string name="placeholder_failed_to_load_data">Impossible de charger les données</string>
+    <string name="placeholder_no_notes_in_trash">Aucune notes dans la corbeille</string>
+    <string name="placeholder_label_selection">Vos étiquettes seront affichées ici</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">Malheureusement, nous ne pourrons pas vous envoyer les notifications sans autorisation. Nous vous promettons de n\'envoyer des notifications seulement pour les rappels que vous avez établis.</string>
+    <string name="permission_notification_default">Pour cette fonctionnalité il est nécessaire d\'approuver la permission d\'envoyer des notifications.\nAprouvez la permission, s\'il vous plaît.</string>
+
+    <!-- Button -->
+    <string name="btn_request_permission">Demander la permission</string>
+    <string name="btn_create">Créer</string>
+    <string name="btn_edit">Modifier</string>
+    <string name="btn_delete">Supprimer</string>
+    <string name="btn_enter">Entrer</string>
+    <string name="btn_undo">Annuler</string>
+    <string name="btn_save">Enregistrer</string>
+    <string name="btn_cancel">Annuler</string>
+    <string name="btn_accept">Accepter</string>
+    <string name="btn_clear">Effacer</string>
+    <string name="btn_next">Suivant</string>
+    <string name="btn_confirm">Confirmer</string>
+    <string name="btn_biometrics">Biométrie</string>
+    <string name="btn_rename">Renommer</string>
+    <string name="btn_finish">Terminer</string>
+    <string name="btn_skip">Passer</string>
+    <string name="btn_reset">Réinitialiser</string>
+    <string name="btn_try_again">Réessayer</string>
+    <string name="btn_create_backup">Créer une sauvegarde</string>
+    <string name="btn_restore_from_backup">Restaurer à partir d\'une sauvegarde</string>
+
+    <!-- Hint -->
+    <string name="hint_title">Titre</string>
+    <string name="hint_note">Note</string>
+    <string name="hint_search">Recherche…</string>
+    <string name="hint_label">Étiquette…</string>
+    <string name="hint_message">Message</string>
+    <string name="hint_create_new_label">Créer une nouvelle étiquette</string>
+    <string name="hint_new_checklist">Nouvelle liste de contrôle</string>
+    <string name="hint_add_new_item">Ajouter un élément</string>
+    <string name="hint_item">Élément</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">Verrouillage d\'écran</string>
+    <string name="stg_language">Langue</string>
+    <string name="stg_note_swipes">Balayages de notes</string>
+    <string name="stg_note_style">Style de notes</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">Paramètres</string>
+    <string name="menu_item_about_app">À propos de l\'application</string>
+    <string name="menu_item_reminders">Rappels</string>
+    <string name="menu_item_labels">Étiquettes</string>
+    <string name="menu_item_rename">Renommer</string>
+    <string name="menu_item_delete">Supprimer</string>
+    <string name="menu_item_plain_text">Texte brut</string>
+    <string name="menu_item_txt_file">Fichier .txt</string>
+    <string name="menu_item_share">Partager</string>
+    <string name="menu_item_whats_new">Quoi de neuf ?</string>
+    <string name="menu_item_color">Couleur</string>
+    <string name="menu_item_create_new_label">Créer une nouvelle étiquette</string>
+    <string name="menu_item_empty_trash">Vider la corbeille</string>
+    <string name="menu_item_none">Aucun</string>
+    <string name="menu_item_pin">Code PIN</string>
+    <string name="menu_item_password">Mot de passe</string>
+    <string name="menu_item_pattern">Motif</string>
+    <string name="menu_item_slide">Glissement</string>
+    <string name="menu_item_does_not_repeat">Ne pas répéter</string>
+    <string name="menu_item_daily">Quotidiennement</string>
+    <string name="menu_item_weekly">Hebdomadairement</string>
+    <string name="menu_item_monthly">Mensuellement</string>
+    <string name="menu_item_outlined">Contouré</string>
+    <string name="menu_item_elevated">Surélevé</string>
+    <string name="menu_item_archive">Archiver</string>
+    <string name="menu_item_check_all_items">Cocher tous les éléments</string>
+    <string name="menu_item_uncheck_all_items">Décocher tous les éléments</string>
+    <string name="menu_item_changelog">Journal des modifications</string>
+    <string name="menu_item_license_agreement">Contrat de licence</string>
+    <string name="menu_item_privacy_policy">Politique de confidentialité</string>
+    <string name="menu_item_terms_and_conditions">Conditions générales d\'utilisation</string>
+    <string name="menu_item_provide_feedback">Fournir des commentaires</string>
+    <string name="menu_item_rate_on_play_store">Noter sur Play Store</string>
+    <string name="menu_item_reset">Réinitialiser</string>
+    <string name="menu_item_check_for_updates">Vérifier les mises à jour</string>
+    <string name="menu_item_checklist">Liste de contrôle</string>
+    <string name="menu_item_image">Image</string>
+    <string name="menu_item_recording">Enregistrement</string>
+    <string name="menu_item_take_a_photo">Prendre une photo</string>
+    <string name="menu_item_place">Lieu</string>
+    <string name="menu_item_make_a_copy">Faire une copie</string>
+    <string name="menu_item_backup">Sauvegarde</string>
+
+    <!-- Language -->
+    <string name="lan_system_default">Système</string>
+    <string name="lan_ru">Russe</string>
+    <string name="lan_en">Anglais</string>
+    <string name="lan_de">Allemand</string>
+    <string name="lan_fr">Français</string>
+
+    <!-- Title -->
+    <string name="title_notes">Notes</string>
+    <string name="title_archive">Archives</string>
+    <string name="title_trash">Corbeille</string>
+    <string name="title_settings">Paramètres</string>
+    <string name="title_about_app">À propos de l\'application</string>
+    <string name="title_reminders">Rappels</string>
+    <string name="title_labels">Étiquettes</string>
+    <string name="title_new_reminder">Nouveau rappel</string>
+    <string name="title_share">Partager</string>
+    <string name="title_repeat">Répéter</string>
+    <string name="title_edit_reminder">Modifier le rappel</string>
+    <string name="title_choose_a_new_lock_screen">Choisir un nouvel écran de verrouillage</string>
+    <string name="title_language">Langue</string>
+    <string name="title_set_a_pin">Configurer un code PIN</string>
+    <string name="title_re_enter_your_pin">Confirmer le code PIN</string>
+    <string name="title_enter_pin">Entrez le code PIN</string>
+    <string name="title_enter_password">Entrez le mot de passe</string>
+    <string name="title_set_a_password">Définir un mot de passe</string>
+    <string name="title_unlocked">Déverrouillé</string>
+    <string name="title_selected">Sélectionné %s</string>
+    <string name="title_note_style">Style de notes</string>
+    <string name="title_re_enter_your_password">Ressaisissez votre mot de passe</string>
+    <string name="title_delete_this_note">Supprimer cette note?</string>
+    <string name="title_delete_this_label">Supprimer cette étiquette?</string>
+    <string name="title_restore_this_note">Restaurer cette note?</string>
+    <string name="title_empty_the_trash">Vider la poubelle?</string>
+    <string name="title_note_swipes">Balayages de Notes</string>
+    <string name="title_changelog">Changelog</string>
+    <string name="title_license_agreement">Journal des Modifications</string>
+    <string name="title_privacy_policy">Politique de confidentialité</string>
+    <string name="title_terms_and_conditions">Termes &amp; Conditions</string>
+    <string name="title_reset">Réinitialiser</string>
+    <string name="title_auth_required">Authentification requise</string>
+    <string name="title_backup">Sauvegarde</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_unchecked_items">+%s éléments non cochés</string>
+    <string name="subtitle_unchecked_item">+%s élément non cochés</string>
+    <string name="subtitle_checklist">+%s liste de contrôle</string>
+    <string name="subtitle_checklists">+%s listes de contrôle</string>
+    <string name="subtitle_enabled">Activé</string>
+    <string name="subtitle_disabled">Désactivé</string>
+    <string name="subtitle_current_lock_screen">Écran de verrouillage actuel</string>
+    <string name="subtitle_select_actions">Sélectionnez les actions</string>
+    <string name="subtitle_edited">Modifié %s</string>
+    <string name="subtitle_date_of_creation">Date de création</string>
+    <string name="subtitle_date_of_last_edit">Date de la dernière modification</string>
+    <string name="subtitle_last_copy">Dernier exemplaire: %s</string>
+
+    <!-- Supporting -->
+    <string name="supporting_pin_must_be_at_least_4_digits">Le code PIN doit contenir au moins 4 chiffres</string>
+    <string name="supporting_password_must_be_at_least_4_characters">Le mot de passe doit contenir au moins 4 caractères</string>
+    <string name="supporting_share_note">Choisissez comment partager la note. Ensuite, vous pourrez sélectionner le destinataire et le mode d\'envoi.</string>
+    <string name="supporting_delete_note">La note sera déplacée dans la corbeille où vous pourrez la supprimer définitivement ou la restaurer. Toutes les étiquettes et rappels seront détachés.</string>
+    <string name="supporting_restore_note">Après la restauration, vous pourrez à nouveau ouvrir et modifier cette note.</string>
+    <string name="supporting_delete_label">L\'étiquette sera supprimée de manière permanente. Toutes les notes avec cette étiquette la perdront.</string>
+    <string name="supporting_empty_trash">Toutes les notes dans la corbeille seront supprimées de manière permanente.</string>
+    <string name="supporting_backup">La création d\'une copie de sauvegarde vous aidera à protéger vos notes et à vous protéger contre la perte éventuelle d\'informations importantes. Veuillez ne pas fermer l\'application ou éteindre l\'appareil pendant le processus de copie.</string>
+    <string name="supporting_wrong_pin">Code PIN incorrect</string>
+    <string name="supporting_wrong_password">Mot de passe incorrect</string>
+
+    <!-- Value -->
+    <string name="value_never">Jamais</string>
+
+    <!-- Snack -->
+    <string name="snack_note_moved_to_trash">La note a été déplacée dans la corbeille</string>
+    <string name="snack_notes_moved_to_trash">Les notes ont été déplacées dans la corbeille</string>
+    <string name="snack_note_archived">La note a été archivée</string>
+    <string name="snack_note_unarchived">Note désarchivée</string>
+    <string name="snack_notes_archived">Notes archivées</string>
+    <string name="snack_notes_unarchived">Notes désarchivées</string>
+    <string name="snack_note_pinned">Note épinglée</string>
+    <string name="snack_note_unpinned">Note détachée</string>
+    <string name="snack_remind_time_is_too_late">Impossible de définir un rappel, l\'heure de rappel est tard que l\'heure système</string>
+    <string name="snack_label_already_exist">L\'étiquette portant ce nom déjà existe </string>
+    <string name="snack_label_cannot_be_empty">L\'étiquette ne peut pas être vide</string>
+    <string name="snack_nothing_to_share">Rien à partager</string>
+    <string name="snack_backup_created">La sauvegarde a été créée avec succès</string>
+    <string name="snack_storage_restored">Le stockage a été restauré avec succès</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database">Effacer la base de données : notes, rappels, étiquettes, listes de contrôle et corbeille</string>
+    <string name="checkbox_reset_settings">Réinitialiser les paramètres de l\'application aux valeurs par défaut</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric">Utiliser la biométrie</string>
+    <string name="switch_use_note_swipes">Utiliser les balayages de notes</string>
+
+    <!-- Shortcut -->
+    <string name="shortcut_label_new_note">Nouvelle note</string>
+    <string name="shortcut_label_reminders">Rappels</string>
+    <string name="shortcut_label_archive">Archives</string>
+    <string name="shortcut_label_trash">Corbeille</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">Rappel!</string>
+    <string name="ntf_reminder_empty_message">Vous n\'avez pas laissé de message. Cliquez pour ouvrir la note.</string>
+    <string name="ntf_reminder_channel_description">Utilisé pour les rappels</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">Bienvenue!</string>
+    <string name="on_boarding_second_page_title">Créez votre première note</string>
+    <string name="on_boarding_third_page_title">Organisez vos notes</string>
+    <string name="on_boarding_fourth_page_title">Configurez les rappels et les notifications</string>
+    <string name="on_boarding_fifth_page_title">Prêts?</string>
+
+    <string name="on_boarding_first_page_description">Vous pouvez stocker des notes, des listes de tâches et bien plus encore ici. Commençons!</string>
+    <string name="on_boarding_second_page_description">Commencez à créer des notes dès maintenant! Vous pouvez ajouter des titres, du texte, des images et bien plus encore.</string>
+    <string name="on_boarding_third_page_description">Vous pouvez créer des catégories et des balises pour organiser vos notes, ainsi que utiliser la fonction de recherche pour un accès rapide.</string>
+    <string name="on_boarding_fourth_page_description">Configurez des rappels pour ne pas manquer de tâches ou d\'événements importants. Nous vous enverrons un rappel à l\'heure qui vous convient.</string>
+    <string name="on_boarding_fifth_page_description">Vous connaissez maintenant les fonctionnalités clés de l\'application. Il semble temps de commencer à travailler.</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">Bientôt disponible</string>
+
 </resources>
