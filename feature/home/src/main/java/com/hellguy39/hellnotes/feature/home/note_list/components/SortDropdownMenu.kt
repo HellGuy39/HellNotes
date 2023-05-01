@@ -1,11 +1,12 @@
 package com.hellguy39.hellnotes.feature.home.note_list.components
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.util.Sorting
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.Sorting
+import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
@@ -16,13 +17,20 @@ fun SortDropdownMenu(
     onSortSelected: (Sorting) -> Unit
 ) {
     DropdownMenu(
+        modifier = Modifier,
         expanded = expanded,
         onDismissRequest = { onDismiss() },
     ) {
         DropdownMenuItem(
+            modifier = Modifier.background(
+                color = if (currentSorting == Sorting.DateOfCreation)
+                    MaterialTheme.colorScheme.secondaryContainer
+                else
+                    MaterialTheme.colorScheme.surfaceColorAtElevation(UiDefaults.Elevation.Level2)
+            ),
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.DateOfCreation),
+                    text = stringResource(id = HellNotesStrings.Subtitle.DateOfCreation),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -30,19 +38,17 @@ fun SortDropdownMenu(
                 onDismiss()
                 onSortSelected(Sorting.DateOfCreation)
             },
-            leadingIcon = {
-                if (currentSorting == Sorting.DateOfCreation) {
-                    Icon(
-                        painter = painterResource(id = HellNotesIcons.Done),
-                        contentDescription = null,
-                    )
-                }
-            }
         )
         DropdownMenuItem(
+            modifier = Modifier.background(
+                color = if (currentSorting == Sorting.DateOfLastEdit)
+                    MaterialTheme.colorScheme.secondaryContainer
+                else
+                    MaterialTheme.colorScheme.surfaceColorAtElevation(UiDefaults.Elevation.Level2)
+            ),
             text = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Text.DateOfLastEdit),
+                    text = stringResource(id = HellNotesStrings.Subtitle.DateOfLastEdit),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -50,14 +56,6 @@ fun SortDropdownMenu(
                 onDismiss()
                 onSortSelected(Sorting.DateOfLastEdit)
             },
-            leadingIcon = {
-                if (currentSorting == Sorting.DateOfLastEdit) {
-                    Icon(
-                        painter = painterResource(id = HellNotesIcons.Done),
-                        contentDescription = null
-                    )
-                }
-            }
         )
     }
 }

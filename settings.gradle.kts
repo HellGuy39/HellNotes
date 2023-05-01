@@ -12,6 +12,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
     }
 }
 
@@ -19,6 +20,7 @@ rootProject.name = "HellNotes"
 
 /* App */
 include (":app")
+include(":benchmark")
 
 /* Core */
 include (":core:database")
@@ -36,13 +38,20 @@ include (":feature:note-detail")
 include (":feature:home")
 include (":feature:search")
 include (":feature:label-edit")
-include (":feature:welcome")
+include (":feature:on-boarding")
 include(":feature:lock")
 include(":feature:lock-selection")
 include(":feature:language-selection")
 include(":feature:lock-setup")
 include(":feature:reminder-edit")
 include(":feature:label-selection")
-include(":benchmark")
 include(":feature:note-style-edit")
 include(":feature:note-swipe-edit")
+include(":feature:startup")
+include(":feature:changelog")
+include(":feature:reset")
+include(":feature:privacy-policy")
+include(":feature:terms-and-conditions")
+include(":core:network")
+include(":feature:update")
+include(":feature:backup")

@@ -2,14 +2,18 @@ package com.hellguy39.hellnotes.feature.home.label.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.util.ListStyle
+import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -18,12 +22,15 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 fun LabelTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     selection: LabelTopAppBarSelection,
-    label: Label
+    label: Label,
+    dropdownMenuSelection: LabelDropdownMenuSelection
 ) {
     val listStyleIcon = if(selection.listStyle == ListStyle.Column)
         painterResource(id = HellNotesIcons.GridView)
     else
         painterResource(id = HellNotesIcons.ListView)
+
+    val labelDropdownMenuState = rememberDropdownMenuState()
 
     AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
         TopAppBar(
@@ -32,7 +39,7 @@ fun LabelTopAppBar(
                 if (isNoteSelection) {
                     Text(
                         text = stringResource(
-                            id = HellNotesStrings.Text.Selected,
+                            id = HellNotesStrings.Title.Selected,
                             selection.selectedNotes.count()
                         ),
                         style = MaterialTheme.typography.headlineSmall
@@ -100,6 +107,19 @@ fun LabelTopAppBar(
                         Icon(
                             painter = listStyleIcon,
                             contentDescription = null
+                        )
+                    }
+                    IconButton(
+                        modifier = Modifier.size(48.dp),
+                        onClick = { labelDropdownMenuState.show() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.MoreVert),
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More)
+                        )
+                        LabelDropdownMenu(
+                            state = labelDropdownMenuState,
+                            selection = dropdownMenuSelection
                         )
                     }
                 }

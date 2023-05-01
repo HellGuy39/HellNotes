@@ -20,6 +20,6 @@ fun LockSetupRoute(
             lockSetupViewModel.saveAppCode(code)
             navController.popBackStack(route = Screen.Settings.route, inclusive = false)
         },
-        onNavigationBack = { navController.popBackStack() }
+        onNavigationBack = navController::popBackStack
     )
 }

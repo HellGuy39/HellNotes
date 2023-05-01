@@ -2,13 +2,10 @@ package com.hellguy39.hellnotes.feature.home.note_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.toNoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.util.Sorting
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.Sorting
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -18,25 +15,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteListViewModel @Inject constructor(
-    noteRepository: NoteRepository,
-    labelRepository: LabelRepository,
-    reminderRepository: ReminderRepository,
+    getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase,
     private val dataStoreRepository: DataStoreRepository,
 ): ViewModel() {
 
-    val uiState = combine(
+    val uiState =
+        combine(
             dataStoreRepository.readListSortState(),
-            noteRepository.getAllNotesStream(),
-            reminderRepository.getAllRemindersStream(),
-            labelRepository.getAllLabelsStream()
-        ) { sorting, notes, reminders, labels ->
+            getAllNotesWithRemindersAndLabelsStreamUseCase.invoke()
+        ) { sorting, notes ->
 
-            val sortedNotes = when(sorting) {
-                is Sorting.DateOfCreation -> notes.sortedByDescending { note -> note.id }
-                is Sorting.DateOfLastEdit -> notes.sortedByDescending { note -> note.editedAt }
-            }
-                .filter { note -> !note.isArchived }
-                .map { note -> note.toNoteDetailWrapper(reminders, labels) }
+            val sortedNotes = notes
+                .sortedByDescending { wrapper -> wrapper.note.editedAt }
+                .filter { wrapper -> !wrapper.note.isArchived }
+
+//            when(sorting) {
+//                is Sorting.DateOfCreation -> notes.sortedByDescending { wrapper -> wrapper.note.id }
+//                is Sorting.DateOfLastEdit -> notes.sortedByDescending { wrapper -> wrapper.note.editedAt }
+//            }
+//                .filter { wrapper -> !wrapper.note.isArchived }
 
             NoteListUiState(
                 sorting = sorting,

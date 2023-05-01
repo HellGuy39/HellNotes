@@ -2,14 +2,14 @@ package com.hellguy39.hellnotes.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
-import com.hellguy39.hellnotes.core.model.NoteSwipesState
-import com.hellguy39.hellnotes.core.model.SecurityState
-import com.hellguy39.hellnotes.core.model.util.Language
-import com.hellguy39.hellnotes.core.model.util.NoteStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
+import com.hellguy39.hellnotes.core.model.Language
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,94 +18,82 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
-    private val biometricAuth: BiometricAuthenticator,
+    val biometricAuth: BiometricAuthenticator,
     private val languageHolder: LanguageHolder
 ): ViewModel() {
 
-    private val settingsViewModelState = MutableStateFlow(SettingsViewModelState())
+    private val isBiometricAuthAvailable =
+        biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success
 
-    val uiState = settingsViewModelState
-        .map(SettingsViewModelState::toUiState)
+    private val languageCode = MutableStateFlow(languageHolder.getLanguageCode())
+
+    val uiState = combine(
+        dataStoreRepository.readSecurityState(),
+        dataStoreRepository.readNoteStyleState(),
+        dataStoreRepository.readNoteSwipesState(),
+        dataStoreRepository.readLastBackupDate(),
+        languageCode,
+    ) { securityState, noteStyle, noteSwipesState, lastBackupDate, languageCode ->
+        SettingsUiState(
+            securityState = securityState,
+            noteStyle = noteStyle,
+            noteSwipesState = noteSwipesState,
+            isBioAuthAvailable = isBiometricAuthAvailable,
+            lanCode = languageCode,
+            lastBackupDate = lastBackupDate
+        )
+    }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = settingsViewModelState.value.toUiState()
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = SettingsUiState.initialInstance()
         )
 
-    init {
-        updateLanguageCode()
-        viewModelScope.launch {
-            launch {
-                settingsViewModelState.update { state ->
-                    state.copy(isBioAuthAvailable = isBiometricAuthAvailable())
-                }
+
+    fun send(uiEvent: SettingsUiEvent) {
+        when(uiEvent) {
+            is SettingsUiEvent.Start -> {
+                languageCode.update { languageHolder.getLanguageCode() }
             }
-            launch {
-                dataStoreRepository.readSecurityState().collect { settings ->
-                    settingsViewModelState.update { state ->
-                        state.copy(securityState = settings)
-                    }
-                }
-            }
-            launch {
-                dataStoreRepository.readNoteStyleState().collect { noteStyle ->
-                    settingsViewModelState.update { state ->
-                        state.copy(noteStyle = noteStyle)
-                    }
-                }
-            }
-            launch {
-                dataStoreRepository.readNoteSwipesState().collect { noteSwipeState ->
-                    settingsViewModelState.update { state ->
-                        state.copy(noteSwipesState = noteSwipeState)
-                    }
-                }
+            is SettingsUiEvent.ToggleIsUseBiometricData -> {
+               saveIsUseBiometricData(uiEvent.isUseBiometric)
             }
         }
     }
 
-    fun updateLanguageCode() {
+    private fun saveIsUseBiometricData(isUseBiometric: Boolean) {
         viewModelScope.launch {
-            settingsViewModelState.update { state ->
-                state.copy(
-                    lanCode = languageHolder.getLanguageCode()
-                )
-            }
-        }
-    }
-
-    fun saveIsUseBiometricData(isUseBiometric: Boolean) {
-        viewModelScope.launch {
-            val state = settingsViewModelState.value.securityState
+            val state = uiState.value.securityState
             dataStoreRepository.saveSecurityState(state.copy(isUseBiometricData = isUseBiometric))
         }
     }
 
-    private fun isBiometricAuthAvailable(): Boolean {
-        return biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success
-    }
+}
+
+sealed class SettingsUiEvent {
+
+    object Start: SettingsUiEvent()
+
+    data class ToggleIsUseBiometricData(val isUseBiometric: Boolean): SettingsUiEvent()
 
 }
 
-private data class SettingsViewModelState(
-    val securityState: SecurityState = SecurityState.initialInstance(),
-    val lanCode: String = Language.SystemDefault.code,
-    val isBioAuthAvailable: Boolean = false,
-    val noteStyle: NoteStyle = NoteStyle.Outlined,
-    val noteSwipesState: NoteSwipesState = NoteSwipesState.initialInstance()
-) {
-    fun toUiState() = SettingsUiState(
-        securityState = securityState,
-        isBioAuthAvailable = isBioAuthAvailable,
-        lanCode = lanCode,
-        noteStyle = noteStyle,
-        noteSwipesState = noteSwipesState
-    )
-}
 data class SettingsUiState(
     val securityState: SecurityState,
     val lanCode: String,
+    val lastBackupDate: Long,
     val isBioAuthAvailable: Boolean,
     val noteStyle: NoteStyle,
     val noteSwipesState: NoteSwipesState
-)
+) {
+    companion object {
+        fun initialInstance() = SettingsUiState(
+            securityState = SecurityState.initialInstance(),
+            lanCode = Language.SystemDefault.code,
+            isBioAuthAvailable = false,
+            noteStyle = NoteStyle.Outlined,
+            noteSwipesState = NoteSwipesState.initialInstance(),
+            lastBackupDate = 0L
+        )
+    }
+}

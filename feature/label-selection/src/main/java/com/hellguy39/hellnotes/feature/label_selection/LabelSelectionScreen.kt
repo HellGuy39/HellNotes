@@ -1,21 +1,22 @@
 package com.hellguy39.hellnotes.feature.label_selection
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.Label
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.input.CustomTextField
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionCheckItem
-import com.hellguy39.hellnotes.core.ui.components.items.SelectionIconItem
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
+import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
+import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
+import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -26,17 +27,20 @@ fun LabelSelectionScreen(
     uiState: LabelSelectionUiState,
     selection: LabelSelectionScreenSelection
 ) {
-
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
+    val listItemModifier = Modifier
+        .padding(horizontal = 16.dp, vertical = 16.dp)
+        .fillMaxWidth()
+
     Scaffold(
         topBar = {
-            CustomTopAppBar(
+            HNTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationBack,
                 content = {
-                    CustomTextField(
+                    HNClearTextField(
                         value = uiState.search,
                         hint = stringResource(id = HellNotesStrings.Hint.Label),
                         onValueChange = { newText -> selection.onSearchUpdate(newText) },
@@ -52,40 +56,51 @@ fun LabelSelectionScreen(
                 return@Scaffold
             }
 
-            Crossfade(targetState = uiState) { uiState ->
-                if (uiState.labels.isEmpty() && uiState.search.isEmpty()) {
-                    EmptyContentPlaceholder(
-                        heroIcon = painterResource(id = HellNotesIcons.Label),
-                        message = stringResource(id = HellNotesStrings.Helper.LabelSelectionPlaceholder)
-                    )
-                    return@Crossfade
-                }
+            if (uiState.labels.isEmpty() && uiState.search.isEmpty()) {
+                EmptyContentPlaceholder(
+                    modifier = Modifier
+                        .padding(horizontal = 32.dp)
+                        .padding(paddingValues)
+                        .fillMaxSize(),
+                    heroIcon = painterResource(id = HellNotesIcons.Label),
+                    message = stringResource(id = HellNotesStrings.Placeholder.LabelSelection)
+                )
+                return@Scaffold
+            }
 
-                LazyColumn(
-                    contentPadding = paddingValues,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(uiState.labels) { label ->
-                        SelectionCheckItem(
-                            heroIcon = painterResource(id = HellNotesIcons.Label),
-                            title = label.name,
-                            checked = label.noteIds.contains(uiState.note.id),
-                            onCheckedChange = { checked ->
-                                selection.onLabelSelectedUpdate(label, checked)
-                            }
+            LazyColumn(
+                contentPadding = paddingValues,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(
+                    items = uiState.labels,
+                    key = { label -> label.id ?: 0 }
+                ) { label ->
+                    val isChecked = label.noteIds.contains(uiState.noteId)
+                    HNCheckboxItem(
+                        modifier = listItemModifier,
+                        onClick = { selection.onLabelSelectedUpdate(label, !isChecked) },
+                        heroIcon = painterResource(id = HellNotesIcons.Label),
+                        title = label.name,
+                        checked = isChecked,
+                        iconSize = 24.dp
+                    )
+                }
+                if (isShowCreateNewLabelItem(uiState.labels, uiState.search)) {
+                    item(
+                        key = -1
+                    ) {
+                        HNListItem(
+                            modifier = listItemModifier,
+                            heroIcon = painterResource(id = HellNotesIcons.NewLabel),
+                            title = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
+                            onClick = selection.onCreateNewLabel,
+                            iconSize = 24.dp
                         )
-                    }
-                    if (isShowCreateNewLabelItem(uiState.labels, uiState.search)) {
-                        item {
-                            SelectionIconItem(
-                                heroIcon = painterResource(id = HellNotesIcons.NewLabel),
-                                title = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
-                                onClick = { selection.onCreateNewLabel() }
-                            )
-                        }
                     }
                 }
             }
+
         }
     )
 }

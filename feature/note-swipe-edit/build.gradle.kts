@@ -1,7 +1,8 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin ("kapt")
+    id("com.google.devtools.ksp")
+    kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
 
@@ -46,7 +47,7 @@ dependencies {
     implementation(Libs.Google.Material)
 
     implementation(Libs.AndroidX.Compose.Lifecycle)
-    implementation(Libs.AndroidX.Compose.Activty)
+    implementation(Libs.AndroidX.Compose.Activity)
     implementation(Libs.AndroidX.Compose.Ui)
     implementation(Libs.AndroidX.Compose.ToolingPreview)
     implementation(Libs.AndroidX.Compose.Material3)
@@ -64,5 +65,5 @@ dependencies {
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
-    implementation(Libs.Google.Hilt.NavigationCompsoe)
+    implementation(Libs.Google.Hilt.NavigationCompose)
 }

@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,21 +34,22 @@ fun TipCard(
     ) {
         Card(
             modifier = Modifier
-                .padding(4.dp)
+                .padding(horizontal = 4.dp, vertical = 4.dp)
                 .fillMaxWidth(),
             colors = CardDefaults.cardColors(
-                containerColor = Color.Transparent//MaterialTheme.colorScheme.tertiaryContainer
-            )
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            ),
+            shape = RoundedCornerShape(16.dp)
         ) {
             Row(
-                modifier = Modifier.padding(top = 12.dp, bottom = 12.dp, start = 12.dp),
-                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(end = 12.dp),
+                        .padding(end = 0.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     if (title.isNotEmpty()) {
@@ -66,15 +68,12 @@ fun TipCard(
                     }
                 }
 
-                CustomVerticalDivider(height = 48.dp)
-
-                Spacer(modifier = Modifier.padding(end = 12.dp))
-
                 IconButton(
                     modifier = Modifier.size(48.dp),
                     onClick = onClose,
                 ) {
                     Icon(
+                        modifier = Modifier.size(24.dp),
                         painter = painterResource(id = HellNotesIcons.Close),
                         contentDescription = null,
                     )

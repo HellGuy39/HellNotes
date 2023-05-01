@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.gson.Gson
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlin.system.exitProcess
 
 class GlobalExceptionHandler private constructor(
@@ -15,6 +17,7 @@ class GlobalExceptionHandler private constructor(
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
         try {
             launchActivity(applicationContext, activityToBeLaunched, throwable)
+            Log.e(TAG, throwable.stackTraceToString())
             exitProcess(0)
         } catch (e: Exception) {
             defaultHandler.uncaughtException(thread, throwable)

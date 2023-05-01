@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.ui.theme
+package com.hellguy39.hellnotes.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

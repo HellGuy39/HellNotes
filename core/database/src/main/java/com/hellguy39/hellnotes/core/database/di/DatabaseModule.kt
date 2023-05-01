@@ -2,6 +2,8 @@ package com.hellguy39.hellnotes.core.database.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.hellguy39.hellnotes.core.database.DatabaseMigrations
 import com.hellguy39.hellnotes.core.database.HellNotesDatabase
 import dagger.Module
 import dagger.Provides
@@ -18,10 +20,6 @@ object DatabaseModule {
     @Singleton
     fun provideHellNotesDatabase(
         @ApplicationContext context: Context
-    ): HellNotesDatabase = Room.databaseBuilder(
-        context,
-        HellNotesDatabase::class.java,
-        HellNotesDatabase.DATABASE_NAME
-    ).build()
+    ) : HellNotesDatabase = HellNotesDatabase.getDatabase(context)
 
 }

@@ -12,17 +12,12 @@ fun NoteStyleEditRoute(
     navController: NavController,
     noteStyleEditViewModel: NoteStyleEditViewModel = hiltViewModel()
 ) {
-
-    val onNavigationBack: () -> Unit = {
-        navController.popBackStack()
-    }
-
     val uiState by noteStyleEditViewModel.uiState.collectAsStateWithLifecycle()
 
-    BackHandler(onBack = onNavigationBack)
+    BackHandler(onBack = navController::popBackStack)
 
     NoteStyleEditScreen(
-        onNavigationButtonClick = onNavigationBack,
+        onNavigationButtonClick = navController::popBackStack,
         uiState = uiState,
         onNoteStyleChange = { noteStyle ->
             noteStyleEditViewModel.saveNoteStyle(noteStyle)

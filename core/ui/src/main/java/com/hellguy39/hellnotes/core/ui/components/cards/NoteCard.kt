@@ -4,9 +4,9 @@ import androidx.compose.animation.core.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.util.NoteStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 
 @Composable
 fun NoteCard(
@@ -33,7 +33,8 @@ fun NoteCard(
     }
 }
 
-data class NoteSelection @OptIn(ExperimentalMaterial3Api::class) constructor(
+@OptIn(ExperimentalMaterial3Api::class)
+data class NoteSelection(
     val noteStyle: NoteStyle,
     val isSwipeable: Boolean,
     val onClick: (Note) -> Unit,

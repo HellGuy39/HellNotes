@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin ("kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
@@ -19,10 +20,8 @@ android {
             isMinifyEnabled = false
         }
     }
-    kapt {
-        arguments {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -37,8 +36,8 @@ dependencies {
 
     implementation(project(Modules.Core.Model))
 
-    implementation(Libs.AndroidX.Room.RoomKtx)
-    kapt(Libs.AndroidX.Room.RoomCompiler)
+    api(Libs.AndroidX.Room.RoomKtx)
+    ksp(Libs.AndroidX.Room.RoomCompiler)
 
     implementation (Libs.Kotlin.Coroutines)
 

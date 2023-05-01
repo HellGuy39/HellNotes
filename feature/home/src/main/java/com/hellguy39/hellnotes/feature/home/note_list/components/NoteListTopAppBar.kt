@@ -12,8 +12,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -49,17 +49,19 @@ fun NoteListTopAppBar(
                 if (targetState) {
                     Text(
                         text = stringResource(
-                            id = HellNotesStrings.Text.Selected,
+                            id = HellNotesStrings.Title.Selected,
                             selectedNotes.count()
                         ),
                         style = MaterialTheme.typography.headlineSmall
                     )
                 } else {
-
-                    ElevatedCard(
+                    Card(
                         onClick = { selection.onSearch() },
                         shape = RoundedCornerShape(32.dp),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(UiDefaults.Elevation.Level3)
+                        ),
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.Center,
@@ -67,7 +69,7 @@ fun NoteListTopAppBar(
                         ) {
                             Spacer(modifier = Modifier.width(4.dp))
                             IconButton(
-                                modifier = Modifier.padding(vertical = 4.dp),
+                                modifier = Modifier.padding(vertical = 0.dp),
                                 onClick = { selection.onNavigation() }
                             ) {
                                 Icon(
@@ -85,7 +87,7 @@ fun NoteListTopAppBar(
                             )
                             Spacer(modifier = Modifier.weight(1f))
                             IconButton(
-                                modifier = Modifier.padding(vertical = 4.dp),
+                                modifier = Modifier.padding(vertical = 0.dp),
                                 onClick = { selection.onChangeListStyle() }
                             ) {
                                 Icon(

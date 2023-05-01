@@ -2,15 +2,12 @@ package com.hellguy39.hellnotes.feature.home.archive
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.model.*
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

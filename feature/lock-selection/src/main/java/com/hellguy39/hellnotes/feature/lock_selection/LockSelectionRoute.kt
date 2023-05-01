@@ -1,15 +1,14 @@
 package com.hellguy39.hellnotes.feature.lock_selection
 
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.util.LockScreenType
+import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLockSetup
-import kotlinx.coroutines.launch
 
 @Composable
 fun LockSelectionRoute(
@@ -17,29 +16,25 @@ fun LockSelectionRoute(
     lockSelectionViewModel: LockSelectionViewModel = hiltViewModel()
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
+
+    val uiState by lockSelectionViewModel.uiState.collectAsStateWithLifecycle()
 
     LockSelectionScreen(
-        onNavigationBack = {
-            navController.popBackStack()
-        },
+        onNavigationBack = navController::popBackStack,
+        uiState = uiState,
         onLockScreenTypeSelected = { type ->
-            if (type == LockScreenType.None) {
-                lockSelectionViewModel.resetAppLock()
-                navController.popBackStack()
-            } else {
-                if(type != LockScreenType.Pin) {
-                    scope.launch {
-                        snackbarHostState.currentSnackbarData?.dismiss()
-                        snackbarHostState.showSnackbar(
-                            "Unfortunately this option is not available yet",
-                            duration = SnackbarDuration.Short,
-                            withDismissAction = true
-                        )
-                    }
-                } else {
+            when(type) {
+                LockScreenType.None -> {
+                    lockSelectionViewModel.resetAppLock()
+                    navController.popBackStack()
+                }
+                LockScreenType.Pin -> {
                     navController.navigateToLockSetup(lockType = type)
                 }
+                LockScreenType.Password -> {
+                    navController.navigateToLockSetup(lockType = type)
+                }
+                else -> Unit
             }
         },
         snackbarHostState = snackbarHostState

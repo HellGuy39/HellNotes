@@ -2,9 +2,9 @@ package com.hellguy39.hellnotes.feature.home.trash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,7 +61,7 @@ class TrashViewModel @Inject constructor(
 
     fun emptyTrash() {
         viewModelScope.launch {
-            trashRepository.deleteAllTrash()
+            trashRepository.deleteAll()
         }
     }
 
@@ -86,7 +86,7 @@ data class TrashUiState(
 ) {
     companion object {
         fun initialInstance() = TrashUiState(
-            trashTipCompleted = false,
+            trashTipCompleted = true,
             trashNotes = listOf(),
         )
     }

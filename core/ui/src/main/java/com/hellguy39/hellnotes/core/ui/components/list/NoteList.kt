@@ -1,18 +1,16 @@
 package com.hellguy39.hellnotes.core.ui.components.list
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.util.ListStyle
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.isNotesEmpty
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
 fun NoteList(
@@ -22,22 +20,16 @@ fun NoteList(
     listStyle: ListStyle = ListStyle.Column,
     selectedNotes: List<Note> = listOf(),
     listHeader: @Composable () -> Unit = {},
-    placeholder: @Composable () -> Unit = {
-        EmptyContentPlaceholder(
-            heroIcon = painterResource(id = HellNotesIcons.Info),
-            message = stringResource(id = HellNotesStrings.Text.Empty)
-        )
-    }
 ) {
-
-    if (categories.isNotesEmpty()) {
-        placeholder()
-        return
-    }
+    val listModifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 4.dp, vertical = 4.dp)
+        .testTag("item_list")
 
     when(listStyle) {
         ListStyle.Column -> {
             NoteColumnList(
+                modifier = listModifier,
                 innerPadding = innerPadding,
                 noteSelection = noteSelection,
                 categories = categories,
@@ -47,6 +39,7 @@ fun NoteList(
         }
         ListStyle.Grid -> {
             NoteGridList(
+                modifier = listModifier,
                 innerPadding = innerPadding,
                 noteSelection = noteSelection,
                 categories = categories,

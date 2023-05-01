@@ -8,7 +8,11 @@ const val LABELS_TABLE_NAME = "labels_table"
 
 @Entity(tableName = LABELS_TABLE_NAME)
 data class LabelEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long? = null,
+
     val name: String,
-    @ColumnInfo(name = "note_ids", defaultValue = "[]") val noteIds: List<Long>
+
+    @ColumnInfo(name = "note_ids", defaultValue = "[]")
+    val noteIds: List<Long>
 )

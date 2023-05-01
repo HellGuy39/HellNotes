@@ -1,12 +1,14 @@
 package com.hellguy39.hellnotes.feature.home.trash
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
@@ -14,6 +16,7 @@ import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.cards.TipCard
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.HomeScreenMultiActionSelection
@@ -42,7 +45,7 @@ fun TrashScreen(
         state = emptyTrashDialogState,
         heroIcon = painterResource(id = HellNotesIcons.Delete),
         title = stringResource(id = HellNotesStrings.Title.EmptyTrash),
-        message = stringResource(id = HellNotesStrings.Helper.EmptyTrashDialog),
+        message = stringResource(id = HellNotesStrings.Supporting.EmptyTrash),
         onCancel = {
             emptyTrashDialogState.dismiss()
         },
@@ -56,7 +59,7 @@ fun TrashScreen(
         state = restoreDialogState,
         heroIcon = painterResource(id = HellNotesIcons.RestoreFromTrash),
         title = stringResource(id = HellNotesStrings.Title.RestoreThisNote),
-        message = stringResource(id = HellNotesStrings.Helper.RestoreNoteDialog),
+        message = stringResource(id = HellNotesStrings.Supporting.RestoreNote),
         onClose = {
             trashViewModel.clearSelectedNote()
             restoreDialogState.dismiss()
@@ -98,6 +101,18 @@ fun TrashScreen(
         },
         snackbarHost = visualsSelection.snackbarHost,
         content = { paddingValues ->
+
+            if (uiState.trashNotes.isEmpty()) {
+                EmptyContentPlaceholder(
+                    modifier = Modifier
+                        .padding(horizontal = 32.dp)
+                        .padding(paddingValues)
+                        .fillMaxSize(),
+                    heroIcon = painterResource(id = HellNotesIcons.Delete),
+                    message = stringResource(id = HellNotesStrings.Placeholder.NoNotesInTrash)
+                )
+            }
+
             NoteList(
                 innerPadding = paddingValues,
                 noteSelection = NoteSelection(
@@ -132,17 +147,10 @@ fun TrashScreen(
                 listHeader = {
                     TipCard(
                         isVisible = !uiState.trashTipCompleted,
-                        message = stringResource(id = HellNotesStrings.Text.AutoDeleteTrash),
+                        message = stringResource(id = HellNotesStrings.Tip.AutoDeleteTrash),
                         onClose = { trashViewModel.trashTipCompleted(true) }
                     )
                 },
-                placeholder = {
-                    EmptyContentPlaceholder(
-                        paddingValues = paddingValues,
-                        heroIcon = painterResource(id = HellNotesIcons.Delete),
-                        message = stringResource(id = HellNotesStrings.Text.NoNotesInTrash)
-                    )
-                }
             )
         }
     )

@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.core.ui.components
 
 import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
@@ -25,16 +24,7 @@ fun CustomDivider(
 ) {
     val transition = updateTransition(isVisible, label = "")
 
-    val animatedColor by transition.animateColor(
-        transitionSpec = {
-            when {
-                isVisible ->
-                    tween(durationMillis = 300)//snap(delayMillis = 100)
-                else ->
-                    tween(durationMillis = 300)
-            }
-        }, label = ""
-    ) { state ->
+    val animatedColor by transition.animateColor(label = "") { state ->
         when (state) {
             true -> color
             false -> Color.Transparent
@@ -64,14 +54,7 @@ fun CustomVerticalDivider(
     val transition = updateTransition(isVisible, label = "")
 
     val animatedColor by transition.animateColor(
-        transitionSpec = {
-            when {
-                isVisible ->
-                    tween(durationMillis = 300)//snap(delayMillis = 100)
-                else ->
-                    tween(durationMillis = 300)
-            }
-        }, label = ""
+        label = ""
     ) { state ->
         when (state) {
             true -> color

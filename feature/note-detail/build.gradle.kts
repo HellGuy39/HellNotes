@@ -1,8 +1,9 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin ("kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
 
 @Suppress("UnstableApiUsage")
@@ -47,7 +48,7 @@ dependencies {
     implementation(Libs.Google.Material)
 
     implementation(Libs.AndroidX.Compose.Lifecycle)
-    implementation(Libs.AndroidX.Compose.Activty)
+    implementation(Libs.AndroidX.Compose.Activity)
     implementation(Libs.AndroidX.Compose.Ui)
     implementation(Libs.AndroidX.Compose.ToolingPreview)
     implementation(Libs.AndroidX.Compose.Material3)
@@ -65,9 +66,9 @@ dependencies {
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
-    implementation(Libs.Google.Hilt.NavigationCompsoe)
+    implementation(Libs.Google.Hilt.NavigationCompose)
 
-    implementation (Libs.MaxKeppler.ComposeDialogs.Core)
-    implementation (Libs.MaxKeppler.ComposeDialogs.Calendar)
-    implementation (Libs.MaxKeppler.ComposeDialogs.Clock)
+    implementation (Libs.ThirdParty.ComposeDialogs.Core)
+    implementation (Libs.ThirdParty.ComposeDialogs.Calendar)
+    implementation (Libs.ThirdParty.ComposeDialogs.Clock)
 }

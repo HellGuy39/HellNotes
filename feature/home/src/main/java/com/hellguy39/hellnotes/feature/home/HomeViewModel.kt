@@ -2,12 +2,19 @@ package com.hellguy39.hellnotes.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.*
-import com.hellguy39.hellnotes.core.model.*
-import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.model.util.NoteStyle
-import com.hellguy39.hellnotes.core.model.util.NoteSwipe
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
+import com.hellguy39.hellnotes.core.domain.use_case.note.MoveNoteToTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.RestoreNoteFromTrashUseCase
+import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -18,9 +25,10 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
     private val noteRepository: NoteRepository,
-    private val reminderRepository: ReminderRepository,
     private val trashRepository: TrashRepository,
-    private val labelRepository: LabelRepository
+    labelRepository: LabelRepository,
+    private val moveNoteToTrashUseCase: MoveNoteToTrashUseCase,
+    private val restoreNoteFromTrashUseCase: RestoreNoteFromTrashUseCase
 ): ViewModel() {
 
     private val drawerItem = MutableStateFlow(DrawerItem())
@@ -135,20 +143,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             if (clearBuffer) { lastActionNotes.update { listOf() } }
 
-            note.id?.let { id ->
-                noteRepository.deleteNoteById(id)
-                reminderRepository.deleteReminderByNoteId(id)
-                labelRepository.deleteNoteIdFromLabels(id)
-            }
-
-            if (note.isNoteValid()) {
-                trashRepository.insertTrash(
-                    Trash(
-                        note = note,
-                        dateOfAdding = DateTimeUtils.getCurrentTimeInEpochMilli()
-                    )
-                )
-            }
+            moveNoteToTrashUseCase.invoke(note)
 
             lastActionNotes.update { notes -> notes.plus(note) }
         }
@@ -166,8 +161,7 @@ class HomeViewModel @Inject constructor(
 
     fun restoreNoteFromTrash(note: Note) {
         viewModelScope.launch {
-            trashRepository.deleteTrashByNote(note)
-            noteRepository.insertNote(note)
+            restoreNoteFromTrashUseCase.invoke(note)
         }
     }
 

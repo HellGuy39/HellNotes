@@ -5,11 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import kotlinx.coroutines.launch
 
 @Composable
@@ -17,19 +19,16 @@ fun ReminderEditRoute(
     navController: NavController,
     reminderEditViewModel: ReminderEditViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val uiState by reminderEditViewModel.uiState.collectAsStateWithLifecycle()
-
-    fun onNavigationBack() {
-        navController.popBackStack()
-    }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val remindIsTooLateMessage = stringResource(id = HellNotesStrings.Text.RemindTimeIsTooLate)
+    BackHandler(onBack = navController::popBackStack)
 
     ReminderEditScreen(
-        onNavigationBack = { onNavigationBack() },
+        onNavigationBack = navController::popBackStack,
         uiState = uiState,
         selection = ReminderEditScreenSelection(
             onMessageUpdate = { message ->
@@ -47,12 +46,12 @@ fun ReminderEditRoute(
             onCreateReminder = {
                 if (reminderEditViewModel.isPossibleToCreateReminder()) {
                     reminderEditViewModel.insertReminder()
-                    onNavigationBack()
+                    navController.popBackStack()
                 } else {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     scope.launch {
                         snackbarHostState.showSnackbar(
-                            message = remindIsTooLateMessage,
+                            message = context.getString(HellNotesStrings.Snack.RemindTimeIsTooLate),
                             withDismissAction = true
                         )
                     }
@@ -60,17 +59,17 @@ fun ReminderEditRoute(
             },
             onDeleteReminder = {
                 reminderEditViewModel.deleteReminder()
-                onNavigationBack()
+                navController.popBackStack()
             },
             onUpdateReminder = {
                 if (reminderEditViewModel.isPossibleToCreateReminder()) {
                     reminderEditViewModel.updateReminder()
-                    onNavigationBack()
+                    navController.popBackStack()
                 } else {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     scope.launch {
                         snackbarHostState.showSnackbar(
-                            message = remindIsTooLateMessage,
+                            message = context.getString(HellNotesStrings.Snack.RemindTimeIsTooLate),
                             withDismissAction = true
                         )
                     }

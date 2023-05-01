@@ -3,16 +3,18 @@ package com.hellguy39.hellnotes.feature.home
 import androidx.compose.animation.Crossfade
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.Note
-import com.hellguy39.hellnotes.core.model.NoteSwipesState
-import com.hellguy39.hellnotes.core.model.util.ListStyle
-import com.hellguy39.hellnotes.core.model.util.NoteStyle
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.ui.components.HNNavigationDrawer
 import com.hellguy39.hellnotes.core.ui.components.snack.*
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToAboutApp
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelEdit
@@ -21,6 +23,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
 import com.hellguy39.hellnotes.feature.home.label.LabelScreen
+import com.hellguy39.hellnotes.feature.home.label.LabelUiEvent
 import com.hellguy39.hellnotes.feature.home.label.LabelViewModel
 import com.hellguy39.hellnotes.feature.home.note_list.NoteListScreen
 import com.hellguy39.hellnotes.feature.home.note_list.components.DrawerSheetContent
@@ -37,8 +40,17 @@ fun HomeRoute(
     navController: NavController,
     startScreen: HomeScreen = HomeScreen.NoteList,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    labelViewModel: LabelViewModel = hiltViewModel()
+    labelViewModel: LabelViewModel = hiltViewModel(),
+    onStartupAction: () -> Unit = {}
 ) {
+    var isStartupActionPassed by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(key1 = Unit) {
+        if (!isStartupActionPassed) {
+            onStartupAction()
+            isStartupActionPassed = true
+        }
+    }
+
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val drawerUiState by homeViewModel.drawerUiState.collectAsStateWithLifecycle()
 
@@ -47,18 +59,6 @@ fun HomeRoute(
     val scope = rememberCoroutineScope()
 
     val snackbarHostState = remember { SnackbarHostState() }
-    val visualsSelection = HomeScreenVisualsSelection(
-        listStyle = uiState.listStyle,
-        noteStyle = uiState.noteStyle,
-        onUpdateListStyle = { homeViewModel.updateListStyle() },
-        noteSwipesState = uiState.noteSwipesState,
-        drawerState = drawerState,
-        snackbarHost = {
-            CustomSnackbarHost(
-                state = snackbarHostState
-            )
-        }
-    )
 
     fun showOnActionSnack(message: String, onActionPerformed: () -> Unit) {
         snackbarHostState.showDismissableSnackbar(
@@ -183,7 +183,7 @@ fun HomeRoute(
                 scope.launch { drawerState.close() }
                 snackbarHostState.currentSnackbarData?.dismiss()
                 multiActionSelection.onCancelSelection()
-                labelViewModel.selectLabel(label)
+                labelViewModel.send(LabelUiEvent.SelectLabel(label))
                 homeViewModel.setDrawerItem(drawerItem)
             }
         )
@@ -195,9 +195,23 @@ fun HomeRoute(
         }
     }
 
-    ModalNavigationDrawer(
+    val visualsSelection = HomeScreenVisualsSelection(
+        listStyle = uiState.listStyle,
+        noteStyle = uiState.noteStyle,
+        onUpdateListStyle = homeViewModel::updateListStyle,
+        noteSwipesState = uiState.noteSwipesState,
         drawerState = drawerState,
-        drawerContent = {
+        snackbarHost = {
+            CustomSnackbarHost(state = snackbarHostState)
+        },
+        resetDrawerRoute = {
+            onDrawerItemClick(drawerItems[0])
+        }
+    )
+
+    HNNavigationDrawer(
+        drawerState = drawerState,
+        drawerSheet = {
             DrawerSheetContent(
                 selectedItem = drawerUiState.drawerItem,
                 drawerItems = drawerItems,
@@ -205,7 +219,8 @@ fun HomeRoute(
                 labelSelection = LabelSelection(
                     onEditLabel = { navController.navigateToLabelEdit(action = context.getString(HellNotesStrings.Action.Edit)) },
                     onCreateNewLabel = { navController.navigateToLabelEdit(action = context.getString(HellNotesStrings.Action.Create)) }
-                )
+                ),
+                onClose = { scope.launch { drawerState.close() } }
             )
         },
         content = {
@@ -261,6 +276,7 @@ data class HomeScreenVisualsSelection(
     val drawerState: DrawerState,
     val noteSwipesState: NoteSwipesState,
     val onUpdateListStyle: () -> Unit,
+    val resetDrawerRoute: () -> Unit,
     val snackbarHost: @Composable () -> Unit
 )
 

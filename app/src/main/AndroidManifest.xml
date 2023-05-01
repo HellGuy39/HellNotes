@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
@@ -29,6 +30,7 @@
             android:exported="true"
             android:theme="@style/Theme.HellNotes.Splash"
             android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,6 +40,7 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+
         </activity>
 
         <activity
@@ -46,14 +49,16 @@
             android:process=":error_handler"
             android:theme="@style/Theme.HellNotes" />
 
-        <activity
-            android:name=".feature.welcome.WelcomeActivity"
-            android:exported="false"
-            android:theme="@style/Theme.HellNotes" />
-
         <receiver
-            android:name=".broadcast.ReminderBroadcastReceiver"
+            android:name=".broadcast.ReminderReceiver"
             android:enabled="true" />
+
+        <receiver android:name=".broadcast.DownloadCompletedReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
@@ -73,6 +78,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>

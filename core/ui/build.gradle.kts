@@ -1,7 +1,8 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin ("kapt")
+    id("com.google.devtools.ksp")
+    kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
 
@@ -45,11 +46,12 @@ dependencies {
     implementation(Libs.Google.Material)
 
     implementation(Libs.AndroidX.Compose.Lifecycle)
-    implementation(Libs.AndroidX.Compose.Activty)
+    implementation(Libs.AndroidX.Compose.Activity)
     implementation(Libs.AndroidX.Compose.Ui)
     implementation(Libs.AndroidX.Compose.ToolingPreview)
     implementation(Libs.AndroidX.Compose.Material3)
     implementation(Libs.AndroidX.Compose.Navigation)
+    implementation(Libs.AndroidX.Compose.LiveData)
     androidTestImplementation(Libs.AndroidX.Compose.UiTestJUnit)
     debugImplementation(Libs.AndroidX.Compose.UiTooling)
     debugImplementation(Libs.AndroidX.Compose.UiTestManifest)

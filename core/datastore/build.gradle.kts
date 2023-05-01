@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("com.google.devtools.ksp")
     kotlin ("kapt")
     id("com.google.dagger.hilt.android")
 }
@@ -35,5 +36,5 @@ dependencies {
 
     implementation(project(Modules.Core.Model))
 
-    implementation (Libs.AndroidX.DataStore.Preferences)
+    implementation(Libs.AndroidX.DataStore.Preferences)
 }

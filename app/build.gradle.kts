@@ -5,6 +5,8 @@ plugins {
     kotlin("android")
     kotlin ("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 @Suppress("UnstableApiUsage")
@@ -16,8 +18,8 @@ android {
         applicationId = Config.ApplicationId
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
-        versionCode = 1
-        versionName = "1.0-rc03"
+        versionCode = 6
+        versionName = "1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -53,6 +55,7 @@ android {
     }
     packagingOptions {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        resources.excludes.add("/META-INF/INDEX.LIST")
     }
     kapt {
         correctErrorTypes = true
@@ -61,7 +64,8 @@ android {
 
 dependencies {
 
-    implementation(project(Modules.Feature.Welcome))
+    implementation(project(Modules.Feature.Startup))
+    implementation(project(Modules.Feature.OnBoarding))
     implementation(project(Modules.Feature.Lock))
     implementation(project(Modules.Feature.Search))
     implementation(project(Modules.Feature.Home))
@@ -76,6 +80,12 @@ dependencies {
     implementation(project(Modules.Feature.LabelSelection))
     implementation(project(Modules.Feature.NoteStyleEdit))
     implementation(project(Modules.Feature.NoteSwipesEdit))
+    implementation(project(Modules.Feature.Changelog))
+    implementation(project(Modules.Feature.PrivacyPolicy))
+    implementation(project(Modules.Feature.TermsAndConditions))
+    implementation(project(Modules.Feature.Reset))
+    implementation(project(Modules.Feature.Update))
+    implementation(project(Modules.Feature.Backup))
 
     implementation(project(Modules.Core.Ui))
     implementation(project(Modules.Core.Data))
@@ -88,6 +98,7 @@ dependencies {
     implementation(Libs.AndroidX.CoreKtx)
     implementation(Libs.AndroidX.LifecycleKtx)
     implementation(Libs.AndroidX.AppCompat)
+    implementation(Libs.AndroidX.WorkKtx)
     implementation(Libs.AndroidX.Biometric)
     implementation(Libs.AndroidX.SplashScreen)
     implementation(Libs.AndroidX.ProfileInstaller)
@@ -95,7 +106,7 @@ dependencies {
     implementation(Libs.Google.Material)
 
     implementation(Libs.AndroidX.Compose.Lifecycle)
-    implementation(Libs.AndroidX.Compose.Activty)
+    implementation(Libs.AndroidX.Compose.Activity)
     implementation(Libs.AndroidX.Compose.Ui)
     implementation(Libs.AndroidX.Compose.ToolingPreview)
     implementation(Libs.AndroidX.Compose.Material3)
@@ -118,9 +129,12 @@ dependencies {
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
-    implementation(Libs.Google.Hilt.NavigationCompsoe)
+    implementation(Libs.Google.Hilt.NavigationCompose)
 
     implementation(Libs.SquareUp.Moshi)
+
+    implementation(Libs.Google.Firebase.Analytics)
+    implementation(Libs.Google.Firebase.Crashlytics)
 
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 

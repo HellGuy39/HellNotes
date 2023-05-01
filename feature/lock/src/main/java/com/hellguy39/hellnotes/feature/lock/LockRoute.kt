@@ -14,6 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
+import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import kotlinx.coroutines.launch
 
 @Composable
@@ -23,8 +24,11 @@ fun LockRoute(
     onUnlock: () -> Unit = {},
     context: Context = LocalContext.current
 ) {
+    BackHandler(
+        onBack = {}
+    )
+
     val uiState by lockViewModel.uiState.collectAsStateWithLifecycle()
-    val errorMessage by lockViewModel.errorMessage.collectAsStateWithLifecycle()
 
     val hapticFeedback = LocalHapticFeedback.current
     val view = LocalView.current
@@ -32,23 +36,23 @@ fun LockRoute(
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = uiState.lockState) {
-        if (uiState.lockState == LockState.Unlocked) {
+        if (uiState.lockState is LockState.Unlocked) {
             onUnlock()
         }
     }
 
-    LaunchedEffect(key1 = uiState.isBiometricsAllowed) {
-        if (uiState.isBiometricsAllowed) {
+    LaunchedEffect(key1 = uiState.securityState.isUseBiometricData) {
+        if (uiState.securityState.isUseBiometricData) {
             lockViewModel.authByBiometric {
                 biometricAuth.authenticate(context as AppCompatActivity)
             }
         }
     }
 
-    if (errorMessage.isNotEmpty()) {
-        LaunchedEffect(key1 = errorMessage, block = {
+    if (uiState.errorMessage.isNotEmpty()) {
+        LaunchedEffect(key1 = uiState.errorMessage, block = {
             scope.launch {
-                snackbarHostState.showSnackbar(errorMessage)
+                snackbarHostState.showSnackbar(uiState.errorMessage)
             }
         })
     }
@@ -62,10 +66,15 @@ fun LockRoute(
             },
             onLongClick = { key ->
                 if (key == NumberKeyboardKeys.KeyBackspace) {
-                    lockViewModel.clearPin()
+                    lockViewModel.clearPassword()
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 }
             }
+        ),
+        passwordSelection = PasswordSelection(
+            onClear = lockViewModel::clearPassword,
+            onEntered = lockViewModel::enterPassword,
+            onValueChange = lockViewModel::enterValue
         ),
         snackbarHostState = snackbarHostState,
         onBiometricsAuth = {

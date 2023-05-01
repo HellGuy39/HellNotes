@@ -3,198 +3,383 @@ package com.hellguy39.hellnotes.feature.note_detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.ReminderRepository
-import com.hellguy39.hellnotes.core.domain.repository.TrashRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.use_case.note.CopyNoteUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.DeleteNoteUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.MoveNoteToTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.PostProcessNoteUseCase
 import com.hellguy39.hellnotes.core.model.*
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
+import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklistValid
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class NoteDetailViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
-    private val reminderRepository: ReminderRepository,
-    private val labelRepository: LabelRepository,
-    private val trashRepository: TrashRepository,
+    reminderRepository: ReminderRepository,
+    labelRepository: LabelRepository,
+    private val checklistRepository: ChecklistRepository,
+    private val moveNoteToTrashUseCase: MoveNoteToTrashUseCase,
+    private val deleteNoteUseCase: DeleteNoteUseCase,
+    private val postProcessNoteUseCase: PostProcessNoteUseCase,
+    private val copyNoteUseCase: CopyNoteUseCase,
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
-    private val noteViewModelState = MutableStateFlow(NoteDetailViewModelState(isLoading = true))
+    private val note: MutableStateFlow<Note> = MutableStateFlow(Note())
+    private val checklists: MutableStateFlow<List<Checklist>> = MutableStateFlow(emptyList())
 
-    val uiState = noteViewModelState
-        .map(NoteDetailViewModelState::toUiState)
+    val uiState: StateFlow<NoteDetailUiState> =
+        combine(
+            note,
+            reminderRepository.getAllRemindersStream(),
+            labelRepository.getAllLabelsStream(),
+            checklists
+        ) { note, reminders, labels, checklists ->
+            if (note.id != null) {
+                NoteDetailUiState.Success(
+                    note.toNoteDetailWrapper(
+                        labels = labels,
+                        reminders = reminders,
+                        checklists = checklists
+                    )
+                )
+            } else {
+                NoteDetailUiState.Loading
+            }
+        }
         .stateIn(
             viewModelScope,
-            SharingStarted.Eagerly,
-            noteViewModelState.value.toUiState()
+            SharingStarted.WhileSubscribed(5_000),
+            NoteDetailUiState.Loading
         )
 
     init {
-
         viewModelScope.launch {
             val noteId = savedStateHandle.get<Long>(ArgumentKeys.NoteId).let { id ->
-                if(id != ArgumentDefaultValues.NewNote) {
-                    id
-                } else {
-                    withContext(Dispatchers.IO) {
-                        noteRepository.insertNote(Note())
-                    }
-                }
+                if (id != ArgumentDefaultValues.NewNote) id else noteRepository.insertNote(Note())
             } ?: return@launch
 
             launch {
-
-                noteRepository.getNoteById(noteId).let { note ->
-                    noteViewModelState.update { state ->
-                        state.copy(note = note, isLoading = false)
-                    }
-                }
-
-//                noteRepository.getNoteByIdStream(noteId).collect { note ->
-//                    if (note.labelIds != noteViewModelState.value.note.labelIds) {
-//                        noteViewModelState.update { state ->
-//                            state.copy(note = note, isLoading = false)
-//                        }
-//                    }
-//                }
+                note.update { noteRepository.getNoteById(noteId) }
             }
 
             launch {
-                labelRepository.getAllLabelsStream().collect { labels ->
-                    noteViewModelState.update { state ->
-                        state.copy(allLabels = labels)
-                    }
-                }
-            }
-
-            launch {
-                reminderRepository.getRemindersByNoteIdStream(noteId).collect { reminders ->
-                    noteViewModelState.update { state ->
-                        state.copy(noteReminders = reminders)
-                    }
-                }
+                checklists.update { checklistRepository.getChecklistsByNoteId(noteId) }
             }
         }
     }
 
-    fun onUpdateNoteContent(text: String) = viewModelScope.launch {
-        val currentTime = Calendar.getInstance().time.time
+    fun send(uiEvent: NoteDetailUiEvent) {
+        when(uiEvent) {
+            is NoteDetailUiEvent.UpdateNoteTitle -> updateNoteTitle(uiEvent.title)
 
-        noteViewModelState.update { state ->
+            is NoteDetailUiEvent.Minimize -> minimize()
 
-            val updatedNote = state.note.copy(
-                note = text,
-                editedAt = currentTime
-            )
+            is NoteDetailUiEvent.Close -> close()
 
-            state.copy(
-                note =  updatedNote
-            )
+            is NoteDetailUiEvent.UpdateChecklistName ->
+                updateChecklistName(uiEvent.checklist, uiEvent.name)
+
+            is NoteDetailUiEvent.CheckAllChecklistItems ->
+                checkAllChecklistItems(uiEvent.checklist, uiEvent.isCheck)
+
+            is NoteDetailUiEvent.UpdateChecklistItem ->
+                updateChecklistItem(uiEvent.checklist, uiEvent.oldItem, uiEvent.newItem)
+
+            is NoteDetailUiEvent.UpdateIsArchived -> updateIsArchived(uiEvent.isArchived)
+
+            is NoteDetailUiEvent.UpdateIsPinned -> updateIsPinned(uiEvent.isPinned)
+
+            is NoteDetailUiEvent.UpdateNoteContent -> updateNoteContent(uiEvent.text)
+
+            is NoteDetailUiEvent.AddChecklist -> addChecklist()
+
+            is NoteDetailUiEvent.AddChecklistItem -> addChecklistItem(uiEvent.checklist)
+
+            is NoteDetailUiEvent.DeleteChecklist -> deleteChecklist(uiEvent.checklist)
+
+            is NoteDetailUiEvent.DeleteChecklistItem ->
+                deleteChecklistItem(uiEvent.checklist, uiEvent.item)
+
+            is NoteDetailUiEvent.DeleteNote -> moveNoteToTrash()
+
+            is NoteDetailUiEvent.CopyNote -> copyNote(uiEvent.onCopied)
+
+            is NoteDetailUiEvent.ExpandChecklist -> expandChecklist(uiEvent.checklist, uiEvent.isExpanded)
         }
-
-        saveNote()
     }
 
-    fun onUpdateNoteTitle(text: String) = viewModelScope.launch {
-        val currentTime = Calendar.getInstance().time.time
-
-        noteViewModelState.update { state ->
-
-            val updatedNote = state.note.copy(
-                title = text,
-                editedAt = currentTime
-            )
-
-            state.copy(
-                note =  updatedNote
-            )
-        }
-
-        saveNote()
-    }
-
-    fun onUpdateIsPinned(isPinned: Boolean) = viewModelScope.launch {
-        noteViewModelState.update { state ->
-            state.copy(note = state.note.copy(isPinned = isPinned))
-        }
-        saveNote()
-    }
-
-    fun onUpdateIsArchived(isArchived: Boolean) {
+    private fun copyNote(onCopied: (id: Long) -> Unit) {
         viewModelScope.launch {
-            noteViewModelState.update { state ->
-                state.copy(note = state.note.copy(isArchived = isArchived))
-            }
-        }
-        saveNote()
-    }
-
-    fun onDiscardNoteIfEmpty() = viewModelScope.launch {
-        noteViewModelState.value.let { state ->
-            val id = state.note.id
-            if (id != null) {
-                val reminds = reminderRepository.getRemindersByNoteId(id)
-                if (!state.note.isNoteValid() && reminds.isEmpty()) {
-                    onDeleteNote()
+            uiState.value.let { state ->
+                if (state is NoteDetailUiState.Success) {
+                    val wrapper = state.wrapper
+                    val noteId = copyNoteUseCase.invoke(wrapper)
+                    onCopied(noteId)
                 }
             }
         }
     }
 
-    fun onDeleteNote() = viewModelScope.launch {
-        noteViewModelState.value.note.let { note ->
-            note.id?.let { id ->
-                noteRepository.deleteNoteById(id)
-                reminderRepository.deleteReminderByNoteId(id)
+    private fun minimize() {
+        viewModelScope.launch {
+            uiState.value.let { state ->
+                if (state is NoteDetailUiState.Success) {
+
+                    val postProcessedNote = prepareNoteForSave(state)
+
+                    noteRepository.updateNote(postProcessedNote.note)
+                }
             }
-            if (note.isNoteValid()) {
-                trashRepository.insertTrash(
-                    Trash(
-                        note = note,
-                        dateOfAdding = DateTimeUtils.getCurrentTimeInEpochMilli()
-                    )
+        }
+    }
+
+    private fun close() {
+        viewModelScope.launch {
+            uiState.value.let { state ->
+                if (state is NoteDetailUiState.Success) {
+
+                    val postProcessedNote = prepareNoteForSave(state)
+
+                    if (postProcessedNote.isNoteWrapperInvalid()) {
+                        deleteNote()
+                    } else {
+                        noteRepository.updateNote(postProcessedNote.note)
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun prepareNoteForSave(state: NoteDetailUiState.Success): NoteDetailWrapper {
+        var postProcessedNote = postProcessNoteUseCase.invoke(state.wrapper)
+        val invalidChecklists = mutableListOf<Checklist>()
+
+        for (i in postProcessedNote.checklists.indices) {
+            val checklist = postProcessedNote.checklists[i]
+
+            if (checklist.isChecklistValid()) {
+                checklistRepository.updateChecklist(checklist)
+            } else {
+                invalidChecklists.add(checklist)
+                checklist.id?.let { id -> checklistRepository.deleteChecklistById(id) }
+            }
+        }
+
+        postProcessedNote = postProcessedNote.copy(
+            checklists = postProcessedNote.checklists.toMutableList()
+                .apply { removeAll(invalidChecklists) }
+        )
+
+        return postProcessedNote
+    }
+
+    private fun updateNoteContent(text: String) {
+        viewModelScope.launch {
+            note.update { note ->
+                note.copy(
+                    note = text,
+                    editedAt = System.currentTimeMillis()
                 )
             }
         }
     }
 
-    private fun saveNote() = viewModelScope.launch {
-        noteRepository.updateNote(note = noteViewModelState.value.note)
+    private fun updateIsArchived(isArchived: Boolean) {
+        viewModelScope.launch {
+            note.update { note -> note.copy(isArchived = isArchived) }
+        }
+    }
+
+    private fun updateIsPinned(isPinned: Boolean) {
+        viewModelScope.launch {
+            note.update { note -> note.copy(isPinned = isPinned) }
+        }
+    }
+
+    private fun updateNoteTitle(text: String) {
+        viewModelScope.launch {
+            note.update { note -> note.copy(title = text, editedAt = System.currentTimeMillis()) }
+        }
+    }
+
+
+    private fun moveNoteToTrash() {
+        viewModelScope.launch {
+            note.value.let { note -> moveNoteToTrashUseCase.invoke(note) }
+        }
+    }
+
+    private fun deleteNote() {
+        viewModelScope.launch {
+            note.value.let { note -> deleteNoteUseCase.invoke(note) }
+        }
+    }
+
+    private fun addChecklistItem(checklist: Checklist) {
+        viewModelScope.launch {
+
+            val items = checklist.items
+                .toMutableList()
+                .apply { add(ChecklistItem.newInstance()) }
+
+            checklists.update { state ->
+                val checklists = state.toMutableList()
+                checklists[checklists.indexOf(checklist)] = checklist.copy(items = items)
+
+                checklists
+            }
+        }
+    }
+
+    private fun deleteChecklist(checklist: Checklist) {
+        viewModelScope.launch {
+            checklists.update { checklists -> checklists.minus(checklist) }
+            checklistRepository.deleteChecklistById(checklist.id ?: return@launch)
+        }
+    }
+
+
+    private fun deleteChecklistItem(checklist: Checklist, item: ChecklistItem) {
+        viewModelScope.launch {
+            val items = checklist.items
+                .toMutableList()
+                .apply { remove(item) }
+
+            checklists.update { state ->
+                val checklists = state.toMutableList()
+                checklists[checklists.indexOf(checklist)] = checklist.copy(items = items)
+
+                checklists
+            }
+        }
+    }
+
+
+    private fun addChecklist() {
+        viewModelScope.launch {
+            val noteId = note.value.id ?: return@launch
+
+            val checklist = Checklist.initialInstance(
+                noteId = noteId,
+                items = listOf(ChecklistItem.newInstance())
+            )
+
+            val checklistId = checklistRepository.insertChecklist(checklist = checklist)
+            checklists.update { checklists ->
+                checklists.plus(checklistRepository.getChecklistById(checklistId))
+            }
+        }
+    }
+
+    private fun updateChecklistName(checklist: Checklist, name: String) {
+        viewModelScope.launch {
+            checklists.update { state ->
+                val checklists = state.toMutableList()
+                checklists[checklists.indexOf(checklist)] = checklist.copy(name = name)
+
+                checklists
+            }
+        }
+    }
+
+    private fun expandChecklist(checklist: Checklist, isExpanded: Boolean) {
+        viewModelScope.launch {
+            checklists.update { state ->
+                val checklists = state.toMutableList()
+                checklists[checklists.indexOf(checklist)] = checklist.copy(isExpanded = isExpanded)
+
+                checklists
+            }
+        }
+    }
+
+    private fun updateChecklistItem(
+        checklist: Checklist,
+        oldItem: ChecklistItem,
+        newItem: ChecklistItem
+    ) {
+        viewModelScope.launch {
+            checklists.update { state ->
+                val checklists = state.toMutableList()
+                val items = checklist.items.toMutableList()
+
+                items[items.indexOf(oldItem)] = newItem
+                checklists[checklists.indexOf(checklist)] = checklist.copy(items = items)
+
+                checklists
+            }
+        }
+    }
+
+
+    private fun checkAllChecklistItems(checklist: Checklist, isCheck: Boolean) {
+        viewModelScope.launch {
+
+            val items = checklist.items
+                .map { item -> item.copy(isChecked = isCheck) }
+
+            checklists.update { state ->
+                val checklists = state.toMutableList()
+                checklists[checklists.indexOf(checklist)] = checklist.copy(items = items)
+
+                checklists
+            }
+        }
     }
 
 }
 
-private data class NoteDetailViewModelState(
-    val note: Note = Note(),
-    val allLabels: List<Label> = listOf(),
-    val noteReminders: List<Reminder> = listOf(),
-    val labelSearch: String = "",
-    val isLoading: Boolean = true
-) {
-    fun toUiState() = NoteDetailUiState(
-        note = note,
-        noteLabels = allLabels.filter { label -> label.noteIds.contains(note.id) },
-        searchedLabels = allLabels.filter { it.name.contains(labelSearch) },
-        noteReminders = noteReminders,
-        labelSearch = labelSearch,
-        isLoading = isLoading
-    )
+sealed class NoteDetailUiEvent {
+
+    data class UpdateNoteTitle(val title: String): NoteDetailUiEvent()
+
+    data class UpdateNoteContent(val text: String): NoteDetailUiEvent()
+
+    data class UpdateIsPinned(val isPinned: Boolean): NoteDetailUiEvent()
+
+    data class UpdateIsArchived(val isArchived: Boolean): NoteDetailUiEvent()
+
+    data class CheckAllChecklistItems(val checklist: Checklist, val isCheck: Boolean): NoteDetailUiEvent()
+
+    data class UpdateChecklistItem(val checklist: Checklist, val oldItem: ChecklistItem, val newItem: ChecklistItem): NoteDetailUiEvent()
+
+    data class UpdateChecklistName(val checklist: Checklist, val name: String): NoteDetailUiEvent()
+
+    data class ExpandChecklist(val checklist: Checklist, val isExpanded: Boolean): NoteDetailUiEvent()
+
+    object AddChecklist: NoteDetailUiEvent()
+
+    data class DeleteChecklist(val checklist: Checklist): NoteDetailUiEvent()
+
+    data class DeleteChecklistItem(val checklist: Checklist, val item: ChecklistItem): NoteDetailUiEvent()
+
+    data class AddChecklistItem(val checklist: Checklist): NoteDetailUiEvent()
+
+    object DeleteNote: NoteDetailUiEvent()
+
+    object Minimize: NoteDetailUiEvent()
+
+    object Close: NoteDetailUiEvent()
+
+    data class CopyNote(val onCopied: (id: Long) -> Unit): NoteDetailUiEvent()
+
 }
 
-data class NoteDetailUiState(
-    val note: Note,
-    val isLoading: Boolean,
-    val noteLabels: List<Label>,
-    val searchedLabels: List<Label>,
-    val noteReminders: List<Reminder>,
-    val labelSearch: String
-)
+sealed class NoteDetailUiState {
+
+    object Loading: NoteDetailUiState()
+
+    data class Success(val wrapper: NoteDetailWrapper): NoteDetailUiState()
+}

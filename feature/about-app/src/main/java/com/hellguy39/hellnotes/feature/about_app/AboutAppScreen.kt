@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.hellguy39.hellnotes.core.ui.components.top_bars.CustomTopAppBar
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.about_app.components.AboutAppScreenContent
@@ -15,8 +15,8 @@ import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutAppScreen(
-    onNavigationButtonClick: () -> Unit,
-    onEasterEgg: () -> Unit
+    onNavigationButtonClick: () -> Unit = {},
+    selection: AboutAppScreenSelection = AboutAppScreenSelection()
 ) {
     BackHandler(onBack = onNavigationButtonClick)
 
@@ -27,11 +27,11 @@ fun AboutAppScreen(
         content = { innerPadding ->
             AboutAppScreenContent(
                 innerPadding = innerPadding,
-                onEasterEgg = onEasterEgg
+                selection = selection
             )
         },
         topBar = {
-            CustomTopAppBar(
+            HNTopAppBar(
                 onNavigationButtonClick = onNavigationButtonClick,
                 title = stringResource(id = HellNotesStrings.Title.AboutApp)
             )
@@ -39,13 +39,21 @@ fun AboutAppScreen(
     )
 }
 
+data class AboutAppScreenSelection(
+    val onGithub: () -> Unit = {},
+    val onChangelog: () -> Unit = {},
+    val onPrivacyPolicy: () -> Unit = {},
+    val onTermsAndConditions: () -> Unit = {},
+    val onProvideFeedback: () -> Unit = {},
+    val onRateOnPlayStore: () -> Unit = {},
+    val onReset: () -> Unit = {},
+    val onCheckForUpdates: () -> Unit = {}
+)
+
 @Preview(showBackground = true)
 @Composable
 fun AboutAppScreenPreview() {
     HellNotesTheme {
-        AboutAppScreen(
-            onNavigationButtonClick = {},
-            onEasterEgg = {}
-        )
+        AboutAppScreen()
     }
 }

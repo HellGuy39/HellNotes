@@ -2,17 +2,12 @@ package com.hellguy39.hellnotes.feature.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
 fun SearchRoute(
@@ -24,10 +19,26 @@ fun SearchRoute(
     val listStyle by searchViewModel.listStyle.collectAsStateWithLifecycle()
 
     SearchScreen(
-        onNavigationButtonClick = { navController.popBackStack() },
+        onNavigationButtonClick = navController::popBackStack,
         uiState = uiState,
         listStyle = listStyle,
-        onQueryChanged = { newQuery -> searchViewModel.updateSearchQuery(newQuery) },
+        searchScreenSelection = SearchScreenSelection(
+            onQueryChanged = { search ->
+                searchViewModel.send(SearchScreenUiEvent.OnSearchChange(search))
+            },
+            onClearQuery = {
+                searchViewModel.send(SearchScreenUiEvent.OnClearSearch)
+            },
+            onUpdateArchiveFilter = { enabled ->
+                searchViewModel.send(SearchScreenUiEvent.OnToggleArchiveFilter(enabled))
+            },
+            onUpdateChecklistFilter = { enabled ->
+                searchViewModel.send(SearchScreenUiEvent.OnToggleChecklistFilter(enabled))
+            },
+            onUpdateReminderFilter = { enabled ->
+                searchViewModel.send(SearchScreenUiEvent.OnToggleReminderFilter(enabled))
+            }
+        ),
         noteSelection = NoteSelection(
             noteStyle = noteStyle,
             onClick = { note ->
@@ -43,10 +54,6 @@ fun SearchRoute(
             NoteCategory(
                 notes = uiState.notes
             ),
-            NoteCategory(
-                title = stringResource(id = HellNotesStrings.Label.Archived),
-                notes = uiState.archivedNotes
-            )
         )
     )
 }

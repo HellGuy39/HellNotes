@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.database.mapper
 
 import com.hellguy39.hellnotes.core.database.entity.NoteEntity
-import com.hellguy39.hellnotes.core.model.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 
 fun NoteEntity.toNote(): Note {
     return Note(
@@ -11,7 +11,7 @@ fun NoteEntity.toNote(): Note {
         editedAt = editedAt,
         isPinned = isPinned,
         colorHex = colorHex,
-        isArchived = isArchived
+        isArchived = isArchived,
     )
 }
 
@@ -24,6 +24,6 @@ fun Note.toNoteEntity(): NoteEntity {
         isPinned = isPinned,
         colorHex = colorHex,
         isArchived = isArchived,
-        createdAt = createdAt
+        createdAt = createdAt,
     )
 }
