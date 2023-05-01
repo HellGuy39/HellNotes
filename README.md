@@ -37,7 +37,7 @@ Each theme also supports dark mode.
 
 ## Credits
 
-### Code contributors: 
+### Code contributors 
 - [Aleksey Gadzhiev](https://github.com/HellGuy39)
 
 ### UX/UI
