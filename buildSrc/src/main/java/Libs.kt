@@ -1,7 +1,23 @@
 object Libs {
 
-    private const val junitVersion = "4.13.2"
-    const val JUnit = "junit:junit:$junitVersion"
+    object Testing {
+
+        private const val junitVersion = "1.1.5"
+        private const val espressoVersion = "3.5.1"
+        private const val adnroidJunitVersion = "4.13.2"
+        private const val composeVersion = "1.4.2"
+        private const val workVersion = "2.8.1"
+
+        const val JUnit = "junit:junit:$junitVersion"
+        const val AndroidJUnit = "androidx.test.ext:junit:$junitVersion"
+        const val Espresso = "androidx.test.espresso:espresso-core:$espressoVersion"
+
+        const val UiTestJUnit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
+        const val UiTooling = "androidx.compose.ui:ui-tooling:$composeVersion"
+        const val UiTestManifest = "androidx.compose.ui:ui-test-manifest:$composeVersion"
+
+        const val Work = "androidx.work:work-testing:$workVersion"
+    }
 
     object Gradle {
         private const val version = "7.4.2"
@@ -19,9 +35,6 @@ object Libs {
 
         private const val coroutinesVersion = "1.6.4"
         const val Coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-
-//        private const val serializationVersion = "1.5.0"
-//        const val Serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion"
 
         private const val plugineVersion = "1.8.20"
         const val Plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugineVersion"
@@ -48,12 +61,6 @@ object Libs {
         const val LifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
         const val AppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
         const val WorkKtx = "androidx.work:work-runtime-ktx:$workVersion"
-
-        private const val junitVersion = "1.1.5"
-        private const val espressoVersion = "3.5.1"
-
-        const val JUnit = "androidx.test.ext:junit:$junitVersion"
-        const val Espresso = "androidx.test.espresso:espresso-core:$espressoVersion"
 
         object DataStore {
 
@@ -87,12 +94,7 @@ object Libs {
             const val Navigation = "androidx.navigation:navigation-compose:$navigationVersion"
             const val LiveData = "androidx.compose.runtime:runtime-livedata:$composeVersion"
 
-            const val UiTestJUnit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
-            const val UiTooling = "androidx.compose.ui:ui-tooling:$composeVersion"
-            const val UiTestManifest = "androidx.compose.ui:ui-test-manifest:$composeVersion"
-
         }
-
     }
 
     object Google {
@@ -123,11 +125,14 @@ object Libs {
 
             private const val version = "2.45"
             private const val navigationVersion = "1.0.0"
+            private const val workVersion = "1.0.0"
 
             const val Plugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
             const val Android = "com.google.dagger:hilt-android:$version"
             const val Compiler = "com.google.dagger:hilt-compiler:$version"
             const val NavigationCompose = "androidx.hilt:hilt-navigation-compose:$navigationVersion"
+            const val Work = "androidx.hilt:hilt-work:$workVersion"
+
         }
 
         object Firebase {
@@ -151,7 +156,6 @@ object Libs {
 
         const val Core = "io.ktor:ktor-client-core:$version"
         const val Android = "io.ktor:ktor-client-android:$version"
-        //const val Serialization = "io.ktor:ktor-client-serialization:$version"
         const val ContentNegotiation = "io.ktor:ktor-client-content-negotiation:$version"
         const val JsonSerializer = "io.ktor:ktor-serialization-kotlinx-json:$version"
         const val Logging = "io.ktor:ktor-client-logging:$version"
@@ -167,6 +171,7 @@ object Libs {
             const val Core = "com.maxkeppeler.sheets-compose-dialogs:core:$version"
             const val Calendar = "com.maxkeppeler.sheets-compose-dialogs:calendar:$version"
             const val Clock = "com.maxkeppeler.sheets-compose-dialogs:clock:$version"
+            const val Color = "com.maxkeppeler.sheets-compose-dialogs:color:$version"
 
         }
 

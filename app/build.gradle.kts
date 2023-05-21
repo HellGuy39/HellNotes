@@ -111,13 +111,14 @@ dependencies {
     implementation(Libs.AndroidX.Compose.ToolingPreview)
     implementation(Libs.AndroidX.Compose.Material3)
     implementation(Libs.AndroidX.Compose.Navigation)
-    androidTestImplementation(Libs.AndroidX.Compose.UiTestJUnit)
-    debugImplementation(Libs.AndroidX.Compose.UiTooling)
-    debugImplementation(Libs.AndroidX.Compose.UiTestManifest)
 
-    testImplementation(Libs.JUnit)
-    androidTestImplementation(Libs.AndroidX.JUnit)
-    androidTestImplementation(Libs.AndroidX.Espresso)
+    androidTestImplementation(Libs.Testing.Work)
+    androidTestImplementation(Libs.Testing.UiTestJUnit)
+    debugImplementation(Libs.Testing.UiTooling)
+    debugImplementation(Libs.Testing.UiTestManifest)
+    testImplementation(Libs.Testing.JUnit)
+    androidTestImplementation(Libs.Testing.AndroidJUnit)
+    androidTestImplementation(Libs.Testing.Espresso)
 
     implementation(Libs.Google.Accompanist.NavigationAnimation)
     implementation(Libs.Google.Accompanist.SystemUiController)
@@ -130,12 +131,11 @@ dependencies {
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
     implementation(Libs.Google.Hilt.NavigationCompose)
+    implementation(Libs.Google.Hilt.Work)
 
     implementation(Libs.SquareUp.Moshi)
 
     implementation(Libs.Google.Firebase.Analytics)
     implementation(Libs.Google.Firebase.Crashlytics)
-
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 }

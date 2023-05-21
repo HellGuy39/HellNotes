@@ -41,9 +41,4 @@ dependencies {
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
-
-    testImplementation(Libs.JUnit)
-    androidTestImplementation(Libs.AndroidX.JUnit)
-    androidTestImplementation(Libs.AndroidX.Espresso)
-
 }

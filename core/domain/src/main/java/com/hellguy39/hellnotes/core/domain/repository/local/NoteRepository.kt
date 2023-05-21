@@ -7,7 +7,6 @@ interface NoteRepository {
 
     fun getAllNotesStream(): Flow<List<Note>>
 
-
     fun getNoteByIdStream(id: Long): Flow<Note>
 
     suspend fun getAllNotes(): List<Note>

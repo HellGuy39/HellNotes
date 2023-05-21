@@ -3,9 +3,6 @@ package com.hellguy39.hellnotes.util
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.google.gson.Gson
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
 import kotlin.system.exitProcess
 
 class GlobalExceptionHandler private constructor(
@@ -30,7 +27,7 @@ class GlobalExceptionHandler private constructor(
         exception: Throwable
     ) {
         val crashedIntent = Intent(applicationContext, activity).also {
-            it.putExtra(INTENT_DATA_NAME, Gson().toJson(exception))
+            //it.putExtra(INTENT_DATA_NAME, Gson().toJson(exception))
         }
 
         // Clear all previous activities. So backstack will be gone
@@ -60,7 +57,8 @@ class GlobalExceptionHandler private constructor(
 
         fun getThrowableFromIntent(intent: Intent?): Throwable? {
             return try {
-                Gson().fromJson(intent?.getStringExtra(INTENT_DATA_NAME), Throwable::class.java)
+                TODO()
+                //Gson().fromJson(intent?.getStringExtra(INTENT_DATA_NAME), Throwable::class.java)
             } catch (e: Exception) {
                 Log.e(TAG, "getThrowableFromIntent: ", e)
                 null

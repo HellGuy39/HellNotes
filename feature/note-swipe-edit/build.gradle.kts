@@ -52,9 +52,10 @@ dependencies {
     implementation(Libs.AndroidX.Compose.ToolingPreview)
     implementation(Libs.AndroidX.Compose.Material3)
     implementation(Libs.AndroidX.Compose.Navigation)
-    androidTestImplementation(Libs.AndroidX.Compose.UiTestJUnit)
-    debugImplementation(Libs.AndroidX.Compose.UiTooling)
-    debugImplementation(Libs.AndroidX.Compose.UiTestManifest)
+
+    androidTestImplementation(Libs.Testing.UiTestJUnit)
+    debugImplementation(Libs.Testing.UiTooling)
+    debugImplementation(Libs.Testing.UiTestManifest)
 
     implementation(Libs.Google.Accompanist.NavigationAnimation)
     implementation(Libs.Google.Accompanist.SystemUiController)
