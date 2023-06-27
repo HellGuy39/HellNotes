@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.system.BackHandler
 
 @Composable

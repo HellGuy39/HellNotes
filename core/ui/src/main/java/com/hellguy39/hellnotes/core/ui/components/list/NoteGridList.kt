@@ -6,6 +6,8 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
@@ -19,7 +21,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.cards.SwipeableNoteCard
@@ -32,8 +34,9 @@ internal fun NoteGridList(
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteSelection: NoteSelection,
     categories: List<NoteCategory>,
-    selectedNotes: List<Note> = listOf(),
-    listHeader: @Composable () -> Unit = {}
+    selectedNotes: List<NoteWrapper> = listOf(),
+    listHeader: @Composable () -> Unit = {},
+    lazyListState: LazyStaggeredGridState
 ) {
     val haptic = LocalHapticFeedback.current
 
@@ -44,7 +47,8 @@ internal fun NoteGridList(
     LazyVerticalStaggeredGrid(
         modifier = modifier,
         contentPadding = innerPadding,
-        columns = cellConfiguration
+        columns = cellConfiguration,
+        state = lazyListState
     ) {
         item(
             span = StaggeredGridItemSpan.FullLine
@@ -68,23 +72,21 @@ internal fun NoteGridList(
                 items(
                     items = category.notes,
                     key = { it.note.id ?: 0 },
-                ) { wrapper ->
+                ) { noteWrapper ->
                     SwipeableNoteCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(4.dp)
                             .combinedClickable(
-                                onClick = {
-                                    noteSelection.onClick(wrapper.note)
-                                },
+                                onClick = { noteSelection.onClick(noteWrapper) },
                                 onLongClick = {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    noteSelection.onLongClick(wrapper.note)
+                                    noteSelection.onLongClick(noteWrapper)
                                 }
                             ),
-                        noteDetailWrapper = wrapper,
+                        noteWrapper = noteWrapper,
                         isSwipeable = noteSelection.isSwipeable,
-                        isSelected = selectedNotes.contains(wrapper.note),
+                        isSelected = selectedNotes.contains(noteWrapper),
                         onDismissed = noteSelection.onDismiss,
                         noteStyle = noteSelection.noteStyle,
                     )

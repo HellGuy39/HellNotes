@@ -24,6 +24,11 @@ fun rememberWindowInfo(): WindowInfo {
     )
 }
 
+fun WindowInfo.isExpandedWindowsSize() = when (screenWidthInfo) {
+    is WindowInfo.WindowType.Compact -> false
+    else -> true
+}
+
 data class WindowInfo(
     val screenWidthInfo: WindowType,
     val screenHeightInfo: WindowType,

@@ -41,10 +41,10 @@ fun SearchRoute(
         ),
         noteSelection = NoteSelection(
             noteStyle = noteStyle,
-            onClick = { note ->
-                navController.navigateToNoteDetail(noteId = note.id)
+            onClick = { noteWrapper ->
+                navController.navigateToNoteDetail(noteId = noteWrapper.note.id)
             },
-            onLongClick = { note -> },
+            onLongClick = { noteWrapper -> },
             onDismiss = { dismissDirection, note ->
                 false
             },

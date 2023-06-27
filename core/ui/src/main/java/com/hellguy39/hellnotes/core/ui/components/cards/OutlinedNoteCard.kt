@@ -17,13 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.ColorParam
 
 @Composable
 fun OutlinedNoteCard(
     modifier: Modifier = Modifier,
-    noteDetailWrapper: NoteDetailWrapper,
+    noteWrapper: NoteWrapper,
     isSelected: Boolean = false,
 ) {
 
@@ -53,13 +53,13 @@ fun OutlinedNoteCard(
         colors = CardDefaults.outlinedCardColors(),
         border = cardBorder
     ) {
-        if (noteDetailWrapper.note.colorHex == ColorParam.DefaultColor) {
-            NoteCardContent(noteDetailWrapper = noteDetailWrapper)
+        if (noteWrapper.note.colorHex == ColorParam.DefaultColor) {
+            NoteCardContent(noteWrapper = noteWrapper)
         } else {
             Surface(
-                color = Color(noteDetailWrapper.note.colorHex),
+                color = Color(noteWrapper.note.colorHex),
             ) {
-                NoteCardContent(noteDetailWrapper = noteDetailWrapper)
+                NoteCardContent(noteWrapper = noteWrapper)
             }
         }
     }

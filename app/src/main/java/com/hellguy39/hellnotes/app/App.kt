@@ -1,12 +1,19 @@
 package com.hellguy39.hellnotes.app
 
 import android.app.Application
+import android.os.Bundle
+import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.hellguy39.hellnotes.BuildConfig
 import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
@@ -17,9 +24,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
-class App : Application() {
+class App : Application(), Configuration.Provider {
 
     @Inject lateinit var notificationSender: NotificationSender
+
+    @Inject lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
@@ -38,21 +47,34 @@ class App : Application() {
 
         executeWorkers()
 
+        configureCrashlytics()
+        configureAnalytics()
+
         //GlobalExceptionHandler.initialize(this, CrashActivity::class.java)
+    }
+
+    private fun configureCrashlytics() {
+        val crashlytics = Firebase.crashlytics
+
+        crashlytics.setCrashlyticsCollectionEnabled(BuildConfig.ENABLE_CRASHLYTICS)
+    }
+
+    private fun configureAnalytics() {
+        val analytics = Firebase.analytics
+
+        analytics.setAnalyticsCollectionEnabled(BuildConfig.ENABLE_ANALYTICS)
     }
 
     private fun executeWorkers() {
 
-        val workManagerConfiguration = Configuration.Builder()
-            .setMinimumLoggingLevel(android.util.Log.INFO)
-            .build()
-
-        WorkManager.initialize(this, workManagerConfiguration)
+        WorkManager.initialize(
+            this,
+            workManagerConfiguration
+        )
 
         val workManager = WorkManager.getInstance(this)
 
-        val deleteExpiredNotesWorkerRequest =
-            DeleteExpiredNotesWorker.getWorkRequest()
+        val deleteExpiredNotesWorkerRequest = DeleteExpiredNotesWorker.getWorkRequest()
 
         workManager.enqueueUniquePeriodicWork(
             DeleteExpiredNotesWorker.TAG,
@@ -60,5 +82,10 @@ class App : Application() {
             deleteExpiredNotesWorkerRequest
         )
     }
+
+    override fun getWorkManagerConfiguration() = Configuration.Builder()
+        .setWorkerFactory(workerFactory)
+        .setMinimumLoggingLevel(android.util.Log.INFO)
+        .build()
 
 }

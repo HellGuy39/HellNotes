@@ -60,7 +60,6 @@ class AndroidNotificationSender @Inject constructor(
         channel.description = resources
             .getString(HellNotesStrings.Notification.ReminderChannelDescription)
 
-
         notificationManager.createNotificationChannel(channel)
     }
 }

@@ -9,22 +9,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklistsValid
-import com.hellguy39.hellnotes.core.model.repository.local.database.removeCompletedChecklists
-import com.hellguy39.hellnotes.core.model.repository.local.database.sortByPriority
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.local.database.isChecklistsValid
+import com.hellguy39.hellnotes.core.model.local.database.removeCompletedChecklists
+import com.hellguy39.hellnotes.core.model.local.database.sortByPriority
 import com.hellguy39.hellnotes.core.ui.components.NoteChecklistGroup
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 
 @Composable
 internal fun NoteCardContent(
-    noteDetailWrapper: NoteDetailWrapper,
+    noteWrapper: NoteWrapper,
 ) {
-    val isTitleValid = noteDetailWrapper.note.title.isNotEmpty() || noteDetailWrapper.note.title.isNotBlank()
-    val isNoteValid = noteDetailWrapper.note.note.isNotEmpty() || noteDetailWrapper.note.note.isNotBlank()
-    val isChipsValid = noteDetailWrapper.labels.isNotEmpty() || noteDetailWrapper.reminders.isNotEmpty()
+    val isTitleValid = noteWrapper.note.title.isNotEmpty() || noteWrapper.note.title.isNotBlank()
+    val isNoteValid = noteWrapper.note.note.isNotEmpty() || noteWrapper.note.note.isNotBlank()
+    val isChipsValid = noteWrapper.labels.isNotEmpty() || noteWrapper.reminders.isNotEmpty()
 
-    val filteredChecklists = noteDetailWrapper.checklists
+    val filteredChecklists = noteWrapper.checklists
         .removeCompletedChecklists()
         .sortByPriority()
     val isChecklistValid = filteredChecklists.isChecklistsValid()
@@ -36,7 +36,7 @@ internal fun NoteCardContent(
     ) {
         if (isTitleValid) {
             Text(
-                text = noteDetailWrapper.note.title,
+                text = noteWrapper.note.title,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -45,7 +45,7 @@ internal fun NoteCardContent(
 
         if (isNoteValid) {
             Text(
-                text = noteDetailWrapper.note.note,
+                text = noteWrapper.note.note,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 3,
                 modifier = Modifier,
@@ -62,8 +62,8 @@ internal fun NoteCardContent(
         if (isChipsValid) {
             NoteChipGroup(
                 modifier = Modifier,
-                reminders = noteDetailWrapper.reminders,
-                labels = noteDetailWrapper.labels,
+                reminders = noteWrapper.reminders,
+                labels = noteWrapper.labels,
                 limitElements = true,
                 maxElements = 2,
             )

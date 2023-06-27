@@ -1,10 +1,10 @@
 package com.hellguy39.hellnotes.domain.use_case
 
 import com.hellguy39.hellnotes.core.domain.use_case.note.PostProcessNoteUseCase
-import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
-import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.local.database.Checklist
+import com.hellguy39.hellnotes.core.model.local.database.ChecklistItem
+import com.hellguy39.hellnotes.core.model.local.database.Note
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -14,13 +14,13 @@ import org.junit.Test
 class PostProcessNoteUseCaseTest {
 
     private var postProcessNoteUseCase: PostProcessNoteUseCase? = null
-    private lateinit var noteWrapper: NoteDetailWrapper
-    private lateinit var postProcessedNoteWrapper: NoteDetailWrapper
+    private lateinit var noteWrapper: NoteWrapper
+    private lateinit var postProcessedNoteWrapper: NoteWrapper
 
     @Before
     fun setup() {
         postProcessNoteUseCase = PostProcessNoteUseCase()
-        noteWrapper = NoteDetailWrapper(
+        noteWrapper = NoteWrapper(
             note = Note(
                 title = "  title  ",
                 note = "  note  ",
@@ -58,7 +58,7 @@ class PostProcessNoteUseCaseTest {
                 )
             )
         )
-        postProcessedNoteWrapper = NoteDetailWrapper(
+        postProcessedNoteWrapper = NoteWrapper(
             note = Note(
                 title = "title",
                 note = "note",

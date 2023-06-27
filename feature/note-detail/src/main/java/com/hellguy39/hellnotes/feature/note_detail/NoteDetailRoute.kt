@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -9,18 +8,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
+import com.hellguy39.hellnotes.core.model.local.database.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
@@ -28,35 +26,53 @@ import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
 import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailContentSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailTopAppBarSelection
 import com.hellguy39.hellnotes.feature.note_detail.util.BottomSheetMenuItemHolder
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareType
 import com.hellguy39.hellnotes.feature.note_detail.util.ShareUtils
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.color.ColorDialog
+import com.maxkeppeler.sheets.color.models.*
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailRoute(
-    navController: NavController,
-    noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    context: Context = LocalContext.current,
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    noteDetailViewModel: NoteDetailViewModel,
 ) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
     val shareDialogState = rememberDialogState()
     val confirmDialogState = rememberDialogState()
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val colorPickerState = rememberSheetState()
+
+    val templateColors = MultipleColors.ColorsInt(
+        Color.Red.toArgb(),
+        Color.Green.toArgb(),
+        Color.Yellow.toArgb(),
+    )
+
+    ColorDialog(
+        state = colorPickerState,
+        selection = ColorSelection(
+            selectedColor = null,
+            onSelectColor = {  },
+        ),
+        config = ColorConfig(
+            templateColors = templateColors,
+            defaultDisplayMode = ColorSelectionMode.CUSTOM,
+            allowCustomColorAlphaValues = false
+        ),
+    )
 
     fun onShare(type: ShareType) {
         uiState.let { state ->
@@ -70,7 +86,7 @@ fun NoteDetailRoute(
         }
     }
 
-    BackHandler(onBack = navController::popBackStack)
+    //BackHandler(onBack = navController::popBackStack)
 
     CustomDialog(
         state = shareDialogState,
@@ -110,7 +126,8 @@ fun NoteDetailRoute(
         onAccept = {
             confirmDialogState.dismiss()
             noteDetailViewModel.send(NoteDetailUiEvent.DeleteNote)
-            navController.popBackStack()
+            TODO()
+            //navController.popBackStack()
         }
     )
 
@@ -188,8 +205,9 @@ fun NoteDetailRoute(
                 closeMenuBottomSheet()
                 noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
                     onCopied = { id ->
-                        navController.popBackStack()
-                        navController.navigateToNoteDetail(id)
+                        TODO()
+//                        navController.popBackStack()
+//                        navController.navigateToNoteDetail(id)
                     }
                 ))
             }
@@ -212,6 +230,14 @@ fun NoteDetailRoute(
                         }
                     }
                 }
+            }
+        ),
+        BottomSheetMenuItemHolder(
+            title = "Color",
+            icon = painterResource(id = HellNotesIcons.Palette),
+            onClick = {
+                closeMenuBottomSheet()
+                colorPickerState.show()
             }
         )
     )
@@ -264,7 +290,8 @@ fun NoteDetailRoute(
                 closeAttachmentBottomSheet()
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
-                        navController.navigateToLabelSelection(state.wrapper.note.id)
+                        TODO()
+                        //navController.navigateToLabelSelection(state.wrapper.note.id)
                     }
                 }
             }
@@ -320,24 +347,26 @@ fun NoteDetailRoute(
             onReminderClick = { reminder ->
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
-                        navController.navigateToReminderEdit(
-                            noteId = state.wrapper.note.id,
-                            reminderId = reminder.id
-                        )
+                        TODO()
+//                        navController.navigateToReminderEdit(
+//                            noteId = state.wrapper.note.id,
+//                            reminderId = reminder.id
+//                        )
                     }
                 }
             },
             onLabelClick = { label ->
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
-                        navController.navigateToLabelSelection(state.wrapper.note.id)
+                        TODO()
+                        //navController.navigateToLabelSelection(state.wrapper.note.id)
                     }
                 }
             }
         ),
         topAppBarSelection = NoteDetailTopAppBarSelection(
             uiState = uiState,
-            onNavigationButtonClick = navController::popBackStack,
+            onNavigationButtonClick = {},
             onPin = { isPinned ->
                 noteDetailViewModel.send(NoteDetailUiEvent.UpdateIsPinned(isPinned))
 
@@ -363,10 +392,11 @@ fun NoteDetailRoute(
             onReminder = {
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
-                        navController.navigateToReminderEdit(
-                            noteId = state.wrapper.note.id,
-                            reminderId = ArgumentDefaultValues.NewReminder
-                        )
+                        TODO()
+//                        navController.navigateToReminderEdit(
+//                            noteId = state.wrapper.note.id,
+//                            reminderId = ArgumentDefaultValues.NewReminder
+//                        )
                     }
                 }
             }

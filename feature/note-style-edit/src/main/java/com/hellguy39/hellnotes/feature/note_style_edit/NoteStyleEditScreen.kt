@@ -16,10 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.repository.local.database.Label
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.model.local.database.Label
+import com.hellguy39.hellnotes.core.model.local.database.Note
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteCard
 import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
@@ -35,7 +35,7 @@ fun NoteStyleEditScreen(
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
 
-    val exampleNoteDetailWrapper = NoteDetailWrapper(
+    val exampleNoteWrapper = NoteWrapper(
         note = Note(
             title = "This is a sample note",
             note = "We have to start from the fact that synthetic testing determines the high demand for the distribution of internal reserves and resources."
@@ -90,7 +90,7 @@ fun NoteStyleEditScreen(
                             ) { style ->
                                 NoteCard(
                                     modifier = cardModifier,
-                                    noteDetailWrapper = exampleNoteDetailWrapper,
+                                    noteWrapper = exampleNoteWrapper,
                                     noteStyle = style
                                 )
                             }

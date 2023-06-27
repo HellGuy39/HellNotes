@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import com.hellguy39.hellnotes.core.database.HellNotesDatabase
 import com.hellguy39.hellnotes.core.domain.database.BackupManager
-import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
-import com.hellguy39.hellnotes.core.model.repository.local.file.Restore
+import com.hellguy39.hellnotes.core.model.local.file.Backup
+import com.hellguy39.hellnotes.core.model.local.file.Restore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject

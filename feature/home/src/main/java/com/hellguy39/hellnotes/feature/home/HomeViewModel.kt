@@ -5,200 +5,223 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
-import com.hellguy39.hellnotes.core.domain.use_case.note.MoveNoteToTrashUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.note.RestoreNoteFromTrashUseCase
-import com.hellguy39.hellnotes.core.model.repository.local.database.Label
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
-import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
-import com.hellguy39.hellnotes.feature.home.util.DrawerItem
+import com.hellguy39.hellnotes.core.domain.use_case.note.ArchiveNotesUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.trash.MoveNotesToTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.trash.RestoreNoteFromTrashUseCase
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.local.database.Note
+import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteSwipesState
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val dataStoreRepository: DataStoreRepository,
-    private val noteRepository: NoteRepository,
-    private val trashRepository: TrashRepository,
     labelRepository: LabelRepository,
-    private val moveNoteToTrashUseCase: MoveNoteToTrashUseCase,
+    private val noteRepository: NoteRepository,
+    private val dataStoreRepository: DataStoreRepository,
+    private val archiveNotesUseCase: ArchiveNotesUseCase,
+    private val moveToTrashNotesUseCase: MoveNotesToTrashUseCase,
     private val restoreNoteFromTrashUseCase: RestoreNoteFromTrashUseCase
 ): ViewModel() {
 
-    private val drawerItem = MutableStateFlow(DrawerItem())
+    private val lastAction = MutableStateFlow(LastAction())
 
-    private val selectedNotes = MutableStateFlow(listOf<Note>())
+    private val _openedNoteId: MutableStateFlow<Long?> = MutableStateFlow(null)
+    val openedNoteId = _openedNoteId.asStateFlow()
 
-    private val lastActionNotes = MutableStateFlow(listOf<Note>())
+    val selectedNoteWrappers = MutableStateFlow(listOf<NoteWrapper>())
 
-    val uiState: StateFlow<HomeScreenUiState> =
-        combine(
-            dataStoreRepository.readListStyleState(),
-            dataStoreRepository.readNoteStyleState(),
-            dataStoreRepository.readNoteSwipesState(),
-            selectedNotes
-        ) { listStyle, noteStyle, noteSwipesState, selectedNotes ->
-            HomeScreenUiState(
-                listStyle = listStyle,
-                noteStyle = noteStyle,
-                noteSwipesState = noteSwipesState,
-                selectedNotes = selectedNotes
-            )
-        }
-            .stateIn(
-                started = SharingStarted.WhileSubscribed(5_000),
-                scope = viewModelScope,
-                initialValue = HomeScreenUiState()
-            )
+    val noteSwipesState = dataStoreRepository.readNoteSwipesState()
+        .stateIn(
+            initialValue = NoteSwipesState.initialInstance(),
+            started = SharingStarted.WhileSubscribed(5_000),
+            scope = viewModelScope
+        )
 
-    val drawerUiState: StateFlow<HomeScreenDrawerUiState> =
-        combine(
-            drawerItem,
-            labelRepository.getAllLabelsStream()
-        ) { drawerItem, labels ->
-            HomeScreenDrawerUiState(
-                drawerItem = drawerItem,
-                drawerLabels = labels
-            )
-        }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = HomeScreenDrawerUiState()
-            )
+    val noteStyle = dataStoreRepository.readNoteStyleState()
+        .stateIn(
+            initialValue = NoteStyle.Outlined,
+            started = SharingStarted.WhileSubscribed(5_000),
+            scope = viewModelScope
+        )
 
-    fun updateListStyle() {
-        viewModelScope.launch {
-            val listStyle = uiState.value.listStyle
-            dataStoreRepository.saveListStyleState(listStyle.swap())
-        }
-    }
+    val listStyle = dataStoreRepository.readListStyleState()
+        .stateIn(
+            initialValue = ListStyle.Column,
+            started = SharingStarted.WhileSubscribed(5_000),
+            scope = viewModelScope
+        )
 
-    fun setDrawerItem(item: DrawerItem) {
-        viewModelScope.launch {
-            drawerItem.update { item }
-        }
-    }
+    val labels = labelRepository.getAllLabelsStream()
+        .stateIn(
+            initialValue = listOf(),
+            started = SharingStarted.WhileSubscribed(5_000),
+            scope = viewModelScope
+        )
 
-    fun selectNote(note: Note) {
-        viewModelScope.launch {
-            selectedNotes.update { selectedNotes -> selectedNotes.plus(note) }
-        }
-    }
+    fun send(uiEvent: HomeUiEvent) {
+        when(uiEvent) {
+            is HomeUiEvent.CreateNewNote -> createNewNote()
 
-    fun unselectNote(note: Note) {
-        viewModelScope.launch {
-            selectedNotes.update { selectedNotes -> selectedNotes.minus(note) }
+            is HomeUiEvent.OpenNoteDetail -> openNoteDetail(uiEvent.noteId)
+
+            is HomeUiEvent.ToggleListStyle -> toggleListStyle()
+
+            is HomeUiEvent.ArchiveSelectedNotes -> archiveSelectedNotes(true)
+
+            is HomeUiEvent.SelectNote -> selectNote(uiEvent.noteWrapper)
+
+            is HomeUiEvent.CancelNoteSelection -> cancelNoteSelection()
+
+            is HomeUiEvent.MoveToTrashSelectedNotes -> moteToTrashSelectedNotes()
+
+            is HomeUiEvent.UnarchiveSelectedNotes -> archiveSelectedNotes(false)
+
+            is HomeUiEvent.Undo -> undo()
+
+            is HomeUiEvent.SwipeToArchiveNote -> swipeToArchive(uiEvent.noteWrapper)
+
+            is HomeUiEvent.SwipeToDeleteNote -> swipeToDelete(uiEvent.noteWrapper)
         }
     }
 
-    fun cancelNoteSelection() {
+    private fun createNewNote() {
         viewModelScope.launch {
-            selectedNotes.update { listOf() }
+            val newNoteId = noteRepository.insertNote(Note())
+            openNoteDetail(newNoteId)
         }
     }
 
-    fun archiveSelectedNotes(isArchived: Boolean = true) {
+    private fun openNoteDetail(noteId: Long?) {
         viewModelScope.launch {
-            lastActionNotes.update { listOf() }
-            selectedNotes.value.forEach { note -> archiveNote(note = note, isArchived = isArchived) }
-            cancelNoteSelection()
+            _openedNoteId.update { noteId }
         }
     }
 
-    fun restoreSelectedNotesFromTrash() {
+    private fun undo() {
         viewModelScope.launch {
-            selectedNotes.value.forEach { note ->
-                trashRepository.deleteTrashByNote(note)
-                noteRepository.insertNote(note)
+            val action = lastAction.value
+            val noteWrappers = action.noteWrappers
+
+            when(action.snackAction) {
+                is SnackAction.Delete -> restoreNoteFromTrashUseCase.invoke(noteWrappers)
+                is SnackAction.Archive -> archiveNotesUseCase.invoke(noteWrappers, false)
+                else -> Unit
             }
-            cancelNoteSelection()
         }
     }
 
-    fun deleteSelectedNotesFromTrash() {
+    private fun addLastAction(noteWrappers: List<NoteWrapper>, action: SnackAction) {
         viewModelScope.launch {
-            selectedNotes.value.forEach { note ->
-                trashRepository.deleteTrashByNote(note)
+            lastAction.update {
+                LastAction(
+                    noteWrappers = noteWrappers,
+                    snackAction = action
+                )
             }
+        }
+    }
+
+    private fun swipeToArchive(noteWrapper: NoteWrapper) {
+        viewModelScope.launch {
+            val noteWrappers = listOf(noteWrapper)
+            addLastAction(noteWrappers = noteWrappers, action = SnackAction.Archive)
+            archiveNotesUseCase.invoke(noteWrappers, true)
+        }
+    }
+
+    private fun swipeToDelete(noteWrapper: NoteWrapper) {
+        viewModelScope.launch {
+            val noteWrappers = listOf(noteWrapper)
+            addLastAction(noteWrappers = noteWrappers, action = SnackAction.Delete)
+            moveToTrashNotesUseCase.invoke(noteWrappers)
+        }
+    }
+
+    private fun toggleListStyle() {
+        viewModelScope.launch {
+            dataStoreRepository.saveListStyleState(listStyle.value.swap())
+        }
+    }
+
+    private fun cancelNoteSelection() {
+        viewModelScope.launch {
+            selectedNoteWrappers.update { mutableListOf() }
+        }
+    }
+
+    private fun archiveSelectedNotes(isArchive: Boolean) {
+        viewModelScope.launch {
+            val selectedNoteWrappers = selectedNoteWrappers.value
+            addLastAction(selectedNoteWrappers, SnackAction.Archive)
+            archiveNotesUseCase.invoke(selectedNoteWrappers, isArchive)
             cancelNoteSelection()
         }
     }
 
-    fun deleteSelectedNotes() {
+    private fun moteToTrashSelectedNotes() {
         viewModelScope.launch {
-            lastActionNotes.update { listOf() }
-            selectedNotes.value.forEach { note -> deleteNote(note = note, clearBuffer = false) }
+            val selectedNoteWrappers = selectedNoteWrappers.value
+            addLastAction(selectedNoteWrappers, SnackAction.Delete)
+            moveToTrashNotesUseCase.invoke(selectedNoteWrappers)
             cancelNoteSelection()
         }
     }
 
-    fun deleteNote(clearBuffer: Boolean = false, note: Note) {
+
+    private fun selectNote(noteWrapper: NoteWrapper) {
         viewModelScope.launch {
-            if (clearBuffer) { lastActionNotes.update { listOf() } }
-
-            moveNoteToTrashUseCase.invoke(note)
-
-            lastActionNotes.update { notes -> notes.plus(note) }
-        }
-    }
-
-    fun archiveNote(clearBuffer: Boolean = false, note: Note, isArchived: Boolean = true) {
-        viewModelScope.launch {
-            if (clearBuffer) { lastActionNotes.update { listOf() } }
-
-            noteRepository.updateNote(note.copy(isArchived = isArchived))
-
-            lastActionNotes.update { notes -> notes.plus(note) }
-        }
-    }
-
-    fun restoreNoteFromTrash(note: Note) {
-        viewModelScope.launch {
-            restoreNoteFromTrashUseCase.invoke(note)
-        }
-    }
-
-    fun undoDeleteSelected() {
-        viewModelScope.launch {
-            lastActionNotes.value.let { notes ->
-                notes.forEach { note ->
-                    if (note.isNoteValid()) {
-                        trashRepository.deleteTrashByNote(note)
+            selectedNoteWrappers.update { noteWrappers ->
+                if (noteWrappers.contains(noteWrapper)) {
+                    noteWrappers.toMutableList().apply {
+                        remove(noteWrapper)
                     }
-                    noteRepository.insertNote(note)
+                } else {
+                    noteWrappers.toMutableList().apply {
+                        add(noteWrapper)
+                    }
                 }
             }
-            lastActionNotes.update { listOf() }
         }
     }
-
-    fun undoArchiveSelected(isArchived: Boolean = false) {
-        viewModelScope.launch {
-            lastActionNotes.value.forEach { note ->
-                archiveNote(clearBuffer = false, note = note, isArchived = !isArchived)
-            }
-            lastActionNotes.update { listOf() }
-        }
-    }
-
 }
 
-data class HomeScreenUiState(
-    val noteSwipesState: NoteSwipesState = NoteSwipesState(false, NoteSwipe.None, NoteSwipe.None),
-    val listStyle: ListStyle = ListStyle.Column,
-    val noteStyle: NoteStyle = NoteStyle.Outlined,
-    val selectedNotes: List<Note> = listOf()
+private data class LastAction(
+    val noteWrappers: List<NoteWrapper> = listOf(),
+    val snackAction: SnackAction = SnackAction.None,
 )
 
-data class HomeScreenDrawerUiState(
-    val drawerLabels: List<Label> = listOf(),
-    val drawerItem: DrawerItem = DrawerItem(),
-)
+sealed class HomeUiEvent {
 
+    object CreateNewNote: HomeUiEvent()
+
+    data class OpenNoteDetail(val noteId: Long?): HomeUiEvent()
+
+    object ToggleListStyle: HomeUiEvent()
+
+    object CancelNoteSelection: HomeUiEvent()
+
+    object MoveToTrashSelectedNotes: HomeUiEvent()
+
+    object ArchiveSelectedNotes: HomeUiEvent()
+
+    object UnarchiveSelectedNotes: HomeUiEvent()
+
+    data class SelectNote(val noteWrapper: NoteWrapper): HomeUiEvent()
+
+    data class SwipeToDeleteNote(val noteWrapper: NoteWrapper): HomeUiEvent()
+
+    data class SwipeToArchiveNote(val noteWrapper: NoteWrapper): HomeUiEvent()
+
+    object Undo: HomeUiEvent()
+
+}

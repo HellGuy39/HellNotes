@@ -1,39 +1,44 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.use_case.note.CopyNoteUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.note.DeleteNoteUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.note.MoveNoteToTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.DeleteNotesUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.note.PostProcessNoteUseCase
-import com.hellguy39.hellnotes.core.model.*
-import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
-import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklistValid
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import com.hellguy39.hellnotes.core.domain.use_case.trash.MoveNotesToTrashUseCase
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.isNoteWrapperInvalid
+import com.hellguy39.hellnotes.core.model.local.database.Checklist
+import com.hellguy39.hellnotes.core.model.local.database.ChecklistItem
+import com.hellguy39.hellnotes.core.model.local.database.Note
+import com.hellguy39.hellnotes.core.model.local.database.isChecklistValid
+import com.hellguy39.hellnotes.core.model.toNoteWrapper
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NoteDetailViewModel @Inject constructor(
+class NoteDetailViewModel @AssistedInject constructor(
+    @Assisted private val noteId: Long,
     private val noteRepository: NoteRepository,
     reminderRepository: ReminderRepository,
     labelRepository: LabelRepository,
     private val checklistRepository: ChecklistRepository,
-    private val moveNoteToTrashUseCase: MoveNoteToTrashUseCase,
-    private val deleteNoteUseCase: DeleteNoteUseCase,
+    private val moveNotesToTrashUseCase: MoveNotesToTrashUseCase,
+    private val deleteNotesUseCase: DeleteNotesUseCase,
     private val postProcessNoteUseCase: PostProcessNoteUseCase,
-    private val copyNoteUseCase: CopyNoteUseCase,
-    savedStateHandle: SavedStateHandle,
+    private val copyNoteUseCase: CopyNoteUseCase
 ): ViewModel() {
 
     private val note: MutableStateFlow<Note> = MutableStateFlow(Note())
@@ -48,7 +53,7 @@ class NoteDetailViewModel @Inject constructor(
         ) { note, reminders, labels, checklists ->
             if (note.id != null) {
                 NoteDetailUiState.Success(
-                    note.toNoteDetailWrapper(
+                    note.toNoteWrapper(
                         labels = labels,
                         reminders = reminders,
                         checklists = checklists
@@ -66,10 +71,6 @@ class NoteDetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val noteId = savedStateHandle.get<Long>(ArgumentKeys.NoteId).let { id ->
-                if (id != ArgumentDefaultValues.NewNote) id else noteRepository.insertNote(Note())
-            } ?: return@launch
-
             launch {
                 note.update { noteRepository.getNoteById(noteId) }
             }
@@ -162,7 +163,7 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
-    private suspend fun prepareNoteForSave(state: NoteDetailUiState.Success): NoteDetailWrapper {
+    private suspend fun prepareNoteForSave(state: NoteDetailUiState.Success): NoteWrapper {
         var postProcessedNote = postProcessNoteUseCase.invoke(state.wrapper)
         val invalidChecklists = mutableListOf<Checklist>()
 
@@ -217,13 +218,13 @@ class NoteDetailViewModel @Inject constructor(
 
     private fun moveNoteToTrash() {
         viewModelScope.launch {
-            note.value.let { note -> moveNoteToTrashUseCase.invoke(note) }
+            note.value.let { note -> moveNotesToTrashUseCase.invoke(listOf(note.toNoteWrapper())) }
         }
     }
 
     private fun deleteNote() {
         viewModelScope.launch {
-            note.value.let { note -> deleteNoteUseCase.invoke(note) }
+            note.value.let { note -> deleteNotesUseCase.invoke(listOf(note)) }
         }
     }
 
@@ -323,7 +324,6 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
-
     private fun checkAllChecklistItems(checklist: Checklist, isCheck: Boolean) {
         viewModelScope.launch {
 
@@ -339,6 +339,22 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
+    @AssistedFactory
+    interface Factory {
+        fun create(noteId: Long): NoteDetailViewModel
+    }
+
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun provideFactory(
+            assistedFactory: Factory,
+            noteId: Long
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return assistedFactory.create(noteId) as T
+            }
+        }
+    }
 }
 
 sealed class NoteDetailUiEvent {
@@ -381,5 +397,5 @@ sealed class NoteDetailUiState {
 
     object Loading: NoteDetailUiState()
 
-    data class Success(val wrapper: NoteDetailWrapper): NoteDetailUiState()
+    data class Success(val wrapper: NoteWrapper): NoteDetailUiState()
 }

@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.feature.home.label
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,31 +19,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
+import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
+import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToSearch
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.home.HomeScreenMultiActionSelection
-import com.hellguy39.hellnotes.feature.home.HomeScreenVisualsSelection
-import com.hellguy39.hellnotes.feature.home.label.components.LabelDropdownMenuSelection
-import com.hellguy39.hellnotes.feature.home.label.components.LabelTopAppBar
-import com.hellguy39.hellnotes.feature.home.label.components.LabelTopAppBarSelection
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun LabelScreen(
     navController: NavController,
     labelViewModel: LabelViewModel = hiltViewModel(),
-    visualsSelection: HomeScreenVisualsSelection,
-    multiActionSelection: HomeScreenMultiActionSelection
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -188,7 +178,7 @@ fun LabelScreen(
         },
         onAccept = {
             labelViewModel.send(LabelUiEvent.DeleteLabel)
-            visualsSelection.resetDrawerRoute()
+            //visualsSelection.resetDrawerRoute()
             deleteDialogState.dismiss()
         }
     )
@@ -198,7 +188,7 @@ fun LabelScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { paddingValues ->
-            AnimatedContent(targetState = visualsSelection.listStyle) { listStyle ->
+            //AnimatedContent(targetState = visualsSelection.listStyle) { listStyle ->
 
                 if (uiState.notes.isEmpty()) {
                     EmptyContentPlaceholder(
@@ -214,82 +204,49 @@ fun LabelScreen(
                 NoteList(
                     innerPadding = paddingValues,
                     noteSelection = NoteSelection(
-                        noteStyle = visualsSelection.noteStyle,
-                        onClick = { note ->
-                            if (multiActionSelection.selectedNotes.isEmpty()) {
-                                navController.navigateToNoteDetail(note.id)
-                            } else {
-                                if (multiActionSelection.selectedNotes.contains(note)) {
-                                    multiActionSelection.onUnselectNote(note)
-                                } else {
-                                    multiActionSelection.onSelectNote(note)
-                                }
-                            }
-                        },
-                        onLongClick = { note ->
-                            if (multiActionSelection.selectedNotes.contains(note)) {
-                                multiActionSelection.onUnselectNote(note)
-                            } else {
-                                multiActionSelection.onSelectNote(note)
-                            }
-                        },
-                        onDismiss = { direction, note ->
-                            val swipeAction = if (direction == DismissDirection.StartToEnd)
-                                visualsSelection.noteSwipesState.swipeRight
-                            else
-                                visualsSelection.noteSwipesState.swipeLeft
-
-                            when(swipeAction) {
-                                NoteSwipe.None -> false
-                                NoteSwipe.Delete -> {
-                                    multiActionSelection.onDeleteNote(note)
-                                    true
-                                }
-                                NoteSwipe.Archive -> {
-                                    multiActionSelection.onArchiveNote(note, true)
-                                    true
-                                }
-                            }
-                        },
-                        isSwipeable = visualsSelection.noteSwipesState.enabled
+                        noteStyle = NoteStyle.Outlined,
+                        onClick = { note -> },
+                        onLongClick = { note -> },
+                        onDismiss = { direction, note -> false },
+                        isSwipeable = false
                     ),
                     categories = listOf(
                         NoteCategory(
                             notes = uiState.notes
                         )
                     ),
-                    selectedNotes = multiActionSelection.selectedNotes,
-                    listStyle = listStyle,
+                    selectedNotes = listOf(),
+                    listStyle = ListStyle.Grid,
                 )
-            }
+            //}
         },
         topBar = {
-            LabelTopAppBar(
-                scrollBehavior = scrollBehavior,
-                selection = LabelTopAppBarSelection(
-                    selectedNotes = multiActionSelection.selectedNotes,
-                    onDeleteSelected = multiActionSelection.onDeleteSelectedNotes,
-                    onCancelSelection = multiActionSelection.onCancelSelection,
-                    onArchiveSelected = { multiActionSelection.onArchiveSelectedNotes(true) },
-                    onNavigation = {
-                        scope.launch {
-                            visualsSelection.drawerState.open()
-                        }
-                    },
-                    listStyle = visualsSelection.listStyle,
-                    onSearch = navController::navigateToSearch,
-                    onChangeListStyle = visualsSelection.onUpdateListStyle
-                ),
-                dropdownMenuSelection = LabelDropdownMenuSelection(
-                    onRename = {
-                        renameDialogState.show()
-                    },
-                    onDelete = {
-                        deleteDialogState.show()
-                    }
-                ),
-                label = uiState.label
-            )
+//            LabelTopAppBar(
+//                scrollBehavior = scrollBehavior,
+//                selection = LabelTopAppBarSelection(
+//                    selectedNotes = multiActionSelection.selectedNotes,
+//                    onDeleteSelected = multiActionSelection.onDeleteSelectedNotes,
+//                    onCancelSelection = multiActionSelection.onCancelSelection,
+//                    onArchiveSelected = { multiActionSelection.onArchiveSelectedNotes(true) },
+//                    onNavigation = {
+//                        scope.launch {
+//                            visualsSelection.drawerState.open()
+//                        }
+//                    },
+//                    listStyle = visualsSelection.listStyle,
+//                    onSearch = navController::navigateToSearch,
+//                    onChangeListStyle = visualsSelection.onUpdateListStyle
+//                ),
+//                dropdownMenuSelection = LabelDropdownMenuSelection(
+//                    onRename = {
+//                        renameDialogState.show()
+//                    },
+//                    onDelete = {
+//                        deleteDialogState.show()
+//                    }
+//                ),
+//                label = uiState.label
+//            )
         }
     )
 }

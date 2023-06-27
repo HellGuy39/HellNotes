@@ -16,9 +16,11 @@ class NetworkDataSource @Inject constructor() {
 
     private val client = HttpClient(Android) {
         install(Logging) {
-            level = LogLevel.ALL
+            level = LogLevel.INFO
         }
-        install(ContentNegotiation) { json() }
+        install(ContentNegotiation) {
+            json()
+        }
     }
 
     suspend fun getReleases(): List<ReleaseDto> {
@@ -28,12 +30,12 @@ class NetworkDataSource @Inject constructor() {
 
     suspend fun getPrivacyPolicy(): String {
         val response = client.get { url(HttpRoutes.PRIVACY_POLICY) }
-        return response.body<String>()
+        return response.body()
     }
 
     suspend fun getTermsAndConditions(): String {
         val response = client.get { url(HttpRoutes.TERMS_AND_CONDITIONS) }
-        return response.body<String>()
+        return response.body()
     }
 
     companion object {

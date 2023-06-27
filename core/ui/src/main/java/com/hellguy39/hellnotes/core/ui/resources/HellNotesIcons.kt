@@ -49,6 +49,7 @@ object HellNotesIcons {
     val PhotoCamera = R.drawable.ic_photo_camera_24
     val Save = R.drawable.ic_save_24
     val MenuOpen = R.drawable.ic_menu_open_24
+    val DeleteSweep = R.drawable.ic_delete_sweep_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24

@@ -3,10 +3,10 @@ package com.hellguy39.hellnotes.feature.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllWrappedNotesStreamUseCase
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     dataStoreRepository: DataStoreRepository,
-    getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase
+    getAllWrappedNotesStreamUseCase: GetAllWrappedNotesStreamUseCase
 ): ViewModel() {
 
     private val _listStyle: MutableStateFlow<ListStyle> = MutableStateFlow(ListStyle.Column)
@@ -30,12 +30,12 @@ class SearchViewModel @Inject constructor(
 
     val uiState: StateFlow<SearchUiState> =
         combine(
-            getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
+            getAllWrappedNotesStreamUseCase.invoke(),
             search,
             filters
         ) { notes, search, filters ->
 
-            var searchedNotes: List<NoteDetailWrapper> = notes.filter { note ->
+            var searchedNotes: List<NoteWrapper> = notes.filter { note ->
                 note.note.note.contains(search, true) ||
                         note.note.title.contains(search, true)
             }
@@ -135,7 +135,7 @@ sealed class SearchScreenUiEvent {
 data class SearchUiState(
     val search: String,
     val isLoading: Boolean,
-    val notes: List<NoteDetailWrapper>,
+    val notes: List<NoteWrapper>,
     val filters: FilterSelection
 ) {
     companion object {

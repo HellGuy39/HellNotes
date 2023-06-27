@@ -1,8 +1,8 @@
 package com.hellguy39.hellnotes.core.domain.database
 
 import android.net.Uri
-import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
-import com.hellguy39.hellnotes.core.model.repository.local.file.Restore
+import com.hellguy39.hellnotes.core.model.local.file.Backup
+import com.hellguy39.hellnotes.core.model.local.file.Restore
 
 interface BackupManager {
 

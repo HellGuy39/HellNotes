@@ -64,6 +64,8 @@ fun SnackAction.getSnackMessage(isSingleItem: Boolean = true) = when(this) {
     SnackAction.Unpinned -> {
         stringResource(HellNotesStrings.Snack.NotePinned)
     }
+
+    else -> ""
 }
 
 fun SnackAction.getSnackMessage(context: Context, isSingleItem: Boolean = true) = when(this) {
@@ -97,4 +99,5 @@ fun SnackAction.getSnackMessage(context: Context, isSingleItem: Boolean = true) 
     SnackAction.Unpinned -> {
         context.getString(HellNotesStrings.Snack.NoteUnpinned)
     }
+    else -> ""
 }

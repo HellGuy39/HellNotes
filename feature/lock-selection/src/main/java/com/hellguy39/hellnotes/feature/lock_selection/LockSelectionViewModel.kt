@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.feature.lock_selection
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
+import com.hellguy39.hellnotes.core.model.local.datastore.SecurityState
 import com.hellguy39.hellnotes.core.model.LockScreenType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*

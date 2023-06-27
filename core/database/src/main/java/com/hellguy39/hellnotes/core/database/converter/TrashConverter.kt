@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.database.converter
 
 import androidx.room.TypeConverter
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.local.database.Note
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 

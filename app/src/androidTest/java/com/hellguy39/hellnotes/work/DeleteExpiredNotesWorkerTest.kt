@@ -14,7 +14,7 @@ import androidx.work.impl.utils.WorkForegroundUpdater
 import androidx.work.impl.utils.WorkProgressUpdater
 import androidx.work.impl.utils.taskexecutor.WorkManagerTaskExecutor
 import com.hellguy39.hellnotes.core.data.repository.local.fake.FakeTrashRepository
-import com.hellguy39.hellnotes.core.domain.use_case.DeleteExpiredNotesUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.trash.DeleteExpiredNotesUseCase
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

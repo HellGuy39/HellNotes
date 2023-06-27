@@ -2,10 +2,21 @@ package com.hellguy39.hellnotes.core.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.hellguy39.hellnotes.core.model.LockScreenType
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.*
+import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteSwipe
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.local.datastore.SecurityState
+import com.hellguy39.hellnotes.core.model.local.datastore.Sorting
+import com.hellguy39.hellnotes.core.model.local.datastore.ThemeState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -21,6 +32,8 @@ class HellNotesPreferencesDataSource @Inject constructor(
 
     private object PreferencesKey {
         val onBoarding = booleanPreferencesKey(name = "on_boarding_completed")
+        val themeState = stringPreferencesKey(name = "theme_state")
+        val materialYou = booleanPreferencesKey("material_you_enabled")
         val trashTip = booleanPreferencesKey(name = "trash_tip_checked")
         val lockType = stringPreferencesKey(name = "lock_type")
         val isUseBiometricData = booleanPreferencesKey(name = "is_use_biometric_data")
@@ -47,6 +60,8 @@ class HellNotesPreferencesDataSource @Inject constructor(
         val noteSwipeRight = NoteSwipe.Delete
         val noteSwipeLeft = NoteSwipe.Archive
         const val lastBackupDate = 0L
+        const val materialYou = true
+        val themeState = ThemeState.System
     }
 
     private val dataStore = context.dataStore
@@ -65,6 +80,20 @@ class HellNotesPreferencesDataSource @Inject constructor(
             preferences[PreferencesKey.noteSwipeRight] = PreferencesDefaultValues.noteSwipeRight.string()
             preferences[PreferencesKey.trashTip] = PreferencesDefaultValues.trashTip
             preferences[PreferencesKey.lastBackupDate] = PreferencesDefaultValues.lastBackupDate
+            preferences[PreferencesKey.themeState] = PreferencesDefaultValues.themeState.toString()
+            preferences[PreferencesKey.materialYou] = PreferencesDefaultValues.materialYou
+        }
+    }
+
+    suspend fun saveThemeState(themeState: ThemeState) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.themeState] = themeState.toString()
+        }
+    }
+
+    suspend fun saveMaterialYou(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.materialYou] = enabled
         }
     }
 
@@ -119,6 +148,21 @@ class HellNotesPreferencesDataSource @Inject constructor(
             preferences[PreferencesKey.lastBackupDate] = millis
         }
     }
+
+    fun readThemeState() = dataStore.data
+        .catchExceptions()
+        .map { preferences ->
+            ThemeState.from(
+                preferences[PreferencesKey.themeState],
+                defaultValue = ThemeState.System
+            )
+        }
+
+    fun readMaterialYou() = dataStore.data
+        .catchExceptions()
+        .map { preferences ->
+            preferences[PreferencesKey.materialYou] ?: PreferencesDefaultValues.materialYou
+        }
 
     fun readOnBoardingState() = dataStore.data
         .catchExceptions()

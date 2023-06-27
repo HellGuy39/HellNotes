@@ -75,6 +75,12 @@ fun SettingsRoute(
             },
             onBackup = {
                 navController.navigateToBackup()
+            },
+            onMaterialYouEnabled = {
+
+            },
+            onThemeToggle = {
+
             }
         )
     )

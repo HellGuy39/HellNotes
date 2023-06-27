@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllWrappedNotesWithRemindersStreamUseCase
 import com.hellguy39.hellnotes.core.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -12,43 +13,32 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RemindersViewModel @Inject constructor(
-    noteRepository: NoteRepository,
-    labelRepository: LabelRepository,
-    reminderRepository: ReminderRepository,
+    getAllWrappedNotesWithRemindersStreamUseCase: GetAllWrappedNotesWithRemindersStreamUseCase
 ): ViewModel() {
 
-    val uiState: StateFlow<RemindersUiState> =
-        combine(
-            noteRepository.getAllNotesStream(),
-            labelRepository.getAllLabelsStream(),
-            reminderRepository.getAllRemindersStream(),
-        ) { notes, labels, reminders ->
-            RemindersUiState(
-                notes = notes
-                    .map { note ->
-                        note.toNoteDetailWrapper(
-                            reminders = reminders.sortedBy { it.triggerDate },
-                            labels = labels
-                        )
-                    }
-                    .filter { wrapper -> wrapper.reminders.isNotEmpty() }
-                    .sortedBy { wrapper -> wrapper.reminders.first().triggerDate },
-            )
+    val uiState = getAllWrappedNotesWithRemindersStreamUseCase.invoke()
+        .map { noteWrappers ->
+            if (noteWrappers.isEmpty()) {
+                RemindersUiState.Empty
+            } else {
+                RemindersUiState.Success(noteWrappers)
+            }
         }
             .stateIn(
-                initialValue = RemindersUiState.initialInstance(),
+                initialValue = RemindersUiState.Idle,
                 started = SharingStarted.WhileSubscribed(5_000),
                 scope = viewModelScope
             )
 
 }
 
-data class RemindersUiState(
-    val notes: List<NoteDetailWrapper>,
-) {
-    companion object {
-        fun initialInstance() = RemindersUiState(
-            notes = listOf()
-        )
-    }
+sealed class RemindersUiState {
+
+    object Idle: RemindersUiState()
+
+    object Empty: RemindersUiState()
+
+    data class Success(val noteWrappersWithReminders: List<NoteWrapper>): RemindersUiState()
+
 }
+

@@ -178,6 +178,7 @@
     <string name="hint_message">Message</string>
 
     <!-- Button -->
+    <string name="btn_new_note">New note</string>
     <string name="btn_request_permission">Request permission</string>
     <string name="btn_create">Create</string>
     <string name="btn_edit">Edit</string>

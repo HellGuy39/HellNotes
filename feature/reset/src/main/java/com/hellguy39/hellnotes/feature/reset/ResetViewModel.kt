@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.feature.reset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.use_case.ResetAppUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.app.ResetAppUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.core.ui.components.snack
 
 sealed class SnackAction {
+    object None: SnackAction()
     object Delete: SnackAction()
     object Restore: SnackAction()
     object Archive: SnackAction()

@@ -167,6 +167,7 @@ object HellNotesStrings {
     }
 
     object Button {
+        val NewNote = R.string.btn_new_note
         val RequestPermission = R.string.btn_request_permission
         val Create = R.string.btn_create
         val Edit = R.string.btn_edit

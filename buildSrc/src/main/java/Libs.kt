@@ -36,7 +36,7 @@ object Libs {
         private const val coroutinesVersion = "1.6.4"
         const val Coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
-        private const val plugineVersion = "1.8.20"
+        private const val plugineVersion = "1.8.21"
         const val Plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugineVersion"
         const val SerializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$plugineVersion"
 
@@ -80,10 +80,10 @@ object Libs {
 
         object Compose {
 
-            private const val composeVersion = "1.4.2"
+            private const val composeVersion = "1.4.3"
             private const val lifecycleVersion = "2.6.1"
             private const val navigationVersion = "2.5.3"
-            private const val material3Version = "1.1.0-rc01"
+            private const val material3Version = "1.1.0"
             private const val activityVersion = "1.6.1"
             
             const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
@@ -91,6 +91,8 @@ object Libs {
             const val Ui = "androidx.compose.ui:ui:$composeVersion"
             const val ToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
             const val Material3 = "androidx.compose.material3:material3:$material3Version"
+            const val Material3WindowSize =
+                "androidx.compose.material3:material3-window-size-class:$material3Version"
             const val Navigation = "androidx.navigation:navigation-compose:$navigationVersion"
             const val LiveData = "androidx.compose.runtime:runtime-livedata:$composeVersion"
 
@@ -123,12 +125,14 @@ object Libs {
 
         object Hilt {
 
-            private const val version = "2.45"
+            private const val version = "2.46"
             private const val navigationVersion = "1.0.0"
             private const val workVersion = "1.0.0"
+            private const val androidXCompilerVersion = "1.0.0"
 
             const val Plugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
             const val Android = "com.google.dagger:hilt-android:$version"
+            const val AndroidXCompiler = "androidx.hilt:hilt-compiler:$androidXCompilerVersion"
             const val Compiler = "com.google.dagger:hilt-compiler:$version"
             const val NavigationCompose = "androidx.hilt:hilt-navigation-compose:$navigationVersion"
             const val Work = "androidx.hilt:hilt-work:$workVersion"

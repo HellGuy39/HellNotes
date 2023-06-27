@@ -5,6 +5,41 @@ import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import com.hellguy39.hellnotes.core.model.LockScreenType
 
+sealed class GraphScreen {
+
+    sealed class Global(val route: String) {
+
+        object Main: Screen(route = "main")
+
+        object Settings: Screen(route = "settings")
+
+        object About: Screen(route = "about")
+
+    }
+
+    sealed class Main(val route: String) {
+
+        object Notes : Screen(route = "notes")
+
+        object Reminders : Screen(route = "reminders")
+
+        object Labels : Screen(route = "labels")
+
+        object Archive : Screen(route = "archive")
+
+        object Trash : Screen(route = "trash")
+
+    }
+
+    sealed class Settings(val route: String) {
+
+    }
+
+    sealed class About(val route: String) {
+
+    }
+}
+
 sealed class Screen(val route: String) {
 
     object Startup : Screen(route = "startup_screen")
@@ -20,6 +55,18 @@ sealed class Screen(val route: String) {
     object LockSelection : Screen(route = "lock_selection_screen")
 
     object Home : Screen(route = "home_screen")
+
+    object NoteList : Screen(route = "note_list_screen")
+
+    object Reminders : Screen(route = "reminders_screen")
+
+    object Label : Screen(route = "label_screen")
+
+    object Labels : Screen(route = "labels_screen")
+
+    object Archive : Screen(route = "archive_screen")
+
+    object Trash : Screen(route = "trash_screen")
 
     object Settings : Screen(route = "settings_screen")
 

@@ -4,14 +4,14 @@ import androidx.compose.animation.core.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.model.local.database.Note
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
 
 @Composable
 fun NoteCard(
     modifier: Modifier = Modifier,
-    noteDetailWrapper: NoteDetailWrapper,
+    noteWrapper: NoteWrapper,
     isSelected: Boolean = false,
     noteStyle: NoteStyle
 ) {
@@ -19,14 +19,14 @@ fun NoteCard(
         NoteStyle.Outlined -> {
             OutlinedNoteCard(
                 modifier = modifier,
-                noteDetailWrapper = noteDetailWrapper,
+                noteWrapper = noteWrapper,
                 isSelected = isSelected
             )
         }
         NoteStyle.Elevated -> {
             ElevatedNoteCard(
                 modifier = modifier,
-                noteDetailWrapper = noteDetailWrapper,
+                noteWrapper = noteWrapper,
                 isSelected = isSelected
             )
         }
@@ -37,7 +37,7 @@ fun NoteCard(
 data class NoteSelection(
     val noteStyle: NoteStyle,
     val isSwipeable: Boolean,
-    val onClick: (Note) -> Unit,
-    val onLongClick: (Note) -> Unit,
-    val onDismiss: (DismissDirection, Note) -> Boolean
+    val onClick: (NoteWrapper) -> Unit,
+    val onLongClick: (NoteWrapper) -> Unit,
+    val onDismiss: (DismissDirection, NoteWrapper) -> Boolean
 )

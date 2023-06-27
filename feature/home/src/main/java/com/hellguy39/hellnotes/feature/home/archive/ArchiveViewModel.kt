@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllArchivedWrappedNotesStreamUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllWrappedNotesStreamUseCase
 import com.hellguy39.hellnotes.core.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -12,37 +14,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArchiveViewModel @Inject constructor(
-    noteRepository: NoteRepository,
-    labelRepository: LabelRepository,
-    reminderRepository: ReminderRepository,
+    getAllArchivedWrappedNotesStreamUseCase: GetAllArchivedWrappedNotesStreamUseCase
 ): ViewModel() {
 
-    val uiState: StateFlow<ArchiveUiState> =
-        combine(
-            noteRepository.getAllNotesStream(),
-            reminderRepository.getAllRemindersStream(),
-            labelRepository.getAllLabelsStream()
-        ) { notes, reminders, labels ->
-            ArchiveUiState(
-                notes = notes
-                    .filter { note -> note.isArchived }
-                    .map { note -> note.toNoteDetailWrapper(reminders, labels) },
-            )
+    val uiState = getAllArchivedWrappedNotesStreamUseCase.invoke()
+        .map { noteWrappers ->
+            if (noteWrappers.isEmpty()) {
+                ArchiveUiState.Empty
+            } else {
+                ArchiveUiState.Success(noteWrappers)
+            }
         }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5_000),
-            ArchiveUiState.initialInstance()
+            ArchiveUiState.Idle
         )
 
 }
 
-data class ArchiveUiState(
-    val notes: List<NoteDetailWrapper>,
-) {
-    companion object {
-        fun initialInstance() = ArchiveUiState(
-            notes = listOf()
-        )
-    }
+sealed class ArchiveUiState {
+
+    object Idle: ArchiveUiState()
+
+    object Empty: ArchiveUiState()
+
+    data class Success(val archivedNoteWrappers: List<NoteWrapper>): ArchiveUiState()
+
 }

@@ -3,9 +3,9 @@ package com.hellguy39.hellnotes.feature.home.label
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllWrappedNotesStreamUseCase
 import com.hellguy39.hellnotes.core.model.*
-import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.model.local.database.Label
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LabelViewModel @Inject constructor(
     private val labelRepository: LabelRepository,
-    getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase
+    getAllWrappedNotesStreamUseCase: GetAllWrappedNotesStreamUseCase
 ): ViewModel() {
 
     private val selectedLabel = MutableStateFlow(Label())
@@ -23,7 +23,7 @@ class LabelViewModel @Inject constructor(
         combine(
             selectedLabel,
             labelRepository.getAllLabelsStream(),
-            getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
+            getAllWrappedNotesStreamUseCase.invoke(),
         ) { selectedLabel, labels, notes ->
             LabelUiState(
                 notes = notes
@@ -88,7 +88,7 @@ sealed class LabelUiEvent {
 data class LabelUiState(
     val label: Label,
     val allLabels: List<Label>,
-    val notes: List<NoteDetailWrapper>,
+    val notes: List<NoteWrapper>,
 ) {
     companion object {
         fun initialInstance() = LabelUiState(

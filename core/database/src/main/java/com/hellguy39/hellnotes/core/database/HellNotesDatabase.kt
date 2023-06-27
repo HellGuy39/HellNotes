@@ -59,7 +59,5 @@ abstract class HellNotesDatabase: RoomDatabase() {
                 return instance
             }
         }
-
-
     }
 }

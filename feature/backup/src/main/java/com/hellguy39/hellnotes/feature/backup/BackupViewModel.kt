@@ -4,11 +4,9 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.use_case.BackupDatabaseUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.RestoreDatabaseUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.backup.BackupDatabaseUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.backup.RestoreDatabaseUseCase
 import com.hellguy39.hellnotes.core.model.Resource
-import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
-import com.hellguy39.hellnotes.core.model.repository.local.file.Restore
 import com.hellguy39.hellnotes.core.ui.UiText
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -8,7 +8,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
-import com.hellguy39.hellnotes.core.domain.use_case.DeleteExpiredNotesUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.trash.DeleteExpiredNotesUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
@@ -30,6 +30,7 @@ class DeleteExpiredNotesWorker @AssistedInject constructor(
         const val TAG = "DeleteExpiredNotesFromTrashWorker"
 
         fun getWorkRequest(): PeriodicWorkRequest {
+
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
                 .setRequiresDeviceIdle(false)

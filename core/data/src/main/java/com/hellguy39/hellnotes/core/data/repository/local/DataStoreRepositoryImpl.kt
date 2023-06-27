@@ -2,11 +2,12 @@ package com.hellguy39.hellnotes.core.data.repository.local
 
 import com.hellguy39.hellnotes.core.datastore.HellNotesPreferencesDataSource
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.Sorting
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteSwipesState
+import com.hellguy39.hellnotes.core.model.local.datastore.SecurityState
+import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.model.local.datastore.Sorting
+import com.hellguy39.hellnotes.core.model.local.datastore.ThemeState
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -20,6 +21,14 @@ class DataStoreRepositoryImpl @Inject constructor(
 
     override suspend fun saveNoteSwipesState(state: NoteSwipesState) {
         dataSource.saveNoteSwipesState(state)
+    }
+
+    override suspend fun saveThemeState(state: ThemeState) {
+        dataSource.saveThemeState(state)
+    }
+
+    override suspend fun saveMaterialYouState(enabled: Boolean) {
+        dataSource.saveMaterialYou(enabled)
     }
 
     override suspend fun saveOnBoardingState(completed: Boolean) {
@@ -52,6 +61,14 @@ class DataStoreRepositoryImpl @Inject constructor(
 
     override fun readOnBoardingState(): Flow<Boolean> {
         return dataSource.readOnBoardingState()
+    }
+
+    override fun readThemeState(): Flow<ThemeState> {
+        return dataSource.readThemeState()
+    }
+
+    override fun readMaterialYouState(): Flow<Boolean> {
+        return dataSource.readMaterialYou()
     }
 
     override fun readTrashTipState(): Flow<Boolean> {

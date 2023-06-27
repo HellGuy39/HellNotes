@@ -1,3 +1,5 @@
+import com.android.builder.model.ClassField
+import org.jetbrains.kotlin.gradle.plugin.extraProperties
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 plugins {
@@ -18,8 +20,8 @@ android {
         applicationId = Config.ApplicationId
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
-        versionCode = 6
-        versionName = "1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionCode = 7
+        versionName = "1.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -30,13 +32,26 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            buildConfigField("boolean", "ENABLE_CRASHLYTICS", true.toString())
+            buildConfigField("boolean", "ENABLE_ANALYTICS", true.toString())
         }
+
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
             isDebuggable = false
+
+            buildConfigField("boolean", "ENABLE_CRASHLYTICS", true.toString())
+            buildConfigField("boolean", "ENABLE_ANALYTICS", true.toString())
+        }
+
+        debug {
+
+            buildConfigField("boolean", "ENABLE_CRASHLYTICS", false.toString())
+            buildConfigField("boolean", "ENABLE_ANALYTICS", false.toString())
         }
     }
 
@@ -130,6 +145,7 @@ dependencies {
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)
+    kapt(Libs.Google.Hilt.AndroidXCompiler)
     implementation(Libs.Google.Hilt.NavigationCompose)
     implementation(Libs.Google.Hilt.Work)
 

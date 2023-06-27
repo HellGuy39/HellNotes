@@ -2,13 +2,19 @@ package com.hellguy39.hellnotes.feature.home.reminders.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
@@ -17,27 +23,25 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 fun RemindersTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     selection: ReminderTopAppBarSelection,
+    selectedNoteWrappers: List<NoteWrapper>
 ) {
     val listStyleIcon = if(selection.listStyle == ListStyle.Column)
         painterResource(id = HellNotesIcons.GridView)
     else
         painterResource(id = HellNotesIcons.ListView)
 
-    AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
+    AnimatedContent(targetState = selectedNoteWrappers.isNotEmpty()) { isNoteSelection ->
         TopAppBar(
             scrollBehavior = scrollBehavior,
             title = {
                 if (isNoteSelection) {
                     Text(
-                        text = stringResource(
-                            id = HellNotesStrings.Title.Selected,
-                            selection.selectedNotes.count()
-                        ),
+                        text = selectedNoteWrappers.count().toString(),
                         style = MaterialTheme.typography.headlineSmall
                     )
                 } else {
                     Text(
-                        stringResource(id = HellNotesStrings.Title.Reminders),
+                        text = stringResource(id = HellNotesStrings.Title.Reminders),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge
@@ -46,18 +50,14 @@ fun RemindersTopAppBar(
             },
             navigationIcon = {
                 if(isNoteSelection) {
-                    IconButton(
-                        onClick = { selection.onCancelSelection() }
-                    ) {
+                    IconButton(onClick = selection.onCancelSelection) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Close),
                             contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel)
                         )
                     }
                 } else {
-                    IconButton(
-                        onClick = { selection.onNavigation() }
-                    ) {
+                    IconButton(onClick = selection.onNavigation) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Menu),
                             contentDescription = null
@@ -67,26 +67,20 @@ fun RemindersTopAppBar(
             },
             actions = {
                 if (isNoteSelection) {
-                    IconButton(
-                        onClick = { selection.onDeleteSelected() }
-                    ) {
+                    IconButton(onClick = selection.onDeleteSelected) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Delete),
                             contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete)
                         )
                     }
                 } else {
-                    IconButton(
-                        onClick = { selection.onSearch() }
-                    ) {
+                    IconButton(onClick = selection.onSearch) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Search),
                             contentDescription = null
                         )
                     }
-                    IconButton(
-                        onClick = { selection.onChangeListStyle() }
-                    ) {
+                    IconButton(onClick = selection.onChangeListStyle) {
                         Icon(
                             painter = listStyleIcon,
                             contentDescription = null
@@ -101,7 +95,6 @@ fun RemindersTopAppBar(
 
 data class ReminderTopAppBarSelection(
     val listStyle: ListStyle,
-    val selectedNotes: List<Note>,
     val onNavigation: () -> Unit,
     val onSearch: () -> Unit,
     val onChangeListStyle: () -> Unit,

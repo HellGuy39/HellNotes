@@ -2,12 +2,9 @@ package com.hellguy39.hellnotes.feature.home.trash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
-import com.hellguy39.hellnotes.core.domain.use_case.DeleteExpiredNotesUseCase
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.hellguy39.hellnotes.core.domain.use_case.trash.EmptyTrashUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.trash.GetNotesFromTrashStreamUseCase
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -15,63 +12,50 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TrashViewModel @Inject constructor(
-    private val trashRepository: TrashRepository,
-    private val dataStoreRepository: DataStoreRepository,
+    getNotesFromTrashStreamUseCase: GetNotesFromTrashStreamUseCase,
+    private val emptyTrashUseCase: EmptyTrashUseCase
 ): ViewModel() {
 
-    private val _selectedNote = MutableStateFlow(Note())
-    val selectedNote = _selectedNote.asStateFlow()
-
-    val uiState: StateFlow<TrashUiState> =
-        combine(
-            trashRepository.getAllTrashStream(),
-            dataStoreRepository.readTrashTipState()
-        ) { trashes, tipState ->
-            TrashUiState(
-                trashTipCompleted = tipState,
-                trashNotes = trashes.map { trash -> NoteDetailWrapper(note = trash.note) }
-            )
+    val uiState = getNotesFromTrashStreamUseCase.invoke()
+        .map { noteWrappers ->
+            if (noteWrappers.isEmpty()) {
+                TrashUiState.Empty
+            } else {
+                TrashUiState.Success(noteWrappers)
+            }
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = TrashUiState.initialInstance()
+                initialValue = TrashUiState.Idle
             )
 
-    fun trashTipCompleted(completed: Boolean) {
-        viewModelScope.launch {
-            dataStoreRepository.saveTrashTipState(completed)
+    fun send(uiEvent: TrashScreenUiEvent) {
+        when(uiEvent) {
+            TrashScreenUiEvent.EmptyTrash -> emptyTrash()
         }
     }
 
-    fun selectNote(note: Note) {
+    private fun emptyTrash() {
         viewModelScope.launch {
-            _selectedNote.update { note }
-        }
-    }
-
-    fun clearSelectedNote() {
-        viewModelScope.launch {
-            _selectedNote.update { Note() }
-        }
-    }
-
-    fun emptyTrash() {
-        viewModelScope.launch {
-            trashRepository.deleteAll()
+            emptyTrashUseCase.invoke()
         }
     }
 
 }
 
-data class TrashUiState(
-    val trashTipCompleted: Boolean,
-    val trashNotes: List<NoteDetailWrapper>,
-) {
-    companion object {
-        fun initialInstance() = TrashUiState(
-            trashTipCompleted = true,
-            trashNotes = listOf(),
-        )
-    }
+sealed class TrashScreenUiEvent {
+
+    object EmptyTrash: TrashScreenUiEvent()
+
+}
+
+sealed class TrashUiState {
+
+    object Idle: TrashUiState()
+
+    object Empty: TrashUiState()
+
+    data class Success(val trashedNotes: List<NoteWrapper>): TrashUiState()
+
 }

@@ -35,6 +35,6 @@ fun NavGraphBuilder.noteDetailScreen(
             UiDefaults.Motion.ScreenPopExitTransition
         },
     ) {
-        NoteDetailRoute(navController)
+        //NoteDetailRoute(navController)
     }
 }

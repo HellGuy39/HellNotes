@@ -1,80 +1,61 @@
 package com.hellguy39.hellnotes.feature.home.note_list
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToSearch
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.home.HomeScreenMultiActionSelection
-import com.hellguy39.hellnotes.feature.home.HomeScreenVisualsSelection
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBar
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NoteListScreen(
-    navController: NavController,
-    noteListViewModel: NoteListViewModel = hiltViewModel(),
-    visualsSelection: HomeScreenVisualsSelection,
-    multiActionSelection: HomeScreenMultiActionSelection
+    uiState: NotesUiState,
+    appBarSelection: NoteListTopAppBarSelection,
+    screenSelection: NoteListScreenSelection
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-    val scope = rememberCoroutineScope()
 
-    val uiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
+    val lazyListState = rememberLazyListState()
+    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             NoteListTopAppBar(
+                selectedNoteWrappers = screenSelection.selectedNoteWrappers,
                 scrollBehavior = scrollBehavior,
-                selectedNotes = multiActionSelection.selectedNotes,
-                selection = NoteListTopAppBarSelection(
-                    listStyle = visualsSelection.listStyle,
-                    onCancelSelection = multiActionSelection.onCancelSelection,
-                    onNavigation = {
-                        scope.launch { visualsSelection.drawerState.open() }
-                    },
-                    onDeleteSelected = multiActionSelection.onDeleteSelectedNotes,
-                    onSearch = { navController.navigateToSearch() },
-                    onChangeListStyle = visualsSelection.onUpdateListStyle,
-                    onArchive = { multiActionSelection.onArchiveSelectedNotes(true) }
-                )
+                selection = appBarSelection
             )
         },
         content = { innerPadding ->
 
-            if (uiState.isLoading) {
-                return@Scaffold
-            }
-
-            AnimatedContent(visualsSelection.listStyle) { listStyle ->
-
-                if (uiState.pinnedNotes.isEmpty() && uiState.unpinnedNotes.isEmpty()) {
+            when(uiState.listState) {
+                is NoteListState.Idle -> Unit
+                is NoteListState.Empty -> {
                     EmptyContentPlaceholder(
                         modifier = Modifier
                             .padding(horizontal = 32.dp)
@@ -84,75 +65,64 @@ fun NoteListScreen(
                         message = stringResource(id = HellNotesStrings.Placeholder.Empty)
                     )
                 }
-
-                NoteList(
-                    innerPadding = innerPadding,
-                    noteSelection = NoteSelection(
-                        noteStyle = visualsSelection.noteStyle,
-                        onClick = { note ->
-                            if (multiActionSelection.selectedNotes.isEmpty()) {
-                                navController.navigateToNoteDetail(note.id,)
-                            } else {
-                                if (multiActionSelection.selectedNotes.contains(note)) {
-                                    multiActionSelection.onUnselectNote(note)
-                                } else {
-                                    multiActionSelection.onSelectNote(note)
-                                }
-                            }
-                        },
-                        onLongClick = { note ->
-                            if (multiActionSelection.selectedNotes.contains(note)) {
-                                multiActionSelection.onUnselectNote(note)
-                            } else {
-                                multiActionSelection.onSelectNote(note)
-                            }
-                        },
-                        onDismiss = { direction, note ->
-
-                            val swipeAction = if (direction == DismissDirection.StartToEnd)
-                                visualsSelection.noteSwipesState.swipeRight
-                            else
-                                visualsSelection.noteSwipesState.swipeLeft
-
-                            when(swipeAction) {
-                                NoteSwipe.None -> false
-                                NoteSwipe.Delete -> {
-                                    multiActionSelection.onDeleteNote(note)
-                                    true
-                                }
-                                NoteSwipe.Archive -> {
-                                    multiActionSelection.onArchiveNote(note, true)
-                                    true
-                                }
-                            }
-                        },
-                        isSwipeable = visualsSelection.noteSwipesState.enabled
-                    ),
-                    categories = listOf(
-                        NoteCategory(
-                            title = stringResource(id = HellNotesStrings.Label.Pinned),
-                            notes = uiState.pinnedNotes,
+                is NoteListState.Success  -> {
+                    NoteList(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 4.dp),
+                        innerPadding = innerPadding,
+                        noteSelection = screenSelection.noteSelection,
+                        categories = listOf(
+                            NoteCategory(
+                                title = stringResource(id = HellNotesStrings.Label.Pinned),
+                                notes = uiState.listState.pinnedNoteWrappers,
+                            ),
+                            NoteCategory(
+                                title = stringResource(id = HellNotesStrings.Label.Others),
+                                notes = uiState.listState.unpinnedNoteWrappers,
+                            )
                         ),
-                        NoteCategory(
-                            title = stringResource(id = HellNotesStrings.Label.Others),
-                            notes = uiState.unpinnedNotes,
-                        )
-                    ),
-                    selectedNotes = multiActionSelection.selectedNotes,
-                    listStyle = listStyle,
-                )
+                        selectedNotes = screenSelection.selectedNoteWrappers,
+                        listStyle = screenSelection.listStyle,
+                        lazyListState = lazyListState,
+                        lazyStaggeredGridState = lazyStaggeredGridState
+                    )
+                }
             }
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote) }
-            ) {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.Add),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote)
-                )
-            }
-        },
-        snackbarHost = visualsSelection.snackbarHost
+//        floatingActionButton = {
+//
+//            val isFabExpanded by derivedStateOf {
+//                if (screenSelection.listStyle == ListStyle.Column)
+//                    lazyListState.firstVisibleItemIndex == 0
+//                else
+//                    lazyStaggeredGridState.firstVisibleItemIndex == 0
+//            }
+//
+//            ExtendedFloatingActionButton(
+//                text = {
+//                    Text(
+//                        text = "New note"
+//                    )
+//                },
+//                icon = {
+//                    Icon(
+//                        painter = painterResource(id = HellNotesIcons.Add),
+//                        contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote)
+//                    )
+//                },
+//                onClick = screenSelection.onAddNote,
+//                expanded = isFabExpanded
+//            )
+//        },
+//        snackbarHost = { CustomSnackbarHost(state = screenSelection.snackbarHostState) }
     )
 }
+
+data class NoteListScreenSelection(
+    val snackbarHostState: SnackbarHostState,
+    val noteSelection: NoteSelection,
+    val listStyle: ListStyle,
+    val selectedNoteWrappers: List<NoteWrapper>,
+    val onAddNote: () -> Unit,
+)

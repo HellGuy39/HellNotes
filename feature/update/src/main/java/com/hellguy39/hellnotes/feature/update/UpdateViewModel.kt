@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
 import com.hellguy39.hellnotes.core.domain.system_features.Downloader
-import com.hellguy39.hellnotes.core.domain.use_case.CheckForUpdatesUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.app.CheckForUpdatesUseCase
 import com.hellguy39.hellnotes.core.model.Release
 import com.hellguy39.hellnotes.core.model.Resource
 import com.hellguy39.hellnotes.core.ui.UiText
