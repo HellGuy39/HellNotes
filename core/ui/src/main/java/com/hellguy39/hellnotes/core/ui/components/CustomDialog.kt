@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.elevation
 import java.io.Serializable
 
 @Composable
@@ -48,7 +48,7 @@ fun CustomDialog(
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp),
             shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surfaceColorAtElevation(UiDefaults.Elevation.Level3)
+            color = MaterialTheme.colorScheme.surfaceColorAtElevation(MaterialTheme.elevation.level3)
         ) {
             Column(
                 modifier = Modifier

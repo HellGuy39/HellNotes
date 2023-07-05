@@ -24,7 +24,6 @@ import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.feature.home.MainViewModel
-import com.hellguy39.hellnotes.feature.note_detail.NoteDetailViewModel
 import com.hellguy39.hellnotes.navigation.graph.GlobalNavGraph
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -37,8 +36,6 @@ class MainActivity : AppCompatActivity() {
     @EntryPoint
     @InstallIn(ActivityComponent::class)
     interface ViewModelFactoryProvider {
-
-        fun noteDetailsViewModelFactory(): NoteDetailViewModel.Factory
 
         fun mainViewModelFactory(): MainViewModel.Factory
 
@@ -66,12 +63,10 @@ class MainActivity : AppCompatActivity() {
             dynamicColor = appearanceState.isMaterialYouEnabled
         ) {
             Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .imePadding(),
+                modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                TransparentSystemBars()
+                //TransparentSystemBars()
                 GlobalNavGraph()
             }
         }

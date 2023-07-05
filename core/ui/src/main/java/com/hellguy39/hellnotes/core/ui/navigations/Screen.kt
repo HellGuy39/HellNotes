@@ -29,6 +29,12 @@ sealed class GraphScreen {
 
         object Trash : Screen(route = "trash")
 
+        companion object {
+
+            fun start() = Notes
+
+        }
+
     }
 
     sealed class Settings(val route: String) {

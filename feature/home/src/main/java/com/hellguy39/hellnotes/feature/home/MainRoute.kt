@@ -4,43 +4,68 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.window.layout.DisplayFeature
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.feature.home.note_list.NoteListRoute
+import com.hellguy39.hellnotes.core.ui.layout.ListDetail
+import com.hellguy39.hellnotes.core.ui.navigations.GraphScreen
+import com.hellguy39.hellnotes.core.ui.navigations.HNContentType
+import com.hellguy39.hellnotes.feature.home.edit.NoteEditRoute
+import com.hellguy39.hellnotes.feature.home.list.archive.archiveScreen
+import com.hellguy39.hellnotes.feature.home.list.labels.labelsScreen
+import com.hellguy39.hellnotes.feature.home.list.notes.notesScreen
+import com.hellguy39.hellnotes.feature.home.list.reminders.remindersScreen
+import com.hellguy39.hellnotes.feature.home.list.trash.trashScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainRoute(
     innerPadding: PaddingValues,
     mainNavController: NavHostController,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    contentType: HNContentType,
+    displayFeatures: List<DisplayFeature>,
+    onCloseNoteEdit: () -> Unit
 ) {
-    AnimatedNavHost(
+    val isDetailOpen by mainViewModel.isDetailOpen.collectAsStateWithLifecycle()
+    val openedNoteId by mainViewModel.openedNoteId.collectAsStateWithLifecycle()
+
+    ListDetail(
         modifier = Modifier,
-        navController = mainNavController,
-        startDestination = Screen.NoteList.route
-    ) {
-        composable(Screen.NoteList.route) {
-            NoteListRoute()
-        }
+        isDetailOpen = isDetailOpen,
+        onCloseDetail = onCloseNoteEdit,
+        contentType = contentType,
+        detailKey = openedNoteId,
+        list = { isDetailVisible ->
+            AnimatedNavHost(
+                modifier = Modifier.padding(innerPadding),
+                navController = mainNavController,
+                startDestination = GraphScreen.Main.start().route
+            ) {
+                notesScreen(mainViewModel)
 
-        composable(Screen.Reminders.route) {
+                remindersScreen(mainViewModel)
 
-        }
+                archiveScreen(mainViewModel)
 
-        composable(Screen.Labels.route) {
+                labelsScreen(mainViewModel)
 
-        }
-
-        composable(Screen.Trash.route) {
-
-        }
-
-        composable(Screen.Archive.route) {
-
-        }
-    }
+                trashScreen(mainViewModel)
+            }
+        },
+        detail = { isListVisible ->
+            NoteEditRoute(
+                contentType = contentType,
+                noteId = openedNoteId,
+                onCloseNoteEdit = onCloseNoteEdit
+            )
+        },
+        twoPaneStrategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f, gapWidth = 0.dp),
+        displayFeatures = displayFeatures
+    )
 }

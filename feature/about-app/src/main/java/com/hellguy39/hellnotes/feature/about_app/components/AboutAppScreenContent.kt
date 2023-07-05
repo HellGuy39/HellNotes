@@ -14,10 +14,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.alpha
+import com.hellguy39.hellnotes.core.ui.values.elevation
 import com.hellguy39.hellnotes.feature.about_app.AboutAppScreenSelection
 
 @Composable
@@ -39,7 +40,9 @@ fun AboutAppScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2),
+                elevation = CardDefaults.elevatedCardElevation(
+                    defaultElevation = MaterialTheme.elevation.level2
+                ),
             ) {
                 Row(
                     modifier = Modifier.padding(16.dp),
@@ -119,7 +122,9 @@ fun AboutAppScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+                elevation = CardDefaults.elevatedCardElevation(
+                    defaultElevation = MaterialTheme.elevation.level2
+                )
             ) {
                 HNListItem(
                     modifier = listItemModifier,
@@ -162,7 +167,9 @@ fun AboutAppScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+                elevation = CardDefaults.elevatedCardElevation(
+                    defaultElevation = MaterialTheme.elevation.level2
+                )
             ) {
                 HNListItem(
                     modifier = listItemModifier,

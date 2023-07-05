@@ -8,7 +8,7 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
-    namespace = "com.hellguy39.hellnotes.feature.home"
+    namespace = "${Config.applicationId}.feature.home"
     compileSdk = Config.compileSdk
 
     defaultConfig {
@@ -31,7 +31,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Config.ComposeCompiler
+        kotlinCompilerExtensionVersion = Config.composeCompiler
     }
 }
 
@@ -59,6 +59,7 @@ dependencies {
     debugImplementation(Libs.Testing.UiTestManifest)
 
     implementation(Libs.Google.Accompanist.NavigationAnimation)
+    implementation(Libs.Google.Accompanist.Adaptive)
 
     implementation(Libs.Kotlin.Coroutines)
 

@@ -14,8 +14,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.values.alpha
 
 @Composable
 fun HNRadioButtonItem(
@@ -46,7 +46,7 @@ fun HNRadioButtonItem(
             )
             Text(
                 modifier = Modifier
-                    .alpha(if (enabled) 1f else UiDefaults.Alpha.Hint),
+                    .alpha(if (enabled) MaterialTheme.alpha.level4 else MaterialTheme.alpha.level2),
                 text = title,
                 style = MaterialTheme.typography.bodyLarge
             )

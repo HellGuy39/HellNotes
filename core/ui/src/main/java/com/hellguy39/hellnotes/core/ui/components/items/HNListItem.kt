@@ -18,9 +18,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.values.alpha
 
 @Composable
 fun HNListItem(
@@ -64,7 +64,7 @@ fun HNListItem(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .alpha(UiDefaults.Alpha.Accented),
+                            .alpha(MaterialTheme.alpha.level3),
                         text = subtitle,
                         style = MaterialTheme.typography.bodySmall,
                         textAlign = TextAlign.Start

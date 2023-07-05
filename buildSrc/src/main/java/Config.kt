@@ -3,8 +3,8 @@ object Config {
     const val compileSdk = 33
     const val minSdk = 29 // Android 10
     const val targetSdk = 33
-    const val ApplicationId = "com.hellguy39.hellnotes"
+    const val applicationId = "com.hellguy39.hellnotes"
 
-    const val ComposeCompiler = "1.4.7"
+    const val composeCompiler = "1.4.7"
 
 }

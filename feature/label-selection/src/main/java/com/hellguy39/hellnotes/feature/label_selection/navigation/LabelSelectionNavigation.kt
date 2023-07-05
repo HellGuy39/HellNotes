@@ -6,7 +6,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
@@ -23,19 +22,7 @@ fun NavGraphBuilder.labelSelectionScreen(
                 type = NavType.LongType
                 defaultValue = ArgumentDefaultValues.NewNote
             }
-        ),
-        enterTransition = {
-            UiDefaults.Motion.ScreenEnterTransition
-        },
-        exitTransition = {
-            UiDefaults.Motion.ScreenExitTransition
-        },
-        popEnterTransition = {
-            UiDefaults.Motion.ScreenPopEnterTransition
-        },
-        popExitTransition = {
-            UiDefaults.Motion.ScreenPopExitTransition
-        },
+        )
     ) {
         LabelSelectionRoute(navController = navController)
     }

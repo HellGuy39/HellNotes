@@ -1,5 +1,3 @@
-import com.android.builder.model.ClassField
-import org.jetbrains.kotlin.gradle.plugin.extraProperties
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 plugins {
@@ -17,7 +15,7 @@ android {
     compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = Config.ApplicationId
+        applicationId = Config.applicationId
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = 7
@@ -66,7 +64,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Config.ComposeCompiler
+        kotlinCompilerExtensionVersion = Config.composeCompiler
     }
     packagingOptions {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
@@ -85,7 +83,7 @@ dependencies {
     implementation(project(Modules.Feature.Search))
     implementation(project(Modules.Feature.Home))
     implementation(project(Modules.Feature.LabelEdit))
-    implementation(project(Modules.Feature.NoteDetail))
+    //implementation(project(Modules.Feature.NoteDetail))
     implementation(project(Modules.Feature.ReminderEdit))
     implementation(project(Modules.Feature.AboutApp))
     implementation(project(Modules.Feature.Settings))
@@ -135,6 +133,7 @@ dependencies {
     androidTestImplementation(Libs.Testing.AndroidJUnit)
     androidTestImplementation(Libs.Testing.Espresso)
 
+    implementation(Libs.Google.Accompanist.Adaptive)
     implementation(Libs.Google.Accompanist.NavigationAnimation)
     implementation(Libs.Google.Accompanist.SystemUiController)
 

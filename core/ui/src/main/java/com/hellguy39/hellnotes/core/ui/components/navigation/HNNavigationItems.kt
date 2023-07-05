@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.core.ui.components.navigation
 
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -46,7 +45,7 @@ fun RowScope.HNNavigationBarItem(
 }
 
 @Composable
-fun ColumnScope.HNNavigationRailItem(
+fun HNNavigationRailItem(
     item: HNNavigationItemSelection,
     currentDestination: NavDestination?
 ) {
@@ -78,9 +77,10 @@ fun ColumnScope.HNNavigationRailItem(
 }
 
 @Composable
-fun ColumnScope.HNNavigationDrawerItem(
+fun HNNavigationDrawerItem(
     item: HNNavigationItemSelection,
-    currentDestination: NavDestination?
+    currentDestination: NavDestination?,
+    onItemClick: () -> Unit = {}
 ) {
     NavigationDrawerItem(
         icon = {
@@ -98,10 +98,16 @@ fun ColumnScope.HNNavigationDrawerItem(
                 style = MaterialTheme.typography.labelLarge
             )
         },
-        selected = currentDestination?.hierarchy?.any { navDestination ->
-            navDestination.route == item.screen.route
-        } ?: false,
-        onClick = { item.onClick(item) },
+        selected = currentDestination
+            ?.hierarchy
+            ?.any { navDestination ->
+                navDestination.route == item.screen.route
+            } ?: false,
+        onClick = {
+            item.onClick(item)
+            onItemClick()
+        },
+        colors = NavigationDrawerItemDefaults.colors(),
         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
     )
 }
@@ -112,60 +118,3 @@ data class HNNavigationItemSelection(
     val icon: Painter? = null,
     val onClick: (item: HNNavigationItemSelection) -> Unit = {}
 )
-
-//@Composable
-//fun HNNavigationDrawer(
-//    drawerState: DrawerState,
-//    drawerSheet: @Composable () -> Unit,
-//    content: @Composable () -> Unit
-//) {
-//    val windowInfo = rememberWindowInfo()
-//
-//    HNModalNavigationDrawer(
-//        drawerState = drawerState,
-//        drawerSheet = drawerSheet,
-//        content = content
-//    )
-//
-////    when(windowInfo.screenWidthInfo) {
-////        is WindowInfo.WindowType.Compact -> {
-////            HNModalNavigationDrawer(
-////                drawerState = drawerState,
-////                drawerSheet = drawerSheet,
-////                content = content
-////            )
-////        }
-////        else -> {
-////            HNPermanentNavigationDrawer(
-////                drawerSheet = drawerSheet,
-////                content = content
-////            )
-////        }
-////    }
-//
-//}
-//
-//@Composable
-//private fun HNPermanentNavigationDrawer(
-//    drawerSheet: @Composable () -> Unit,
-//    content: @Composable () -> Unit
-//) {
-//    PermanentNavigationDrawer(
-//        modifier = Modifier,
-//        drawerContent = drawerSheet,
-//        content = content
-//    )
-//}
-//
-//@Composable
-//private fun HNModalNavigationDrawer(
-//    drawerState: DrawerState,
-//    drawerSheet: @Composable () -> Unit,
-//    content: @Composable () -> Unit
-//) {
-//    ModalNavigationDrawer(
-//        drawerState = drawerState,
-//        drawerContent = drawerSheet,
-//        content = content
-//    )
-//}

@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.core.ui.components.top_bars
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,6 +56,7 @@ private fun SmallTopAppBar(
     onNavigationButtonClick: () -> Unit = {},
     content: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit = {},
+    navigationIcon: Painter? = null
 ) {
     TopAppBar(
         scrollBehavior = scrollBehavior,
@@ -62,13 +64,15 @@ private fun SmallTopAppBar(
             content()
         },
         navigationIcon = {
-            IconButton(
-                onClick = onNavigationButtonClick
-            ) {
-                Icon(
-                    painter = painterResource(id = HellNotesIcons.ArrowBack),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Back)
-                )
+            if (navigationIcon != null) {
+                IconButton(
+                    onClick = onNavigationButtonClick
+                ) {
+                    Icon(
+                        painter = navigationIcon,
+                        contentDescription = null
+                    )
+                }
             }
         },
         actions = actions

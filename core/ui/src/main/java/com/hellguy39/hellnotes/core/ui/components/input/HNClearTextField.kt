@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.values.alpha
 
 @Composable
 fun HNClearTextField(
@@ -43,7 +43,7 @@ fun HNClearTextField(
                     style = textStyle.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     ),
-                    modifier = Modifier.alpha(UiDefaults.Alpha.Hint)
+                    modifier = Modifier.alpha(MaterialTheme.alpha.level2)
                 )
             }
             innerTextField()

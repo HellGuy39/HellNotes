@@ -11,7 +11,11 @@ data class Note(
     val isArchived: Boolean = false,
     val isPinned: Boolean = false,
     val colorHex: Long = ColorParam.DefaultColor,
-)
+) {
+    companion object {
+        const val EMPTY_ID = -1L
+    }
+}
 
 fun Note.isNoteValid(): Boolean {
     return note.isTextValid() || title.isTextValid()

@@ -26,49 +26,9 @@ fun GlobalNavGraph() {
 
         mainNavGraph(globalNavController)
 
-//        startupScreen(navController)
+        settingsNavGraph(globalNavController)
 
-        //homeScreen(navController, args)
-
-//        onBoardingScreen(navController)
-//
-//        noteDetailScreen(navController)
-//
-//        reminderEditScreen(navController)
-//
-//        labelSelectionScreen(navController)
-//
-//        searchScreen(navController)
-//
-//        labelEditScreen(navController)
-//
-//        settingsScreen(navController)
-//
-//        lockScreen(navController)
-//
-//        lockSelectionScreen(navController)
-//
-//        lockSetupScreen(navController)
-//
-//        languageSelectionScreen(navController)
-//
-//        noteStyleEditScreen(navController)
-//
-//        noteSwipeEditScreen(navController)
-//
-//        aboutAppScreen(navController)
-//
-//        changelogScreen(navController)
-//
-//        termsAndConditionsScreen(navController)
-//
-//        privacyPolicyScreen(navController)
-//
-//        resetScreen(navController)
-//
-//        updateScreen(navController)
-//
-//        backupScreen(navController)
+        aboutNavGraph(globalNavController)
 
     }
 }

@@ -5,11 +5,20 @@ import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.hellguy39.hellnotes.core.ui.values.Alpha
+import com.hellguy39.hellnotes.core.ui.values.Elevation
+import com.hellguy39.hellnotes.core.ui.values.LocalAlpha
+import com.hellguy39.hellnotes.core.ui.values.LocalElevation
+import com.hellguy39.hellnotes.core.ui.values.LocalMotions
+import com.hellguy39.hellnotes.core.ui.values.LocalSpacing
+import com.hellguy39.hellnotes.core.ui.values.Motions
+import com.hellguy39.hellnotes.core.ui.values.Spacing
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -104,9 +113,16 @@ fun HellNotesTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalElevation provides Elevation(),
+        LocalAlpha provides Alpha(),
+        LocalSpacing provides Spacing(),
+        LocalMotions provides Motions()
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

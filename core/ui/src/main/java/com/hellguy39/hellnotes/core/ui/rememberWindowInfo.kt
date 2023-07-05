@@ -26,6 +26,7 @@ fun rememberWindowInfo(): WindowInfo {
 
 fun WindowInfo.isExpandedWindowsSize() = when (screenWidthInfo) {
     is WindowInfo.WindowType.Compact -> false
+    is WindowInfo.WindowType.Medium  -> false
     else -> true
 }
 

@@ -12,13 +12,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.values.alpha
 
 @Composable
 fun CustomDivider(
     paddingValues: PaddingValues = PaddingValues(0.dp),
     isVisible: Boolean = true,
-    alpha: Float = UiDefaults.Alpha.Emphasize,
+    alpha: Float = MaterialTheme.alpha.level1,
     thickness: Dp = 1.dp,
     color: Color = MaterialTheme.colorScheme.surfaceTint
 ) {
@@ -46,7 +46,7 @@ fun CustomDivider(
 fun CustomVerticalDivider(
     paddingValues: PaddingValues = PaddingValues(0.dp),
     isVisible: Boolean = true,
-    alpha: Float = UiDefaults.Alpha.Emphasize,
+    alpha: Float = MaterialTheme.alpha.level1,
     thickness: Dp = 1.dp,
     height: Dp = 48.dp,
     color: Color = MaterialTheme.colorScheme.surfaceTint

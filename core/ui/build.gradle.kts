@@ -31,7 +31,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Config.ComposeCompiler
+        kotlinCompilerExtensionVersion = Config.composeCompiler
     }
 }
 
@@ -61,6 +61,7 @@ dependencies {
     implementation(Libs.Google.Accompanist.SystemUiController)
     implementation(Libs.Google.Accompanist.Permissions)
     implementation(Libs.Google.Accompanist.FlowLayout)
+    implementation(Libs.Google.Accompanist.Adaptive)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

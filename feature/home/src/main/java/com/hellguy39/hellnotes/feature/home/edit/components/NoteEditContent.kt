@@ -1,0 +1,402 @@
+package com.hellguy39.hellnotes.feature.home.edit.components
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.model.local.database.Checklist
+import com.hellguy39.hellnotes.core.model.local.database.ChecklistItem
+import com.hellguy39.hellnotes.core.model.local.database.Label
+import com.hellguy39.hellnotes.core.model.local.database.Reminder
+import com.hellguy39.hellnotes.core.ui.components.HNIconButton
+import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
+import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
+import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.alpha
+import com.hellguy39.hellnotes.core.ui.values.spacing
+import com.hellguy39.hellnotes.feature.home.edit.NoteWrapperState
+import com.hellguy39.hellnotes.feature.note_detail.components.ChecklistDropdownMenu
+import com.hellguy39.hellnotes.feature.note_detail.components.ChecklistDropdownMenuSelection
+
+@Composable
+fun NoteEditContent(
+    innerPadding: PaddingValues,
+    listState: LazyListState,
+    noteWrapperState: NoteWrapperState.Success,
+    contentSelection: NoteDetailContentSelection,
+    checklistSelection: NoteDetailChecklistSelection,
+) {
+    val noteWrapper = noteWrapperState.noteWrapper
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+            .padding(horizontal = MaterialTheme.spacing.medium),
+        contentPadding = innerPadding,
+        state = listState,
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+    ) {
+        item(key = -1) {
+            HNClearTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = noteWrapper.note.title,
+                isSingleLine = false,
+                onValueChange = contentSelection.onTitleTextChanged,
+                hint = stringResource(id = HellNotesStrings.Hint.Title),
+                textStyle = MaterialTheme.typography.titleLarge
+            )
+        }
+        item(key = -2) {
+            HNClearTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = noteWrapper.note.note,
+                isSingleLine = false,
+                onValueChange = contentSelection.onNoteTextChanged,
+                hint = stringResource(id = HellNotesStrings.Hint.Note),
+                textStyle = MaterialTheme.typography.bodyLarge,
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Sentences,
+                    keyboardType = KeyboardType.Text,
+                )
+            )
+        }
+
+        items(
+            items = noteWrapper.checklists,
+            key = { checklist -> checklist.id ?: 0 }
+        ) { checklist ->
+
+            val isVisible = checklist.isExpanded
+            val dropdownMenuState = rememberDropdownMenuState()
+
+            Card(
+                modifier = Modifier,
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 8.dp, alignment = Alignment.CenterHorizontally
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(
+                            modifier = Modifier.size(48.dp),
+                            onClick = {
+                                checklistSelection.onUpdateIsChecklistExpanded(
+                                    checklist,
+                                    !isVisible
+                                )
+                            }
+                        ) {
+                            val painterId =
+                                if (isVisible) HellNotesIcons.ExpandLess else HellNotesIcons.ExpandMore
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                painter = painterResource(id = painterId),
+                                contentDescription = null
+                            )
+                        }
+
+                        var isFocused by remember { mutableStateOf(false) }
+
+                        HNClearTextField(
+                            modifier = Modifier
+                                .weight(1f)
+                                .onFocusChanged { state -> isFocused = state.isFocused },
+                            value = checklist.name,
+                            onValueChange = { newText ->
+                                checklistSelection.onChecklistNameChange(checklist, newText)
+                            },
+                            isSingleLine = true,
+                            hint = stringResource(id = HellNotesStrings.Hint.NewChecklist)
+                        )
+
+                        IconButton(
+                            modifier = Modifier.size(48.dp),
+                            onClick = { dropdownMenuState.show() }
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                painter = painterResource(id = HellNotesIcons.MoreHoriz),
+                                contentDescription = null
+                            )
+
+                            ChecklistDropdownMenu(
+                                state = dropdownMenuState,
+                                selection = ChecklistDropdownMenuSelection(
+                                    onDeleteChecklist = { checklistSelection.onDelete(checklist) },
+                                    onDoneAllItems = { checklistSelection.onDoneAll(checklist) },
+                                    onRemoveDoneItems = { checklistSelection.onRemoveDone(checklist) }
+                                )
+                            )
+                        }
+                    }
+                    AnimatedVisibility(visible = isVisible) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            checklist.items.forEach { item ->
+                                CheckListItem(
+                                    modifier = Modifier
+                                        .clickable(
+                                            role = Role.Checkbox,
+                                            onClick = {
+                                                checklistSelection.onCheckedChange(
+                                                    checklist, item, !item.isChecked
+                                                )
+                                            }
+                                        ),
+                                    item = item,
+                                    startPadding = 56.dp,
+                                    paddingValues = PaddingValues(
+                                        vertical = 8.dp,
+                                        horizontal = 8.dp
+                                    ),
+                                    onValueChange = { text ->
+                                        checklistSelection.onUpdateChecklistItemText(
+                                            checklist, item, text
+                                        )
+                                    },
+                                    onDeleteItem = {
+                                        checklistSelection.onDeleteChecklistItem(
+                                            checklist,
+                                            item
+                                        )
+                                    }
+                                )
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .size(56.dp)
+                                    .clickable {
+                                        checklistSelection.onAddChecklistItem(checklist)
+                                    },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Box(
+                                    modifier = Modifier
+                                        .size(48.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(24.dp),
+                                        painter = painterResource(id = HellNotesIcons.Add),
+                                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        contentDescription = null
+                                    )
+                                }
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = stringResource(id = HellNotesStrings.Hint.AddNewItem),
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        textAlign = TextAlign.Start,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (noteWrapper.reminders.isNotEmpty() || noteWrapper.labels.isNotEmpty()) {
+            item(key = -3) {
+                NoteChipGroup(
+                    modifier = Modifier.fillMaxWidth(),
+                    reminders = noteWrapper.reminders,
+                    labels = noteWrapper.labels,
+                    onRemindClick = contentSelection.onReminderClick,
+                    onLabelClick = contentSelection.onLabelClick,
+                    crossAxisSpacing = 16.dp,
+                    mainAxisSpacing = 16.dp
+                )
+            }
+        }
+    }
+
+
+//        if (ProjectInfoProvider.appConfig.isDebug) {
+//            val images = listOf(
+//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
+//            )
+//            item(
+//                key = -4
+//            ) {
+//                LazyRow(
+//                    modifier = Modifier,
+//                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+//                    contentPadding = PaddingValues(horizontal = 16.dp)
+//                ) {
+//                    items(images) { imageId ->
+//                        Image(
+//                            modifier = Modifier
+//                                .height(256.dp)
+//                                .width(256.dp)
+//                                .clip(RoundedCornerShape(16.dp))
+//                                .clickable(
+//                                    onClick = {
+//
+//                                    }
+//                                )
+//                            ,
+//                            painter = painterResource(id = imageId),
+//                            contentScale = ContentScale.Crop,
+//                            contentDescription = null
+//                        )
+//                    }
+//                    item {
+//                        ElevatedCard(
+//                            modifier = Modifier
+//                                .height(256.dp)
+//                                .width(256.dp),
+//                            shape = RoundedCornerShape(16.dp),
+//                            onClick = {}
+//                        ) {
+//                            Box(
+//                                modifier = Modifier.fillMaxSize(),
+//                                contentAlignment = Alignment.Center
+//                            ) {
+//                                Icon(
+//                                    modifier = Modifier.size(48.dp),
+//                                    painter = painterResource(id = HellNotesIcons.Add),
+//                                    tint = MaterialTheme.colorScheme.primary,
+//                                    contentDescription = null
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
+}
+
+@Composable
+fun CheckListItem(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+    startPadding: Dp = 0.dp,
+    item: ChecklistItem,
+    onDeleteItem: () -> Unit,
+    onValueChange: (String) -> Unit,
+) {
+
+    var isFocused by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = modifier
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(start = startPadding),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Checkbox(
+                modifier = Modifier,
+                checked = item.isChecked,
+                onCheckedChange = null
+            )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            HNClearTextField(
+                value = item.text,
+                modifier = Modifier
+                    .onFocusChanged { state -> isFocused = state.isFocused }
+                    .weight(1f)
+                    .alpha(if (item.isChecked) MaterialTheme.alpha.level2 else MaterialTheme.alpha.level4),
+                onValueChange = onValueChange,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(
+                    textDecoration = if (item.isChecked) TextDecoration.LineThrough else null
+                ),
+                hint = stringResource(id = HellNotesStrings.Hint.Item),
+            )
+
+            HNIconButton(
+                enabled = isFocused,
+                onClick = onDeleteItem,
+                enabledPainter = painterResource(id = HellNotesIcons.Delete),
+                containerSize = 48.dp
+            )
+        }
+    }
+}
+
+data class NoteDetailContentSelection(
+    val onTitleTextChanged: (text: String) -> Unit,
+    val onNoteTextChanged: (text: String) -> Unit,
+    val onReminderClick: (reminder: Reminder) -> Unit,
+    val onLabelClick: (label: Label) -> Unit
+)
+
+data class NoteDetailChecklistSelection(
+    val onCheckedChange: (Checklist, ChecklistItem, Boolean) -> Unit,
+    val onAddChecklistItem: (Checklist) -> Unit,
+    val onDeleteChecklistItem: (Checklist, ChecklistItem) -> Unit,
+    val onChecklistNameChange: (Checklist, String) -> Unit,
+    val onUpdateChecklistItemText: (Checklist, ChecklistItem, String) -> Unit,
+    val onUpdateIsChecklistExpanded: (Checklist, Boolean) -> Unit,
+    val onDoneAll: (Checklist) -> Unit,
+    val onRemoveDone: (Checklist) -> Unit,
+    val onDelete: (Checklist) -> Unit
+)

@@ -17,7 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.hellguy39.hellnotes.core.model.NoteWrapper
-import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.values.alpha
+import com.hellguy39.hellnotes.core.ui.values.elevation
 
 @Composable
 fun ElevatedNoteCard(
@@ -50,7 +51,7 @@ fun ElevatedNoteCard(
             color = borderColor,
             shape = RoundedCornerShape(12.dp)
         ),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = MaterialTheme.elevation.level2)
     ) {
         NoteCardContent(noteWrapper = noteWrapper)
     }

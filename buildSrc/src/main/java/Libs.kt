@@ -120,6 +120,8 @@ object Libs {
             const val Pager = "com.google.accompanist:accompanist-pager:$version"
             const val PagerIndicators =
                 "com.google.accompanist:accompanist-pager-indicators:$version"
+            const val Adaptive =
+                "com.google.accompanist:accompanist-adaptive:$version"
 
         }
 
