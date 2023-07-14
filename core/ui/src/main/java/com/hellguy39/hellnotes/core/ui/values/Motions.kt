@@ -10,15 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
 
-class Motions {
+object Motions {
 
-    companion object {
-        const val DEFAULT_DURATION = 300
+    const val DEFAULT_DURATION = 300
 
-        const val FAST_DURATION = 250
-        const val MEDIUM_DURATION = 300
-        const val SLOW_DURATION = 400
-    }
+    const val FAST_DURATION = 250
+    const val MEDIUM_DURATION = 300
+    const val SLOW_DURATION = 400
 
     fun slideEnter(duration: Int = DEFAULT_DURATION) =
         slideInHorizontally(
@@ -57,10 +55,3 @@ class Motions {
         fadeOut(animationSpec = tween(durationMillis = duration))
 
 }
-
-val LocalMotions = compositionLocalOf { Motions() }
-
-val MaterialTheme.motions: Motions
-    @Composable
-    @ReadOnlyComposable
-    get() = LocalMotions.current

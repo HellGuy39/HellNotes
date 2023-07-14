@@ -13,10 +13,10 @@ fun NavGraphBuilder.notesScreen(
 ) {
     composable(
         route = GraphScreen.Main.Notes.route,
-        enterTransition = { Motions().fadeEnter() },
-        exitTransition = { Motions().fadeExit() },
-        popEnterTransition = { Motions().fadePopEnter() },
-        popExitTransition = { Motions().fadePopExit() },
+        enterTransition = { Motions.fadeEnter() },
+        exitTransition = { Motions.fadeExit() },
+        popEnterTransition = { Motions.fadePopEnter() },
+        popExitTransition = { Motions.fadePopExit() },
     ) {
         NotesRoute(mainViewModel)
     }

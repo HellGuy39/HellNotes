@@ -5,7 +5,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.feature.about_app.AboutAppRoute
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.aboutAppScreen(
@@ -14,6 +13,6 @@ fun NavGraphBuilder.aboutAppScreen(
     composable(
         route = Screen.AboutApp.route,
     ) {
-        AboutAppRoute(navController = navController)
+        //AboutAppRoute(navController = navController)
     }
 }

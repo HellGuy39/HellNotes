@@ -50,13 +50,13 @@ import com.hellguy39.hellnotes.core.model.local.database.ChecklistItem
 import com.hellguy39.hellnotes.core.model.local.database.Label
 import com.hellguy39.hellnotes.core.model.local.database.Reminder
 import com.hellguy39.hellnotes.core.model.local.database.isNoteValid
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.alpha
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 
 @Composable
@@ -224,7 +224,7 @@ fun NoteDetailContent(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .size(UiDefaults.ListItem.DefaultHeight)
+                                    .size(56.dp)
                                     .clickable { checklistSelection.onAddChecklistItem(checklist) },
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -377,7 +377,7 @@ fun CheckListItem(
                 modifier = Modifier
                     .onFocusChanged { state -> isFocused = state.isFocused }
                     .weight(1f)
-                    .alpha(if (item.isChecked) UiDefaults.Alpha.Hint else 1f),
+                    .alpha(if (item.isChecked) MaterialTheme.alpha.level2 else MaterialTheme.alpha.level4),
                 onValueChange = onValueChange,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
                     textDecoration = if (item.isChecked) TextDecoration.LineThrough else null

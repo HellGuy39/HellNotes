@@ -18,7 +18,7 @@ class DeleteExpiredNotesWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParameters: WorkerParameters,
     private val deleteExpiredNotesUseCase: DeleteExpiredNotesUseCase
-): CoroutineWorker(context, workerParameters) {
+) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result {
         deleteExpiredNotesUseCase.invoke()
@@ -42,7 +42,7 @@ class DeleteExpiredNotesWorker @AssistedInject constructor(
             return PeriodicWorkRequestBuilder<DeleteExpiredNotesWorker>(
                 7, TimeUnit.DAYS,
                 8, TimeUnit.DAYS
-                )
+            )
                 .setConstraints(constraints)
                 .build()
         }

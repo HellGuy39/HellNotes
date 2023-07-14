@@ -15,7 +15,6 @@ import com.hellguy39.hellnotes.core.ui.values.Alpha
 import com.hellguy39.hellnotes.core.ui.values.Elevation
 import com.hellguy39.hellnotes.core.ui.values.LocalAlpha
 import com.hellguy39.hellnotes.core.ui.values.LocalElevation
-import com.hellguy39.hellnotes.core.ui.values.LocalMotions
 import com.hellguy39.hellnotes.core.ui.values.LocalSpacing
 import com.hellguy39.hellnotes.core.ui.values.Motions
 import com.hellguy39.hellnotes.core.ui.values.Spacing
@@ -117,7 +116,6 @@ fun HellNotesTheme(
         LocalElevation provides Elevation(),
         LocalAlpha provides Alpha(),
         LocalSpacing provides Spacing(),
-        LocalMotions provides Motions()
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

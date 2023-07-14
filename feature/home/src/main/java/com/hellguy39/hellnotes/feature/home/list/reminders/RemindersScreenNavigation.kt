@@ -11,10 +11,10 @@ import com.hellguy39.hellnotes.feature.home.MainViewModel
 fun NavGraphBuilder.remindersScreen(mainViewModel: MainViewModel) {
     composable(
         route = GraphScreen.Main.Reminders.route,
-        enterTransition = { Motions().fadeEnter() },
-        exitTransition = { Motions().fadeExit() },
-        popEnterTransition = { Motions().fadePopEnter() },
-        popExitTransition = { Motions().fadePopExit() },
+        enterTransition = { Motions.fadeEnter() },
+        exitTransition = { Motions.fadeExit() },
+        popEnterTransition = { Motions.fadePopEnter() },
+        popExitTransition = { Motions.fadePopExit() },
     ) {
         RemindersRoute()
     }

@@ -36,7 +36,7 @@ fun NoteListScreen(
     screenSelection: NoteListScreenSelection
 ) {
     val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
 
     val lazyListState = rememberLazyListState()
     val lazyStaggeredGridState = rememberLazyStaggeredGridState()

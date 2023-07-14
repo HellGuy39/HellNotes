@@ -13,10 +13,10 @@ fun NavGraphBuilder.labelsScreen(
 ) {
     composable(
         route = GraphScreen.Main.Labels.route,
-        enterTransition = { Motions().fadeEnter() },
-        exitTransition = { Motions().fadeExit() },
-        popEnterTransition = { Motions().fadePopEnter() },
-        popExitTransition = { Motions().fadePopExit() },
+        enterTransition = { Motions.fadeEnter() },
+        exitTransition = { Motions.fadeExit() },
+        popEnterTransition = { Motions.fadePopEnter() },
+        popExitTransition = { Motions.fadePopExit() },
     ) {
         LabelsRoute()
     }

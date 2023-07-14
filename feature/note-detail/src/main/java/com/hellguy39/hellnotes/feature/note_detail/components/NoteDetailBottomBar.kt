@@ -26,9 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.elevation
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailBottomBarSelection
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 
@@ -42,8 +42,8 @@ fun NoteDetailBottomBar(
     val fraction = if (isAtBottom) 1f else 0f
     val appBarContainerColor by animateColorAsState(
         targetValue = lerp(
-            MaterialTheme.colorScheme.surfaceColorAtElevation(UiDefaults.Elevation.Level2),
-            MaterialTheme.colorScheme.surfaceColorAtElevation(UiDefaults.Elevation.Level0),
+            MaterialTheme.colorScheme.surfaceColorAtElevation(MaterialTheme.elevation.level2),
+            MaterialTheme.colorScheme.surfaceColorAtElevation(MaterialTheme.elevation.level0),
             FastOutLinearInEasing.transform(fraction)
         ),
         animationSpec = spring(stiffness = Spring.StiffnessMediumLow)

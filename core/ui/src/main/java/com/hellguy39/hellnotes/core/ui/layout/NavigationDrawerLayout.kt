@@ -13,38 +13,27 @@ fun NavigationDrawerLayout(
     navItems: List<HNNavigationItemSelection>,
     currentDestination: NavDestination?,
     content: @Composable () -> Unit,
-    onNewNoteFabClick: () -> Unit
+    onNewNoteFabClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+    onAboutClick: () -> Unit
 ) {
-            //if (isExpandedDrawer) {
-        PermanentNavigationDrawer(
-            modifier = Modifier,
-            drawerContent = {
-                PermanentDrawerSheet(
-                    modifier = Modifier,
-                    content = {
-                        HNDrawerSheet(
-                            navItems = navItems,
-                            currentDestination = currentDestination,
-                            onCloseMenuButtonClick = { },
-                            onNewNoteFabClick = onNewNoteFabClick
-                        )
-                    }
-                )
-            },
-            content = content
-        )
-//            } else {
-//                Row(
-//                    modifier = Modifier.fillMaxSize()
-//                ) {
-//                    HNNavigationRail(
-//                        navItems = navItems,
-//                        currentDestination = currentDestination,
-//                        onNavigationButtonClick = { isExpandedDrawer = true },
-//                        onNewNoteFabClick = onNewNoteFabClick
-//                    )
-//                    content()
-//                }
-//            }
-
+    PermanentNavigationDrawer(
+        modifier = Modifier,
+        drawerContent = {
+            PermanentDrawerSheet(
+                modifier = Modifier,
+                content = {
+                    HNDrawerSheet(
+                        navItems = navItems,
+                        currentDestination = currentDestination,
+                        onCloseMenuButtonClick = { },
+                        onNewNoteFabClick = onNewNoteFabClick,
+                        onSettingsClick = onSettingsClick,
+                        onAboutClick = onAboutClick
+                    )
+                }
+            )
+        },
+        content = content
+    )
 }

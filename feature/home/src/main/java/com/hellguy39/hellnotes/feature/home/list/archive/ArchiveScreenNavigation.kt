@@ -11,10 +11,10 @@ import com.hellguy39.hellnotes.feature.home.MainViewModel
 fun NavGraphBuilder.archiveScreen(mainViewModel: MainViewModel) {
     composable(
         route = GraphScreen.Main.Archive.route,
-        enterTransition = { Motions().fadeEnter() },
-        exitTransition = { Motions().fadeExit() },
-        popEnterTransition = { Motions().fadePopEnter() },
-        popExitTransition = { Motions().fadePopExit() },
+        enterTransition = { Motions.fadeEnter() },
+        exitTransition = { Motions.fadeExit() },
+        popEnterTransition = { Motions.fadePopEnter() },
+        popExitTransition = { Motions.fadePopExit() },
     ) {
         ArchiveRoute()
     }

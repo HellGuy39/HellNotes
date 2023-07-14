@@ -28,7 +28,7 @@ fun NoteEditScreen(
     onCloseNoteEdit: () -> Unit
 ) {
     val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
     val listState = rememberLazyListState()
 
     Scaffold(

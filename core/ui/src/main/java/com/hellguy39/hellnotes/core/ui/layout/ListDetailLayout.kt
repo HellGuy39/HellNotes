@@ -11,16 +11,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventPass
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.FoldAwareConfiguration
 import com.google.accompanist.adaptive.TwoPane
 import com.google.accompanist.adaptive.TwoPaneStrategy
 import com.hellguy39.hellnotes.core.ui.navigations.HNContentType
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.isActive
 
 @Composable
 fun ListDetail(

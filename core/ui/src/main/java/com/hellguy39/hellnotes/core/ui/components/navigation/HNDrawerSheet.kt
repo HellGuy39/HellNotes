@@ -2,9 +2,12 @@ package com.hellguy39.hellnotes.core.ui.components.navigation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,20 +24,22 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.values.spacing
 
-
 @Composable
 fun HNDrawerSheet(
     navItems: List<HNNavigationItemSelection>,
     currentDestination: NavDestination?,
     onCloseMenuButtonClick: () -> Unit = {},
     onNewNoteFabClick: () -> Unit = {},
-    onItemClick: () -> Unit = {}
+    onItemClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {},
+    onAboutClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .padding(
                 top = 10.dp,
                 start = MaterialTheme.spacing.medium,
+                end = MaterialTheme.spacing.small
             )
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -53,7 +58,8 @@ fun HNDrawerSheet(
     }
 
     ExtendedFloatingActionButton(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(16.dp),
         text = {
             Text(text = stringResource(id = HellNotesStrings.Button.NewNote))
@@ -76,6 +82,24 @@ fun HNDrawerSheet(
         )
     }
 
-
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = MaterialTheme.spacing.small),
+        horizontalArrangement = Arrangement.End
+    ) {
+        FilledTonalIconButton(onClick = onSettingsClick) {
+            Icon(
+                painter = painterResource(id = HellNotesIcons.Settings),
+                contentDescription = null
+            )
+        }
+        FilledTonalIconButton(onClick = onAboutClick) {
+            Icon(
+                painter = painterResource(id = HellNotesIcons.Info),
+                contentDescription = null
+            )
+        }
+    }
 
 }

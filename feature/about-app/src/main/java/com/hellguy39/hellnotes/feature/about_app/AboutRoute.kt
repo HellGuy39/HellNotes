@@ -11,33 +11,29 @@ import com.hellguy39.hellnotes.feature.about_app.util.openGithub
 import com.hellguy39.hellnotes.feature.about_app.util.provideFeedback
 
 @Composable
-fun AboutAppRoute(
-    navController: NavController
+fun AboutRoute(
+    aboutViewModel: AboutViewModel
 ) {
     val context = LocalContext.current
     val toast = Toast.makeText(context, context.getString(HellNotesStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
 
     AboutAppScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = {},
         selection = AboutAppScreenSelection(
-            onReset = navController::navigateToReset,
-            onChangelog = navController::navigateToChangelog,
-            onGithub = {
-                context.openGithub()
-            },
-            onPrivacyPolicy = navController::navigateToPrivacyPolicy,
-            onProvideFeedback = {
-                context.provideFeedback()
-            },
+            onReset = {  },
+            onChangelog = {},
+            onGithub = {},
+            onPrivacyPolicy = {},
+            onProvideFeedback = context::provideFeedback,
             onRateOnPlayStore = { toast.show() },
             onCheckForUpdates = {
                 if (ProjectInfoProvider.appConfig.isDebug) {
-                    navController.navigateToUpdate()
+                    //navController.navigateToUpdate()
                 } else {
                     toast.show()
                 }
             },
-            onTermsAndConditions = navController::navigateToTermsAndConditions
+            onTermsAndConditions = {}
         ),
     )
 }

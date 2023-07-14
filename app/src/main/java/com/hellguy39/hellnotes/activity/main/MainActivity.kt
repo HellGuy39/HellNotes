@@ -23,7 +23,9 @@ import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.feature.about_app.AboutViewModel
 import com.hellguy39.hellnotes.feature.home.MainViewModel
+import com.hellguy39.hellnotes.feature.settings.SettingsViewModel
 import com.hellguy39.hellnotes.navigation.graph.GlobalNavGraph
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -39,6 +41,10 @@ class MainActivity : AppCompatActivity() {
 
         fun mainViewModelFactory(): MainViewModel.Factory
 
+        fun settingsViewModelFactory(): SettingsViewModel.Factory
+
+        fun aboutViewModelFactory(): AboutViewModel.Factory
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +56,6 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun App() {
-
         val appearanceViewModel: AppearanceViewModel = hiltViewModel()
         val appearanceState by appearanceViewModel.appearanceState.collectAsStateWithLifecycle()
 

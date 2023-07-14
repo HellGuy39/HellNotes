@@ -22,6 +22,8 @@ fun NavigationRailLayout(
     currentDestination: NavDestination?,
     content: @Composable () -> Unit,
     onNewNoteFabClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+    onAboutClick: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -48,7 +50,9 @@ fun NavigationRailLayout(
                             scope.launch {
                                 drawerState.close()
                             }
-                        }
+                        },
+                        onSettingsClick = onSettingsClick,
+                        onAboutClick = onAboutClick
                     )
                 }
             )
