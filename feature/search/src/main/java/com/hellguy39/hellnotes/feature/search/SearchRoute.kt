@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.search
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -9,6 +10,7 @@ import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRoute(
     navController: NavController,

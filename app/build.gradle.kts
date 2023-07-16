@@ -1,79 +1,86 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+import install.installAccompanist
+import install.installCompose
+import install.installCoroutines
+import install.installFirebase
+import install.installHilt
 
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin ("kapt")
-    id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    kotlin("kapt")
+    id("java-compile-plugin")
+    id("default-config-plugin")
 }
 
 @Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes"
-    compileSdk = Config.compileSdk
 
     defaultConfig {
         applicationId = Config.applicationId
-        minSdk = Config.minSdk
-        targetSdk = Config.targetSdk
-        versionCode = 7
-        versionName = "1.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+    }
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
+    applicationVariants.all {
+        val isFirebaseEnabled =
+            if (this.name == "release" || this.name == "beta") true.toString() else false.toString()
+
+        buildConfigField(Boolean::class.java.typeName, "ENABLE_CRASHLYTICS", isFirebaseEnabled)
+        buildConfigField(Boolean::class.java.typeName, "ENABLE_ANALYTICS", isFirebaseEnabled)
+    }
+
+    flavorDimensions.add("type")
+
+    productFlavors {
+        create("development") {
+            dimension = "type"
         }
-        archivesName.set("HellNotes v$versionName")
+        create("production") {
+            dimension = "type"
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            buildConfigField("boolean", "ENABLE_CRASHLYTICS", true.toString())
-            buildConfigField("boolean", "ENABLE_ANALYTICS", true.toString())
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
 
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
             isDebuggable = false
+            isMinifyEnabled = false
+        }
 
-            buildConfigField("boolean", "ENABLE_CRASHLYTICS", true.toString())
-            buildConfigField("boolean", "ENABLE_ANALYTICS", true.toString())
+        create("beta") {
+            isMinifyEnabled = true
         }
 
         debug {
-
-            buildConfigField("boolean", "ENABLE_CRASHLYTICS", false.toString())
-            buildConfigField("boolean", "ENABLE_ANALYTICS", false.toString())
+            isMinifyEnabled = false
+            isDebuggable = true
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Config.composeCompiler
-    }
-    packagingOptions {
-        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-        resources.excludes.add("/META-INF/INDEX.LIST")
+    packaging {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+            excludes.add("/META-INF/INDEX.LIST")
+        }
     }
     kapt {
         correctErrorTypes = true
     }
 }
+
+installFirebase()
+installHilt()
+installCompose()
+installAccompanist()
+installCoroutines()
 
 dependencies {
 
@@ -116,15 +123,6 @@ dependencies {
     implementation(Libs.AndroidX.SplashScreen)
     implementation(Libs.AndroidX.ProfileInstaller)
 
-    implementation(Libs.Google.Material)
-
-    implementation(Libs.AndroidX.Compose.Lifecycle)
-    implementation(Libs.AndroidX.Compose.Activity)
-    implementation(Libs.AndroidX.Compose.Ui)
-    implementation(Libs.AndroidX.Compose.ToolingPreview)
-    implementation(Libs.AndroidX.Compose.Material3)
-    implementation(Libs.AndroidX.Compose.Navigation)
-
     androidTestImplementation(Libs.Testing.Work)
     androidTestImplementation(Libs.Testing.UiTestJUnit)
     debugImplementation(Libs.Testing.UiTooling)
@@ -132,25 +130,4 @@ dependencies {
     testImplementation(Libs.Testing.JUnit)
     androidTestImplementation(Libs.Testing.AndroidJUnit)
     androidTestImplementation(Libs.Testing.Espresso)
-
-    implementation(Libs.Google.Accompanist.Adaptive)
-    implementation(Libs.Google.Accompanist.NavigationAnimation)
-    implementation(Libs.Google.Accompanist.SystemUiController)
-
-    implementation(Libs.AndroidX.Room.RoomKtx)
-    kapt(Libs.AndroidX.Room.RoomCompiler)
-
-    implementation(Libs.Kotlin.Coroutines)
-
-    implementation(Libs.Google.Hilt.Android)
-    kapt(Libs.Google.Hilt.Compiler)
-    kapt(Libs.Google.Hilt.AndroidXCompiler)
-    implementation(Libs.Google.Hilt.NavigationCompose)
-    implementation(Libs.Google.Hilt.Work)
-
-    implementation(Libs.SquareUp.Moshi)
-
-    implementation(Libs.Google.Firebase.Analytics)
-    implementation(Libs.Google.Firebase.Crashlytics)
-
 }

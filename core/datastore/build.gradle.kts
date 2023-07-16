@@ -1,39 +1,26 @@
+import install.installCoroutines
+import install.installHilt
+
 plugins {
     id("com.android.library")
     kotlin("android")
-    id("com.google.devtools.ksp")
-    kotlin ("kapt")
-    id("com.google.dagger.hilt.android")
+    id(ProjectPlugin.DefaultConfig)
+    id(ProjectPlugin.JavaCompile)
 }
 android {
     namespace = "com.hellguy39.hellnotes.core.datastore"
-    compileSdk = Config.compileSdk
-
-    defaultConfig {
-        minSdk = Config.minSdk
-    }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 
+installHilt()
+installCoroutines()
+
 dependencies {
-
-    implementation (Libs.Kotlin.Coroutines)
-
-    implementation(Libs.Google.Hilt.Android)
-    kapt(Libs.Google.Hilt.Compiler)
-
     implementation(project(Modules.Core.Model))
 
     implementation(Libs.AndroidX.DataStore.Preferences)

@@ -12,5 +12,7 @@ fun SettingsNavHost(
     settingsViewModel: SettingsViewModel = settingsViewModel(navController = globalNavController)
 ) {
 
-    SettingsRoute()
+    SettingsRoute(
+
+    )
 }

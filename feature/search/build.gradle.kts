@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("java-compile-plugin")
 }
 
 @Suppress("UnstableApiUsage")
@@ -20,15 +21,11 @@ android {
             isMinifyEnabled = false
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-        allWarningsAsErrors = false
-        freeCompilerArgs = listOf("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
-    }
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//        allWarningsAsErrors = false
+//        freeCompilerArgs = listOf("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
+//    }
     buildFeatures {
         compose = true
     }

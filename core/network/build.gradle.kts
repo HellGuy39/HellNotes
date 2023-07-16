@@ -1,36 +1,26 @@
+import install.installCoroutines
+import install.installHilt
+
 plugins {
     id("com.android.library")
     kotlin("android")
-    id("com.google.devtools.ksp")
-    kotlin ("kapt")
-    id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id(ProjectPlugin.DefaultConfig)
+    id(ProjectPlugin.JavaCompile)
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes.core.network"
-    compileSdk = Config.compileSdk
-
-    defaultConfig {
-        minSdk = Config.minSdk
-    }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }
+
+installCoroutines()
+installHilt()
 
 dependencies {
 
@@ -41,10 +31,5 @@ dependencies {
     implementation(Libs.Ktor.Logging)
     implementation(Libs.Ktor.ContentNegotiation)
     implementation(Libs.Ktor.JsonSerializer)
-
-    implementation(Libs.Kotlin.Coroutines)
-
-    implementation(Libs.Google.Hilt.Android)
-    kapt(Libs.Google.Hilt.Compiler)
 
 }
