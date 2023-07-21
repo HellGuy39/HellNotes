@@ -28,6 +28,7 @@ installAccompanist()
 
 dependencies {
 
+    implementation(project(Modules.Core.Common))
     implementation(project(Modules.Core.Model))
 
     implementation(Libs.AndroidX.CoreKtx)

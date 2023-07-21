@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.model.local.datastore.SecurityState
 import com.hellguy39.hellnotes.core.model.LockScreenType
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
+import com.hellguy39.hellnotes.core.ui.model.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

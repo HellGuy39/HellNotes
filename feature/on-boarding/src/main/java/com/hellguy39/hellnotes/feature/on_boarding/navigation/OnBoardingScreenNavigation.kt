@@ -9,8 +9,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navOptions
 import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToHome
+import com.hellguy39.hellnotes.core.ui.model.Screen
+import com.hellguy39.hellnotes.core.ui.model.navigateToHome
 import com.hellguy39.hellnotes.feature.on_boarding.OnBoardingRoute
 import com.hellguy39.hellnotes.feature.on_boarding.OnBoardingViewModel
 

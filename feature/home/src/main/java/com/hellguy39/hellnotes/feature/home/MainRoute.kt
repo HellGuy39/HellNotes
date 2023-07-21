@@ -13,8 +13,8 @@ import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.hellguy39.hellnotes.core.ui.layout.ListDetail
-import com.hellguy39.hellnotes.core.ui.navigations.GraphScreen
-import com.hellguy39.hellnotes.core.ui.navigations.HNContentType
+import com.hellguy39.hellnotes.core.ui.model.GraphScreen
+import com.hellguy39.hellnotes.core.ui.model.HNContentType
 import com.hellguy39.hellnotes.feature.home.edit.NoteEditRoute
 import com.hellguy39.hellnotes.feature.home.list.archive.archiveScreen
 import com.hellguy39.hellnotes.feature.home.list.labels.labelsScreen

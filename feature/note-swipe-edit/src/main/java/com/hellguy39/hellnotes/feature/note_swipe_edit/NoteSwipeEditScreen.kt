@@ -16,13 +16,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.local.datastore.NoteSwipe
-import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
-import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
-import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.getDisplayName
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.items.HNListHeader
+import com.hellguy39.hellnotes.core.ui.component.items.HNRadioButtonItem
+import com.hellguy39.hellnotes.core.ui.component.items.HNSwitchItem
+import com.hellguy39.hellnotes.core.ui.component.top_bar.HNLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.text.getDisplayName
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

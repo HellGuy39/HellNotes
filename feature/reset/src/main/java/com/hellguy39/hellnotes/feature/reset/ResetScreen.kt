@@ -2,7 +2,6 @@ package com.hellguy39.hellnotes.feature.reset
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -13,12 +12,11 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.items.HNCheckboxItem
+import com.hellguy39.hellnotes.core.ui.component.top_bar.HNTopAppBar
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

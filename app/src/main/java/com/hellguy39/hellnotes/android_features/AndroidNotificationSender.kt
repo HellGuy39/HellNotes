@@ -10,8 +10,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

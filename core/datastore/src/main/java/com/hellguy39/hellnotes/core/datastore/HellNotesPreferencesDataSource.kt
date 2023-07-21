@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.hellguy39.hellnotes.core.datastore.util.catchExceptions
 import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
@@ -31,19 +32,25 @@ class HellNotesPreferencesDataSource @Inject constructor(
 ) {
 
     private object PreferencesKey {
+
+        val password = stringPreferencesKey(name = "password")
+        val isUseBiometricData = booleanPreferencesKey(name = "is_use_biometric_data")
+        val lockType = stringPreferencesKey(name = "lock_type")
+
         val onBoarding = booleanPreferencesKey(name = "on_boarding_completed")
+        val trashTip = booleanPreferencesKey(name = "trash_tip_checked")
+
         val themeState = stringPreferencesKey(name = "theme_state")
         val materialYou = booleanPreferencesKey("material_you_enabled")
-        val trashTip = booleanPreferencesKey(name = "trash_tip_checked")
-        val lockType = stringPreferencesKey(name = "lock_type")
-        val isUseBiometricData = booleanPreferencesKey(name = "is_use_biometric_data")
         val listStyle = stringPreferencesKey(name = "list_style")
         val noteStyle = stringPreferencesKey(name = "note_style")
+
         val sorting = stringPreferencesKey(name = "sorting")
-        val password = stringPreferencesKey(name = "password")
+
         val noteSwipesEnabled = booleanPreferencesKey(name = "note_swipes_enabled")
         val noteSwipeRight = stringPreferencesKey(name = "note_swipe_left")
         val noteSwipeLeft = stringPreferencesKey(name = "note_swipe_right")
+
         val lastBackupDate = longPreferencesKey(name = "last_backup_date")
     }
 
@@ -238,14 +245,4 @@ class HellNotesPreferencesDataSource @Inject constructor(
             preferences[PreferencesKey.lastBackupDate] ?: PreferencesDefaultValues.lastBackupDate
         }
 
-}
-
-private fun Flow<Preferences>.catchExceptions(): Flow<Preferences> {
-    return catch { exception ->
-        if (exception is IOException) {
-            emit(emptyPreferences())
-        } else {
-            throw exception
-        }
-    }
 }

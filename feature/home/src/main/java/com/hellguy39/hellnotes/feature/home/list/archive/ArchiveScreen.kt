@@ -17,13 +17,12 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList
-import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.component.list.HNNotesList
+import com.hellguy39.hellnotes.core.ui.component.placeholer.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.component.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.list.archive.components.ArchiveTopAppBar
 import com.hellguy39.hellnotes.feature.home.list.archive.components.ArchiveTopAppBarSelection
 
@@ -62,16 +61,14 @@ fun ArchiveScreen(
                     )
                 }
                 is ArchiveUiState.Success -> {
-                    NoteList(
+                    HNNotesList(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 4.dp),
                         innerPadding = paddingValues,
                         noteSelection = screenSelection.noteSelection,
-                        categories = listOf(
-                            NoteCategory(notes = uiState.archivedNoteWrappers)
-                        ),
-                        selectedNotes = screenSelection.selectedNoteWrappers,
+                        noteWrappers =  uiState.archivedNoteWrappers,
+                        selectedNoteWrappers = screenSelection.selectedNoteWrappers,
                         listStyle = screenSelection.listStyle
                     )
                 }

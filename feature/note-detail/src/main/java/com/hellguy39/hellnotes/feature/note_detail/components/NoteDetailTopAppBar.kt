@@ -7,8 +7,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.local.database.Note
 import com.hellguy39.hellnotes.core.model.ColorParam
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 
 @OptIn(ExperimentalMaterial3Api::class)

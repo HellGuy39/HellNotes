@@ -2,8 +2,8 @@ package com.hellguy39.hellnotes.feature.on_boarding.util
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 sealed class OnBoardingPage(
     @DrawableRes val image: Int,

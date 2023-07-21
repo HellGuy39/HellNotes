@@ -1,10 +1,32 @@
 package com.hellguy39.hellnotes.feature.home.label
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -19,16 +41,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList
-import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.dialog.CustomDialog
+import com.hellguy39.hellnotes.core.ui.component.dialog.rememberDialogState
+import com.hellguy39.hellnotes.core.ui.component.list.HNNotesList
+import com.hellguy39.hellnotes.core.ui.component.placeholer.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -190,34 +208,21 @@ fun LabelScreen(
         content = { paddingValues ->
             //AnimatedContent(targetState = visualsSelection.listStyle) { listStyle ->
 
-                if (uiState.notes.isEmpty()) {
-                    EmptyContentPlaceholder(
-                        modifier = Modifier
-                            .padding(horizontal = 32.dp)
-                            .padding(paddingValues)
-                            .fillMaxSize(),
-                        heroIcon = painterResource(id = HellNotesIcons.Label),
-                        message = stringResource(id = HellNotesStrings.Placeholder.Empty)
-                    )
-                }
-
-                NoteList(
-                    innerPadding = paddingValues,
-                    noteSelection = NoteSelection(
-                        noteStyle = NoteStyle.Outlined,
-                        onClick = { note -> },
-                        onLongClick = { note -> },
-                        onDismiss = { direction, note -> false },
-                        isSwipeable = false
-                    ),
-                    categories = listOf(
-                        NoteCategory(
-                            notes = uiState.notes
-                        )
-                    ),
-                    selectedNotes = listOf(),
-                    listStyle = ListStyle.Grid,
+            if (uiState.notes.isEmpty()) {
+                EmptyContentPlaceholder(
+                    modifier = Modifier
+                        .padding(horizontal = 32.dp)
+                        .padding(paddingValues)
+                        .fillMaxSize(),
+                    heroIcon = painterResource(id = HellNotesIcons.Label),
+                    message = stringResource(id = HellNotesStrings.Placeholder.Empty)
                 )
+            }
+
+            HNNotesList(
+                innerPadding = paddingValues,
+                noteWrappers = uiState.notes
+            )
             //}
         },
         topBar = {

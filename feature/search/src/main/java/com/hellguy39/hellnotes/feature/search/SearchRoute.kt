@@ -6,9 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
+import com.hellguy39.hellnotes.core.ui.component.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.model.navigateToNoteDetail
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,10 +51,10 @@ fun SearchRoute(
             },
             isSwipeable = false
         ),
-        categories = listOf(
-            NoteCategory(
-                notes = uiState.notes
-            ),
-        )
+//        categories = listOf(
+//            NoteCategory(
+//                notes = uiState.notes
+//            ),
+//        )
     )
 }

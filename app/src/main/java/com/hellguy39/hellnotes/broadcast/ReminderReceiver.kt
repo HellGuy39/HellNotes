@@ -6,13 +6,17 @@ import android.content.Context
 import android.content.Intent
 import com.hellguy39.hellnotes.activity.main.MainActivity
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
-import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
+import com.hellguy39.hellnotes.core.common.date.HNDateHandler
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
+import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
 import com.hellguy39.hellnotes.core.model.local.datastore.Repeat
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -60,23 +64,35 @@ class ReminderReceiver : BroadcastReceiver() {
                         reminderRepository.deleteReminder(reminder)
                     }
                     Repeat.Daily -> {
-                        val updatedReminder = reminder.copy(
-                            triggerDate = DateTimeUtils.increaseDays(reminder.triggerDate, 1)
-                        )
+                        val updatedTriggerDate = HNDateHandler
+                            .from(reminder.triggerDate)
+                            .increaseDays(1)
+                            .toMillis()
+
+                        val updatedReminder = reminder.copy(triggerDate = updatedTriggerDate)
+
                         reminderRepository.updateReminder(updatedReminder)
                         alarmScheduler.scheduleAlarm(updatedReminder)
                     }
                     Repeat.Weekly -> {
-                        val updatedReminder = reminder.copy(
-                            triggerDate = DateTimeUtils.increaseWeeks(reminder.triggerDate, 1)
-                        )
+                        val updatedTriggerDate = HNDateHandler
+                            .from(reminder.triggerDate)
+                            .increaseWeeks(1)
+                            .toMillis()
+
+                        val updatedReminder = reminder.copy(triggerDate = updatedTriggerDate)
+
                         reminderRepository.updateReminder(updatedReminder)
                         alarmScheduler.scheduleAlarm(updatedReminder)
                     }
                     Repeat.Monthly -> {
-                        val updatedReminder = reminder.copy(
-                            triggerDate = DateTimeUtils.increaseMonths(reminder.triggerDate, 1)
-                        )
+                        val updatedTriggerDate = HNDateHandler
+                            .from(reminder.triggerDate)
+                            .increaseMonths(1)
+                            .toMillis()
+
+                        val updatedReminder = reminder.copy(triggerDate = updatedTriggerDate)
+
                         reminderRepository.updateReminder(updatedReminder)
                         alarmScheduler.scheduleAlarm(updatedReminder)
                     }

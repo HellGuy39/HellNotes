@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.local.datastore.Sorting
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.values.elevation
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.value.elevation
 
 @Composable
 fun SortDropdownMenu(

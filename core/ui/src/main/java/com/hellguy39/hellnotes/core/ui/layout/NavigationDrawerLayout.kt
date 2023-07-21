@@ -5,8 +5,8 @@ import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
-import com.hellguy39.hellnotes.core.ui.components.navigation.HNDrawerSheet
-import com.hellguy39.hellnotes.core.ui.components.navigation.HNNavigationItemSelection
+import com.hellguy39.hellnotes.core.ui.component.navigation.HNDrawerSheet
+import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationItemSelection
 
 @Composable
 fun NavigationDrawerLayout(

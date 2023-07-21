@@ -15,7 +15,7 @@ import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.FoldAwareConfiguration
 import com.google.accompanist.adaptive.TwoPane
 import com.google.accompanist.adaptive.TwoPaneStrategy
-import com.hellguy39.hellnotes.core.ui.navigations.HNContentType
+import com.hellguy39.hellnotes.core.ui.model.HNContentType
 
 @Composable
 fun ListDetail(

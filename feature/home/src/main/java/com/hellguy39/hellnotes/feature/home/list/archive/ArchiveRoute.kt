@@ -9,7 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.component.cards.NoteSelection
 import com.hellguy39.hellnotes.feature.home.list.archive.components.ArchiveTopAppBarSelection
 
 @OptIn(ExperimentalMaterial3Api::class)

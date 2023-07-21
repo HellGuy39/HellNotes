@@ -11,8 +11,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.local.database.Label
-import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.snack.showDismissableSnackbar
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.feature.label_edit.components.LabelEditScreenContentSelection
 
 @Composable

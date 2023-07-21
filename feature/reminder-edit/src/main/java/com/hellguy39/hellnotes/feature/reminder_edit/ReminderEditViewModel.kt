@@ -3,15 +3,15 @@ package com.hellguy39.hellnotes.feature.reminder_edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.core.common.date.HNDateHandler
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.CreateReminderUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.DeleteReminderUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.UpdateReminderUseCase
 import com.hellguy39.hellnotes.core.model.local.database.Reminder
 import com.hellguy39.hellnotes.core.model.local.datastore.Repeat
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
+import com.hellguy39.hellnotes.core.ui.model.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.model.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -60,7 +60,8 @@ class ReminderEditViewModel @Inject constructor(
                 reminderEditViewModelState.update { state ->
                     state.copy(
                         message = reminder.message,
-                        localDateTime = DateTimeUtils.epochMillisToLocalDateTime(reminder.triggerDate),
+                        localDateTime = HNDateHandler.from(reminder.triggerDate)
+                            .toLocalDateTime(),
                         repeat = reminder.repeat
                     )
                 }
@@ -69,9 +70,10 @@ class ReminderEditViewModel @Inject constructor(
     }
 
     fun isPossibleToCreateReminder(): Boolean {
-        return DateTimeUtils.localDateTimeToEpochMillis(
-            reminderEditViewModelState.value.localDateTime
-        ) > DateTimeUtils.getCurrentTimeInEpochMilli()
+        val localDateTime = reminderEditViewModelState.value.localDateTime
+        return HNDateHandler
+            .from(localDateTime)
+            .isInFeature()
     }
 
     fun insertReminder() {
@@ -81,7 +83,7 @@ class ReminderEditViewModel @Inject constructor(
                 val reminder = Reminder(
                     noteId = state.noteId ?: return@launch,
                     message = state.message,
-                    triggerDate = DateTimeUtils.localDateTimeToEpochMillis(state.localDateTime),
+                    triggerDate = HNDateHandler.from(state.localDateTime).toMillis(),
                     repeat = state.repeat
                 )
 
@@ -108,7 +110,7 @@ class ReminderEditViewModel @Inject constructor(
                     id = state.reminderId ?: return@launch,
                     noteId = state.noteId ?: return@launch,
                     message = state.message,
-                    triggerDate = DateTimeUtils.localDateTimeToEpochMillis(state.localDateTime),
+                    triggerDate = HNDateHandler.from(state.localDateTime).toMillis(),
                     repeat = state.repeat
                 )
 

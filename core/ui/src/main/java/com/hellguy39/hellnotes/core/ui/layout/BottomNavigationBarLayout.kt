@@ -12,10 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
-import com.hellguy39.hellnotes.core.ui.components.navigation.HNNavigationBarItem
-import com.hellguy39.hellnotes.core.ui.components.navigation.HNNavigationItemSelection
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationBarItem
+import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationItemSelection
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 @Composable
 fun BottomNavigationBarLayout(

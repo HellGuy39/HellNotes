@@ -3,11 +3,11 @@ package com.hellguy39.hellnotes.feature.home.edit.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.ui.components.CustomDropdownItemSelection
-import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenu
-import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenuState
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.menu.CustomDropdownItemSelection
+import com.hellguy39.hellnotes.core.ui.component.menu.CustomDropdownMenu
+import com.hellguy39.hellnotes.core.ui.component.menu.CustomDropdownMenuState
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 @Composable
 fun NoteDetailDropdownMenu(

@@ -6,11 +6,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.model.local.database.Note
-import com.hellguy39.hellnotes.core.ui.navigations.GraphScreen
+import com.hellguy39.hellnotes.core.ui.model.GraphScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

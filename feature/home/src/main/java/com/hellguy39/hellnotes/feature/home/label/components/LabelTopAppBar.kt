@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.local.database.Label
 import com.hellguy39.hellnotes.core.model.local.database.Note
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.menu.rememberDropdownMenuState
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable

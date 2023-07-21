@@ -1,0 +1,76 @@
+package com.hellguy39.hellnotes.core.ui.component.top_bar
+
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.style.TextOverflow
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HNTopAppBar(
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+    onNavigationButtonClick: () -> Unit = {},
+    title: String = "",
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    SmallTopAppBar(
+        scrollBehavior = scrollBehavior,
+        onNavigationButtonClick = onNavigationButtonClick,
+        content = {
+            Text(
+                text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        actions = actions
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HNTopAppBar(
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+    onNavigationButtonClick: () -> Unit = {},
+    content: @Composable () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    SmallTopAppBar(
+        scrollBehavior = scrollBehavior,
+        onNavigationButtonClick = onNavigationButtonClick,
+        content = content,
+        actions = actions
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SmallTopAppBar(
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+    onNavigationButtonClick: () -> Unit = {},
+    content: @Composable () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
+    navigationIcon: Painter? = null
+) {
+    TopAppBar(
+        scrollBehavior = scrollBehavior,
+        title = {
+            content()
+        },
+        navigationIcon = {
+            if (navigationIcon != null) {
+                IconButton(
+                    onClick = onNavigationButtonClick
+                ) {
+                    Icon(
+                        painter = navigationIcon,
+                        contentDescription = null
+                    )
+                }
+            }
+        },
+        actions = actions
+    )
+}

@@ -8,7 +8,7 @@ import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.model.local.datastore.SecurityState
-import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
+import com.hellguy39.hellnotes.core.ui.component.input.NumberKeyboardKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

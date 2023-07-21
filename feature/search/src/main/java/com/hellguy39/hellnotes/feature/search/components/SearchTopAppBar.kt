@@ -11,11 +11,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.input.HNClearTextField
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
-import com.hellguy39.hellnotes.core.ui.values.elevation
+import com.hellguy39.hellnotes.core.ui.value.elevation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

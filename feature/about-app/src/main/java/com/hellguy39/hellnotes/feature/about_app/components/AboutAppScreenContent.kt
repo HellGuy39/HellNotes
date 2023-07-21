@@ -14,11 +14,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
-import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.values.alpha
-import com.hellguy39.hellnotes.core.ui.values.elevation
+import com.hellguy39.hellnotes.core.ui.component.items.HNListItem
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.value.elevation
 import com.hellguy39.hellnotes.feature.about_app.AboutAppScreenSelection
 
 @Composable

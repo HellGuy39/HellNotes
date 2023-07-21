@@ -3,10 +3,30 @@ package com.hellguy39.hellnotes.feature.reminder_edit
 import android.Manifest
 import android.os.Build
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,15 +39,15 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
+import com.hellguy39.hellnotes.core.common.date.HNDateHandler
 import com.hellguy39.hellnotes.core.model.local.datastore.Repeat
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
-import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.getDisplayName
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.dialog.CustomDialog
+import com.hellguy39.hellnotes.core.ui.component.dialog.rememberDialogState
+import com.hellguy39.hellnotes.core.ui.component.items.HNRadioButtonItem
+import com.hellguy39.hellnotes.core.ui.component.top_bar.HNLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.text.getDisplayName
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -247,9 +267,8 @@ fun ReminderEditScreen(
                                 contentDescription = null
                             )
                             Text(
-                                text = DateTimeUtils.formatLocalDateTime(
-                                    uiState.localDateTime, DateTimeUtils.DATE_PATTERN
-                                ),
+                                text = HNDateHandler.from(uiState.localDateTime)
+                                    .format(HNDateHandler.DefaultPatterns.DATE_ONLY),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                             Spacer(modifier = Modifier.weight(1f))
@@ -268,9 +287,8 @@ fun ReminderEditScreen(
                                 contentDescription = null
                             )
                             Text(
-                                text = DateTimeUtils.formatLocalDateTime(
-                                    uiState.localDateTime, DateTimeUtils.TIME_PATTERN
-                                ),
+                                text = HNDateHandler.from(uiState.localDateTime)
+                                    .format(HNDateHandler.DefaultPatterns.TIME_ONLY),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                             Spacer(modifier = Modifier.weight(1f))

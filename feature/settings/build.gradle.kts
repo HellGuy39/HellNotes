@@ -6,7 +6,6 @@ import install.installHilt
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
     id(ProjectPlugin.JavaCompile)
     id(ProjectPlugin.DefaultConfig)
 }
@@ -31,6 +30,7 @@ dependencies {
     implementation(project(Modules.Core.Ui))
     implementation(project(Modules.Core.Domain))
     implementation(project(Modules.Core.Model))
+    implementation(project(Modules.Core.Common))
 
     implementation(Libs.AndroidX.CoreKtx)
     implementation(Libs.AndroidX.LifecycleKtx)

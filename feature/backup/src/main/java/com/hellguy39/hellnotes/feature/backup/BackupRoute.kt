@@ -1,16 +1,14 @@
 package com.hellguy39.hellnotes.feature.backup
 
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
+import com.hellguy39.hellnotes.core.common.date.HNDateHandler
 
 @Composable
 fun BackupRoute(
@@ -38,10 +36,8 @@ fun BackupRoute(
         uiState = uiState,
         selection = BackupScreenSelection(
             onBackup = {
-                val time = DateTimeUtils.formatEpochMillis(
-                    System.currentTimeMillis(),
-                    DateTimeUtils.NEW_FILE_PATTERN
-                )
+                val time = HNDateHandler.now()
+                    .format(HNDateHandler.SpecialPatterns.NEW_FILE)
                 createBackupLauncher.launch("HellNotes_Backup_$time")
             },
             onRestore = {

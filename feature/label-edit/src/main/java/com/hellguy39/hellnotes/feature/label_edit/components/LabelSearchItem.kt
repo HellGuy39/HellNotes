@@ -17,10 +17,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.local.database.Label
-import com.hellguy39.hellnotes.core.ui.components.CustomDivider
-import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.divider.CustomDivider
+import com.hellguy39.hellnotes.core.ui.component.input.HNClearTextField
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 @Composable
 fun LabelSearchItem(

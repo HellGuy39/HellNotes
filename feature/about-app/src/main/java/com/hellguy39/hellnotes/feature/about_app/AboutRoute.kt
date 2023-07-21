@@ -3,11 +3,8 @@ package com.hellguy39.hellnotes.feature.about_app
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
-import com.hellguy39.hellnotes.core.ui.navigations.*
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.about_app.util.openGithub
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.feature.about_app.util.provideFeedback
 
 @Composable

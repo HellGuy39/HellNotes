@@ -8,10 +8,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
 import com.hellguy39.hellnotes.core.model.LockScreenType
-import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToHome
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToLock
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToOnBoarding
+import com.hellguy39.hellnotes.core.ui.model.Screen
+import com.hellguy39.hellnotes.core.ui.model.navigateToHome
+import com.hellguy39.hellnotes.core.ui.model.navigateToLock
+import com.hellguy39.hellnotes.core.ui.model.navigateToOnBoarding
 
 @Composable
 fun StartupRoute(

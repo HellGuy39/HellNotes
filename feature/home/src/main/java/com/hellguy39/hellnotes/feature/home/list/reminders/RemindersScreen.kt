@@ -4,10 +4,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -19,13 +17,12 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList
-import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.component.list.HNNotesList
+import com.hellguy39.hellnotes.core.ui.component.placeholer.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.component.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.list.reminders.components.ReminderTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.list.reminders.components.RemindersTopAppBar
 
@@ -64,25 +61,16 @@ fun RemindersScreen(
                     )
                 }
                 is RemindersUiState.Success -> {
-                    NoteList(
+                    HNNotesList(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 4.dp),
                         innerPadding = paddingValues,
+                        showNameIfSingleGroup = true,
                         noteSelection = screenSelection.noteSelection,
-                        categories = listOf(
-                            NoteCategory(notes = uiState.noteWrappersWithReminders)
-                        ),
+                        groupName = stringResource(id = HellNotesStrings.Label.Upcoming),
                         listStyle = screenSelection.listStyle,
-                        selectedNotes = screenSelection.selectedNoteWrappers,
-                        listHeader = {
-                            Text(
-                                text = stringResource(id = HellNotesStrings.Label.Upcoming),
-                                modifier = Modifier
-                                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                                style = MaterialTheme.typography.titleSmall
-                            )
-                        }
+                        selectedNoteWrappers = screenSelection.selectedNoteWrappers,
                     )
                 }
             }

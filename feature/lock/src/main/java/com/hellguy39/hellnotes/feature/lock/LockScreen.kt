@@ -5,7 +5,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import com.hellguy39.hellnotes.core.model.LockScreenType
-import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
+import com.hellguy39.hellnotes.core.ui.component.input.NumberKeyboardSelection
 
 @Composable
 fun LockScreen(

@@ -3,21 +3,23 @@ package com.hellguy39.hellnotes.core.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.hellguy39.hellnotes.core.ui.values.Alpha
-import com.hellguy39.hellnotes.core.ui.values.Elevation
-import com.hellguy39.hellnotes.core.ui.values.LocalAlpha
-import com.hellguy39.hellnotes.core.ui.values.LocalElevation
-import com.hellguy39.hellnotes.core.ui.values.LocalSpacing
-import com.hellguy39.hellnotes.core.ui.values.Motions
-import com.hellguy39.hellnotes.core.ui.values.Spacing
+import com.hellguy39.hellnotes.core.ui.value.Alpha
+import com.hellguy39.hellnotes.core.ui.value.Elevation
+import com.hellguy39.hellnotes.core.ui.value.LocalAlpha
+import com.hellguy39.hellnotes.core.ui.value.LocalElevation
+import com.hellguy39.hellnotes.core.ui.value.LocalSpacing
+import com.hellguy39.hellnotes.core.ui.value.Spacing
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -92,6 +94,7 @@ fun HellNotesTheme(
 ) {
     val context = LocalContext.current
     val view = LocalView.current
+    val activity = view.context as Activity
 
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -103,11 +106,10 @@ fun HellNotesTheme(
 
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(
-                (view.context as Activity).window,
-                view
-            ).isAppearanceLightStatusBars = darkTheme
+            WindowCompat
+                .getInsetsController(activity.window, view)
+                .isAppearanceLightStatusBars = !darkTheme
+            //(view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
             // ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }

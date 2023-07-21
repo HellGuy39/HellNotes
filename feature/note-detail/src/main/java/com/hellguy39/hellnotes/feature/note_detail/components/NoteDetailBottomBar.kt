@@ -25,10 +25,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.values.elevation
+import com.hellguy39.hellnotes.core.common.date.HNDateHandler
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.value.elevation
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailBottomBarSelection
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailUiState
 
@@ -77,7 +77,7 @@ fun NoteDetailBottomBar(
                     stringResource(
                         id = HellNotesStrings.Subtitle.Edited,
                         formatArgs = arrayOf(
-                            DateTimeUtils.formatBest(uiState.wrapper.note.editedAt)
+                            HNDateHandler.from(uiState.wrapper.note.editedAt).formatBest()
                         )
                     )
                 else "",

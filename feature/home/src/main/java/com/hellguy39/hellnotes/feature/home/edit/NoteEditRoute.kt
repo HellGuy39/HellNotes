@@ -9,8 +9,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
-import com.hellguy39.hellnotes.core.ui.navigations.HNContentType
+import com.hellguy39.hellnotes.core.ui.component.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.model.HNContentType
 
 @Composable
 fun NoteEditRoute(

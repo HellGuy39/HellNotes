@@ -13,14 +13,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.UiText
-import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
-import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
-import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.common.date.HNDateHandler
+import com.hellguy39.hellnotes.core.ui.component.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.component.snack.showDismissableSnackbar
+import com.hellguy39.hellnotes.core.ui.component.top_bar.HNTopAppBar
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.text.UiText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,11 +86,13 @@ fun BackupScreen(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
+                    // todo: handle 0L date inside HNDateHandler
                     text = stringResource(
                         id = HellNotesStrings.Subtitle.LastCopy,
-                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Value.Never) else DateTimeUtils.formatBest(
-                            uiState.lastBackupDate
-                        )
+                        if (uiState.lastBackupDate == 0L)
+                            stringResource(id = HellNotesStrings.Value.Never)
+                        else
+                            HNDateHandler.from(uiState.lastBackupDate).formatBest()
                     ),
                     style = MaterialTheme.typography.titleLarge,
                 )

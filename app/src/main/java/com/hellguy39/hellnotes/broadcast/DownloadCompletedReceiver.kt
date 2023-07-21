@@ -4,7 +4,7 @@ import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.model.ArgumentDefaultValues
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

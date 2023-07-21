@@ -3,8 +3,11 @@ package com.hellguy39.hellnotes.feature.home.list.trash
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -13,14 +16,11 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.*
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.components.cards.TipCard
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList
-import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.component.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.component.list.HNNotesList
+import com.hellguy39.hellnotes.core.ui.component.placeholer.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.list.trash.components.TrashTopAppBar
 import com.hellguy39.hellnotes.feature.home.list.trash.components.TrashTopAppBarSelection
 
@@ -60,25 +60,23 @@ fun TrashScreen(
                     )
                 }
                 is TrashUiState.Success -> {
-                    NoteList(
+                    HNNotesList(
                         modifier = Modifier.fillMaxSize()
                             .padding(4.dp),
                         innerPadding = paddingValues,
                         noteSelection = screenSelection.noteSelection,
-                        categories = listOf(
-                            NoteCategory(notes = uiState.trashedNotes)
-                        ),
-                        selectedNotes = screenSelection.selectedNoteWrappers,
+                        noteWrappers = uiState.trashedNotes,
+                        selectedNoteWrappers = screenSelection.selectedNoteWrappers,
                         listStyle = screenSelection.listStyle,
-                        listHeader = {
-                            TipCard(
-                                isVisible = true,
-                                message = stringResource(id = HellNotesStrings.Tip.AutoDeleteTrash),
-                                onClose = {
-                                    //trashViewModel.trashTipCompleted(true)
-                                }
-                            )
-                        },
+//                        listHeader = {
+//                            TipCard(
+//                                isVisible = true,
+//                                message = stringResource(id = HellNotesStrings.Tip.AutoDeleteTrash),
+//                                onClose = {
+//                                    //trashViewModel.trashTipCompleted(true)
+//                                }
+//                            )
+//                        },
                     )
                 }
             }

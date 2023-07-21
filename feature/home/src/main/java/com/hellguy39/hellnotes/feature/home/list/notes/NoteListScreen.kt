@@ -18,14 +18,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList
-import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.home.list.notes.components.NoteListTopAppBar
+import com.hellguy39.hellnotes.core.ui.component.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.component.list.HNNotesList
+import com.hellguy39.hellnotes.core.ui.component.placeholer.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.component.top_bar.HNTopAppBar
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.list.notes.components.NoteListTopAppBarSelection
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -65,23 +63,15 @@ fun NoteListScreen(
                     )
                 }
                 is NoteListState.Success -> {
-                    NoteList(
+                    HNNotesList(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 4.dp),
                         innerPadding = innerPadding,
                         noteSelection = screenSelection.noteSelection,
-                        categories = listOf(
-                            NoteCategory(
-                                title = stringResource(id = HellNotesStrings.Label.Pinned),
-                                notes = uiState.listState.pinnedNoteWrappers,
-                            ),
-                            NoteCategory(
-                                title = stringResource(id = HellNotesStrings.Label.Others),
-                                notes = uiState.listState.unpinnedNoteWrappers,
-                            )
-                        ),
-                        selectedNotes = screenSelection.selectedNoteWrappers,
+                        pinnedNoteWrappers = uiState.listState.pinnedNoteWrappers,
+                        unpinnedNoteWrappers = uiState.listState.unpinnedNoteWrappers,
+                        selectedNoteWrappers = screenSelection.selectedNoteWrappers,
                         listStyle = screenSelection.listStyle,
                         lazyListState = lazyListState,
                         lazyStaggeredGridState = lazyStaggeredGridState

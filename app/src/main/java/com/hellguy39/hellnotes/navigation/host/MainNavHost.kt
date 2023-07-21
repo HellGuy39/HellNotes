@@ -14,19 +14,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.hellguy39.hellnotes.activity.main.mainViewModel
-import com.hellguy39.hellnotes.core.ui.WindowInfo
 import com.hellguy39.hellnotes.core.ui.layout.BottomNavigationBarLayout
 import com.hellguy39.hellnotes.core.ui.layout.NavigationDrawerLayout
 import com.hellguy39.hellnotes.core.ui.layout.NavigationRailLayout
-import com.hellguy39.hellnotes.core.ui.navigations.DevicePosture
-import com.hellguy39.hellnotes.core.ui.navigations.HNContentType
-import com.hellguy39.hellnotes.core.ui.navigations.HNNavigationContentPosition
-import com.hellguy39.hellnotes.core.ui.navigations.HNNavigationType
-import com.hellguy39.hellnotes.core.ui.rememberContentType
-import com.hellguy39.hellnotes.core.ui.rememberFoldingDevicePosture
-import com.hellguy39.hellnotes.core.ui.rememberNavigationContentPosition
-import com.hellguy39.hellnotes.core.ui.rememberNavigationType
-import com.hellguy39.hellnotes.core.ui.rememberWindowInfo
+import com.hellguy39.hellnotes.core.ui.model.HNNavigationType
+import com.hellguy39.hellnotes.core.ui.window.rememberContentType
+import com.hellguy39.hellnotes.core.ui.window.rememberNavigationType
 import com.hellguy39.hellnotes.feature.home.MainRoute
 import com.hellguy39.hellnotes.feature.home.MainViewModel
 import com.hellguy39.hellnotes.feature.home.util.getHomeNavigationItems
@@ -43,8 +36,6 @@ fun MainNavHost(
 
     val navigationType = rememberNavigationType()
     val contentType = rememberContentType()
-    val foldingDevicePosture = rememberFoldingDevicePosture()
-    val navigationContentPosition = rememberNavigationContentPosition()
 
     val navBackStackEntry by mainNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

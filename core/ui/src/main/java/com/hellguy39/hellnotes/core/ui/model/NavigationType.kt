@@ -1,0 +1,37 @@
+package com.hellguy39.hellnotes.core.ui.model
+
+sealed class HNNavigationType {
+
+    object BottomNavigation : HNNavigationType()
+
+    object NavigationRail : HNNavigationType()
+
+    object PermanentNavigationDrawer : HNNavigationType()
+
+    override fun toString(): String = when (this) {
+        is BottomNavigation -> BOTTOM_NAVIGATION
+        is NavigationRail -> NAVIGATION_RAIL
+        is PermanentNavigationDrawer -> PERMANENT_NAVIGATION_DRAWER
+    }
+
+    companion object {
+
+        const val BOTTOM_NAVIGATION = "BottomNavigation"
+        const val NAVIGATION_RAIL = "NavigationRail"
+        const val PERMANENT_NAVIGATION_DRAWER = "PermanentNavigationDrawer"
+
+        fun default() = BottomNavigation
+
+        fun from(s: String): HNNavigationType = when (s) {
+            BOTTOM_NAVIGATION -> BottomNavigation
+            NAVIGATION_RAIL -> NavigationRail
+            PERMANENT_NAVIGATION_DRAWER -> PermanentNavigationDrawer
+            else -> default()
+        }
+
+        fun Saver() = androidx.compose.runtime.saveable.Saver<HNNavigationType, String>(
+            save = { navigationType -> navigationType.toString() },
+            restore = { s -> from(s) }
+        )
+    }
+}

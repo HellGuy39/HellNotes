@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.language_selection
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,11 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.Language
-import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.getDisplayName
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
+import com.hellguy39.hellnotes.core.ui.component.items.HNRadioButtonItem
+import com.hellguy39.hellnotes.core.ui.component.top_bar.HNLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.text.getDisplayName
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

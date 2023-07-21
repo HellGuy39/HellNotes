@@ -6,9 +6,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
-import com.hellguy39.hellnotes.core.ui.navigations.Screen
+import com.hellguy39.hellnotes.core.ui.model.ArgumentDefaultValues
+import com.hellguy39.hellnotes.core.ui.model.ArgumentKeys
+import com.hellguy39.hellnotes.core.ui.model.Screen
 import com.hellguy39.hellnotes.feature.reminder_edit.ReminderEditRoute
 
 @OptIn(ExperimentalAnimationApi::class)

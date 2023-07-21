@@ -41,6 +41,7 @@ dependencies {
     implementation(project(Modules.Core.Ui))
     implementation(project(Modules.Core.Domain))
     implementation(project(Modules.Core.Model))
+    implementation(project(Modules.Core.Common))
 
     implementation(Libs.AndroidX.CoreKtx)
     implementation(Libs.AndroidX.LifecycleKtx)
