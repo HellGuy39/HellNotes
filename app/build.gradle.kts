@@ -1,8 +1,10 @@
 import install.installAccompanist
+import install.installAndroidCore
 import install.installCompose
 import install.installCoroutines
 import install.installFirebase
 import install.installHilt
+import install.installTestingTools
 
 plugins {
     id("com.android.application")
@@ -17,7 +19,7 @@ android {
     namespace = "com.hellguy39.hellnotes"
 
     defaultConfig {
-        applicationId = Config.applicationId
+        applicationId = "com.hellguy39.hellnotes"
     }
 
     applicationVariants.all {
@@ -42,6 +44,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -57,6 +60,7 @@ android {
 
         create("beta") {
             isMinifyEnabled = true
+            isDebuggable = false
         }
 
         debug {
@@ -77,10 +81,12 @@ android {
 }
 
 installFirebase()
+installAndroidCore()
 installHilt()
 installCompose()
 installAccompanist()
 installCoroutines()
+installTestingTools()
 
 dependencies {
 
@@ -115,19 +121,8 @@ dependencies {
     implementation(project(Modules.Core.Datastore))
     implementation(project(Modules.Core.Model))
 
-    implementation(Libs.AndroidX.CoreKtx)
-    implementation(Libs.AndroidX.LifecycleKtx)
-    implementation(Libs.AndroidX.AppCompat)
-    implementation(Libs.AndroidX.WorkKtx)
+    implementation(Libs.Google.Material)
     implementation(Libs.AndroidX.Biometric)
     implementation(Libs.AndroidX.SplashScreen)
     implementation(Libs.AndroidX.ProfileInstaller)
-
-    androidTestImplementation(Libs.Testing.Work)
-    androidTestImplementation(Libs.Testing.UiTestJUnit)
-    debugImplementation(Libs.Testing.UiTooling)
-    debugImplementation(Libs.Testing.UiTestManifest)
-    testImplementation(Libs.Testing.JUnit)
-    androidTestImplementation(Libs.Testing.AndroidJUnit)
-    androidTestImplementation(Libs.Testing.Espresso)
 }

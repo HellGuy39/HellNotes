@@ -1,4 +1,6 @@
 import install.installAccompanist
+import install.installAndroidCore
+import install.installBaseProjectCore
 import install.installCompose
 import install.installCoroutines
 import install.installHilt
@@ -15,29 +17,14 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
 }
 
-installHilt()
+installBaseProjectCore()
+installAndroidCore()
 installCoroutines()
-installCompose()
 installAccompanist()
-
-dependencies {
-
-    implementation(project(Modules.Core.Ui))
-    implementation(project(Modules.Core.Domain))
-    implementation(project(Modules.Core.Model))
-    implementation(project(Modules.Core.Common))
-
-    implementation(Libs.AndroidX.CoreKtx)
-    implementation(Libs.AndroidX.LifecycleKtx)
-    implementation(Libs.AndroidX.AppCompat)
-
-    androidTestImplementation(Libs.Testing.UiTestJUnit)
-    debugImplementation(Libs.Testing.UiTooling)
-    debugImplementation(Libs.Testing.UiTestManifest)
-
-}
+installCompose()
+installHilt()

@@ -27,7 +27,7 @@ dependencies {
     compileOnly(gradleApi())
 
     implementation("com.android.tools.build:gradle:8.0.2")
-    implementation(kotlin("gradle-plugin", "1.8.21"))
+    implementation(kotlin("gradle-plugin", "1.9.0"))
     implementation(kotlin("android-extensions"))
     implementation("com.squareup:javapoet:1.13.0")
 }

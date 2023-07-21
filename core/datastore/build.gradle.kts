@@ -23,5 +23,5 @@ installCoroutines()
 dependencies {
     implementation(project(Modules.Core.Model))
 
-    implementation(Libs.AndroidX.DataStore.Preferences)
+    implementation(Libs.DataStore.Preferences)
 }

@@ -2,6 +2,8 @@ package install
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import util.Configuration
+import Libs
 
 fun Project.installMoshi() {
 

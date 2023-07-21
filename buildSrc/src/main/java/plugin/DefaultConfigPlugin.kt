@@ -17,11 +17,11 @@ class DefaultConfigPlugin: Plugin<Project> {
             return
 
         androidExtension.apply {
-            compileSdkVersion(Config.compileSdk)
+            compileSdkVersion(33) // Android 13
 
             defaultConfig {
-                minSdk = Config.minSdk
-                targetSdk = Config.targetSdk
+                minSdk = 29 // Android 10
+                targetSdk = 33 // Android 13
                 versionCode = 7
                 versionName = "1.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
