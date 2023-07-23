@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -40,6 +41,9 @@ fun MainNavHost(
     val navBackStackEntry by mainNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    val isDetailOpen by mainViewModel.isDetailOpen.collectAsStateWithLifecycle()
+    val openedNoteId by mainViewModel.openedNoteId.collectAsStateWithLifecycle()
+
     val navItems = getHomeNavigationItems(
         onItemClick = { item ->
             mainNavController.navigate(item.screen.route) {
@@ -55,6 +59,8 @@ fun MainNavHost(
                 innerPadding = innerPadding,
                 mainNavController = mainNavController,
                 mainViewModel = mainViewModel,
+                isDetailOpen = isDetailOpen,
+                openedNoteId = openedNoteId,
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 onCloseNoteEdit = mainViewModel::closeNoteEdit
@@ -67,7 +73,7 @@ fun MainNavHost(
             BottomNavigationBarLayout(
                 navItems = navItems,
                 currentDestination = currentDestination,
-                isVisible = true,
+                isVisible = !isDetailOpen,
                 content = { _ -> navHost(PaddingValues()) },
                 onNewNoteFabClick = mainViewModel::newNote
             )

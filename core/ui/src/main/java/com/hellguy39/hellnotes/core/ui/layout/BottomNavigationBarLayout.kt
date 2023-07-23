@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.core.ui.layout
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
@@ -27,34 +26,38 @@ fun BottomNavigationBarLayout(
 ) {
     Scaffold(
         floatingActionButton = {
-            AnimatedVisibility(visible = isVisible) {
-                ExtendedFloatingActionButton(
-                    text = { Text(text = stringResource(id = HellNotesStrings.Button.NewNote)) },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = HellNotesIcons.Add),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote)
-                        )
-                    },
-                    onClick = onNewNoteFabClick,
-                    expanded = true
-                )
-            }
+
+            if (!isVisible)
+                return@Scaffold
+
+            ExtendedFloatingActionButton(
+                text = { Text(text = stringResource(id = HellNotesStrings.Button.NewNote)) },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = HellNotesIcons.Add),
+                        contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote)
+                    )
+                },
+                onClick = onNewNoteFabClick,
+                expanded = true
+            )
         },
         floatingActionButtonPosition = FabPosition.End,
         bottomBar = {
-            AnimatedVisibility(visible = isVisible) {
-                NavigationBar(
-                    content = {
-                        navItems.forEach { item ->
-                            HNNavigationBarItem(
-                                item = item,
-                                currentDestination = currentDestination
-                            )
-                        }
+
+            if (!isVisible)
+                return@Scaffold
+
+            NavigationBar(
+                content = {
+                    navItems.forEach { item ->
+                        HNNavigationBarItem(
+                            item = item,
+                            currentDestination = currentDestination
+                        )
                     }
-                )
-            }
+                }
+            )
         },
         content = { paddingValues ->
             content(paddingValues)

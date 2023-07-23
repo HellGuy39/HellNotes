@@ -44,6 +44,9 @@ class NoteEditViewModel @Inject constructor(
     private val reminds = reminderRepository.getAllRemindersStream()
     private val labels = labelRepository.getAllLabelsStream()
 
+    private val isDeleteAlertDialogOpen = MutableStateFlow(false)
+    private val isMenuBottomSheetOpen = MutableStateFlow(false)
+    private val isAttachmentBottomSheetOpen = MutableStateFlow(false)
     private val noteWrapperState = combine(
         note, reminds, labels, checklists
     ) { note, reminders, labels, checklists ->
@@ -64,10 +67,16 @@ class NoteEditViewModel @Inject constructor(
 
 
     val uiState: StateFlow<NoteDetailUiState> = combine(
-        noteWrapperState
-    ) { flows ->
+        noteWrapperState,
+        isMenuBottomSheetOpen,
+        isAttachmentBottomSheetOpen,
+        isDeleteAlertDialogOpen,
+    ) { noteWrapperState, isMenuBottomSheetOpen, isAttachmentBottomSheetOpen, isDeleteAlertDialogOpen ->
         NoteDetailUiState(
-            noteWrapperState = flows[0]
+            noteWrapperState = noteWrapperState,
+            isMenuBottomSheetOpen = isMenuBottomSheetOpen,
+            isAttachmentBottomSheetOpen = isAttachmentBottomSheetOpen,
+            isDeleteAlertDialogOpen = isDeleteAlertDialogOpen
         )
     }
         .stateIn(
@@ -76,45 +85,69 @@ class NoteEditViewModel @Inject constructor(
             initialValue = NoteDetailUiState()
         )
 
-    fun send(uiEvent: NoteDetailUiEvent) {
+    fun send(uiEvent: NoteEditUiEvent) {
         when (uiEvent) {
 
-            is NoteDetailUiEvent.EditNoteTitle -> editNoteTitle(uiEvent.title)
+            is NoteEditUiEvent.EditNoteTitle -> editNoteTitle(uiEvent.title)
 
-            is NoteDetailUiEvent.EditNoteContent -> editNoteContent(uiEvent.text)
+            is NoteEditUiEvent.EditNoteContent -> editNoteContent(uiEvent.text)
 
-            is NoteDetailUiEvent.OpenNote -> openNote(uiEvent.noteId)
+            is NoteEditUiEvent.OpenNote -> openNote(uiEvent.noteId)
 
-            is NoteDetailUiEvent.CloseNote -> close()
+            is NoteEditUiEvent.CloseNote -> close()
 
-            is NoteDetailUiEvent.UpdateChecklistName ->
+            is NoteEditUiEvent.UpdateChecklistName ->
                 updateChecklistName(uiEvent.checklist, uiEvent.name)
 
-            is NoteDetailUiEvent.CheckAllChecklistItems ->
+            is NoteEditUiEvent.CheckAllChecklistItems ->
                 checkAllChecklistItems(uiEvent.checklist, uiEvent.isCheck)
 
-            is NoteDetailUiEvent.UpdateChecklistItem ->
+            is NoteEditUiEvent.UpdateChecklistItem ->
                 updateChecklistItem(uiEvent.checklist, uiEvent.oldItem, uiEvent.newItem)
 
-            is NoteDetailUiEvent.UpdateIsArchived -> updateIsArchived(uiEvent.isArchived)
+            is NoteEditUiEvent.UpdateIsArchived -> updateIsArchived(uiEvent.isArchived)
 
-            is NoteDetailUiEvent.UpdateIsPinned -> updateIsPinned(uiEvent.isPinned)
+            is NoteEditUiEvent.UpdateIsPinned -> updateIsPinned(uiEvent.isPinned)
 
-            is NoteDetailUiEvent.AddChecklist -> addChecklist()
+            is NoteEditUiEvent.AddChecklist -> addChecklist()
 
-            is NoteDetailUiEvent.AddChecklistItem -> addChecklistItem(uiEvent.checklist)
+            is NoteEditUiEvent.AddChecklistItem -> addChecklistItem(uiEvent.checklist)
 
-            is NoteDetailUiEvent.DeleteChecklist -> deleteChecklist(uiEvent.checklist)
+            is NoteEditUiEvent.DeleteChecklist -> deleteChecklist(uiEvent.checklist)
 
-            is NoteDetailUiEvent.DeleteChecklistItem ->
+            is NoteEditUiEvent.DeleteChecklistItem ->
                 deleteChecklistItem(uiEvent.checklist, uiEvent.item)
 
-            is NoteDetailUiEvent.DeleteNote -> moveNoteToTrash()
+            is NoteEditUiEvent.DeleteNote -> moveNoteToTrash()
 
-            is NoteDetailUiEvent.CopyNote -> copyNote(uiEvent.onCopied)
+            is NoteEditUiEvent.CopyNote -> copyNote(uiEvent.onCopied)
 
-            is NoteDetailUiEvent.ExpandChecklist ->
+            is NoteEditUiEvent.ExpandChecklist ->
                 expandChecklist(uiEvent.checklist, uiEvent.isExpanded)
+
+            is NoteEditUiEvent.OpenMenuBottomSheet -> openMenuBottomSheet(uiEvent.isOpen)
+
+            is NoteEditUiEvent.OpenAttachmentBottomSheet -> openAttachmentBottomSheet(uiEvent.isOpen)
+
+            is NoteEditUiEvent.OpenDeleteAlertDialog -> openDeleteAlertDialog(uiEvent.isOpen)
+        }
+    }
+
+    private fun openDeleteAlertDialog(isOpen: Boolean) {
+        viewModelScope.launch {
+            isDeleteAlertDialogOpen.update { isOpen }
+        }
+    }
+
+    private fun openMenuBottomSheet(isOpen: Boolean) {
+        viewModelScope.launch {
+            isMenuBottomSheetOpen.update { isOpen }
+        }
+    }
+
+    private fun openAttachmentBottomSheet(isOpen: Boolean) {
+        viewModelScope.launch {
+            isAttachmentBottomSheetOpen.update { isOpen }
         }
     }
 
@@ -335,50 +368,59 @@ class NoteEditViewModel @Inject constructor(
     }
 }
 
-sealed class NoteDetailUiEvent {
+sealed class NoteEditUiEvent {
 
-    data class OpenNote(val noteId: Long) : NoteDetailUiEvent()
+    data class OpenNote(val noteId: Long) : NoteEditUiEvent()
 
-    object CloseNote : NoteDetailUiEvent()
+    object CloseNote : NoteEditUiEvent()
 
-    data class EditNoteTitle(val title: String) : NoteDetailUiEvent()
+    data class EditNoteTitle(val title: String) : NoteEditUiEvent()
 
-    data class EditNoteContent(val text: String) : NoteDetailUiEvent()
+    data class EditNoteContent(val text: String) : NoteEditUiEvent()
 
-    data class UpdateIsPinned(val isPinned: Boolean) : NoteDetailUiEvent()
+    data class UpdateIsPinned(val isPinned: Boolean) : NoteEditUiEvent()
 
-    data class UpdateIsArchived(val isArchived: Boolean) : NoteDetailUiEvent()
+    data class UpdateIsArchived(val isArchived: Boolean) : NoteEditUiEvent()
 
     data class CheckAllChecklistItems(
         val checklist: Checklist, val isCheck: Boolean
-    ) : NoteDetailUiEvent()
+    ) : NoteEditUiEvent()
 
     data class UpdateChecklistItem(
         val checklist: Checklist, val oldItem: ChecklistItem, val newItem: ChecklistItem
-    ) : NoteDetailUiEvent()
+    ) : NoteEditUiEvent()
 
-    data class UpdateChecklistName(val checklist: Checklist, val name: String) : NoteDetailUiEvent()
+    data class UpdateChecklistName(val checklist: Checklist, val name: String) : NoteEditUiEvent()
 
     data class ExpandChecklist(val checklist: Checklist, val isExpanded: Boolean) :
-        NoteDetailUiEvent()
+        NoteEditUiEvent()
 
-    object AddChecklist : NoteDetailUiEvent()
+    object AddChecklist : NoteEditUiEvent()
 
-    data class DeleteChecklist(val checklist: Checklist) : NoteDetailUiEvent()
+    data class DeleteChecklist(val checklist: Checklist) : NoteEditUiEvent()
 
     data class DeleteChecklistItem(val checklist: Checklist, val item: ChecklistItem) :
-        NoteDetailUiEvent()
+        NoteEditUiEvent()
 
-    data class AddChecklistItem(val checklist: Checklist) : NoteDetailUiEvent()
+    data class AddChecklistItem(val checklist: Checklist) : NoteEditUiEvent()
 
-    object DeleteNote : NoteDetailUiEvent()
+    object DeleteNote : NoteEditUiEvent()
 
-    data class CopyNote(val onCopied: (id: Long) -> Unit) : NoteDetailUiEvent()
+    data class CopyNote(val onCopied: (id: Long) -> Unit) : NoteEditUiEvent()
+
+    data class OpenMenuBottomSheet(val isOpen: Boolean) : NoteEditUiEvent()
+
+    data class OpenAttachmentBottomSheet(val isOpen: Boolean) : NoteEditUiEvent()
+
+    data class OpenDeleteAlertDialog(val isOpen: Boolean) : NoteEditUiEvent()
 
 }
 
 data class NoteDetailUiState(
-    val noteWrapperState: NoteWrapperState = NoteWrapperState.Empty
+    val noteWrapperState: NoteWrapperState = NoteWrapperState.Empty,
+    val isMenuBottomSheetOpen: Boolean = false,
+    val isAttachmentBottomSheetOpen: Boolean = false,
+    val isDeleteAlertDialogOpen: Boolean = false
 )
 
 sealed class NoteWrapperState {

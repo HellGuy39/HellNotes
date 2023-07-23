@@ -91,7 +91,9 @@ fun NoteStyleEditScreen(
                                 NoteCard(
                                     modifier = cardModifier,
                                     noteWrapper = exampleNoteWrapper,
-                                    noteStyle = style
+                                    noteStyle = style,
+                                    isSelected = false,
+                                    openedNoteId = Note.EMPTY_ID
                                 )
                             }
                         }

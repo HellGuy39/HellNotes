@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.home.edit
 
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -7,10 +9,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hellguy39.hellnotes.core.ui.component.dialog.HNAlertDialog
 import com.hellguy39.hellnotes.core.ui.component.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
+import com.hellguy39.hellnotes.feature.home.edit.components.AttachmentBottomSheet
+import com.hellguy39.hellnotes.feature.home.edit.components.AttachmentBottomSheetSelection
+import com.hellguy39.hellnotes.feature.home.edit.components.MenuBottomSheet
+import com.hellguy39.hellnotes.feature.home.edit.components.MenuBottomSheetSelection
 
 @Composable
 fun NoteEditRoute(
@@ -21,7 +32,7 @@ fun NoteEditRoute(
 ) {
 
     LaunchedEffect(key1 = noteId) {
-        noteEditViewModel.send(NoteDetailUiEvent.OpenNote(noteId))
+        noteEditViewModel.send(NoteEditUiEvent.OpenNote(noteId))
     }
 
     val context = LocalContext.current
@@ -30,7 +41,6 @@ fun NoteEditRoute(
     val uiState by noteEditViewModel.uiState.collectAsStateWithLifecycle()
 //
 //    val shareDialogState = rememberDialogState()
-//    val confirmDialogState = rememberDialogState()
 //    val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 //    val colorPickerState = rememberSheetState()
@@ -66,7 +76,7 @@ fun NoteEditRoute(
 //        }
 //    }
 
-    //BackHandler(onBack = navController::popBackStack)
+    BackHandler(onBack = onCloseNoteEdit)
 
 //    CustomDialog(
 //        state = shareDialogState,
@@ -97,104 +107,50 @@ fun NoteEditRoute(
 //        }
 //    )
 //
-//    CustomDialog(
-//        state = confirmDialogState,
-//        heroIcon = painterResource(id = HellNotesIcons.Delete),
-//        title = stringResource(id = HellNotesStrings.Title.DeleteThisNote),
-//        message = stringResource(id = HellNotesStrings.Supporting.DeleteNote),
-//        onCancel = { confirmDialogState.dismiss() },
-//        onAccept = {
-//            confirmDialogState.dismiss()
-//            noteDetailViewModel.send(NoteDetailUiEvent.DeleteNote)
-//            TODO()
-//            //navController.popBackStack()
-//        }
-//    )
 
-//    val currentOnStop by rememberUpdatedState {
-//        noteDetailViewModel.send(NoteDetailUiEvent.Minimize)
-//    }
-//
-//    val currentOnDestroy by rememberUpdatedState {
-//        noteDetailViewModel.send(NoteDetailUiEvent.CloseNote)
-//    }
-//
-//    DisposableEffect(lifecycleOwner) {
-//        val observer = LifecycleEventObserver { _, event ->
-//            when(event) {
-//                Lifecycle.Event.ON_STOP -> currentOnStop()
-//                Lifecycle.Event.ON_DESTROY -> currentOnDestroy()
-//                else -> Unit
-//            }
-//        }
-//
-//        lifecycleOwner.lifecycle.addObserver(observer)
-//
-//        onDispose {
-//            lifecycleOwner.lifecycle.removeObserver(observer)
-//        }
-//    }
+    HNAlertDialog(
+        isOpen = uiState.isDeleteAlertDialogOpen,
+        heroIcon = painterResource(id = HellNotesIcons.Delete),
+        title = stringResource(id = HellNotesStrings.Title.DeleteThisNote),
+        message = stringResource(id = HellNotesStrings.Supporting.DeleteNote),
+        onClose = { noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false)) },
+        onCancel = { noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false)) },
+        onAccept = {
+            noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false))
+            noteEditViewModel.send(NoteEditUiEvent.DeleteNote)
+            onCloseNoteEdit()
+        }
+    )
 
-//    var isOpenMenuBottomSheet by rememberSaveable { mutableStateOf(false) }
-//    val attachmentBottomSheetState = rememberModalBottomSheetState(
-//        skipPartiallyExpanded = false
-//    )
-//
-//    var isOpenAttachmentBottomSheet by rememberSaveable { mutableStateOf(false) }
-//    val menuBottomSheetState = rememberModalBottomSheetState(
-//        skipPartiallyExpanded = false
-//    )
+    val toast = remember {
+        Toast.makeText(context, context.getString(HellNotesStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
+    }
 
-//    fun closeMenuBottomSheet() {
-//        scope.launch {
-//            menuBottomSheetState.hide()
-//        }.invokeOnCompletion {
-//            if (!menuBottomSheetState.isVisible) {
-//                isOpenMenuBottomSheet = false
+    AttachmentBottomSheet(
+        uiState = uiState,
+        onDismiss = { noteEditViewModel.send(NoteEditUiEvent.OpenAttachmentBottomSheet(false)) },
+        selection = AttachmentBottomSheetSelection(
+            onTakeAPhoto = { toast.show() },
+            onAddImage = { toast.show() },
+            onAddRecording = { toast.show() },
+            onAddPlace = { toast.show() },
+            onAddChecklist = { noteEditViewModel.send(NoteEditUiEvent.AddChecklist) },
+            onAddLabel = {
+//            uiState.let { state ->
+//                if (state is NoteDetailUiState.Success) {
+//                    TODO()
+//                    //navController.navigateToLabelSelection(state.wrapper.note.id)
+//                }
 //            }
-//        }
-//    }
+            },
+        )
+    )
 
-//    fun closeAttachmentBottomSheet() {
-//        scope.launch {
-//            attachmentBottomSheetState.hide()
-//        }.invokeOnCompletion {
-//            if (!attachmentBottomSheetState.isVisible) {
-//                isOpenAttachmentBottomSheet = false
-//            }
-//        }
-//    }
-//
-//    val toast = Toast.makeText(context, context.getString(HellNotesStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
-//
-//    val menuBottomSheetItems = listOf(
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.Delete),
-//            icon = painterResource(id = HellNotesIcons.Delete),
-//            onClick = {
-//                closeMenuBottomSheet()
-//                confirmDialogState.show()
-//            }
-//        ),
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.MakeACopy),
-//            icon = painterResource(id = HellNotesIcons.ContentCopy),
-//            onClick = {
-//                closeMenuBottomSheet()
-//                noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
-//                    onCopied = { id ->
-//                        TODO()
-////                        navController.popBackStack()
-////                        navController.navigateToNoteDetail(id)
-//                    }
-//                ))
-//            }
-//        ),
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.Share),
-//            icon = painterResource(id = HellNotesIcons.Share),
-//            onClick = {
-//                closeMenuBottomSheet()
+    MenuBottomSheet(
+        uiState = uiState,
+        onDismiss = { noteEditViewModel.send(NoteEditUiEvent.OpenMenuBottomSheet(false)) },
+        selection = MenuBottomSheetSelection(
+            onShare = {
 //                uiState.let { state ->
 //                    if (state is NoteDetailUiState.Success) {
 //                        if (state.wrapper.note.isNoteValid()) {
@@ -208,109 +164,24 @@ fun NoteEditRoute(
 //                        }
 //                    }
 //                }
-//            }
-//        ),
-//        BottomSheetMenuItemHolder(
-//            title = "Color",
-//            icon = painterResource(id = HellNotesIcons.Palette),
-//            onClick = {
-//                closeMenuBottomSheet()
-//                colorPickerState.show()
-//            }
-//        )
-//    )
-//
-//    val attachmentSheetItems = listOf(
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.TakeAPhoto),
-//            icon = painterResource(id = HellNotesIcons.PhotoCamera),
-//            onClick = {
-//                closeAttachmentBottomSheet()
-//                toast.show()
-//            }
-//        ),
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.Image),
-//            icon = painterResource(id = HellNotesIcons.Image),
-//            onClick = {
-//                closeAttachmentBottomSheet()
-//                toast.show()
-//            }
-//        ),
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.Recording),
-//            icon = painterResource(id = HellNotesIcons.Mic),
-//            onClick = {
-//                closeAttachmentBottomSheet()
-//                toast.show()
-//            }
-//        ),
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.Place),
-//            icon = painterResource(id = HellNotesIcons.PinDrop),
-//            onClick = {
-//                closeAttachmentBottomSheet()
-//                toast.show()
-//            }
-//        ),
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.Checklist),
-//            icon = painterResource(id = HellNotesIcons.Checklist),
-//            onClick = {
-//                closeAttachmentBottomSheet()
-//                noteDetailViewModel.send(NoteDetailUiEvent.AddChecklist)
-//            }
-//        ),
-//        BottomSheetMenuItemHolder(
-//            title = stringResource(id = HellNotesStrings.MenuItem.Labels),
-//            icon = painterResource(id = HellNotesIcons.Label),
-//            onClick = {
-//                closeAttachmentBottomSheet()
-//                uiState.let { state ->
-//                    if (state is NoteDetailUiState.Success) {
+            },
+            onDelete = {
+                noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(true))
+            },
+            onMakeACopy = {
+//                noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
+//                    onCopied = { id ->
 //                        TODO()
-//                        //navController.navigateToLabelSelection(state.wrapper.note.id)
+////                        navController.popBackStack()
+////                        navController.navigateToNoteDetail(id)
 //                    }
-//                }
-//            }
-//        )
-//    )
-
-//    if (isOpenMenuBottomSheet) {
-//        ModalBottomSheet(
-//            modifier = Modifier,
-//            onDismissRequest = { isOpenMenuBottomSheet = false },
-//            sheetState = menuBottomSheetState,
-//        ) {
-//            menuBottomSheetItems.forEach { item ->
-//                HNListItem(
-//                    modifier = listItemModifier,
-//                    title = item.title,
-//                    iconSize = 24.dp,
-//                    heroIcon = item.icon,
-//                    onClick = item.onClick
-//                )
-//            }
-//        }
-//    }
-
-//    if (isOpenAttachmentBottomSheet) {
-//        ModalBottomSheet(
-//            modifier = Modifier,
-//            onDismissRequest = { isOpenAttachmentBottomSheet = false },
-//            sheetState = attachmentBottomSheetState,
-//        ) {
-//            attachmentSheetItems.forEach { item ->
-//                HNListItem(
-//                    modifier = listItemModifier,
-//                    title = item.title,
-//                    iconSize = 24.dp,
-//                    heroIcon = item.icon,
-//                    onClick = item.onClick
-//                )
-//            }
-//        }
-//    }
+//                ))
+            },
+            onColor = {
+                //colorPickerState.show()
+            }
+        )
+    )
 
     NoteEditScreen(
         noteEditViewModel = noteEditViewModel,

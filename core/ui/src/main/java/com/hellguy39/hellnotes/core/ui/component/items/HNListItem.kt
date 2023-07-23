@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.core.ui.value.alpha
+import com.hellguy39.hellnotes.core.ui.value.spacing
 
 @Composable
 fun HNListItem(
@@ -36,9 +37,14 @@ fun HNListItem(
         modifier = Modifier.clickable { onClick() },
     ) {
         Row(
-            modifier = modifier,
+            modifier = Modifier
+                .padding(MaterialTheme.spacing.medium)
+                .then(modifier),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally)
+            horizontalArrangement = Arrangement.spacedBy(
+                space = MaterialTheme.spacing.medium,
+                alignment = Alignment.CenterHorizontally
+            )
         ) {
             if (heroIcon != null) {
                 Icon(

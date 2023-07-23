@@ -32,6 +32,7 @@ internal fun NoteGridList(
     modifier: Modifier,
     innerPadding: PaddingValues,
     noteSelection: NoteSelection,
+    openedNoteId: Long,
     showNameIfSingleGroup: Boolean,
     contentGroups: List<ContentGroup<NoteWrapper>>,
     selectedNoteWrappers: List<NoteWrapper>,
@@ -85,6 +86,7 @@ internal fun NoteGridList(
                             }
                         ),
                     noteWrapper = noteWrapper,
+                    openedNoteId = openedNoteId,
                     isSwipeable = noteSelection.isSwipeable,
                     isSelected = selectedNoteWrappers.contains(noteWrapper),
                     onDismissed = noteSelection.onDismiss,

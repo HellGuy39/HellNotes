@@ -12,6 +12,7 @@ import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
 fun SwipeableNoteCard(
     modifier: Modifier = Modifier,
     noteStyle: NoteStyle,
+    openedNoteId: Long,
     noteWrapper: NoteWrapper,
     isSelected: Boolean = false,
     isSwipeable: Boolean = true,
@@ -43,7 +44,8 @@ fun SwipeableNoteCard(
                     modifier = modifier.alpha(visibility),
                     noteWrapper = noteWrapper,
                     isSelected = isSelected,
-                    noteStyle = noteStyle
+                    noteStyle = noteStyle,
+                    openedNoteId = openedNoteId,
                 )
             }
         )
@@ -52,7 +54,8 @@ fun SwipeableNoteCard(
             modifier = modifier,
             noteWrapper = noteWrapper,
             isSelected = isSelected,
-            noteStyle = noteStyle
+            noteStyle = noteStyle,
+            openedNoteId = openedNoteId,
         )
     }
 

@@ -27,14 +27,13 @@ import com.hellguy39.hellnotes.feature.home.list.trash.trashScreen
 fun MainRoute(
     innerPadding: PaddingValues,
     mainNavController: NavHostController,
+    isDetailOpen: Boolean,
+    openedNoteId: Long,
     mainViewModel: MainViewModel,
     contentType: HNContentType,
     displayFeatures: List<DisplayFeature>,
     onCloseNoteEdit: () -> Unit
 ) {
-    val isDetailOpen by mainViewModel.isDetailOpen.collectAsStateWithLifecycle()
-    val openedNoteId by mainViewModel.openedNoteId.collectAsStateWithLifecycle()
-
     ListDetail(
         modifier = Modifier,
         isDetailOpen = isDetailOpen,

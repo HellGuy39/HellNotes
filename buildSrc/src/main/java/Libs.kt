@@ -59,7 +59,7 @@ object Libs {
         private const val composeVersion = "1.4.3"
         private const val lifecycleVersion = "2.6.1"
         private const val navigationVersion = "2.5.3"
-        private const val material3Version = "1.1.0"
+        private const val material3Version = "1.1.1"
         private const val activityVersion = "1.6.1"
 
         const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"

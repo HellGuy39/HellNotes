@@ -23,7 +23,7 @@ class DefaultConfigPlugin: Plugin<Project> {
                 minSdk = 29 // Android 10
                 targetSdk = 33 // Android 13
                 versionCode = 7
-                versionName = "1.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+                versionName = "2.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 vectorDrawables {

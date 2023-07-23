@@ -28,6 +28,7 @@ internal fun NoteColumnList(
     modifier: Modifier,
     innerPadding: PaddingValues,
     noteSelection: NoteSelection,
+    openedNoteId: Long,
     showNameIfSingleGroup: Boolean,
     contentGroups: List<ContentGroup<NoteWrapper>>,
     selectedNoteWrappers: List<NoteWrapper>,
@@ -75,6 +76,7 @@ internal fun NoteColumnList(
                         )
                         .animateItemPlacement(),
                     noteWrapper = noteWrapper,
+                    openedNoteId = openedNoteId,
                     isSwipeable = noteSelection.isSwipeable,
                     isSelected = selectedNoteWrappers.contains(noteWrapper),
                     onDismissed = noteSelection.onDismiss,

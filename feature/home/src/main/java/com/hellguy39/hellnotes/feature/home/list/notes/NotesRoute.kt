@@ -21,35 +21,15 @@ fun NotesRoute(
     mainViewModel: MainViewModel,
     noteListViewModel: NoteListViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
     val uiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
+    val openedNoteId by mainViewModel.openedNoteId.collectAsStateWithLifecycle()
 
     NoteListScreen(
         uiState = uiState,
-        appBarSelection = NoteListTopAppBarSelection(
-            listStyle = ListStyle.Column,
-            onCancelSelection = {
-                // homeViewModel.send(HomeUiEvent.CancelNoteSelection)
-            },
-            onNavigation = {
-                //scope.launch { drawerState.open() }
-            },
-            onDeleteSelected = {
-                // homeViewModel.send(HomeUiEvent.MoveToTrashSelectedNotes)
-            },
-            onSearch = {
-                //navController.navigateToSearch()
-            },
-            onChangeListStyle = {
-                //homeViewModel.send(HomeUiEvent.ToggleListStyle)
-                                },
-            onArchive = {
-                //homeViewModel.send(HomeUiEvent.ArchiveSelectedNotes)
-            }
-        ),
+        openedNoteId = openedNoteId,
+        appBarSelection = NoteListTopAppBarSelection(),
         screenSelection = NoteListScreenSelection(
             noteSelection = NoteSelection(
                 noteStyle = NoteStyle.Outlined,
@@ -89,9 +69,6 @@ fun NotesRoute(
                 }
             ),
             listStyle = ListStyle.Column,
-            onAddNote = {
-                //navController.navigateToNoteDetail(noteId = ArgumentDefaultValues.NewNote)
-            },
             snackbarHostState = snackbarHostState,
             selectedNoteWrappers = listOf()
         )

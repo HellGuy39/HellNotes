@@ -95,11 +95,11 @@ fun NoteListTopAppBar(
 }
 
 data class NoteListTopAppBarSelection(
-    val listStyle: ListStyle,
-    val onCancelSelection: () -> Unit,
-    val onDeleteSelected: () -> Unit,
-    val onArchive: () -> Unit,
-    val onSearch: () -> Unit,
-    val onNavigation: () -> Unit,
-    val onChangeListStyle: () -> Unit
+    val listStyle: ListStyle = ListStyle.Column,
+    val onCancelSelection: () -> Unit = {},
+    val onDeleteSelected: () -> Unit = {},
+    val onArchive: () -> Unit = {},
+    val onSearch: () -> Unit = {},
+    val onNavigation: () -> Unit = {},
+    val onChangeListStyle: () -> Unit = {}
 )

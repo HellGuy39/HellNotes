@@ -30,6 +30,7 @@ import com.hellguy39.hellnotes.feature.home.list.notes.components.NoteListTopApp
 @Composable
 fun NoteListScreen(
     uiState: NotesUiState,
+    openedNoteId: Long,
     appBarSelection: NoteListTopAppBarSelection,
     screenSelection: NoteListScreenSelection
 ) {
@@ -64,9 +65,9 @@ fun NoteListScreen(
                 }
                 is NoteListState.Success -> {
                     HNNotesList(
-                        modifier = Modifier
-                            .fillMaxSize()
+                        modifier = Modifier.fillMaxSize()
                             .padding(horizontal = 4.dp),
+                        openedNoteId = openedNoteId,
                         innerPadding = innerPadding,
                         noteSelection = screenSelection.noteSelection,
                         pinnedNoteWrappers = uiState.listState.pinnedNoteWrappers,
@@ -79,31 +80,6 @@ fun NoteListScreen(
                 }
             }
         },
-//        floatingActionButton = {
-//
-//            val isFabExpanded by derivedStateOf {
-//                if (screenSelection.listStyle == ListStyle.Column)
-//                    lazyListState.firstVisibleItemIndex == 0
-//                else
-//                    lazyStaggeredGridState.firstVisibleItemIndex == 0
-//            }
-//
-//            ExtendedFloatingActionButton(
-//                text = {
-//                    Text(
-//                        text = "New note"
-//                    )
-//                },
-//                icon = {
-//                    Icon(
-//                        painter = painterResource(id = HellNotesIcons.Add),
-//                        contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote)
-//                    )
-//                },
-//                onClick = screenSelection.onAddNote,
-//                expanded = isFabExpanded
-//            )
-//        },
 //        snackbarHost = { CustomSnackbarHost(state = screenSelection.snackbarHostState) }
     )
 }
@@ -113,5 +89,4 @@ data class NoteListScreenSelection(
     val noteSelection: NoteSelection,
     val listStyle: ListStyle,
     val selectedNoteWrappers: List<NoteWrapper>,
-    val onAddNote: () -> Unit,
 )

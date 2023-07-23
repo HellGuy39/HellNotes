@@ -40,7 +40,10 @@ fun NoteEditScreen(
                 noteWrapperState = uiState.noteWrapperState,
                 scrollBehavior = scrollBehavior,
                 topAppBarSelection = NoteEditTopBarSelection(
-                    onNavigationButtonClick = onCloseNoteEdit,
+                    onNavigationButtonClick = {
+                        noteEditViewModel.send(NoteEditUiEvent.CloseNote)
+                        onCloseNoteEdit()
+                    },
                     onPin = {},
                     onArchive = {},
                     onReminder = {}
@@ -55,10 +58,10 @@ fun NoteEditScreen(
                         listState = listState,
                         contentSelection = NoteDetailContentSelection(
                             onTitleTextChanged = { text ->
-                                noteEditViewModel.send(NoteDetailUiEvent.EditNoteTitle(text))
+                                noteEditViewModel.send(NoteEditUiEvent.EditNoteTitle(text))
                             },
                             onNoteTextChanged = { text ->
-                                noteEditViewModel.send(NoteDetailUiEvent.EditNoteContent(text))
+                                noteEditViewModel.send(NoteEditUiEvent.EditNoteContent(text))
                             },
                             onReminderClick = { reminder -> },
                             onLabelClick = { label -> },
@@ -77,6 +80,7 @@ fun NoteEditScreen(
                         noteWrapperState = uiState.noteWrapperState,
                     )
                 }
+
                 is NoteWrapperState.Empty -> Unit
             }
         },
@@ -85,8 +89,12 @@ fun NoteEditScreen(
                 noteWrapperState = uiState.noteWrapperState,
                 lazyListState = listState,
                 bottomBarSelection = NoteEditBottomBarSelection(
-                    onMenu = {},
-                    onAttachment = {}
+                    onMenu = {
+                        noteEditViewModel.send(NoteEditUiEvent.OpenMenuBottomSheet(true))
+                    },
+                    onAttachment = {
+                        noteEditViewModel.send(NoteEditUiEvent.OpenAttachmentBottomSheet(true))
+                    }
                 )
             )
         },
