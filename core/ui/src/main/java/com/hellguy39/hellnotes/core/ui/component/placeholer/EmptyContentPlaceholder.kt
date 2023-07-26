@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun EmptyContentPlaceholder(
     modifier: Modifier = Modifier,
-    heroIcon: Painter,
+    heroIcon: Painter? = null,
     message: String,
     heroIconSize: Dp = 128.dp,
     actions: (@Composable RowScope.() -> Unit)? = null
@@ -25,13 +25,15 @@ fun EmptyContentPlaceholder(
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            painter = heroIcon,
-            contentDescription = null,
-            modifier = Modifier
-                .size(heroIconSize),
-            tint = MaterialTheme.colorScheme.primary
-        )
+        if (heroIcon != null) {
+            Icon(
+                painter = heroIcon,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(heroIconSize),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
         Text(
             text = message,
             style = MaterialTheme.typography.bodyLarge,

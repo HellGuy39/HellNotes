@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -83,18 +84,18 @@ fun HNDrawerSheet(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(end = MaterialTheme.spacing.small),
+            .padding(top = MaterialTheme.spacing.small, end = MaterialTheme.spacing.small),
         horizontalArrangement = Arrangement.End
     ) {
-        FilledTonalIconButton(onClick = onSettingsClick) {
-            Icon(
-                painter = painterResource(id = HellNotesIcons.Settings),
-                contentDescription = null
-            )
-        }
         FilledTonalIconButton(onClick = onAboutClick) {
             Icon(
                 painter = painterResource(id = HellNotesIcons.Info),
+                contentDescription = null
+            )
+        }
+        FilledIconButton(onClick = onSettingsClick) {
+            Icon(
+                painter = painterResource(id = HellNotesIcons.Settings),
                 contentDescription = null
             )
         }

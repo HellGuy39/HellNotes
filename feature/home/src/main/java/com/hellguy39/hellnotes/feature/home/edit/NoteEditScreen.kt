@@ -1,15 +1,31 @@
 package com.hellguy39.hellnotes.feature.home.edit
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.ui.component.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
+import com.hellguy39.hellnotes.core.ui.value.LocalElevation
+import com.hellguy39.hellnotes.core.ui.value.elevation
+import com.hellguy39.hellnotes.core.ui.value.spacing
+import com.hellguy39.hellnotes.core.ui.window.rememberContentType
 import com.hellguy39.hellnotes.feature.home.edit.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.home.edit.components.NoteDetailContentSelection
 import com.hellguy39.hellnotes.feature.home.edit.components.NoteEditBottomBar
@@ -31,22 +47,58 @@ fun NoteEditScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
     val listState = rememberLazyListState()
 
+    val elevation = LocalElevation.current
+    val contentType = rememberContentType()
+
+    val startElevation by remember {
+        mutableStateOf(if (contentType == HNContentType.DualPane) elevation.level1 else elevation.level0)
+    }
+    val endElevation by remember {
+        mutableStateOf(if (contentType == HNContentType.DualPane) elevation.level3 else elevation.level2)
+    }
+
+    val containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(startElevation)
+    val scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(endElevation)
+
+    val modifier = if (contentType == HNContentType.DualPane)
+        Modifier
+            .padding(
+                bottom = MaterialTheme.spacing.medium,
+                end = MaterialTheme.spacing.medium,
+                start = MaterialTheme.spacing.medium
+            )
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .clip(MaterialTheme.shapes.extraLarge)
+    else Modifier
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .then(modifier),
+        containerColor = containerColor,
         topBar = {
             NoteEditTopBar(
                 noteWrapperState = uiState.noteWrapperState,
                 scrollBehavior = scrollBehavior,
+                contentType = contentType,
+                containerColor = containerColor,
+                scrolledContainerColor = scrolledContainerColor,
                 topAppBarSelection = NoteEditTopBarSelection(
                     onNavigationButtonClick = {
                         noteEditViewModel.send(NoteEditUiEvent.CloseNote)
                         onCloseNoteEdit()
                     },
-                    onPin = {},
-                    onArchive = {},
-                    onReminder = {}
+                    onPin = {
+                        noteEditViewModel.send(NoteEditUiEvent.UpdateIsPinned)
+                    },
+                    onArchive = {
+                        noteEditViewModel.send(NoteEditUiEvent.UpdateIsArchived)
+                    },
+                    onReminder = {
+                        //noteEditViewModel.send(NoteEditUiEvent.)
+                    }
                 )
             )
         },
@@ -63,7 +115,7 @@ fun NoteEditScreen(
                             onNoteTextChanged = { text ->
                                 noteEditViewModel.send(NoteEditUiEvent.EditNoteContent(text))
                             },
-                            onReminderClick = { reminder -> },
+                            onReminderClick = { reminder ->  },
                             onLabelClick = { label -> },
                         ),
                         checklistSelection = NoteDetailChecklistSelection(
@@ -81,13 +133,23 @@ fun NoteEditScreen(
                     )
                 }
 
-                is NoteWrapperState.Empty -> Unit
+                is NoteWrapperState.Empty -> {
+                    EmptyContentPlaceholder(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(32.dp),
+                        message = "Select note for start editing"
+                    )
+                }
             }
         },
         bottomBar = {
             NoteEditBottomBar(
                 noteWrapperState = uiState.noteWrapperState,
                 lazyListState = listState,
+                contentType = contentType,
+                containerColor = containerColor,
+                scrolledContainerColor = scrolledContainerColor,
                 bottomBarSelection = NoteEditBottomBarSelection(
                     onMenu = {
                         noteEditViewModel.send(NoteEditUiEvent.OpenMenuBottomSheet(true))

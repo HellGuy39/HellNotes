@@ -11,5 +11,7 @@ fun Project.installAndroidCore() {
         add(Configuration.Implementation, Libs.AndroidX.LifecycleKtx)
         add(Configuration.Implementation, Libs.AndroidX.AppCompat)
         add(Configuration.Implementation, Libs.AndroidX.WorkKtx)
+
+        add(Configuration.DebugImplementation, Libs.LeakCanary.LeakCanaryAndroid)
     }
 }

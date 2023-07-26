@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,12 +21,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.common.date.HNDateHandler
+import com.hellguy39.hellnotes.core.ui.model.HNContentType
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.value.elevation
@@ -34,6 +37,9 @@ import com.hellguy39.hellnotes.feature.home.edit.NoteWrapperState
 @Composable
 fun NoteEditBottomBar(
     noteWrapperState: NoteWrapperState,
+    contentType: HNContentType,
+    containerColor: Color,
+    scrolledContainerColor: Color,
     lazyListState: LazyListState,
     bottomBarSelection: NoteEditBottomBarSelection
 ) {
@@ -46,16 +52,19 @@ fun NoteEditBottomBar(
     val fraction = if (isAtBottom) 1f else 0f
     val appBarContainerColor by animateColorAsState(
         targetValue = lerp(
-            MaterialTheme.colorScheme.surfaceColorAtElevation(MaterialTheme.elevation.level2),
-            MaterialTheme.colorScheme.surfaceColorAtElevation(MaterialTheme.elevation.level0),
+            scrolledContainerColor,
+            containerColor,
             FastOutLinearInEasing.transform(fraction)
         ),
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "label"
     )
 
+    val modifier = if (contentType == HNContentType.DualPane) Modifier.navigationBarsPadding() else Modifier
+
     Surface(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .then(modifier),
         color = appBarContainerColor
     ) {
         Row(

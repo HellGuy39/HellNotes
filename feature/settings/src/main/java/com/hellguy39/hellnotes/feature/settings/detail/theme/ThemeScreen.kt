@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.feature.settings.detail.general
+package com.hellguy39.hellnotes.feature.settings.detail.theme
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,17 +7,16 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.component.items.HNListItem
+import com.hellguy39.hellnotes.core.ui.component.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.component.top_bar.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GeneralScreen() {
+fun AppearanceScreen() {
     Scaffold(
         topBar = {
-            HNTopAppBar(title = "General")
+            HNTopAppBar(title = "Appearance")
         },
         content = { innerPadding ->
             LazyColumn(
@@ -28,20 +27,17 @@ fun GeneralScreen() {
                     HNListItem(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {},
-                        title = stringResource(id = HellNotesStrings.Setting.Language),
+                        title = "Theme",
                         subtitle = "-subtitle-",
                     )
                 }
                 item {
-                    HNListItem(
+                    HNSwitchItem(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = {},
-                        title = stringResource(id = HellNotesStrings.MenuItem.Backup),
-                        subtitle = stringResource(
-                            id = HellNotesStrings.Subtitle.LastCopy,
-                            "-date-"
-                            //if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Value.Never) else DateTimeUtils.formatBest(uiState.lastBackupDate)
-                        )
+                        title = "Material You",
+                        checked = true,
+                        enabled = true,
+                        onClick = {  },
                     )
                 }
             }

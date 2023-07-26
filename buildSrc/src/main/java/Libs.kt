@@ -19,11 +19,19 @@ object Libs {
         const val Work = "androidx.work:work-testing:$workVersion"
     }
 
-    object SquareUp {
+    object LeakCanary {
 
-        private const val moshiVersion = "1.14.0"
-        const val Moshi = "com.squareup.moshi:moshi:$moshiVersion"
-        const val MoshiKotlin = "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+        private const val version = "2.12"
+
+        const val LeakCanaryAndroid = "com.squareup.leakcanary:leakcanary-android:$version"
+
+    }
+
+    object Moshi {
+        private const val version = "1.14.0"
+
+        const val Moshi = "com.squareup.moshi:moshi:$version"
+        const val MoshiKotlin = "com.squareup.moshi:moshi-kotlin:$version"
     }
 
     object Kotlin {

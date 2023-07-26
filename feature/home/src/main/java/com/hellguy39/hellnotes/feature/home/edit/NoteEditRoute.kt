@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.feature.home.edit
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -13,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hellguy39.hellnotes.core.ui.component.dialog.HNAdaptiveDialog
 import com.hellguy39.hellnotes.core.ui.component.dialog.HNAlertDialog
 import com.hellguy39.hellnotes.core.ui.component.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
@@ -108,8 +110,15 @@ fun NoteEditRoute(
 //    )
 //
 
+    HNAdaptiveDialog(
+        isOpen = uiState.noteEditDialogState.reminderEditDialogState.isOpen,
+        onClose = {},
+    ) {
+        Text("Hello")
+    }
+
     HNAlertDialog(
-        isOpen = uiState.isDeleteAlertDialogOpen,
+        isOpen = uiState.noteEditDialogState.isDeleteAlertDialogOpen,
         heroIcon = painterResource(id = HellNotesIcons.Delete),
         title = stringResource(id = HellNotesStrings.Title.DeleteThisNote),
         message = stringResource(id = HellNotesStrings.Supporting.DeleteNote),
@@ -135,7 +144,7 @@ fun NoteEditRoute(
             onAddRecording = { toast.show() },
             onAddPlace = { toast.show() },
             onAddChecklist = { noteEditViewModel.send(NoteEditUiEvent.AddChecklist) },
-            onAddLabel = {
+            onAddLabel = { noteEditViewModel.send(NoteEditUiEvent.AddLabel)
 //            uiState.let { state ->
 //                if (state is NoteDetailUiState.Success) {
 //                    TODO()
@@ -151,6 +160,7 @@ fun NoteEditRoute(
         onDismiss = { noteEditViewModel.send(NoteEditUiEvent.OpenMenuBottomSheet(false)) },
         selection = MenuBottomSheetSelection(
             onShare = {
+                noteEditViewModel.send(NoteEditUiEvent.Share)
 //                uiState.let { state ->
 //                    if (state is NoteDetailUiState.Success) {
 //                        if (state.wrapper.note.isNoteValid()) {
@@ -169,6 +179,7 @@ fun NoteEditRoute(
                 noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(true))
             },
             onMakeACopy = {
+                noteEditViewModel.send(NoteEditUiEvent.MakeACopy)
 //                noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
 //                    onCopied = { id ->
 //                        TODO()
@@ -178,6 +189,7 @@ fun NoteEditRoute(
 //                ))
             },
             onColor = {
+                noteEditViewModel.send(NoteEditUiEvent.OpenColorDialog(true))
                 //colorPickerState.show()
             }
         )

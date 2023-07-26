@@ -1,11 +1,14 @@
 package com.hellguy39.hellnotes.core.ui.window
 
 import android.app.Activity
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.hellguy39.hellnotes.core.ui.model.DevicePosture
@@ -29,25 +32,36 @@ fun isSeparating(foldFeature: FoldingFeature?): Boolean {
 }
 
 @Composable
-fun rememberWindowInfo(): WindowInfo = calculateWindowInfo()
+fun rememberWindowInfo(): WindowInfo {
+    val configuration = LocalConfiguration.current
+    return remember { calculateWindowInfo(configuration) }
+}
 
 @Composable
-fun rememberFoldingDevicePosture(): DevicePosture = calculateDevicePosture()
+fun rememberFoldingDevicePosture(): DevicePosture {
+    val displayFeatures = calculateDisplayFeatures(activity = LocalContext.current as Activity)
+    return remember { calculateDevicePosture(displayFeatures) }
+}
 
 @Composable
 fun rememberNavigationType(): HNNavigationType {
 
-    val devicePosture = calculateDevicePosture()
-    val windowInfo = calculateWindowInfo()
+    val configuration = LocalConfiguration.current
+    val displayFeatures = calculateDisplayFeatures(activity = LocalContext.current as Activity)
 
-    return when (windowInfo.screenWidthInfo) {
-        is WindowInfo.WindowType.Compact -> HNNavigationType.BottomNavigation
+    val devicePosture = calculateDevicePosture(displayFeatures)
+    val windowInfo = calculateWindowInfo(configuration)
 
-        is WindowInfo.WindowType.Medium -> HNNavigationType.NavigationRail
-        is WindowInfo.WindowType.Expanded -> if (devicePosture is DevicePosture.BookPosture) {
-            HNNavigationType.NavigationRail
-        } else {
-            HNNavigationType.PermanentNavigationDrawer
+    return remember {
+        when (windowInfo.screenWidthInfo) {
+            is WindowInfo.WindowType.Compact -> HNNavigationType.BottomNavigation
+
+            is WindowInfo.WindowType.Medium -> HNNavigationType.NavigationRail
+            is WindowInfo.WindowType.Expanded -> if (devicePosture is DevicePosture.BookPosture) {
+                HNNavigationType.NavigationRail
+            } else {
+                HNNavigationType.PermanentNavigationDrawer
+            }
         }
     }
 }
@@ -55,19 +69,22 @@ fun rememberNavigationType(): HNNavigationType {
 @Composable
 fun rememberNavigationContentPosition(): HNNavigationContentPosition {
 
-    val windowInfo = calculateWindowInfo()
+    val configuration = LocalConfiguration.current
+    val windowInfo = calculateWindowInfo(configuration)
 
-    return when (windowInfo.screenHeightInfo) {
-        is WindowInfo.WindowType.Compact -> {
-            HNNavigationContentPosition.Top
-        }
+    return remember {
+        when (windowInfo.screenHeightInfo) {
+            is WindowInfo.WindowType.Compact -> {
+                HNNavigationContentPosition.Top
+            }
 
-        is WindowInfo.WindowType.Medium, WindowInfo.WindowType.Expanded -> {
-            HNNavigationContentPosition.Center
-        }
+            is WindowInfo.WindowType.Medium, WindowInfo.WindowType.Expanded -> {
+                HNNavigationContentPosition.Center
+            }
 
-        else -> {
-            HNNavigationContentPosition.Top
+            else -> {
+                HNNavigationContentPosition.Top
+            }
         }
     }
 }
@@ -75,25 +92,27 @@ fun rememberNavigationContentPosition(): HNNavigationContentPosition {
 @Composable
 fun rememberContentType(): HNContentType {
 
-    val windowInfo = calculateWindowInfo()
-    val devicePosture = calculateDevicePosture()
+    val configuration = LocalConfiguration.current
+    val displayFeatures = calculateDisplayFeatures(activity = LocalContext.current as Activity)
 
-    return when (windowInfo.screenWidthInfo) {
-        is WindowInfo.WindowType.Compact -> HNContentType.SinglePane
-        is WindowInfo.WindowType.Medium -> if (devicePosture != DevicePosture.NormalPosture) {
-            HNContentType.DualPane
-        } else {
-            HNContentType.SinglePane
+    val windowInfo = calculateWindowInfo(configuration)
+    val devicePosture = calculateDevicePosture(displayFeatures)
+
+    return remember {
+        when (windowInfo.screenWidthInfo) {
+            is WindowInfo.WindowType.Compact -> HNContentType.SinglePane
+            is WindowInfo.WindowType.Medium -> when (devicePosture) {
+                DevicePosture.NormalPosture -> HNContentType.SinglePane
+                else -> HNContentType.DualPane
+            }
+            is WindowInfo.WindowType.Expanded -> HNContentType.DualPane
+            else -> HNContentType.SinglePane
         }
-
-        is WindowInfo.WindowType.Expanded -> HNContentType.DualPane
-        else -> HNContentType.SinglePane
     }
 }
 
-@Composable
-private fun calculateDevicePosture(): DevicePosture {
-    val displayFeatures = calculateDisplayFeatures(activity = LocalContext.current as Activity)
+
+private fun calculateDevicePosture(displayFeatures: List<DisplayFeature>): DevicePosture {
 
     val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
 
@@ -108,9 +127,7 @@ private fun calculateDevicePosture(): DevicePosture {
     }
 }
 
-@Composable
-private fun calculateWindowInfo(): WindowInfo {
-    val configuration = LocalConfiguration.current
+private fun calculateWindowInfo(configuration: Configuration): WindowInfo {
     return WindowInfo(
         screenWidthInfo = when {
             configuration.screenWidthDp < 600 -> WindowInfo.WindowType.Compact

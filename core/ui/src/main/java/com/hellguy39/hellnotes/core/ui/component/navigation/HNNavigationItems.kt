@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.core.ui.component.navigation
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -12,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.hellguy39.hellnotes.core.ui.model.Screen
+import com.hellguy39.hellnotes.core.ui.text.UiText
 
 @Composable
 fun RowScope.HNNavigationBarItem(
@@ -23,9 +26,9 @@ fun RowScope.HNNavigationBarItem(
 ) {
     NavigationBarItem(
         icon = {
-            item.icon?.let { icon ->
+            item.iconId?.let { icon ->
                 Icon(
-                    painter = icon,
+                    painter = painterResource(id = icon),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -33,7 +36,7 @@ fun RowScope.HNNavigationBarItem(
         },
         label = {
             Text(
-                text = item.title,
+                text = item.title.asString(),
                 style = MaterialTheme.typography.labelLarge
             )
         },
@@ -57,9 +60,9 @@ fun HNNavigationRailItem(
         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
         alwaysShowLabel = isSelected,
         icon = {
-            item.icon?.let { icon ->
+            item.iconId?.let { icon ->
                 Icon(
-                    painter = icon,
+                    painter = painterResource(id = icon),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -67,7 +70,7 @@ fun HNNavigationRailItem(
         },
         label = {
             Text(
-                text = item.title,
+                text = item.title.asString(),
                 style = MaterialTheme.typography.labelLarge
             )
         },
@@ -84,9 +87,9 @@ fun HNNavigationDrawerItem(
 ) {
     NavigationDrawerItem(
         icon = {
-            item.icon?.let { icon ->
+            item.iconId?.let { icon ->
                 Icon(
-                    painter = icon,
+                    painter = painterResource(id = icon),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -94,7 +97,7 @@ fun HNNavigationDrawerItem(
         },
         label = {
             Text(
-                text = item.title,
+                text = item.title.asString(),
                 style = MaterialTheme.typography.labelLarge
             )
         },
@@ -114,8 +117,8 @@ fun HNNavigationDrawerItem(
 
 data class HNNavigationItemSelection(
     val screen: Screen,
-    val title: String = "",
-    val subtitle: String = "",
-    val icon: Painter? = null,
+    val title: UiText = UiText.Empty,
+    val subtitle: UiText = UiText.Empty,
+    @DrawableRes val iconId: Int? = null,
     val onClick: (item: HNNavigationItemSelection) -> Unit = {}
 )

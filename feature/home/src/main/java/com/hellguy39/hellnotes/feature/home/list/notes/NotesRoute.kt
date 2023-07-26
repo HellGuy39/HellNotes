@@ -5,8 +5,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
@@ -30,6 +28,7 @@ fun NotesRoute(
         uiState = uiState,
         openedNoteId = openedNoteId,
         appBarSelection = NoteListTopAppBarSelection(),
+        noteListViewModel = noteListViewModel,
         screenSelection = NoteListScreenSelection(
             noteSelection = NoteSelection(
                 noteStyle = NoteStyle.Outlined,

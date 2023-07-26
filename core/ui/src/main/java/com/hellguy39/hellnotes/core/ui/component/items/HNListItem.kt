@@ -31,20 +31,25 @@ fun HNListItem(
     subtitle: String = "",
     onClick: () -> Unit = {},
     iconTint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    iconSize: Dp = 32.dp
+    iconSize: Dp = 32.dp,
+    innerPadding: PaddingValues = PaddingValues(MaterialTheme.spacing.medium)
 ) {
     Box(
-        modifier = Modifier.clickable { onClick() },
+        modifier = Modifier
+            .clickable(
+                enabled = true,
+                onClick = onClick
+            ),
     ) {
         Row(
-            modifier = Modifier
-                .padding(MaterialTheme.spacing.medium)
+            modifier = Modifier.padding(innerPadding)
                 .then(modifier),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(
-                space = MaterialTheme.spacing.medium,
-                alignment = Alignment.CenterHorizontally
-            )
+            horizontalArrangement = Arrangement
+                .spacedBy(
+                    space = MaterialTheme.spacing.medium,
+                    alignment = Alignment.Start
+                )
         ) {
             if (heroIcon != null) {
                 Icon(
@@ -55,12 +60,16 @@ fun HNListItem(
                 )
             }
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement
+                    .spacedBy(
+                        alignment = Alignment.CenterVertically,
+                        space = MaterialTheme.spacing.extraSmall
+                    )
             ) {
                 if (title.isNotEmpty()) {
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier,
                         text = title,
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Start
@@ -68,9 +77,7 @@ fun HNListItem(
                 }
                 if (subtitle.isNotEmpty()) {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .alpha(MaterialTheme.alpha.level3),
+                        modifier = Modifier.alpha(MaterialTheme.alpha.level3),
                         text = subtitle,
                         style = MaterialTheme.typography.bodySmall,
                         textAlign = TextAlign.Start

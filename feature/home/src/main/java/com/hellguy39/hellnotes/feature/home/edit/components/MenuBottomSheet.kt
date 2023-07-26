@@ -27,7 +27,7 @@ fun MenuBottomSheet(
     selection: MenuBottomSheetSelection = MenuBottomSheetSelection()
 ) {
 
-    if (!uiState.isMenuBottomSheetOpen) {
+    if (!uiState.noteEditDialogState.isMenuBottomSheetOpen) {
         return
     }
 

@@ -26,19 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityComponent
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
-    @EntryPoint
-    @InstallIn(ActivityComponent::class)
-    interface ViewModelFactoryProvider {
-
-        fun mainViewModelFactory(): MainViewModel.Factory
-
-        fun settingsViewModelFactory(): SettingsViewModel.Factory
-
-        fun aboutViewModelFactory(): AboutViewModel.Factory
-
-    }
+class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -6,25 +6,8 @@ import androidx.navigation.NavController
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import javax.inject.Inject
 
-class AboutViewModel @AssistedInject constructor(
-    @Assisted private val globalNavController: NavController,
-): ViewModel() {
+class AboutViewModel @Inject constructor(): ViewModel() {
 
-    @AssistedFactory
-    interface Factory {
-        fun create(navController: NavController): AboutViewModel
-    }
-
-    companion object {
-        @Suppress("UNCHECKED_CAST")
-        fun provideFactory(
-            assistedFactory: Factory,
-            navController: NavController
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(navController) as T
-            }
-        }
-    }
 }

@@ -9,6 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.ui.component.divider.HNVerticalDivider
+import com.hellguy39.hellnotes.core.ui.value.Spacing
+import com.hellguy39.hellnotes.core.ui.value.spacing
 
 @Composable
 fun HNSwitchItem(
@@ -18,7 +21,8 @@ fun HNSwitchItem(
     checked: Boolean,
     onClick: () -> Unit = {},
     thumbCheckedIcon: Painter? = null,
-    thumbUncheckedIcon: Painter? = null
+    thumbUncheckedIcon: Painter? = null,
+    innerPadding: PaddingValues = PaddingValues(MaterialTheme.spacing.medium)
 ) {
     Box(
         modifier = Modifier
@@ -29,14 +33,14 @@ fun HNSwitchItem(
             )
     ) {
         Row(
-            modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(innerPadding)
+                .then(modifier),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier,
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)
             ) {
                 Text(
                     modifier = Modifier,
@@ -45,30 +49,40 @@ fun HNSwitchItem(
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = MaterialTheme.spacing.medium,
+                    alignment = Alignment.Start
+                ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                HNVerticalDivider(
+                    modifier = Modifier.height(40.dp)
+                )
 
-            Switch(
-                checked = checked,
-                onCheckedChange = null,
-                enabled = enabled,
-                thumbContent = if (checked && thumbCheckedIcon != null) {
-                    {
-                        Icon(
-                            painter = thumbCheckedIcon,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                        )
-                    }
-                } else if (thumbUncheckedIcon != null) {
-                    {
-                        Icon(
-                            painter = thumbUncheckedIcon,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                        )
-                    }
-                } else null
-            )
+                Switch(
+                    checked = checked,
+                    onCheckedChange = null,
+                    enabled = enabled,
+                    thumbContent = if (checked && thumbCheckedIcon != null) {
+                        {
+                            Icon(
+                                modifier = Modifier.size(SwitchDefaults.IconSize),
+                                painter = thumbCheckedIcon,
+                                contentDescription = null,
+                            )
+                        }
+                    } else if (thumbUncheckedIcon != null) {
+                        {
+                            Icon(
+                                modifier = Modifier.size(SwitchDefaults.IconSize),
+                                painter = thumbUncheckedIcon,
+                                contentDescription = null,
+                            )
+                        }
+                    } else null
+                )
+            }
         }
     }
 }

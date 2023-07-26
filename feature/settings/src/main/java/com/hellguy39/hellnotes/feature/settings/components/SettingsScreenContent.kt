@@ -106,78 +106,7 @@ package com.hellguy39.hellnotes.feature.settings.components
 //                    title = stringResource(id = HellNotesStrings.Label.Appearance),
 //                    icon = painterResource(id = HellNotesIcons.Palette)
 //                )
-//                Box(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    contentAlignment = Alignment.Center
-//                ) {
-//                    Surface(
-//                        modifier = Modifier
-//                            .padding(vertical = 16.dp, horizontal = 16.dp)
-//                            .clip(shape = RoundedCornerShape(24.dp)),
-//                        color = MaterialTheme.colorScheme.onSurface
-//                    ) {
-//                        Row(
-//                            modifier = Modifier
-//                                .padding(horizontal = 4.dp, vertical = 4.dp),
-//                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-//                        ) {
-//                            Box(
-//                                modifier = Modifier
-//                                    .width(96.dp)
-//                                    .clip(RoundedCornerShape(24.dp))
-//                                    .clickable(
-//                                        enabled = true,
-//                                        onClick = { selection.onThemeToggle(ThemeState.Light) }
-//                                    ),
-//                                contentAlignment = Alignment.Center
-//                            ) {
-//                                Text(
-//                                    modifier = Modifier
-//                                        .padding(8.dp),
-//                                    text = "Light",
-//                                    color = MaterialTheme.colorScheme.surface,
-//                                    style = MaterialTheme.typography.labelLarge
-//                                )
-//                            }
-//                            Box(
-//                                modifier = Modifier
-//                                    .width(96.dp)
-//                                    .clip(shape = RoundedCornerShape(24.dp))
-//                                    .clickable(
-//                                        enabled = true,
-//                                        onClick = { selection.onThemeToggle(ThemeState.Dark) }
-//                                    ),
-//                                contentAlignment = Alignment.Center
-//                            ) {
-//                                Text(
-//                                    modifier = Modifier
-//                                        .padding(8.dp),
-//                                    text = "Dark",
-//                                    color = MaterialTheme.colorScheme.surface,
-//                                    style = MaterialTheme.typography.labelLarge
-//                                )
-//                            }
-//                            Box(
-//                                modifier = Modifier
-//                                    .width(96.dp)
-//                                    .clip(shape = RoundedCornerShape(24.dp))
-//                                    .background(color = MaterialTheme.colorScheme.surface)
-//                                    .clickable(
-//                                        enabled = true,
-//                                        onClick = { selection.onThemeToggle(ThemeState.System) }
-//                                    ),
-//                                contentAlignment = Alignment.Center
-//                            ) {
-//                                Text(
-//                                    modifier = Modifier.padding(8.dp),
-//                                    text = "System",
-//                                    color = MaterialTheme.colorScheme.onSurface,
-//                                    style = MaterialTheme.typography.labelLarge
-//                                )
-//                            }
-//                        }
-//                    }
-//                }
+//
 //
 //                val isChecked = true
 //

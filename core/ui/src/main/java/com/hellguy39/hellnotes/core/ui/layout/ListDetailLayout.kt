@@ -89,6 +89,7 @@ fun ListDetail(
     Box(modifier = modifier) {
         if (showList && showDetail) {
             TwoPane(
+                modifier = Modifier.fillMaxSize(),
                 first = {
                     start()
                 },
@@ -98,7 +99,6 @@ fun ListDetail(
                 strategy = twoPaneStrategy,
                 displayFeatures = displayFeatures,
                 foldAwareConfiguration = FoldAwareConfiguration.VerticalFoldsOnly,
-                modifier = Modifier.fillMaxSize(),
             )
         } else if (showList) {
             start()

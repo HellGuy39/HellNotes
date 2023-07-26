@@ -15,6 +15,7 @@ import com.hellguy39.hellnotes.core.model.isNoteWrapperInvalid
 import com.hellguy39.hellnotes.core.model.local.database.Checklist
 import com.hellguy39.hellnotes.core.model.local.database.ChecklistItem
 import com.hellguy39.hellnotes.core.model.local.database.Note
+import com.hellguy39.hellnotes.core.model.local.database.Reminder
 import com.hellguy39.hellnotes.core.model.local.database.isChecklistValid
 import com.hellguy39.hellnotes.core.model.toNoteWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,9 +45,11 @@ class NoteEditViewModel @Inject constructor(
     private val reminds = reminderRepository.getAllRemindersStream()
     private val labels = labelRepository.getAllLabelsStream()
 
+    private val reminderEditDialogState = MutableStateFlow(ReminderEditDialogState())
     private val isDeleteAlertDialogOpen = MutableStateFlow(false)
     private val isMenuBottomSheetOpen = MutableStateFlow(false)
     private val isAttachmentBottomSheetOpen = MutableStateFlow(false)
+
     private val noteWrapperState = combine(
         note, reminds, labels, checklists
     ) { note, reminders, labels, checklists ->
@@ -65,18 +68,32 @@ class NoteEditViewModel @Inject constructor(
             initialValue = NoteWrapperState.Empty
         )
 
-
-    val uiState: StateFlow<NoteDetailUiState> = combine(
-        noteWrapperState,
+    private val noteEditDialogState = combine(
+        reminderEditDialogState,
         isMenuBottomSheetOpen,
         isAttachmentBottomSheetOpen,
         isDeleteAlertDialogOpen,
-    ) { noteWrapperState, isMenuBottomSheetOpen, isAttachmentBottomSheetOpen, isDeleteAlertDialogOpen ->
-        NoteDetailUiState(
-            noteWrapperState = noteWrapperState,
+    ) { reminderEditDialogState, isMenuBottomSheetOpen, isAttachmentBottomSheetOpen, isDeleteAlertDialogOpen ->
+        NoteEditDialogState(
+            reminderEditDialogState = reminderEditDialogState,
             isMenuBottomSheetOpen = isMenuBottomSheetOpen,
             isAttachmentBottomSheetOpen = isAttachmentBottomSheetOpen,
-            isDeleteAlertDialogOpen = isDeleteAlertDialogOpen
+            isDeleteAlertDialogOpen = isDeleteAlertDialogOpen,
+        )
+    }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = NoteEditDialogState()
+        )
+
+    val uiState: StateFlow<NoteDetailUiState> = combine(
+        noteWrapperState,
+        noteEditDialogState
+    ) { noteWrapperState, noteEditDialogState ->
+        NoteDetailUiState(
+            noteWrapperState = noteWrapperState,
+            noteEditDialogState = noteEditDialogState
         )
     }
         .stateIn(
@@ -105,9 +122,9 @@ class NoteEditViewModel @Inject constructor(
             is NoteEditUiEvent.UpdateChecklistItem ->
                 updateChecklistItem(uiEvent.checklist, uiEvent.oldItem, uiEvent.newItem)
 
-            is NoteEditUiEvent.UpdateIsArchived -> updateIsArchived(uiEvent.isArchived)
+            is NoteEditUiEvent.UpdateIsArchived -> updateIsArchived()
 
-            is NoteEditUiEvent.UpdateIsPinned -> updateIsPinned(uiEvent.isPinned)
+            is NoteEditUiEvent.UpdateIsPinned -> updateIsPinned()
 
             is NoteEditUiEvent.AddChecklist -> addChecklist()
 
@@ -130,7 +147,31 @@ class NoteEditViewModel @Inject constructor(
             is NoteEditUiEvent.OpenAttachmentBottomSheet -> openAttachmentBottomSheet(uiEvent.isOpen)
 
             is NoteEditUiEvent.OpenDeleteAlertDialog -> openDeleteAlertDialog(uiEvent.isOpen)
+
+            is NoteEditUiEvent.MakeACopy -> makeACopy()
+
+            is NoteEditUiEvent.Share -> share()
+
+            is NoteEditUiEvent.OpenColorDialog -> openColorDialog(uiEvent.isOpen)
+
+            is NoteEditUiEvent.AddLabel -> addLabel()
         }
+    }
+
+    private fun addLabel() {
+
+    }
+
+    private fun makeACopy() {
+
+    }
+
+    private fun share() {
+
+    }
+
+    private fun openColorDialog(isOpen: Boolean) {
+
     }
 
     private fun openDeleteAlertDialog(isOpen: Boolean) {
@@ -232,12 +273,14 @@ class NoteEditViewModel @Inject constructor(
         save()
     }
 
-    private fun updateIsArchived(isArchived: Boolean) {
+    private fun updateIsArchived() {
+        val isArchived = !note.value.isArchived
         note.update { note -> note.copy(isArchived = isArchived) }
         save()
     }
 
-    private fun updateIsPinned(isPinned: Boolean) {
+    private fun updateIsPinned() {
+        val isPinned = !note.value.isPinned
         note.update { note -> note.copy(isPinned = isPinned) }
         save()
     }
@@ -378,9 +421,9 @@ sealed class NoteEditUiEvent {
 
     data class EditNoteContent(val text: String) : NoteEditUiEvent()
 
-    data class UpdateIsPinned(val isPinned: Boolean) : NoteEditUiEvent()
+    object UpdateIsPinned: NoteEditUiEvent()
 
-    data class UpdateIsArchived(val isArchived: Boolean) : NoteEditUiEvent()
+    object UpdateIsArchived: NoteEditUiEvent()
 
     data class CheckAllChecklistItems(
         val checklist: Checklist, val isCheck: Boolean
@@ -414,13 +457,31 @@ sealed class NoteEditUiEvent {
 
     data class OpenDeleteAlertDialog(val isOpen: Boolean) : NoteEditUiEvent()
 
+    data class OpenColorDialog(val isOpen: Boolean) : NoteEditUiEvent()
+
+    object AddLabel : NoteEditUiEvent()
+
+    object Share : NoteEditUiEvent()
+
+    object MakeACopy : NoteEditUiEvent()
+
 }
 
 data class NoteDetailUiState(
     val noteWrapperState: NoteWrapperState = NoteWrapperState.Empty,
+    val noteEditDialogState: NoteEditDialogState = NoteEditDialogState()
+)
+
+data class NoteEditDialogState(
+    val reminderEditDialogState: ReminderEditDialogState = ReminderEditDialogState(),
     val isMenuBottomSheetOpen: Boolean = false,
     val isAttachmentBottomSheetOpen: Boolean = false,
     val isDeleteAlertDialogOpen: Boolean = false
+)
+
+data class ReminderEditDialogState(
+    val isOpen: Boolean = false,
+    val reminder: Reminder? = null
 )
 
 sealed class NoteWrapperState {

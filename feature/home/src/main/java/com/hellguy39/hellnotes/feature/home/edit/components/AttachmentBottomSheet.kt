@@ -26,7 +26,7 @@ fun AttachmentBottomSheet(
     selection: AttachmentBottomSheetSelection = AttachmentBottomSheetSelection()
 ) {
 
-    if (!uiState.isAttachmentBottomSheetOpen) {
+    if (!uiState.noteEditDialogState.isAttachmentBottomSheetOpen) {
         return
     }
 

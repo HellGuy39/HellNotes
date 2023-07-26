@@ -43,7 +43,7 @@ sealed class GraphScreen {
 
         object Security : Screen(route = "security")
 
-        object Theme : Screen(route = "theme")
+        object Appearance : Screen(route = "appearance")
 
         companion object {
 

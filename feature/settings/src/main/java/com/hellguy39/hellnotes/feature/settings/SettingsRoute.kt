@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.feature.settings
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,31 +15,36 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
-import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationItemSelection
 import com.hellguy39.hellnotes.core.ui.layout.ListDetail
 import com.hellguy39.hellnotes.core.ui.model.GraphScreen
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
+import com.hellguy39.hellnotes.core.ui.value.LocalSpacing
 import com.hellguy39.hellnotes.core.ui.value.spacing
+import com.hellguy39.hellnotes.core.ui.window.isExpandedWindowsSize
+import com.hellguy39.hellnotes.core.ui.window.rememberWindowInfo
 import com.hellguy39.hellnotes.feature.settings.detail.general.generalScreen
 import com.hellguy39.hellnotes.feature.settings.detail.security.securityScreen
-import com.hellguy39.hellnotes.feature.settings.detail.theme.themeScreen
+import com.hellguy39.hellnotes.feature.settings.detail.theme.appearanceScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SettingsRoute(
     settingsViewModel: SettingsViewModel,
@@ -51,6 +55,14 @@ fun SettingsRoute(
     currentDestination: NavDestination?
 ) {
     var isDetailOpen by rememberSaveable { mutableStateOf(false) }
+    val spacing = LocalSpacing.current
+    val windowInfo = rememberWindowInfo()
+
+    val horizontalListSpacing by remember {
+        mutableStateOf(
+            if (windowInfo.isExpandedWindowsSize()) spacing.medium else spacing.none
+        )
+    }
 
     ListDetail(
         modifier = Modifier,
@@ -63,7 +75,7 @@ fun SettingsRoute(
                 content = { innerPadding ->
                     LazyColumn(
                         modifier = Modifier.padding(
-                            horizontal = MaterialTheme.spacing.medium,
+                            horizontal = horizontalListSpacing,
                             vertical = MaterialTheme.spacing.medium
                         ),
                         contentPadding = innerPadding
@@ -84,7 +96,7 @@ fun SettingsRoute(
             )
         },
         detail = { isListVisible ->
-            AnimatedNavHost(
+            NavHost(
                 modifier = Modifier,
                 navController = settingsNavController,
                 startDestination = GraphScreen.Settings.start().route
@@ -93,7 +105,7 @@ fun SettingsRoute(
 
                 securityScreen(settingsViewModel)
 
-                themeScreen(settingsViewModel)
+                appearanceScreen(settingsViewModel)
             }
         },
         twoPaneStrategy = HorizontalTwoPaneStrategy(splitFraction = 1f / 3f, gapWidth = 0.dp),
@@ -131,9 +143,9 @@ fun CardSettingsNavigation(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            selection.icon?.let {
+            selection.iconId?.let { iconId ->
                 Icon(
-                    painter = it,
+                    painter = painterResource(id = iconId),
                     contentDescription = null
                 )
             }
@@ -142,11 +154,11 @@ fun CardSettingsNavigation(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = selection.title,
+                    text = selection.title.asString(),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    text = selection.subtitle,
+                    text = selection.subtitle.asString(),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

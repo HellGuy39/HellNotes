@@ -1,41 +1,41 @@
 package com.hellguy39.hellnotes.navigation.host
 
 import android.app.Activity
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.adaptive.calculateDisplayFeatures
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.hellguy39.hellnotes.activity.main.mainViewModel
 import com.hellguy39.hellnotes.core.ui.layout.BottomNavigationBarLayout
 import com.hellguy39.hellnotes.core.ui.layout.NavigationDrawerLayout
 import com.hellguy39.hellnotes.core.ui.layout.NavigationRailLayout
+import com.hellguy39.hellnotes.core.ui.model.GraphScreen
 import com.hellguy39.hellnotes.core.ui.model.HNNavigationType
 import com.hellguy39.hellnotes.core.ui.window.rememberContentType
 import com.hellguy39.hellnotes.core.ui.window.rememberNavigationType
 import com.hellguy39.hellnotes.feature.home.MainRoute
 import com.hellguy39.hellnotes.feature.home.MainViewModel
-import com.hellguy39.hellnotes.feature.home.util.getHomeNavigationItems
+import com.hellguy39.hellnotes.feature.home.util.rememberHomeNavigationItems
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainNavHost(
     globalNavController: NavController,
-    mainViewModel: MainViewModel = mainViewModel(navController = globalNavController)
+    mainViewModel: MainViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val mainNavController = rememberAnimatedNavController()
+    val mainNavController = rememberNavController()
     val displayFeatures = calculateDisplayFeatures(activity = context as Activity)
 
-    val navigationType = rememberNavigationType()
+    var navigationType = rememberNavigationType()
     val contentType = rememberContentType()
 
     val navBackStackEntry by mainNavController.currentBackStackEntryAsState()
@@ -44,7 +44,7 @@ fun MainNavHost(
     val isDetailOpen by mainViewModel.isDetailOpen.collectAsStateWithLifecycle()
     val openedNoteId by mainViewModel.openedNoteId.collectAsStateWithLifecycle()
 
-    val navItems = getHomeNavigationItems(
+    val navItems = rememberHomeNavigationItems(
         onItemClick = { item ->
             mainNavController.navigate(item.screen.route) {
                 popUpTo(mainNavController.graph.findStartDestination().id)
@@ -84,8 +84,8 @@ fun MainNavHost(
                 currentDestination = currentDestination,
                 content = { navHost(PaddingValues()) },
                 onNewNoteFabClick = mainViewModel::newNote,
-                onSettingsClick = mainViewModel::openSettings,
-                onAboutClick = mainViewModel::openAbout
+                onSettingsClick = { globalNavController.navigate(GraphScreen.Global.Settings.route) },
+                onAboutClick = { globalNavController.navigate(GraphScreen.Global.About.route) }
             )
         }
         is HNNavigationType.PermanentNavigationDrawer -> {
@@ -94,8 +94,9 @@ fun MainNavHost(
                 currentDestination = currentDestination,
                 content = { navHost(PaddingValues()) },
                 onNewNoteFabClick = mainViewModel::newNote,
-                onSettingsClick = mainViewModel::openSettings,
-                onAboutClick = mainViewModel::openAbout
+                onCloseMenuButtonClick = {  },
+                onSettingsClick = { globalNavController.navigate(GraphScreen.Global.Settings.route) },
+                onAboutClick = { globalNavController.navigate(GraphScreen.Global.About.route) }
             )
         }
     }
