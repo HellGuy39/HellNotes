@@ -47,12 +47,15 @@ private fun FullScreenDialog(
         return
 
     Dialog(
-        properties = DialogProperties(usePlatformDefaultWidth = false),
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            decorFitsSystemWindows = false
+        ),
         onDismissRequest = onClose,
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.surfaceColorAtElevation(MaterialTheme.elevation.level3)
+            color = MaterialTheme.colorScheme.surface//MaterialTheme.colorScheme.surfaceColorAtElevation(MaterialTheme.elevation.level3)
         ) {
             content()
         }

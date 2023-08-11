@@ -2,14 +2,14 @@ object Libs {
 
     object Testing {
 
-        private const val junitVersion = "1.1.5"
+        private const val junitVersion = "4.13.2"
         private const val espressoVersion = "3.5.1"
-        private const val adnroidJunitVersion = "4.13.2"
+        private const val androidJunitVersion = "1.1.5"
         private const val composeVersion = "1.4.2"
         private const val workVersion = "2.8.1"
 
         const val JUnit = "junit:junit:$junitVersion"
-        const val AndroidJUnit = "androidx.test.ext:junit:$junitVersion"
+        const val AndroidJUnit = "androidx.test.ext:junit:$androidJunitVersion"
         const val Espresso = "androidx.test.espresso:espresso-core:$espressoVersion"
 
         const val UiTestJUnit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
@@ -62,13 +62,13 @@ object Libs {
 
     object Compose {
 
-        const val CompilerVersion = "1.5.0"
+        const val CompilerVersion = "1.5.1"
 
-        private const val composeVersion = "1.4.3"
+        private const val composeVersion = "1.5.0"
         private const val lifecycleVersion = "2.6.1"
-        private const val navigationVersion = "2.5.3"
+        private const val navigationVersion = "2.7.0"
         private const val material3Version = "1.1.1"
-        private const val activityVersion = "1.6.1"
+        private const val activityVersion = "1.7.2"
 
         const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
         const val Activity = "androidx.activity:activity-compose:$activityVersion"
@@ -84,17 +84,17 @@ object Libs {
 
     object Accompanist {
 
-        private const val version = "0.30.1"
+        private const val version = "0.31.6-rc"
 
-        const val NavigationAnimation =
-            "com.google.accompanist:accompanist-navigation-animation:$version"
+//        const val NavigationAnimation =
+//            "com.google.accompanist:accompanist-navigation-animation:$version"
         const val SystemUiController =
             "com.google.accompanist:accompanist-systemuicontroller:$version"
         const val Permissions = "com.google.accompanist:accompanist-permissions:$version"
-        const val FlowLayout = "com.google.accompanist:accompanist-flowlayout:$version"
-        const val Pager = "com.google.accompanist:accompanist-pager:$version"
-        const val PagerIndicators =
-            "com.google.accompanist:accompanist-pager-indicators:$version"
+//        const val FlowLayout = "com.google.accompanist:accompanist-flowlayout:$version"
+//        const val Pager = "com.google.accompanist:accompanist-pager:$version"
+//        const val PagerIndicators =
+//            "com.google.accompanist:accompanist-pager-indicators:$version"
         const val Adaptive =
             "com.google.accompanist:accompanist-adaptive:$version"
 

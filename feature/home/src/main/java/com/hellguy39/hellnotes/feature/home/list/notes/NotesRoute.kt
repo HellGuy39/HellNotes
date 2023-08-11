@@ -18,6 +18,7 @@ import com.hellguy39.hellnotes.feature.home.list.notes.components.NoteListTopApp
 fun NotesRoute(
     mainViewModel: MainViewModel,
     noteListViewModel: NoteListViewModel = hiltViewModel(),
+    onDrawerOpen: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -29,6 +30,7 @@ fun NotesRoute(
         openedNoteId = openedNoteId,
         appBarSelection = NoteListTopAppBarSelection(),
         noteListViewModel = noteListViewModel,
+        onDrawerOpen = onDrawerOpen,
         screenSelection = NoteListScreenSelection(
             noteSelection = NoteSelection(
                 noteStyle = NoteStyle.Outlined,

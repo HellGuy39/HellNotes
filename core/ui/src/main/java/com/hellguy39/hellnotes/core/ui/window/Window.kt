@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
-import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.hellguy39.hellnotes.core.ui.model.DevicePosture
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
 import com.hellguy39.hellnotes.core.ui.model.HNNavigationContentPosition
@@ -38,16 +37,14 @@ fun rememberWindowInfo(): WindowInfo {
 }
 
 @Composable
-fun rememberFoldingDevicePosture(): DevicePosture {
-    val displayFeatures = calculateDisplayFeatures(activity = LocalContext.current as Activity)
+fun rememberFoldingDevicePosture(displayFeatures: List<DisplayFeature>): DevicePosture {
     return remember { calculateDevicePosture(displayFeatures) }
 }
 
 @Composable
-fun rememberNavigationType(): HNNavigationType {
+fun rememberNavigationType(displayFeatures: List<DisplayFeature>): HNNavigationType {
 
     val configuration = LocalConfiguration.current
-    val displayFeatures = calculateDisplayFeatures(activity = LocalContext.current as Activity)
 
     val devicePosture = calculateDevicePosture(displayFeatures)
     val windowInfo = calculateWindowInfo(configuration)
@@ -90,10 +87,9 @@ fun rememberNavigationContentPosition(): HNNavigationContentPosition {
 }
 
 @Composable
-fun rememberContentType(): HNContentType {
+fun rememberContentType(displayFeatures: List<DisplayFeature>): HNContentType {
 
     val configuration = LocalConfiguration.current
-    val displayFeatures = calculateDisplayFeatures(activity = LocalContext.current as Activity)
 
     val windowInfo = calculateWindowInfo(configuration)
     val devicePosture = calculateDevicePosture(displayFeatures)

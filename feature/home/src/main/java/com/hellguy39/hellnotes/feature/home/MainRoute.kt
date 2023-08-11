@@ -28,7 +28,8 @@ fun MainRoute(
     mainViewModel: MainViewModel,
     contentType: HNContentType,
     displayFeatures: List<DisplayFeature>,
-    onCloseNoteEdit: () -> Unit
+    onCloseNoteEdit: () -> Unit,
+    onDrawerOpen: () -> Unit
 ) {
     ListDetail(
         modifier = Modifier,
@@ -39,7 +40,8 @@ fun MainRoute(
         list = { isDetailVisible ->
             NotesListRoute(
                 mainNavController = mainNavController,
-                mainViewModel = mainViewModel
+                mainViewModel = mainViewModel,
+                onDrawerOpen = onDrawerOpen
             )
         },
         detail = { isListVisible ->

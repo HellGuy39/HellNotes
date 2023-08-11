@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.component.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
 import com.hellguy39.hellnotes.core.ui.value.LocalElevation
-import com.hellguy39.hellnotes.core.ui.value.elevation
 import com.hellguy39.hellnotes.core.ui.value.spacing
 import com.hellguy39.hellnotes.core.ui.window.rememberContentType
 import com.hellguy39.hellnotes.feature.home.edit.components.NoteDetailChecklistSelection
@@ -48,7 +46,6 @@ fun NoteEditScreen(
     val listState = rememberLazyListState()
 
     val elevation = LocalElevation.current
-    val contentType = rememberContentType()
 
     val startElevation by remember {
         mutableStateOf(if (contentType == HNContentType.DualPane) elevation.level1 else elevation.level0)
@@ -97,7 +94,7 @@ fun NoteEditScreen(
                         noteEditViewModel.send(NoteEditUiEvent.UpdateIsArchived)
                     },
                     onReminder = {
-                        //noteEditViewModel.send(NoteEditUiEvent.)
+                        noteEditViewModel.send(NoteEditUiEvent.OpenReminderEditDialog(true))
                     }
                 )
             )

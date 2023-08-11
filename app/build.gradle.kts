@@ -7,14 +7,9 @@ import install.installHilt
 import install.installTestingTools
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    id("java-compile-plugin")
-    id("default-config-plugin")
+    id(ProjectPlugin.Application)
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes"
 
@@ -30,46 +25,13 @@ android {
         buildConfigField(Boolean::class.java.typeName, "ENABLE_ANALYTICS", isFirebaseEnabled)
     }
 
-    flavorDimensions.add("type")
-
-    productFlavors {
-        create("development") {
-            dimension = "type"
-        }
-        create("production") {
-            dimension = "type"
-        }
-    }
-
     buildTypes {
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            isDebuggable = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
             isDebuggable = false
             isShrinkResources = false
             isMinifyEnabled = false
-        }
-
-        create("beta") {
-            isShrinkResources = true
-            isMinifyEnabled = true
-            isDebuggable = false
-        }
-
-        debug {
-            isShrinkResources = false
-            isMinifyEnabled = false
-            isDebuggable = true
         }
     }
 
@@ -78,9 +40,6 @@ android {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
             excludes.add("/META-INF/INDEX.LIST")
         }
-    }
-    kapt {
-        correctErrorTypes = true
     }
 }
 

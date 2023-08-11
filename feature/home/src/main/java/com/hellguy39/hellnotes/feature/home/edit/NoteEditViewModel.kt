@@ -155,6 +155,8 @@ class NoteEditViewModel @Inject constructor(
             is NoteEditUiEvent.OpenColorDialog -> openColorDialog(uiEvent.isOpen)
 
             is NoteEditUiEvent.AddLabel -> addLabel()
+
+            is NoteEditUiEvent.OpenReminderEditDialog -> openReminderEditDialog(uiEvent.isOpen)
         }
     }
 
@@ -172,6 +174,14 @@ class NoteEditViewModel @Inject constructor(
 
     private fun openColorDialog(isOpen: Boolean) {
 
+    }
+
+    private fun openReminderEditDialog(isOpen: Boolean) {
+        viewModelScope.launch {
+            reminderEditDialogState.update { state ->
+                state.copy(isOpen = isOpen)
+            }
+        }
     }
 
     private fun openDeleteAlertDialog(isOpen: Boolean) {
@@ -459,6 +469,8 @@ sealed class NoteEditUiEvent {
 
     data class OpenColorDialog(val isOpen: Boolean) : NoteEditUiEvent()
 
+    data class OpenReminderEditDialog(val isOpen: Boolean) : NoteEditUiEvent()
+
     object AddLabel : NoteEditUiEvent()
 
     object Share : NoteEditUiEvent()
@@ -469,7 +481,7 @@ sealed class NoteEditUiEvent {
 
 data class NoteDetailUiState(
     val noteWrapperState: NoteWrapperState = NoteWrapperState.Empty,
-    val noteEditDialogState: NoteEditDialogState = NoteEditDialogState()
+    val noteEditDialogState: NoteEditDialogState = NoteEditDialogState(),
 )
 
 data class NoteEditDialogState(

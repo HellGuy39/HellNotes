@@ -7,11 +7,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import androidx.window.layout.DisplayFeature
 import com.hellguy39.hellnotes.core.ui.model.GraphScreen
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun GlobalNavGraph() {
+fun GlobalNavGraph(
+    displayFeatures: List<DisplayFeature>
+) {
     val globalNavController = rememberNavController()
 
     NavHost(
@@ -22,12 +25,19 @@ fun GlobalNavGraph() {
         navController = globalNavController,
         startDestination = GraphScreen.Global.Main.route
     ) {
+        mainNavGraph(
+            displayFeatures = displayFeatures,
+            globalNavController = globalNavController
+        )
 
-        mainNavGraph(globalNavController)
+        settingsNavGraph(
+            displayFeatures = displayFeatures,
+            globalNavController = globalNavController
+        )
 
-        settingsNavGraph(globalNavController)
-
-        aboutNavGraph(globalNavController)
-
+        aboutNavGraph(
+            displayFeatures = displayFeatures,
+            globalNavController = globalNavController
+        )
     }
 }

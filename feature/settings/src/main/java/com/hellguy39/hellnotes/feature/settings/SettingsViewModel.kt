@@ -96,4 +96,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(): ViewModel() {
 
+    private val _selectedSettingsSection: MutableStateFlow<String?> = MutableStateFlow(null)
+    val selectedSettingsSection = _selectedSettingsSection.asStateFlow()
+
+    fun setSection(sectionRoute: String?) {
+        _selectedSettingsSection.update { sectionRoute }
+    }
+
 }

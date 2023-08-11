@@ -36,19 +36,19 @@ fun LabelSelectionScreen(
 
     Scaffold(
         topBar = {
-            HNTopAppBar(
-                scrollBehavior = scrollBehavior,
-                onNavigationButtonClick = onNavigationBack,
-                content = {
-                    HNClearTextField(
-                        value = uiState.search,
-                        hint = stringResource(id = HellNotesStrings.Hint.Label),
-                        onValueChange = { newText -> selection.onSearchUpdate(newText) },
-                        modifier = Modifier.fillMaxWidth(),
-                        textStyle = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            )
+//            HNTopAppBar(
+//                scrollBehavior = scrollBehavior,
+//                onNavigationButtonClick = onNavigationBack,
+//                content = {
+//                    HNClearTextField(
+//                        value = uiState.search,
+//                        hint = stringResource(id = HellNotesStrings.Hint.Label),
+//                        onValueChange = { newText -> selection.onSearchUpdate(newText) },
+//                        modifier = Modifier.fillMaxWidth(),
+//                        textStyle = MaterialTheme.typography.bodyLarge
+//                    )
+//                }
+//            )
         },
         content = { paddingValues ->
 

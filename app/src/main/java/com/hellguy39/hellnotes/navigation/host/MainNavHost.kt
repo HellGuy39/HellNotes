@@ -1,24 +1,19 @@
 package com.hellguy39.hellnotes.navigation.host
 
-import android.app.Activity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.adaptive.calculateDisplayFeatures
+import androidx.window.layout.DisplayFeature
 import com.hellguy39.hellnotes.core.ui.layout.BottomNavigationBarLayout
 import com.hellguy39.hellnotes.core.ui.layout.NavigationDrawerLayout
 import com.hellguy39.hellnotes.core.ui.layout.NavigationRailLayout
-import com.hellguy39.hellnotes.core.ui.model.GraphScreen
 import com.hellguy39.hellnotes.core.ui.model.HNNavigationType
 import com.hellguy39.hellnotes.core.ui.window.rememberContentType
 import com.hellguy39.hellnotes.core.ui.window.rememberNavigationType
@@ -28,15 +23,15 @@ import com.hellguy39.hellnotes.feature.home.util.rememberHomeNavigationItems
 
 @Composable
 fun MainNavHost(
-    globalNavController: NavController,
-    mainViewModel: MainViewModel = hiltViewModel()
+    displayFeatures: List<DisplayFeature>,
+    mainViewModel: MainViewModel = hiltViewModel(),
+    navigateToSettings: () -> Unit,
+    navigateToAbout: () -> Unit
 ) {
-    val context = LocalContext.current
     val mainNavController = rememberNavController()
-    val displayFeatures = calculateDisplayFeatures(activity = context as Activity)
 
-    var navigationType = rememberNavigationType()
-    val contentType = rememberContentType()
+    var navigationType = rememberNavigationType(displayFeatures)
+    val contentType = rememberContentType(displayFeatures)
 
     val navBackStackEntry by mainNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -54,7 +49,7 @@ fun MainNavHost(
     )
 
     val navHost = remember {
-        movableContentOf<PaddingValues> { innerPadding ->
+        movableContentOf<PaddingValues, () -> Unit> { innerPadding, onDrawerOpen ->
             MainRoute(
                 innerPadding = innerPadding,
                 mainNavController = mainNavController,
@@ -63,7 +58,8 @@ fun MainNavHost(
                 openedNoteId = openedNoteId,
                 contentType = contentType,
                 displayFeatures = displayFeatures,
-                onCloseNoteEdit = mainViewModel::closeNoteEdit
+                onCloseNoteEdit = mainViewModel::closeNoteEdit,
+                onDrawerOpen = onDrawerOpen
             )
         }
     }
@@ -74,29 +70,31 @@ fun MainNavHost(
                 navItems = navItems,
                 currentDestination = currentDestination,
                 isVisible = !isDetailOpen,
-                content = { _ -> navHost(PaddingValues()) },
-                onNewNoteFabClick = mainViewModel::newNote
+                content = { _ , onDrawerOpen -> navHost(PaddingValues(), onDrawerOpen) },
+                onNewNoteFabClick = mainViewModel::newNote,
+                onSettingsClick = navigateToSettings,
+                onAboutClick = navigateToAbout
             )
         }
         is HNNavigationType.NavigationRail -> {
             NavigationRailLayout(
                 navItems = navItems,
                 currentDestination = currentDestination,
-                content = { navHost(PaddingValues()) },
+                content = { navHost(PaddingValues(), {}) },
                 onNewNoteFabClick = mainViewModel::newNote,
-                onSettingsClick = { globalNavController.navigate(GraphScreen.Global.Settings.route) },
-                onAboutClick = { globalNavController.navigate(GraphScreen.Global.About.route) }
+                onSettingsClick = navigateToSettings,
+                onAboutClick = navigateToAbout
             )
         }
         is HNNavigationType.PermanentNavigationDrawer -> {
             NavigationDrawerLayout(
                 navItems = navItems,
                 currentDestination = currentDestination,
-                content = { navHost(PaddingValues()) },
+                content = { navHost(PaddingValues(), {}) },
                 onNewNoteFabClick = mainViewModel::newNote,
                 onCloseMenuButtonClick = {  },
-                onSettingsClick = { globalNavController.navigate(GraphScreen.Global.Settings.route) },
-                onAboutClick = { globalNavController.navigate(GraphScreen.Global.About.route) }
+                onSettingsClick = navigateToSettings,
+                onAboutClick = navigateToAbout
             )
         }
     }

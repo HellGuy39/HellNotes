@@ -19,27 +19,28 @@ dependencyResolutionManagement {
 rootProject.name = "HellNotes"
 
 /* App */
-include (":app")
+include(":app")
+
 include(":benchmark")
 
 /* Core */
-include (":core:database")
-include (":core:data")
-include (":core:model")
-include (":core:domain")
-include (":core:ui")
-include (":core:common")
-include (":core:datastore")
+include(":core:database")
+include(":core:data")
+include(":core:model")
+include(":core:domain")
+include(":core:ui")
+include(":core:common")
+include(":core:datastore")
 include(":core:network")
 
 /* Feature */
-include (":feature:settings")
-include (":feature:about-app")
-include (":feature:note-detail")
-include (":feature:home")
-include (":feature:search")
-include (":feature:label-edit")
-include (":feature:on-boarding")
+include(":feature:settings")
+include(":feature:about-app")
+include(":feature:note-detail")
+include(":feature:home")
+include(":feature:search")
+include(":feature:label-edit")
+include(":feature:on-boarding")
 include(":feature:lock")
 include(":feature:lock-selection")
 include(":feature:language-selection")

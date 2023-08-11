@@ -6,20 +6,11 @@ import install.installCoroutines
 import install.installHilt
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    id(ProjectPlugin.DefaultConfig)
-    id(ProjectPlugin.JavaCompile)
+    id(ProjectPlugin.Feature)
 }
 
 android {
     namespace = "com.hellguy39.hellnotes.feature.lock_setup"
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-        }
-    }
 }
 
 installBaseProjectCore()

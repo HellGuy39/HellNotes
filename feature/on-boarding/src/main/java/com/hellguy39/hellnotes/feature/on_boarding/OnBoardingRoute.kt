@@ -13,19 +13,19 @@ fun OnBoardingRoute(
 ) {
     BackHandler(onBack = onFinish)
 
-    val pages = listOf(
-        OnBoardingPage.First,
-        OnBoardingPage.Second,
-        OnBoardingPage.Third,
-        OnBoardingPage.Fourth,
-        OnBoardingPage.Fifth
-    )
-    val pagerState = rememberPagerState()
-
-    WelcomeScreen(
-        pages = pages,
-        pagerState = pagerState,
-        onFinish = onFinish,
-        onSkip = onFinish
-    )
+//    val pages = listOf(
+//        OnBoardingPage.First,
+//        OnBoardingPage.Second,
+//        OnBoardingPage.Third,
+//        OnBoardingPage.Fourth,
+//        OnBoardingPage.Fifth
+//    )
+//    val pagerState = rememberPagerState()
+//
+//    WelcomeScreen(
+//        pages = pages,
+//        pagerState = pagerState,
+//        onFinish = onFinish,
+//        onSkip = onFinish
+//    )
 }

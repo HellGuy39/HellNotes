@@ -47,7 +47,8 @@ fun NoteListScreen(
     openedNoteId: Long,
     appBarSelection: NoteListTopAppBarSelection,
     screenSelection: NoteListScreenSelection,
-    noteListViewModel: NoteListViewModel
+    noteListViewModel: NoteListViewModel,
+    onDrawerOpen: () -> Unit
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
@@ -78,7 +79,7 @@ fun NoteListScreen(
                         }
                     } else {
                         if (windowInfo.screenWidthInfo == WindowInfo.WindowType.Compact) {
-                            IconButton(onClick = {  }) {
+                            IconButton(onClick = onDrawerOpen) {
                                 Icon(
                                     painter = painterResource(id = HellNotesIcons.Menu),
                                     contentDescription = null

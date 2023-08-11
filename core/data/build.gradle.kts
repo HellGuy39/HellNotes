@@ -2,20 +2,11 @@ import install.installCoroutines
 import install.installHilt
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    id(ProjectPlugin.JavaCompile)
-    id(ProjectPlugin.DefaultConfig)
+    id(ProjectPlugin.Library)
 }
 
 android {
     namespace = "com.hellguy39.hellnotes.core.data"
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-        }
-    }
 }
 
 installHilt()

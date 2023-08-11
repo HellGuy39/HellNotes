@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.core.ui.layout
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.runtime.Composable
@@ -23,13 +24,16 @@ fun NavigationDrawerLayout(
     onAboutClick: () -> Unit
 ) {
     val windowInfo = rememberWindowInfo()
-    val width = remember { (windowInfo.screenWidth / 3).coerceAtMost(DrawerDefaults.MaximumDrawerWidth) }
+    val width = remember { (windowInfo.screenWidth / 4).coerceAtMost(DrawerDefaults.MaximumDrawerWidth) }
 
     PermanentNavigationDrawer(
         modifier = Modifier,
         drawerContent = {
             PermanentDrawerSheet(
                 modifier = Modifier.width(width),
+//                drawerContainerColor = MaterialTheme.colorScheme.primaryContainer,
+//                drawerShape = DrawerDefaults.shape,
+                //drawerContentColor = MaterialTheme.colorScheme.primaryContainer,
                 content = {
                     HNDrawerSheet(
                         navItems = navItems,

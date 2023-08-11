@@ -2,21 +2,12 @@ import install.installCoroutines
 import install.installHilt
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id(ProjectPlugin.DefaultConfig)
-    id(ProjectPlugin.JavaCompile)
+    id(ProjectPlugin.Library)
 }
 
 android {
     namespace = "com.hellguy39.hellnotes.core.network"
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-        }
-    }
 }
 
 installCoroutines()

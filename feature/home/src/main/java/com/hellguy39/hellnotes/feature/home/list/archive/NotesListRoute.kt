@@ -13,14 +13,15 @@ import com.hellguy39.hellnotes.feature.home.list.trash.trashScreen
 @Composable
 fun NotesListRoute(
     mainNavController: NavHostController,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    onDrawerOpen: () -> Unit
 ) {
     NavHost(
         modifier = Modifier,
         navController = mainNavController,
         startDestination = GraphScreen.Main.start().route
     ) {
-        notesScreen(mainViewModel)
+        notesScreen(mainViewModel, onDrawerOpen)
 
         remindersScreen(mainViewModel)
 

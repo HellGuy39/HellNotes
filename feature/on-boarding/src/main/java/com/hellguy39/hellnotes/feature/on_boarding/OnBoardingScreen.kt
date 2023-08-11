@@ -35,16 +35,16 @@ fun WelcomeScreen(
 
     Scaffold(
         content = { paddingValues ->
-            HorizontalPager(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                pageCount = pages.size,
-                state = pagerState,
-                verticalAlignment = Alignment.Top,
-            ) { position ->
-                PagerScreen(onBoardingPage = pages[position])
-            }
+//            HorizontalPager(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(paddingValues),
+//                pageCount = pages.size,
+//                state = pagerState,
+//                verticalAlignment = Alignment.Top,
+//            ) { position ->
+//                PagerScreen(onBoardingPage = pages[position])
+//            }
         },
         bottomBar = {
 

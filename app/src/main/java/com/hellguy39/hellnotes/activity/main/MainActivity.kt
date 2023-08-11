@@ -14,16 +14,11 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.hellguy39.hellnotes.core.model.local.datastore.ThemeState
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
-import com.hellguy39.hellnotes.feature.about_app.AboutViewModel
-import com.hellguy39.hellnotes.feature.home.MainViewModel
-import com.hellguy39.hellnotes.feature.settings.SettingsViewModel
 import com.hellguy39.hellnotes.navigation.graph.GlobalNavGraph
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.components.ActivityComponent
 
 @AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
@@ -40,6 +35,8 @@ class MainActivity: AppCompatActivity() {
         val appearanceViewModel: AppearanceViewModel = hiltViewModel()
         val appearanceState by appearanceViewModel.appearanceState.collectAsStateWithLifecycle()
 
+        val displayFeatures = calculateDisplayFeatures(this)
+
         HellNotesTheme(
             darkTheme = when(appearanceState.theme) {
                 is ThemeState.System -> isSystemInDarkTheme()
@@ -53,7 +50,7 @@ class MainActivity: AppCompatActivity() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 //TransparentSystemBars()
-                GlobalNavGraph()
+                GlobalNavGraph(displayFeatures)
             }
         }
     }

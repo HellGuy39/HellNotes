@@ -6,20 +6,11 @@ import install.installCoroutines
 import install.installHilt
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    id(ProjectPlugin.DefaultConfig)
-    id(ProjectPlugin.JavaCompile)
+    id(ProjectPlugin.Feature)
 }
 
 android {
     namespace = "com.hellguy39.hellnotes.feature.note_detail"
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-        }
-    }
 }
 
 installBaseProjectCore()
@@ -30,8 +21,8 @@ installCompose()
 installHilt()
 
 dependencies {
-    implementation (Libs.ThirdParty.ComposeDialogs.Core)
-    implementation (Libs.ThirdParty.ComposeDialogs.Calendar)
-    implementation (Libs.ThirdParty.ComposeDialogs.Clock)
-    implementation (Libs.ThirdParty.ComposeDialogs.Color)
+    implementation(Libs.ThirdParty.ComposeDialogs.Core)
+    implementation(Libs.ThirdParty.ComposeDialogs.Calendar)
+    implementation(Libs.ThirdParty.ComposeDialogs.Clock)
+    implementation(Libs.ThirdParty.ComposeDialogs.Color)
 }

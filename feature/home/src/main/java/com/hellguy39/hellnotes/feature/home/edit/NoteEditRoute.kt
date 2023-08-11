@@ -112,7 +112,7 @@ fun NoteEditRoute(
 
     HNAdaptiveDialog(
         isOpen = uiState.noteEditDialogState.reminderEditDialogState.isOpen,
-        onClose = {},
+        onClose = { noteEditViewModel.send(NoteEditUiEvent.OpenReminderEditDialog(false)) },
     ) {
         Text("Hello")
     }
