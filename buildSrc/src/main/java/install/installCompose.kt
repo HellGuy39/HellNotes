@@ -27,6 +27,7 @@ fun Project.installCompose() {
         add(Configuration.Implementation, Libs.Compose.Ui)
         add(Configuration.Implementation, Libs.Compose.ToolingPreview)
         add(Configuration.Implementation, Libs.Compose.Material3)
+        add(Configuration.Implementation, Libs.Compose.Material3WindowSizeClass)
         add(Configuration.Implementation, Libs.Compose.Navigation)
         add(Configuration.Implementation, Libs.Compose.LiveData)
     }

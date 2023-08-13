@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.feature.home.list.notes
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -17,6 +18,7 @@ import com.hellguy39.hellnotes.feature.home.list.notes.components.NoteListTopApp
 @Composable
 fun NotesRoute(
     mainViewModel: MainViewModel,
+    windowWidthSize: WindowWidthSizeClass,
     noteListViewModel: NoteListViewModel = hiltViewModel(),
     onDrawerOpen: () -> Unit,
 ) {
@@ -31,6 +33,7 @@ fun NotesRoute(
         appBarSelection = NoteListTopAppBarSelection(),
         noteListViewModel = noteListViewModel,
         onDrawerOpen = onDrawerOpen,
+        windowWidthSize = windowWidthSize,
         screenSelection = NoteListScreenSelection(
             noteSelection = NoteSelection(
                 noteStyle = NoteStyle.Outlined,

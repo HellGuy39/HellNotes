@@ -1,7 +1,5 @@
 package com.hellguy39.hellnotes.feature.home.list.notes
 
-import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,13 +15,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -36,11 +30,10 @@ import com.hellguy39.hellnotes.core.ui.component.search.HNAdaptiveSearchBar
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.value.spacing
-import com.hellguy39.hellnotes.core.ui.window.WindowInfo
-import com.hellguy39.hellnotes.core.ui.window.rememberWindowInfo
+import com.hellguy39.hellnotes.core.ui.window.isCompact
 import com.hellguy39.hellnotes.feature.home.list.notes.components.NoteListTopAppBarSelection
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteListScreen(
     uiState: NotesUiState,
@@ -48,6 +41,7 @@ fun NoteListScreen(
     appBarSelection: NoteListTopAppBarSelection,
     screenSelection: NoteListScreenSelection,
     noteListViewModel: NoteListViewModel,
+    windowWidthSize: WindowWidthSizeClass,
     onDrawerOpen: () -> Unit
 ) {
     val topAppBarState = rememberTopAppBarState()
@@ -55,8 +49,6 @@ fun NoteListScreen(
 
     val lazyListState = rememberLazyListState()
     val lazyStaggeredGridState = rememberLazyStaggeredGridState()
-
-    val windowInfo = rememberWindowInfo()
 
     Scaffold(
         topBar = {
@@ -68,6 +60,7 @@ fun NoteListScreen(
                 onSearch = noteListViewModel::search,
                 active = uiState.searchState.isActive,
                 onActiveChange = noteListViewModel::searchIsActiveChange,
+                windowWidthSize = windowWidthSize,
                 placeholder = { Text(text = stringResource(id = HellNotesStrings.Hint.Search)) },
                 leadingIcon = {
                     if (uiState.searchState.isActive) {
@@ -78,7 +71,7 @@ fun NoteListScreen(
                             )
                         }
                     } else {
-                        if (windowInfo.screenWidthInfo == WindowInfo.WindowType.Compact) {
+                        if (windowWidthSize.isCompact()) {
                             IconButton(onClick = onDrawerOpen) {
                                 Icon(
                                     painter = painterResource(id = HellNotesIcons.Menu),

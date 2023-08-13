@@ -1,10 +1,13 @@
 package com.hellguy39.hellnotes.navigation.host
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -15,6 +18,8 @@ import com.hellguy39.hellnotes.core.ui.layout.BottomNavigationBarLayout
 import com.hellguy39.hellnotes.core.ui.layout.NavigationDrawerLayout
 import com.hellguy39.hellnotes.core.ui.layout.NavigationRailLayout
 import com.hellguy39.hellnotes.core.ui.model.HNNavigationType
+import com.hellguy39.hellnotes.core.ui.window.calculateContentType
+import com.hellguy39.hellnotes.core.ui.window.calculateNavigationType
 import com.hellguy39.hellnotes.core.ui.window.rememberContentType
 import com.hellguy39.hellnotes.core.ui.window.rememberNavigationType
 import com.hellguy39.hellnotes.feature.home.MainRoute
@@ -24,17 +29,19 @@ import com.hellguy39.hellnotes.feature.home.util.rememberHomeNavigationItems
 @Composable
 fun MainNavHost(
     displayFeatures: List<DisplayFeature>,
+    windowSize: WindowSizeClass,
     mainViewModel: MainViewModel = hiltViewModel(),
     navigateToSettings: () -> Unit,
     navigateToAbout: () -> Unit
 ) {
+    val windowWidthSize by rememberUpdatedState(windowSize.widthSizeClass)
+
     val mainNavController = rememberNavController()
-
-    var navigationType = rememberNavigationType(displayFeatures)
-    val contentType = rememberContentType(displayFeatures)
-
     val navBackStackEntry by mainNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+    val navigationType = calculateNavigationType(displayFeatures, windowWidthSize)
+    val contentType = calculateContentType(displayFeatures, windowWidthSize)
 
     val isDetailOpen by mainViewModel.isDetailOpen.collectAsStateWithLifecycle()
     val openedNoteId by mainViewModel.openedNoteId.collectAsStateWithLifecycle()
@@ -59,7 +66,8 @@ fun MainNavHost(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 onCloseNoteEdit = mainViewModel::closeNoteEdit,
-                onDrawerOpen = onDrawerOpen
+                onDrawerOpen = onDrawerOpen,
+                windowWidthSize = windowWidthSize
             )
         }
     }
@@ -89,6 +97,7 @@ fun MainNavHost(
         is HNNavigationType.PermanentNavigationDrawer -> {
             NavigationDrawerLayout(
                 navItems = navItems,
+                windowWidthSize = windowWidthSize,
                 currentDestination = currentDestination,
                 content = { navHost(PaddingValues(), {}) },
                 onNewNoteFabClick = mainViewModel::newNote,

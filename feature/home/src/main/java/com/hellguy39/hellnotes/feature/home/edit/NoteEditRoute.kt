@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +28,7 @@ import com.hellguy39.hellnotes.feature.home.edit.components.MenuBottomSheetSelec
 
 @Composable
 fun NoteEditRoute(
+    windowWidthSize: WindowWidthSizeClass,
     contentType: HNContentType,
     noteId: Long,
     onCloseNoteEdit: () -> Unit,
@@ -113,6 +115,7 @@ fun NoteEditRoute(
     HNAdaptiveDialog(
         isOpen = uiState.noteEditDialogState.reminderEditDialogState.isOpen,
         onClose = { noteEditViewModel.send(NoteEditUiEvent.OpenReminderEditDialog(false)) },
+        windowWidthSize = windowWidthSize,
     ) {
         Text("Hello")
     }

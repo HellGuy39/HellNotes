@@ -75,7 +75,7 @@ object Libs {
         const val Ui = "androidx.compose.ui:ui:$composeVersion"
         const val ToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
         const val Material3 = "androidx.compose.material3:material3:$material3Version"
-        const val Material3WindowSize =
+        const val Material3WindowSizeClass =
             "androidx.compose.material3:material3-window-size-class:$material3Version"
         const val Navigation = "androidx.navigation:navigation-compose:$navigationVersion"
         const val LiveData = "androidx.compose.runtime:runtime-livedata:$composeVersion"

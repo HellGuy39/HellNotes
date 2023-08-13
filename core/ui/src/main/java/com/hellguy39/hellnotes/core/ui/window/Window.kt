@@ -1,13 +1,10 @@
 package com.hellguy39.hellnotes.core.ui.window
 
-import android.app.Activity
-import android.content.res.Configuration
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.hellguy39.hellnotes.core.ui.model.DevicePosture
@@ -17,96 +14,81 @@ import com.hellguy39.hellnotes.core.ui.model.HNNavigationType
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-@OptIn(ExperimentalContracts::class)
-fun isBookPosture(foldFeature: FoldingFeature?): Boolean {
-    contract { returns(true) implies (foldFeature != null) }
-    return foldFeature?.state == FoldingFeature.State.HALF_OPENED &&
-            foldFeature.orientation == FoldingFeature.Orientation.VERTICAL
-}
-
-@OptIn(ExperimentalContracts::class)
-fun isSeparating(foldFeature: FoldingFeature?): Boolean {
-    contract { returns(true) implies (foldFeature != null) }
-    return foldFeature?.state == FoldingFeature.State.FLAT && foldFeature.isSeparating
-}
-
-@Composable
-fun rememberWindowInfo(): WindowInfo {
-    val configuration = LocalConfiguration.current
-    return remember { calculateWindowInfo(configuration) }
-}
-
 @Composable
 fun rememberFoldingDevicePosture(displayFeatures: List<DisplayFeature>): DevicePosture {
     return remember { calculateDevicePosture(displayFeatures) }
 }
 
 @Composable
-fun rememberNavigationType(displayFeatures: List<DisplayFeature>): HNNavigationType {
-
-    val configuration = LocalConfiguration.current
-
-    val devicePosture = calculateDevicePosture(displayFeatures)
-    val windowInfo = calculateWindowInfo(configuration)
-
-    return remember {
-        when (windowInfo.screenWidthInfo) {
-            is WindowInfo.WindowType.Compact -> HNNavigationType.BottomNavigation
-
-            is WindowInfo.WindowType.Medium -> HNNavigationType.NavigationRail
-            is WindowInfo.WindowType.Expanded -> if (devicePosture is DevicePosture.BookPosture) {
-                HNNavigationType.NavigationRail
-            } else {
-                HNNavigationType.PermanentNavigationDrawer
-            }
-        }
-    }
+fun rememberNavigationType(
+    displayFeatures: List<DisplayFeature>,
+    windowWidthSize: WindowWidthSizeClass,
+): HNNavigationType {
+    return remember { calculateNavigationType(displayFeatures, windowWidthSize) }
 }
 
 @Composable
-fun rememberNavigationContentPosition(): HNNavigationContentPosition {
-
-    val configuration = LocalConfiguration.current
-    val windowInfo = calculateWindowInfo(configuration)
-
-    return remember {
-        when (windowInfo.screenHeightInfo) {
-            is WindowInfo.WindowType.Compact -> {
-                HNNavigationContentPosition.Top
-            }
-
-            is WindowInfo.WindowType.Medium, WindowInfo.WindowType.Expanded -> {
-                HNNavigationContentPosition.Center
-            }
-
-            else -> {
-                HNNavigationContentPosition.Top
-            }
-        }
-    }
+fun rememberNavigationContentPosition(
+    windowHeightSize: WindowHeightSizeClass
+): HNNavigationContentPosition {
+    return remember { calculateNavigationContentPosition(windowHeightSize) }
 }
 
 @Composable
-fun rememberContentType(displayFeatures: List<DisplayFeature>): HNContentType {
+fun rememberContentType(
+    displayFeatures: List<DisplayFeature>,
+    windowWidthSize: WindowWidthSizeClass
+): HNContentType {
+    return remember { calculateContentType(displayFeatures, windowWidthSize) }
+}
 
-    val configuration = LocalConfiguration.current
-
-    val windowInfo = calculateWindowInfo(configuration)
-    val devicePosture = calculateDevicePosture(displayFeatures)
-
-    return remember {
-        when (windowInfo.screenWidthInfo) {
-            is WindowInfo.WindowType.Compact -> HNContentType.SinglePane
-            is WindowInfo.WindowType.Medium -> when (devicePosture) {
-                DevicePosture.NormalPosture -> HNContentType.SinglePane
-                else -> HNContentType.DualPane
-            }
-            is WindowInfo.WindowType.Expanded -> HNContentType.DualPane
-            else -> HNContentType.SinglePane
-        }
+fun calculateNavigationContentPosition(
+    windowHeightSize: WindowHeightSizeClass
+): HNNavigationContentPosition {
+    return when (windowHeightSize) {
+        WindowHeightSizeClass.Compact -> HNNavigationContentPosition.Top
+        WindowHeightSizeClass.Medium, WindowHeightSizeClass.Expanded -> HNNavigationContentPosition.Center
+        else -> HNNavigationContentPosition.Top
     }
 }
 
+fun calculateNavigationType(
+    displayFeatures: List<DisplayFeature>,
+    windowWidthSize: WindowWidthSizeClass,
+): HNNavigationType {
+    val devicePosture = calculateDevicePosture(displayFeatures)
+
+    return when (windowWidthSize) {
+        WindowWidthSizeClass.Compact -> HNNavigationType.BottomNavigation
+
+        WindowWidthSizeClass.Medium -> HNNavigationType.NavigationRail
+        WindowWidthSizeClass.Expanded -> if (devicePosture is DevicePosture.BookPosture) {
+            HNNavigationType.NavigationRail
+        } else {
+            HNNavigationType.PermanentNavigationDrawer
+        }
+
+        else -> HNNavigationType.BottomNavigation
+    }
+}
+
+fun calculateContentType(
+    displayFeatures: List<DisplayFeature>,
+    windowWidthSize: WindowWidthSizeClass
+): HNContentType {
+    val devicePosture = calculateDevicePosture(displayFeatures)
+
+    return when (windowWidthSize) {
+        WindowWidthSizeClass.Compact -> HNContentType.SinglePane
+        WindowWidthSizeClass.Medium -> when (devicePosture) {
+            DevicePosture.NormalPosture -> HNContentType.SinglePane
+            else -> HNContentType.DualPane
+        }
+
+        WindowWidthSizeClass.Expanded -> HNContentType.DualPane
+        else -> HNContentType.SinglePane
+    }
+}
 
 private fun calculateDevicePosture(displayFeatures: List<DisplayFeature>): DevicePosture {
 
@@ -123,38 +105,63 @@ private fun calculateDevicePosture(displayFeatures: List<DisplayFeature>): Devic
     }
 }
 
-private fun calculateWindowInfo(configuration: Configuration): WindowInfo {
-    return WindowInfo(
-        screenWidthInfo = when {
-            configuration.screenWidthDp < 600 -> WindowInfo.WindowType.Compact
-            configuration.screenWidthDp < 840 -> WindowInfo.WindowType.Medium
-            else -> WindowInfo.WindowType.Expanded
-        },
-        screenHeightInfo = when {
-            configuration.screenHeightDp < 480 -> WindowInfo.WindowType.Compact
-            configuration.screenHeightDp < 900 -> WindowInfo.WindowType.Medium
-            else -> WindowInfo.WindowType.Expanded
-        },
-        screenWidth = configuration.screenWidthDp.dp,
-        screenHeight = configuration.screenHeightDp.dp
-    )
+@OptIn(ExperimentalContracts::class)
+fun isBookPosture(foldFeature: FoldingFeature?): Boolean {
+    contract { returns(true) implies (foldFeature != null) }
+    return foldFeature?.state == FoldingFeature.State.HALF_OPENED &&
+            foldFeature.orientation == FoldingFeature.Orientation.VERTICAL
 }
 
-fun WindowInfo.isExpandedWindowsSize() = when (screenWidthInfo) {
-    is WindowInfo.WindowType.Compact -> false
-    is WindowInfo.WindowType.Medium -> false
-    else -> true
+@OptIn(ExperimentalContracts::class)
+fun isSeparating(foldFeature: FoldingFeature?): Boolean {
+    contract { returns(true) implies (foldFeature != null) }
+    return foldFeature?.state == FoldingFeature.State.FLAT && foldFeature.isSeparating
 }
 
-data class WindowInfo(
-    val screenWidthInfo: WindowType,
-    val screenHeightInfo: WindowType,
-    val screenWidth: Dp,
-    val screenHeight: Dp
-) {
-    sealed class WindowType {
-        object Compact : WindowType()
-        object Medium : WindowType()
-        object Expanded : WindowType()
-    }
+fun WindowWidthSizeClass.isCompact(): Boolean {
+    return this == WindowWidthSizeClass.Compact
+}
+
+fun WindowWidthSizeClass.isNotCompact(): Boolean {
+    return this != WindowWidthSizeClass.Compact
+}
+
+fun WindowWidthSizeClass.isMedium(): Boolean {
+    return this == WindowWidthSizeClass.Compact
+}
+
+fun WindowWidthSizeClass.isNotMedium(): Boolean {
+    return this != WindowWidthSizeClass.Compact
+}
+
+fun WindowWidthSizeClass.isExpanded(): Boolean {
+    return this == WindowWidthSizeClass.Compact
+}
+
+fun WindowWidthSizeClass.isNotExpanded(): Boolean {
+    return this != WindowWidthSizeClass.Compact
+}
+
+fun WindowHeightSizeClass.isCompact(): Boolean {
+    return this == WindowHeightSizeClass.Compact
+}
+
+fun WindowHeightSizeClass.isNotCompact(): Boolean {
+    return this != WindowHeightSizeClass.Compact
+}
+
+fun WindowHeightSizeClass.isMedium(): Boolean {
+    return this == WindowHeightSizeClass.Compact
+}
+
+fun WindowHeightSizeClass.isNotMedium(): Boolean {
+    return this != WindowHeightSizeClass.Compact
+}
+
+fun WindowHeightSizeClass.isExpanded(): Boolean {
+    return this == WindowHeightSizeClass.Compact
+}
+
+fun WindowHeightSizeClass.isNotExpanded(): Boolean {
+    return this != WindowHeightSizeClass.Compact
 }

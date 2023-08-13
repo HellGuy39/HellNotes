@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.feature.home
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -28,6 +29,7 @@ fun MainRoute(
     mainViewModel: MainViewModel,
     contentType: HNContentType,
     displayFeatures: List<DisplayFeature>,
+    windowWidthSize: WindowWidthSizeClass,
     onCloseNoteEdit: () -> Unit,
     onDrawerOpen: () -> Unit
 ) {
@@ -41,14 +43,16 @@ fun MainRoute(
             NotesListRoute(
                 mainNavController = mainNavController,
                 mainViewModel = mainViewModel,
-                onDrawerOpen = onDrawerOpen
+                onDrawerOpen = onDrawerOpen,
+                windowWidthSize = windowWidthSize
             )
         },
         detail = { isListVisible ->
             NoteEditRoute(
                 contentType = contentType,
                 noteId = openedNoteId,
-                onCloseNoteEdit = onCloseNoteEdit
+                onCloseNoteEdit = onCloseNoteEdit,
+                windowWidthSize = windowWidthSize
             )
         },
         twoPaneStrategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f, gapWidth = 0.dp),

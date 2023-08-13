@@ -7,6 +7,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -30,12 +33,11 @@ class MainActivity: AppCompatActivity() {
         setContent { App() }
     }
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     @Composable
     fun App() {
         val appearanceViewModel: AppearanceViewModel = hiltViewModel()
         val appearanceState by appearanceViewModel.appearanceState.collectAsStateWithLifecycle()
-
-        val displayFeatures = calculateDisplayFeatures(this)
 
         HellNotesTheme(
             darkTheme = when(appearanceState.theme) {
@@ -49,8 +51,10 @@ class MainActivity: AppCompatActivity() {
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                //TransparentSystemBars()
-                GlobalNavGraph(displayFeatures)
+                GlobalNavGraph(
+                    displayFeatures = calculateDisplayFeatures(this),
+                    windowSize = calculateWindowSizeClass(this)
+                )
             }
         }
     }

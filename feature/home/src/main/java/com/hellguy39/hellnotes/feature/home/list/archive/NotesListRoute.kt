@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.home.list.archive
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -14,6 +15,7 @@ import com.hellguy39.hellnotes.feature.home.list.trash.trashScreen
 fun NotesListRoute(
     mainNavController: NavHostController,
     mainViewModel: MainViewModel,
+    windowWidthSize: WindowWidthSizeClass,
     onDrawerOpen: () -> Unit
 ) {
     NavHost(
@@ -21,7 +23,7 @@ fun NotesListRoute(
         navController = mainNavController,
         startDestination = GraphScreen.Main.start().route
     ) {
-        notesScreen(mainViewModel, onDrawerOpen)
+        notesScreen(mainViewModel, onDrawerOpen, windowWidthSize)
 
         remindersScreen(mainViewModel)
 

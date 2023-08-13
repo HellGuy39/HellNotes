@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.navigation.graph
 
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -9,6 +10,7 @@ import com.hellguy39.hellnotes.navigation.host.SettingsNavHost
 
 fun NavGraphBuilder.settingsNavGraph(
     displayFeatures: List<DisplayFeature>,
+    windowSize: WindowSizeClass,
     globalNavController: NavController,
 ) {
     composable(
@@ -16,6 +18,7 @@ fun NavGraphBuilder.settingsNavGraph(
     ) {
         SettingsNavHost(
             displayFeatures = displayFeatures,
+            windowSize = windowSize,
             navigateBack = { globalNavController.popBackStack() }
         )
     }

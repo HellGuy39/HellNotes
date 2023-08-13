@@ -4,11 +4,10 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.hellguy39.hellnotes.core.ui.window.WindowInfo
-import com.hellguy39.hellnotes.core.ui.window.isExpandedWindowsSize
-import com.hellguy39.hellnotes.core.ui.window.rememberWindowInfo
+import com.hellguy39.hellnotes.core.ui.window.isNotCompact
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,14 +17,14 @@ fun HNAdaptiveTopAppBar(
     content: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit = {},
     navigationIcon: @Composable () -> Unit = {},
-    windowInfo: WindowInfo = rememberWindowInfo()
+    windowWidthSize: WindowWidthSizeClass,
 ) {
     HNTopAppBar(
         modifier = modifier,
         scrollBehavior = scrollBehavior,
         content = content,
         navigationIcon = {
-            if (!windowInfo.isExpandedWindowsSize()) {
+            if (windowWidthSize.isNotCompact()) {
                 navigationIcon()
             }
         },

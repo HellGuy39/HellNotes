@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,7 +39,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationItemSelection
@@ -50,20 +50,17 @@ import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.value.LocalSpacing
 import com.hellguy39.hellnotes.core.ui.value.spacing
-import com.hellguy39.hellnotes.core.ui.window.isExpandedWindowsSize
-import com.hellguy39.hellnotes.core.ui.window.rememberWindowInfo
+import com.hellguy39.hellnotes.core.ui.window.isCompact
 import com.hellguy39.hellnotes.feature.settings.detail.general.GeneralRoute
-import com.hellguy39.hellnotes.feature.settings.detail.general.generalScreen
 import com.hellguy39.hellnotes.feature.settings.detail.security.SecurityRoute
-import com.hellguy39.hellnotes.feature.settings.detail.security.securityScreen
 import com.hellguy39.hellnotes.feature.settings.detail.theme.AppearanceRoute
-import com.hellguy39.hellnotes.feature.settings.detail.theme.appearanceScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsRoute(
     settingsViewModel: SettingsViewModel,
     settingsNavController: NavHostController,
+    windowWidthSize: WindowWidthSizeClass,
     contentType: HNContentType,
     displayFeatures: List<DisplayFeature>,
     navItems: List<HNNavigationItemSelection>,
@@ -72,12 +69,11 @@ fun SettingsRoute(
 ) {
     var isDetailOpen by rememberSaveable { mutableStateOf(false) }
     val spacing = LocalSpacing.current
-    val windowInfo = rememberWindowInfo()
     val selectedSectionsRoute by settingsViewModel.selectedSettingsSection.collectAsStateWithLifecycle()
 
     val horizontalListSpacing by remember {
         mutableStateOf(
-            if (windowInfo.isExpandedWindowsSize()) spacing.medium else spacing.none
+            if (windowWidthSize.isCompact()) spacing.medium else spacing.none
         )
     }
 
@@ -98,6 +94,7 @@ fun SettingsRoute(
                     .nestedScroll(scrollBehavior.nestedScrollConnection),
                 topBar = {
                     HNAdaptiveTopAppBar(
+                        windowWidthSize = windowWidthSize,
                         content = {
                             Text(
                                 text = stringResource(id = HellNotesStrings.Title.Settings),
@@ -153,7 +150,7 @@ fun SettingsRoute(
                 else -> Unit
             }
         },
-        twoPaneStrategy = HorizontalTwoPaneStrategy(splitFraction = 1f / 3f, gapWidth = 0.dp),
+        twoPaneStrategy = HorizontalTwoPaneStrategy(splitFraction = 0.33f, gapWidth = 0.dp),
         displayFeatures = displayFeatures
     )
 }

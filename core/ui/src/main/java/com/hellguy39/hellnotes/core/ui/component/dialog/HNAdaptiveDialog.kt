@@ -3,37 +3,32 @@ package com.hellguy39.hellnotes.core.ui.component.dialog
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.hellguy39.hellnotes.core.ui.value.elevation
-import com.hellguy39.hellnotes.core.ui.window.WindowInfo
-import com.hellguy39.hellnotes.core.ui.window.rememberWindowInfo
+import com.hellguy39.hellnotes.core.ui.window.isCompact
 
 @Composable
 fun HNAdaptiveDialog(
     isOpen: Boolean = false,
     onClose: () -> Unit = { },
-    windowInfo: WindowInfo = rememberWindowInfo(),
+    windowWidthSize: WindowWidthSizeClass,
     content: @Composable () -> Unit = {  }
 ) {
-    when(windowInfo.screenWidthInfo) {
-        is WindowInfo.WindowType.Compact -> {
-            FullScreenDialog(
-                isOpen = isOpen,
-                onClose = onClose,
-                content = content
-            )
-        }
-        else -> {
-            BasicDialog(
-                isOpen = isOpen,
-                onClose = onClose,
-                content = content
-            )
-        }
+    if (windowWidthSize.isCompact()) {
+        FullScreenDialog(
+            isOpen = isOpen,
+            onClose = onClose,
+            content = content
+        )
+    } else {
+        BasicDialog(
+            isOpen = isOpen,
+            onClose = onClose,
+            content = content
+        )
     }
 }
 

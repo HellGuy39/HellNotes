@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.navigation.graph
 
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -13,7 +14,8 @@ import com.hellguy39.hellnotes.core.ui.model.GraphScreen
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun GlobalNavGraph(
-    displayFeatures: List<DisplayFeature>
+    displayFeatures: List<DisplayFeature>,
+    windowSize: WindowSizeClass
 ) {
     val globalNavController = rememberNavController()
 
@@ -27,16 +29,19 @@ fun GlobalNavGraph(
     ) {
         mainNavGraph(
             displayFeatures = displayFeatures,
+            windowSize = windowSize,
             globalNavController = globalNavController
         )
 
         settingsNavGraph(
             displayFeatures = displayFeatures,
+            windowSize = windowSize,
             globalNavController = globalNavController
         )
 
         aboutNavGraph(
             displayFeatures = displayFeatures,
+            windowSize = windowSize,
             globalNavController = globalNavController
         )
     }
