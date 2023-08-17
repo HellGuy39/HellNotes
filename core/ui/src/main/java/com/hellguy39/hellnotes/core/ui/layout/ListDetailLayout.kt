@@ -1,6 +1,15 @@
 package com.hellguy39.hellnotes.core.ui.layout
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -10,6 +19,7 @@ import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.FoldAwareConfiguration
@@ -87,6 +97,24 @@ fun ListDetail(
     }
 
     Box(modifier = modifier) {
+//        if (showList && showDetail) {
+//            TwoPane(
+//                modifier = Modifier.fillMaxSize(),
+//                first = {
+//                    start()
+//                },
+//                second = {
+//                    end()
+//                },
+//                strategy = twoPaneStrategy,
+//                displayFeatures = displayFeatures,
+//                foldAwareConfiguration = FoldAwareConfiguration.VerticalFoldsOnly,
+//            )
+//        } else if (showList) {
+//            start()
+//        } else {
+//            end()
+//        }
         if (showList && showDetail) {
             TwoPane(
                 modifier = Modifier.fillMaxSize(),
@@ -100,10 +128,25 @@ fun ListDetail(
                 displayFeatures = displayFeatures,
                 foldAwareConfiguration = FoldAwareConfiguration.VerticalFoldsOnly,
             )
-        } else if (showList) {
-            start()
         } else {
-            end()
+            AnimatedContent(
+                targetState = showList,
+                label = "",
+                transitionSpec = {
+                    // todo: Check duration of animation
+                    (slideInHorizontally(
+                        initialOffsetX = { fullWidth -> fullWidth },
+                        animationSpec = tween(durationMillis = 300)
+                    ) + fadeIn(animationSpec = tween(durationMillis = 150)))
+                        .togetherWith(fadeOut(animationSpec = tween(150)))
+                }
+            ) { isShowList ->
+                if(isShowList) {
+                    start()
+                } else {
+                    end()
+                }
+            }
         }
     }
 }

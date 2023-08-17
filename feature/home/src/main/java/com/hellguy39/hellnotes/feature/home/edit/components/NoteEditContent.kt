@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.home.edit.components
 
+import HNDateHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -63,7 +64,7 @@ fun NoteEditContent(
     innerPadding: PaddingValues,
     listState: LazyListState,
     noteWrapperState: NoteWrapperState.Success,
-    contentSelection: NoteDetailContentSelection,
+    editContentSelection: NoteEditContentSelection,
     checklistSelection: NoteDetailChecklistSelection,
 ) {
     val noteWrapper = noteWrapperState.noteWrapper
@@ -75,22 +76,38 @@ fun NoteEditContent(
         state = listState,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
     ) {
-        item(key = -1) {
-            HNClearTextField(
+        item(key = -3) {
+            Text(
                 modifier = Modifier.fillMaxWidth(),
-                value = noteWrapper.note.title,
-                isSingleLine = false,
-                onValueChange = contentSelection.onTitleTextChanged,
-                hint = stringResource(id = HellNotesStrings.Hint.Title),
-                textStyle = MaterialTheme.typography.titleLarge
+                text = HNDateHandler.from(noteWrapper.note.editedAt)
+                    .format(HNDateHandler.DefaultPatterns.YEAR_MONTH_DAY_TIME)
+//                stringResource(
+//                    id = HellNotesStrings.Subtitle.Edited,
+//                    formatArgs = arrayOf(
+//                        HNDateHandler.from(noteWrapper.note.editedAt).formatBest()
+//                    )
+//                )
+                ,
+                style = MaterialTheme.typography.labelMedium,
+                textAlign = TextAlign.Start
             )
         }
         item(key = -2) {
             HNClearTextField(
                 modifier = Modifier.fillMaxWidth(),
+                value = noteWrapper.note.title,
+                isSingleLine = false,
+                onValueChange = editContentSelection.onTitleTextChanged,
+                hint = stringResource(id = HellNotesStrings.Hint.Title),
+                textStyle = MaterialTheme.typography.titleLarge
+            )
+        }
+        item(key = -1) {
+            HNClearTextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = noteWrapper.note.note,
                 isSingleLine = false,
-                onValueChange = contentSelection.onNoteTextChanged,
+                onValueChange = editContentSelection.onNoteTextChanged,
                 hint = stringResource(id = HellNotesStrings.Hint.Note),
                 textStyle = MaterialTheme.typography.bodyLarge,
                 keyboardOptions = KeyboardOptions(
@@ -260,8 +277,8 @@ fun NoteEditContent(
                     modifier = Modifier.fillMaxWidth(),
                     reminders = noteWrapper.reminders,
                     labels = noteWrapper.labels,
-                    onRemindClick = contentSelection.onReminderClick,
-                    onLabelClick = contentSelection.onLabelClick,
+                    onRemindClick = editContentSelection.onReminderClick,
+                    onLabelClick = editContentSelection.onLabelClick,
                     crossAxisSpacing = 16.dp,
                     mainAxisSpacing = 16.dp
                 )
@@ -382,7 +399,7 @@ fun CheckListItem(
     }
 }
 
-data class NoteDetailContentSelection(
+data class NoteEditContentSelection(
     val onTitleTextChanged: (text: String) -> Unit,
     val onNoteTextChanged: (text: String) -> Unit,
     val onReminderClick: (reminder: Reminder) -> Unit,

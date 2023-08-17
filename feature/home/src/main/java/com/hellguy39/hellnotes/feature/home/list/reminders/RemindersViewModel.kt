@@ -2,13 +2,12 @@ package com.hellguy39.hellnotes.feature.home.list.reminders
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllWrappedNotesWithRemindersStreamUseCase
-import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,9 +33,9 @@ class RemindersViewModel @Inject constructor(
 
 sealed class RemindersUiState {
 
-    object Idle: RemindersUiState()
+    data object Idle: RemindersUiState()
 
-    object Empty: RemindersUiState()
+    data object Empty: RemindersUiState()
 
     data class Success(val noteWrappersWithReminders: List<NoteWrapper>): RemindersUiState()
 

@@ -19,7 +19,6 @@ import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationItemSele
 fun NavigationDrawerLayout(
     navItems: List<HNNavigationItemSelection>,
     currentDestination: NavDestination?,
-    windowWidthSize: WindowWidthSizeClass,
     content: @Composable () -> Unit,
     onNewNoteFabClick: () -> Unit,
     onCloseMenuButtonClick: () -> Unit,
@@ -28,7 +27,7 @@ fun NavigationDrawerLayout(
 ) {
     val configuration = LocalConfiguration.current
     val width = remember {
-        (configuration.screenWidthDp / 4).dp
+        (configuration.screenWidthDp / 3).dp
             .coerceAtMost(DrawerDefaults.MaximumDrawerWidth)
     }
 

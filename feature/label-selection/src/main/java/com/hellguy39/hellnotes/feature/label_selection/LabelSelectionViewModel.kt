@@ -3,18 +3,29 @@ package com.hellguy39.hellnotes.feature.label_selection
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.use_case.label.GetAllLabelsStreamUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.label.GetLabelByIdUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.label.InsertLabelUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.label.UpdateLabelUseCase
 import com.hellguy39.hellnotes.core.model.local.database.Label
 import com.hellguy39.hellnotes.core.ui.model.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.model.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LabelSelectionViewModel @Inject constructor(
-    private val labelRepository: LabelRepository,
+    private val insertLabelUseCase: InsertLabelUseCase,
+    private val updateLabelUseCase: UpdateLabelUseCase,
+    getAllLabelsStreamUseCase: GetAllLabelsStreamUseCase,
+    private val getLabelByIdUseCase: GetLabelByIdUseCase,
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
@@ -23,7 +34,7 @@ class LabelSelectionViewModel @Inject constructor(
 
     val uiState: StateFlow<LabelSelectionUiState> =
         combine(
-            labelRepository.getAllLabelsStream(),
+            getAllLabelsStreamUseCase.invoke(),
             search
         ) { labels, search ->
             LabelSelectionUiState(
@@ -64,9 +75,8 @@ class LabelSelectionViewModel @Inject constructor(
             if (noteId == null)
                 return@launch
 
-            labelRepository.updateLabel(
-                label.copy(noteIds = label.noteIds.plus(noteId))
-            )
+            val updatedLabel = label.copy(noteIds = label.noteIds.plus(noteId))
+            updateLabelUseCase.invoke(updatedLabel)
         }
     }
 
@@ -76,9 +86,8 @@ class LabelSelectionViewModel @Inject constructor(
             if (noteId == null)
                 return@launch
 
-            labelRepository.updateLabel(
-                label.copy(noteIds = label.noteIds.minus(noteId))
-            )
+            val updatedLabel = label.copy(noteIds = label.noteIds.minus(noteId))
+            updateLabelUseCase.invoke(updatedLabel)
         }
     }
 
@@ -90,19 +99,24 @@ class LabelSelectionViewModel @Inject constructor(
 
     private fun createNewLabel() {
         viewModelScope.launch {
-            val label = Label(name = search.value)
-            val labelId = labelRepository.insertLabel(label)
-            selectLabel(labelRepository.getLabelById(labelId))
+            val labelId = insertLabelUseCase.invoke(Label(name = search.value))
+            val label = getLabelByIdUseCase.invoke(labelId)
+            selectLabel(label)
         }
     }
 
 }
 
 sealed class LabelSelectionUiEvent {
+
     data class SelectLabel(val label: Label): LabelSelectionUiEvent()
+
     data class UnselectLabel(val label: Label): LabelSelectionUiEvent()
+
     data class UpdateSearch(val search: String): LabelSelectionUiEvent()
-    object CreateNewLabel: LabelSelectionUiEvent()
+
+    data object CreateNewLabel: LabelSelectionUiEvent()
+
 }
 
 data class LabelSelectionUiState(

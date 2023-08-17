@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import com.hellguy39.hellnotes.activity.main.MainActivity
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
-import com.hellguy39.hellnotes.core.common.date.HNDateHandler
+import HNDateHandler
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.system_features.AlarmScheduler
 import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender

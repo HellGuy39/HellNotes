@@ -1,36 +1,40 @@
 package com.hellguy39.hellnotes.navigation.host
 
+import android.app.Activity
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.window.layout.DisplayFeature
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.hellguy39.hellnotes.core.ui.window.calculateContentType
-import com.hellguy39.hellnotes.core.ui.window.rememberContentType
 import com.hellguy39.hellnotes.feature.settings.SettingsRoute
 import com.hellguy39.hellnotes.feature.settings.SettingsViewModel
 import com.hellguy39.hellnotes.feature.settings.util.rememberSettingsNavigationItems
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun SettingsNavHost(
-    displayFeatures: List<DisplayFeature>,
-    windowSize: WindowSizeClass,
     settingsViewModel: SettingsViewModel = hiltViewModel(),
     navigateBack: () -> Unit
 ) {
-    val windowWidthSize by rememberUpdatedState(windowSize.widthSizeClass)
-
     val settingsNavController = rememberNavController()
 
-    val contentType = calculateContentType(displayFeatures, windowWidthSize)
+    val activity = LocalContext.current as Activity
+    val displayFeatures = calculateDisplayFeatures(activity)
+    val windowSizeClass = calculateWindowSizeClass(activity)
+
+    val contentType = calculateContentType(displayFeatures, windowSizeClass.widthSizeClass)
 
     val navBackStackEntry by settingsNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -54,12 +58,14 @@ fun SettingsNavHost(
                 displayFeatures = displayFeatures,
                 currentDestination = currentDestination,
                 onBackNavigation = navigateBack,
-                windowWidthSize = windowWidthSize
+                windowWidthSizeClass = windowSizeClass.widthSizeClass
             )
         }
     }
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) { innerPadding ->
         navHost(innerPadding)
     }
 }

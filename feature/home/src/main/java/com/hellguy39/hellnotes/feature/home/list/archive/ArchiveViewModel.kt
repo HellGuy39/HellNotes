@@ -2,14 +2,12 @@ package com.hellguy39.hellnotes.feature.home.list.archive
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllArchivedWrappedNotesStreamUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllWrappedNotesStreamUseCase
-import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,9 +33,9 @@ class ArchiveViewModel @Inject constructor(
 
 sealed class ArchiveUiState {
 
-    object Idle: ArchiveUiState()
+    data object Idle: ArchiveUiState()
 
-    object Empty: ArchiveUiState()
+    data object Empty: ArchiveUiState()
 
     data class Success(val archivedNoteWrappers: List<NoteWrapper>): ArchiveUiState()
 

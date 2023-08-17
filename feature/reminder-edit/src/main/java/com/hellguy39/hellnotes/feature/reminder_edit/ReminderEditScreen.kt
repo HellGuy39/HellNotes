@@ -39,7 +39,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
-import com.hellguy39.hellnotes.core.common.date.HNDateHandler
+import HNDateHandler
 import com.hellguy39.hellnotes.core.model.local.datastore.Repeat
 import com.hellguy39.hellnotes.core.ui.component.dialog.CustomDialog
 import com.hellguy39.hellnotes.core.ui.component.dialog.rememberDialogState

@@ -1,9 +1,15 @@
 package com.hellguy39.hellnotes.core.ui.layout
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOut
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.material3.DrawerDefaults
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
@@ -23,24 +29,23 @@ import androidx.navigation.NavDestination
 import com.hellguy39.hellnotes.core.ui.component.navigation.HNDrawerSheet
 import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationBarItem
 import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationItemSelection
-import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationRail
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import kotlinx.coroutines.launch
 
 @Composable
 fun BottomNavigationBarLayout(
+    bottomNavItems: List<HNNavigationItemSelection>,
     navItems: List<HNNavigationItemSelection>,
     currentDestination: NavDestination?,
     isVisible: Boolean = true,
-    content: @Composable (innerPadding: PaddingValues, onDrawerOpen: () -> Unit) -> Unit,
+    content: @Composable () -> Unit,
+    drawerState: DrawerState,
+    onDrawerOpen: (Boolean) -> Unit,
     onNewNoteFabClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onAboutClick: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-
     ModalNavigationDrawer(
         modifier = Modifier,
         drawerState = drawerState,
@@ -53,17 +58,9 @@ fun BottomNavigationBarLayout(
                     HNDrawerSheet(
                         navItems = navItems,
                         currentDestination = currentDestination,
-                        onCloseMenuButtonClick = {
-                            scope.launch {
-                                drawerState.close()
-                            }
-                        },
+                        onCloseMenuButtonClick = { onDrawerOpen(false) },
                         onNewNoteFabClick = onNewNoteFabClick,
-                        onItemClick = {
-                            scope.launch {
-                                drawerState.close()
-                            }
-                        },
+                        onItemClick = { onDrawerOpen(false) },
                         onSettingsClick = onSettingsClick,
                         onAboutClick = onAboutClick
                     )
@@ -74,46 +71,76 @@ fun BottomNavigationBarLayout(
             Scaffold(
                 floatingActionButton = {
 
-                    if (!isVisible)
-                        return@Scaffold
-
-                    ExtendedFloatingActionButton(
-                        text = { Text(text = stringResource(id = HellNotesStrings.Button.NewNote)) },
-                        icon = {
-                            Icon(
-                                painter = painterResource(id = HellNotesIcons.Add),
-                                contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote)
-                            )
-                        },
-                        onClick = onNewNoteFabClick,
-                        expanded = true
-                    )
+                    AnimatedVisibility(
+                        visible = isVisible,
+                        enter = slideInVertically (
+                            initialOffsetY = { fullWidth -> fullWidth },
+                            animationSpec = tween(durationMillis = 250)
+                        ) + fadeIn(animationSpec = tween(durationMillis = 250)),
+                        exit = slideOutVertically (
+                            targetOffsetY = { fullWidth -> fullWidth },
+                            animationSpec = tween(durationMillis = 250)
+                        ) + fadeOut(animationSpec = tween(durationMillis = 250))
+                    ) {
+                        ExtendedFloatingActionButton(
+                            text = { Text(text = stringResource(id = HellNotesStrings.Button.NewNote)) },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = HellNotesIcons.Add),
+                                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.AddNote)
+                                )
+                            },
+                            onClick = onNewNoteFabClick,
+                            expanded = true
+                        )
+                    }
                 },
                 floatingActionButtonPosition = FabPosition.End,
                 bottomBar = {
-
-                    if (!isVisible)
-                        return@Scaffold
-
-                    NavigationBar(
-                        content = {
-                            navItems.forEach { item ->
-                                HNNavigationBarItem(
-                                    item = item,
-                                    currentDestination = currentDestination
-                                )
+                    AnimatedVisibility(
+                        visible = isVisible,
+                        enter = slideInVertically (
+                                initialOffsetY = { fullWidth -> fullWidth },
+                                animationSpec = tween(durationMillis = 250)
+                            ) + fadeIn(animationSpec = tween(durationMillis = 250)),
+                        exit = slideOutVertically (
+                            targetOffsetY = { fullWidth -> fullWidth },
+                            animationSpec = tween(durationMillis = 250)
+                        ) + fadeOut(animationSpec = tween(durationMillis = 250))
+                    ) {
+                        NavigationBar(
+                            content = {
+                                bottomNavItems.forEach { item ->
+                                    HNNavigationBarItem(
+                                        item = item,
+                                        currentDestination = currentDestination
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
+//                    if (!isVisible)
+//                        return@Scaffold
+//
+//                    NavigationBar(
+//                        content = {
+//                            bottomNavItems.forEach { item ->
+//                                HNNavigationBarItem(
+//                                    item = item,
+//                                    currentDestination = currentDestination
+//                                )
+//                            }
+//                        }
+//                    )
                 },
-                content = { paddingValues ->
+                content = { innerPadding ->
                     content(
-                        paddingValues,
-                        onDrawerOpen = {
-                            scope.launch {
-                                drawerState.open()
-                            }
-                        }
+//                        paddingValues,
+//                        onDrawerOpen = {
+//                            scope.launch {
+//                                drawerState.open()
+//                            }
+//                        }
                     )
                 }
             )

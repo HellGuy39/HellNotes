@@ -14,14 +14,14 @@ import com.hellguy39.hellnotes.core.ui.component.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.text.UiText
-import com.hellguy39.hellnotes.feature.home.edit.NoteDetailUiState
+import com.hellguy39.hellnotes.feature.home.edit.NoteEditUiState
 import com.hellguy39.hellnotes.feature.home.util.BottomSheetMenuItemSelection
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttachmentBottomSheet(
-    uiState: NoteDetailUiState,
+    uiState: NoteEditUiState,
     onDismiss: () -> Unit = {},
     selection: AttachmentBottomSheetSelection = AttachmentBottomSheetSelection()
 ) {

@@ -6,10 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import com.hellguy39.hellnotes.core.model.ColorParam
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.value.elevation
 import com.hellguy39.hellnotes.feature.home.edit.NoteWrapperState
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,8 +1,6 @@
 package com.hellguy39.hellnotes.core.ui.component.list
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -21,7 +19,6 @@ import com.hellguy39.hellnotes.core.ui.component.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.util.ContentGroup
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HNNotesList(
     modifier: Modifier = Modifier,
@@ -61,7 +58,7 @@ fun HNNotesList(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HNNotesList(
     modifier: Modifier = Modifier,
@@ -97,7 +94,6 @@ fun HNNotesList(
     )
 }
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun NotesList(
     modifier: Modifier,
@@ -112,11 +108,9 @@ internal fun NotesList(
     lazyStaggeredGridState: LazyStaggeredGridState
 ) {
     val listModifier = modifier
-        .then(
-            Modifier.testTag("item_list")
-        )
+        .then(Modifier.testTag("item_list"))
 
-    AnimatedContent(targetState = listStyle) { style ->
+    AnimatedContent(targetState = listStyle, label = "label") { style ->
         when(style) {
             ListStyle.Column -> {
                 NoteColumnList(

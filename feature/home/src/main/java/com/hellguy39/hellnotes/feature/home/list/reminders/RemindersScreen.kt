@@ -26,7 +26,7 @@ import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.list.reminders.components.ReminderTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.list.reminders.components.RemindersTopAppBar
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RemindersScreen(
     uiState: RemindersUiState,

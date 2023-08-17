@@ -32,7 +32,8 @@ fun ElevatedNoteCard(
             MaterialTheme.colorScheme.primary,
             FastOutSlowInEasing.transform(fraction)
         ),
-        animationSpec = tween(200)
+        animationSpec = tween(200),
+        label = "label"
     )
 
     val borderSize by animateDpAsState(
@@ -41,7 +42,8 @@ fun ElevatedNoteCard(
             2.dp,
             FastOutLinearInEasing.transform(fraction)
         ),
-        animationSpec = tween(200)
+        animationSpec = tween(200),
+        label = "label"
     )
 
     ElevatedCard(

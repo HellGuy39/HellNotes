@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.settings
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -41,6 +43,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.hellguy39.hellnotes.core.ui.component.navigation.HNNavigationItemSelection
 import com.hellguy39.hellnotes.core.ui.component.top_bar.HNAdaptiveTopAppBar
 import com.hellguy39.hellnotes.core.ui.layout.ListDetail
@@ -60,7 +63,7 @@ import com.hellguy39.hellnotes.feature.settings.detail.theme.AppearanceRoute
 fun SettingsRoute(
     settingsViewModel: SettingsViewModel,
     settingsNavController: NavHostController,
-    windowWidthSize: WindowWidthSizeClass,
+    windowWidthSizeClass: WindowWidthSizeClass,
     contentType: HNContentType,
     displayFeatures: List<DisplayFeature>,
     navItems: List<HNNavigationItemSelection>,
@@ -73,12 +76,12 @@ fun SettingsRoute(
 
     val horizontalListSpacing by remember {
         mutableStateOf(
-            if (windowWidthSize.isCompact()) spacing.medium else spacing.none
+            if (windowWidthSizeClass.isCompact()) spacing.medium else spacing.none
         )
     }
 
     ListDetail(
-        modifier = Modifier,
+        modifier = Modifier.fillMaxSize(),
         isDetailOpen = selectedSectionsRoute != null,
         onCloseDetail = { settingsViewModel.setSection(null) },
         contentType = contentType,
@@ -94,7 +97,7 @@ fun SettingsRoute(
                     .nestedScroll(scrollBehavior.nestedScrollConnection),
                 topBar = {
                     HNAdaptiveTopAppBar(
-                        windowWidthSize = windowWidthSize,
+                        windowWidthSize = windowWidthSizeClass,
                         content = {
                             Text(
                                 text = stringResource(id = HellNotesStrings.Title.Settings),
@@ -150,8 +153,8 @@ fun SettingsRoute(
                 else -> Unit
             }
         },
-        twoPaneStrategy = HorizontalTwoPaneStrategy(splitFraction = 0.33f, gapWidth = 0.dp),
-        displayFeatures = displayFeatures
+        twoPaneStrategy = HorizontalTwoPaneStrategy(splitFraction = 1 / 3f, gapWidth = 0.dp),
+        displayFeatures = calculateDisplayFeatures(activity = LocalContext.current as Activity)
     )
 }
 

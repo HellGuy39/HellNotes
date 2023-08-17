@@ -15,6 +15,7 @@ import com.hellguy39.hellnotes.core.model.local.database.removeCompletedChecklis
 import com.hellguy39.hellnotes.core.model.local.database.sortByPriority
 import com.hellguy39.hellnotes.core.ui.component.checklist.NoteChecklistGroup
 import com.hellguy39.hellnotes.core.ui.component.chip.NoteChipGroup
+import com.hellguy39.hellnotes.core.ui.value.spacing
 
 @Composable
 internal fun NoteCardContent(
@@ -32,7 +33,7 @@ internal fun NoteCardContent(
     Column(
         modifier = Modifier
             .padding(12.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
     ) {
         if (isTitleValid) {
             Text(

@@ -1,5 +1,3 @@
-package com.hellguy39.hellnotes.core.common.date
-
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -75,8 +73,8 @@ class HNDateHandler private constructor(
         const val TIME_ONLY = "HH:mm"
         const val DATE_ONLY = "MMMM dd"
 
-        const val MONTH_DAY_TIME = "MMM dd, HH:mm"
-        const val YEAR_MONTH_DAY_TIME = "MMM dd, yyyy, HH:mm"
+        const val MONTH_DAY_TIME = "dd MMMM, HH:mm"
+        const val YEAR_MONTH_DAY_TIME = "dd MMMM yyyy, HH:mm"
     }
 
     object SpecialPatterns {

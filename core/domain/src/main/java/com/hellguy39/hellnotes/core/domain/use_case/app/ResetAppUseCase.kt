@@ -1,7 +1,12 @@
 package com.hellguy39.hellnotes.core.domain.use_case.app
 
+import com.hellguy39.hellnotes.core.common.date.di.IoDispatcher
+import com.hellguy39.hellnotes.core.common.date.di.MainDispatcher
 import com.hellguy39.hellnotes.core.domain.repository.local.*
 import com.hellguy39.hellnotes.core.domain.use_case.reminder.DeleteReminderUseCase
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ResetAppUseCase @Inject constructor(
@@ -11,7 +16,8 @@ class ResetAppUseCase @Inject constructor(
     private val checklistRepository: ChecklistRepository,
     private val reminderRepository: ReminderRepository,
     private val trashRepository: TrashRepository,
-    private val deleteReminderUseCase: DeleteReminderUseCase
+    private val deleteReminderUseCase: DeleteReminderUseCase,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
     suspend operator fun invoke(
         onResetDatabase: Boolean,
@@ -26,17 +32,20 @@ class ResetAppUseCase @Inject constructor(
     }
 
     private suspend fun resetDatabase() {
-        noteRepository.deleteAll()
-        labelRepository.deleteAll()
-        checklistRepository.deleteAll()
-        trashRepository.deleteAll()
+        withContext(ioDispatcher) {
+            noteRepository.deleteAll()
+            labelRepository.deleteAll()
+            checklistRepository.deleteAll()
+            trashRepository.deleteAll()
 
-        reminderRepository.getAllReminders().forEach { reminder ->
-            deleteReminderUseCase.invoke(reminder.id ?: return)
+            reminderRepository.getAllReminders()
+                .forEach { reminder -> deleteReminderUseCase.invoke(reminder.id) }
         }
     }
 
     private suspend fun resetSettings() {
-        dataStoreRepository.resetToDefault()
+        withContext(ioDispatcher) {
+            dataStoreRepository.resetToDefault()
+        }
     }
 }

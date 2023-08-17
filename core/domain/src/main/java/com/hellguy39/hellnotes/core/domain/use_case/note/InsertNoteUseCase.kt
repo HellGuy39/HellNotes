@@ -2,25 +2,18 @@ package com.hellguy39.hellnotes.core.domain.use_case.note
 
 import com.hellguy39.hellnotes.core.common.date.di.IoDispatcher
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.local.database.Note
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ArchiveNotesUseCase @Inject constructor(
+class InsertNoteUseCase @Inject constructor(
     private val noteRepository: NoteRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
-
-    suspend operator fun invoke(noteWrappers: List<NoteWrapper>, isArchived: Boolean) {
-        withContext(ioDispatcher) {
-            val updatedNotes = mutableListOf<Note>()
-            noteWrappers.forEach { wrapper ->
-                updatedNotes.add(wrapper.note.copy(isArchived = isArchived))
-            }
-            noteRepository.updateNotes(updatedNotes)
+    suspend operator fun invoke(note: Note): Long {
+        return withContext(ioDispatcher) {
+            noteRepository.insertNote(note)
         }
     }
-
 }

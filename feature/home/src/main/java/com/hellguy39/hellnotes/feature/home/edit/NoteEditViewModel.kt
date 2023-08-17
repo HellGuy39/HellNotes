@@ -7,7 +7,7 @@ import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.use_case.note.CopyNoteUseCase
-import com.hellguy39.hellnotes.core.domain.use_case.note.DeleteNotesUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.note.DeleteNoteUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.note.PostProcessNoteUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.trash.MoveNotesToTrashUseCase
 import com.hellguy39.hellnotes.core.model.NoteWrapper
@@ -35,7 +35,7 @@ class NoteEditViewModel @Inject constructor(
     labelRepository: LabelRepository,
     private val checklistRepository: ChecklistRepository,
     private val moveNotesToTrashUseCase: MoveNotesToTrashUseCase,
-    private val deleteNotesUseCase: DeleteNotesUseCase,
+    private val deleteNotesUseCase: DeleteNoteUseCase,
     private val postProcessNoteUseCase: PostProcessNoteUseCase,
     private val copyNoteUseCase: CopyNoteUseCase
 ) : ViewModel() {
@@ -87,11 +87,11 @@ class NoteEditViewModel @Inject constructor(
             initialValue = NoteEditDialogState()
         )
 
-    val uiState: StateFlow<NoteDetailUiState> = combine(
+    val uiState: StateFlow<NoteEditUiState> = combine(
         noteWrapperState,
         noteEditDialogState
     ) { noteWrapperState, noteEditDialogState ->
-        NoteDetailUiState(
+        NoteEditUiState(
             noteWrapperState = noteWrapperState,
             noteEditDialogState = noteEditDialogState
         )
@@ -99,15 +99,15 @@ class NoteEditViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = NoteDetailUiState()
+            initialValue = NoteEditUiState()
         )
 
     fun send(uiEvent: NoteEditUiEvent) {
         when (uiEvent) {
 
-            is NoteEditUiEvent.EditNoteTitle -> editNoteTitle(uiEvent.title)
+            is NoteEditUiEvent.ChangeNoteTitle -> editNoteTitle(uiEvent.title)
 
-            is NoteEditUiEvent.EditNoteContent -> editNoteContent(uiEvent.text)
+            is NoteEditUiEvent.ChangeNoteContent -> editNoteContent(uiEvent.text)
 
             is NoteEditUiEvent.OpenNote -> openNote(uiEvent.noteId)
 
@@ -122,9 +122,9 @@ class NoteEditViewModel @Inject constructor(
             is NoteEditUiEvent.UpdateChecklistItem ->
                 updateChecklistItem(uiEvent.checklist, uiEvent.oldItem, uiEvent.newItem)
 
-            is NoteEditUiEvent.UpdateIsArchived -> updateIsArchived()
+            is NoteEditUiEvent.ToggleIsArchived -> updateIsArchived()
 
-            is NoteEditUiEvent.UpdateIsPinned -> updateIsPinned()
+            is NoteEditUiEvent.ToggleIsPinned -> updateIsPinned()
 
             is NoteEditUiEvent.AddChecklist -> addChecklist()
 
@@ -204,6 +204,11 @@ class NoteEditViewModel @Inject constructor(
 
     private fun openNote(noteId: Long) {
         viewModelScope.launch {
+
+            if (note.value.id != null) {
+                close()
+            }
+
             if (noteId == Note.EMPTY_ID) {
                 note.update { Note(Note.EMPTY_ID) }
             } else {
@@ -231,26 +236,30 @@ class NoteEditViewModel @Inject constructor(
 
     private fun save() {
         viewModelScope.launch {
-            uiState.value.let { state ->
-                if (state.noteWrapperState is NoteWrapperState.Success) {
-                    val postProcessedNote = prepareNoteForSave(state.noteWrapperState.noteWrapper)
-                    noteRepository.updateNote(postProcessedNote.note)
-                }
+            val state = uiState.value
+
+            if (state.noteWrapperState !is NoteWrapperState.Success) {
+                return@launch
             }
+
+            val postProcessedNote = prepareNoteForSave(state.noteWrapperState.noteWrapper)
+            noteRepository.updateNote(postProcessedNote.note)
         }
     }
 
     private fun close() {
         viewModelScope.launch {
-            uiState.value.let { state ->
-                if (state.noteWrapperState is NoteWrapperState.Success) {
-                    val postProcessedNote = prepareNoteForSave(state.noteWrapperState.noteWrapper)
-                    if (postProcessedNote.isNoteWrapperInvalid()) {
-                        deleteNote()
-                    } else {
-                        noteRepository.updateNote(postProcessedNote.note)
-                    }
-                }
+            val state = uiState.value
+
+            if (state.noteWrapperState !is NoteWrapperState.Success) {
+                return@launch
+            }
+
+            val postProcessedNote = prepareNoteForSave(state.noteWrapperState.noteWrapper)
+            if (postProcessedNote.isNoteWrapperInvalid()) {
+                note.value.let { note -> deleteNotesUseCase.invoke(note) }
+            } else {
+                noteRepository.updateNote(postProcessedNote.note)
             }
         }
     }
@@ -304,12 +313,6 @@ class NoteEditViewModel @Inject constructor(
     private fun moveNoteToTrash() {
         viewModelScope.launch {
             note.value.let { note -> moveNotesToTrashUseCase.invoke(listOf(note.toNoteWrapper())) }
-        }
-    }
-
-    private fun deleteNote() {
-        viewModelScope.launch {
-            note.value.let { note -> deleteNotesUseCase.invoke(listOf(note)) }
         }
     }
 
@@ -425,15 +428,15 @@ sealed class NoteEditUiEvent {
 
     data class OpenNote(val noteId: Long) : NoteEditUiEvent()
 
-    object CloseNote : NoteEditUiEvent()
+    data object CloseNote : NoteEditUiEvent()
 
-    data class EditNoteTitle(val title: String) : NoteEditUiEvent()
+    data class ChangeNoteTitle(val title: String) : NoteEditUiEvent()
 
-    data class EditNoteContent(val text: String) : NoteEditUiEvent()
+    data class ChangeNoteContent(val text: String) : NoteEditUiEvent()
 
-    object UpdateIsPinned: NoteEditUiEvent()
+    data object ToggleIsPinned: NoteEditUiEvent()
 
-    object UpdateIsArchived: NoteEditUiEvent()
+    data object ToggleIsArchived: NoteEditUiEvent()
 
     data class CheckAllChecklistItems(
         val checklist: Checklist, val isCheck: Boolean
@@ -448,7 +451,7 @@ sealed class NoteEditUiEvent {
     data class ExpandChecklist(val checklist: Checklist, val isExpanded: Boolean) :
         NoteEditUiEvent()
 
-    object AddChecklist : NoteEditUiEvent()
+    data object AddChecklist : NoteEditUiEvent()
 
     data class DeleteChecklist(val checklist: Checklist) : NoteEditUiEvent()
 
@@ -457,7 +460,7 @@ sealed class NoteEditUiEvent {
 
     data class AddChecklistItem(val checklist: Checklist) : NoteEditUiEvent()
 
-    object DeleteNote : NoteEditUiEvent()
+    data object DeleteNote : NoteEditUiEvent()
 
     data class CopyNote(val onCopied: (id: Long) -> Unit) : NoteEditUiEvent()
 
@@ -471,15 +474,15 @@ sealed class NoteEditUiEvent {
 
     data class OpenReminderEditDialog(val isOpen: Boolean) : NoteEditUiEvent()
 
-    object AddLabel : NoteEditUiEvent()
+    data object AddLabel : NoteEditUiEvent()
 
-    object Share : NoteEditUiEvent()
+    data object Share : NoteEditUiEvent()
 
-    object MakeACopy : NoteEditUiEvent()
+    data object MakeACopy : NoteEditUiEvent()
 
 }
 
-data class NoteDetailUiState(
+data class NoteEditUiState(
     val noteWrapperState: NoteWrapperState = NoteWrapperState.Empty,
     val noteEditDialogState: NoteEditDialogState = NoteEditDialogState(),
 )
@@ -500,6 +503,6 @@ sealed class NoteWrapperState {
 
     data class Success(val noteWrapper: NoteWrapper) : NoteWrapperState()
 
-    object Empty : NoteWrapperState()
+    data object Empty : NoteWrapperState()
 
 }

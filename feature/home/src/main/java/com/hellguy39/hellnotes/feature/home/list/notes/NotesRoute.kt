@@ -11,6 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.ui.component.cards.NoteSelection
+import com.hellguy39.hellnotes.feature.home.MainUiEvent
 import com.hellguy39.hellnotes.feature.home.MainViewModel
 import com.hellguy39.hellnotes.feature.home.list.notes.components.NoteListTopAppBarSelection
 
@@ -19,63 +20,28 @@ import com.hellguy39.hellnotes.feature.home.list.notes.components.NoteListTopApp
 fun NotesRoute(
     mainViewModel: MainViewModel,
     windowWidthSize: WindowWidthSizeClass,
-    noteListViewModel: NoteListViewModel = hiltViewModel(),
-    onDrawerOpen: () -> Unit,
+    onDrawerOpen: (Boolean) -> Unit,
+    notesViewModel: NotesViewModel = hiltViewModel()
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    val uiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by notesViewModel.uiState.collectAsStateWithLifecycle()
     val openedNoteId by mainViewModel.openedNoteId.collectAsStateWithLifecycle()
 
     NoteListScreen(
         uiState = uiState,
         openedNoteId = openedNoteId,
-        appBarSelection = NoteListTopAppBarSelection(),
-        noteListViewModel = noteListViewModel,
         onDrawerOpen = onDrawerOpen,
         windowWidthSize = windowWidthSize,
-        screenSelection = NoteListScreenSelection(
-            noteSelection = NoteSelection(
-                noteStyle = NoteStyle.Outlined,
-                isSwipeable = false,
-                onClick = { noteWrapper ->
-                    mainViewModel.openNoteEdit(noteWrapper.note.id)
-//                    if (selectedNoteWrappers.isNotEmpty()) {
-//                        homeViewModel.send(HomeUiEvent.SelectNote(noteWrapper))
-//                    } else {
-//                        homeViewModel.send(HomeUiEvent.OpenNoteDetail(noteId = noteWrapper.note.id))
-//                        //navController.navigateToNoteDetail(noteId = noteWrapper.note.id)
-//                    }
-                },
-                onLongClick = { noteWrapper ->
-                    //homeViewModel.send(HomeUiEvent.SelectNote(noteWrapper))
-                },
-                onDismiss = { dismissDirection, noteWrapper ->
-//                    when(
-//                        if (dismissDirection == DismissDirection.StartToEnd)
-//                            noteSwipesState.swipeRight
-//                        else
-//                            noteSwipesState.swipeLeft
-//                    ) {
-//                        NoteSwipe.None -> false
-//                        NoteSwipe.Delete -> {
-//                            homeViewModel.send(HomeUiEvent.SwipeToDeleteNote(noteWrapper))
-//                            showSnack(context.getString(HellNotesStrings.Snack.NoteMovedToTrash))
-//                            true
-//                        }
-//                        NoteSwipe.Archive -> {
-//                            homeViewModel.send(HomeUiEvent.SwipeToArchiveNote(noteWrapper))
-//                            showSnack(context.getString(HellNotesStrings.Snack.NoteArchived))
-//                            true
-//                        }
-//                    }
-                    false
+        notesViewModel = notesViewModel,
+        noteSelection = NoteSelection(
+            noteStyle = NoteStyle.Outlined,
+            isSwipeable = false,
+            onClick = { noteWrapper ->
+                noteWrapper.note.id?.let { id ->
+                    mainViewModel.onEvent(MainUiEvent.OpenNoteEditing(id))
                 }
-            ),
-            listStyle = ListStyle.Column,
-            snackbarHostState = snackbarHostState,
-            selectedNoteWrappers = listOf()
-        )
+            },
+            onLongClick = { noteWrapper -> },
+            onDismiss = { dismissDirection, noteWrapper -> false }
+        ),
     )
-
 }

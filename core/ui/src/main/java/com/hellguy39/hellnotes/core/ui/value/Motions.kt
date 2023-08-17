@@ -14,40 +14,42 @@ object Motions {
     const val MEDIUM_DURATION = 300
     const val SLOW_DURATION = 400
 
-    fun slideEnter(duration: Int = DEFAULT_DURATION) =
-        slideInHorizontally(
-            initialOffsetX = { fullWidth -> fullWidth },
-            animationSpec = tween(durationMillis = duration)
-        ) + fadeIn(animationSpec = tween(durationMillis = duration))
+    object Screen {
+        fun slideEnter(duration: Int = DEFAULT_DURATION) =
+            slideInHorizontally(
+                initialOffsetX = { fullWidth -> fullWidth },
+                animationSpec = tween(durationMillis = duration)
+            ) + fadeIn(animationSpec = tween(durationMillis = duration))
 
-    fun slideExit(duration: Int = DEFAULT_DURATION) =
-        slideOutHorizontally(
-            targetOffsetX = { fullWidth -> -fullWidth },
-            animationSpec = tween(durationMillis = duration)
-        ) + fadeOut(animationSpec = tween(durationMillis = duration))
+        fun slideExit(duration: Int = DEFAULT_DURATION) =
+            slideOutHorizontally(
+                targetOffsetX = { fullWidth -> -fullWidth },
+                animationSpec = tween(durationMillis = duration)
+            ) + fadeOut(animationSpec = tween(durationMillis = duration))
 
-    fun slidePopEnter(duration: Int = DEFAULT_DURATION) =
-        slideInHorizontally(
-            initialOffsetX = { fullWidth -> -fullWidth },
-            animationSpec = tween(durationMillis = duration)
-        ) + fadeIn(animationSpec = tween(durationMillis = duration))
+        fun slidePopEnter(duration: Int = DEFAULT_DURATION) =
+            slideInHorizontally(
+                initialOffsetX = { fullWidth -> -fullWidth },
+                animationSpec = tween(durationMillis = duration)
+            ) + fadeIn(animationSpec = tween(durationMillis = duration))
 
-    fun slidePopExit(duration: Int = DEFAULT_DURATION) =
-        slideOutHorizontally(
-            targetOffsetX = { fullWidth -> fullWidth },
-            animationSpec = tween(durationMillis = duration)
-        ) + fadeOut(animationSpec = tween(durationMillis = duration))
+        fun slidePopExit(duration: Int = DEFAULT_DURATION) =
+            slideOutHorizontally(
+                targetOffsetX = { fullWidth -> fullWidth },
+                animationSpec = tween(durationMillis = duration)
+            ) + fadeOut(animationSpec = tween(durationMillis = duration))
 
-    fun fadeEnter(duration: Int = DEFAULT_DURATION) =
-        fadeIn(animationSpec = tween(durationMillis = duration))
+        fun fadeEnter(duration: Int = DEFAULT_DURATION) =
+            fadeIn(animationSpec = tween(durationMillis = duration))
 
-    fun fadeExit(duration: Int = DEFAULT_DURATION) =
-        fadeOut(animationSpec = tween(durationMillis = duration))
+        fun fadeExit(duration: Int = DEFAULT_DURATION) =
+            fadeOut(animationSpec = tween(durationMillis = duration))
 
-    fun fadePopEnter(duration: Int = DEFAULT_DURATION) =
-        fadeIn(animationSpec = tween(durationMillis = duration))
+        fun fadePopEnter(duration: Int = DEFAULT_DURATION) =
+            fadeIn(animationSpec = tween(durationMillis = duration))
 
-    fun fadePopExit(duration: Int = DEFAULT_DURATION) =
-        fadeOut(animationSpec = tween(durationMillis = duration))
+        fun fadePopExit(duration: Int = DEFAULT_DURATION) =
+            fadeOut(animationSpec = tween(durationMillis = duration))
+    }
 
 }

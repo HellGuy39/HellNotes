@@ -25,12 +25,6 @@ fun rememberHomeNavigationItems(onItemClick: (HNNavigationItemSelection) -> Unit
             iconId = HellNotesIcons.Notifications,
             onClick = onItemClick
         ),
-//    HNNavigationItemSelection(
-//        screen = GraphScreen.Main.Labels,
-//        title = stringResource(id = HellNotesStrings.Title.Labels),
-//        icon = painterResource(id = HellNotesIcons.Label),
-//        onClick = onItemClick
-//    ),
         HNNavigationItemSelection(
             screen = GraphScreen.Main.Archive,
             title = UiText.StringResources(HellNotesStrings.Title.Archive),
@@ -41,6 +35,24 @@ fun rememberHomeNavigationItems(onItemClick: (HNNavigationItemSelection) -> Unit
             screen = GraphScreen.Main.Trash,
             title = UiText.StringResources(HellNotesStrings.Title.Trash),
             iconId = HellNotesIcons.Delete,
+            onClick = onItemClick
+        ),
+    )
+}
+
+@Composable
+fun rememberHomeBottomNavigationItems(onItemClick: (HNNavigationItemSelection) -> Unit) = remember {
+    listOf(
+        HNNavigationItemSelection(
+            screen = GraphScreen.Main.Notes,
+            title = UiText.StringResources(HellNotesStrings.Title.Notes),
+            iconId = HellNotesIcons.StickyNote,
+            onClick = onItemClick
+        ),
+        HNNavigationItemSelection(
+            screen = GraphScreen.Main.Reminders,
+            title = UiText.StringResources(HellNotesStrings.Title.Reminders),
+            iconId = HellNotesIcons.Notifications,
             onClick = onItemClick
         ),
     )

@@ -16,7 +16,7 @@ fun NotesListRoute(
     mainNavController: NavHostController,
     mainViewModel: MainViewModel,
     windowWidthSize: WindowWidthSizeClass,
-    onDrawerOpen: () -> Unit
+    onDrawerOpen: (Boolean) -> Unit
 ) {
     NavHost(
         modifier = Modifier,

@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.core.ui.layout
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerDefaults
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -23,11 +24,10 @@ fun NavigationRailLayout(
     content: @Composable () -> Unit,
     onNewNoteFabClick: () -> Unit,
     onSettingsClick: () -> Unit,
-    onAboutClick: () -> Unit
+    onAboutClick: () -> Unit,
+    drawerState: DrawerState,
+    onDrawerOpen: (Boolean) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-
     ModalNavigationDrawer(
         modifier = Modifier,
         drawerState = drawerState,
@@ -40,17 +40,9 @@ fun NavigationRailLayout(
                     HNDrawerSheet(
                         navItems = navItems,
                         currentDestination = currentDestination,
-                        onCloseMenuButtonClick = {
-                            scope.launch {
-                                drawerState.close()
-                            }
-                        },
+                        onCloseMenuButtonClick = { onDrawerOpen(false) },
                         onNewNoteFabClick = onNewNoteFabClick,
-                        onItemClick = {
-                            scope.launch {
-                                drawerState.close()
-                            }
-                        },
+                        onItemClick = { onDrawerOpen(false) },
                         onSettingsClick = onSettingsClick,
                         onAboutClick = onAboutClick
                     )
@@ -64,11 +56,7 @@ fun NavigationRailLayout(
                 HNNavigationRail(
                     navItems = navItems,
                     currentDestination = currentDestination,
-                    onNavigationButtonClick = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    },
+                    onNavigationButtonClick = { onDrawerOpen(true) },
                     onNewNoteFabClick = onNewNoteFabClick
                 )
                 content()

@@ -8,7 +8,7 @@ import com.hellguy39.hellnotes.feature.home.MainViewModel
 
 fun NavGraphBuilder.notesScreen(
     mainViewModel: MainViewModel,
-    onDrawerOpen: () -> Unit,
+    onDrawerOpen: (Boolean) -> Unit,
     windowWidthSize: WindowWidthSizeClass
 ) {
     composable(

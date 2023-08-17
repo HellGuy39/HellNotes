@@ -1,28 +1,20 @@
 package com.hellguy39.hellnotes.feature.home
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.hellguy39.hellnotes.core.ui.layout.ListDetail
-import com.hellguy39.hellnotes.core.ui.model.GraphScreen
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
 import com.hellguy39.hellnotes.feature.home.edit.NoteEditRoute
 import com.hellguy39.hellnotes.feature.home.list.archive.NotesListRoute
-import com.hellguy39.hellnotes.feature.home.list.archive.archiveScreen
-import com.hellguy39.hellnotes.feature.home.list.notes.notesScreen
-import com.hellguy39.hellnotes.feature.home.list.reminders.remindersScreen
-import com.hellguy39.hellnotes.feature.home.list.trash.trashScreen
 
 @Composable
 fun MainRoute(
-    innerPadding: PaddingValues,
     mainNavController: NavHostController,
     isDetailOpen: Boolean,
     openedNoteId: Long,
@@ -30,13 +22,12 @@ fun MainRoute(
     contentType: HNContentType,
     displayFeatures: List<DisplayFeature>,
     windowWidthSize: WindowWidthSizeClass,
-    onCloseNoteEdit: () -> Unit,
-    onDrawerOpen: () -> Unit
+    onDrawerOpen: (Boolean) -> Unit
 ) {
     ListDetail(
-        modifier = Modifier,
+        modifier = Modifier.fillMaxSize(),
         isDetailOpen = isDetailOpen,
-        onCloseDetail = onCloseNoteEdit,
+        onCloseDetail = { mainViewModel.onEvent(MainUiEvent.CloseNoteEditing) },
         contentType = contentType,
         detailKey = openedNoteId,
         list = { isDetailVisible ->
@@ -50,8 +41,8 @@ fun MainRoute(
         detail = { isListVisible ->
             NoteEditRoute(
                 contentType = contentType,
-                noteId = openedNoteId,
-                onCloseNoteEdit = onCloseNoteEdit,
+                openedNoteId = openedNoteId,
+                onCloseNoteEdit = { mainViewModel.onEvent(MainUiEvent.CloseNoteEditing) },
                 windowWidthSize = windowWidthSize
             )
         },

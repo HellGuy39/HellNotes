@@ -26,7 +26,6 @@ fun OutlinedNoteCard(
     noteWrapper: NoteWrapper,
     isSelected: Boolean = false,
 ) {
-
     val fraction = if (isSelected) 1f else 0f
     val borderColor by animateColorAsState(
         targetValue = lerp(
@@ -34,7 +33,8 @@ fun OutlinedNoteCard(
             MaterialTheme.colorScheme.primary,
             FastOutSlowInEasing.transform(fraction)
         ),
-        animationSpec = tween(200)
+        animationSpec = tween(200),
+        label = "label"
     )
 
     val borderSize by animateDpAsState(
@@ -43,7 +43,8 @@ fun OutlinedNoteCard(
             2.dp,
             FastOutLinearInEasing.transform(fraction)
         ),
-        animationSpec = tween(200)
+        animationSpec = tween(200),
+        label = "label"
     )
 
     val cardBorder = BorderStroke(borderSize, borderColor)

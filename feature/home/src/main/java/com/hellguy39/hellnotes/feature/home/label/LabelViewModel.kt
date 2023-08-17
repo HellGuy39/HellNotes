@@ -2,18 +2,27 @@ package com.hellguy39.hellnotes.feature.home.label
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.use_case.label.DeleteLabelUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.label.GetAllLabelsStreamUseCase
+import com.hellguy39.hellnotes.core.domain.use_case.label.UpdateLabelUseCase
 import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllWrappedNotesStreamUseCase
-import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.local.database.Label
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LabelViewModel @Inject constructor(
-    private val labelRepository: LabelRepository,
+    private val deleteLabelUseCase: DeleteLabelUseCase,
+    private val updateLabelUseCase: UpdateLabelUseCase,
+    getAllLabelsStreamUseCase: GetAllLabelsStreamUseCase,
     getAllWrappedNotesStreamUseCase: GetAllWrappedNotesStreamUseCase
 ): ViewModel() {
 
@@ -22,7 +31,7 @@ class LabelViewModel @Inject constructor(
     val uiState: StateFlow<LabelUiState> =
         combine(
             selectedLabel,
-            labelRepository.getAllLabelsStream(),
+            getAllLabelsStreamUseCase.invoke(),
             getAllWrappedNotesStreamUseCase.invoke(),
         ) { selectedLabel, labels, notes ->
             LabelUiState(
@@ -62,14 +71,14 @@ class LabelViewModel @Inject constructor(
     private fun deleteLabel() {
         viewModelScope.launch {
             val label = selectedLabel.value
-            labelRepository.deleteLabel(label)
+            deleteLabelUseCase.invoke(label)
         }
     }
 
     private fun renameLabel(name: String) {
         viewModelScope.launch {
             val label = selectedLabel.value.copy(name = name)
-            labelRepository.updateLabel(label)
+            updateLabelUseCase.invoke(label)
             selectedLabel.update { label }
         }
     }
