@@ -43,5 +43,8 @@ fun NotesRoute(
             onLongClick = { noteWrapper -> },
             onDismiss = { dismissDirection, noteWrapper -> false }
         ),
+        onOpenSearchBar = { isOpen ->
+            mainViewModel.onEvent(MainUiEvent.OpenSearchBar(isOpen))
+        }
     )
 }

@@ -28,6 +28,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.hellguy39.hellnotes.core.ui.component.divider.CustomDivider
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.value.elevation
+import com.hellguy39.hellnotes.core.ui.value.spacing
 
 @Composable
 fun HNAlertDialog(
@@ -62,10 +63,10 @@ fun HNAlertDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
+                        .padding(horizontal = MaterialTheme.spacing.medium, vertical = MaterialTheme.spacing.medium),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(
-                        space = 16.dp,
+                        space = MaterialTheme.spacing.medium,
                         alignment = Alignment.CenterVertically
                     )
                 ) {
@@ -98,7 +99,7 @@ fun HNAlertDialog(
                     Column {
                         if (showContentDividers) {
                             CustomDivider(
-                                paddingValues = PaddingValues(horizontal = 16.dp),
+                                paddingValues = PaddingValues(horizontal = MaterialTheme.spacing.medium),
                                 color = MaterialTheme.colorScheme.outline
                             )
                         }
@@ -107,20 +108,20 @@ fun HNAlertDialog(
 
                         if (showContentDividers) {
                             CustomDivider(
-                                paddingValues = PaddingValues(horizontal = 16.dp),
+                                paddingValues = PaddingValues(horizontal = MaterialTheme.spacing.medium),
                                 color = MaterialTheme.colorScheme.outline
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
                     }
                 }
                 if (onCancel != null || onAccept != null) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                            .padding(bottom = 16.dp),
+                            .padding(horizontal = MaterialTheme.spacing.medium)
+                            .padding(bottom = MaterialTheme.spacing.medium),
                         horizontalArrangement = Arrangement.spacedBy(
                             space = 8.dp, alignment = Alignment.End
                         ),

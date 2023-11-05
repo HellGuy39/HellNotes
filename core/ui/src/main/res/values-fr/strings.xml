@@ -89,6 +89,7 @@
     <string name="menu_item_settings">Paramètres</string>
     <string name="menu_item_about_app">À propos de l\'application</string>
     <string name="menu_item_reminders">Rappels</string>
+    <string name="menu_item_reminder">Rappel</string>
     <string name="menu_item_labels">Étiquettes</string>
     <string name="menu_item_rename">Renommer</string>
     <string name="menu_item_delete">Supprimer</string>
@@ -111,6 +112,7 @@
     <string name="menu_item_outlined">Contouré</string>
     <string name="menu_item_elevated">Surélevé</string>
     <string name="menu_item_archive">Archiver</string>
+    <string name="menu_item_unarchive">Désarchiver</string>
     <string name="menu_item_check_all_items">Cocher tous les éléments</string>
     <string name="menu_item_uncheck_all_items">Décocher tous les éléments</string>
     <string name="menu_item_changelog">Journal des modifications</string>

@@ -84,9 +84,13 @@ fun NoteStyleEditScreen(
                             AnimatedContent(
                                 targetState = uiState.noteStyle,
                                 transitionSpec = {
-                                    slideInHorizontally(animationSpec = tween(duration)) { fullWidth -> fullWidth } + fadeIn(animationSpec = tween(duration)) with
-                                            slideOutHorizontally(animationSpec = tween(duration)) { fullWidth -> -fullWidth } + fadeOut(animationSpec = tween(duration))
-                                }
+                                    (slideInHorizontally(animationSpec = tween(duration)) { fullWidth -> fullWidth } + fadeIn(animationSpec = tween(duration)))
+                                        .togetherWith(
+                                        slideOutHorizontally(animationSpec = tween(duration)) { fullWidth -> -fullWidth } + fadeOut(
+                                            animationSpec = tween(duration)
+                                        ))
+                                },
+                                label = "label"
                             ) { style ->
                                 NoteCard(
                                     modifier = cardModifier,

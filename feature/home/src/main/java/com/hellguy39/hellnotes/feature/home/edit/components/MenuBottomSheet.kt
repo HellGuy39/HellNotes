@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.feature.home.edit.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -15,6 +16,7 @@ import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.text.UiText
 import com.hellguy39.hellnotes.feature.home.edit.NoteEditUiState
+import com.hellguy39.hellnotes.feature.home.edit.NoteWrapperState
 import com.hellguy39.hellnotes.feature.home.util.BottomSheetMenuItemSelection
 import kotlinx.coroutines.launch
 
@@ -26,9 +28,9 @@ fun MenuBottomSheet(
     selection: MenuBottomSheetSelection = MenuBottomSheetSelection()
 ) {
 
-//    if (!uiState.noteEditDialogState.isMenuBottomSheetOpen) {
-//        return
-//    }
+    if (!uiState.noteEditDialogState.isMenuBottomSheetOpen) {
+        return
+    }
 
     val scope = rememberCoroutineScope()
     val menuSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
@@ -42,7 +44,8 @@ fun MenuBottomSheet(
                 }
             }
         },
-        selection = selection
+        selection = selection,
+        isArchived = if (uiState.noteWrapperState is NoteWrapperState.Success) uiState.noteWrapperState.noteWrapper.note.isArchived else false
     )
 
     ModalBottomSheet(
@@ -65,6 +68,7 @@ fun MenuBottomSheet(
 data class MenuBottomSheetSelection(
     val onDelete: () -> Unit = {},
     val onMakeACopy: () -> Unit = {},
+    val onArchive: () -> Unit = {},
     val onShare: () -> Unit = {},
     val onColor: () -> Unit = {}
 )
@@ -72,7 +76,8 @@ data class MenuBottomSheetSelection(
 @Composable
 fun rememberMenuBottomSheetItems(
     onCloseBottomSheet: () -> Unit,
-    selection: MenuBottomSheetSelection
+    selection: MenuBottomSheetSelection,
+    isArchived: Boolean
 ): List<BottomSheetMenuItemSelection> {
     return remember {
         listOf(
@@ -90,6 +95,16 @@ fun rememberMenuBottomSheetItems(
                 onClick = {
                     onCloseBottomSheet()
                     selection.onMakeACopy()
+                }
+            ),
+            BottomSheetMenuItemSelection(
+                title = UiText.StringResources(
+                    if (isArchived) HellNotesStrings.MenuItem.Unarchive else HellNotesStrings.MenuItem.Archive
+                ),
+                iconId = if (isArchived) HellNotesIcons.Unarchive else HellNotesIcons.Archive,
+                onClick = {
+                    onCloseBottomSheet()
+                    selection.onArchive()
                 }
             ),
             BottomSheetMenuItemSelection(

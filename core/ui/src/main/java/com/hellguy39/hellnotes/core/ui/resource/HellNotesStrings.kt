@@ -38,6 +38,7 @@ object HellNotesStrings {
     }
 
     object MenuItem {
+        val Reminder = R.string.menu_item_reminder
         val Reminders = R.string.menu_item_reminders
         val Settings = R.string.menu_item_settings
         val AboutApp = R.string.menu_item_about_app
@@ -73,6 +74,7 @@ object HellNotesStrings {
         val Elevated = R.string.menu_item_elevated
 
         val Archive = R.string.menu_item_archive
+        val Unarchive = R.string.menu_item_unarchive
         val CheckAllItems = R.string.menu_item_check_all_items
         val UncheckAllItems = R.string.menu_item_uncheck_all_items
 

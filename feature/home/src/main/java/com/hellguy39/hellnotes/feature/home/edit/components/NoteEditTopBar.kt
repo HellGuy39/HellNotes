@@ -25,14 +25,6 @@ fun NoteEditTopBar(
 
     val noteWrapper = noteWrapperState.noteWrapper
 
-    val pinIcon = painterResource(
-        id = if (noteWrapper.note.isPinned) HellNotesIcons.PinActivated else HellNotesIcons.PinDisabled
-    )
-
-    val archiveIcon = painterResource(
-        id = if (noteWrapper.note.isArchived) HellNotesIcons.Unarchive else HellNotesIcons.Archive
-    )
-
     val topAppBarColors = TopAppBarDefaults.topAppBarColors(
         containerColor = containerColor,
         scrolledContainerColor = scrolledContainerColor
@@ -64,21 +56,25 @@ fun NoteEditTopBar(
         actions = {
             IconButton(onClick = topAppBarSelection.onPin) {
                 Icon(
-                    painter = pinIcon,
+                    painter = painterResource(
+                        id = if (noteWrapper.note.isPinned)
+                            HellNotesIcons.PinActivated
+                        else HellNotesIcons.PinDisabled
+                    ),
                     contentDescription = null
                 )
             }
 
-            IconButton(onClick = topAppBarSelection.onReminder) {
+            IconButton(onClick = topAppBarSelection.onAttachment) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.NotificationAdd),
+                    painter = painterResource(id = HellNotesIcons.Attachment),
                     contentDescription = null
                 )
             }
 
-            IconButton(onClick = topAppBarSelection.onArchive) {
+            IconButton(onClick = topAppBarSelection.onMenu) {
                 Icon(
-                    painter = archiveIcon,
+                    painter = painterResource(id = HellNotesIcons.MoreVert),
                     contentDescription = null
                 )
             }
@@ -89,6 +85,6 @@ fun NoteEditTopBar(
 data class NoteEditTopBarSelection(
     val onNavigationButtonClick: () -> Unit,
     val onPin: () -> Unit,
-    val onArchive: () -> Unit,
-    val onReminder: () -> Unit
+    val onAttachment: () -> Unit,
+    val onMenu: () -> Unit
 )

@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.core.ui.component.search
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -8,6 +9,7 @@ import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,7 +38,8 @@ fun HNAdaptiveSearchBar(
 
     val searchBarHorizontalPaddingState by animateDpAsState(
         targetValue = if (active) MaterialTheme.spacing.none else horizontalPadding,
-        label = "label"
+        label = "label",
+        animationSpec = tween(220)
     )
 
     if (windowWidthSize.isCompact()) {

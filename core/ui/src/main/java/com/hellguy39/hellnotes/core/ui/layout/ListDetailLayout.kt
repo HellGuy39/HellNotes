@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -129,17 +130,19 @@ fun ListDetail(
                 foldAwareConfiguration = FoldAwareConfiguration.VerticalFoldsOnly,
             )
         } else {
-            AnimatedContent(
+            // Crossfade works better than AnimatedContent
+            // but it does not allow to create necessary animation
+            // So i decided to temporarily use first one
+            Crossfade(
                 targetState = showList,
                 label = "",
-                transitionSpec = {
-                    // todo: Check duration of animation
-                    (slideInHorizontally(
-                        initialOffsetX = { fullWidth -> fullWidth },
-                        animationSpec = tween(durationMillis = 300)
-                    ) + fadeIn(animationSpec = tween(durationMillis = 150)))
-                        .togetherWith(fadeOut(animationSpec = tween(150)))
-                }
+//                transitionSpec = {
+//                    (slideInHorizontally(
+//                        initialOffsetX = { fullWidth -> fullWidth },
+//                        animationSpec = tween(durationMillis = 300)
+//                    ) + fadeIn(animationSpec = tween(durationMillis = 150)))
+//                        .togetherWith(fadeOut(animationSpec = tween(150)))
+//                }
             ) { isShowList ->
                 if(isShowList) {
                     start()

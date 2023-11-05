@@ -119,6 +119,7 @@
     <string name="menu_item_settings">Einstellungen</string>
     <string name="menu_item_about_app">Über die App</string>
     <string name="menu_item_reminders">Erinnerungen</string>
+    <string name="menu_item_reminder">Erinnerung</string>
     <string name="menu_item_labels">Markierungen</string>
     <string name="menu_item_rename">Umbenennen</string>
     <string name="menu_item_delete">Entfernen</string>
@@ -141,6 +142,7 @@
     <string name="menu_item_outlined">Umreißen</string>
     <string name="menu_item_elevated">Erhöhten</string>
     <string name="menu_item_archive">Archivieren</string>
+    <string name="menu_item_unarchive">Archivierung aufheben</string>
     <string name="menu_item_check_all_items">alle Elemente ausführen</string>
     <string name="menu_item_uncheck_all_items">alle Elemente entfernen</string>
     <string name="menu_item_changelog">Änderungsprotokoll</string>

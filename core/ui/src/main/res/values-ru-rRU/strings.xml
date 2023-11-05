@@ -102,6 +102,7 @@
     <string name="menu_item_settings">Настройки</string>
     <string name="menu_item_about_app">О приложении</string>
     <string name="menu_item_reminders">Напоминания</string>
+    <string name="menu_item_reminder">Напоминание</string>
     <string name="menu_item_labels">Метки</string>
     <string name="menu_item_rename">Переименовать</string>
     <string name="menu_item_delete">Удалить</string>
@@ -124,6 +125,7 @@
     <string name="menu_item_outlined">Очерченный</string>
     <string name="menu_item_elevated">Приподнятый</string>
     <string name="menu_item_archive">Архивировать</string>
+    <string name="menu_item_unarchive">Разархивировать</string>
     <string name="menu_item_check_all_items">Выполнить все пункты</string>
     <string name="menu_item_uncheck_all_items">Снять все пункты</string>
     <string name="menu_item_changelog">Журнал изменений</string>

@@ -178,28 +178,20 @@ class NoteEditViewModel @Inject constructor(
 
     private fun openReminderEditDialog(isOpen: Boolean) {
         viewModelScope.launch {
-            reminderEditDialogState.update { state ->
-                state.copy(isOpen = isOpen)
-            }
+            reminderEditDialogState.update { state -> state.copy(isOpen = isOpen) }
         }
     }
 
     private fun openDeleteAlertDialog(isOpen: Boolean) {
-        viewModelScope.launch {
-            isDeleteAlertDialogOpen.update { isOpen }
-        }
+        viewModelScope.launch { isDeleteAlertDialogOpen.update { isOpen } }
     }
 
     private fun openMenuBottomSheet(isOpen: Boolean) {
-        viewModelScope.launch {
-            isMenuBottomSheetOpen.update { isOpen }
-        }
+        viewModelScope.launch { isMenuBottomSheetOpen.update { isOpen } }
     }
 
     private fun openAttachmentBottomSheet(isOpen: Boolean) {
-        viewModelScope.launch {
-            isAttachmentBottomSheetOpen.update { isOpen }
-        }
+        viewModelScope.launch { isAttachmentBottomSheetOpen.update { isOpen } }
     }
 
     private fun openNote(noteId: Long) {

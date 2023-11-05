@@ -64,8 +64,7 @@ internal fun NoteColumnList(
                 key = { item: NoteWrapper -> item.note.id ?: 0 },
             ) { noteWrapper ->
                 SwipeableNoteCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                         .padding(4.dp)
                         .combinedClickable(
                             onClick = { noteSelection.onClick(noteWrapper) },

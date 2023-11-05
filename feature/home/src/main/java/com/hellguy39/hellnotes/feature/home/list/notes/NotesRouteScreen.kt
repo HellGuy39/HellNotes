@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,11 +39,15 @@ fun NoteListScreen(
     noteSelection: NoteSelection,
     onDrawerOpen: (Boolean) -> Unit,
     notesViewModel: NotesViewModel,
+    onOpenSearchBar: (Boolean) -> Unit
 ) {
     Scaffold() { innerPadding ->
-        Box(modifier = Modifier.fillMaxSize().semantics { isTraversalGroup = true }) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .semantics { isTraversalGroup = true }) {
             HNAdaptiveSearchBar(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .align(Alignment.TopCenter)
                     .semantics { traversalIndex = -1f },
                 horizontalPadding = MaterialTheme.spacing.small,
@@ -50,12 +55,20 @@ fun NoteListScreen(
                 onQueryChange = { text -> notesViewModel.onEvent(NotesUiEvent.ChangeSearchQuery(text)) },
                 onSearch = { text -> notesViewModel.onEvent(NotesUiEvent.Search(text)) },
                 active = uiState.searchState.isActive,
-                onActiveChange = { isActive -> notesViewModel.onEvent(NotesUiEvent.ChangeIsSearchActive(isActive)) },
+                onActiveChange = { isActive ->
+                    onOpenSearchBar(isActive)
+                    notesViewModel.onEvent(NotesUiEvent.ChangeIsSearchActive(isActive))
+                },
                 windowWidthSize = windowWidthSize,
                 placeholder = { Text(text = stringResource(id = HellNotesStrings.Hint.Search)) },
                 leadingIcon = {
                     if (uiState.searchState.isActive) {
-                        IconButton(onClick = { notesViewModel.onEvent(NotesUiEvent.ChangeIsSearchActive(false)) }) {
+                        IconButton(
+                            onClick = {
+                                onOpenSearchBar(false)
+                                notesViewModel.onEvent(NotesUiEvent.ChangeIsSearchActive(false))
+                            }
+                        ) {
                             Icon(
                                 painter = painterResource(id = HellNotesIcons.ArrowBack),
                                 contentDescription = null
@@ -80,7 +93,7 @@ fun NoteListScreen(
             ) {
                 LazyColumn {
                     items(10) {
-                        Text("Item $it")
+                        ListItem(headlineContent = { Text("Item $it") })
                     }
                 }
             }

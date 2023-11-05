@@ -75,6 +75,7 @@ class HNDateHandler private constructor(
 
         const val MONTH_DAY_TIME = "dd MMMM, HH:mm"
         const val YEAR_MONTH_DAY_TIME = "dd MMMM yyyy, HH:mm"
+        const val YEAR_MONTH_DAY = "dd.MM.yyyy"
     }
 
     object SpecialPatterns {

@@ -82,14 +82,14 @@ fun NoteEditScreen(
                         onCloseNoteEdit()
                     },
                     onPin = {
-                        //noteEditViewModel.send(NoteEditUiEvent.UpdateIsPinned)
+                        noteEditViewModel.send(NoteEditUiEvent.ToggleIsPinned)
                     },
-                    onArchive = {
-                        //noteEditViewModel.send(NoteEditUiEvent.UpdateIsArchived)
+                    onAttachment = {
+                        noteEditViewModel.send(NoteEditUiEvent.OpenAttachmentBottomSheet(true))
                     },
-                    onReminder = {
-                        //noteEditViewModel.send(NoteEditUiEvent.OpenReminderEditDialog(true))
-                    }
+                    onMenu = {
+                        noteEditViewModel.send(NoteEditUiEvent.OpenMenuBottomSheet(true))
+                    },
                 )
             )
         },

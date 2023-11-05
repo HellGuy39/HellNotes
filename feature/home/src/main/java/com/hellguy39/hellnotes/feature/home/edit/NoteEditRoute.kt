@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.feature.home.edit
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,10 +12,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hellguy39.hellnotes.core.ui.component.dialog.CustomDialog
+import com.hellguy39.hellnotes.core.ui.component.dialog.HNAdaptiveDialog
+import com.hellguy39.hellnotes.core.ui.component.dialog.HNAlertDialog
 import com.hellguy39.hellnotes.core.ui.model.HNContentType
+import com.hellguy39.hellnotes.core.ui.resource.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resource.HellNotesStrings
+import com.hellguy39.hellnotes.feature.home.edit.components.AttachmentBottomSheet
+import com.hellguy39.hellnotes.feature.home.edit.components.AttachmentBottomSheetSelection
+import com.hellguy39.hellnotes.feature.home.edit.components.MenuBottomSheet
+import com.hellguy39.hellnotes.feature.home.edit.components.MenuBottomSheetSelection
 
 @Composable
 fun NoteEditRoute(
@@ -101,89 +112,89 @@ fun NoteEditRoute(
 //            Spacer(modifier = Modifier.height(8.dp))
 //        }
 //    )
-//
 
-//    HNAdaptiveDialog(
-//        isOpen = uiState.noteEditDialogState.reminderEditDialogState.isOpen,
-//        onClose = { noteEditViewModel.send(NoteEditUiEvent.OpenReminderEditDialog(false)) },
-//        windowWidthSize = windowWidthSize,
-//    ) {
-//        Text("Hello")
-//    }
+    HNAdaptiveDialog(
+        isOpen = uiState.noteEditDialogState.reminderEditDialogState.isOpen,
+        onClose = { noteEditViewModel.send(NoteEditUiEvent.OpenReminderEditDialog(false)) },
+        windowWidthSize = windowWidthSize,
+    ) {
+        Text("Hello")
+    }
 
-//    HNAlertDialog(
-//        isOpen = uiState.noteEditDialogState.isDeleteAlertDialogOpen,
-//        heroIcon = painterResource(id = HellNotesIcons.Delete),
-//        title = stringResource(id = HellNotesStrings.Title.DeleteThisNote),
-//        message = stringResource(id = HellNotesStrings.Supporting.DeleteNote),
-//        onClose = { noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false)) },
-//        onCancel = { noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false)) },
-//        onAccept = {
-//            noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false))
-//            noteEditViewModel.send(NoteEditUiEvent.DeleteNote)
-//            onCloseNoteEdit()
-//        }
-//    )
+    HNAlertDialog(
+        isOpen = uiState.noteEditDialogState.isDeleteAlertDialogOpen,
+        heroIcon = painterResource(id = HellNotesIcons.Delete),
+        title = stringResource(id = HellNotesStrings.Title.DeleteThisNote),
+        message = stringResource(id = HellNotesStrings.Supporting.DeleteNote),
+        onClose = { noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false)) },
+        onCancel = { noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false)) },
+        onAccept = {
+            noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(false))
+            noteEditViewModel.send(NoteEditUiEvent.DeleteNote)
+            onCloseNoteEdit()
+        }
+    )
 
-//    AttachmentBottomSheet(
-//        uiState = uiState,
-//        onDismiss = { noteEditViewModel.send(NoteEditUiEvent.OpenAttachmentBottomSheet(false)) },
-//        selection = AttachmentBottomSheetSelection(
-//            onTakeAPhoto = { toast.show() },
-//            onAddImage = { toast.show() },
-//            onAddRecording = { toast.show() },
-//            onAddPlace = { toast.show() },
-//            onAddChecklist = { noteEditViewModel.send(NoteEditUiEvent.AddChecklist) },
-//            onAddLabel = { noteEditViewModel.send(NoteEditUiEvent.AddLabel)
-////            uiState.let { state ->
-////                if (state is NoteDetailUiState.Success) {
-////                    TODO()
-////                    //navController.navigateToLabelSelection(state.wrapper.note.id)
-////                }
-////            }
-//            },
-//        )
-//    )
-
-//    MenuBottomSheet(
-//        uiState = uiState,
-//        onDismiss = { noteEditViewModel.send(NoteEditUiEvent.OpenMenuBottomSheet(false)) },
-//        selection = MenuBottomSheetSelection(
-//            onShare = {
-//                noteEditViewModel.send(NoteEditUiEvent.Share)
-////                uiState.let { state ->
-////                    if (state is NoteDetailUiState.Success) {
-////                        if (state.wrapper.note.isNoteValid()) {
-////                            shareDialogState.show()
-////                        } else {
-////                            snackbarHostState.showDismissableSnackbar(
-////                                scope = scope,
-////                                message = context.getString(HellNotesStrings.Snack.NothingToShare),
-////                                duration = SnackbarDuration.Short
-////                            )
-////                        }
-////                    }
-////                }
-//            },
-//            onDelete = {
-//                noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(true))
-//            },
-//            onMakeACopy = {
-//                noteEditViewModel.send(NoteEditUiEvent.MakeACopy)
-////                noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
-////                    onCopied = { id ->
-////                        TODO()
-//////                        navController.popBackStack()
-//////                        navController.navigateToNoteDetail(id)
-////                    }
-////                ))
-//            },
-//            onColor = {
-//                noteEditViewModel.send(NoteEditUiEvent.OpenColorDialog(true))
-//                //colorPickerState.show()
+    AttachmentBottomSheet(
+        uiState = uiState,
+        onDismiss = { noteEditViewModel.send(NoteEditUiEvent.OpenAttachmentBottomSheet(false)) },
+        selection = AttachmentBottomSheetSelection(
+            onTakeAPhoto = { toast.show() },
+            onAddImage = { toast.show() },
+            onAddRecording = { toast.show() },
+            onAddPlace = { toast.show() },
+            onAddChecklist = { noteEditViewModel.send(NoteEditUiEvent.AddChecklist) },
+            onAddLabel = { noteEditViewModel.send(NoteEditUiEvent.AddLabel)
+//            uiState.let { state ->
+//                if (state is NoteDetailUiState.Success) {
+//                    TODO()
+//                    //navController.navigateToLabelSelection(state.wrapper.note.id)
+//                }
 //            }
-//        )
-//    )
+            },
+            onAddReminder = {},
+        )
+    )
+
+    MenuBottomSheet(
+        uiState = uiState,
+        onDismiss = { noteEditViewModel.send(NoteEditUiEvent.OpenMenuBottomSheet(false)) },
+        selection = MenuBottomSheetSelection(
+            onShare = {
+                noteEditViewModel.send(NoteEditUiEvent.Share)
+//                uiState.let { state ->
+//                    if (state is NoteDetailUiState.Success) {
+//                        if (state.wrapper.note.isNoteValid()) {
+//                            shareDialogState.show()
+//                        } else {
+//                            snackbarHostState.showDismissableSnackbar(
+//                                scope = scope,
+//                                message = context.getString(HellNotesStrings.Snack.NothingToShare),
+//                                duration = SnackbarDuration.Short
+//                            )
+//                        }
+//                    }
+//                }
+            },
+            onDelete = {
+                noteEditViewModel.send(NoteEditUiEvent.OpenDeleteAlertDialog(true))
+            },
+            onMakeACopy = {
+                noteEditViewModel.send(NoteEditUiEvent.MakeACopy)
+//                noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
+//                    onCopied = { id ->
+//                        TODO()
+////                        navController.popBackStack()
+////                        navController.navigateToNoteDetail(id)
+//                    }
+//                ))
+            },
+            onColor = {
+                noteEditViewModel.send(NoteEditUiEvent.OpenColorDialog(true))
+                //colorPickerState.show()
+            }
+        )
+    )
 
     NoteEditScreen(
         contentType = contentType,

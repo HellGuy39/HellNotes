@@ -2,11 +2,13 @@ package com.hellguy39.hellnotes.core.ui.component.cards
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.NoteWrapper
@@ -35,6 +37,13 @@ internal fun NoteCardContent(
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
     ) {
+        Text(
+            text = HNDateHandler.from(noteWrapper.note.editedAt)
+                .format(HNDateHandler.DefaultPatterns.YEAR_MONTH_DAY),
+            style = MaterialTheme.typography.labelMedium,
+            textAlign = TextAlign.Start
+        )
+
         if (isTitleValid) {
             Text(
                 text = noteWrapper.note.title,

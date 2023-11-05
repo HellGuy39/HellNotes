@@ -69,7 +69,8 @@ data class AttachmentBottomSheetSelection(
     val onAddRecording: () -> Unit = {},
     val onAddPlace: () -> Unit = {},
     val onAddChecklist: () -> Unit = {},
-    val onAddLabel: () -> Unit = {}
+    val onAddLabel: () -> Unit = {},
+    val onAddReminder: () -> Unit = {}
 )
 
 @Composable
@@ -79,36 +80,44 @@ fun rememberAttachmentSheetItems(
 ): List<BottomSheetMenuItemSelection> {
     return remember {
         listOf(
+//            BottomSheetMenuItemSelection(
+//                title = UiText.StringResources(HellNotesStrings.MenuItem.TakeAPhoto),
+//                iconId = HellNotesIcons.PhotoCamera,
+//                onClick = {
+//                    onCloseBottomSheet()
+//                    selection.onTakeAPhoto()
+//                }
+//            ),
+//            BottomSheetMenuItemSelection(
+//                title = UiText.StringResources(HellNotesStrings.MenuItem.Image),
+//                iconId = HellNotesIcons.Image,
+//                onClick = {
+//                    onCloseBottomSheet()
+//                    selection.onAddImage()
+//                }
+//            ),
+//            BottomSheetMenuItemSelection(
+//                title = UiText.StringResources(HellNotesStrings.MenuItem.Recording),
+//                iconId = HellNotesIcons.Mic,
+//                onClick = {
+//                    onCloseBottomSheet()
+//                    selection.onAddRecording()
+//                }
+//            ),
+//            BottomSheetMenuItemSelection(
+//                title = UiText.StringResources(HellNotesStrings.MenuItem.Place),
+//                iconId = HellNotesIcons.PinDrop,
+//                onClick = {
+//                    onCloseBottomSheet()
+//                    selection.onAddPlace()
+//                }
+//            ),
             BottomSheetMenuItemSelection(
-                title = UiText.StringResources(HellNotesStrings.MenuItem.TakeAPhoto),
-                iconId = HellNotesIcons.PhotoCamera,
+                title = UiText.StringResources(HellNotesStrings.MenuItem.Reminder),
+                iconId = HellNotesIcons.Notifications,
                 onClick = {
                     onCloseBottomSheet()
-                    selection.onTakeAPhoto()
-                }
-            ),
-            BottomSheetMenuItemSelection(
-                title = UiText.StringResources(HellNotesStrings.MenuItem.Image),
-                iconId = HellNotesIcons.Image,
-                onClick = {
-                    onCloseBottomSheet()
-                    selection.onAddImage()
-                }
-            ),
-            BottomSheetMenuItemSelection(
-                title = UiText.StringResources(HellNotesStrings.MenuItem.Recording),
-                iconId = HellNotesIcons.Mic,
-                onClick = {
-                    onCloseBottomSheet()
-                    selection.onAddRecording()
-                }
-            ),
-            BottomSheetMenuItemSelection(
-                title = UiText.StringResources(HellNotesStrings.MenuItem.Place),
-                iconId = HellNotesIcons.PinDrop,
-                onClick = {
-                    onCloseBottomSheet()
-                    selection.onAddPlace()
+                    selection.onAddReminder()
                 }
             ),
             BottomSheetMenuItemSelection(
