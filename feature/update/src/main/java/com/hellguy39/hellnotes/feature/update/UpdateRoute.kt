@@ -1,18 +1,18 @@
 package com.hellguy39.hellnotes.feature.update
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 
 @Composable
 fun UpdateRoute(
     navController: NavController,
     updateViewModel: UpdateViewModel = hiltViewModel()
 ) {
-    BackHandler(onBack = navController::popBackStack)
+    BackHandler { navController.popBackStack() }
 
     val uiState by updateViewModel.uiState.collectAsStateWithLifecycle()
 

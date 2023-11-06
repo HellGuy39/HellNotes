@@ -39,7 +39,6 @@ fun WelcomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
-                pageCount = pages.size,
                 state = pagerState,
                 verticalAlignment = Alignment.Top,
             ) { position ->
@@ -50,7 +49,8 @@ fun WelcomeScreen(
 
             val animatedProgress by animateFloatAsState(
                 targetValue = (1.0f / (pages.size - 1)) * (pagerState.currentPage),
-                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+                label = "animatedProgress"
             )
 
             Row(
@@ -62,7 +62,8 @@ fun WelcomeScreen(
             ) {
                 val animatedSkipButton by animateFloatAsState(
                     targetValue = if (pagerState.currentPage == pages.size - 1) 0f else 1f,
-                    animationSpec = tween(300)
+                    animationSpec = tween(300),
+                    label = "animatedSkipButton"
                 )
 
                 TextButton(

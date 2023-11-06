@@ -1,11 +1,11 @@
 package com.hellguy39.hellnotes.feature.note_style_edit
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 
 @Composable
 fun NoteStyleEditRoute(
@@ -14,7 +14,7 @@ fun NoteStyleEditRoute(
 ) {
     val uiState by noteStyleEditViewModel.uiState.collectAsStateWithLifecycle()
 
-    BackHandler(onBack = navController::popBackStack)
+    BackHandler { navController.popBackStack() }
 
     NoteStyleEditScreen(
         onNavigationButtonClick = navController::popBackStack,
@@ -23,5 +23,4 @@ fun NoteStyleEditRoute(
             noteStyleEditViewModel.saveNoteStyle(noteStyle)
         }
     )
-
 }

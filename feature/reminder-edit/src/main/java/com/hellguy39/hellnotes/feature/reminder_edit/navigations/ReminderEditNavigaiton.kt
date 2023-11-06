@@ -1,18 +1,16 @@
 package com.hellguy39.hellnotes.feature.reminder_edit.navigations
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.google.accompanist.navigation.animation.composable
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.reminder_edit.ReminderEditRoute
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.reminderEditScreen(
     navController: NavController
 ) {

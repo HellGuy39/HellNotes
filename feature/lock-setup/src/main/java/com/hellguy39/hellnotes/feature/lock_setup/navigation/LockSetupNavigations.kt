@@ -1,19 +1,15 @@
 package com.hellguy39.hellnotes.feature.lock_setup.navigation
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.google.accompanist.navigation.animation.composable
 import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.lock_setup.LockSetupRoute
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.lockSetupScreen(
     navController: NavController
 ) {

@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.settings
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -8,7 +9,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.settings.components.SettingsScreenContent
 import com.hellguy39.hellnotes.feature.settings.components.SettingsScreenSelection
 
@@ -19,7 +19,7 @@ fun SettingsScreen(
     uiState: SettingsUiState,
     selection: SettingsScreenSelection,
 ) {
-    BackHandler(onBack = onNavigationButtonClick)
+    BackHandler { onNavigationButtonClick() }
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)

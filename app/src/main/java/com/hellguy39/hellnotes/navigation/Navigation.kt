@@ -1,13 +1,12 @@
 package com.hellguy39.hellnotes.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
@@ -33,14 +32,14 @@ import com.hellguy39.hellnotes.feature.startup.navigation.startupScreen
 import com.hellguy39.hellnotes.feature.terms_and_conditions.navigation.termsAndConditionsScreen
 import com.hellguy39.hellnotes.feature.update.navigation.updateScreen
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SetupNavGraph(
     args: OnStartupArguments,
 ) {
-    val navController = rememberAnimatedNavController()
+    val navController = rememberNavController()
 
-    AnimatedNavHost(
+    NavHost(
         modifier = Modifier
             .semantics {
                 testTagsAsResourceId = true

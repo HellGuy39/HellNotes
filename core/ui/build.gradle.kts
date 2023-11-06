@@ -56,10 +56,7 @@ dependencies {
     debugImplementation(Libs.AndroidX.Compose.UiTooling)
     debugImplementation(Libs.AndroidX.Compose.UiTestManifest)
 
-    implementation(Libs.Google.Accompanist.NavigationAnimation)
-    implementation(Libs.Google.Accompanist.SystemUiController)
     implementation(Libs.Google.Accompanist.Permissions)
-    implementation(Libs.Google.Accompanist.FlowLayout)
 
     implementation(Libs.Google.Hilt.Android)
     kapt(Libs.Google.Hilt.Compiler)

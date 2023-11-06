@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.label_edit
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -11,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.label_edit.components.LabelEditScreenContent
 import com.hellguy39.hellnotes.feature.label_edit.components.LabelEditScreenContentSelection
 
@@ -23,7 +23,7 @@ fun LabelEditScreen(
     labelEditScreenContentSelection: LabelEditScreenContentSelection,
     snackbarHostState: SnackbarHostState
 ) {
-    BackHandler(onBack = onNavigationButtonClick)
+    BackHandler { onNavigationButtonClick() }
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)

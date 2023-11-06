@@ -1,17 +1,16 @@
 package com.hellguy39.hellnotes.feature.reminder_edit
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import kotlinx.coroutines.launch
 
 @Composable
@@ -25,7 +24,7 @@ fun ReminderEditRoute(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    BackHandler(onBack = navController::popBackStack)
+    BackHandler { navController.popBackStack() }
 
     ReminderEditScreen(
         onNavigationBack = navController::popBackStack,

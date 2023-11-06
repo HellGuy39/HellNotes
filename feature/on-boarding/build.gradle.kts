@@ -57,10 +57,6 @@ dependencies {
     debugImplementation(Libs.AndroidX.Compose.UiTooling)
     debugImplementation(Libs.AndroidX.Compose.UiTestManifest)
 
-    implementation(Libs.Google.Accompanist.NavigationAnimation)
-    implementation(Libs.Google.Accompanist.Pager)
-    implementation(Libs.Google.Accompanist.PagerIndicators)
-
     implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)

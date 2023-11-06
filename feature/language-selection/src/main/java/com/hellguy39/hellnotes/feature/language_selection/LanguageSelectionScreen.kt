@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.language_selection
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +19,6 @@ import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.getDisplayName
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,7 +27,7 @@ fun LanguageSelectionScreen(
     onLanguageSelected: (String) -> Unit,
     uiState: LanguageSelectionUiState
 ) {
-    BackHandler(onBack = onNavigationBack)
+    BackHandler { onNavigationBack }
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)

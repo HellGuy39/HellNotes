@@ -5,7 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.*
-import com.google.accompanist.navigation.animation.composable
+import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
@@ -14,7 +14,6 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.HomeRoute
 import com.hellguy39.hellnotes.feature.home.util.HomeScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.homeScreen(
     navController: NavController,
     args: OnStartupArguments,

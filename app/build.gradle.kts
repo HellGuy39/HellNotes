@@ -9,7 +9,6 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes"
     compileSdk = Config.compileSdk
@@ -49,6 +48,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Config.ComposeCompiler
@@ -118,9 +118,6 @@ dependencies {
     testImplementation(Libs.JUnit)
     androidTestImplementation(Libs.AndroidX.JUnit)
     androidTestImplementation(Libs.AndroidX.Espresso)
-
-    implementation(Libs.Google.Accompanist.NavigationAnimation)
-    implementation(Libs.Google.Accompanist.SystemUiController)
 
     implementation(Libs.AndroidX.Room.RoomKtx)
     kapt(Libs.AndroidX.Room.RoomCompiler)

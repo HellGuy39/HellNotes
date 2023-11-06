@@ -95,12 +95,8 @@ fun HellNotesTheme(
 
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(
-                (view.context as Activity).window,
-                view
-            ).isAppearanceLightStatusBars = darkTheme
-            // ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
+            val window = (view.context as Activity).window
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 

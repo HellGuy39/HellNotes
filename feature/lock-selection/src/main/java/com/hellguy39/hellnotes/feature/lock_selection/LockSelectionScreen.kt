@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.lock_selection
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,7 +15,6 @@ import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.lock_selection.util.LockScreenTypeItemHolder
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,7 +25,7 @@ fun LockSelectionScreen(
     onLockScreenTypeSelected: (LockScreenType) -> Unit,
     snackbarHostState: SnackbarHostState
 ) {
-    BackHandler(onBack = onNavigationBack)
+    BackHandler { onNavigationBack }
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)

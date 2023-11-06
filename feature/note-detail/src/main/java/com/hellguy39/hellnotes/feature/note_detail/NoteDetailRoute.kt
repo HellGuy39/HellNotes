@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.feature.note_detail
 
 import android.content.Context
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,7 +35,6 @@ import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailContentSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailTopAppBarSelection
@@ -70,7 +70,7 @@ fun NoteDetailRoute(
         }
     }
 
-    BackHandler(onBack = navController::popBackStack)
+    BackHandler { navController.popBackStack() }
 
     CustomDialog(
         state = shareDialogState,

@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.search
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -21,7 +22,6 @@ import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,7 +34,7 @@ fun SearchScreen(
     searchScreenSelection: SearchScreenSelection,
     categories: List<NoteCategory>
 ) {
-    BackHandler(onBack = onNavigationButtonClick)
+    BackHandler { onNavigationButtonClick() }
 
     val focusRequester = remember { FocusRequester() }
 
@@ -65,7 +65,10 @@ fun SearchScreen(
                 return@Scaffold
             }
 
-            Crossfade(targetState = categories) { categories ->
+            Crossfade(
+                targetState = categories,
+                label = "search_screen_content"
+            ) { categories ->
 
                 if (uiState.notes.isEmpty()) {
                     EmptyContentPlaceholder(

@@ -19,7 +19,6 @@ import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
-import com.hellguy39.hellnotes.core.ui.system.TransparentSystemBars
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.navigation.SetupNavGraph
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,9 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var analytics: FirebaseAnalytics
 
-    override fun onCreate(
-        savedInstanceState: Bundle?
-    ) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         installSplashScreen()
@@ -48,7 +45,6 @@ class MainActivity : AppCompatActivity() {
                     .imePadding(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                TransparentSystemBars()
                 SetupNavGraph(args = intent.getOnStartupArgs())
             }
         }
