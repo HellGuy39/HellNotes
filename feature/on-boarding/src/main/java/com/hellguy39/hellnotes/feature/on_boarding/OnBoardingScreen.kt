@@ -23,7 +23,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.on_boarding.util.OnBoardingPage
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WelcomeScreen(
     pagerState: PagerState,
@@ -33,59 +33,55 @@ fun WelcomeScreen(
 ) {
     val scope = rememberCoroutineScope()
 
+    val isFinished = pagerState.currentPage == pages.size - 1
+
+    val animatedProgress by animateFloatAsState(
+        targetValue = (1.0f / (pages.size - 1)) * (pagerState.currentPage),
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+        label = "animatedProgress"
+    )
+
+    val animatedSkipButton by animateFloatAsState(
+        targetValue = if (pagerState.currentPage == pages.size - 1) 0f else 1f,
+        animationSpec = tween(300),
+        label = "animatedSkipButton"
+    )
+
     Scaffold(
-        content = { paddingValues ->
-            HorizontalPager(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                state = pagerState,
-                verticalAlignment = Alignment.Top,
-            ) { position ->
-                PagerScreen(onBoardingPage = pages[position])
-            }
+        topBar = {
+            TopAppBar(
+                title = {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 64.dp)
+                            .clip(MaterialTheme.shapes.medium),
+                        progress = animatedProgress
+                    )
+                }
+            )
         },
         bottomBar = {
-
-            val animatedProgress by animateFloatAsState(
-                targetValue = (1.0f / (pages.size - 1)) * (pagerState.currentPage),
-                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-                label = "animatedProgress"
-            )
-
             Row(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .navigationBarsPadding(),
-                horizontalArrangement = Arrangement.spacedBy(32.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val animatedSkipButton by animateFloatAsState(
-                    targetValue = if (pagerState.currentPage == pages.size - 1) 0f else 1f,
-                    animationSpec = tween(300),
-                    label = "animatedSkipButton"
-                )
-
                 TextButton(
                     modifier = Modifier
-                        .width(96.dp)
                         .alpha(animatedSkipButton),
                     onClick = onSkip
                 ) {
                     Text(text = stringResource(id = HellNotesStrings.Button.Skip))
                 }
 
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .weight(1f)
-                        .clip(RoundedCornerShape(8.dp)),
-                    progress = animatedProgress
-                )
-
                 Button(
-                    modifier = Modifier.width(96.dp),
+                    modifier = Modifier,
                     onClick = {
-                        if (pagerState.currentPage == pages.size - 1) {
+                        if (isFinished) {
                             onFinish()
                         } else {
                             scope.launch {
@@ -95,15 +91,22 @@ fun WelcomeScreen(
                     }
                 ) {
                     Text(
-                        text = if (pagerState.currentPage == pages.size - 1)
-                            stringResource(id = HellNotesStrings.Button.Finish)
-                        else
-                            stringResource(id = HellNotesStrings.Button.Next)
+                        text = stringResource(id = HellNotesStrings.Button.finish(isFinished))
                     )
                 }
             }
         }
-    )
+    ) { paddingValues ->
+        HorizontalPager(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            state = pagerState,
+            verticalAlignment = Alignment.Top,
+        ) { position ->
+            PagerScreen(onBoardingPage = pages[position])
+        }
+    }
 }
 
 @Composable

@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.core.data.database
 import android.content.Context
 import android.net.Uri
 import com.hellguy39.hellnotes.core.database.HellNotesDatabase
-import com.hellguy39.hellnotes.core.domain.database.BackupManager
+import com.hellguy39.hellnotes.core.domain.manager.BackupManager
 import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
 import com.hellguy39.hellnotes.core.model.repository.local.file.Restore
 import dagger.hilt.android.qualifiers.ApplicationContext

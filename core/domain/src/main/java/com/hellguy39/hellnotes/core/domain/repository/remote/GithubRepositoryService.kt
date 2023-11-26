@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface GithubRepositoryService {
 
-
     suspend fun getReleases(): Flow<Resource<List<Release>>>
 
     suspend fun getPrivacyPolicy(): Flow<Resource<String>>
