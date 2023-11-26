@@ -9,6 +9,9 @@ import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.feature.note_detail.NoteDetailRoute
 
 fun NavGraphBuilder.noteDetailScreen(
@@ -35,6 +38,16 @@ fun NavGraphBuilder.noteDetailScreen(
             UiDefaults.Motion.ScreenPopExitTransition
         },
     ) {
-        NoteDetailRoute(navController)
+        NoteDetailRoute(
+            navigateBack = { navController.popBackStack() },
+            navigateToNoteDetail = { id -> navController.navigateToNoteDetail(id) },
+            navigateToLabelSelection = { id -> navController.navigateToLabelSelection(id) },
+            navigateToReminderEdit = { noteId, reminderId ->
+                navController.navigateToReminderEdit(
+                    noteId = noteId,
+                    reminderId = reminderId
+                )
+            }
+        )
     }
 }

@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
-import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
@@ -46,11 +44,15 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailRoute(
-    navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    context: Context = LocalContext.current,
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    navigateBack: () -> Unit,
+    navigateToNoteDetail: (id: Long) -> Unit,
+    navigateToLabelSelection: (id: Long) -> Unit,
+    navigateToReminderEdit: (noteId: Long, reminderId: Long) -> Unit
 ) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
     val shareDialogState = rememberDialogState()
@@ -70,7 +72,7 @@ fun NoteDetailRoute(
         }
     }
 
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
     CustomDialog(
         state = shareDialogState,
@@ -110,7 +112,7 @@ fun NoteDetailRoute(
         onAccept = {
             confirmDialogState.dismiss()
             noteDetailViewModel.send(NoteDetailUiEvent.DeleteNote)
-            navController.popBackStack()
+            navigateBack()
         }
     )
 
@@ -188,8 +190,8 @@ fun NoteDetailRoute(
                 closeMenuBottomSheet()
                 noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
                     onCopied = { id ->
-                        navController.popBackStack()
-                        navController.navigateToNoteDetail(id)
+                        navigateBack()
+                        navigateToNoteDetail(id)
                     }
                 ))
             }
@@ -264,7 +266,8 @@ fun NoteDetailRoute(
                 closeAttachmentBottomSheet()
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
-                        navController.navigateToLabelSelection(state.wrapper.note.id)
+                        val id = state.wrapper.note.id ?: return@let
+                        navigateToLabelSelection(id)
                     }
                 }
             }
@@ -320,24 +323,24 @@ fun NoteDetailRoute(
             onReminderClick = { reminder ->
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
-                        navController.navigateToReminderEdit(
-                            noteId = state.wrapper.note.id,
-                            reminderId = reminder.id
-                        )
+                        val noteId = state.wrapper.note.id ?: return@let
+                        val reminderId = reminder.id ?: return@let
+                        navigateToReminderEdit(noteId, reminderId)
                     }
                 }
             },
             onLabelClick = { label ->
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
-                        navController.navigateToLabelSelection(state.wrapper.note.id)
+                        val id = state.wrapper.note.id ?: return@let
+                        navigateToLabelSelection(id)
                     }
                 }
             }
         ),
         topAppBarSelection = NoteDetailTopAppBarSelection(
             uiState = uiState,
-            onNavigationButtonClick = navController::popBackStack,
+            onNavigationButtonClick = navigateBack,
             onPin = { isPinned ->
                 noteDetailViewModel.send(NoteDetailUiEvent.UpdateIsPinned(isPinned))
 
@@ -363,10 +366,9 @@ fun NoteDetailRoute(
             onReminder = {
                 uiState.let { state ->
                     if (state is NoteDetailUiState.Success) {
-                        navController.navigateToReminderEdit(
-                            noteId = state.wrapper.note.id,
-                            reminderId = ArgumentDefaultValues.NewReminder
-                        )
+                        val noteId = state.wrapper.note.id ?: return@let
+                        val reminderId = ArgumentDefaultValues.NewReminder
+                        navigateToReminderEdit(noteId, reminderId)
                     }
                 }
             }

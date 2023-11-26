@@ -224,7 +224,10 @@ fun HomeRoute(
             )
         },
         content = {
-            Crossfade(targetState = drawerUiState.drawerItem) { drawerItem ->
+            Crossfade(
+                targetState = drawerUiState.drawerItem,
+                label = "home_drawer_anim"
+            ) { drawerItem ->
                 when(drawerItem.itemType) {
                     DrawerItemType.Primary -> {
                         if (drawerItem.title == stringResource(id = HellNotesStrings.Title.Notes)) {
