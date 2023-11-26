@@ -10,7 +10,9 @@ import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AndroidLanguageHolder @Inject constructor(
+class AndroidLanguageHolder
+@Inject
+constructor(
     @ApplicationContext private val context: Context
 ): LanguageHolder {
     override fun setLanguageCode(code: String) {

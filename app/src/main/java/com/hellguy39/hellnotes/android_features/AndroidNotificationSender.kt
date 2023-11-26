@@ -15,7 +15,9 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AndroidNotificationSender @Inject constructor(
+class AndroidNotificationSender
+@Inject
+constructor(
     @ApplicationContext private val context: Context
 ) : NotificationSender {
 

@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.activity.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -20,32 +21,19 @@ import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
-import com.hellguy39.hellnotes.navigation.SetupNavGraph
+import com.hellguy39.hellnotes.navigation.GlobalNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var analytics: FirebaseAnalytics
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setTransparentSystemBars(true)
         installSplashScreen()
-        analytics = Firebase.analytics
-        setContent { App() }
-    }
-
-    @Composable
-    fun App() {
-        HellNotesTheme {
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .imePadding(),
-                color = MaterialTheme.colorScheme.background
-            ) {
-                SetupNavGraph(args = intent.getOnStartupArgs())
+        setContent {
+            HellNotesTheme {
+                ApplicationContent(args = intent.getOnStartupArgs())
             }
         }
     }
@@ -54,5 +42,21 @@ class MainActivity : AppCompatActivity() {
         extraNoteId = this.extras?.getLong(AndroidAlarmScheduler.ALARM_NOTE_ID, ArgumentDefaultValues.Empty) ?: ArgumentDefaultValues.Empty,
         action = this.extras?.getString(ArgumentKeys.ShortcutAction, "") ?: ""
     )
+}
 
+@Composable
+fun ApplicationContent(args: OnStartupArguments) {
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        GlobalNavGraph(args = args)
+    }
+}
+
+
+fun Activity.setTransparentSystemBars(isTransparent: Boolean) {
+    WindowCompat.setDecorFitsSystemWindows(window, isTransparent.not())
 }

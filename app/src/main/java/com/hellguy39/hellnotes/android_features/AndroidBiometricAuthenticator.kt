@@ -12,9 +12,12 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AndroidBiometricAuthenticator @Inject constructor(
+class AndroidBiometricAuthenticator
+@Inject
+constructor(
     @ApplicationContext private val context: Context
-) : BiometricPrompt.AuthenticationCallback(), BiometricAuthenticator {
+) : BiometricPrompt.AuthenticationCallback(),
+    BiometricAuthenticator {
 
     private val executor = ContextCompat.getMainExecutor(context)
     private val biometricManager = BiometricManager.from(context)

@@ -3,10 +3,12 @@ package com.hellguy39.hellnotes.core.domain.system_features
 import android.app.PendingIntent
 
 interface NotificationSender {
+
     fun send(
         message: String,
         pendingIntent: PendingIntent
     )
+
     fun initNotificationChannels()
 
     companion object {

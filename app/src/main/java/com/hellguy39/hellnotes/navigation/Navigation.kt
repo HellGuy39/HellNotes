@@ -34,7 +34,7 @@ import com.hellguy39.hellnotes.feature.update.navigation.updateScreen
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SetupNavGraph(
+fun GlobalNavGraph(
     args: OnStartupArguments,
 ) {
     val navController = rememberNavController()

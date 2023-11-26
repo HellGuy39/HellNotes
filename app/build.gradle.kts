@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin ("kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -53,12 +53,9 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Config.ComposeCompiler
     }
-    packagingOptions {
+    packaging {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         resources.excludes.add("/META-INF/INDEX.LIST")
-    }
-    kapt {
-        correctErrorTypes = true
     }
 }
 
@@ -120,12 +117,12 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Espresso)
 
     implementation(Libs.AndroidX.Room.RoomKtx)
-    kapt(Libs.AndroidX.Room.RoomCompiler)
+    ksp(Libs.AndroidX.Room.RoomCompiler)
 
     implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
-    kapt(Libs.Google.Hilt.Compiler)
+    ksp(Libs.Google.Hilt.Compiler)
     implementation(Libs.Google.Hilt.NavigationCompose)
 
     implementation(Libs.SquareUp.Moshi)
@@ -133,6 +130,6 @@ dependencies {
     implementation(Libs.Google.Firebase.Analytics)
     implementation(Libs.Google.Firebase.Crashlytics)
 
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.github.HellGuy39:Iris:0.2.0")
 
 }
