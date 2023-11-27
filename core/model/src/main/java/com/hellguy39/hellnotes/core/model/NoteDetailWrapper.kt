@@ -7,7 +7,15 @@ data class NoteDetailWrapper(
     val labels: List<Label> = listOf(),
     val reminders: List<Reminder> = listOf(),
     val checklists: List<Checklist> = listOf()
-)
+) {
+    companion object {
+        fun emptyInstance(): NoteDetailWrapper {
+            return NoteDetailWrapper(
+                note = Note()
+            )
+        }
+    }
+}
 
 fun Note.toNoteDetailWrapper(
     reminders: List<Reminder> = listOf(),
@@ -22,4 +30,12 @@ fun Note.toNoteDetailWrapper(
 
 fun NoteDetailWrapper.isNoteWrapperInvalid(): Boolean {
     return !note.isNoteValid() && reminders.isEmpty() && labels.isEmpty() && checklists.isEmpty()
+}
+
+fun NoteDetailWrapper.hasAnythingToShow(): Boolean {
+    val isTitleValid = note.title.isNotEmpty() || note.title.isNotBlank()
+    val isNoteValid = note.note.isNotEmpty() || note.note.isNotBlank()
+    val isChipsValid = labels.isNotEmpty() || reminders.isNotEmpty()
+    val isChecklistsValid = checklists.isChecklistsValid()
+    return !isTitleValid || !isNoteValid || !isChipsValid || !isChecklistsValid
 }

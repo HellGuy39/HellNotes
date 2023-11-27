@@ -31,6 +31,7 @@ import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
+import com.hellguy39.hellnotes.core.ui.rememberLifecycleEvent
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailChecklistSelection
@@ -51,7 +52,6 @@ fun NoteDetailRoute(
     navigateToReminderEdit: (noteId: Long, reminderId: Long) -> Unit
 ) {
     val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
 
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -62,13 +62,11 @@ fun NoteDetailRoute(
 
     fun onShare(type: ShareType) {
         uiState.let { state ->
-            if (state is NoteDetailUiState.Success) {
-                ShareUtils.share(
-                    context = context,
-                    note = state.wrapper.note,
-                    type = type
-                )
-            }
+            ShareUtils.share(
+                context = context,
+                note = state.wrapper.note,
+                type = type
+            )
         }
     }
 
@@ -115,30 +113,6 @@ fun NoteDetailRoute(
             navigateBack()
         }
     )
-
-    val currentOnStop by rememberUpdatedState {
-        noteDetailViewModel.send(NoteDetailUiEvent.Minimize)
-    }
-
-    val currentOnDestroy by rememberUpdatedState {
-        noteDetailViewModel.send(NoteDetailUiEvent.Close)
-    }
-
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            when(event) {
-                Lifecycle.Event.ON_STOP -> currentOnStop()
-                Lifecycle.Event.ON_DESTROY -> currentOnDestroy()
-                else -> Unit
-            }
-        }
-
-        lifecycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
 
     var isOpenMenuBottomSheet by rememberSaveable { mutableStateOf(false) }
     val attachmentBottomSheetState = rememberModalBottomSheetState(
@@ -201,18 +175,15 @@ fun NoteDetailRoute(
             icon = painterResource(id = HellNotesIcons.Share),
             onClick = {
                 closeMenuBottomSheet()
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        if (state.wrapper.note.isNoteValid()) {
-                            shareDialogState.show()
-                        } else {
-                            snackbarHostState.showDismissableSnackbar(
-                                scope = scope,
-                                message = context.getString(HellNotesStrings.Snack.NothingToShare),
-                                duration = SnackbarDuration.Short
-                            )
-                        }
-                    }
+                val note = uiState.wrapper.note
+                if (note.isNoteValid()) {
+                    shareDialogState.show()
+                } else {
+                    snackbarHostState.showDismissableSnackbar(
+                        scope = scope,
+                        message = context.getString(HellNotesStrings.Snack.NothingToShare),
+                        duration = SnackbarDuration.Short
+                    )
                 }
             }
         )
@@ -264,12 +235,8 @@ fun NoteDetailRoute(
             icon = painterResource(id = HellNotesIcons.Label),
             onClick = {
                 closeAttachmentBottomSheet()
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        val id = state.wrapper.note.id ?: return@let
-                        navigateToLabelSelection(id)
-                    }
-                }
+                val id = uiState.wrapper.note.id ?: 0
+                navigateToLabelSelection(id)
             }
         )
     )
@@ -321,26 +288,21 @@ fun NoteDetailRoute(
                 noteDetailViewModel.send(NoteDetailUiEvent.UpdateNoteContent(newText))
             },
             onReminderClick = { reminder ->
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        val noteId = state.wrapper.note.id ?: return@let
-                        val reminderId = reminder.id ?: return@let
-                        navigateToReminderEdit(noteId, reminderId)
-                    }
-                }
+                val noteId = uiState.wrapper.note.id ?: 0
+                val reminderId = reminder.id ?: 0
+                navigateToReminderEdit(noteId, reminderId)
             },
             onLabelClick = { label ->
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        val id = state.wrapper.note.id ?: return@let
-                        navigateToLabelSelection(id)
-                    }
-                }
+                val id = uiState.wrapper.note.id ?: 0
+                navigateToLabelSelection(id)
             }
         ),
         topAppBarSelection = NoteDetailTopAppBarSelection(
             uiState = uiState,
-            onNavigationButtonClick = navigateBack,
+            onNavigationButtonClick = {
+                noteDetailViewModel.send(NoteDetailUiEvent.Close)
+                navigateBack()
+            },
             onPin = { isPinned ->
                 noteDetailViewModel.send(NoteDetailUiEvent.UpdateIsPinned(isPinned))
 
@@ -364,13 +326,9 @@ fun NoteDetailRoute(
                 )
             },
             onReminder = {
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        val noteId = state.wrapper.note.id ?: return@let
-                        val reminderId = ArgumentDefaultValues.NewReminder
-                        navigateToReminderEdit(noteId, reminderId)
-                    }
-                }
+                val noteId = uiState.wrapper.note.id ?: 0
+                val reminderId = ArgumentDefaultValues.NewReminder
+                navigateToReminderEdit(noteId, reminderId)
             }
         ),
         bottomBarSelection = NoteDetailBottomBarSelection(

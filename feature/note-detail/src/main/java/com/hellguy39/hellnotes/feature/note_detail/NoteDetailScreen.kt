@@ -32,16 +32,14 @@ fun NoteDetailScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
-            if (uiState is NoteDetailUiState.Success) {
-                NoteDetailContent(
-                    innerPadding = innerPadding,
-                    selection = noteDetailContentSelection,
-                    checklistSelection = noteDetailChecklistSelection,
-                    focusRequester = focusRequester,
-                    uiState = uiState,
-                    lazyListState = lazyListState
-                )
-            }
+            NoteDetailContent(
+                innerPadding = innerPadding,
+                selection = noteDetailContentSelection,
+                checklistSelection = noteDetailChecklistSelection,
+                focusRequester = focusRequester,
+                uiState = uiState,
+                lazyListState = lazyListState
+            )
         },
         topBar = {
             NoteDetailTopAppBar(

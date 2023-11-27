@@ -11,3 +11,17 @@ data class ChecklistItem(
         )
     }
 }
+
+fun List<ChecklistItem>.addNewChecklistItem(): List<ChecklistItem> {
+    return this.toMutableList()
+        .apply { add(ChecklistItem.newInstance()) }
+}
+
+fun List<ChecklistItem>.removeChecklistItem(item: ChecklistItem): List<ChecklistItem> {
+    return this.toMutableList()
+        .apply { remove(item) }
+}
+
+fun List<ChecklistItem>.toggleAll(isChecked: Boolean): List<ChecklistItem> {
+    return this.map { item -> item.copy(isChecked = isChecked) }
+}

@@ -65,6 +65,6 @@ object ShareUtils {
 }
 
 sealed interface ShareType {
-    object PlainText: ShareType
-    object TxtFile: ShareType
+    data object PlainText: ShareType
+    data object TxtFile: ShareType
 }

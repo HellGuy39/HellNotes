@@ -17,19 +17,7 @@ fun NoteDetailTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     topAppBarSelection: NoteDetailTopAppBarSelection,
 ) {
-    val note = if (topAppBarSelection.uiState is NoteDetailUiState.Success) {
-        topAppBarSelection.uiState.wrapper.note
-    } else {
-        Note()
-    }
-
-    val pinIcon = painterResource(
-        id = if (note.isPinned) HellNotesIcons.PinActivated else HellNotesIcons.PinDisabled
-    )
-
-    val archiveIcon = painterResource(
-        id = if (note.isArchived) HellNotesIcons.Unarchive else HellNotesIcons.Archive
-    )
+    val note = topAppBarSelection.uiState.wrapper.note
 
     val topAppBarColors = if (note.colorHex == ColorParam.DefaultColor)
         TopAppBarDefaults.topAppBarColors()
@@ -58,7 +46,7 @@ fun NoteDetailTopAppBar(
                 onClick = { topAppBarSelection.onPin(!note.isPinned) }
             ) {
                 Icon(
-                    painter = pinIcon,
+                    painter = painterResource(HellNotesIcons.pin(note.isPinned)),
                     contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Pin)
                 )
             }
@@ -76,7 +64,7 @@ fun NoteDetailTopAppBar(
                 onClick = { topAppBarSelection.onArchive(!note.isArchived) }
             ) {
                 Icon(
-                    painter = archiveIcon,
+                    painter = painterResource(HellNotesIcons.archive(note.isArchived)),
                     contentDescription = null
                 )
             }

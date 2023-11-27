@@ -6,6 +6,8 @@ import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.repository.local.database.removeCompletedChecklists
+import com.hellguy39.hellnotes.core.model.repository.local.database.sortByPriority
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.Sorting
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,24 +34,27 @@ constructor(
             val sortedNotes = notes
                 .sortedByDescending { wrapper -> wrapper.note.editedAt }
                 .filter { wrapper -> !wrapper.note.isArchived }
+                .map { noteDetailWrapper ->
+                    val filteredChecklists = noteDetailWrapper.checklists
+                        .removeCompletedChecklists()
+                        .sortByPriority()
+                    noteDetailWrapper.copy(checklists = filteredChecklists)
+                }
 
-//            when(sorting) {
-//                is Sorting.DateOfCreation -> notes.sortedByDescending { wrapper -> wrapper.note.id }
-//                is Sorting.DateOfLastEdit -> notes.sortedByDescending { wrapper -> wrapper.note.editedAt }
-//            }
-//                .filter { wrapper -> !wrapper.note.isArchived }
+            val pinnedNotes = sortedNotes.filter { note -> note.note.isPinned }
+            val unpinnedNotes = sortedNotes.filter { note -> !note.note.isPinned }
 
             NoteListUiState(
                 sorting = sorting,
-                pinnedNotes = sortedNotes.filter { note -> note.note.isPinned },
-                unpinnedNotes = sortedNotes.filter { note -> !note.note.isPinned },
+                pinnedNotes = pinnedNotes,
+                unpinnedNotes = unpinnedNotes,
                 isLoading = false
             )
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = NoteListUiState.initialInstance()
+            initialValue = NoteListUiState()
         )
 
     fun updateSorting(sorting: Sorting) {
@@ -57,21 +62,11 @@ constructor(
             dataStoreRepository.saveListSortState(sorting)
         }
     }
-
 }
 
 data class NoteListUiState(
-    val sorting: Sorting,
-    val isLoading: Boolean,
-    val pinnedNotes: List<NoteDetailWrapper>,
-    val unpinnedNotes: List<NoteDetailWrapper>,
-) {
-    companion object {
-        fun initialInstance() = NoteListUiState(
-            sorting = Sorting.DateOfCreation,
-            isLoading = true,
-            pinnedNotes = listOf(),
-            unpinnedNotes = listOf()
-        )
-    }
-}
+    val sorting: Sorting = Sorting.DateOfCreation,
+    val isLoading: Boolean = true,
+    val pinnedNotes: List<NoteDetailWrapper> = listOf(),
+    val unpinnedNotes: List<NoteDetailWrapper> = listOf(),
+)

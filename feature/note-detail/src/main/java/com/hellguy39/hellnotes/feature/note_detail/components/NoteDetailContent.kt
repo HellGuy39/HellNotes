@@ -46,7 +46,7 @@ import com.hellguy39.hellnotes.feature.note_detail.R
 @Composable
 fun NoteDetailContent(
     innerPadding: PaddingValues,
-    uiState: NoteDetailUiState.Success,
+    uiState: NoteDetailUiState,
     selection: NoteDetailContentSelection,
     checklistSelection: NoteDetailChecklistSelection,
     focusRequester: FocusRequester,

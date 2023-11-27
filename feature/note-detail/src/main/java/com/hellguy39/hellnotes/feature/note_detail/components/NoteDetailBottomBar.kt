@@ -65,14 +65,12 @@ fun NoteDetailBottomBar(
             }
 
             Text(
-                text = if (uiState is NoteDetailUiState.Success)
-                    stringResource(
+                text = stringResource(
                         id = HellNotesStrings.Subtitle.Edited,
                         formatArgs = arrayOf(
                             DateTimeUtils.formatBest(uiState.wrapper.note.editedAt)
                         )
-                    )
-                else "",
+                    ),
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center

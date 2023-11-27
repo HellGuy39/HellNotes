@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.hasAnythingToShow
 import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklistsValid
 import com.hellguy39.hellnotes.core.model.repository.local.database.removeCompletedChecklists
 import com.hellguy39.hellnotes.core.model.repository.local.database.sortByPriority
@@ -23,15 +24,11 @@ internal fun NoteCardContent(
     val isTitleValid = noteDetailWrapper.note.title.isNotEmpty() || noteDetailWrapper.note.title.isNotBlank()
     val isNoteValid = noteDetailWrapper.note.note.isNotEmpty() || noteDetailWrapper.note.note.isNotBlank()
     val isChipsValid = noteDetailWrapper.labels.isNotEmpty() || noteDetailWrapper.reminders.isNotEmpty()
-
-    val filteredChecklists = noteDetailWrapper.checklists
-        .removeCompletedChecklists()
-        .sortByPriority()
-    val isChecklistValid = filteredChecklists.isChecklistsValid()
+    val isChecklistValid = noteDetailWrapper.checklists.isChecklistsValid()
+    val hasAnythingToShow = noteDetailWrapper.hasAnythingToShow()
 
     Column(
-        modifier = Modifier
-            .padding(12.dp),
+        modifier = Modifier.padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (isTitleValid) {
@@ -43,9 +40,10 @@ internal fun NoteCardContent(
             )
         }
 
-        if (isNoteValid) {
+        if (isNoteValid || hasAnythingToShow) {
             Text(
-                text = noteDetailWrapper.note.note,
+                //TODO: replace with resource string
+                text = if (!hasAnythingToShow) noteDetailWrapper.note.note else "New note",
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 3,
                 modifier = Modifier,
@@ -55,7 +53,7 @@ internal fun NoteCardContent(
 
         if (isChecklistValid) {
             NoteChecklistGroup(
-                checklists = filteredChecklists
+                checklists = noteDetailWrapper.checklists
             )
         }
 
