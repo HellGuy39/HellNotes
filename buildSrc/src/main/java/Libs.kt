@@ -20,7 +20,7 @@ object Libs {
         private const val coroutinesVersion = "1.7.3"
         const val Coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
-        private const val plugineVersion = "1.9.10"
+        private const val plugineVersion = "1.9.20"
         const val Plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugineVersion"
         const val SerializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$plugineVersion"
     }
@@ -69,11 +69,11 @@ object Libs {
 
         object Compose {
 
-            private const val composeVersion = "1.5.2"
+            private const val composeVersion = "1.5.4"
             private const val lifecycleVersion = "2.6.2"
             private const val navigationVersion = "2.7.5"
             private const val material3Version = "1.1.2"
-            private const val activityVersion = "1.8.0"
+            private const val activityVersion = "1.8.1"
             
             const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
             const val Activity = "androidx.activity:activity-compose:$activityVersion"
@@ -173,6 +173,5 @@ object Libs {
             const val RichTextUiMaterial3 = "com.halilibo.compose-richtext:richtext-ui-material3:$version"
 
         }
-
     }
 }

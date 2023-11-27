@@ -5,6 +5,6 @@ object Config {
     const val targetSdk = 34
     const val ApplicationId = "com.hellguy39.hellnotes"
 
-    const val ComposeCompiler = "1.5.3"
+    const val ComposeCompiler = "1.5.4"
 
 }

@@ -31,6 +31,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
@@ -129,7 +130,5 @@ dependencies {
 
     implementation(Libs.Google.Firebase.Analytics)
     implementation(Libs.Google.Firebase.Crashlytics)
-
-    implementation("com.github.HellGuy39:Iris:0.2.0")
 
 }

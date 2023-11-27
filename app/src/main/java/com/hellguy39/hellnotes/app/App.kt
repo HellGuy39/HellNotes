@@ -36,5 +36,8 @@ class App : Application() {
     private fun configureFirebase() {
         val analytics = FirebaseAnalytics.getInstance(this)
         val crashlytics = FirebaseCrashlytics.getInstance()
+
+        analytics.setAnalyticsCollectionEnabled(true)
+        crashlytics.setCrashlyticsCollectionEnabled(true)
     }
 }

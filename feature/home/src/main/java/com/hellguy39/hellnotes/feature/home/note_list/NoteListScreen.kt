@@ -32,7 +32,7 @@ import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppB
 import com.hellguy39.hellnotes.feature.home.note_list.components.NoteListTopAppBarSelection
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteListScreen(
     navController: NavController,
@@ -72,7 +72,10 @@ fun NoteListScreen(
                 return@Scaffold
             }
 
-            AnimatedContent(visualsSelection.listStyle) { listStyle ->
+            AnimatedContent(
+                visualsSelection.listStyle,
+                label = "note_list_screen_animation"
+            ) { listStyle ->
 
                 if (uiState.pinnedNotes.isEmpty() && uiState.unpinnedNotes.isEmpty()) {
                     EmptyContentPlaceholder(
@@ -145,7 +148,10 @@ fun NoteListScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote) }
+                onClick = {
+                    navController.navigateToNoteDetail(ArgumentDefaultValues.NewNote)
+                    //noteListViewModel.analyticsLogger.logEvent("note_created")
+                }
             ) {
                 Icon(
                     painter = painterResource(id = HellNotesIcons.Add),
