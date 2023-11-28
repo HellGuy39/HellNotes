@@ -22,8 +22,10 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.toggleAll
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,24 +62,26 @@ constructor(
             )
         }
         .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            NoteDetailUiState()
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = NoteDetailUiState()
         )
 
     init {
         viewModelScope.launch {
-            val noteId = savedStateHandle.get<Long>(ArgumentKeys.NoteId).let { id ->
-                if (id != ArgumentDefaultValues.NewNote) id else noteRepository.insertNote(Note())
-            } ?: return@launch
+            val noteId = savedStateHandle.get<Long>(ArgumentKeys.NoteId)
+                .let { id ->
+                    if (id != ArgumentDefaultValues.NewNote)
+                        id
+                    else
+                        noteRepository.insertNote(Note())
+                } ?: return@launch
 
-            launch {
-                note.update { noteRepository.getNoteById(noteId) }
-            }
+            val note = noteRepository.getNoteById(noteId)
+            val checklists = checklistRepository.getChecklistsByNoteId(noteId)
 
-            launch {
-                checklists.update { checklistRepository.getChecklistsByNoteId(noteId) }
-            }
+            this@NoteDetailViewModel.note.update { note }
+            this@NoteDetailViewModel.checklists.update { checklists }
         }
     }
 

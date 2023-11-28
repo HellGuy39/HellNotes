@@ -64,7 +64,7 @@ fun NoteDetailTopAppBar(
                 onClick = { topAppBarSelection.onArchive(!note.isArchived) }
             ) {
                 Icon(
-                    painter = painterResource(HellNotesIcons.archive(note.isArchived)),
+                    painter = painterResource(HellNotesIcons.archive(!note.isArchived)),
                     contentDescription = null
                 )
             }

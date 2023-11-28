@@ -21,13 +21,16 @@ import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.IconSize
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BackupScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: BackupUiState,
-    selection: BackupScreenSelection,
+    onBackupClick: () -> Unit,
+    onRestoreClick: () -> Unit
 ) {
     val context = LocalContext.current
     val appBarState = rememberTopAppBarState()
@@ -74,30 +77,34 @@ fun BackupScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(paddingValues),
-                verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(
+                    space = Spaces.medium,
+                    alignment = Alignment.CenterVertically
+                ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 Icon(
-                    modifier = Modifier.size(192.dp),
+                    modifier = Modifier.size(IconSize.displayable),
                     painter = painterResource(id = HellNotesIcons.Save),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )
 
                 Text(
-                    modifier = Modifier.padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(horizontal = Spaces.medium),
                     text = stringResource(
                         id = HellNotesStrings.Subtitle.LastCopy,
-                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Value.Never) else DateTimeUtils.formatBest(
-                            uiState.lastBackupDate
-                        )
+                        if (uiState.lastBackupDate == 0L)
+                            stringResource(id = HellNotesStrings.Value.Never)
+                        else
+                            DateTimeUtils.formatBest(uiState.lastBackupDate)
                     ),
                     style = MaterialTheme.typography.titleLarge,
                 )
 
                 Text(
-                    modifier = Modifier.padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(horizontal = Spaces.extraLarge),
                     text = stringResource(id = HellNotesStrings.Supporting.Backup),
                     style = MaterialTheme.typography.bodyLarge,
                 )
@@ -113,14 +120,14 @@ fun BackupScreen(
                     modifier = Modifier
                         .navigationBarsPadding()
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding(horizontal = Spaces.medium, vertical = Spaces.small),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(Spaces.small)
                 ) {
                     Button(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        onClick = selection.onBackup
+                        onClick = onBackupClick
                     ) {
                         Text(text = stringResource(id = HellNotesStrings.Button.CreateBackup))
                     }
@@ -128,7 +135,7 @@ fun BackupScreen(
                     FilledTonalButton(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        onClick = selection.onRestore
+                        onClick = onRestoreClick
                     ) {
                         Text(text = stringResource(id = HellNotesStrings.Button.RestoreFromBackup))
                     }
@@ -137,10 +144,4 @@ fun BackupScreen(
         },
         snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
     )
-
 }
-
-data class BackupScreenSelection(
-    val onBackup: () -> Unit,
-    val onRestore: () -> Unit
-)

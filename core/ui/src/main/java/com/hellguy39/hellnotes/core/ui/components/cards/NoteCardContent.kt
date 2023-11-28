@@ -40,10 +40,10 @@ internal fun NoteCardContent(
             )
         }
 
-        if (isNoteValid || hasAnythingToShow) {
+        if (isNoteValid || !hasAnythingToShow) {
             Text(
                 //TODO: replace with resource string
-                text = if (!hasAnythingToShow) noteDetailWrapper.note.note else "New note",
+                text = if (!hasAnythingToShow) "New note" else noteDetailWrapper.note.note,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 3,
                 modifier = Modifier,

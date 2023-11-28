@@ -12,18 +12,22 @@ import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 
 @Composable
 fun BackupRoute(
-    navController: NavController,
-    backupViewModel: BackupViewModel = hiltViewModel()
+    backupViewModel: BackupViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
-    val createBackupLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { uri ->
+    val createBackupLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument("application/octet-stream")
+    ) { uri ->
         if (uri != null) {
             backupViewModel.send(BackupUiEvent.Backup(uri))
         }
     }
 
-    val restoreFromBackupLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+    val restoreFromBackupLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
         if (uri != null) {
             backupViewModel.send(BackupUiEvent.Restore(uri))
         }
@@ -32,20 +36,17 @@ fun BackupRoute(
     val uiState by backupViewModel.uiState.collectAsStateWithLifecycle()
 
     BackupScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = navigateBack,
         uiState = uiState,
-        selection = BackupScreenSelection(
-            onBackup = {
-                val time = DateTimeUtils.formatEpochMillis(
-                    System.currentTimeMillis(),
-                    DateTimeUtils.NEW_FILE_PATTERN
-                )
-                createBackupLauncher.launch("HellNotes_Backup_$time")
-            },
-            onRestore = {
-                restoreFromBackupLauncher.launch(arrayOf("application/octet-stream"))
-            }
-        )
+        onBackupClick = {
+            val time = DateTimeUtils.formatEpochMillis(
+                System.currentTimeMillis(),
+                DateTimeUtils.NEW_FILE_PATTERN
+            )
+            createBackupLauncher.launch("HellNotes_Backup_$time")
+        },
+        onRestoreClick = {
+            restoreFromBackupLauncher.launch(arrayOf("application/octet-stream"))
+        }
     )
-
 }

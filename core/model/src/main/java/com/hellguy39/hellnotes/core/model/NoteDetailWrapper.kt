@@ -37,5 +37,5 @@ fun NoteDetailWrapper.hasAnythingToShow(): Boolean {
     val isNoteValid = note.note.isNotEmpty() || note.note.isNotBlank()
     val isChipsValid = labels.isNotEmpty() || reminders.isNotEmpty()
     val isChecklistsValid = checklists.isChecklistsValid()
-    return !isTitleValid || !isNoteValid || !isChipsValid || !isChecklistsValid
+    return isTitleValid || isNoteValid || isChipsValid || isChecklistsValid
 }
