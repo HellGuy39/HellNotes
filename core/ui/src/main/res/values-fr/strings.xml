@@ -49,6 +49,7 @@
     <!-- Button -->
     <string name="btn_request_permission">Demander la permission</string>
     <string name="btn_create">Créer</string>
+    <string name="btn_restore">Restaurer</string>
     <string name="btn_edit">Modifier</string>
     <string name="btn_delete">Supprimer</string>
     <string name="btn_enter">Entrer</string>
@@ -194,7 +195,8 @@
     <string name="supporting_restore_note">Après la restauration, vous pourrez à nouveau ouvrir et modifier cette note.</string>
     <string name="supporting_delete_label">L\'étiquette sera supprimée de manière permanente. Toutes les notes avec cette étiquette la perdront.</string>
     <string name="supporting_empty_trash">Toutes les notes dans la corbeille seront supprimées de manière permanente.</string>
-    <string name="supporting_backup">La création d\'une copie de sauvegarde vous aidera à protéger vos notes et à vous protéger contre la perte éventuelle d\'informations importantes. Veuillez ne pas fermer l\'application ou éteindre l\'appareil pendant le processus de copie.</string>
+    <!-- La création d\'une copie de sauvegarde vous aidera à protéger vos notes et à vous protéger contre la perte éventuelle d\'informations importantes.  -->
+    <string name="supporting_backup">Veuillez ne pas fermer l\'application ou éteindre l\'appareil pendant le processus de copie.</string>
     <string name="supporting_wrong_pin">Code PIN incorrect</string>
     <string name="supporting_wrong_password">Mot de passe incorrect</string>
 

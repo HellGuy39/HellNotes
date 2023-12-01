@@ -9,15 +9,15 @@ import androidx.navigation.NavController
 
 @Composable
 fun ChangelogRoute(
-    navController: NavController,
-    changelogViewModel: ChangelogViewModel = hiltViewModel()
+    changelogViewModel: ChangelogViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
     val uiState by changelogViewModel.uiState.collectAsStateWithLifecycle()
 
     ChangelogScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = navigateBack,
         uiState = uiState,
         onTryAgain = {
             changelogViewModel.send(ChangelogUiEvent.TryAgain)

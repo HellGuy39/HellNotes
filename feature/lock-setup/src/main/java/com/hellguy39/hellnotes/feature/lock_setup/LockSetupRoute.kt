@@ -9,8 +9,9 @@ import com.hellguy39.hellnotes.core.ui.navigations.Screen
 
 @Composable
 fun LockSetupRoute(
-    navController: NavController,
-    lockSetupViewModel: LockSetupViewModel = hiltViewModel()
+    lockSetupViewModel: LockSetupViewModel = hiltViewModel(),
+    navigateBackToSettings: () -> Unit,
+    navigateBack: () -> Unit
 ) {
     val uiState by lockSetupViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -18,8 +19,8 @@ fun LockSetupRoute(
         uiState = uiState,
         onCodeReceived = { code ->
             lockSetupViewModel.saveAppCode(code)
-            navController.popBackStack(route = Screen.Settings.route, inclusive = false)
+            navigateBackToSettings()
         },
-        onNavigationBack = navController::popBackStack
+        onNavigationBack = navigateBack
     )
 }

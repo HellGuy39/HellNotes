@@ -9,18 +9,16 @@ import androidx.navigation.NavController
 
 @Composable
 fun TermsAndConditionsRoute(
-    navController: NavController,
+    navigateBack: () -> Unit,
     termsAndConditionsViewModel: TermsAndConditionsViewModel = hiltViewModel()
 ) {
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
     val uiState by termsAndConditionsViewModel.uiState.collectAsStateWithLifecycle()
 
     TermsAndConditionsScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = navigateBack,
         uiState = uiState,
-        onTryAgain = {
-
-        }
+        onTryAgain = {}
     )
 }

@@ -187,6 +187,7 @@ object HellNotesStrings {
         val TryAgain = R.string.btn_try_again
         val CreateBackup = R.string.btn_create_backup
         val RestoreFromBackup = R.string.btn_restore_from_backup
+        val Restore = R.string.btn_restore
 
         fun finish(isFinished: Boolean): Int {
             return if (isFinished) Finish else Next

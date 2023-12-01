@@ -155,7 +155,8 @@
     <string name="supporting_delete_label">The label will be permanently deleted. All notes with this label will lose it.</string>
     <string name="supporting_restore_note">After restoring, you will be able to open and edit this note again.</string>
     <string name="supporting_empty_trash">All notes in the trash will be permanently deleted.</string>
-    <string name="supporting_backup">Creating a backup copy will help keep your notes safe and protect against possible loss of important information. Please do not close the application or turn off the device during the copying process.</string>
+    <!-- Creating a backup copy will help keep your notes safe and protect against possible loss of important information.  -->
+    <string name="supporting_backup">Please do not close the application or turn off the device during the copying process.</string>
     <string name="supporting_wrong_pin">Wrong PIN</string>
     <string name="supporting_wrong_password">Wrong password</string>
 
@@ -180,6 +181,7 @@
     <!-- Button -->
     <string name="btn_request_permission">Request permission</string>
     <string name="btn_create">Create</string>
+    <string name="btn_restore">Restore</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_enter">Enter</string>
     <string name="btn_delete">Delete</string>

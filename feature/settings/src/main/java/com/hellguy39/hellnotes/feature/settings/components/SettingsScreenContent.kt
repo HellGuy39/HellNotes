@@ -15,7 +15,7 @@ import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
-import com.hellguy39.hellnotes.core.ui.getDisplayName
+import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.settings.SettingsUiState
@@ -48,7 +48,7 @@ fun SettingsScreenContent(
                     modifier = listItemModifier,
                     onClick = selection.onLanguage,
                     title = stringResource(id = HellNotesStrings.Setting.Language),
-                    subtitle =  Language.from(uiState.lanCode).getDisplayName(),
+                    subtitle =  uiState.language.asDisplayableString(),
                 )
 
                 HNListItem(
@@ -77,7 +77,7 @@ fun SettingsScreenContent(
                     modifier = listItemModifier,
                     onClick = selection.onLockScreen,
                     title = stringResource(id = HellNotesStrings.Setting.ScreenLock),
-                    subtitle = uiState.securityState.lockType.getDisplayName(),
+                    subtitle = uiState.securityState.lockType.asDisplayableString(),
                 )
 
                 val isChecked = uiState.securityState.isUseBiometricData
@@ -130,7 +130,7 @@ fun SettingsScreenContent(
                     modifier = listItemModifier,
                     onClick = selection.onNoteStyleEdit,
                     title = stringResource(id = HellNotesStrings.Setting.NoteStyle),
-                    subtitle = uiState.noteStyle.getDisplayName(),
+                    subtitle = uiState.noteStyle.asDisplayableString(),
                 )
             }
         }

@@ -16,45 +16,42 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel
+@Inject
+constructor(
     private val dataStoreRepository: DataStoreRepository,
     val biometricAuth: BiometricAuthenticator,
-    private val languageHolder: LanguageHolder
+    languageHolder: LanguageHolder
 ): ViewModel() {
 
     private val isBiometricAuthAvailable =
         biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success
-
-    private val languageCode = MutableStateFlow(languageHolder.getLanguageCode())
 
     val uiState = combine(
         dataStoreRepository.readSecurityState(),
         dataStoreRepository.readNoteStyleState(),
         dataStoreRepository.readNoteSwipesState(),
         dataStoreRepository.readLastBackupDate(),
-        languageCode,
-    ) { securityState, noteStyle, noteSwipesState, lastBackupDate, languageCode ->
+        languageHolder.languageFlow,
+    ) { securityState, noteStyle, noteSwipesState, lastBackupDate, language ->
         SettingsUiState(
             securityState = securityState,
             noteStyle = noteStyle,
             noteSwipesState = noteSwipesState,
             isBioAuthAvailable = isBiometricAuthAvailable,
-            lanCode = languageCode,
+            language = language,
             lastBackupDate = lastBackupDate
         )
     }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
+            started = SharingStarted.WhileSubscribed(),
             initialValue = SettingsUiState.initialInstance()
         )
 
 
     fun send(uiEvent: SettingsUiEvent) {
         when(uiEvent) {
-            is SettingsUiEvent.Start -> {
-                languageCode.update { languageHolder.getLanguageCode() }
-            }
             is SettingsUiEvent.ToggleIsUseBiometricData -> {
                saveIsUseBiometricData(uiEvent.isUseBiometric)
             }
@@ -71,16 +68,12 @@ class SettingsViewModel @Inject constructor(
 }
 
 sealed class SettingsUiEvent {
-
-    object Start: SettingsUiEvent()
-
     data class ToggleIsUseBiometricData(val isUseBiometric: Boolean): SettingsUiEvent()
-
 }
 
 data class SettingsUiState(
     val securityState: SecurityState,
-    val lanCode: String,
+    val language: Language,
     val lastBackupDate: Long,
     val isBioAuthAvailable: Boolean,
     val noteStyle: NoteStyle,
@@ -89,7 +82,7 @@ data class SettingsUiState(
     companion object {
         fun initialInstance() = SettingsUiState(
             securityState = SecurityState.initialInstance(),
-            lanCode = Language.SystemDefault.code,
+            language = Language.SystemDefault,
             isBioAuthAvailable = false,
             noteStyle = NoteStyle.Outlined,
             noteSwipesState = NoteSwipesState.initialInstance(),

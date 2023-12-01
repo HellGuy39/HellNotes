@@ -32,8 +32,7 @@ fun NoteStyleEditScreen(
     uiState: NoteStyleEditUiState,
     onNoteStyleChange: (NoteStyle) -> Unit
 ) {
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val exampleNoteDetailWrapper = NoteDetailWrapper(
         note = Note(
@@ -67,7 +66,7 @@ fun NoteStyleEditScreen(
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
-                        shape = RoundedCornerShape(32.dp)
+                        shape = MaterialTheme.shapes.extraLarge,
                     ) {
                         Box(
                             modifier = Modifier

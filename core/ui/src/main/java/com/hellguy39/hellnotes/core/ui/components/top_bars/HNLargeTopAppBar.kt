@@ -17,14 +17,14 @@ fun HNLargeTopAppBar(
     title: String,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
-    val isExpanded = scrollBehavior.state.collapsedFraction <= 0.5f
+    //val isExpanded = scrollBehavior.state.collapsedFraction <= 0.5f
 
     LargeTopAppBar(
         scrollBehavior = scrollBehavior,
         title = {
             Text(
                 text = title,
-                maxLines = if (isExpanded) 2 else 1,
+//                maxLines = if (isExpanded) 2 else 1,
                 overflow = TextOverflow.Ellipsis,
             )
         },

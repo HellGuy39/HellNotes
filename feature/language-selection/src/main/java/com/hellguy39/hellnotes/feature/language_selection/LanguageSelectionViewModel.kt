@@ -5,39 +5,38 @@ import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import com.hellguy39.hellnotes.core.model.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LanguageSelectionViewModel @Inject constructor(
+class LanguageSelectionViewModel
+@Inject
+constructor(
     private val languageHolder: LanguageHolder
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow(
-        LanguageSelectionUiState(languageCode = Language.languageCodes[0])
-    )
-    val uiState = _uiState.asStateFlow()
+    val uiState = languageHolder.languageFlow
+        .map { language ->
+            LanguageSelectionUiState(
+                language = language
+            )
+        }
+        .stateIn(
+            initialValue = LanguageSelectionUiState(),
+            started = SharingStarted.WhileSubscribed(5_000),
+            scope = viewModelScope,
+        )
 
-    init {
+    fun setLanguage(language: Language) {
         viewModelScope.launch {
-            _uiState.update { state -> state.copy(languageCode = getCurrentLanguageCode()) }
+            languageHolder.setLanguage(language)
         }
     }
-
-    fun setLanguageCode(code: String) {
-        viewModelScope.launch {
-            _uiState.update { state -> state.copy(languageCode = code) }
-            languageHolder.setLanguageCode(code)
-        }
-    }
-
-    private fun getCurrentLanguageCode() = languageHolder.getLanguageCode()
-
 }
 
 data class LanguageSelectionUiState(
-    val languageCode: String
+    val language: Language = Language.SystemDefault
 )

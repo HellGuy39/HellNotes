@@ -9,15 +9,15 @@ import androidx.navigation.NavController
 
 @Composable
 fun NoteStyleEditRoute(
-    navController: NavController,
-    noteStyleEditViewModel: NoteStyleEditViewModel = hiltViewModel()
+    noteStyleEditViewModel: NoteStyleEditViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
     val uiState by noteStyleEditViewModel.uiState.collectAsStateWithLifecycle()
 
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
     NoteStyleEditScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = navigateBack,
         uiState = uiState,
         onNoteStyleChange = { noteStyle ->
             noteStyleEditViewModel.saveNoteStyle(noteStyle)

@@ -64,7 +64,8 @@
     <string name="supporting_restore_note">Nach der Wiederherstellung kann man die Notiz erneut öffnen und bearbeiten.</string>
     <string name="supporting_delete_label">Das Label wird dauerhaft gelöscht. Alle Notizen mit diesem Etikett verlieren es..</string>
     <string name="supporting_empty_trash">Alle Notizen im Papierkorb werden dauerhaft gelöscht.</string>
-    <string name="supporting_backup">Das Erstellen einer Sicherungskopie hilft, Ihre Notizen sicher zu halten und vor möglichem Verlust wichtiger Informationen zu schützen. Bitte schließen Sie die Anwendung nicht und schalten Sie das Gerät während des Kopiervorgangs nicht aus.</string>
+    <!-- Das Erstellen einer Sicherungskopie hilft, Ihre Notizen sicher zu halten und vor möglichem Verlust wichtiger Informationen zu schützen.  -->
+    <string name="supporting_backup">Bitte schließen Sie die Anwendung nicht und schalten Sie das Gerät während des Kopiervorgangs nicht aus.</string>
     <string name="supporting_wrong_pin">Falsche PIN</string>
     <string name="supporting_wrong_password">Falsches Passwort</string>
     <string name="supporting_pin_must_be_at_least_4_digits">Die PIN muss aus mindestens 4 Ziffern bestehen</string>
@@ -81,6 +82,7 @@
     <string name="btn_create">Erstellen</string>
     <string name="btn_edit">Bearbeiten</string>
     <string name="btn_delete">Entfernen</string>
+    <string name="btn_restore">Wiederherstellen</string>
     <string name="btn_enter">Eingeben</string>
     <string name="btn_undo">Abbrechen</string>
     <string name="btn_save">Speichern</string>

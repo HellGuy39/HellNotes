@@ -1,11 +1,11 @@
 package com.hellguy39.hellnotes.feature.lock_selection.navigation
 
-import androidx.compose.animation.*
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToLockSetup
 import com.hellguy39.hellnotes.feature.lock_selection.LockSelectionRoute
 
 fun NavGraphBuilder.lockSelectionScreen(
@@ -26,6 +26,11 @@ fun NavGraphBuilder.lockSelectionScreen(
             UiDefaults.Motion.ScreenPopExitTransition
         },
     ) {
-        LockSelectionRoute(navController = navController)
+        LockSelectionRoute(
+            navigateBack = { navController.popBackStack() },
+            navigateToLockSetup = { lockType ->
+                navController.navigateToLockSetup(lockType)
+            }
+        )
     }
 }

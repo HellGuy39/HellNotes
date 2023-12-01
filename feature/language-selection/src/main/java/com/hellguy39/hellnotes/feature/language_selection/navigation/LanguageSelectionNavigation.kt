@@ -27,6 +27,8 @@ fun NavGraphBuilder.languageSelectionScreen(
             UiDefaults.Motion.ScreenPopExitTransition
         },
     ) {
-        LanguageSelectionRoute(navController = navController)
+        LanguageSelectionRoute(
+            navigateBack = { navController.popBackStack() }
+        )
     }
 }

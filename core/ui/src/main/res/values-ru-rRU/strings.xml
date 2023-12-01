@@ -62,6 +62,7 @@
     <!-- Button -->
     <string name="btn_request_permission">Запросить разрешение</string>
     <string name="btn_create">Создать</string>
+    <string name="btn_restore">Восстановить</string>
     <string name="btn_edit">Редактировать</string>
     <string name="btn_delete">Удалить</string>
     <string name="btn_enter">Ввести</string>
@@ -193,7 +194,8 @@
     <string name="supporting_restore_note">После восстановления можно снова открыть и редактировать эту заметку.</string>
     <string name="supporting_delete_label">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
     <string name="supporting_empty_trash">Все заметки в корзине будут безвозвратно удалены.</string>
-    <string name="supporting_backup">Создание резервной копии поможет сохранить ваши заметки в безопасности и защитить от возможной потери важной информации. Пожалуйста, не закрывайте приложение и не выключайте устройство во время процесса копирования.</string>
+    <!-- Создание резервной копии поможет сохранить ваши заметки в безопасности и защитить от возможной потери важной информации.  -->
+    <string name="supporting_backup">Пожалуйста, не закрывайте приложение и не выключайте устройство во время процесса копирования.</string>
     <string name="supporting_wrong_pin">Неверный PIN-код</string>
     <string name="supporting_wrong_password">Неверный пароль</string>
 

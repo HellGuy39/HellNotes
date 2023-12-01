@@ -1,6 +1,8 @@
 package com.hellguy39.hellnotes.feature.backup
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,12 +14,15 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.UiText
+import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -60,7 +65,7 @@ fun BackupScreen(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                HNTopAppBar(
+                HNLargeTopAppBar(
                     scrollBehavior = scrollBehavior,
                     onNavigationButtonClick = onNavigationButtonClick,
                     title = stringResource(id = HellNotesStrings.Title.Backup),
@@ -72,76 +77,125 @@ fun BackupScreen(
                 }
             }
         },
-        content = { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(paddingValues),
-                verticalArrangement = Arrangement.spacedBy(
-                    space = Spaces.medium,
-                    alignment = Alignment.CenterVertically
-                ),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                Icon(
-                    modifier = Modifier.size(IconSize.displayable),
-                    painter = painterResource(id = HellNotesIcons.Save),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
-
-                Text(
-                    modifier = Modifier.padding(horizontal = Spaces.medium),
-                    text = stringResource(
-                        id = HellNotesStrings.Subtitle.LastCopy,
-                        if (uiState.lastBackupDate == 0L)
-                            stringResource(id = HellNotesStrings.Value.Never)
-                        else
-                            DateTimeUtils.formatBest(uiState.lastBackupDate)
-                    ),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-
-                Text(
-                    modifier = Modifier.padding(horizontal = Spaces.extraLarge),
-                    text = stringResource(id = HellNotesStrings.Supporting.Backup),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-            }
-        },
         bottomBar = {
-            Surface(
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                color = MaterialTheme.colorScheme.surface
+                    .navigationBarsPadding()
+                    .fillMaxWidth()
+                    .padding(horizontal = Spaces.medium, vertical = Spaces.small),
+                horizontalArrangement = Arrangement.spacedBy(Spaces.medium),
             ) {
-                Column(
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .fillMaxWidth()
-                        .padding(horizontal = Spaces.medium, vertical = Spaces.small),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(Spaces.small)
+                Spacer(modifier = Modifier.weight(1f))
+                OutlinedButton(
+                    modifier = Modifier,
+                    onClick = onRestoreClick
                 ) {
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        onClick = onBackupClick
-                    ) {
-                        Text(text = stringResource(id = HellNotesStrings.Button.CreateBackup))
-                    }
-
-                    FilledTonalButton(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        onClick = onRestoreClick
-                    ) {
-                        Text(text = stringResource(id = HellNotesStrings.Button.RestoreFromBackup))
-                    }
+                    Text(text = stringResource(id = HellNotesStrings.Button.Restore))
+                }
+                Button(
+                    modifier = Modifier,
+                    onClick = onBackupClick
+                ) {
+                    Text(text = stringResource(id = HellNotesStrings.Button.Create))
                 }
             }
         },
         snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
-    )
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(
+                space = Spaces.large,
+                alignment = Alignment.Top
+            ),
+            contentPadding = paddingValues
+        ) {
+            item {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = Spaces.medium)
+                ) {
+                    Text(
+                        text = "Last copy: November 29, 2023 (10:22)",
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+            }
+            item {
+                ElevatedCard(
+                    modifier = Modifier.padding(horizontal = Spaces.medium)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(Spaces.medium),
+                        verticalArrangement = Arrangement.spacedBy(Spaces.medium)
+                    ) {
+                        // TODO: set accented icon tint & maybe create separate composable item
+                        Icon(
+                            painter = painterResource(id = HellNotesIcons.Info),
+                            contentDescription = null
+                        )
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(Spaces.small)
+                        ) {
+                            Text(
+                                text = "Attention",
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                            Text(
+                                text = stringResource(id = HellNotesStrings.Supporting.Backup),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+                    }
+                }
+            }
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .selectable(
+                            role = Role.Switch,
+                            onClick = {},
+                            selected = true
+                        )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(IntrinsicSize.Min)
+                            .padding(horizontal = Spaces.medium, vertical = Spaces.medium),
+                        horizontalArrangement = Arrangement.spacedBy(Spaces.medium),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(Spaces.small)
+                        ) {
+                            Text(
+                                text = "Automatic backup",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = "Every day, in the background",
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(DividerDefaults.Thickness)
+                        )
+                        Switch(
+                            checked = true,
+                            onCheckedChange = null,
+                            enabled = true
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

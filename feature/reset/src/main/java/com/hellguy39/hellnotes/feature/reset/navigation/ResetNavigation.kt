@@ -18,7 +18,7 @@ fun NavGraphBuilder.resetScreen(
         arguments = listOf(),
         enterTransition = {
             when(initialState.destination.route) {
-                Screen.Settings.route -> {
+                Screen.AboutApp.route -> {
                     slideIntoContainer(
                         towards = AnimatedContentTransitionScope.SlideDirection.Companion.Left,
                         animationSpec = tween(AnimDuration.medium)
@@ -27,9 +27,11 @@ fun NavGraphBuilder.resetScreen(
                 else -> null
             }
         },
-        exitTransition = {
+        exitTransition = { null },
+        popEnterTransition = { null },
+        popExitTransition = {
             when(targetState.destination.route) {
-                Screen.Settings.route -> {
+                Screen.AboutApp.route -> {
                     slideOutOfContainer(
                         towards = AnimatedContentTransitionScope.SlideDirection.Companion.Right,
                         animationSpec = tween(AnimDuration.fast)
@@ -37,7 +39,7 @@ fun NavGraphBuilder.resetScreen(
                 }
                 else -> null
             }
-        },
+        }
     ) {
         ResetRoute(
             navigateBack = {

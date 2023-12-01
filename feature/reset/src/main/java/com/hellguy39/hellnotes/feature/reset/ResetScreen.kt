@@ -18,6 +18,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -40,7 +41,7 @@ fun ResetScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            HNTopAppBar(
+            HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
                 title = stringResource(id = HellNotesStrings.Title.Reset)
@@ -70,25 +71,18 @@ fun ResetScreen(
             modifier = Modifier
                 .padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(
-                space = Spaces.medium,
+                space = Spaces.large,
                 alignment = Alignment.CenterVertically
             )
         ) {
-//            Image(
-//                modifier = Modifier.size(IconSize.displayable),
-//                painter = painterResource(id = HellNotesIcons.RestartAlt),
-//                contentDescription = null,
-//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
-//            )
-
             ElevatedCard(
                 modifier = Modifier.padding(horizontal = Spaces.medium)
             ) {
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(Spaces.medium),
-                    horizontalArrangement = Arrangement.spacedBy(Spaces.medium)
+                    verticalArrangement = Arrangement.spacedBy(Spaces.medium)
                 ) {
                     // TODO: set accented icon tint & maybe create separate composable item
                     Icon(
@@ -135,8 +129,8 @@ fun ResetScreen(
                     checked = uiState.isResetDatabase,
                     title = stringResource(id = HellNotesStrings.Checkbox.ClearDatabase)
                 )
-
-                Divider(modifier = Modifier.padding(horizontal = Spaces.medium))
+//
+//                Divider(modifier = Modifier.padding(horizontal = Spaces.medium))
 
                 HNCheckboxItem(
                     modifier = Modifier

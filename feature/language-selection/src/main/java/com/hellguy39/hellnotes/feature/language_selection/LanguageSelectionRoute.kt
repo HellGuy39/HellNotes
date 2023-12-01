@@ -9,18 +9,14 @@ import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 
 @Composable
 fun LanguageSelectionRoute(
-    navController: NavController,
     languageSelectionViewModel: LanguageSelectionViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
     val uiState by languageSelectionViewModel.uiState.collectAsStateWithLifecycle()
 
     LanguageSelectionScreen(
-        onNavigationBack = {
-            navController.popBackStack()
-        },
-        onLanguageSelected = { code ->
-            languageSelectionViewModel.setLanguageCode(code)
-        },
+        onNavigationButtonClick = { navigateBack() },
+        onLanguageClick = { language -> languageSelectionViewModel.setLanguage(language) },
         uiState = uiState
     )
 }

@@ -12,27 +12,28 @@ import com.hellguy39.hellnotes.core.ui.navigations.navigateToLockSetup
 
 @Composable
 fun LockSelectionRoute(
-    navController: NavController,
-    lockSelectionViewModel: LockSelectionViewModel = hiltViewModel()
+    lockSelectionViewModel: LockSelectionViewModel = hiltViewModel(),
+    navigateBack: () -> Unit,
+    navigateToLockSetup: (type: LockScreenType) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
     val uiState by lockSelectionViewModel.uiState.collectAsStateWithLifecycle()
 
     LockSelectionScreen(
-        onNavigationBack = navController::popBackStack,
+        onNavigationBack = navigateBack,
         uiState = uiState,
         onLockScreenTypeSelected = { type ->
             when(type) {
                 LockScreenType.None -> {
                     lockSelectionViewModel.resetAppLock()
-                    navController.popBackStack()
+                    navigateBack()
                 }
                 LockScreenType.Pin -> {
-                    navController.navigateToLockSetup(lockType = type)
+                    navigateToLockSetup(type)
                 }
                 LockScreenType.Password -> {
-                    navController.navigateToLockSetup(lockType = type)
+                    navigateToLockSetup(type)
                 }
                 else -> Unit
             }

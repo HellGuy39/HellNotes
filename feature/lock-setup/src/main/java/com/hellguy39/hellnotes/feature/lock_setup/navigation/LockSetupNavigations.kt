@@ -33,6 +33,11 @@ fun NavGraphBuilder.lockSetupScreen(
             UiDefaults.Motion.ScreenPopExitTransition
         },
     ) {
-        LockSetupRoute(navController)
+        LockSetupRoute(
+            navigateBackToSettings = {
+                navController.popBackStack(route = Screen.Settings.route, inclusive = false)
+            },
+            navigateBack = { navController.popBackStack() }
+        )
     }
 }

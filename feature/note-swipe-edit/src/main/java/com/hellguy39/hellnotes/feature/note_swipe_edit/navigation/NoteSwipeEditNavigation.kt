@@ -25,6 +25,8 @@ fun NavGraphBuilder.noteSwipeEditScreen(
             UiDefaults.Motion.ScreenPopExitTransition
         },
     ) {
-        NoteSwipeEditRoute(navController)
+        NoteSwipeEditRoute(
+            navigateBack = { navController.popBackStack() }
+        )
     }
 }

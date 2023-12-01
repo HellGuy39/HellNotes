@@ -9,15 +9,15 @@ import androidx.navigation.NavController
 
 @Composable
 fun UpdateRoute(
-    navController: NavController,
-    updateViewModel: UpdateViewModel = hiltViewModel()
+    updateViewModel: UpdateViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
     val uiState by updateViewModel.uiState.collectAsStateWithLifecycle()
 
     UpdateScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = { navigateBack() },
         uiState = uiState,
         selection = UpdateScreenSelection(
             onDownload = {

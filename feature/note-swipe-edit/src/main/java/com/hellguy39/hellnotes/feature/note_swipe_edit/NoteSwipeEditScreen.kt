@@ -20,9 +20,10 @@ import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.getDisplayName
+import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +33,7 @@ fun NoteSwipeEditScreen(
     selection: NoteSwipeEditScreenSelection
 ) {
     val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
 
     Scaffold(
         modifier = Modifier
@@ -47,10 +48,9 @@ fun NoteSwipeEditScreen(
         },
         content = { paddingValues ->
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
-                    .padding(vertical = 16.dp),
+                modifier = Modifier.fillMaxSize(),
                 contentPadding = paddingValues,
-                verticalArrangement = Arrangement.spacedBy(space = 16.dp)
+                verticalArrangement = Arrangement.spacedBy(space = Spaces.medium)
             ) {
                 item {
                     val fraction = if (uiState.noteSwipesState.enabled) 1f else 0f
@@ -60,24 +60,22 @@ fun NoteSwipeEditScreen(
                             MaterialTheme.colorScheme.primaryContainer,
                             FastOutSlowInEasing.transform(fraction)
                         ),
-                        animationSpec = tween(200)
+                        animationSpec = tween(200),
+                        label = "container_color"
                     )
 
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        shape = RoundedCornerShape(32.dp),
+                        shape = MaterialTheme.shapes.extraLarge,
                         colors = CardDefaults.cardColors(containerColor = containerColor)
                     ) {
                         val isChecked = uiState.noteSwipesState.enabled
 
                         HNSwitchItem(
                             modifier = Modifier.fillMaxWidth()
-                                .padding(
-                                    vertical = 24.dp,
-                                    horizontal = 24.dp
-                                ),
+                                .padding(Spaces.large),
                             title = stringResource(id = HellNotesStrings.Switch.UseNoteSwipes),
                             checked = isChecked,
                             onClick = { selection.onNoteSwipesEnabled(!isChecked) },
@@ -98,9 +96,9 @@ fun NoteSwipeEditScreen(
                         NoteSwipe.actions.forEach { swipeAction ->
                             HNRadioButtonItem(
                                 modifier = Modifier.fillMaxWidth()
-                                    .padding(16.dp),
+                                    .padding(Spaces.medium),
                                 isSelected = uiState.noteSwipesState.swipeLeft == swipeAction,
-                                title = swipeAction.getDisplayName(),
+                                title = swipeAction.asDisplayableString(),
                                 enabled = uiState.noteSwipesState.enabled,
                                 onClick = { selection.onSwipeLeftActionSelected(swipeAction) },
                             )
@@ -120,9 +118,9 @@ fun NoteSwipeEditScreen(
                         NoteSwipe.actions.forEach { swipeAction ->
                             HNRadioButtonItem(
                                 modifier = Modifier.fillMaxWidth()
-                                    .padding(16.dp),
+                                    .padding(Spaces.medium),
                                 isSelected = uiState.noteSwipesState.swipeRight == swipeAction,
-                                title = swipeAction.getDisplayName(),
+                                title = swipeAction.asDisplayableString(),
                                 enabled = uiState.noteSwipesState.enabled,
                                 onClick = { selection.onSwipeRightActionSelected(swipeAction) },
                             )

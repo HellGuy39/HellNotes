@@ -25,7 +25,7 @@ import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.getDisplayName
+import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
@@ -101,7 +101,7 @@ fun ReminderEditScreen(
                     HNRadioButtonItem(
                         modifier = Modifier.fillMaxWidth()
                             .padding(16.dp),
-                        title = repeat.getDisplayName(),
+                        title = repeat.asDisplayableString(),
                         isSelected = repeat == uiState.repeat,
                         onClick = {
                             selection.onRepeatUpdate(repeat)
@@ -314,7 +314,7 @@ fun ReminderEditScreen(
                             contentDescription = null
                         )
                         Text(
-                            text = uiState.repeat.getDisplayName(),
+                            text = uiState.repeat.asDisplayableString(),
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Spacer(modifier = Modifier.weight(1f))

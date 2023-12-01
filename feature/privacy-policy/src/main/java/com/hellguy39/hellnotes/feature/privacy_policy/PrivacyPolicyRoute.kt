@@ -9,15 +9,15 @@ import androidx.navigation.NavController
 
 @Composable
 fun PrivacyPolicyRoute(
-    navController: NavController,
+    navigateBack: () -> Unit,
     privacyPolicyViewModel: PrivacyPolicyViewModel = hiltViewModel()
 ) {
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
     val uiState by privacyPolicyViewModel.uiState.collectAsStateWithLifecycle()
 
     PrivacyPolicyScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = navigateBack,
         uiState = uiState,
         onTryAgain = {
             privacyPolicyViewModel.send(PrivacyPolicyUiEvent.TryAgain)

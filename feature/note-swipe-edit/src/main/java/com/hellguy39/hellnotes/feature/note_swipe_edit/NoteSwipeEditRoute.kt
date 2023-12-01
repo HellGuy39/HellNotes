@@ -10,15 +10,15 @@ import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 
 @Composable
 fun NoteSwipeEditRoute(
-    navController: NavController,
-    viewModel: NoteSwipeEditScreenViewModel = hiltViewModel()
+    viewModel: NoteSwipeEditScreenViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     NoteSwipeEditScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = navigateBack,
         uiState = uiState,
         selection = NoteSwipeEditScreenSelection(
             onNoteSwipesEnabled = { enabled ->

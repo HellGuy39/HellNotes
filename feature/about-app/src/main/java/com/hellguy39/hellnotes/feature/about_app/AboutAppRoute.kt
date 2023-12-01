@@ -12,32 +12,33 @@ import com.hellguy39.hellnotes.feature.about_app.util.provideFeedback
 
 @Composable
 fun AboutAppRoute(
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToReset: () -> Unit,
+    navigateToChangelog: () -> Unit,
+    navigateToPrivacyPolicy: () -> Unit,
+    navigateToTermsAndConditions: () -> Unit,
+    navigateToUpdate: () -> Unit
 ) {
     val context = LocalContext.current
     val toast = Toast.makeText(context, context.getString(HellNotesStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
 
     AboutAppScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = navigateBack,
         selection = AboutAppScreenSelection(
-            onReset = navController::navigateToReset,
-            onChangelog = navController::navigateToChangelog,
-            onGithub = {
-                context.openGithub()
-            },
-            onPrivacyPolicy = navController::navigateToPrivacyPolicy,
-            onProvideFeedback = {
-                context.provideFeedback()
-            },
+            onReset = navigateToReset,
+            onChangelog = navigateToChangelog,
+            onGithub = { context.openGithub() },
+            onPrivacyPolicy = navigateToPrivacyPolicy,
+            onProvideFeedback = { context.provideFeedback() },
             onRateOnPlayStore = { toast.show() },
             onCheckForUpdates = {
                 if (ProjectInfoProvider.appConfig.isDebug) {
-                    navController.navigateToUpdate()
+                    navigateToUpdate()
                 } else {
                     toast.show()
                 }
             },
-            onTermsAndConditions = navController::navigateToTermsAndConditions
+            onTermsAndConditions = { navigateToTermsAndConditions() }
         ),
     )
 }
