@@ -2,11 +2,9 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("com.google.devtools.ksp")
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes.core.ui"
     compileSdk = Config.compileSdk
@@ -56,12 +54,9 @@ dependencies {
     debugImplementation(Libs.AndroidX.Compose.UiTooling)
     debugImplementation(Libs.AndroidX.Compose.UiTestManifest)
 
-    implementation(Libs.Google.Accompanist.NavigationAnimation)
-    implementation(Libs.Google.Accompanist.SystemUiController)
     implementation(Libs.Google.Accompanist.Permissions)
-    implementation(Libs.Google.Accompanist.FlowLayout)
 
     implementation(Libs.Google.Hilt.Android)
-    kapt(Libs.Google.Hilt.Compiler)
+    ksp(Libs.Google.Hilt.Compiler)
 
 }

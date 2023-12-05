@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.feature.note_detail
 
-import android.content.Context
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -10,16 +10,11 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
@@ -29,12 +24,8 @@ import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
 import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailContentSelection
 import com.hellguy39.hellnotes.feature.note_detail.components.NoteDetailTopAppBarSelection
@@ -46,11 +37,14 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailRoute(
-    navController: NavController,
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
-    context: Context = LocalContext.current,
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    navigateBack: () -> Unit,
+    navigateToNoteDetail: (id: Long) -> Unit,
+    navigateToLabelSelection: (id: Long) -> Unit,
+    navigateToReminderEdit: (noteId: Long, reminderId: Long) -> Unit
 ) {
+    val context = LocalContext.current
+
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
     val shareDialogState = rememberDialogState()
@@ -60,17 +54,18 @@ fun NoteDetailRoute(
 
     fun onShare(type: ShareType) {
         uiState.let { state ->
-            if (state is NoteDetailUiState.Success) {
-                ShareUtils.share(
-                    context = context,
-                    note = state.wrapper.note,
-                    type = type
-                )
-            }
+            ShareUtils.share(
+                context = context,
+                note = state.wrapper.note,
+                type = type
+            )
         }
     }
 
-    BackHandler(onBack = navController::popBackStack)
+    BackHandler {
+        noteDetailViewModel.send(NoteDetailUiEvent.Close)
+        navigateBack()
+    }
 
     CustomDialog(
         state = shareDialogState,
@@ -110,33 +105,9 @@ fun NoteDetailRoute(
         onAccept = {
             confirmDialogState.dismiss()
             noteDetailViewModel.send(NoteDetailUiEvent.DeleteNote)
-            navController.popBackStack()
+            navigateBack()
         }
     )
-
-    val currentOnStop by rememberUpdatedState {
-        noteDetailViewModel.send(NoteDetailUiEvent.Minimize)
-    }
-
-    val currentOnDestroy by rememberUpdatedState {
-        noteDetailViewModel.send(NoteDetailUiEvent.Close)
-    }
-
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            when(event) {
-                Lifecycle.Event.ON_STOP -> currentOnStop()
-                Lifecycle.Event.ON_DESTROY -> currentOnDestroy()
-                else -> Unit
-            }
-        }
-
-        lifecycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
 
     var isOpenMenuBottomSheet by rememberSaveable { mutableStateOf(false) }
     val attachmentBottomSheetState = rememberModalBottomSheetState(
@@ -188,8 +159,8 @@ fun NoteDetailRoute(
                 closeMenuBottomSheet()
                 noteDetailViewModel.send(NoteDetailUiEvent.CopyNote(
                     onCopied = { id ->
-                        navController.popBackStack()
-                        navController.navigateToNoteDetail(id)
+                        navigateBack()
+                        navigateToNoteDetail(id)
                     }
                 ))
             }
@@ -199,18 +170,15 @@ fun NoteDetailRoute(
             icon = painterResource(id = HellNotesIcons.Share),
             onClick = {
                 closeMenuBottomSheet()
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        if (state.wrapper.note.isNoteValid()) {
-                            shareDialogState.show()
-                        } else {
-                            snackbarHostState.showDismissableSnackbar(
-                                scope = scope,
-                                message = context.getString(HellNotesStrings.Snack.NothingToShare),
-                                duration = SnackbarDuration.Short
-                            )
-                        }
-                    }
+                val note = uiState.wrapper.note
+                if (note.isNoteValid()) {
+                    shareDialogState.show()
+                } else {
+                    snackbarHostState.showDismissableSnackbar(
+                        scope = scope,
+                        message = context.getString(HellNotesStrings.Snack.NothingToShare),
+                        duration = SnackbarDuration.Short
+                    )
                 }
             }
         )
@@ -262,11 +230,8 @@ fun NoteDetailRoute(
             icon = painterResource(id = HellNotesIcons.Label),
             onClick = {
                 closeAttachmentBottomSheet()
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        navController.navigateToLabelSelection(state.wrapper.note.id)
-                    }
-                }
+                val id = uiState.wrapper.note.id ?: 0
+                navigateToLabelSelection(id)
             }
         )
     )
@@ -318,26 +283,21 @@ fun NoteDetailRoute(
                 noteDetailViewModel.send(NoteDetailUiEvent.UpdateNoteContent(newText))
             },
             onReminderClick = { reminder ->
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        navController.navigateToReminderEdit(
-                            noteId = state.wrapper.note.id,
-                            reminderId = reminder.id
-                        )
-                    }
-                }
+                val noteId = uiState.wrapper.note.id ?: 0
+                val reminderId = reminder.id ?: 0
+                navigateToReminderEdit(noteId, reminderId)
             },
             onLabelClick = { label ->
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        navController.navigateToLabelSelection(state.wrapper.note.id)
-                    }
-                }
+                val id = uiState.wrapper.note.id ?: 0
+                navigateToLabelSelection(id)
             }
         ),
         topAppBarSelection = NoteDetailTopAppBarSelection(
             uiState = uiState,
-            onNavigationButtonClick = navController::popBackStack,
+            onNavigationButtonClick = {
+                noteDetailViewModel.send(NoteDetailUiEvent.Close)
+                navigateBack()
+            },
             onPin = { isPinned ->
                 noteDetailViewModel.send(NoteDetailUiEvent.UpdateIsPinned(isPinned))
 
@@ -361,14 +321,9 @@ fun NoteDetailRoute(
                 )
             },
             onReminder = {
-                uiState.let { state ->
-                    if (state is NoteDetailUiState.Success) {
-                        navController.navigateToReminderEdit(
-                            noteId = state.wrapper.note.id,
-                            reminderId = ArgumentDefaultValues.NewReminder
-                        )
-                    }
-                }
+                val noteId = uiState.wrapper.note.id ?: 0
+                val reminderId = ArgumentDefaultValues.NewReminder
+                navigateToReminderEdit(noteId, reminderId)
             }
         ),
         bottomBarSelection = NoteDetailBottomBarSelection(

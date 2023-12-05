@@ -1,22 +1,32 @@
 package com.hellguy39.hellnotes.feature.reset
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun ResetRoute(
-    navController: NavController,
-    resetViewModel: ResetViewModel = hiltViewModel()
+    resetViewModel: ResetViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
-    BackHandler(onBack = navController::popBackStack)
+    BackHandler { navigateBack() }
+
+    val uiState by resetViewModel.uiState.collectAsStateWithLifecycle()
 
     ResetScreen(
-        onNavigationButtonClick = navController::popBackStack,
-        onReset = { resetDatabase, resetSettings ->
-            resetViewModel.reset(resetDatabase, resetSettings)
-            navController.popBackStack()
+        uiState = uiState,
+        onNavigationButtonClick = navigateBack,
+        onResetClick = {
+            resetViewModel.send(ResetUiEvent.Reset)
+            navigateBack()
+        },
+        onToggleResetDatabase = {
+            resetViewModel.send(ResetUiEvent.ToggleIsResetDatabase)
+        },
+        onToggleResetSettings = {
+            resetViewModel.send(ResetUiEvent.ToggleIsResetSettings)
         }
     )
 }

@@ -8,7 +8,9 @@ import com.hellguy39.hellnotes.core.domain.system_features.Downloader
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AndroidDownloader @Inject constructor(
+class AndroidDownloader
+@Inject
+constructor(
     @ApplicationContext private val context: Context
 ) : Downloader {
 

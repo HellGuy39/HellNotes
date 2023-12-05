@@ -7,6 +7,10 @@ object HellNotesIcons {
     val PinActivated = R.drawable.ic_push_pin_filled_24
     val PinDisabled = R.drawable.ic_push_pin_24
 
+    fun pin(isPinned: Boolean): Int {
+        return if (isPinned) PinActivated else PinDisabled
+    }
+
     val Menu = R.drawable.ic_menu_24
     val Label = R.drawable.ic_label_24
     val Delete = R.drawable.ic_delete_24
@@ -52,6 +56,9 @@ object HellNotesIcons {
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24
+    fun archive(isArchive: Boolean): Int {
+        return if (isArchive) Archive else Unarchive
+    }
 
     val Lock = R.drawable.ic_lock_24
     val LockOpen = R.drawable.ic_lock_open_24
@@ -77,8 +84,13 @@ object HellNotesIcons {
     val CheckboxChecked = R.drawable.ic_checkbox_checked_24
     val CheckboxUnchecked = R.drawable.ic_checkbox_unchecked_24
 
+    val ArrowOutward = R.drawable.ic_arrow_outward_24
     val ArrowDropDown = R.drawable.ic_arrow_drop_down_24
     val ArrowDropUp = R.drawable.ic_arrow_drop_up_24
+
+    fun expand(isExpanded: Boolean): Int {
+        return if (isExpanded) ExpandLess else ExpandMore
+    }
 
     val ExpandMore = R.drawable.ic_expand_more_24
     val ExpandLess = R.drawable.ic_expand_less_24

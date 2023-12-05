@@ -1,12 +1,10 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes.feature.reminder_edit"
     compileSdk =  Config.compileSdk
@@ -57,15 +55,12 @@ dependencies {
     debugImplementation(Libs.AndroidX.Compose.UiTooling)
     debugImplementation(Libs.AndroidX.Compose.UiTestManifest)
 
-    implementation(Libs.Google.Accompanist.NavigationAnimation)
-    implementation(Libs.Google.Accompanist.SystemUiController)
-    implementation(Libs.Google.Accompanist.FlowLayout)
     implementation(Libs.Google.Accompanist.Permissions)
 
     implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
-    kapt(Libs.Google.Hilt.Compiler)
+    ksp(Libs.Google.Hilt.Compiler)
     implementation(Libs.Google.Hilt.NavigationCompose)
 
     implementation (Libs.ThirdParty.ComposeDialogs.Core)

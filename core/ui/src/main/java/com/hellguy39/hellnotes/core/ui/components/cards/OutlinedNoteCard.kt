@@ -33,7 +33,8 @@ fun OutlinedNoteCard(
             MaterialTheme.colorScheme.primary,
             FastOutSlowInEasing.transform(fraction)
         ),
-        animationSpec = tween(200)
+        animationSpec = tween(200),
+        label = "border_color"
     )
 
     val borderSize by animateDpAsState(
@@ -42,7 +43,8 @@ fun OutlinedNoteCard(
             2.dp,
             FastOutLinearInEasing.transform(fraction)
         ),
-        animationSpec = tween(200)
+        animationSpec = tween(200),
+        label = "border_size"
     )
 
     val cardBorder = BorderStroke(borderSize, borderColor)

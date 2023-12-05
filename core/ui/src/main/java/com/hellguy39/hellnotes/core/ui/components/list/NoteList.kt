@@ -11,6 +11,7 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @Composable
 fun NoteList(
@@ -23,7 +24,7 @@ fun NoteList(
 ) {
     val listModifier = Modifier
         .fillMaxSize()
-        .padding(horizontal = 4.dp, vertical = 4.dp)
+        .padding(horizontal = Spaces.extraSmall, vertical = Spaces.extraSmall)
         .testTag("item_list")
 
     when(listStyle) {

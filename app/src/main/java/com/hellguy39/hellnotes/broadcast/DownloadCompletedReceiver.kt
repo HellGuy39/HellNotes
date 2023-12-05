@@ -8,7 +8,7 @@ import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DownloadCompletedReceiver: BroadcastReceiver() {
+class DownloadCompletedReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 

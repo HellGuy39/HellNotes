@@ -3,13 +3,12 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin ("kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes"
     compileSdk = Config.compileSdk
@@ -18,8 +17,8 @@ android {
         applicationId = Config.ApplicationId
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
-        versionCode = 6
-        versionName = "1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionCode = 7
+        versionName = "1.1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -32,6 +31,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
@@ -49,16 +49,14 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Config.ComposeCompiler
     }
-    packagingOptions {
+    packaging {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         resources.excludes.add("/META-INF/INDEX.LIST")
-    }
-    kapt {
-        correctErrorTypes = true
     }
 }
 
@@ -119,23 +117,18 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.JUnit)
     androidTestImplementation(Libs.AndroidX.Espresso)
 
-    implementation(Libs.Google.Accompanist.NavigationAnimation)
-    implementation(Libs.Google.Accompanist.SystemUiController)
-
     implementation(Libs.AndroidX.Room.RoomKtx)
-    kapt(Libs.AndroidX.Room.RoomCompiler)
+    ksp(Libs.AndroidX.Room.RoomCompiler)
 
     implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
-    kapt(Libs.Google.Hilt.Compiler)
+    ksp(Libs.Google.Hilt.Compiler)
     implementation(Libs.Google.Hilt.NavigationCompose)
 
     implementation(Libs.SquareUp.Moshi)
 
     implementation(Libs.Google.Firebase.Analytics)
     implementation(Libs.Google.Firebase.Crashlytics)
-
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 }

@@ -1,26 +1,36 @@
 package com.hellguy39.hellnotes.feature.changelog
 
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
+
 
 @Composable
 fun ChangelogRoute(
-    navController: NavController,
-    changelogViewModel: ChangelogViewModel = hiltViewModel()
+    changelogViewModel: ChangelogViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
-    BackHandler(onBack = navController::popBackStack)
+    val context = LocalContext.current
+
+    BackHandler { navigateBack() }
 
     val uiState by changelogViewModel.uiState.collectAsStateWithLifecycle()
 
     ChangelogScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = navigateBack,
         uiState = uiState,
         onTryAgain = {
             changelogViewModel.send(ChangelogUiEvent.TryAgain)
+        },
+        onOpenRelease = { release ->
+            val uri = Uri.parse(release.html_url.toString())
+            val browserIntent = Intent(Intent.ACTION_VIEW, uri)
+            context.startActivity(browserIntent)
         }
     )
 }

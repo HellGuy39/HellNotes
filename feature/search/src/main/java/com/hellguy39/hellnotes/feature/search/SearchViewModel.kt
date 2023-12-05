@@ -13,16 +13,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchViewModel
+@Inject
+constructor(
     dataStoreRepository: DataStoreRepository,
     getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase
 ): ViewModel() {
-
-    private val _listStyle: MutableStateFlow<ListStyle> = MutableStateFlow(ListStyle.Column)
-    val listStyle = _listStyle.asStateFlow()
-
-    private val _noteStyle: MutableStateFlow<NoteStyle> = MutableStateFlow(NoteStyle.Outlined)
-    val noteStyle = _noteStyle.asStateFlow()
 
     private val search = MutableStateFlow("")
 
@@ -32,8 +28,10 @@ class SearchViewModel @Inject constructor(
         combine(
             getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
             search,
-            filters
-        ) { notes, search, filters ->
+            filters,
+            dataStoreRepository.readListStyleState(),
+            dataStoreRepository.readNoteStyleState()
+        ) { notes, search, filters, listStyle, noteStyle ->
 
             var searchedNotes: List<NoteDetailWrapper> = notes.filter { note ->
                 note.note.note.contains(search, true) ||
@@ -64,24 +62,8 @@ class SearchViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = SearchUiState.initialInstance()
+                initialValue = SearchUiState()
             )
-
-
-    init {
-        viewModelScope.launch {
-            launch {
-                dataStoreRepository.readListStyleState().collect { listStyle ->
-                    _listStyle.update { listStyle }
-                }
-            }
-            launch {
-                dataStoreRepository.readNoteStyleState().collect { noteStyle ->
-                    _noteStyle.update { noteStyle }
-                }
-            }
-        }
-    }
 
     fun send(uiEvent: SearchScreenUiEvent) {
         when(uiEvent) {
@@ -124,29 +106,27 @@ class SearchViewModel @Inject constructor(
 }
 
 sealed class SearchScreenUiEvent {
+
     data class OnSearchChange(val search: String): SearchScreenUiEvent()
-    object OnClearSearch: SearchScreenUiEvent()
+
+    data object OnClearSearch: SearchScreenUiEvent()
+
     data class OnToggleReminderFilter(val enabled: Boolean): SearchScreenUiEvent()
+
     data class OnToggleArchiveFilter(val enabled: Boolean): SearchScreenUiEvent()
+
     data class OnToggleChecklistFilter(val enabled: Boolean): SearchScreenUiEvent()
 
 }
 
 data class SearchUiState(
-    val search: String,
-    val isLoading: Boolean,
-    val notes: List<NoteDetailWrapper>,
-    val filters: FilterSelection
-) {
-    companion object {
-        fun initialInstance() = SearchUiState(
-            search = "",
-            isLoading = true,
-            notes = listOf(),
-            filters = FilterSelection()
-        )
-    }
-}
+    val search: String = "",
+    val listStyle: ListStyle = ListStyle.Column,
+    val noteStyle: NoteStyle = NoteStyle.Outlined,
+    val isLoading: Boolean = true,
+    val notes: List<NoteDetailWrapper> = listOf(),
+    val filters: FilterSelection = FilterSelection()
+)
 
 data class FilterSelection(
     val withReminder: Boolean = false,

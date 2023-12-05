@@ -2,11 +2,9 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("com.google.devtools.ksp")
-    kotlin ("kapt")
     id("com.google.dagger.hilt.android")
 }
 
-@Suppress("UnstableApiUsage")
 android {
     namespace = "com.hellguy39.hellnotes.core.common"
     compileSdk = Config.compileSdk
@@ -40,6 +38,6 @@ dependencies {
     implementation(Libs.Kotlin.Coroutines)
 
     implementation(Libs.Google.Hilt.Android)
-    kapt(Libs.Google.Hilt.Compiler)
+    ksp(Libs.Google.Hilt.Compiler)
 
 }

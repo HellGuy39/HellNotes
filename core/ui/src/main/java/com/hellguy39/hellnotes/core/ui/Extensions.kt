@@ -10,7 +10,7 @@ import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
-fun LockScreenType.getDisplayName(): String {
+fun LockScreenType.asDisplayableString(): String {
     return when(this) {
         LockScreenType.None -> stringResource(id = HellNotesStrings.MenuItem.None)
         LockScreenType.Pin -> stringResource(id = HellNotesStrings.MenuItem.Pin)
@@ -21,7 +21,7 @@ fun LockScreenType.getDisplayName(): String {
 }
 
 @Composable
-fun Language.getDisplayName(): String {
+fun Language.asDisplayableString(): String {
     return when(this) {
         Language.Russian -> stringResource(id = HellNotesStrings.Lan.Russian)
         Language.English -> stringResource(id = HellNotesStrings.Lan.English)
@@ -33,7 +33,7 @@ fun Language.getDisplayName(): String {
 }
 
 @Composable
-fun Repeat.getDisplayName(): String {
+fun Repeat.asDisplayableString(): String {
     return when(this) {
         Repeat.DoesNotRepeat -> stringResource(id = HellNotesStrings.MenuItem.DoesNoteRepeat)
         Repeat.Daily -> stringResource(id = HellNotesStrings.MenuItem.Daily)
@@ -43,7 +43,7 @@ fun Repeat.getDisplayName(): String {
 }
 
 @Composable
-fun NoteStyle.getDisplayName(): String {
+fun NoteStyle.asDisplayableString(): String {
     return when(this) {
         NoteStyle.Outlined -> stringResource(id = HellNotesStrings.MenuItem.Outlined)
         NoteStyle.Elevated -> stringResource(id = HellNotesStrings.MenuItem.Elevated)
@@ -51,7 +51,7 @@ fun NoteStyle.getDisplayName(): String {
 }
 
 @Composable
-fun NoteSwipe.getDisplayName(): String {
+fun NoteSwipe.asDisplayableString(): String {
     return when(this) {
         NoteSwipe.None -> stringResource(id = HellNotesStrings.MenuItem.None)
         NoteSwipe.Archive -> stringResource(id = HellNotesStrings.MenuItem.Archive)

@@ -9,7 +9,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
@@ -17,7 +16,7 @@ import com.hellguy39.hellnotes.feature.label_edit.components.LabelEditScreenCont
 
 @Composable
 fun LabelEditRoute(
-    navController: NavController,
+    navigateBack: () -> Unit,
     labelEditViewModel: LabelEditViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -44,7 +43,7 @@ fun LabelEditRoute(
     }
 
     LabelEditScreen(
-        onNavigationButtonClick = { navController.popBackStack() },
+        onNavigationButtonClick = { navigateBack() },
         uiState = uiState,
         labelEditScreenContentSelection = LabelEditScreenContentSelection(
             onCreateLabel = { label ->

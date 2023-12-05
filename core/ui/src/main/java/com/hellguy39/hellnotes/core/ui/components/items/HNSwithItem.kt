@@ -1,24 +1,35 @@
 package com.hellguy39.hellnotes.core.ui.components.items
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @Composable
 fun HNSwitchItem(
     modifier: Modifier = Modifier,
     title: String = "",
+    subtitle: String = "",
     enabled: Boolean = true,
     checked: Boolean,
     onClick: () -> Unit = {},
-    thumbCheckedIcon: Painter? = null,
-    thumbUncheckedIcon: Painter? = null
+    showDivider: Boolean = true
 ) {
     Box(
         modifier = Modifier
@@ -29,45 +40,42 @@ fun HNSwitchItem(
             )
     ) {
         Row(
-            modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = modifier.then(
+                Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+            ),
+            horizontalArrangement = Arrangement.spacedBy(Spaces.medium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = Modifier,
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(Spaces.small)
             ) {
-                Text(
-                    modifier = Modifier,
-                    text = title,
-                    style = MaterialTheme.typography.bodyLarge
+                if (title.isNotEmpty()) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+                if (subtitle.isNotEmpty()) {
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+            if (showDivider) {
+                Divider(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(DividerDefaults.Thickness)
                 )
             }
-
-            Spacer(modifier = Modifier.weight(1f))
-
             Switch(
                 checked = checked,
                 onCheckedChange = null,
-                enabled = enabled,
-                thumbContent = if (checked && thumbCheckedIcon != null) {
-                    {
-                        Icon(
-                            painter = thumbCheckedIcon,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                        )
-                    }
-                } else if (thumbUncheckedIcon != null) {
-                    {
-                        Icon(
-                            painter = thumbUncheckedIcon,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                        )
-                    }
-                } else null
+                enabled = enabled
             )
         }
     }

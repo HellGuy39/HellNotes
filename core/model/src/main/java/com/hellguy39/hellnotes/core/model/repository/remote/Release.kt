@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.model
+package com.hellguy39.hellnotes.core.model.repository.remote
 
 data class Release(
     val assets: List<ReleaseAsset?>?,

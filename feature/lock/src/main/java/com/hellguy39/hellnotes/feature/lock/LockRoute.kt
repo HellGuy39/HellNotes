@@ -2,9 +2,14 @@ package com.hellguy39.hellnotes.feature.lock
 
 import android.content.Context
 import android.view.HapticFeedbackConstants
+import androidx.activity.compose.BackHandler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -14,7 +19,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
-import com.hellguy39.hellnotes.core.ui.system.BackHandler
 import kotlinx.coroutines.launch
 
 @Composable
@@ -24,9 +28,7 @@ fun LockRoute(
     onUnlock: () -> Unit = {},
     context: Context = LocalContext.current
 ) {
-    BackHandler(
-        onBack = {}
-    )
+    BackHandler { /* Block back gesture */ }
 
     val uiState by lockViewModel.uiState.collectAsStateWithLifecycle()
 

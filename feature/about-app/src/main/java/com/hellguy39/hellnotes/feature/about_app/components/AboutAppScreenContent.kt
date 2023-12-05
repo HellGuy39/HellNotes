@@ -1,23 +1,30 @@
 package com.hellguy39.hellnotes.feature.about_app.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.*
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.about_app.AboutAppScreenSelection
 
 @Composable
@@ -25,68 +32,38 @@ fun AboutAppScreenContent(
     innerPadding: PaddingValues,
     selection: AboutAppScreenSelection
 ) {
-    val listItemModifier = Modifier.padding(16.dp)
+    val listItemModifier = Modifier.padding(Spaces.medium)
 
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = innerPadding
+        verticalArrangement = Arrangement.spacedBy(Spaces.medium),
+        contentPadding = PaddingValues(
+            top = innerPadding.calculateTopPadding() + Spaces.medium,
+            bottom = innerPadding.calculateBottomPadding() + Spaces.medium
+        )
     ) {
         item {
+            Text(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = Spaces.medium),
+                text = "Version: ${ProjectInfoProvider.appConfig.versionName}",
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Start
+            )
+        }
+        item {
             ElevatedCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = Spaces.medium)
             ) {
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(Spaces.medium),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Image(
-                        modifier = Modifier.size(128.dp),
-                        painter = painterResource(id = HellNotesIcons.DoubleStickyNote),
-                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary),
-                        contentDescription = null
-                    )
-                    Column {
-                        Text(
-                            text = stringResource(id = HellNotesStrings.AppName),
-                            style = MaterialTheme.typography.headlineMedium,
-                            textAlign = TextAlign.Start
-                        )
-                        Text(
-                            text = ProjectInfoProvider.appConfig.buildType,
-                            style = MaterialTheme.typography.bodyLarge,
-                            textAlign = TextAlign.Start
-                        )
-                        Text(
-                            text = ProjectInfoProvider.appConfig.versionName,
-                            style = MaterialTheme.typography.bodyLarge,
-                            textAlign = TextAlign.Start
-                        )
-                    }
-                }
-
-                Divider(
-                    modifier = Modifier
-                        .alpha(0.5f)
-                        .padding(horizontal = 16.dp),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-
-
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(Spaces.medium)
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalArrangement = Arrangement.spacedBy(Spaces.extraSmall)
                     ) {
                         Text(
                             text = "Developed and designed by",
@@ -116,10 +93,7 @@ fun AboutAppScreenContent(
         }
         item {
             ElevatedCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+                modifier = Modifier.fillMaxWidth().padding(horizontal = Spaces.medium),
             ) {
                 HNListItem(
                     modifier = listItemModifier,
@@ -145,11 +119,6 @@ fun AboutAppScreenContent(
                     onClick = selection.onProvideFeedback
                 )
 
-//                SelectionItem(
-//                    title = stringResource(id = HellNotesStrings.MenuItem.RateOnPlayStore),
-//                    onClick = selection.onRateOnPlayStore
-//                )
-
                 HNListItem(
                     modifier = listItemModifier,
                     title = stringResource(id = HellNotesStrings.MenuItem.CheckForUpdates),
@@ -161,8 +130,7 @@ fun AboutAppScreenContent(
             ElevatedCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = UiDefaults.Elevation.Level2)
+                    .padding(horizontal = Spaces.medium),
             ) {
                 HNListItem(
                     modifier = listItemModifier,

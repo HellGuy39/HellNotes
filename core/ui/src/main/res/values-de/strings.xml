@@ -42,6 +42,7 @@
     <string name="subtitle_checklists">+%s Listen</string>
     <string name="subtitle_select_actions">Aktionen auswählen</string>
     <string name="subtitle_last_copy">Letztes Exemplar: %s</string>
+    <string name="subtitle_options">Option</string>
 
     <!--  Text  -->
     <string name="subtitle_date_of_creation">Erstellungsdatum</string>
@@ -64,7 +65,6 @@
     <string name="supporting_restore_note">Nach der Wiederherstellung kann man die Notiz erneut öffnen und bearbeiten.</string>
     <string name="supporting_delete_label">Das Label wird dauerhaft gelöscht. Alle Notizen mit diesem Etikett verlieren es..</string>
     <string name="supporting_empty_trash">Alle Notizen im Papierkorb werden dauerhaft gelöscht.</string>
-    <string name="supporting_backup">Das Erstellen einer Sicherungskopie hilft, Ihre Notizen sicher zu halten und vor möglichem Verlust wichtiger Informationen zu schützen. Bitte schließen Sie die Anwendung nicht und schalten Sie das Gerät während des Kopiervorgangs nicht aus.</string>
     <string name="supporting_wrong_pin">Falsche PIN</string>
     <string name="supporting_wrong_password">Falsches Passwort</string>
     <string name="supporting_pin_must_be_at_least_4_digits">Die PIN muss aus mindestens 4 Ziffern bestehen</string>
@@ -74,13 +74,14 @@
     <string name="toast_coming_soon">Kommt bald</string>
 
     <!-- Value -->
-    <string name="value_never">Nie</string>
+    <string name="value_never">nie</string>
 
     <!--  Button  -->
     <string name="btn_request_permission">Erlaubnis anfordern</string>
     <string name="btn_create">Erstellen</string>
     <string name="btn_edit">Bearbeiten</string>
     <string name="btn_delete">Entfernen</string>
+    <string name="btn_restore">Wiederherstellen</string>
     <string name="btn_enter">Eingeben</string>
     <string name="btn_undo">Abbrechen</string>
     <string name="btn_save">Speichern</string>
@@ -97,6 +98,7 @@
     <string name="btn_try_again">Nochmal versuchen</string>
     <string name="btn_create_backup">Backup erstellen</string>
     <string name="btn_restore_from_backup">Aus Backup wiederherstellen</string>
+    <string name="btn_open_a_release">Release öffnen</string>
 
     <!--  Hint  -->
     <string name="hint_title">Überschrift</string>
@@ -201,6 +203,11 @@
     <string name="title_enter_pin">PIN eingeben</string>
     <string name="title_enter_password">Passwort eingeben</string>
     <string name="title_unlocked">Freigeschaltet</string>
+    <string name="title_attention">Aufmerksamkeit</string>
+
+    <!-- Body -->
+    <string name="body_reset">Ihre Daten werden dauerhaft gelöscht. Diese Aktion wird nicht rückgängig gemacht.</string>
+    <string name="body_backup">Bitte schließen Sie die Anwendung nicht und schalten Sie das Gerät während des Kopiervorgangs nicht aus.</string>
 
     <!-- Permission -->
     <string name="permission_notification_rationale">Leider können wir ohne Erlaubnis keine Benachrichtigungen senden. Wir versprechen, dass nur Benachrichtigungen für die von Ihnen festgelegten Erinnerungen gesendet werden.</string>
@@ -223,12 +230,16 @@
     <string name="snack_remind_time_is_too_late">Die Erinnerung kann nicht eingestellt werden, die Erinnerungszeit ist später als das System.</string>
 
     <!--  Checkbox  -->
-    <string name="checkbox_clear_the_database">Datenbank löschen: Notizen, Erinnerungen, Tags, Checklisten und Papierkorb</string>
-    <string name="checkbox_reset_settings">Einstellungen rücksetzen</string>
+    <string name="checkbox_clear_the_database_title">Löschen Sie die Datenbank</string>
+    <string name="checkbox_clear_the_database_subtitle">Notizen, Erinnerungen, Etiketten, Checklisten und Papierkorb</string>
+    <string name="checkbox_reset_settings_title">Anwendungseinstellungen zurücksetzen</string>
+    <string name="checkbox_reset_settings_subtitle">Standardwerte werden angewendet</string>
 
     <!--  Switch  -->
-    <string name="switch_use_biometric">Biometrie verwenden</string>
-    <string name="switch_use_note_swipes">Swipes von Notizen verwenden</string>
+    <string name="switch_use_biometric_title">Biometrie verwenden</string>
+    <string name="switch_use_note_swipes_title">Swipes von Notizen verwenden</string>
+    <string name="switch_auto_backup_title">Automatische Sicherung</string>
+    <string name="switch_auto_backup_subtitle">Jeden Tag im Hintergrund</string>
 
     <!--  Shortcuts  -->
     <string name="shortcut_label_new_note">Neue Notiz</string>

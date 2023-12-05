@@ -10,7 +10,9 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AndroidAlarmScheduler @Inject constructor(
+class AndroidAlarmScheduler
+@Inject
+constructor(
     @ApplicationContext private val context: Context
 ) : AlarmScheduler {
 

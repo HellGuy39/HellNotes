@@ -4,26 +4,51 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.on_boarding.util.OnBoardingPage
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalComposeUiApi::class
+)
 @Composable
 fun WelcomeScreen(
     pagerState: PagerState,
@@ -33,58 +58,60 @@ fun WelcomeScreen(
 ) {
     val scope = rememberCoroutineScope()
 
+    val isFinished = pagerState.currentPage == pages.size - 1
+
+    val animatedProgress by animateFloatAsState(
+        targetValue = (1.0f / (pages.size - 1)) * (pagerState.currentPage),
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+        label = "animatedProgress"
+    )
+
+    val animatedSkipButton by animateFloatAsState(
+        targetValue = if (pagerState.currentPage == pages.size - 1) 0f else 1f,
+        animationSpec = tween(300),
+        label = "animatedSkipButton"
+    )
+
     Scaffold(
-        content = { paddingValues ->
-            HorizontalPager(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                pageCount = pages.size,
-                state = pagerState,
-                verticalAlignment = Alignment.Top,
-            ) { position ->
-                PagerScreen(onBoardingPage = pages[position])
-            }
+        modifier = Modifier
+            .semantics { testTagsAsResourceId = true },
+        topBar = {
+            TopAppBar(
+                title = {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spaces.extraLarge * 2)
+                            .clip(MaterialTheme.shapes.medium),
+                        progress = animatedProgress
+                    )
+                }
+            )
         },
         bottomBar = {
-
-            val animatedProgress by animateFloatAsState(
-                targetValue = (1.0f / (pages.size - 1)) * (pagerState.currentPage),
-                animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-            )
-
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .fillMaxWidth()
+                    .padding(Spaces.medium)
                     .navigationBarsPadding(),
-                horizontalArrangement = Arrangement.spacedBy(32.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val animatedSkipButton by animateFloatAsState(
-                    targetValue = if (pagerState.currentPage == pages.size - 1) 0f else 1f,
-                    animationSpec = tween(300)
-                )
-
                 TextButton(
                     modifier = Modifier
-                        .width(96.dp)
+                        .testTag("button_skip")
                         .alpha(animatedSkipButton),
-                    onClick = onSkip
+                    onClick = onSkip,
+                    enabled = animatedSkipButton == 1f
                 ) {
                     Text(text = stringResource(id = HellNotesStrings.Button.Skip))
                 }
 
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .weight(1f)
-                        .clip(RoundedCornerShape(8.dp)),
-                    progress = animatedProgress
-                )
-
                 Button(
-                    modifier = Modifier.width(96.dp),
+                    modifier = Modifier
+                        .testTag("button_next"),
                     onClick = {
-                        if (pagerState.currentPage == pages.size - 1) {
+                        if (isFinished) {
                             onFinish()
                         } else {
                             scope.launch {
@@ -94,15 +121,22 @@ fun WelcomeScreen(
                     }
                 ) {
                     Text(
-                        text = if (pagerState.currentPage == pages.size - 1)
-                            stringResource(id = HellNotesStrings.Button.Finish)
-                        else
-                            stringResource(id = HellNotesStrings.Button.Next)
+                        text = stringResource(id = HellNotesStrings.Button.finish(isFinished))
                     )
                 }
             }
         }
-    )
+    ) { paddingValues ->
+        HorizontalPager(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            state = pagerState,
+            verticalAlignment = Alignment.Top,
+        ) { position ->
+            PagerScreen(onBoardingPage = pages[position])
+        }
+    }
 }
 
 @Composable

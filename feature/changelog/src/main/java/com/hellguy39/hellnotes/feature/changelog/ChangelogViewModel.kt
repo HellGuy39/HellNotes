@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.feature.changelog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
-import com.hellguy39.hellnotes.core.model.Release
+import com.hellguy39.hellnotes.core.model.repository.remote.Release
 import com.hellguy39.hellnotes.core.model.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,7 +66,7 @@ class ChangelogViewModel @Inject constructor(
 }
 
 sealed class ChangelogUiEvent {
-    object TryAgain: ChangelogUiEvent()
+    data object TryAgain: ChangelogUiEvent()
 }
 
 data class ChangelogUiState (

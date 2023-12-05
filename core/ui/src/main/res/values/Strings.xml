@@ -49,6 +49,7 @@
     <string name="subtitle_date_of_creation">Date of creation</string>
     <string name="subtitle_date_of_last_edit">Date of last edit</string>
     <string name="subtitle_last_copy">Last copy: %s</string>
+    <string name="subtitle_options">Options</string>
 
     <!-- Tip -->
     <string name="tip_auto_delete_trash">Notes in the trash are deleted automatically after 7 days</string>
@@ -61,7 +62,7 @@
     <string name="placeholder_label_selection">Your labels will be displayed here</string>
 
     <!-- Value -->
-    <string name="value_never">Never</string>
+    <string name="value_never">never</string>
 
     <!-- MenuItem -->
     <string name="menu_item_settings">Settings</string>
@@ -142,6 +143,11 @@
     <string name="title_enter_pin">Enter your PIN</string>
     <string name="title_enter_password">Enter your password</string>
     <string name="title_unlocked">Unlocked</string>
+    <string name="title_attention">Attention</string>
+
+    <!-- Body -->
+    <string name="body_reset">Your data will be permanently deleted. This action will not be undone.</string>
+    <string name="body_backup">Please do not close the application or turn off the device during the copying process.</string>
 
     <!-- Permission -->
     <string name="permission_notification_rationale">Unfortunately, we will not be able to send you notifications without permission. We promise that it will only send notifications for the reminders you set.</string>
@@ -155,7 +161,7 @@
     <string name="supporting_delete_label">The label will be permanently deleted. All notes with this label will lose it.</string>
     <string name="supporting_restore_note">After restoring, you will be able to open and edit this note again.</string>
     <string name="supporting_empty_trash">All notes in the trash will be permanently deleted.</string>
-    <string name="supporting_backup">Creating a backup copy will help keep your notes safe and protect against possible loss of important information. Please do not close the application or turn off the device during the copying process.</string>
+    <!-- Creating a backup copy will help keep your notes safe and protect against possible loss of important information.  -->
     <string name="supporting_wrong_pin">Wrong PIN</string>
     <string name="supporting_wrong_password">Wrong password</string>
 
@@ -180,6 +186,7 @@
     <!-- Button -->
     <string name="btn_request_permission">Request permission</string>
     <string name="btn_create">Create</string>
+    <string name="btn_restore">Restore</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_enter">Enter</string>
     <string name="btn_delete">Delete</string>
@@ -198,6 +205,7 @@
     <string name="btn_try_again">Try again</string>
     <string name="btn_create_backup">Create backup</string>
     <string name="btn_restore_from_backup">Restore from backup</string>
+    <string name="btn_open_a_release">Open a release</string>
 
     <!-- Setting -->
     <string name="stg_screen_lock">Screen lock</string>
@@ -228,12 +236,16 @@
     <string name="snack_remind_time_is_too_late">It is impossible to set a reminder, the reminder time is later than the system time.</string>
 
     <!-- Checkbox -->
-    <string name="checkbox_clear_the_database">Clear the database: notes, reminders, labels, checklists and trash</string>
-    <string name="checkbox_reset_settings">Reset application settings to default values</string>
+    <string name="checkbox_clear_the_database_title">Clear the database</string>
+    <string name="checkbox_clear_the_database_subtitle">Notes, reminders, labels, checklists and trash</string>
+    <string name="checkbox_reset_settings_title">Reset application settings</string>
+    <string name="checkbox_reset_settings_subtitle">Default values will be applied</string>
 
     <!-- Switch -->
-    <string name="switch_use_biometric">Use biometric</string>
-    <string name="switch_use_note_swipes">Use note swipes</string>
+    <string name="switch_use_biometric_title">Use biometric</string>
+    <string name="switch_use_note_swipes_title">Use note swipes</string>
+    <string name="switch_auto_backup_title">Auto backup</string>
+    <string name="switch_auto_backup_subtitle">Every day, in the background</string>
 
     <!-- Notification -->
     <string name="ntf_reminder_title">Reminder!</string>

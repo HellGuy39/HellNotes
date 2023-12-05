@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.domain.use_case
 
 import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
-import com.hellguy39.hellnotes.core.model.Release
+import com.hellguy39.hellnotes.core.model.repository.remote.Release
 import javax.inject.Inject
 
 class CheckForUpdatesUseCase @Inject constructor() {

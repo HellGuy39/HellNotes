@@ -1,32 +1,49 @@
 package com.hellguy39.hellnotes.feature.startup.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import com.google.accompanist.navigation.animation.composable
-import com.hellguy39.hellnotes.core.ui.UiDefaults
+import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
+import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToHome
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToLock
+import com.hellguy39.hellnotes.core.ui.navigations.navigateToOnBoarding
 import com.hellguy39.hellnotes.feature.startup.StartupRoute
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.startupScreen(
-    navController: NavController
+    appState: HellNotesAppState
 ) {
     composable(
         route = Screen.Startup.route,
-        enterTransition = {
-            UiDefaults.Motion.ScreenEnterTransition
-        },
-        exitTransition = {
-            UiDefaults.Motion.ScreenExitTransition
-        },
-        popEnterTransition = {
-            UiDefaults.Motion.ScreenPopEnterTransition
-        },
-        popExitTransition = {
-            UiDefaults.Motion.ScreenPopExitTransition
-        },
-    ) {
-        StartupRoute(navController)
+        enterTransition = { null },
+        exitTransition = { null },
+        popEnterTransition = { null },
+        popExitTransition = { null },
+    ) { from ->
+        StartupRoute(
+            navigateToHome = {
+                appState.navigateToHome(
+                    from,
+                    navOptions {
+                        popUpTo(Screen.Startup.route) {
+                            inclusive = true
+                        }
+                    }
+                )
+            },
+            navigateToLock = {
+                appState.navigateToLock(
+                    from,
+                    navOptions {
+                        popUpTo(Screen.Startup.route) {
+                            inclusive = true
+                        }
+                    }
+                )
+            },
+            navigateToOnBoarding = {
+                appState.navigateToOnBoarding(from)
+            }
+        )
     }
 }

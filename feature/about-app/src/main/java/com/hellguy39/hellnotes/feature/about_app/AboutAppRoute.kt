@@ -3,41 +3,40 @@ package com.hellguy39.hellnotes.feature.about_app
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
-import com.hellguy39.hellnotes.core.ui.navigations.*
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.about_app.util.openGithub
 import com.hellguy39.hellnotes.feature.about_app.util.provideFeedback
 
 @Composable
 fun AboutAppRoute(
-    navController: NavController
+    navigateBack: () -> Unit,
+    navigateToReset: () -> Unit,
+    navigateToChangelog: () -> Unit,
+    navigateToPrivacyPolicy: () -> Unit,
+    navigateToTermsAndConditions: () -> Unit,
+    navigateToUpdate: () -> Unit
 ) {
     val context = LocalContext.current
     val toast = Toast.makeText(context, context.getString(HellNotesStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
 
     AboutAppScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = { navigateBack() },
         selection = AboutAppScreenSelection(
-            onReset = navController::navigateToReset,
-            onChangelog = navController::navigateToChangelog,
-            onGithub = {
-                context.openGithub()
-            },
-            onPrivacyPolicy = navController::navigateToPrivacyPolicy,
-            onProvideFeedback = {
-                context.provideFeedback()
-            },
+            onReset = navigateToReset,
+            onChangelog = navigateToChangelog,
+            onGithub = { context.openGithub() },
+            onPrivacyPolicy = navigateToPrivacyPolicy,
+            onProvideFeedback = { context.provideFeedback() },
             onRateOnPlayStore = { toast.show() },
             onCheckForUpdates = {
                 if (ProjectInfoProvider.appConfig.isDebug) {
-                    navController.navigateToUpdate()
+                    navigateToUpdate()
                 } else {
                     toast.show()
                 }
             },
-            onTermsAndConditions = navController::navigateToTermsAndConditions
+            onTermsAndConditions = { navigateToTermsAndConditions() }
         ),
     )
 }

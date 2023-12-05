@@ -1,32 +1,35 @@
 package com.hellguy39.hellnotes.feature.changelog
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.Release
+import com.hellguy39.hellnotes.core.model.repository.remote.Release
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChangelogScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: ChangelogUiState,
-    onTryAgain: () -> Unit
+    onTryAgain: () -> Unit,
+    onOpenRelease: (release: Release) -> Unit
 ) {
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
@@ -51,31 +54,36 @@ fun ChangelogScreen(
                 }
             }
         },
-        content = { paddingValues ->
+        content = { innerPadding ->
             if (!uiState.isError && !uiState.isLoading) {
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentPadding = paddingValues,
-                    content = {
-                        items(
-                            items = uiState.releases,
-                            key = { item -> item.id ?: 0 }
-                        ) { release ->
-                            ChangelogCard(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .animateItemPlacement(),
-                                release = release
-                            )
-                        }
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(
+                        top = innerPadding.calculateTopPadding() + Spaces.medium,
+                        bottom = innerPadding.calculateBottomPadding() + Spaces.medium,
+                        start = Spaces.medium,
+                        end = Spaces.medium
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(Spaces.medium)
+                ) {
+                    items(
+                        items = uiState.releases,
+                        key = { item -> item.id ?: 0 }
+                    ) { release ->
+                        ChangelogCard(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                                //.animateItemPlacement(),
+                            release = release,
+                            onOpenReleaseClick = { onOpenRelease(release) }
+                        )
                     }
-                )
+                }
             } else if (uiState.isError) {
                 EmptyContentPlaceholder(
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(horizontal = 32.dp)
+                        .padding(innerPadding)
+                        .padding(horizontal = Spaces.extraLarge)
                         .fillMaxSize(),
                     heroIcon = painterResource(id = HellNotesIcons.Error),
                     message = stringResource(id = HellNotesStrings.Placeholder.FailedToLoadData),
@@ -95,18 +103,22 @@ fun ChangelogScreen(
 @Composable
 fun ChangelogCard(
     modifier: Modifier = Modifier,
-    release: Release
+    release: Release,
+    onOpenReleaseClick: () -> Unit
 ) {
-    Card(
-        modifier = modifier,
-        shape = RectangleShape,
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+    val localDateTime = DateTimeUtils.iso8061toLocalDateTime(release.published_at ?: "")
+    val date = DateTimeUtils.formatLocalDateTime(localDateTime, DateTimeUtils.DATE_TIME_PATTERN)
+
+    var isExpanded by remember { mutableStateOf(false) }
+
+    ElevatedCard(
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(Spaces.medium),
+            verticalArrangement = Arrangement.spacedBy(Spaces.medium)
         ) {
             Row(
                 modifier = Modifier
@@ -114,26 +126,55 @@ fun ChangelogCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = release.tag_name ?: "",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-                val localDateTime = DateTimeUtils.iso8061toLocalDateTime(release.published_at ?: "")
-                val date = DateTimeUtils.formatLocalDateTime(localDateTime, DateTimeUtils.CHANGELOG_RELEASE_PATTERN)
-                Text(
-                    text = date,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                Column(
+                    modifier = Modifier,
+                    verticalArrangement = Arrangement.spacedBy(Spaces.small)
+                ) {
+                    Text(
+                        text = release.tag_name ?: "",
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = date,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+                IconButton(onClick = { isExpanded = isExpanded.not() }) {
+                    Icon(
+                        painter = painterResource(id = HellNotesIcons.expand(isExpanded)),
+                        contentDescription = null
+                    )
+                }
             }
-            Text(
-                text = release.body ?: "",
-                style = MaterialTheme.typography.bodyMedium
-            )
+            AnimatedVisibility(visible = isExpanded) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(Spaces.medium)
+                ) {
+                    Divider()
+                    Text(
+                        text = release.body ?: "",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Divider()
+                }
+            }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.weight(1f))
+                OutlinedButton(
+                    onClick = onOpenReleaseClick,
+                    contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+                ) {
+                    Icon(
+                        modifier = Modifier.size(ButtonDefaults.IconSize),
+                        painter = painterResource(id = HellNotesIcons.ArrowOutward), 
+                        contentDescription = null 
+                    )
+                    Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
+                    Text(text = stringResource(id = HellNotesStrings.Button.OpenARelease))
+                }   
+            }
         }
     }
-    Divider(
-        modifier = Modifier.fillMaxWidth()
-    )
 }

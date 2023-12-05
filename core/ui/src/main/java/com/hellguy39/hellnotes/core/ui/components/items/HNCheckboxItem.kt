@@ -16,12 +16,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @Composable
 fun HNCheckboxItem(
     modifier: Modifier = Modifier,
     heroIcon: Painter? = null,
     title: String = "",
+    subtitle: String = "",
     checked: Boolean = false,
     onClick: () -> Unit = {},
     iconTint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -49,11 +51,23 @@ fun HNCheckboxItem(
                 )
             }
 
-            Text(
+            Column(
                 modifier = Modifier.weight(1f),
-                text = title,
-                style = MaterialTheme.typography.bodyLarge
-            )
+                verticalArrangement = Arrangement.spacedBy(Spaces.small)
+            ) {
+                if (title.isNotEmpty()) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+                if (subtitle.isNotEmpty()) {
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
 
             Checkbox(
                 modifier = Modifier,
@@ -77,6 +91,7 @@ fun HNCheckboxItemPreview() {
                 modifier = Modifier.padding(16.dp),
                 heroIcon = painterResource(id = HellNotesIcons.Share),
                 title = "Title",
+                subtitle = "subtitle",
             )
         }
     }

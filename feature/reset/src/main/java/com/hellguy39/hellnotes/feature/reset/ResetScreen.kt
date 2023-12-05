@@ -1,95 +1,53 @@
 package com.hellguy39.hellnotes.feature.reset
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.ui.components.cards.InfoCard
 import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
+import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResetScreen(
+    uiState: ResetUiState,
     onNavigationButtonClick: () -> Unit,
-    onReset: (resetDatabase: Boolean, resetSettings: Boolean) -> Unit
+    onResetClick: () -> Unit,
+    onToggleResetDatabase: () -> Unit,
+    onToggleResetSettings: () -> Unit,
 ) {
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
-
-    var isResetDatabase by rememberSaveable { mutableStateOf(false) }
-    var isResetSettings by rememberSaveable { mutableStateOf(false) }
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            HNTopAppBar(
+            HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
                 title = stringResource(id = HellNotesStrings.Title.Reset)
             )
         },
-        content = { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues),
-                verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
+        bottomBar = {
+            Row(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Image(
-                    modifier = Modifier.size(192.dp),
-                    painter = painterResource(id = HellNotesIcons.RestartAlt),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
-                )
-
-                Text(
-                    text = stringResource(id = HellNotesStrings.Subtitle.SelectActions),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .selectableGroup()
-                ) {
-                    HNCheckboxItem(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 16.dp),
-                        onClick = { isResetDatabase = !isResetDatabase },
-                        checked = isResetDatabase,
-                        title = stringResource(id = HellNotesStrings.Checkbox.ClearDatabase)
-                    )
-
-                    HNCheckboxItem(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 16.dp),
-                        onClick = { isResetSettings = !isResetSettings },
-                        title = stringResource(id = HellNotesStrings.Checkbox.ResetSettings),
-                        checked = isResetSettings,
-                    )
-                }
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
-                    onClick = { onReset(isResetDatabase, isResetSettings) },
-                    enabled = isResetSettings || isResetDatabase,
+                        .navigationBarsPadding()
+                        .padding(Spaces.medium),
+                    onClick = onResetClick,
+                    enabled = uiState.resetButtonEnabled()
                 ) {
                     Text(
                         text = stringResource(id = HellNotesStrings.Button.Reset),
@@ -98,5 +56,56 @@ fun ResetScreen(
                 }
             }
         }
-    )
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(
+                    top = innerPadding.calculateTopPadding() + Spaces.medium,
+                    bottom = innerPadding.calculateBottomPadding() + Spaces.medium,
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                space = Spaces.large,
+                alignment = Alignment.CenterVertically
+            )
+        ) {
+            InfoCard(
+                modifier = Modifier.padding(horizontal = Spaces.medium),
+                title = stringResource(id = HellNotesStrings.Title.Attention),
+                body = stringResource(id = HellNotesStrings.Body.Reset),
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .selectableGroup()
+            ) {
+                HNListHeader(
+                    modifier = Modifier
+                        .padding(horizontal = Spaces.medium)
+                        .padding(bottom = Spaces.small),
+                    title = stringResource(id = HellNotesStrings.Subtitle.SelectActions),
+                )
+
+                HNCheckboxItem(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spaces.medium, vertical = Spaces.medium),
+                    onClick = onToggleResetDatabase,
+                    title = stringResource(id = HellNotesStrings.Checkbox.ClearDatabaseTitle),
+                    subtitle = stringResource(id = HellNotesStrings.Checkbox.ClearDatabaseSubtitle),
+                    checked = uiState.isResetDatabase,
+                )
+
+                HNCheckboxItem(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(Spaces.medium),
+                    onClick = onToggleResetSettings,
+                    title = stringResource(id = HellNotesStrings.Checkbox.ResetSettingsTitle),
+                    subtitle = stringResource(id = HellNotesStrings.Checkbox.ResetSettingsSubtitle),
+                    checked = uiState.isResetSettings,
+                )
+            }
+        }
+    }
 }
