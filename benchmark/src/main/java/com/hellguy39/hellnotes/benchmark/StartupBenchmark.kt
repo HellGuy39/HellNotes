@@ -3,8 +3,6 @@ package com.hellguy39.hellnotes.benchmark
 import androidx.benchmark.macro.*
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.Direction
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,5 +23,4 @@ class StartupBenchmark {
         pressHome()
         startActivityAndWait()
     }
-
 }

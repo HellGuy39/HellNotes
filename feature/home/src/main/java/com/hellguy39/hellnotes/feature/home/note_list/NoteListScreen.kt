@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.feature.home.note_list
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
@@ -47,7 +46,8 @@ fun NoteListScreen(
     val uiState by noteListViewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             NoteListTopAppBar(
@@ -76,7 +76,6 @@ fun NoteListScreen(
                 visualsSelection.listStyle,
                 label = "note_list_screen_animation"
             ) { listStyle ->
-
                 if (uiState.pinnedNotes.isEmpty() && uiState.unpinnedNotes.isEmpty()) {
                     EmptyContentPlaceholder(
                         modifier = Modifier
@@ -87,7 +86,6 @@ fun NoteListScreen(
                         message = stringResource(id = HellNotesStrings.Placeholder.Empty)
                     )
                 }
-
                 NoteList(
                     innerPadding = innerPadding,
                     noteSelection = NoteSelection(

@@ -22,6 +22,7 @@ import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,8 +39,7 @@ fun SearchScreen(
 
     val focusRequester = remember { FocusRequester() }
 
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -60,20 +60,15 @@ fun SearchScreen(
             )
         },
         content = { innerPadding ->
-
-            if (uiState.isLoading) {
-                return@Scaffold
-            }
-
             Crossfade(
                 targetState = categories,
                 label = "search_screen_content"
             ) { categories ->
 
-                if (uiState.notes.isEmpty()) {
+                if (uiState.notes.isEmpty() && !uiState.isLoading) {
                     EmptyContentPlaceholder(
                         modifier = Modifier
-                            .padding(horizontal = 32.dp)
+                            .padding(horizontal = Spaces.large)
                             .padding(innerPadding)
                             .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Search),
@@ -161,7 +156,8 @@ fun SearchScreen(
                     }
                 )
             }
-        },
+
+        }
     )
 }
 

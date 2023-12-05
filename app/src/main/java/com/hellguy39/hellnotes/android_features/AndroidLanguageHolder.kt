@@ -11,9 +11,7 @@ import com.hellguy39.hellnotes.core.domain.system_features.LanguageHolder
 import com.hellguy39.hellnotes.core.model.Language
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @SuppressLint("NewApi")
@@ -28,7 +26,7 @@ constructor(
     }
 
     private val _languageFlow = MutableStateFlow(getLanguage())
-    override val languageFlow: Flow<Language> = _languageFlow.asStateFlow()
+    override val languageFlow: Flow<Language> = _languageFlow
 
     override suspend fun setLanguage(language: Language) {
         _languageFlow.emit(language)

@@ -9,13 +9,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import kotlinx.coroutines.launch
 
 @Composable
 fun ReminderEditRoute(
-    navController: NavController,
+    navigateBack: () -> Unit,
     reminderEditViewModel: ReminderEditViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -24,10 +23,10 @@ fun ReminderEditRoute(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    BackHandler { navController.popBackStack() }
+    BackHandler { navigateBack() }
 
     ReminderEditScreen(
-        onNavigationBack = navController::popBackStack,
+        onNavigationBack = { navigateBack() },
         uiState = uiState,
         selection = ReminderEditScreenSelection(
             onMessageUpdate = { message ->
@@ -45,7 +44,7 @@ fun ReminderEditRoute(
             onCreateReminder = {
                 if (reminderEditViewModel.isPossibleToCreateReminder()) {
                     reminderEditViewModel.insertReminder()
-                    navController.popBackStack()
+                    navigateBack()
                 } else {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     scope.launch {
@@ -58,12 +57,12 @@ fun ReminderEditRoute(
             },
             onDeleteReminder = {
                 reminderEditViewModel.deleteReminder()
-                navController.popBackStack()
+                navigateBack()
             },
             onUpdateReminder = {
                 if (reminderEditViewModel.isPossibleToCreateReminder()) {
                     reminderEditViewModel.updateReminder()
-                    navController.popBackStack()
+                    navigateBack()
                 } else {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     scope.launch {

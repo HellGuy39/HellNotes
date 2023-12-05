@@ -6,8 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import com.hellguy39.hellnotes.core.model.OnStartupArguments
+import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.about_app.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.feature.backup.navigation.backupScreen
@@ -35,62 +35,61 @@ import com.hellguy39.hellnotes.feature.update.navigation.updateScreen
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun GlobalNavGraph(
+    appState: HellNotesAppState,
     args: OnStartupArguments,
 ) {
-    val navController = rememberNavController()
+    val navController = appState.navController
 
     NavHost(
         modifier = Modifier
-            .semantics {
-                testTagsAsResourceId = true
-            },
+            .semantics { testTagsAsResourceId = true },
         navController = navController,
         startDestination = Screen.Startup.route
     ) {
 
-        startupScreen(navController)
+        startupScreen(appState)
 
         homeScreen(navController, args)
 
-        onBoardingScreen(navController)
+        onBoardingScreen(appState)
 
-        noteDetailScreen(navController)
+        noteDetailScreen(appState)
 
-        reminderEditScreen(navController)
+        reminderEditScreen(appState)
 
-        labelSelectionScreen(navController)
+        labelSelectionScreen(appState)
 
-        searchScreen(navController)
+        searchScreen(appState)
 
-        labelEditScreen(navController)
+        labelEditScreen(appState)
 
-        settingsScreen(navController)
+        settingsScreen(appState)
 
-        lockScreen(navController)
+        lockScreen(appState)
 
-        lockSelectionScreen(navController)
+        lockSelectionScreen(appState)
 
         lockSetupScreen(navController)
 
-        languageSelectionScreen(navController)
+        languageSelectionScreen(appState)
 
-        noteStyleEditScreen(navController)
+        noteStyleEditScreen(appState)
 
-        noteSwipeEditScreen(navController)
+        noteSwipeEditScreen(appState)
 
-        aboutAppScreen(navController)
+        aboutAppScreen(appState)
 
-        changelogScreen(navController)
+        changelogScreen(appState)
 
-        termsAndConditionsScreen(navController)
+        termsAndConditionsScreen(appState)
 
-        privacyPolicyScreen(navController)
+        privacyPolicyScreen(appState)
 
-        resetScreen(navController)
+        resetScreen(appState)
 
-        updateScreen(navController)
+        updateScreen(appState)
 
-        backupScreen(navController)
+        backupScreen(appState)
 
     }
 }

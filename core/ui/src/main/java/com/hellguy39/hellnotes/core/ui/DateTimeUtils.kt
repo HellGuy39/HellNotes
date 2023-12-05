@@ -85,6 +85,8 @@ object DateTimeUtils {
     const val TIME_PATTERN = "HH:mm"
     const val DATE_PATTERN = "MMMM dd"
     const val CHANGELOG_RELEASE_PATTERN = "dd/MM/yyyy"
+    const val DATE_TIME_PATTERN = "MMMM dd, yyyy"
+    const val FULL_DATE_PATTERN = "MMMM dd, yyyy (HH:mm)"
 
     private const val DATE_PATTERN_YEAR_MONTH_DAY_TIME = "MMM dd, yyyy, HH:mm"
     private const val DATE_PATTERN_MONTH_DAY_TIME = "MMM dd, HH:mm"

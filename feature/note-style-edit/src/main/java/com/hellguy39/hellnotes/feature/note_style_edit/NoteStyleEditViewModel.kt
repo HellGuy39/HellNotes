@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteStyleEditViewModel @Inject constructor(
+class NoteStyleEditViewModel
+@Inject
+constructor(
     private val dataStoreRepository: DataStoreRepository
 ): ViewModel() {
 
     val uiState = dataStoreRepository.readNoteStyleState()
-        .map {  noteStyle ->
-            NoteStyleEditUiState(noteStyle = noteStyle)
-        }
+        .map {  noteStyle -> NoteStyleEditUiState(noteStyle = noteStyle) }
         .stateIn(
             started = SharingStarted.WhileSubscribed(5_000),
             scope = viewModelScope,
@@ -33,7 +33,6 @@ class NoteStyleEditViewModel @Inject constructor(
             )
         }
     }
-
 }
 
 data class NoteStyleEditUiState(

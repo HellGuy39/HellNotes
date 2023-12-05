@@ -10,7 +10,9 @@ import com.hellguy39.hellnotes.core.model.repository.local.datastore.Sorting
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class DataStoreRepositoryImpl @Inject constructor(
+class DataStoreRepositoryImpl
+@Inject
+constructor(
     private val dataSource: HellNotesPreferencesDataSource
 ) : DataStoreRepository {
 

@@ -84,8 +84,13 @@ object HellNotesIcons {
     val CheckboxChecked = R.drawable.ic_checkbox_checked_24
     val CheckboxUnchecked = R.drawable.ic_checkbox_unchecked_24
 
+    val ArrowOutward = R.drawable.ic_arrow_outward_24
     val ArrowDropDown = R.drawable.ic_arrow_drop_down_24
     val ArrowDropUp = R.drawable.ic_arrow_drop_up_24
+
+    fun expand(isExpanded: Boolean): Int {
+        return if (isExpanded) ExpandLess else ExpandMore
+    }
 
     val ExpandMore = R.drawable.ic_expand_more_24
     val ExpandLess = R.drawable.ic_expand_less_24

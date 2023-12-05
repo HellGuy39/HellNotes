@@ -1,9 +1,9 @@
 package com.hellguy39.hellnotes.core.network.mapper
 
-import com.hellguy39.hellnotes.core.model.Release
-import com.hellguy39.hellnotes.core.model.ReleaseAsset
-import com.hellguy39.hellnotes.core.model.ReleaseAuthor
-import com.hellguy39.hellnotes.core.model.ReleaseUploader
+import com.hellguy39.hellnotes.core.model.repository.remote.Release
+import com.hellguy39.hellnotes.core.model.repository.remote.ReleaseAsset
+import com.hellguy39.hellnotes.core.model.repository.remote.ReleaseAuthor
+import com.hellguy39.hellnotes.core.model.repository.remote.ReleaseUploader
 import com.hellguy39.hellnotes.core.network.dto.ReleaseAssetDto
 import com.hellguy39.hellnotes.core.network.dto.ReleaseAuthorDto
 import com.hellguy39.hellnotes.core.network.dto.ReleaseDto

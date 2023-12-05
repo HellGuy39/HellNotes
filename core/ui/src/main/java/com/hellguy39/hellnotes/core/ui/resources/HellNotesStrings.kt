@@ -123,6 +123,12 @@ object HellNotesStrings {
         val EnterPin = R.string.title_enter_pin
         val EnterPassword = R.string.title_enter_password
         val Unlocked = R.string.title_unlocked
+        val Attention = R.string.title_attention
+    }
+
+    object Body {
+        val Reset = R.string.body_reset
+        val Backup = R.string.body_backup
     }
 
     object Supporting {
@@ -133,7 +139,6 @@ object HellNotesStrings {
         val RestoreNote = R.string.supporting_restore_note
         val DeleteLabel = R.string.supporting_delete_label
         val EmptyTrash = R.string.supporting_empty_trash
-        val Backup = R.string.supporting_backup
         val WrongPin = R.string.supporting_wrong_pin
         val WrongPassword = R.string.supporting_wrong_password
     }
@@ -188,6 +193,7 @@ object HellNotesStrings {
         val CreateBackup = R.string.btn_create_backup
         val RestoreFromBackup = R.string.btn_restore_from_backup
         val Restore = R.string.btn_restore
+        val OpenARelease = R.string.btn_open_a_release
 
         fun finish(isFinished: Boolean): Int {
             return if (isFinished) Finish else Next
@@ -231,8 +237,10 @@ object HellNotesStrings {
     }
 
     object Switch {
-        val UseBiometric = R.string.switch_use_biometric
-        val UseNoteSwipes = R.string.switch_use_note_swipes
+        val UseBiometricTitle = R.string.switch_use_biometric_title
+        val UseNoteSwipesTitle = R.string.switch_use_note_swipes_title
+        val AutoBackupTitle = R.string.switch_auto_backup_title
+        val AutoBackupSubtitle = R.string.switch_auto_backup_subtitle
     }
 
     object Notification {
@@ -242,8 +250,10 @@ object HellNotesStrings {
     }
 
     object Checkbox {
-        val ClearDatabase = R.string.checkbox_clear_the_database
-        val ResetSettings = R.string.checkbox_reset_settings
+        val ClearDatabaseTitle = R.string.checkbox_clear_the_database_title
+        val ClearDatabaseSubtitle = R.string.checkbox_clear_the_database_subtitle
+        val ResetSettingsTitle = R.string.checkbox_reset_settings_title
+        val ResetSettingsSubtitle = R.string.checkbox_reset_settings_subtitle
     }
 
     object OnBoarding {
@@ -260,6 +270,9 @@ object HellNotesStrings {
     }
 
     object Subtitle {
+        fun enabled(isEnabled: Boolean): Int {
+            return if (isEnabled) Enabled else Disabled
+        }
         val Enabled = R.string.subtitle_enabled
         val Disabled = R.string.subtitle_disabled
         val CurrentLockScreen = R.string.subtitle_current_lock_screen
@@ -272,6 +285,7 @@ object HellNotesStrings {
         val Edited = R.string.subtitle_edited
         val SelectActions = R.string.subtitle_select_actions
         val LastCopy = R.string.subtitle_last_copy
+        val Options = R.string.subtitle_options
     }
 
     object Tip {

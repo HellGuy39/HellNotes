@@ -4,24 +4,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 
 @Composable
 fun SearchRoute(
-    navController: NavController,
+    navigateBack: () -> Unit,
+    navigateToNoteDetail: (id: Long) -> Unit,
     searchViewModel: SearchViewModel = hiltViewModel(),
 ) {
     val uiState by searchViewModel.uiState.collectAsStateWithLifecycle()
-    val noteStyle by searchViewModel.noteStyle.collectAsStateWithLifecycle()
-    val listStyle by searchViewModel.listStyle.collectAsStateWithLifecycle()
 
     SearchScreen(
-        onNavigationButtonClick = navController::popBackStack,
+        onNavigationButtonClick = { navigateBack() },
         uiState = uiState,
-        listStyle = listStyle,
+        listStyle = uiState.listStyle,
         searchScreenSelection = SearchScreenSelection(
             onQueryChanged = { search ->
                 searchViewModel.send(SearchScreenUiEvent.OnSearchChange(search))
@@ -40,9 +37,9 @@ fun SearchRoute(
             }
         ),
         noteSelection = NoteSelection(
-            noteStyle = noteStyle,
+            noteStyle = uiState.noteStyle,
             onClick = { note ->
-                navController.navigateToNoteDetail(noteId = note.id)
+                navigateToNoteDetail(note.id ?: return@NoteSelection)
             },
             onLongClick = { note -> },
             onDismiss = { dismissDirection, note ->

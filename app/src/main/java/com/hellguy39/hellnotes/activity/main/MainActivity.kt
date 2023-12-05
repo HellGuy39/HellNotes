@@ -13,13 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.hellguy39.hellnotes.android_features.AndroidAlarmScheduler
 import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
+import com.hellguy39.hellnotes.core.ui.rememberHellNotesAppState
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.navigation.GlobalNavGraph
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,11 +29,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTransparentSystemBars(true)
         installSplashScreen()
-        setContent {
-            HellNotesTheme {
-                ApplicationContent(args = intent.getOnStartupArgs())
-            }
-        }
+        setContent { HellNotesApp(args = intent.getOnStartupArgs()) }
     }
 
     private fun Intent.getOnStartupArgs(): OnStartupArguments = OnStartupArguments(
@@ -45,17 +39,22 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Composable
-fun ApplicationContent(args: OnStartupArguments) {
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .imePadding(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        GlobalNavGraph(args = args)
+fun HellNotesApp(args: OnStartupArguments) {
+    val appState = rememberHellNotesAppState()
+    HellNotesTheme {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            GlobalNavGraph(
+                appState = appState,
+                args = args
+            )
+        }
     }
 }
-
 
 fun Activity.setTransparentSystemBars(isTransparent: Boolean) {
     WindowCompat.setDecorFitsSystemWindows(window, isTransparent.not())

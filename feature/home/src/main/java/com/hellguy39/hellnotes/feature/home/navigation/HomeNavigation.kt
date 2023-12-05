@@ -1,10 +1,9 @@
 package com.hellguy39.hellnotes.feature.home.navigation
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.*
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
@@ -20,12 +19,11 @@ fun NavGraphBuilder.homeScreen(
 ) {
     composable(
         route = Screen.Home.route,
-        exitTransition = {
-            fadeOut(animationSpec = tween(300))
-        },
-        popEnterTransition = {
-            fadeIn(animationSpec = tween(300))
-        }
+        arguments = listOf(),
+        enterTransition = { null },
+        exitTransition = { null },
+        popEnterTransition = { null },
+        popExitTransition = { null },
     ) {
         val context = LocalContext.current
 

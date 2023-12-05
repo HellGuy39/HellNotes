@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 6,
-      "versionName": "1.0",
-      "outputFile": "HellNotes v1.0-release.apk"
+      "versionCode": 7,
+      "versionName": "1.1.0",
+      "outputFile": "HellNotes v1.1.0-release.apk"
     }
   ],
   "elementType": "File"

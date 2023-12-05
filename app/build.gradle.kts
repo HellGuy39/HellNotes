@@ -17,8 +17,8 @@ android {
         applicationId = Config.ApplicationId
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
-        versionCode = 6
-        versionName = "1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionCode = 7
+        versionName = "1.1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

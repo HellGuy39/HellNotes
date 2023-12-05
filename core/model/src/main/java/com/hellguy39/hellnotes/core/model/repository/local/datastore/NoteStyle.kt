@@ -1,22 +1,19 @@
 package com.hellguy39.hellnotes.core.model.repository.local.datastore
 
-sealed interface NoteStyle {
-    object Outlined: NoteStyle
-    object Elevated: NoteStyle
+sealed class NoteStyle(val tag: String) {
 
-    fun string(): String {
-        return when(this) {
-            is Outlined -> OUTLINED
-            is Elevated -> ELEVATED
-        }
-    }
+    data object Outlined: NoteStyle(OUTLINED)
+
+    data object Elevated: NoteStyle(ELEVATED)
 
     companion object {
 
         const val OUTLINED = "outlined"
         const val ELEVATED = "elevated"
 
-        fun from(
+        fun styles() = listOf(Outlined, Elevated)
+
+        fun fromTag(
             s: String?,
             defaultValue: NoteStyle = Outlined
         ): NoteStyle {

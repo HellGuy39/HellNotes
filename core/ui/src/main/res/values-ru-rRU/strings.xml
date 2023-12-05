@@ -29,6 +29,7 @@
     <string name="subtitle_edited">Редактировано %s</string>
     <string name="subtitle_select_actions">Выберите действия</string>
     <string name="subtitle_last_copy">Последняя копия: %s</string>
+    <string name="subtitle_options">Опции</string>
 
     <!-- Tip -->
     <string name="tip_auto_delete_trash">Заметки в корзине автоматически удаляются через 7 дней</string>
@@ -81,6 +82,7 @@
     <string name="btn_try_again">Попробовать снова</string>
     <string name="btn_create_backup">Создать резервную копию</string>
     <string name="btn_restore_from_backup">Восстановить из резервной копии</string>
+    <string name="btn_open_a_release">Открыть релиз</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>
@@ -185,6 +187,11 @@
     <string name="title_enter_pin">Введите PIN-код</string>
     <string name="title_enter_password">Введите пароль</string>
     <string name="title_unlocked">Разблокировано</string>
+    <string name="title_attention">Внимание</string>
+
+    <!-- Body -->
+    <string name="body_reset">Ваши данные будут безвозвратно удалены. Это действие невозможно отменить.</string>
+    <string name="body_backup">Пожалуйста, не закрывайте приложение и не выключайте устройство во время процесса копирования.</string>
 
     <!-- Supporting -->
     <string name="supporting_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
@@ -194,13 +201,12 @@
     <string name="supporting_restore_note">После восстановления можно снова открыть и редактировать эту заметку.</string>
     <string name="supporting_delete_label">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
     <string name="supporting_empty_trash">Все заметки в корзине будут безвозвратно удалены.</string>
-    <!-- Создание резервной копии поможет сохранить ваши заметки в безопасности и защитить от возможной потери важной информации.  -->
-    <string name="supporting_backup">Пожалуйста, не закрывайте приложение и не выключайте устройство во время процесса копирования.</string>
+
     <string name="supporting_wrong_pin">Неверный PIN-код</string>
     <string name="supporting_wrong_password">Неверный пароль</string>
 
     <!-- Value -->
-    <string name="value_never">Никогда</string>
+    <string name="value_never">никогда</string>
 
     <!-- Snack -->
     <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>
@@ -222,12 +228,16 @@
     <string name="toast_coming_soon">Скоро будет</string>
 
     <!-- Checkbox -->
-    <string name="checkbox_clear_the_database">Очистить базу данных: заметки, напоминания, метки, чеклисты и корзину</string>
-    <string name="checkbox_reset_settings">Сбросить настройки приложения до значений умолчанию</string>
+    <string name="checkbox_clear_the_database_title">Очистить базу данных</string>
+    <string name="checkbox_clear_the_database_subtitle">Заметки, напоминания, метки, чеклисты и корзина</string>
+    <string name="checkbox_reset_settings_title">Сбросить настройки приложения</string>
+    <string name="checkbox_reset_settings_subtitle">Будут применены значения по умолчанию</string>
 
     <!-- Switch -->
-    <string name="switch_use_biometric">Использовать биометрию</string>
-    <string name="switch_use_note_swipes">Использовать свайпы заметок</string>
+    <string name="switch_use_biometric_title">Использовать биометрию</string>
+    <string name="switch_use_note_swipes_title">Использовать свайпы заметок</string>
+    <string name="switch_auto_backup_title">Автоматическое копирование</string>
+    <string name="switch_auto_backup_subtitle">Каждый день, в фоне</string>
 
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">Новая заметка</string>

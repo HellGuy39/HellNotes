@@ -1,19 +1,16 @@
 package com.hellguy39.hellnotes.feature.label_edit.navigation
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.label_edit.LabelEditRoute
 
 fun NavGraphBuilder.labelEditScreen(
-    navController: NavController
+    appState: HellNotesAppState
 ) {
     composable(
         route = Screen.LabelEdit.withArgKeys(ArgumentKeys.Action),
@@ -22,13 +19,11 @@ fun NavGraphBuilder.labelEditScreen(
                 type = NavType.StringType
             }
         ),
-        enterTransition = {
-            fadeIn(animationSpec = tween(300))
-        },
-        popExitTransition = {
-            fadeOut(animationSpec = tween(300))
-        }
+        enterTransition = { null },
+        popExitTransition = { null }
     ) {
-        LabelEditRoute(navController = navController)
+        LabelEditRoute(
+            navigateBack = { appState.navigateUp() }
+        )
     }
 }

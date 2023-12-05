@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.data.repository.remote
 
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
-import com.hellguy39.hellnotes.core.model.Release
+import com.hellguy39.hellnotes.core.model.repository.remote.Release
 import com.hellguy39.hellnotes.core.model.Resource
 import com.hellguy39.hellnotes.core.network.NetworkDataSource
 import com.hellguy39.hellnotes.core.network.handleException

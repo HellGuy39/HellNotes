@@ -68,6 +68,7 @@
     <string name="btn_try_again">Réessayer</string>
     <string name="btn_create_backup">Créer une sauvegarde</string>
     <string name="btn_restore_from_backup">Restaurer à partir d\'une sauvegarde</string>
+    <string name="btn_open_a_release">Ouvrir une version</string>
 
     <!-- Hint -->
     <string name="hint_title">Titre</string>
@@ -172,6 +173,11 @@
     <string name="title_reset">Réinitialiser</string>
     <string name="title_auth_required">Authentification requise</string>
     <string name="title_backup">Sauvegarde</string>
+    <string name="title_attention">Attention</string>
+
+    <!-- Body -->
+    <string name="body_reset">Vos données seront définitivement supprimées. Cette action ne sera pas annulée.</string>
+    <string name="body_backup">Veuillez ne pas fermer l\'application ou éteindre l\'appareil pendant le processus de copie.</string>
 
     <!-- Subtitle -->
     <string name="subtitle_unchecked_items">+%s éléments non cochés</string>
@@ -186,6 +192,7 @@
     <string name="subtitle_date_of_creation">Date de création</string>
     <string name="subtitle_date_of_last_edit">Date de la dernière modification</string>
     <string name="subtitle_last_copy">Dernier exemplaire: %s</string>
+    <string name="subtitle_options">Options Disponibles</string>
 
     <!-- Supporting -->
     <string name="supporting_pin_must_be_at_least_4_digits">Le code PIN doit contenir au moins 4 chiffres</string>
@@ -195,13 +202,11 @@
     <string name="supporting_restore_note">Après la restauration, vous pourrez à nouveau ouvrir et modifier cette note.</string>
     <string name="supporting_delete_label">L\'étiquette sera supprimée de manière permanente. Toutes les notes avec cette étiquette la perdront.</string>
     <string name="supporting_empty_trash">Toutes les notes dans la corbeille seront supprimées de manière permanente.</string>
-    <!-- La création d\'une copie de sauvegarde vous aidera à protéger vos notes et à vous protéger contre la perte éventuelle d\'informations importantes.  -->
-    <string name="supporting_backup">Veuillez ne pas fermer l\'application ou éteindre l\'appareil pendant le processus de copie.</string>
     <string name="supporting_wrong_pin">Code PIN incorrect</string>
     <string name="supporting_wrong_password">Mot de passe incorrect</string>
 
     <!-- Value -->
-    <string name="value_never">Jamais</string>
+    <string name="value_never">jamais</string>
 
     <!-- Snack -->
     <string name="snack_note_moved_to_trash">La note a été déplacée dans la corbeille</string>
@@ -220,12 +225,16 @@
     <string name="snack_storage_restored">Le stockage a été restauré avec succès</string>
 
     <!-- Checkbox -->
-    <string name="checkbox_clear_the_database">Effacer la base de données : notes, rappels, étiquettes, listes de contrôle et corbeille</string>
-    <string name="checkbox_reset_settings">Réinitialiser les paramètres de l\'application aux valeurs par défaut</string>
+    <string name="checkbox_clear_the_database_title">Effacer la base de données</string>
+    <string name="checkbox_clear_the_database_subtitle">Notes, rappels, étiquettes, listes de contrôle et corbeille</string>
+    <string name="checkbox_reset_settings_title">Réinitialiser les paramètres de l\'application</string>
+    <string name="checkbox_reset_settings_subtitle">Les valeurs par défaut seront appliquées</string>
 
     <!-- Switch -->
-    <string name="switch_use_biometric">Utiliser la biométrie</string>
-    <string name="switch_use_note_swipes">Utiliser les balayages de notes</string>
+    <string name="switch_use_biometric_title">Utiliser la biométrie</string>
+    <string name="switch_use_note_swipes_title">Utiliser les balayages de notes</string>
+    <string name="switch_auto_backup_title">Sauvegarde automatique</string>
+    <string name="switch_auto_backup_subtitle">Tous les jours, en arrière-plan</string>
 
     <!-- Shortcut -->
     <string name="shortcut_label_new_note">Nouvelle note</string>

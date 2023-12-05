@@ -20,6 +20,7 @@ import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.cards.SwipeableNoteCard
 import com.hellguy39.hellnotes.core.ui.isSingleList
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +60,7 @@ internal fun NoteColumnList(
                     SwipeableNoteCard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(4.dp)
+                            .padding(Spaces.extraSmall)
                             .combinedClickable(
                                 onClick = {
                                     noteSelection.onClick(wrapper.note)

@@ -1,6 +1,6 @@
 package com.hellguy39.hellnotes.core.domain.repository.remote
 
-import com.hellguy39.hellnotes.core.model.Release
+import com.hellguy39.hellnotes.core.model.repository.remote.Release
 import com.hellguy39.hellnotes.core.model.Resource
 import kotlinx.coroutines.flow.Flow
 

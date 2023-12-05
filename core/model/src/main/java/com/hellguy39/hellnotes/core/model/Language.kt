@@ -13,15 +13,14 @@ sealed class Language(val tag: String) {
     data object French: Language(tag = FRENCH)
 
     companion object {
+
         private const val SYSTEM_DEFAULT = ""
         private const val RUSSIAN = "ru"
         private const val ENGLISH = "en"
         private const val GERMAN = "de"
         private const val FRENCH = "fr"
 
-        val languages = listOf(SystemDefault, Russian, English, German, French)
-
-        val languageCodes = listOf(SYSTEM_DEFAULT, RUSSIAN, ENGLISH, GERMAN, FRENCH)
+        fun languages() = listOf(SystemDefault, Russian, English, German, French)
 
         fun fromTag(s: String): Language {
             return when(s) {

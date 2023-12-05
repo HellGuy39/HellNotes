@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.Language
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
-import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.settings.SettingsUiState
 
 @Composable
@@ -57,7 +57,10 @@ fun SettingsScreenContent(
                     title = stringResource(id = HellNotesStrings.MenuItem.Backup),
                     subtitle = stringResource(
                         id = HellNotesStrings.Subtitle.LastCopy,
-                        if (uiState.lastBackupDate == 0L) stringResource(id = HellNotesStrings.Value.Never) else DateTimeUtils.formatBest(uiState.lastBackupDate)
+                        if (uiState.lastBackupDate == 0L)
+                            stringResource(id = HellNotesStrings.Value.Never)
+                        else
+                            DateTimeUtils.formatEpochMillis(uiState.lastBackupDate, DateTimeUtils.FULL_DATE_PATTERN)
                     )
                 )
             }
@@ -85,8 +88,8 @@ fun SettingsScreenContent(
                 HNSwitchItem(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp, horizontal = 16.dp),
-                    title = stringResource(id = HellNotesStrings.Switch.UseBiometric),
+                        .padding(Spaces.medium),
+                    title = stringResource(id = HellNotesStrings.Switch.UseBiometricTitle),
                     checked = isChecked,
                     enabled = uiState.isBioAuthAvailable,
                     onClick = { selection.onUseBiometric(!isChecked) },
@@ -108,10 +111,7 @@ fun SettingsScreenContent(
                     modifier = listItemModifier,
                     onClick = selection.onNoteSwipeEdit,
                     title = stringResource(id = HellNotesStrings.Setting.NoteSwipes),
-                    subtitle = if (uiState.noteSwipesState.enabled)
-                        stringResource(id = HellNotesStrings.Subtitle.Enabled)
-                    else
-                        stringResource(id = HellNotesStrings.Subtitle.Disabled),
+                    subtitle = stringResource(HellNotesStrings.Subtitle.enabled(uiState.noteSwipesState.enabled)),
                 )
             }
         }

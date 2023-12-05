@@ -34,10 +34,12 @@ class App : Application() {
     }
 
     private fun configureFirebase() {
+        val isFirebaseEnabled = BuildConfig.DEBUG.not()
+
         val analytics = FirebaseAnalytics.getInstance(this)
         val crashlytics = FirebaseCrashlytics.getInstance()
 
-        analytics.setAnalyticsCollectionEnabled(true)
-        crashlytics.setCrashlyticsCollectionEnabled(true)
+        analytics.setAnalyticsCollectionEnabled(isFirebaseEnabled)
+        crashlytics.setCrashlyticsCollectionEnabled(isFirebaseEnabled)
     }
 }

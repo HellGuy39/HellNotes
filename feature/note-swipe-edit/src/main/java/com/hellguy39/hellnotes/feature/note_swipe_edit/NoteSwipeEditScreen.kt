@@ -6,7 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -16,11 +15,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
+import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
@@ -32,8 +31,7 @@ fun NoteSwipeEditScreen(
     uiState: NoteSwipeEditScreenUiState,
     selection: NoteSwipeEditScreenSelection
 ) {
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier = Modifier
@@ -46,10 +44,13 @@ fun NoteSwipeEditScreen(
                 title = stringResource(id = HellNotesStrings.Title.NoteSwipe)
             )
         },
-        content = { paddingValues ->
+        content = { innerPadding ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = paddingValues,
+                contentPadding = PaddingValues(
+                    top = innerPadding.calculateTopPadding() + Spaces.medium,
+                    bottom = innerPadding.calculateBottomPadding() + Spaces.medium
+                ),
                 verticalArrangement = Arrangement.spacedBy(space = Spaces.medium)
             ) {
                 item {
@@ -76,9 +77,10 @@ fun NoteSwipeEditScreen(
                         HNSwitchItem(
                             modifier = Modifier.fillMaxWidth()
                                 .padding(Spaces.large),
-                            title = stringResource(id = HellNotesStrings.Switch.UseNoteSwipes),
+                            title = stringResource(id = HellNotesStrings.Switch.UseNoteSwipesTitle),
                             checked = isChecked,
                             onClick = { selection.onNoteSwipesEnabled(!isChecked) },
+                            showDivider = false
                         )
                     }
                 }

@@ -56,7 +56,7 @@ fun HNListItem(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = title,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Start
                     )
                 }
@@ -66,7 +66,7 @@ fun HNListItem(
                             .fillMaxWidth()
                             .alpha(UiDefaults.Alpha.Accented),
                         text = subtitle,
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Start
                     )
                 }

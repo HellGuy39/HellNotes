@@ -2,15 +2,15 @@ package com.hellguy39.hellnotes.feature.terms_and_conditions.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.values.AnimDuration
 import com.hellguy39.hellnotes.feature.terms_and_conditions.TermsAndConditionsRoute
 
 fun NavGraphBuilder.termsAndConditionsScreen(
-    navController: NavController
+    appState: HellNotesAppState
 ) {
     composable(
         route = Screen.TermsAndConditions.route,
@@ -41,7 +41,7 @@ fun NavGraphBuilder.termsAndConditionsScreen(
         }
     ) {
         TermsAndConditionsRoute(
-            navigateBack = { navController.popBackStack() }
+            navigateBack = { appState.navigateUp() }
         )
     }
 }

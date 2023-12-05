@@ -15,7 +15,9 @@ import javax.inject.Inject
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "hellnotes_pref")
 
-class HellNotesPreferencesDataSource @Inject constructor(
+class HellNotesPreferencesDataSource
+@Inject
+constructor(
     @ApplicationContext context: Context
 ) {
 
@@ -56,7 +58,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
             preferences[PreferencesKey.onBoarding] = PreferencesDefaultValues.onBoarding
             preferences[PreferencesKey.listStyle] = PreferencesDefaultValues.listStyle.string()
             preferences[PreferencesKey.sorting] = PreferencesDefaultValues.sorting.string()
-            preferences[PreferencesKey.noteStyle] = PreferencesDefaultValues.noteStyle.string()
+            preferences[PreferencesKey.noteStyle] = PreferencesDefaultValues.noteStyle.tag
             preferences[PreferencesKey.lockType] = PreferencesDefaultValues.lockType.string()
             preferences[PreferencesKey.isUseBiometricData] = PreferencesDefaultValues.isUseBiometricData
             preferences[PreferencesKey.password] = PreferencesDefaultValues.password
@@ -88,7 +90,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
 
     suspend fun saveNoteStyleState(noteStyle: NoteStyle) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.noteStyle] = noteStyle.string()
+            preferences[PreferencesKey.noteStyle] = noteStyle.tag
         }
     }
 
@@ -166,7 +168,7 @@ class HellNotesPreferencesDataSource @Inject constructor(
     fun readNoteStyleState() = dataStore.data
         .catchExceptions()
         .map { preferences ->
-            NoteStyle.from(
+            NoteStyle.fromTag(
                 s = preferences[PreferencesKey.noteStyle],
                 defaultValue = PreferencesDefaultValues.noteStyle
             )

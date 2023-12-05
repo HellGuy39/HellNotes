@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.feature.language_selection
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.Language
@@ -30,7 +34,8 @@ fun LanguageSelectionScreen(
 ) {
     BackHandler { onNavigationButtonClick() }
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val languages by remember { mutableStateOf(Language.languages()) }
 
     Scaffold(
         topBar = {
@@ -40,16 +45,23 @@ fun LanguageSelectionScreen(
                 title = stringResource(id = HellNotesStrings.Title.Language)
             )
         }
-    ) { paddingValues ->
+    ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .selectableGroup(),
-            contentPadding = paddingValues,
+            contentPadding = PaddingValues(
+                top = innerPadding.calculateTopPadding(),
+                bottom = innerPadding.calculateBottomPadding() + Spaces.medium
+            ),
         ) {
-            items(Language.languages) { language ->
+            items(
+                items = languages,
+                key = { language -> language.tag }
+            ) { language ->
                 HNRadioButtonItem(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(Spaces.medium),
                     title = language.asDisplayableString(),
                     onClick = { onLanguageClick(language) },
