@@ -31,8 +31,7 @@ fun ChangelogScreen(
     onTryAgain: () -> Unit,
     onOpenRelease: (release: Release) -> Unit
 ) {
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier = Modifier
@@ -106,7 +105,7 @@ fun ChangelogCard(
     release: Release,
     onOpenReleaseClick: () -> Unit
 ) {
-    val localDateTime = DateTimeUtils.iso8061toLocalDateTime(release.published_at ?: "")
+    val localDateTime = DateTimeUtils.iso8061toLocalDateTime(release.publishedAt ?: "")
     val date = DateTimeUtils.formatLocalDateTime(localDateTime, DateTimeUtils.DATE_TIME_PATTERN)
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -131,7 +130,7 @@ fun ChangelogCard(
                     verticalArrangement = Arrangement.spacedBy(Spaces.small)
                 ) {
                     Text(
-                        text = release.tag_name ?: "",
+                        text = release.tagName ?: "",
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(

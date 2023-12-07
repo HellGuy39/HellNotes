@@ -36,7 +36,7 @@ class UpdateViewModel @Inject constructor(
                             if (checkForUpdatesUseCase.invoke(latestRelease)) {
                                 _uiState.update { state ->
                                     state.copy(
-                                        message = UiText.DynamicString("Update available ${latestRelease.tag_name}"),
+                                        message = UiText.DynamicString("Update available ${latestRelease.tagName}"),
                                         update = Update.Available(latestRelease)
                                     )
                                 }
@@ -76,7 +76,7 @@ class UpdateViewModel @Inject constructor(
                     if (update !is Update.Available)
                         return@let
 
-                    update.release.assets?.get(0)?.browser_download_url?.let { url ->
+                    update.release.assets?.get(0)?.browserDownloadUrl?.let { url ->
                         downloader.downloadFile(url)
                     }
                 }
@@ -85,7 +85,7 @@ class UpdateViewModel @Inject constructor(
     }
 
     private fun List<Release>.getLatestRelease(): Release {
-        return sortedByDescending { release -> release.published_at }.first()
+        return sortedByDescending { release -> release.publishedAt }.first()
     }
 
 }

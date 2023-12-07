@@ -13,7 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChangelogViewModel @Inject constructor(
+class ChangelogViewModel
+@Inject
+constructor(
     private val githubRepositoryService: GithubRepositoryService
 ): ViewModel() {
 
@@ -34,6 +36,9 @@ class ChangelogViewModel @Inject constructor(
 
     private fun fetchReleases() {
         viewModelScope.launch {
+
+            if (_uiState.value.isLoading) return@launch
+
             githubRepositoryService.getReleases().collect { resource ->
                 when(resource) {
                     is Resource.Success -> {
@@ -71,7 +76,7 @@ sealed class ChangelogUiEvent {
 
 data class ChangelogUiState (
     val releases: List<Release> = emptyList(),
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String = ""
 )

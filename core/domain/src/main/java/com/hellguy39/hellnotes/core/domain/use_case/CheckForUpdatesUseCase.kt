@@ -9,7 +9,7 @@ class CheckForUpdatesUseCase @Inject constructor() {
     operator fun invoke(latestRelease: Release): Boolean {
 
         val currentVersion = ProjectInfoProvider.appConfig.versionName
-        val latestVersion = latestRelease.tag_name ?: ""
+        val latestVersion = latestRelease.tagName ?: ""
 
         return isUpdateNeeded(currentVersion, latestVersion)
     }

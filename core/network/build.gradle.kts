@@ -35,7 +35,7 @@ dependencies {
     implementation(project(Modules.Core.Model))
 
     implementation(Libs.Ktor.Core)
-    implementation(Libs.Ktor.Android)
+    implementation(Libs.Ktor.OkHttpEngine)
     implementation(Libs.Ktor.Logging)
     implementation(Libs.Ktor.ContentNegotiation)
     implementation(Libs.Ktor.JsonSerializer)

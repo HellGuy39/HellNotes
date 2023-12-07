@@ -28,7 +28,7 @@ fun ChangelogRoute(
             changelogViewModel.send(ChangelogUiEvent.TryAgain)
         },
         onOpenRelease = { release ->
-            val uri = Uri.parse(release.html_url.toString())
+            val uri = Uri.parse(release.htmlUrl.toString())
             val browserIntent = Intent(Intent.ACTION_VIEW, uri)
             context.startActivity(browserIntent)
         }

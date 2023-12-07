@@ -134,16 +134,14 @@ object Libs {
 
     object Ktor {
 
-        private const val version = "2.3.5"
-       // private const val logbackVersion = "1.4.6"
+        private const val version = "2.3.6"
 
         const val Core = "io.ktor:ktor-client-core:$version"
-        const val Android = "io.ktor:ktor-client-android:$version"
-        //const val Serialization = "io.ktor:ktor-client-serialization:$version"
+        const val AndroidEngine = "io.ktor:ktor-client-android:$version"
+        const val OkHttpEngine = "io.ktor:ktor-client-okhttp:$version"
         const val ContentNegotiation = "io.ktor:ktor-client-content-negotiation:$version"
         const val JsonSerializer = "io.ktor:ktor-serialization-kotlinx-json:$version"
         const val Logging = "io.ktor:ktor-client-logging:$version"
-        //const val Logback = "ch.qos.logback:logback-classic:$logbackVersion"
 
     }
 
