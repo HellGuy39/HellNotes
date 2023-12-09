@@ -4,7 +4,6 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import kotlinx.coroutines.flow.Flow
 
 interface LabelRepository {
-
     suspend fun insertLabel(label: Label): Long
 
     suspend fun deleteLabel(label: Label)
@@ -12,6 +11,7 @@ interface LabelRepository {
     suspend fun deleteLabelById(id: Long)
 
     suspend fun updateLabel(label: Label)
+
     suspend fun updateLabels(labels: List<Label>)
 
     fun getAllLabelsStream(): Flow<List<Label>>

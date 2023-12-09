@@ -5,12 +5,12 @@ buildscript {
         maven { setUrl("https://jitpack.io") }
     }
     dependencies {
-        classpath(Libs.Gradle.Plugin)
-        classpath(Libs.Google.Hilt.Plugin)
-        classpath(Libs.Kotlin.Plugin)
-        classpath(Libs.Kotlin.SerializationPlugin)
-        classpath(Libs.Google.ServicesPlugin)
-        classpath(Libs.Google.Firebase.CrashlyticsPlugin)
+        classpath(Dependencies.Android.GradlePlugin)
+        classpath(Dependencies.Hilt.GradlePlugin)
+        classpath(Dependencies.Kotlin.GradlePlugin)
+        classpath(Dependencies.Kotlin.GradleSerializationPlugin)
+        classpath(Dependencies.Google.GradleServicesPlugin)
+        classpath(Dependencies.Firebase.CrashlyticsPlugin)
     }
 }
 

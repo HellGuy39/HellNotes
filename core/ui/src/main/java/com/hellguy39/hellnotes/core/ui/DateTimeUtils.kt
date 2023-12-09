@@ -7,10 +7,10 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 object DateTimeUtils {
-
     fun iso8061toLocalDateTime(date: String): LocalDateTime {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
-            .withZone(ZoneId.systemDefault())
+        val formatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                .withZone(ZoneId.systemDefault())
         return LocalDateTime.parse(date, formatter)
     }
 
@@ -20,14 +20,20 @@ object DateTimeUtils {
             .toEpochMilli()
     }
 
-    fun formatEpochMillis(epochMilli: Long, pattern: String): String {
+    fun formatEpochMillis(
+        epochMilli: Long,
+        pattern: String,
+    ): String {
         return Instant.ofEpochMilli(epochMilli)
             .atZone(ZoneId.systemDefault())
             .toLocalDateTime()
             .format(DateTimeFormatter.ofPattern(pattern))
     }
 
-    fun formatLocalDateTime(localDateTime: LocalDateTime, pattern: String): String {
+    fun formatLocalDateTime(
+        localDateTime: LocalDateTime,
+        pattern: String,
+    ): String {
         return localDateTime.atZone(ZoneId.systemDefault())
             .format(DateTimeFormatter.ofPattern(pattern))
     }
@@ -50,10 +56,11 @@ object DateTimeUtils {
         time.timeInMillis = millis
         val now = Calendar.getInstance()
 
-        val localDateTime = LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(millis),
-            ZoneId.systemDefault()
-        )
+        val localDateTime =
+            LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(millis),
+                ZoneId.systemDefault(),
+            )
 
         return if (now.get(Calendar.YEAR) != time.get(Calendar.YEAR)) {
             localDateTime.format(DateTimeFormatter.ofPattern(DATE_PATTERN_YEAR_MONTH_DAY_TIME))
@@ -66,17 +73,26 @@ object DateTimeUtils {
         }
     }
 
-    fun increaseDays(millis: Long, days: Long): Long {
+    fun increaseDays(
+        millis: Long,
+        days: Long,
+    ): Long {
         val localDateTime = epochMillisToLocalDateTime(millis)
         return localDateTimeToEpochMillis(localDateTime.plusDays(days))
     }
 
-    fun increaseWeeks(millis: Long, weeks: Long): Long {
+    fun increaseWeeks(
+        millis: Long,
+        weeks: Long,
+    ): Long {
         val localDateTime = epochMillisToLocalDateTime(millis)
         return localDateTimeToEpochMillis(localDateTime.plusWeeks(weeks))
     }
 
-    fun increaseMonths(millis: Long, months: Long): Long {
+    fun increaseMonths(
+        millis: Long,
+        months: Long,
+    ): Long {
         val localDateTime = epochMillisToLocalDateTime(millis)
         return localDateTimeToEpochMillis(localDateTime.plusMonths(months))
     }
@@ -91,5 +107,4 @@ object DateTimeUtils {
     private const val DATE_PATTERN_YEAR_MONTH_DAY_TIME = "MMM dd, yyyy, HH:mm"
     private const val DATE_PATTERN_MONTH_DAY_TIME = "MMM dd, HH:mm"
     private const val DATE_PATTERN_TIME = "HH:mm"
-
 }

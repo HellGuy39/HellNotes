@@ -8,10 +8,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.domain.system_features.AuthenticationResult
-import com.hellguy39.hellnotes.core.domain.system_features.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.domain.tools.AuthenticationResult
+import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.ui.lifecycle.rememberLifecycleEvent
-import com.hellguy39.hellnotes.feature.settings.components.SettingsScreenSelection
 
 @Composable
 fun SettingsRoute(
@@ -21,7 +20,7 @@ fun SettingsRoute(
     navigateToLockSelection: () -> Unit,
     navigateToNoteStyleEdit: () -> Unit,
     navigateToNoteSwipeEdit: () -> Unit,
-    navigateToBackup: () -> Unit
+    navigateToBackup: () -> Unit,
 ) {
     val activity = LocalContext.current as AppCompatActivity
 
@@ -30,7 +29,7 @@ fun SettingsRoute(
     val lifecycleEvent = rememberLifecycleEvent()
 
     LaunchedEffect(key1 = lifecycleEvent) {
-        when(lifecycleEvent?.targetState) {
+        when (lifecycleEvent?.targetState) {
             Lifecycle.State.STARTED -> {
                 settingsViewModel.send(SettingsUiEvent.FetchLanguage)
             }
@@ -41,36 +40,37 @@ fun SettingsRoute(
     SettingsScreen(
         onNavigationButtonClick = navigateBack,
         uiState = uiState,
-        selection = SettingsScreenSelection(
-            onLanguage = {
-                navigateToLanguageSelection()
-            },
-            onUseBiometric = { isUseBiometricData ->
-                if (isUseBiometricData) {
-                    if (settingsViewModel.biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success) {
-                        settingsViewModel.biometricAuth.setOnAuthListener { result ->
-                            if (result == AuthenticationResult.Success) {
-                                settingsViewModel.send(SettingsUiEvent.ToggleIsUseBiometricData(isUseBiometricData))
+        selection =
+            SettingsScreenSelection(
+                onLanguage = {
+                    navigateToLanguageSelection()
+                },
+                onUseBiometric = { isUseBiometricData ->
+                    if (isUseBiometricData) {
+                        if (settingsViewModel.biometricAuth.deviceBiometricSupportStatus() == DeviceBiometricStatus.Success) {
+                            settingsViewModel.biometricAuth.setOnAuthListener { result ->
+                                if (result == AuthenticationResult.Success) {
+                                    settingsViewModel.send(SettingsUiEvent.ToggleIsUseBiometricData(isUseBiometricData))
+                                }
                             }
+                            settingsViewModel.biometricAuth.authenticate(activity)
                         }
-                        settingsViewModel.biometricAuth.authenticate(activity)
+                    } else {
+                        settingsViewModel.send(SettingsUiEvent.ToggleIsUseBiometricData(isUseBiometricData))
                     }
-                } else {
-                    settingsViewModel.send(SettingsUiEvent.ToggleIsUseBiometricData(isUseBiometricData))
-                }
-            },
-            onLockScreen = {
-                navigateToLockSelection()
-            },
-            onNoteStyleEdit = {
-                navigateToNoteStyleEdit()
-            },
-            onNoteSwipeEdit = {
-                navigateToNoteSwipeEdit()
-            },
-            onBackup = {
-                navigateToBackup()
-            }
-        )
+                },
+                onLockScreen = {
+                    navigateToLockSelection()
+                },
+                onNoteStyleEdit = {
+                    navigateToNoteStyleEdit()
+                },
+                onNoteSwipeEdit = {
+                    navigateToNoteSwipeEdit()
+                },
+                onBackup = {
+                    navigateToBackup()
+                },
+            ),
     )
 }

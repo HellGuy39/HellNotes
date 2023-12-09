@@ -26,7 +26,7 @@
             tools:targetApi="33" />
 
         <activity
-            android:name=".activity.main.MainActivity"
+            android:name=".component.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.HellNotes.Splash"
             android:windowSoftInputMode="adjustResize">
@@ -44,10 +44,10 @@
         </activity>
 
         <receiver
-            android:name=".broadcast.ReminderReceiver"
+            android:name=".component.broadcast.ReminderReceiver"
             android:enabled="true" />
 
-        <receiver android:name=".broadcast.DownloadCompletedReceiver"
+        <receiver android:name=".component.broadcast.DownloadCompletedReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>

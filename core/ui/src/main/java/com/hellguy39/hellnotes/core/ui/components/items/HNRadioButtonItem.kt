@@ -1,7 +1,11 @@
 package com.hellguy39.hellnotes.core.ui.components.items
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -14,8 +18,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.UiDefaults
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.values.Alpha
 
 @Composable
 fun HNRadioButtonItem(
@@ -26,29 +30,31 @@ fun HNRadioButtonItem(
     onClick: () -> Unit = {},
 ) {
     Box(
-        modifier = Modifier
-            .selectable(
-                enabled = enabled,
-                selected = isSelected,
-                role = Role.RadioButton,
-                onClick = onClick
-            )
+        modifier =
+            Modifier
+                .selectable(
+                    enabled = enabled,
+                    selected = isSelected,
+                    role = Role.RadioButton,
+                    onClick = onClick,
+                ),
     ) {
         Row(
             modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             RadioButton(
                 selected = isSelected,
                 onClick = null,
-                enabled = enabled
+                enabled = enabled,
             )
             Text(
-                modifier = Modifier
-                    .alpha(if (enabled) 1f else UiDefaults.Alpha.Hint),
+                modifier =
+                    Modifier
+                        .alpha(if (enabled) 1f else Alpha.HINT),
                 text = title,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
     }
@@ -61,12 +67,13 @@ fun HNRadioButtonItemPreview() {
     HellNotesTheme {
         Surface(
             modifier = Modifier,
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             HNRadioButtonItem(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(16.dp),
-                title = "Title"
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .padding(16.dp),
+                title = "Title",
             )
         }
     }

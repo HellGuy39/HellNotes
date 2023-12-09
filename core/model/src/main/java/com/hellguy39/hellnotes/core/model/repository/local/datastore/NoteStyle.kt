@@ -13,9 +13,11 @@ sealed class NoteStyle(val tag: String) {
 
         fun styles() = listOf(Outlined, Elevated)
 
+        fun default() = NoteStyle.Outlined
+
         fun fromTag(
             s: String?,
-            defaultValue: NoteStyle = Outlined
+            defaultValue: NoteStyle = default()
         ): NoteStyle {
             return when(s) {
                 OUTLINED -> Outlined

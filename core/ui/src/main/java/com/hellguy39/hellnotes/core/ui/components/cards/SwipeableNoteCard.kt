@@ -4,8 +4,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -16,22 +16,25 @@ fun SwipeableNoteCard(
     noteDetailWrapper: NoteDetailWrapper,
     isSelected: Boolean = false,
     isSwipeable: Boolean = true,
-    onDismissed: (DismissDirection, Note) -> Boolean
+    onDismissed: (DismissDirection, Note) -> Boolean,
 ) {
     if (isSwipeable) {
-        val dismissState = rememberDismissState(
-            confirmValueChange = { dismissValue ->
-                when (dismissValue) {
-                    DismissValue.DismissedToEnd -> {
-                        onDismissed(DismissDirection.StartToEnd, noteDetailWrapper.note)
+        val dismissState =
+            rememberDismissState(
+                confirmValueChange = { dismissValue ->
+                    when (dismissValue) {
+                        DismissValue.DismissedToEnd -> {
+                            onDismissed(DismissDirection.StartToEnd, noteDetailWrapper.note)
+                        }
+                        DismissValue.DismissedToStart -> {
+                            onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
+                        }
+                        else -> {
+                            false
+                        }
                     }
-                    DismissValue.DismissedToStart -> {
-                        onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
-                    }
-                    else -> { false }
-                }
-            }
-        )
+                },
+            )
         SwipeToDismiss(
             modifier = Modifier,
             state = dismissState,
@@ -44,17 +47,16 @@ fun SwipeableNoteCard(
                     modifier = modifier.alpha(visibility),
                     noteDetailWrapper = noteDetailWrapper,
                     isSelected = isSelected,
-                    noteStyle = noteStyle
+                    noteStyle = noteStyle,
                 )
-            }
+            },
         )
     } else {
         NoteCard(
             modifier = modifier,
             noteDetailWrapper = noteDetailWrapper,
             isSelected = isSelected,
-            noteStyle = noteStyle
+            noteStyle = noteStyle,
         )
     }
-
 }

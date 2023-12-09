@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ fun LockRoute(
     lockViewModel: LockViewModel = hiltViewModel(),
     biometricAuth: BiometricAuthenticator = lockViewModel.biometricAuth,
     onUnlock: () -> Unit = {},
-    context: Context = LocalContext.current
+    context: Context = LocalContext.current,
 ) {
     BackHandler { /* Block back gesture */ }
 
@@ -61,28 +61,30 @@ fun LockRoute(
 
     LockScreen(
         uiState = uiState,
-        numberKeyboardSelection = NumberKeyboardSelection(
-            onClick = { key ->
-                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-                lockViewModel.enterKey(key)
-            },
-            onLongClick = { key ->
-                if (key == NumberKeyboardKeys.KeyBackspace) {
-                    lockViewModel.clearPassword()
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                }
-            }
-        ),
-        passwordSelection = PasswordSelection(
-            onClear = lockViewModel::clearPassword,
-            onEntered = lockViewModel::enterPassword,
-            onValueChange = lockViewModel::enterValue
-        ),
+        numberKeyboardSelection =
+            NumberKeyboardSelection(
+                onClick = { key ->
+                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+                    lockViewModel.enterKey(key)
+                },
+                onLongClick = { key ->
+                    if (key == NumberKeyboardKeys.KEY_BACKSPACE) {
+                        lockViewModel.clearPassword()
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+                },
+            ),
+        passwordSelection =
+            PasswordSelection(
+                onClear = lockViewModel::clearPassword,
+                onEntered = lockViewModel::enterPassword,
+                onValueChange = lockViewModel::enterValue,
+            ),
         snackbarHostState = snackbarHostState,
         onBiometricsAuth = {
             lockViewModel.authByBiometric {
                 biometricAuth.authenticate(context as AppCompatActivity)
             }
-        }
+        },
     )
 }

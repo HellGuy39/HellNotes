@@ -3,7 +3,7 @@ package com.hellguy39.hellnotes.feature.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.use_case.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
+import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
@@ -14,109 +14,106 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel
-@Inject
-constructor(
-    dataStoreRepository: DataStoreRepository,
-    getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase
-): ViewModel() {
+    @Inject
+    constructor(
+        dataStoreRepository: DataStoreRepository,
+        getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase,
+    ) : ViewModel() {
+        private val search = MutableStateFlow("")
 
-    private val search = MutableStateFlow("")
+        private val filters = MutableStateFlow(FilterSelection())
 
-    private val filters = MutableStateFlow(FilterSelection())
+        val uiState: StateFlow<SearchUiState> =
+            combine(
+                getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
+                search,
+                filters,
+                dataStoreRepository.readListStyleState(),
+                dataStoreRepository.readNoteStyleState(),
+            ) { notes, search, filters, listStyle, noteStyle ->
 
-    val uiState: StateFlow<SearchUiState> =
-        combine(
-            getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
-            search,
-            filters,
-            dataStoreRepository.readListStyleState(),
-            dataStoreRepository.readNoteStyleState()
-        ) { notes, search, filters, listStyle, noteStyle ->
+                var searchedNotes: List<NoteDetailWrapper> =
+                    notes.filter { note ->
+                        note.note.note.contains(search, true) ||
+                            note.note.title.contains(search, true)
+                    }
 
-            var searchedNotes: List<NoteDetailWrapper> = notes.filter { note ->
-                note.note.note.contains(search, true) ||
-                        note.note.title.contains(search, true)
+                if (filters.withArchive) {
+                    searchedNotes = searchedNotes.filter { note -> note.note.isArchived }
+                } else {
+                    searchedNotes = searchedNotes.filter { note -> !note.note.isArchived }
+                }
+
+                if (filters.withChecklist) {
+                    searchedNotes = searchedNotes.filter { note -> note.checklists.isNotEmpty() }
+                }
+
+                if (filters.withReminder) {
+                    searchedNotes = searchedNotes.filter { note -> note.reminders.isNotEmpty() }
+                }
+
+                SearchUiState(
+                    search = search,
+                    isLoading = false,
+                    notes = searchedNotes,
+                    filters = filters,
+                )
             }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    initialValue = SearchUiState(),
+                )
 
-            if (filters.withArchive) {
-                searchedNotes = searchedNotes.filter { note -> note.note.isArchived }
-            } else {
-                searchedNotes = searchedNotes.filter { note -> !note.note.isArchived }
+        fun send(uiEvent: SearchScreenUiEvent) {
+            when (uiEvent) {
+                is SearchScreenUiEvent.OnSearchChange -> updateSearch(uiEvent.search)
+
+                is SearchScreenUiEvent.OnClearSearch -> updateSearch("")
+
+                is SearchScreenUiEvent.OnToggleChecklistFilter -> updateChecklistFilter(uiEvent.enabled)
+
+                is SearchScreenUiEvent.OnToggleArchiveFilter -> updateArchiveFilter(uiEvent.enabled)
+
+                is SearchScreenUiEvent.OnToggleReminderFilter -> updateReminderFilter(uiEvent.enabled)
             }
+        }
 
-            if (filters.withChecklist) {
-                searchedNotes = searchedNotes.filter { note -> note.checklists.isNotEmpty() }
+        private fun updateSearch(query: String) {
+            viewModelScope.launch {
+                search.update { query }
             }
+        }
 
-            if (filters.withReminder) {
-                searchedNotes = searchedNotes.filter { note -> note.reminders.isNotEmpty() }
+        private fun updateReminderFilter(enabled: Boolean) {
+            viewModelScope.launch {
+                filters.update { state -> state.copy(withReminder = enabled) }
             }
-
-            SearchUiState(
-                search = search,
-                isLoading = false,
-                notes = searchedNotes,
-                filters = filters
-            )
         }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = SearchUiState()
-            )
 
-    fun send(uiEvent: SearchScreenUiEvent) {
-        when(uiEvent) {
-            is SearchScreenUiEvent.OnSearchChange -> updateSearch(uiEvent.search)
+        private fun updateChecklistFilter(enabled: Boolean) {
+            viewModelScope.launch {
+                filters.update { state -> state.copy(withChecklist = enabled) }
+            }
+        }
 
-            is SearchScreenUiEvent.OnClearSearch -> updateSearch("")
-
-            is SearchScreenUiEvent.OnToggleChecklistFilter -> updateChecklistFilter(uiEvent.enabled)
-
-            is SearchScreenUiEvent.OnToggleArchiveFilter -> updateArchiveFilter(uiEvent.enabled)
-
-            is SearchScreenUiEvent.OnToggleReminderFilter -> updateReminderFilter(uiEvent.enabled)
+        private fun updateArchiveFilter(enabled: Boolean) {
+            viewModelScope.launch {
+                filters.update { state -> state.copy(withArchive = enabled) }
+            }
         }
     }
-
-    private fun updateSearch(query: String) {
-        viewModelScope.launch {
-            search.update { query }
-        }
-    }
-
-    private fun updateReminderFilter(enabled: Boolean) {
-        viewModelScope.launch {
-            filters.update { state -> state.copy(withReminder = enabled) }
-        }
-    }
-
-    private fun updateChecklistFilter(enabled: Boolean) {
-        viewModelScope.launch {
-            filters.update { state -> state.copy(withChecklist = enabled) }
-        }
-    }
-
-    private fun updateArchiveFilter(enabled: Boolean) {
-        viewModelScope.launch {
-            filters.update { state -> state.copy(withArchive = enabled) }
-        }
-    }
-
-}
 
 sealed class SearchScreenUiEvent {
+    data class OnSearchChange(val search: String) : SearchScreenUiEvent()
 
-    data class OnSearchChange(val search: String): SearchScreenUiEvent()
+    data object OnClearSearch : SearchScreenUiEvent()
 
-    data object OnClearSearch: SearchScreenUiEvent()
+    data class OnToggleReminderFilter(val enabled: Boolean) : SearchScreenUiEvent()
 
-    data class OnToggleReminderFilter(val enabled: Boolean): SearchScreenUiEvent()
+    data class OnToggleArchiveFilter(val enabled: Boolean) : SearchScreenUiEvent()
 
-    data class OnToggleArchiveFilter(val enabled: Boolean): SearchScreenUiEvent()
-
-    data class OnToggleChecklistFilter(val enabled: Boolean): SearchScreenUiEvent()
-
+    data class OnToggleChecklistFilter(val enabled: Boolean) : SearchScreenUiEvent()
 }
 
 data class SearchUiState(
@@ -125,11 +122,11 @@ data class SearchUiState(
     val noteStyle: NoteStyle = NoteStyle.Outlined,
     val isLoading: Boolean = true,
     val notes: List<NoteDetailWrapper> = listOf(),
-    val filters: FilterSelection = FilterSelection()
+    val filters: FilterSelection = FilterSelection(),
 )
 
 data class FilterSelection(
     val withReminder: Boolean = false,
     val withChecklist: Boolean = false,
-    val withArchive: Boolean = false
+    val withArchive: Boolean = false,
 )

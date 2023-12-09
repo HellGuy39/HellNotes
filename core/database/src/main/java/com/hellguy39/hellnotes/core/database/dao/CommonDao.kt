@@ -6,8 +6,6 @@ import androidx.sqlite.db.SupportSQLiteQuery
 
 @Dao
 interface CommonDao {
-
     @RawQuery
     suspend fun query(supportSQLiteQuery: SupportSQLiteQuery): Int
-
 }

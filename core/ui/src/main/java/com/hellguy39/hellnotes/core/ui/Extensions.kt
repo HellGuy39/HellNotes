@@ -11,7 +11,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 
 @Composable
 fun LockScreenType.asDisplayableString(): String {
-    return when(this) {
+    return when (this) {
         LockScreenType.None -> stringResource(id = HellNotesStrings.MenuItem.None)
         LockScreenType.Pin -> stringResource(id = HellNotesStrings.MenuItem.Pin)
         LockScreenType.Pattern -> stringResource(id = HellNotesStrings.MenuItem.Pattern)
@@ -22,7 +22,7 @@ fun LockScreenType.asDisplayableString(): String {
 
 @Composable
 fun Language.asDisplayableString(): String {
-    return when(this) {
+    return when (this) {
         Language.Russian -> stringResource(id = HellNotesStrings.Lan.Russian)
         Language.English -> stringResource(id = HellNotesStrings.Lan.English)
         Language.German -> stringResource(id = HellNotesStrings.Lan.German)
@@ -34,7 +34,7 @@ fun Language.asDisplayableString(): String {
 
 @Composable
 fun Repeat.asDisplayableString(): String {
-    return when(this) {
+    return when (this) {
         Repeat.DoesNotRepeat -> stringResource(id = HellNotesStrings.MenuItem.DoesNoteRepeat)
         Repeat.Daily -> stringResource(id = HellNotesStrings.MenuItem.Daily)
         Repeat.Weekly -> stringResource(id = HellNotesStrings.MenuItem.Weekly)
@@ -44,7 +44,7 @@ fun Repeat.asDisplayableString(): String {
 
 @Composable
 fun NoteStyle.asDisplayableString(): String {
-    return when(this) {
+    return when (this) {
         NoteStyle.Outlined -> stringResource(id = HellNotesStrings.MenuItem.Outlined)
         NoteStyle.Elevated -> stringResource(id = HellNotesStrings.MenuItem.Elevated)
     }
@@ -52,7 +52,7 @@ fun NoteStyle.asDisplayableString(): String {
 
 @Composable
 fun NoteSwipe.asDisplayableString(): String {
-    return when(this) {
+    return when (this) {
         NoteSwipe.None -> stringResource(id = HellNotesStrings.MenuItem.None)
         NoteSwipe.Archive -> stringResource(id = HellNotesStrings.MenuItem.Archive)
         NoteSwipe.Delete -> stringResource(id = HellNotesStrings.MenuItem.Delete)

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun DismissableSnackbar(
     dismissState: DismissState,
-    snackbarData: SnackbarData
+    snackbarData: SnackbarData,
 ) {
     SwipeToDismiss(
         state = dismissState,
@@ -15,6 +15,6 @@ fun DismissableSnackbar(
         directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
         dismissContent = {
             CustomSnackbar(data = snackbarData)
-        }
+        },
     )
 }

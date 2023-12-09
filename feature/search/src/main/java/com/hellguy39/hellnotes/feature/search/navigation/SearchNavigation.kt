@@ -7,19 +7,17 @@ import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.feature.search.SearchRoute
 
-fun NavGraphBuilder.searchScreen(
-    appState: HellNotesAppState
-) {
+fun NavGraphBuilder.searchScreen(appState: HellNotesAppState) {
     composable(
         route = Screen.Search.route,
         enterTransition = { null },
         popExitTransition = { null },
         exitTransition = { null },
-        popEnterTransition = { null }
+        popEnterTransition = { null },
     ) { from ->
         SearchRoute(
             navigateBack = { appState.navigateUp() },
-            navigateToNoteDetail = { id -> appState.navigateToNoteDetail(from, id) }
+            navigateToNoteDetail = { id -> appState.navigateToNoteDetail(from, id) },
         )
     }
 }

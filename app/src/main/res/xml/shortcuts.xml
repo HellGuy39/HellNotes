@@ -12,7 +12,7 @@
         <intent
             android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
+            android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity">
 
             <extra
                 android:name="shortcut_action"
@@ -35,7 +35,7 @@
         <intent
             android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
+            android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity">
 
             <extra
                 android:name="shortcut_action"
@@ -58,7 +58,7 @@
         <intent
             android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
+            android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity">
 
             <extra
                 android:name="shortcut_action"
@@ -81,7 +81,7 @@
         <intent
             android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
+            android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity">
 
             <extra
                 android:name="shortcut_action"

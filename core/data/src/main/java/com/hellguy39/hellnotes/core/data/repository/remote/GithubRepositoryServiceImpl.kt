@@ -14,39 +14,39 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class GithubRepositoryServiceImpl
-@Inject
-constructor(
-    private val dataSource: NetworkDataSource
-): GithubRepositoryService {
-
-    override suspend fun getReleases(): Flow<Resource<List<Release>>> {
-        return flow<Resource<List<Release>>> {
-            val releases = dataSource.getReleases()
-                .map { releaseDto -> releaseDto.toRelease() }
-            emit(Resource.Success(releases))
+    @Inject
+    constructor(
+        private val dataSource: NetworkDataSource,
+    ) : GithubRepositoryService {
+        override suspend fun getReleases(): Flow<Resource<List<Release>>> {
+            return flow<Resource<List<Release>>> {
+                val releases =
+                    dataSource.getReleases()
+                        .map { releaseDto -> releaseDto.toRelease() }
+                emit(Resource.Success(releases))
+            }
+                .catch { cause -> emit(Resource.Error(handleException(cause))) }
+                .onStart { emit(Resource.Loading(true)) }
+                .onCompletion { emit(Resource.Loading(false)) }
         }
-            .catch { cause -> emit(Resource.Error(handleException(cause))) }
-            .onStart { emit(Resource.Loading(true)) }
-            .onCompletion { emit(Resource.Loading(false)) }
-    }
 
-    override suspend fun getPrivacyPolicy(): Flow<Resource<String>> {
-        return flow<Resource<String>> {
-            val privacyPolicy = dataSource.getPrivacyPolicy()
-            emit(Resource.Success(privacyPolicy))
+        override suspend fun getPrivacyPolicy(): Flow<Resource<String>> {
+            return flow<Resource<String>> {
+                val privacyPolicy = dataSource.getPrivacyPolicy()
+                emit(Resource.Success(privacyPolicy))
+            }
+                .catch { cause -> emit(Resource.Error(handleException(cause))) }
+                .onStart { emit(Resource.Loading(true)) }
+                .onCompletion { emit(Resource.Loading(false)) }
         }
-            .catch { cause -> emit(Resource.Error(handleException(cause))) }
-            .onStart { emit(Resource.Loading(true)) }
-            .onCompletion { emit(Resource.Loading(false)) }
-    }
 
-    override suspend fun getTermsAndConditions(): Flow<Resource<String>> {
-        return flow<Resource<String>> {
-            val termsAndConditions = dataSource.getTermsAndConditions()
-            emit(Resource.Success(termsAndConditions))
+        override suspend fun getTermsAndConditions(): Flow<Resource<String>> {
+            return flow<Resource<String>> {
+                val termsAndConditions = dataSource.getTermsAndConditions()
+                emit(Resource.Success(termsAndConditions))
+            }
+                .catch { cause -> emit(Resource.Error(handleException(cause))) }
+                .onStart { emit(Resource.Loading(true)) }
+                .onCompletion { emit(Resource.Loading(false)) }
         }
-            .catch { cause -> emit(Resource.Error(handleException(cause))) }
-            .onStart { emit(Resource.Loading(true)) }
-            .onCompletion { emit(Resource.Loading(false)) }
     }
-}

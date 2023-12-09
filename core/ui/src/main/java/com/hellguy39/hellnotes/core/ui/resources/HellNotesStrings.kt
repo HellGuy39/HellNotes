@@ -3,7 +3,6 @@ package com.hellguy39.hellnotes.core.ui.resources
 import com.hellguy39.hellnotes.core.ui.R
 
 object HellNotesStrings {
-
     val AppName = R.string.app_name
 
     val Markdown = R.string.markdown
@@ -110,7 +109,7 @@ object HellNotesStrings {
         val DeleteThisLabel = R.string.title_delete_this_label
         val RestoreThisNote = R.string.title_restore_this_note
         val EmptyTrash = R.string.title_empty_the_trash
-        val NoteStyle= R.string.title_note_style
+        val NoteStyle = R.string.title_note_style
         val NoteSwipe = R.string.title_note_swipes
         val PrivacyPolicy = R.string.title_privacy_policy
         val Changelog = R.string.title_changelog
@@ -273,6 +272,7 @@ object HellNotesStrings {
         fun enabled(isEnabled: Boolean): Int {
             return if (isEnabled) Enabled else Disabled
         }
+
         val Enabled = R.string.subtitle_enabled
         val Disabled = R.string.subtitle_disabled
         val CurrentLockScreen = R.string.subtitle_current_lock_screen
@@ -308,5 +308,4 @@ object HellNotesStrings {
     object Toast {
         val ComingSoon = R.string.toast_coming_soon
     }
-
 }

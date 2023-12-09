@@ -4,15 +4,14 @@ import android.app.Application
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.hellguy39.hellnotes.BuildConfig
-import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
-import com.hellguy39.hellnotes.core.model.AppConfig
 import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
+import com.hellguy39.hellnotes.core.domain.tools.NotificationSender
+import com.hellguy39.hellnotes.core.model.AppConfig
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
 class App : Application() {
-
     @Inject lateinit var notificationSender: NotificationSender
 
     override fun onCreate() {
@@ -27,7 +26,7 @@ class App : Application() {
                 versionCode = BuildConfig.VERSION_CODE,
                 versionName = BuildConfig.VERSION_NAME,
                 isDebug = BuildConfig.DEBUG,
-            )
+            ),
         )
 
         configureFirebase()

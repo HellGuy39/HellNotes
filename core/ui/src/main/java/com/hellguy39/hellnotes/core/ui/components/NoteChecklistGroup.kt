@@ -20,7 +20,7 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 @Composable
 fun NoteChecklistGroup(
     modifier: Modifier = Modifier,
-    checklists: List<Checklist> = listOf()
+    checklists: List<Checklist> = listOf(),
 ) {
     checklists.first().let { checklist ->
         val items = checklist.items.filter { item -> !item.isChecked }
@@ -28,11 +28,11 @@ fun NoteChecklistGroup(
 
         Column {
             Card(
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Column(
                     modifier = modifier.padding(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     if (checklist.name.isNotEmpty() && checklist.name.isNotBlank()) {
                         Text(
@@ -40,17 +40,17 @@ fun NoteChecklistGroup(
                             modifier = Modifier,
                             style = MaterialTheme.typography.bodySmall,
                             maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                     repeat(if (items.size > 3) 3 else items.size) { index ->
                         Row(
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Icon(
                                 modifier = Modifier.size(16.dp),
                                 painter = painterResource(id = HellNotesIcons.CheckboxUnchecked),
-                                contentDescription = null
+                                contentDescription = null,
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
@@ -58,18 +58,20 @@ fun NoteChecklistGroup(
                                 modifier = Modifier,
                                 style = MaterialTheme.typography.bodySmall,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
                             )
                         }
                     }
                     if (uncheckedCount >= 1) {
                         Text(
-                            text = if (uncheckedCount == 1)
-                                stringResource(id = HellNotesStrings.Subtitle.UncheckedItem, uncheckedCount)
-                            else
-                                stringResource(id = HellNotesStrings.Subtitle.UncheckedItems, uncheckedCount),
+                            text =
+                                if (uncheckedCount == 1) {
+                                    stringResource(id = HellNotesStrings.Subtitle.UncheckedItem, uncheckedCount)
+                                } else {
+                                    stringResource(id = HellNotesStrings.Subtitle.UncheckedItems, uncheckedCount)
+                                },
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.secondary
+                            color = MaterialTheme.colorScheme.secondary,
                         )
                     }
                 }
@@ -78,12 +80,14 @@ fun NoteChecklistGroup(
                 Spacer(modifier = Modifier.height(8.dp))
                 val count = checklists.size - 1
                 Text(
-                    text = if (count == 1)
-                        stringResource(id = HellNotesStrings.Subtitle.Checklist, count)
-                    else
-                        stringResource(id = HellNotesStrings.Subtitle.Checklists, count),
+                    text =
+                        if (count == 1) {
+                            stringResource(id = HellNotesStrings.Subtitle.Checklist, count)
+                        } else {
+                            stringResource(id = HellNotesStrings.Subtitle.Checklists, count)
+                        },
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = MaterialTheme.colorScheme.secondary,
                 )
             }
         }

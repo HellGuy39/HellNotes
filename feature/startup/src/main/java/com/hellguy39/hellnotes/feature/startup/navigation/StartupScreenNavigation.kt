@@ -10,9 +10,7 @@ import com.hellguy39.hellnotes.core.ui.navigations.navigateToLock
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToOnBoarding
 import com.hellguy39.hellnotes.feature.startup.StartupRoute
 
-fun NavGraphBuilder.startupScreen(
-    appState: HellNotesAppState
-) {
+fun NavGraphBuilder.startupScreen(appState: HellNotesAppState) {
     composable(
         route = Screen.Startup.route,
         enterTransition = { null },
@@ -28,7 +26,7 @@ fun NavGraphBuilder.startupScreen(
                         popUpTo(Screen.Startup.route) {
                             inclusive = true
                         }
-                    }
+                    },
                 )
             },
             navigateToLock = {
@@ -38,12 +36,12 @@ fun NavGraphBuilder.startupScreen(
                         popUpTo(Screen.Startup.route) {
                             inclusive = true
                         }
-                    }
+                    },
                 )
             },
             navigateToOnBoarding = {
                 appState.navigateToOnBoarding(from)
-            }
+            },
         )
     }
 }

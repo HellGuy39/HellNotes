@@ -17,28 +17,29 @@ fun LabelDropdownMenu(
     CustomDropdownMenu(
         expanded = state.visible,
         onDismissRequest = { state.dismiss() },
-        items = listOf(
-            CustomDropdownItemSelection(
-                leadingIconId = painterResource(id = HellNotesIcons.Edit),
-                text = stringResource(id = HellNotesStrings.MenuItem.Rename),
-                onClick = {
-                    state.dismiss()
-                    selection.onRename()
-                }
+        items =
+            listOf(
+                CustomDropdownItemSelection(
+                    leadingIconId = painterResource(id = HellNotesIcons.Edit),
+                    text = stringResource(id = HellNotesStrings.MenuItem.Rename),
+                    onClick = {
+                        state.dismiss()
+                        selection.onRename()
+                    },
+                ),
+                CustomDropdownItemSelection(
+                    leadingIconId = painterResource(id = HellNotesIcons.Delete),
+                    text = stringResource(id = HellNotesStrings.MenuItem.Delete),
+                    onClick = {
+                        state.dismiss()
+                        selection.onDelete()
+                    },
+                ),
             ),
-            CustomDropdownItemSelection(
-                leadingIconId = painterResource(id = HellNotesIcons.Delete),
-                text = stringResource(id = HellNotesStrings.MenuItem.Delete),
-                onClick = {
-                    state.dismiss()
-                    selection.onDelete()
-                }
-            )
-        )
     )
 }
 
 data class LabelDropdownMenuSelection(
     val onRename: () -> Unit,
-    val onDelete: () -> Unit
+    val onDelete: () -> Unit,
 )

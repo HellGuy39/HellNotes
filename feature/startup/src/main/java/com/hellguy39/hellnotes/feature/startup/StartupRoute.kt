@@ -12,7 +12,7 @@ fun StartupRoute(
     navigateToOnBoarding: () -> Unit,
     navigateToLock: () -> Unit,
     navigateToHome: () -> Unit,
-    startupViewModel: StartupViewModel = hiltViewModel()
+    startupViewModel: StartupViewModel = hiltViewModel(),
 ) {
     val startupState by startupViewModel.startupState.collectAsStateWithLifecycle()
 

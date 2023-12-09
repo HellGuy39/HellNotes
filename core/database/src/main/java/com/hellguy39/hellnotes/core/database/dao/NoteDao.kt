@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(noteEntity: NoteEntity): Long
 
@@ -22,20 +21,26 @@ interface NoteDao {
     @Delete
     suspend fun deleteNotes(noteEntity: List<NoteEntity>)
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $NOTES_TABLE_NAME
         WHERE id = :id
-    """)
+    """,
+    )
     suspend fun deleteNoteById(id: Long)
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $NOTES_TABLE_NAME
-    """)
+    """,
+    )
     suspend fun getAllNotes(): List<NoteEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $NOTES_TABLE_NAME
-    """)
+    """,
+    )
     fun getAllNotesStream(): Flow<List<NoteEntity>>
 
 //    @Query("SELECT * FROM notes_table " +
@@ -43,16 +48,20 @@ interface NoteDao {
 //            "OR note LIKE '%' || :query || '%'")
 //    fun getAllNotesByQueryStream(query: String): Flow<List<NoteEntity>>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $NOTES_TABLE_NAME
         WHERE id = :id
-    """)
+    """,
+    )
     fun getNoteByIdStream(id: Long): Flow<NoteEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $NOTES_TABLE_NAME
         WHERE id = :id
-    """)
+    """,
+    )
     suspend fun getNoteById(id: Long): NoteEntity
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -61,9 +70,10 @@ interface NoteDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateNotes(noteEntities: List<NoteEntity>)
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $NOTES_TABLE_NAME
-    """)
+    """,
+    )
     suspend fun deleteAll()
-
 }

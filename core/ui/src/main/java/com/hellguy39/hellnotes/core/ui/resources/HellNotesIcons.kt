@@ -3,7 +3,6 @@ package com.hellguy39.hellnotes.core.ui.resources
 import com.hellguy39.hellnotes.core.ui.R
 
 object HellNotesIcons {
-
     val PinActivated = R.drawable.ic_push_pin_filled_24
     val PinDisabled = R.drawable.ic_push_pin_24
 
@@ -56,6 +55,7 @@ object HellNotesIcons {
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24
+
     fun archive(isArchive: Boolean): Int {
         return if (isArchive) Archive else Unarchive
     }

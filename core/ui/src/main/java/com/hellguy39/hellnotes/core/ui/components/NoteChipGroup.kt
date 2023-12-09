@@ -29,7 +29,7 @@ fun NoteChipGroup(
     onRemindClick: (reminder: Reminder) -> Unit = {},
     onLabelClick: (label: Label) -> Unit = {},
     mainAxisSpacing: Dp = 8.dp,
-    crossAxisSpacing: Dp = 8.dp
+    crossAxisSpacing: Dp = 8.dp,
 ) {
     val chipsCount = reminders.size + labels.size
     var counter = 0
@@ -58,16 +58,17 @@ fun NoteChipGroup(
                 },
                 leadingIcon = {
                     Icon(
-                        modifier = Modifier
-                            .size(FilterChipDefaults.IconSize),
+                        modifier =
+                            Modifier
+                                .size(FilterChipDefaults.IconSize),
                         painter = painterResource(id = HellNotesIcons.Alarm),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 },
                 label = {
                     Text(
                         text = DateTimeUtils.formatBest(reminder.triggerDate),
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 },
             )
@@ -93,7 +94,7 @@ fun NoteChipGroup(
                 label = {
                     Text(
                         text = label.name,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 },
             )
@@ -107,7 +108,7 @@ fun NoteChipGroup(
                 label = {
                     Text(
                         text = "+${chipsCount - counter}",
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 },
             )
@@ -121,10 +122,11 @@ fun NoteChipGroupPreview() {
     HellNotesTheme {
         NoteChipGroup(
             reminders = listOf(),
-            labels = listOf(
-                Label(name = "123"),
-                Label(name = "123")
-            )
+            labels =
+                listOf(
+                    Label(name = "123"),
+                    Label(name = "123"),
+                ),
         )
     }
 }

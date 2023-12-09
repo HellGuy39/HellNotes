@@ -1,43 +1,22 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    id("library-setup")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.hellguy39.hellnotes.core.data"
-    compileSdk = Config.compileSdk
-
-    defaultConfig {
-        minSdk = Config.minSdk
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }
 
 dependencies {
-
     implementation(project(Modules.Core.Database))
     implementation(project(Modules.Core.Datastore))
     implementation(project(Modules.Core.Network))
     implementation(project(Modules.Core.Model))
     implementation(project(Modules.Core.Domain))
 
-    implementation(Libs.Kotlin.Coroutines)
+    implementation(Dependencies.Kotlin.Coroutines)
 
-    implementation(Libs.Google.Hilt.Android)
-    ksp(Libs.Google.Hilt.Compiler)
-
+    implementation(Dependencies.Hilt.Android)
+    ksp(Dependencies.Hilt.Compiler)
 }

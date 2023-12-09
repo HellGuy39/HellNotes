@@ -18,30 +18,31 @@ fun EmptyContentPlaceholder(
     heroIcon: Painter,
     message: String,
     heroIconSize: Dp = 128.dp,
-    actions: (@Composable RowScope.() -> Unit)? = null
+    actions: (@Composable RowScope.() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
             painter = heroIcon,
             contentDescription = null,
-            modifier = Modifier
-                .size(heroIconSize),
-            tint = MaterialTheme.colorScheme.primary
+            modifier =
+                Modifier
+                    .size(heroIconSize),
+            tint = MaterialTheme.colorScheme.primary,
         )
         Text(
             text = message,
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         if (actions != null) {
             Row(
                 horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 actions()
             }

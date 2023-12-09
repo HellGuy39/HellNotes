@@ -33,21 +33,24 @@ internal fun NoteGridList(
     noteSelection: NoteSelection,
     categories: List<NoteCategory>,
     selectedNotes: List<Note> = listOf(),
-    listHeader: @Composable () -> Unit = {}
+    listHeader: @Composable () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
 
-    val cellConfiguration = if (LocalConfiguration.current.orientation == ORIENTATION_LANDSCAPE) {
-        StaggeredGridCells.Adaptive(minSize = 192.dp)
-    } else StaggeredGridCells.Fixed(2)
+    val cellConfiguration =
+        if (LocalConfiguration.current.orientation == ORIENTATION_LANDSCAPE) {
+            StaggeredGridCells.Adaptive(minSize = 192.dp)
+        } else {
+            StaggeredGridCells.Fixed(2)
+        }
 
     LazyVerticalStaggeredGrid(
         modifier = modifier,
         contentPadding = innerPadding,
-        columns = cellConfiguration
+        columns = cellConfiguration,
     ) {
         item(
-            span = StaggeredGridItemSpan.FullLine
+            span = StaggeredGridItemSpan.FullLine,
         ) {
             listHeader()
         }
@@ -55,13 +58,14 @@ internal fun NoteGridList(
             if (category.notes.isNotEmpty()) {
                 if (category.title.isNotEmpty() && !categories.isSingleList()) {
                     item(
-                        span = StaggeredGridItemSpan.FullLine
+                        span = StaggeredGridItemSpan.FullLine,
                     ) {
                         Text(
                             text = category.title,
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.titleSmall
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                            style = MaterialTheme.typography.titleSmall,
                         )
                     }
                 }
@@ -70,18 +74,19 @@ internal fun NoteGridList(
                     key = { it.note.id ?: 0 },
                 ) { wrapper ->
                     SwipeableNoteCard(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(4.dp)
-                            .combinedClickable(
-                                onClick = {
-                                    noteSelection.onClick(wrapper.note)
-                                },
-                                onLongClick = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    noteSelection.onLongClick(wrapper.note)
-                                }
-                            ),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp)
+                                .combinedClickable(
+                                    onClick = {
+                                        noteSelection.onClick(wrapper.note)
+                                    },
+                                    onLongClick = {
+                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        noteSelection.onLongClick(wrapper.note)
+                                    },
+                                ),
                         noteDetailWrapper = wrapper,
                         isSwipeable = noteSelection.isSwipeable,
                         isSelected = selectedNotes.contains(wrapper.note),

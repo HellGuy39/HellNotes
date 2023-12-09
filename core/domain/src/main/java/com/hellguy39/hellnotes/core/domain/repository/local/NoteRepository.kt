@@ -4,9 +4,7 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
-
     fun getAllNotesStream(): Flow<List<Note>>
-
 
     fun getNoteByIdStream(id: Long): Flow<Note>
 

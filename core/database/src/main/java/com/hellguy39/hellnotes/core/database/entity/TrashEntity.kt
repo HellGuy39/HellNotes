@@ -10,5 +10,5 @@ const val TRASH_TABLE_NAME = "trash_table"
 data class TrashEntity(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
     val note: Note,
-    val dateOfAdding: Long
+    val dateOfAdding: Long,
 )

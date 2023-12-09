@@ -42,7 +42,7 @@ data class ReleaseDto(
     @SerialName("url")
     val url: String? = null,
     @SerialName("zipball_url")
-    val zipballUrl: String? = null
+    val zipballUrl: String? = null,
 )
 
 @Serializable
@@ -72,7 +72,7 @@ data class ReleaseAssetDto(
     @SerialName("uploader")
     val uploader: ReleaseUploaderDto?,
     @SerialName("url")
-    val url: String?
+    val url: String?,
 )
 
 @Serializable
@@ -96,7 +96,7 @@ data class ReactionsDto(
     @SerialName("total_count")
     val totalCount: Int? = null,
     @SerialName("url")
-    val url: String? = null
+    val url: String? = null,
 )
 
 @Serializable
@@ -136,7 +136,7 @@ data class ReleaseAuthorDto(
     @SerialName("type")
     val type: String? = null,
     @SerialName("url")
-    val url: String? = null
+    val url: String? = null,
 )
 
 @Serializable
@@ -176,5 +176,5 @@ data class ReleaseUploaderDto(
     @SerialName("type")
     val type: String? = null,
     @SerialName("url")
-    val url: String? = null
+    val url: String? = null,
 )

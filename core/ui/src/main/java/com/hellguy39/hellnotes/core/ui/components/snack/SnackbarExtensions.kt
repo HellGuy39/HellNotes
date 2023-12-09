@@ -13,7 +13,7 @@ fun SnackbarHostState.showDismissableSnackbar(
     message: String = "",
     actionLabel: String? = null,
     onActionPerformed: () -> Unit = {},
-    duration: SnackbarDuration = SnackbarDuration.Long
+    duration: SnackbarDuration = SnackbarDuration.Long,
 ) {
     currentSnackbarData?.dismiss()
     scope.launch {
@@ -21,7 +21,7 @@ fun SnackbarHostState.showDismissableSnackbar(
             message = message,
             actionLabel = actionLabel,
             duration = duration,
-            withDismissAction = false
+            withDismissAction = false,
         ).let { result ->
             when (result) {
                 SnackbarResult.ActionPerformed -> onActionPerformed()
@@ -33,63 +33,75 @@ fun SnackbarHostState.showDismissableSnackbar(
 }
 
 @Composable
-fun SnackAction.getSnackMessage(isSingleItem: Boolean = true) = when(this) {
-    SnackAction.Archive -> {
-        if (isSingleItem)
-            stringResource(id = HellNotesStrings.Snack.NoteArchived)
-        else
-            stringResource(id = HellNotesStrings.Snack.NotesArchived)
+fun SnackAction.getSnackMessage(isSingleItem: Boolean = true) =
+    when (this) {
+        SnackAction.Archive -> {
+            if (isSingleItem) {
+                stringResource(id = HellNotesStrings.Snack.NoteArchived)
+            } else {
+                stringResource(id = HellNotesStrings.Snack.NotesArchived)
+            }
+        }
+        SnackAction.Delete -> {
+            if (isSingleItem) {
+                stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
+            } else {
+                stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
+            }
+        }
+        SnackAction.Unarchive -> {
+            if (isSingleItem) {
+                stringResource(id = HellNotesStrings.Snack.NoteUnarchived)
+            } else {
+                stringResource(id = HellNotesStrings.Snack.NotesUnarchived)
+            }
+        }
+        SnackAction.Restore -> {
+            if (isSingleItem) {
+                ""
+            } else {
+                ""
+            }
+        }
+        SnackAction.Pinned -> {
+            stringResource(HellNotesStrings.Snack.NotePinned)
+        }
+        SnackAction.Unpinned -> {
+            stringResource(HellNotesStrings.Snack.NotePinned)
+        }
     }
-    SnackAction.Delete -> {
-        if (isSingleItem)
-            stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
-        else
-            stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
-    }
-    SnackAction.Unarchive -> {
-        if (isSingleItem)
-            stringResource(id = HellNotesStrings.Snack.NoteUnarchived)
-        else
-            stringResource(id = HellNotesStrings.Snack.NotesUnarchived)
-    }
-    SnackAction.Restore -> {
-        if (isSingleItem)
-            ""
-        else
-            ""
-    }
-    SnackAction.Pinned -> {
-        stringResource(HellNotesStrings.Snack.NotePinned)
-    }
-    SnackAction.Unpinned -> {
-        stringResource(HellNotesStrings.Snack.NotePinned)
-    }
-}
 
-fun SnackAction.getSnackMessage(context: Context, isSingleItem: Boolean = true) = when(this) {
+fun SnackAction.getSnackMessage(
+    context: Context,
+    isSingleItem: Boolean = true,
+) = when (this) {
     SnackAction.Archive -> {
-        if (isSingleItem)
+        if (isSingleItem) {
             context.getString(HellNotesStrings.Snack.NoteArchived)
-        else
+        } else {
             context.getString(HellNotesStrings.Snack.NotesArchived)
+        }
     }
     SnackAction.Delete -> {
-        if (isSingleItem)
+        if (isSingleItem) {
             context.getString(HellNotesStrings.Snack.NoteMovedToTrash)
-        else
+        } else {
             context.getString(HellNotesStrings.Snack.NotesMovedToTrash)
+        }
     }
     SnackAction.Unarchive -> {
-        if (isSingleItem)
+        if (isSingleItem) {
             context.getString(HellNotesStrings.Snack.NoteUnarchived)
-        else
+        } else {
             context.getString(HellNotesStrings.Snack.NotesUnarchived)
+        }
     }
     SnackAction.Restore -> {
-        if (isSingleItem)
+        if (isSingleItem) {
             ""
-        else
+        } else {
             ""
+        }
     }
     SnackAction.Pinned -> {
         context.getString(HellNotesStrings.Snack.NotePinned)

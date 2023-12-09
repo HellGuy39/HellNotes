@@ -1,45 +1,32 @@
 package com.hellguy39.hellnotes.feature.backup.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.values.AnimDuration
+import com.hellguy39.hellnotes.core.ui.values.slideEnterTransition
+import com.hellguy39.hellnotes.core.ui.values.slideExitTransition
 import com.hellguy39.hellnotes.feature.backup.BackupRoute
 
-fun NavGraphBuilder.backupScreen(
-    appState: HellNotesAppState
-) {
+fun NavGraphBuilder.backupScreen(appState: HellNotesAppState) {
     composable(
         route = Screen.Backup.route,
         arguments = listOf(),
         enterTransition = {
-            when(initialState.destination.route) {
-                Screen.Settings.route -> {
-                    slideIntoContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Left,
-                        animationSpec = tween(AnimDuration.medium)
-                    )
-                }
+            when (initialState.destination.route) {
+                Screen.Settings.route -> slideEnterTransition()
                 else -> null
             }
         },
-        exitTransition = {
-            when(targetState.destination.route) {
-                Screen.Settings.route -> {
-                    slideOutOfContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Right,
-                        animationSpec = tween(AnimDuration.fast)
-                    )
-                }
+        popExitTransition = {
+            when (targetState.destination.route) {
+                Screen.Settings.route -> slideExitTransition()
                 else -> null
             }
         },
     ) {
         BackupRoute(
-            navigateBack = { appState.navigateUp() }
+            navigateBack = { appState.navigateUp() },
         )
     }
 }

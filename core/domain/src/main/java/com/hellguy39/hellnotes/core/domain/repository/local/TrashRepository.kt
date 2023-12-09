@@ -5,7 +5,6 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Trash
 import kotlinx.coroutines.flow.Flow
 
 interface TrashRepository {
-
     fun getAllTrashStream(): Flow<List<Trash>>
 
     suspend fun getAllTrash(): List<Trash>

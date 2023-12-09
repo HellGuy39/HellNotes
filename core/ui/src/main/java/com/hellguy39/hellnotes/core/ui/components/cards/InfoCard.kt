@@ -23,22 +23,23 @@ fun InfoCard(
     body: String = "",
 ) {
     ElevatedCard(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spaces.medium),
-            verticalArrangement = Arrangement.spacedBy(Spaces.medium)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(Spaces.medium),
+            verticalArrangement = Arrangement.spacedBy(Spaces.medium),
         ) {
             // TODO: set accented icon tint
             Icon(
                 painter = painterResource(id = iconId),
-                contentDescription = null
+                contentDescription = null,
             )
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(Spaces.small)
+                verticalArrangement = Arrangement.spacedBy(Spaces.small),
             ) {
                 Text(
                     text = title,

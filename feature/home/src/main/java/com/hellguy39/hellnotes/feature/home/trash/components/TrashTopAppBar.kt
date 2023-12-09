@@ -17,50 +17,50 @@ import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 fun TrashTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     selection: TrashTopAppBarSelection,
-    trashDropdownMenuSelection: TrashDropdownMenuSelection
+    trashDropdownMenuSelection: TrashDropdownMenuSelection,
 ) {
-
     val trashDropdownMenuState = rememberDropdownMenuState()
 
-    AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) {isNoteSelection  ->
+    AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
 
         TopAppBar(
             scrollBehavior = scrollBehavior,
             title = {
                 if (isNoteSelection) {
                     Text(
-                        text = stringResource(
-                            id = HellNotesStrings.Title.Selected,
-                            selection.selectedNotes.count()
-                        ),
-                        style = MaterialTheme.typography.headlineSmall
+                        text =
+                            stringResource(
+                                id = HellNotesStrings.Title.Selected,
+                                selection.selectedNotes.count(),
+                            ),
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 } else {
                     Text(
                         text = stringResource(id = HellNotesStrings.Title.Trash),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 }
             },
             navigationIcon = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onCancelSelection() }
+                        onClick = { selection.onCancelSelection() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Close),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel)
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel),
                         )
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onNavigation() }
+                        onClick = { selection.onNavigation() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Menu),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 }
@@ -68,49 +68,50 @@ fun TrashTopAppBar(
             actions = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onRestoreSelected() }
+                        onClick = { selection.onRestoreSelected() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.RestoreFromTrash),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     IconButton(
-                        onClick = { selection.onDeleteSelected() }
+                        onClick = { selection.onDeleteSelected() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Delete),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 } else {
                     IconButton(
                         onClick = {
                             trashDropdownMenuState.show()
-                        }
+                        },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.MoreVert),
-                            contentDescription = null
+                            contentDescription = null,
                         )
 
                         CustomDropdownMenu(
                             expanded = trashDropdownMenuState.visible,
                             onDismissRequest = { trashDropdownMenuState.dismiss() },
-                            items = listOf(
-                                CustomDropdownItemSelection(
-                                    text = stringResource(id = HellNotesStrings.MenuItem.EmptyTrash),
-                                    onClick = {
-                                        trashDropdownMenuState.dismiss()
-                                        trashDropdownMenuSelection.onEmptyTrash()
-                                    },
-                                    leadingIconId = painterResource(id = HellNotesIcons.Delete)
-                                )
-                            )
+                            items =
+                                listOf(
+                                    CustomDropdownItemSelection(
+                                        text = stringResource(id = HellNotesStrings.MenuItem.EmptyTrash),
+                                        onClick = {
+                                            trashDropdownMenuState.dismiss()
+                                            trashDropdownMenuSelection.onEmptyTrash()
+                                        },
+                                        leadingIconId = painterResource(id = HellNotesIcons.Delete),
+                                    ),
+                                ),
                         )
                     }
                 }
-            }
+            },
         )
     }
 }
@@ -120,8 +121,9 @@ data class TrashTopAppBarSelection(
     val onNavigation: () -> Unit,
     val onCancelSelection: () -> Unit,
     val onRestoreSelected: () -> Unit,
-    val onDeleteSelected: () -> Unit
+    val onDeleteSelected: () -> Unit,
 )
+
 data class TrashDropdownMenuSelection(
     val onEmptyTrash: () -> Unit,
 )

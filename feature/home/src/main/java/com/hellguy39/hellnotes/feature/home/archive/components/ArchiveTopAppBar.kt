@@ -18,10 +18,12 @@ fun ArchiveTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     selection: ArchiveTopAppBarSelection,
 ) {
-    val listStyleIcon = if(selection.listStyle == ListStyle.Column)
-        painterResource(id = HellNotesIcons.GridView)
-    else
-        painterResource(id = HellNotesIcons.ListView)
+    val listStyleIcon =
+        if (selection.listStyle == ListStyle.Column) {
+            painterResource(id = HellNotesIcons.GridView)
+        } else {
+            painterResource(id = HellNotesIcons.ListView)
+        }
 
     AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
         TopAppBar(
@@ -29,38 +31,39 @@ fun ArchiveTopAppBar(
             title = {
                 if (isNoteSelection) {
                     Text(
-                        text = stringResource(
-                            id = HellNotesStrings.Title.Selected,
-                            selection.selectedNotes.count()
-                        ),
-                        style = MaterialTheme.typography.headlineSmall
+                        text =
+                            stringResource(
+                                id = HellNotesStrings.Title.Selected,
+                                selection.selectedNotes.count(),
+                            ),
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 } else {
                     Text(
                         stringResource(id = HellNotesStrings.Title.Archive),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 }
             },
             navigationIcon = {
-                if(isNoteSelection) {
+                if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onCancelSelection() }
+                        onClick = { selection.onCancelSelection() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Close),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel)
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel),
                         )
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onNavigation() }
+                        onClick = { selection.onNavigation() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Menu),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 }
@@ -68,40 +71,40 @@ fun ArchiveTopAppBar(
             actions = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onUnarchiveSelected() }
+                        onClick = { selection.onUnarchiveSelected() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Unarchive),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     IconButton(
-                        onClick = { selection.onDeleteSelected() }
+                        onClick = { selection.onDeleteSelected() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Delete),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete)
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete),
                         )
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onSearch() }
+                        onClick = { selection.onSearch() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Search),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     IconButton(
-                        onClick = { selection.onChangeListStyle() }
+                        onClick = { selection.onChangeListStyle() },
                     ) {
                         Icon(
                             painter = listStyleIcon,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 }
-            }
+            },
         )
     }
 }

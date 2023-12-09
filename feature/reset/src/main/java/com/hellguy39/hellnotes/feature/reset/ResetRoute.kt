@@ -9,7 +9,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun ResetRoute(
     resetViewModel: ResetViewModel = hiltViewModel(),
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
 ) {
     BackHandler { navigateBack() }
 
@@ -27,6 +27,6 @@ fun ResetRoute(
         },
         onToggleResetSettings = {
             resetViewModel.send(ResetUiEvent.ToggleIsResetSettings)
-        }
+        },
     )
 }

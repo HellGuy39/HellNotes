@@ -16,7 +16,6 @@ import kotlinx.serialization.json.Json
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Provides
     fun provideHttpClient(json: Json): HttpClient {
         return HttpClient(OkHttp) {

@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 fun TrashScreen(
     trashViewModel: TrashViewModel = hiltViewModel(),
     visualsSelection: HomeScreenVisualsSelection,
-    multiActionSelection: HomeScreenMultiActionSelection
+    multiActionSelection: HomeScreenMultiActionSelection,
 ) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -52,7 +52,7 @@ fun TrashScreen(
         onAccept = {
             trashViewModel.emptyTrash()
             emptyTrashDialogState.dismiss()
-        }
+        },
     )
 
     CustomDialog(
@@ -73,30 +73,33 @@ fun TrashScreen(
             trashViewModel.clearSelectedNote()
             multiActionSelection.onRestoreNote(note)
             restoreDialogState.dismiss()
-        }
+        },
     )
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TrashTopAppBar(
                 scrollBehavior = scrollBehavior,
-                selection = TrashTopAppBarSelection(
-                    onNavigation = {
-                        scope.launch {
-                            visualsSelection.drawerState.open()
-                        }
-                    },
-                    selectedNotes = multiActionSelection.selectedNotes,
-                    onCancelSelection = multiActionSelection.onCancelSelection,
-                    onRestoreSelected = multiActionSelection.onRestoreSelectedNotesFromTrash,
-                    onDeleteSelected = multiActionSelection.onDeleteSelectedNotesFromTrash
-                ),
-                trashDropdownMenuSelection = TrashDropdownMenuSelection(
-                    onEmptyTrash = { emptyTrashDialogState.show() }
-                )
+                selection =
+                    TrashTopAppBarSelection(
+                        onNavigation = {
+                            scope.launch {
+                                visualsSelection.drawerState.open()
+                            }
+                        },
+                        selectedNotes = multiActionSelection.selectedNotes,
+                        onCancelSelection = multiActionSelection.onCancelSelection,
+                        onRestoreSelected = multiActionSelection.onRestoreSelectedNotesFromTrash,
+                        onDeleteSelected = multiActionSelection.onDeleteSelectedNotesFromTrash,
+                    ),
+                trashDropdownMenuSelection =
+                    TrashDropdownMenuSelection(
+                        onEmptyTrash = { emptyTrashDialogState.show() },
+                    ),
             )
         },
         snackbarHost = visualsSelection.snackbarHost,
@@ -104,54 +107,57 @@ fun TrashScreen(
 
             if (uiState.trashNotes.isEmpty()) {
                 EmptyContentPlaceholder(
-                    modifier = Modifier
-                        .padding(horizontal = 32.dp)
-                        .padding(paddingValues)
-                        .fillMaxSize(),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(paddingValues)
+                            .fillMaxSize(),
                     heroIcon = painterResource(id = HellNotesIcons.Delete),
-                    message = stringResource(id = HellNotesStrings.Placeholder.NoNotesInTrash)
+                    message = stringResource(id = HellNotesStrings.Placeholder.NoNotesInTrash),
                 )
             }
 
             NoteList(
                 innerPadding = paddingValues,
-                noteSelection = NoteSelection(
-                    noteStyle = visualsSelection.noteStyle,
-                    onClick = { note ->
-                        if (multiActionSelection.selectedNotes.isEmpty()) {
-                            trashViewModel.selectNote(note)
-                            restoreDialogState.show()
-                        } else {
+                noteSelection =
+                    NoteSelection(
+                        noteStyle = visualsSelection.noteStyle,
+                        onClick = { note ->
+                            if (multiActionSelection.selectedNotes.isEmpty()) {
+                                trashViewModel.selectNote(note)
+                                restoreDialogState.show()
+                            } else {
+                                if (multiActionSelection.selectedNotes.contains(note)) {
+                                    multiActionSelection.onUnselectNote(note)
+                                } else {
+                                    multiActionSelection.onSelectNote(note)
+                                }
+                            }
+                        },
+                        onLongClick = { note ->
                             if (multiActionSelection.selectedNotes.contains(note)) {
                                 multiActionSelection.onUnselectNote(note)
                             } else {
                                 multiActionSelection.onSelectNote(note)
                             }
-                        }
-                    },
-                    onLongClick = { note ->
-                        if (multiActionSelection.selectedNotes.contains(note)) {
-                            multiActionSelection.onUnselectNote(note)
-                        } else {
-                            multiActionSelection.onSelectNote(note)
-                        }
-                    },
-                    onDismiss = { _, _ -> false },
-                    isSwipeable = visualsSelection.noteSwipesState.enabled
-                ),
-                categories = listOf(
-                    NoteCategory(notes = uiState.trashNotes)
-                ),
+                        },
+                        onDismiss = { _, _ -> false },
+                        isSwipeable = visualsSelection.noteSwipesState.enabled,
+                    ),
+                categories =
+                    listOf(
+                        NoteCategory(notes = uiState.trashNotes),
+                    ),
                 selectedNotes = multiActionSelection.selectedNotes,
                 listStyle = visualsSelection.listStyle,
                 listHeader = {
                     TipCard(
                         isVisible = !uiState.trashTipCompleted,
                         message = stringResource(id = HellNotesStrings.Tip.AutoDeleteTrash),
-                        onClose = { trashViewModel.trashTipCompleted(true) }
+                        onClose = { trashViewModel.trashTipCompleted(true) },
                     )
                 },
             )
-        }
+        },
     )
 }

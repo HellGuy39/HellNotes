@@ -4,7 +4,6 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import kotlinx.coroutines.flow.Flow
 
 interface ReminderRepository {
-
     suspend fun insertReminder(reminder: Reminder): Long
 
     suspend fun deleteReminder(reminder: Reminder)
@@ -24,5 +23,4 @@ interface ReminderRepository {
     fun getRemindersByNoteIdStream(noteId: Long): Flow<List<Reminder>>
 
     suspend fun updateReminder(reminder: Reminder)
-
 }

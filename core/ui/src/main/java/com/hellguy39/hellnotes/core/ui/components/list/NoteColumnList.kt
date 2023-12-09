@@ -30,13 +30,13 @@ internal fun NoteColumnList(
     noteSelection: NoteSelection,
     categories: List<NoteCategory>,
     selectedNotes: List<Note> = listOf(),
-    listHeader: @Composable () -> Unit = {}
+    listHeader: @Composable () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
 
     LazyColumn(
         modifier = modifier,
-        contentPadding = innerPadding
+        contentPadding = innerPadding,
     ) {
         item {
             listHeader()
@@ -47,9 +47,10 @@ internal fun NoteColumnList(
                     item {
                         Text(
                             text = category.title,
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.titleSmall
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                            style = MaterialTheme.typography.titleSmall,
                         )
                     }
                 }
@@ -58,24 +59,25 @@ internal fun NoteColumnList(
                     key = { it.note.id ?: 0 },
                 ) { wrapper ->
                     SwipeableNoteCard(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(Spaces.extraSmall)
-                            .combinedClickable(
-                                onClick = {
-                                    noteSelection.onClick(wrapper.note)
-                                },
-                                onLongClick = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    noteSelection.onLongClick(wrapper.note)
-                                }
-                            )
-                            .animateItemPlacement(),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(Spaces.extraSmall)
+                                .combinedClickable(
+                                    onClick = {
+                                        noteSelection.onClick(wrapper.note)
+                                    },
+                                    onLongClick = {
+                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        noteSelection.onLongClick(wrapper.note)
+                                    },
+                                )
+                                .animateItemPlacement(),
                         noteDetailWrapper = wrapper,
                         isSwipeable = noteSelection.isSwipeable,
                         isSelected = selectedNotes.contains(wrapper.note),
                         onDismissed = noteSelection.onDismiss,
-                        noteStyle = noteSelection.noteStyle
+                        noteStyle = noteSelection.noteStyle,
                     )
                 }
             }

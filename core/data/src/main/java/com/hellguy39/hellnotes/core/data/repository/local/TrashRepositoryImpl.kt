@@ -11,30 +11,30 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class TrashRepositoryImpl @Inject constructor(
-    private val trashDao: TrashDao
-): TrashRepository {
+class TrashRepositoryImpl
+    @Inject
+    constructor(
+        private val trashDao: TrashDao,
+    ) : TrashRepository {
+        override fun getAllTrashStream(): Flow<List<Trash>> = trashDao.getAllTrashStream().map { it.map(TrashEntity::toTrash) }
 
-    override fun getAllTrashStream(): Flow<List<Trash>> =
-        trashDao.getAllTrashStream().map { it.map(TrashEntity::toTrash) }
+        override suspend fun getAllTrash(): List<Trash> {
+            return trashDao.getAllTrash().map { it.toTrash() }
+        }
 
-    override suspend fun getAllTrash(): List<Trash> {
-        return trashDao.getAllTrash().map { it.toTrash() }
+        override suspend fun deleteTrash(trash: Trash) {
+            trashDao.deleteTrash(trash.toTrashEntity())
+        }
+
+        override suspend fun deleteTrashByNote(note: Note) {
+            trashDao.deleteTrashByNote(note)
+        }
+
+        override suspend fun insertTrash(trash: Trash) {
+            trashDao.insertTrash(trash.toTrashEntity())
+        }
+
+        override suspend fun deleteAll() {
+            trashDao.deleteAll()
+        }
     }
-
-    override suspend fun deleteTrash(trash: Trash) {
-        trashDao.deleteTrash(trash.toTrashEntity())
-    }
-
-    override suspend fun deleteTrashByNote(note: Note) {
-        trashDao.deleteTrashByNote(note)
-    }
-
-    override suspend fun insertTrash(trash: Trash) {
-        trashDao.insertTrash(trash.toTrashEntity())
-    }
-
-    override suspend fun deleteAll() {
-        trashDao.deleteAll()
-    }
-}

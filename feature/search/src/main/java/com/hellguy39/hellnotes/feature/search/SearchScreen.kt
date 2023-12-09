@@ -33,7 +33,7 @@ fun SearchScreen(
     listStyle: ListStyle,
     noteSelection: NoteSelection,
     searchScreenSelection: SearchScreenSelection,
-    categories: List<NoteCategory>
+    categories: List<NoteCategory>,
 ) {
     BackHandler { onNavigationButtonClick() }
 
@@ -46,9 +46,10 @@ fun SearchScreen(
     }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SearchTopAppBar(
                 onNavigationButtonClick = onNavigationButtonClick,
@@ -56,23 +57,24 @@ fun SearchScreen(
                 query = uiState.search,
                 onQueryChanged = searchScreenSelection.onQueryChanged,
                 focusRequester = focusRequester,
-                onClearQuery = searchScreenSelection.onClearQuery
+                onClearQuery = searchScreenSelection.onClearQuery,
             )
         },
         content = { innerPadding ->
             Crossfade(
                 targetState = categories,
-                label = "search_screen_content"
+                label = "search_screen_content",
             ) { categories ->
 
                 if (uiState.notes.isEmpty() && !uiState.isLoading) {
                     EmptyContentPlaceholder(
-                        modifier = Modifier
-                            .padding(horizontal = Spaces.large)
-                            .padding(innerPadding)
-                            .fillMaxSize(),
+                        modifier =
+                            Modifier
+                                .padding(horizontal = Spaces.large)
+                                .padding(innerPadding)
+                                .fillMaxSize(),
                         heroIcon = painterResource(id = HellNotesIcons.Search),
-                        message = stringResource(id = HellNotesStrings.Placeholder.NothingWasFound)
+                        message = stringResource(id = HellNotesStrings.Placeholder.NothingWasFound),
                     )
                 }
 
@@ -85,7 +87,7 @@ fun SearchScreen(
                         Column {
                             LazyRow(
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
                                 item {
                                     FilterChip(
@@ -101,9 +103,9 @@ fun SearchScreen(
                                             Icon(
                                                 modifier = Modifier.size(FilterChipDefaults.IconSize),
                                                 painter = painterResource(id = HellNotesIcons.Checklist),
-                                                contentDescription = null
+                                                contentDescription = null,
                                             )
-                                        }
+                                        },
                                     )
                                 }
                                 item {
@@ -120,9 +122,9 @@ fun SearchScreen(
                                             Icon(
                                                 modifier = Modifier.size(FilterChipDefaults.IconSize),
                                                 painter = painterResource(id = HellNotesIcons.Alarm),
-                                                contentDescription = null
+                                                contentDescription = null,
                                             )
-                                        }
+                                        },
                                     )
                                 }
                                 item {
@@ -139,25 +141,25 @@ fun SearchScreen(
                                             Icon(
                                                 modifier = Modifier.size(FilterChipDefaults.IconSize),
                                                 painter = painterResource(id = HellNotesIcons.Archive),
-                                                contentDescription = null
+                                                contentDescription = null,
                                             )
-                                        }
+                                        },
                                     )
                                 }
                             }
                             Divider(
-                                modifier = Modifier
-                                    .padding(vertical = 4.dp, horizontal = 8.dp)
-                                    .alpha(0.5f),
+                                modifier =
+                                    Modifier
+                                        .padding(vertical = 4.dp, horizontal = 8.dp)
+                                        .alpha(0.5f),
                                 thickness = 1.dp,
-                                color = MaterialTheme.colorScheme.outline
+                                color = MaterialTheme.colorScheme.outline,
                             )
                         }
-                    }
+                    },
                 )
             }
-
-        }
+        },
     )
 }
 

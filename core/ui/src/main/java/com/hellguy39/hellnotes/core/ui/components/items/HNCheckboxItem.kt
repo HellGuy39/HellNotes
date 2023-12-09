@@ -27,44 +27,45 @@ fun HNCheckboxItem(
     checked: Boolean = false,
     onClick: () -> Unit = {},
     iconTint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    iconSize: Dp = 32.dp
+    iconSize: Dp = 32.dp,
 ) {
     Box(
-        modifier = Modifier
-            .selectable(
-                selected = checked,
-                onClick = onClick,
-                role = Role.RadioButton
-            ),
+        modifier =
+            Modifier
+                .selectable(
+                    selected = checked,
+                    onClick = onClick,
+                    role = Role.RadioButton,
+                ),
     ) {
         Row(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally)
+            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally),
         ) {
             if (heroIcon != null) {
                 Icon(
                     modifier = Modifier.size(iconSize),
                     painter = heroIcon,
                     tint = iconTint,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
 
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(Spaces.small)
+                verticalArrangement = Arrangement.spacedBy(Spaces.small),
             ) {
                 if (title.isNotEmpty()) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                 }
                 if (subtitle.isNotEmpty()) {
                     Text(
                         text = subtitle,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
             }
@@ -72,7 +73,7 @@ fun HNCheckboxItem(
             Checkbox(
                 modifier = Modifier,
                 checked = checked,
-                onCheckedChange = null
+                onCheckedChange = null,
             )
         }
     }
@@ -85,7 +86,7 @@ fun HNCheckboxItemPreview() {
     HellNotesTheme {
         Surface(
             modifier = Modifier,
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             HNCheckboxItem(
                 modifier = Modifier.padding(16.dp),

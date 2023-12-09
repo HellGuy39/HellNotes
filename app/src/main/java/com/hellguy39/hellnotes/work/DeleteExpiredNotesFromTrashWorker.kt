@@ -6,11 +6,9 @@ import androidx.work.WorkerParameters
 
 class DeleteExpiredNotesFromTrashWorker(
     context: Context,
-    workerParameters: WorkerParameters
-): CoroutineWorker(context, workerParameters) {
-
+    workerParameters: WorkerParameters,
+) : CoroutineWorker(context, workerParameters) {
     override suspend fun doWork(): Result {
         return Result.success()
     }
-
 }

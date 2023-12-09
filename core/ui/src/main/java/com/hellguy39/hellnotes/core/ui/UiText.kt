@@ -6,20 +6,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
 sealed class UiText {
-
-    object Empty: UiText()
+    object Empty : UiText()
 
     data class DynamicString(
-        val value: String
-    ): UiText()
+        val value: String,
+    ) : UiText()
 
     data class StringResources(
         @StringRes val id: Int,
-        val args: List<Any> = listOf()
-    ): UiText()
+        val args: List<Any> = listOf(),
+    ) : UiText()
 
     fun asString(context: Context): String {
-        return when(this) {
+        return when (this) {
             is Empty -> ""
             is DynamicString -> value
             is StringResources -> context.getString(id, *args.toTypedArray())
@@ -28,11 +27,10 @@ sealed class UiText {
 
     @Composable
     fun asString(): String {
-        return when(this) {
+        return when (this) {
             is Empty -> ""
             is DynamicString -> value
             is StringResources -> stringResource(id, *args.toTypedArray())
         }
     }
-
 }

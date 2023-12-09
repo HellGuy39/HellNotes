@@ -1,47 +1,34 @@
 package com.hellguy39.hellnotes.feature.changelog.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.values.AnimDuration
+import com.hellguy39.hellnotes.core.ui.values.slideEnterTransition
+import com.hellguy39.hellnotes.core.ui.values.slideExitTransition
 import com.hellguy39.hellnotes.feature.changelog.ChangelogRoute
 
-fun NavGraphBuilder.changelogScreen(
-    appState: HellNotesAppState
-) {
+fun NavGraphBuilder.changelogScreen(appState: HellNotesAppState) {
     composable(
         route = Screen.Changelog.route,
         arguments = listOf(),
         enterTransition = {
-            when(initialState.destination.route) {
-                Screen.AboutApp.route -> {
-                    slideIntoContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Left,
-                        animationSpec = tween(AnimDuration.medium)
-                    )
-                }
+            when (initialState.destination.route) {
+                Screen.AboutApp.route -> slideEnterTransition()
                 else -> null
             }
         },
         exitTransition = { null },
         popEnterTransition = { null },
         popExitTransition = {
-            when(targetState.destination.route) {
-                Screen.AboutApp.route -> {
-                    slideOutOfContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Right,
-                        animationSpec = tween(AnimDuration.fast)
-                    )
-                }
+            when (targetState.destination.route) {
+                Screen.AboutApp.route -> slideExitTransition()
                 else -> null
             }
-        }
+        },
     ) {
         ChangelogRoute(
-            navigateBack = { appState.navigateUp() }
+            navigateBack = { appState.navigateUp() },
         )
     }
 }

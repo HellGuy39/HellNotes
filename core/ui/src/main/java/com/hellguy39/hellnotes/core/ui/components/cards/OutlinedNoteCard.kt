@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.ColorParam
+import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 
 @Composable
 fun OutlinedNoteCard(
@@ -25,41 +25,45 @@ fun OutlinedNoteCard(
     noteDetailWrapper: NoteDetailWrapper,
     isSelected: Boolean = false,
 ) {
-
     val fraction = if (isSelected) 1f else 0f
     val borderColor by animateColorAsState(
-        targetValue = lerp(
-            MaterialTheme.colorScheme.outline,
-            MaterialTheme.colorScheme.primary,
-            FastOutSlowInEasing.transform(fraction)
-        ),
+        targetValue =
+            lerp(
+                MaterialTheme.colorScheme.outline,
+                MaterialTheme.colorScheme.primary,
+                FastOutSlowInEasing.transform(fraction),
+            ),
         animationSpec = tween(200),
-        label = "border_color"
+        label = "border_color",
     )
 
     val borderSize by animateDpAsState(
-        targetValue = lerp(
-            1.dp,
-            2.dp,
-            FastOutLinearInEasing.transform(fraction)
-        ),
+        targetValue =
+            lerp(
+                1.dp,
+                2.dp,
+                FastOutLinearInEasing.transform(fraction),
+            ),
         animationSpec = tween(200),
-        label = "border_size"
+        label = "border_size",
     )
 
     val cardBorder = BorderStroke(borderSize, borderColor)
 
-    val colors = CardDefaults.outlinedCardColors(
-        containerColor = if (noteDetailWrapper.note.colorHex == ColorParam.DefaultColor)
-            Color.Transparent
-        else
-            Color(noteDetailWrapper.note.colorHex)
-    )
+    val colors =
+        CardDefaults.outlinedCardColors(
+            containerColor =
+                if (noteDetailWrapper.note.colorHex == ColorParam.DefaultColor) {
+                    Color.Transparent
+                } else {
+                    Color(noteDetailWrapper.note.colorHex)
+                },
+        )
 
     OutlinedCard(
         modifier = modifier,
         colors = colors,
-        border = cardBorder
+        border = cardBorder,
     ) {
         NoteCardContent(noteDetailWrapper = noteDetailWrapper)
     }

@@ -1,8 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    id("app-setup")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
@@ -11,19 +10,8 @@ plugins {
 
 android {
     namespace = "com.hellguy39.hellnotes"
-    compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = Config.ApplicationId
-        minSdk = Config.minSdk
-        targetSdk = Config.targetSdk
-        versionCode = 7
-        versionName = "1.1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
         archivesName.set("HellNotes v$versionName")
     }
 
@@ -38,25 +26,6 @@ android {
             matchingFallbacks += listOf("release")
             isDebuggable = false
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Config.ComposeCompiler
-    }
-    packaging {
-        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-        resources.excludes.add("/META-INF/INDEX.LIST")
     }
 }
 
@@ -93,42 +62,41 @@ dependencies {
     implementation(project(Modules.Core.Datastore))
     implementation(project(Modules.Core.Model))
 
-    implementation(Libs.AndroidX.CoreKtx)
-    implementation(Libs.AndroidX.LifecycleKtx)
-    implementation(Libs.AndroidX.AppCompat)
-    implementation(Libs.AndroidX.WorkKtx)
-    implementation(Libs.AndroidX.Biometric)
-    implementation(Libs.AndroidX.SplashScreen)
-    implementation(Libs.AndroidX.ProfileInstaller)
+    implementation(Dependencies.AndroidX.CoreKtx)
+    implementation(Dependencies.AndroidX.LifecycleKtx)
+    implementation(Dependencies.AndroidX.AppCompat)
+    implementation(Dependencies.AndroidX.WorkKtx)
+    implementation(Dependencies.AndroidX.Biometric)
+    implementation(Dependencies.AndroidX.SplashScreen)
+    implementation(Dependencies.AndroidX.ProfileInstaller)
 
-    implementation(Libs.Google.Material)
+    implementation(Dependencies.Google.Material)
 
-    implementation(Libs.AndroidX.Compose.Lifecycle)
-    implementation(Libs.AndroidX.Compose.Activity)
-    implementation(Libs.AndroidX.Compose.Ui)
-    implementation(Libs.AndroidX.Compose.ToolingPreview)
-    implementation(Libs.AndroidX.Compose.Material3)
-    implementation(Libs.AndroidX.Compose.Navigation)
-    androidTestImplementation(Libs.AndroidX.Compose.UiTestJUnit)
-    debugImplementation(Libs.AndroidX.Compose.UiTooling)
-    debugImplementation(Libs.AndroidX.Compose.UiTestManifest)
+    implementation(Dependencies.Compose.Lifecycle)
+    implementation(Dependencies.Compose.Activity)
+    implementation(Dependencies.Compose.Ui)
+    implementation(Dependencies.Compose.ToolingPreview)
+    implementation(Dependencies.Compose.Material3)
+    implementation(Dependencies.Compose.Navigation)
+    androidTestImplementation(Dependencies.Compose.UiTestJUnit)
+    debugImplementation(Dependencies.Compose.UiTooling)
+    debugImplementation(Dependencies.Compose.UiTestManifest)
 
-    testImplementation(Libs.JUnit)
-    androidTestImplementation(Libs.AndroidX.JUnit)
-    androidTestImplementation(Libs.AndroidX.Espresso)
+    testImplementation(Dependencies.JUnit)
+    androidTestImplementation(Dependencies.AndroidX.JUnit)
+    androidTestImplementation(Dependencies.AndroidX.Espresso)
 
-    implementation(Libs.AndroidX.Room.RoomKtx)
-    ksp(Libs.AndroidX.Room.RoomCompiler)
+    implementation(Dependencies.Room.RoomKtx)
+    ksp(Dependencies.Room.RoomCompiler)
 
-    implementation(Libs.Kotlin.Coroutines)
+    implementation(Dependencies.Kotlin.Coroutines)
 
-    implementation(Libs.Google.Hilt.Android)
-    ksp(Libs.Google.Hilt.Compiler)
-    implementation(Libs.Google.Hilt.NavigationCompose)
+    implementation(Dependencies.Hilt.Android)
+    ksp(Dependencies.Hilt.Compiler)
+    implementation(Dependencies.Hilt.NavigationCompose)
 
-    implementation(Libs.SquareUp.Moshi)
+    implementation(Dependencies.SquareUp.Moshi)
 
-    implementation(Libs.Google.Firebase.Analytics)
-    implementation(Libs.Google.Firebase.Crashlytics)
-
+    implementation(Dependencies.Firebase.Analytics)
+    implementation(Dependencies.Firebase.Crashlytics)
 }

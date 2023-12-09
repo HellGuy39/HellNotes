@@ -9,14 +9,16 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import java.lang.reflect.ParameterizedType
 
 class ChecklistConverter {
+    private val moshi =
+        Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
 
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
-
-    private val type: ParameterizedType = Types.newParameterizedType(
-        List::class.java, ChecklistItem::class.javaObjectType
-    )
+    private val type: ParameterizedType =
+        Types.newParameterizedType(
+            List::class.java,
+            ChecklistItem::class.javaObjectType,
+        )
 
     private val jsonAdapter: JsonAdapter<List<ChecklistItem>> = moshi.adapter(type)
 

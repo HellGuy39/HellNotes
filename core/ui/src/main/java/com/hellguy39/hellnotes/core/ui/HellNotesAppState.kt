@@ -20,16 +20,16 @@ import kotlinx.coroutines.CoroutineScope
 fun rememberHellNotesAppState(
     navController: NavHostController = rememberNavController(),
     resources: Resources = resources(),
-    coroutineScope: CoroutineScope = rememberCoroutineScope()
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) = remember(navController, resources, coroutineScope) {
-        HellNotesAppState(navController, resources, coroutineScope)
-    }
+    HellNotesAppState(navController, resources, coroutineScope)
+}
 
 @Stable
 class HellNotesAppState(
     val navController: NavHostController,
     private val resources: Resources,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
 ) {
     val currentRoute: String?
         get() = navController.currentDestination?.route
@@ -44,8 +44,7 @@ class HellNotesAppState(
  *
  * This is used to de-duplicate navigation events.
  */
-fun NavBackStackEntry.lifecycleIsResumed() =
-    this.lifecycle.currentState == Lifecycle.State.RESUMED
+fun NavBackStackEntry.lifecycleIsResumed() = this.lifecycle.currentState == Lifecycle.State.RESUMED
 
 val NavGraph.startDestination: NavDestination?
     get() = findNode(startDestinationId)

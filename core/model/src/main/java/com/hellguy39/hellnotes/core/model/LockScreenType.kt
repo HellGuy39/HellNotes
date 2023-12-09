@@ -1,21 +1,12 @@
 package com.hellguy39.hellnotes.core.model
 
-sealed class LockScreenType {
-    object None: LockScreenType()
-    object Pin: LockScreenType()
-    object Password: LockScreenType()
-    object Slide: LockScreenType()
-    object Pattern: LockScreenType()
+sealed class LockScreenType(val tag: String) {
 
-    fun string(): String {
-        return when(this) {
-            None -> NONE
-            Pin -> PIN
-            Password -> PASSWORD
-            Slide -> SLIDE
-            Pattern -> PATTERN
-        }
-    }
+    data object None: LockScreenType(NONE)
+    data object Pin: LockScreenType(PIN)
+    data object Password: LockScreenType(PASSWORD)
+    data object Slide: LockScreenType(SLIDE)
+    data object Pattern: LockScreenType(PATTERN)
 
     companion object {
 
@@ -25,11 +16,13 @@ sealed class LockScreenType {
         private const val SLIDE = "slide"
         private const val PATTERN = "pattern"
 
-        fun from(
-            s: String?,
-            defaultValue: LockScreenType = None
+        fun default() = None
+
+        fun fromTag(
+            tag: String?,
+            defaultValue: LockScreenType = default()
         ): LockScreenType {
-            return when(s) {
+            return when(tag) {
                 NONE -> None
                 PIN -> Pin
                 PASSWORD -> Password
@@ -38,7 +31,5 @@ sealed class LockScreenType {
                 else -> defaultValue
             }
         }
-
     }
-
 }

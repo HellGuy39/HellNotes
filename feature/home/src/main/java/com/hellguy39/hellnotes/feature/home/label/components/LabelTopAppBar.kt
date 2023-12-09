@@ -23,12 +23,14 @@ fun LabelTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     selection: LabelTopAppBarSelection,
     label: Label,
-    dropdownMenuSelection: LabelDropdownMenuSelection
+    dropdownMenuSelection: LabelDropdownMenuSelection,
 ) {
-    val listStyleIcon = if(selection.listStyle == ListStyle.Column)
-        painterResource(id = HellNotesIcons.GridView)
-    else
-        painterResource(id = HellNotesIcons.ListView)
+    val listStyleIcon =
+        if (selection.listStyle == ListStyle.Column) {
+            painterResource(id = HellNotesIcons.GridView)
+        } else {
+            painterResource(id = HellNotesIcons.ListView)
+        }
 
     val labelDropdownMenuState = rememberDropdownMenuState()
 
@@ -38,38 +40,39 @@ fun LabelTopAppBar(
             title = {
                 if (isNoteSelection) {
                     Text(
-                        text = stringResource(
-                            id = HellNotesStrings.Title.Selected,
-                            selection.selectedNotes.count()
-                        ),
-                        style = MaterialTheme.typography.headlineSmall
+                        text =
+                            stringResource(
+                                id = HellNotesStrings.Title.Selected,
+                                selection.selectedNotes.count(),
+                            ),
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 } else {
                     Text(
                         label.name,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 }
             },
             navigationIcon = {
-                if(isNoteSelection) {
+                if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onCancelSelection() }
+                        onClick = { selection.onCancelSelection() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Close),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel)
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel),
                         )
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onNavigation() }
+                        onClick = { selection.onNavigation() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Menu),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 }
@@ -77,53 +80,53 @@ fun LabelTopAppBar(
             actions = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onArchiveSelected() }
+                        onClick = { selection.onArchiveSelected() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Archive),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     IconButton(
-                        onClick = { selection.onDeleteSelected() }
+                        onClick = { selection.onDeleteSelected() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Delete),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete)
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete),
                         )
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onSearch() }
+                        onClick = { selection.onSearch() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.Search),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     IconButton(
-                        onClick = { selection.onChangeListStyle() }
+                        onClick = { selection.onChangeListStyle() },
                     ) {
                         Icon(
                             painter = listStyleIcon,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     IconButton(
                         modifier = Modifier.size(48.dp),
-                        onClick = { labelDropdownMenuState.show() }
+                        onClick = { labelDropdownMenuState.show() },
                     ) {
                         Icon(
                             painter = painterResource(id = HellNotesIcons.MoreVert),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More)
+                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More),
                         )
                         LabelDropdownMenu(
                             state = labelDropdownMenuState,
-                            selection = dropdownMenuSelection
+                            selection = dropdownMenuSelection,
                         )
                     }
                 }
-            }
+            },
         )
     }
 }

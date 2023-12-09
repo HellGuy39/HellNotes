@@ -11,38 +11,40 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class ArchiveViewModel @Inject constructor(
-    noteRepository: NoteRepository,
-    labelRepository: LabelRepository,
-    reminderRepository: ReminderRepository,
-): ViewModel() {
-
-    val uiState: StateFlow<ArchiveUiState> =
-        combine(
-            noteRepository.getAllNotesStream(),
-            reminderRepository.getAllRemindersStream(),
-            labelRepository.getAllLabelsStream()
-        ) { notes, reminders, labels ->
-            ArchiveUiState(
-                notes = notes
-                    .filter { note -> note.isArchived }
-                    .map { note -> note.toNoteDetailWrapper(reminders, labels) },
-            )
-        }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            ArchiveUiState.initialInstance()
-        )
-
-}
+class ArchiveViewModel
+    @Inject
+    constructor(
+        noteRepository: NoteRepository,
+        labelRepository: LabelRepository,
+        reminderRepository: ReminderRepository,
+    ) : ViewModel() {
+        val uiState: StateFlow<ArchiveUiState> =
+            combine(
+                noteRepository.getAllNotesStream(),
+                reminderRepository.getAllRemindersStream(),
+                labelRepository.getAllLabelsStream(),
+            ) { notes, reminders, labels ->
+                ArchiveUiState(
+                    notes =
+                        notes
+                            .filter { note -> note.isArchived }
+                            .map { note -> note.toNoteDetailWrapper(reminders, labels) },
+                )
+            }
+                .stateIn(
+                    viewModelScope,
+                    SharingStarted.WhileSubscribed(5_000),
+                    ArchiveUiState.initialInstance(),
+                )
+    }
 
 data class ArchiveUiState(
     val notes: List<NoteDetailWrapper>,
 ) {
     companion object {
-        fun initialInstance() = ArchiveUiState(
-            notes = listOf()
-        )
+        fun initialInstance() =
+            ArchiveUiState(
+                notes = listOf(),
+            )
     }
 }

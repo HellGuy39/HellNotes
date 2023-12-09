@@ -13,20 +13,20 @@ fun LockScreen(
     numberKeyboardSelection: NumberKeyboardSelection,
     passwordSelection: PasswordSelection,
     snackbarHostState: SnackbarHostState,
-    onBiometricsAuth: () -> Unit
+    onBiometricsAuth: () -> Unit,
 ) {
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
         content = { paddingValues ->
-            when(uiState.securityState.lockType) {
+            when (uiState.securityState.lockType) {
                 LockScreenType.Pin -> {
                     LockScreenPin(
                         paddingValues = paddingValues,
                         uiState = uiState,
                         numberKeyboardSelection = numberKeyboardSelection,
-                        onBiometricsAuth = onBiometricsAuth
+                        onBiometricsAuth = onBiometricsAuth,
                     )
                 }
                 LockScreenType.Password -> {
@@ -39,6 +39,6 @@ fun LockScreen(
                 }
                 else -> Unit
             }
-        }
+        },
     )
 }

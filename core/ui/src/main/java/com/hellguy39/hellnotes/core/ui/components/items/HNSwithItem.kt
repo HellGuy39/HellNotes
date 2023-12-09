@@ -29,53 +29,56 @@ fun HNSwitchItem(
     enabled: Boolean = true,
     checked: Boolean,
     onClick: () -> Unit = {},
-    showDivider: Boolean = true
+    showDivider: Boolean = true,
 ) {
     Box(
-        modifier = Modifier
-            .selectable(
-                role = Role.Switch,
-                onClick = onClick,
-                selected = checked
-            )
+        modifier =
+            Modifier
+                .selectable(
+                    role = Role.Switch,
+                    onClick = onClick,
+                    selected = checked,
+                ),
     ) {
         Row(
-            modifier = modifier.then(
-                Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min)
-            ),
+            modifier =
+                modifier.then(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min),
+                ),
             horizontalArrangement = Arrangement.spacedBy(Spaces.medium),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(Spaces.small)
+                verticalArrangement = Arrangement.spacedBy(Spaces.small),
             ) {
                 if (title.isNotEmpty()) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                 }
                 if (subtitle.isNotEmpty()) {
                     Text(
                         text = subtitle,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
             }
             if (showDivider) {
                 Divider(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(DividerDefaults.Thickness)
+                    modifier =
+                        Modifier
+                            .fillMaxHeight()
+                            .width(DividerDefaults.Thickness),
                 )
             }
             Switch(
                 checked = checked,
                 onCheckedChange = null,
-                enabled = enabled
+                enabled = enabled,
             )
         }
     }

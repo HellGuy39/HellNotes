@@ -27,34 +27,37 @@ fun LockScreenPin(
     paddingValues: PaddingValues,
     uiState: LockUiState,
     numberKeyboardSelection: NumberKeyboardSelection,
-    onBiometricsAuth: () -> Unit
+    onBiometricsAuth: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(paddingValues)
-            .fillMaxSize()
-            .padding(horizontal = 32.dp, vertical = 16.dp),
+        modifier =
+            Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .padding(horizontal = 32.dp, vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(
-            space = 16.dp,
-            alignment = Alignment.Bottom
-        ),
+        verticalArrangement =
+            Arrangement.spacedBy(
+                space = 16.dp,
+                alignment = Alignment.Bottom,
+            ),
     ) {
+        val titleIcon =
+            when (uiState.lockState) {
+                is LockState.Unlocked -> painterResource(id = HellNotesIcons.LockOpen)
+                else -> painterResource(id = HellNotesIcons.Lock)
+            }
 
-        val titleIcon = when (uiState.lockState) {
-            is LockState.Unlocked -> painterResource(id = HellNotesIcons.LockOpen)
-            else -> painterResource(id = HellNotesIcons.Lock)
-        }
-
-        val titleText = when (uiState.lockState) {
-            is LockState.Locked -> stringResource(id = HellNotesStrings.Title.EnterPin)
-            is LockState.Unlocked -> stringResource(id = HellNotesStrings.Title.Unlocked)
-            is LockState.WrongPin -> stringResource(id = HellNotesStrings.Supporting.WrongPin)
-        }
+        val titleText =
+            when (uiState.lockState) {
+                is LockState.Locked -> stringResource(id = HellNotesStrings.Title.EnterPin)
+                is LockState.Unlocked -> stringResource(id = HellNotesStrings.Title.Unlocked)
+                is LockState.WrongPin -> stringResource(id = HellNotesStrings.Supporting.WrongPin)
+            }
 
         Icon(
             painter = titleIcon,
-            contentDescription = null
+            contentDescription = null,
         )
 
         val duration = 200
@@ -62,13 +65,22 @@ fun LockScreenPin(
         AnimatedContent(
             targetState = titleText,
             transitionSpec = {
-                slideInVertically(animationSpec = tween(duration)) { fullWidth -> fullWidth } + fadeIn(animationSpec = tween(duration)) with
-                        slideOutVertically(animationSpec = tween(duration)) { fullWidth -> -fullWidth } + fadeOut(animationSpec = tween(duration))
-            }
+                (
+                    slideInVertically(
+                        animationSpec = tween(duration),
+                    ) { fullWidth -> fullWidth } + fadeIn(animationSpec = tween(duration))
+                )
+                    .togetherWith(
+                        slideOutVertically(
+                            animationSpec = tween(duration),
+                        ) { fullWidth -> -fullWidth } + fadeOut(animationSpec = tween(duration)),
+                    )
+            },
+            label = "",
         ) { targetTitle ->
             Text(
                 text = targetTitle,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
 
@@ -80,16 +92,17 @@ fun LockScreenPin(
             readOnly = true,
             textStyle = MaterialTheme.typography.displaySmall.copy(textAlign = TextAlign.Center),
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.NumberPassword
-            )
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.NumberPassword,
+                ),
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         HNVirtualNumberKeyboard(
             selection = numberKeyboardSelection,
-            disabledButtonKeys = listOf()
+            disabledButtonKeys = listOf(),
         )
 
         AssistChip(
@@ -99,16 +112,16 @@ fun LockScreenPin(
                 Icon(
                     modifier = Modifier.size(AssistChipDefaults.IconSize),
                     painter = painterResource(id = HellNotesIcons.Fingerprint),
-                    contentDescription = null
+                    contentDescription = null,
                 )
             },
             label = {
                 Text(
                     text = stringResource(id = HellNotesStrings.Button.Biometrics),
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.labelMedium,
                 )
             },
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(16.dp),
         )
     }
 }

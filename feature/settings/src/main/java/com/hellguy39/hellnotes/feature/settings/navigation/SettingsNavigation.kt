@@ -11,9 +11,7 @@ import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteStyleEdit
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteSwipeEdit
 import com.hellguy39.hellnotes.feature.settings.SettingsRoute
 
-fun NavGraphBuilder.settingsScreen(
-    appState: HellNotesAppState,
-) {
+fun NavGraphBuilder.settingsScreen(appState: HellNotesAppState) {
     composable(
         route = Screen.Settings.route,
         arguments = listOf(),

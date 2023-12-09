@@ -9,7 +9,6 @@ import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.lifecycleIsResumed
 
 sealed class Screen(val route: String) {
-
     data object Startup : Screen(route = "startup_screen")
 
     data object OnBoarding : Screen(route = "on_boarding_screen")
@@ -74,280 +73,119 @@ sealed class Screen(val route: String) {
 }
 
 object ArgumentKeys {
-    const val NoteId = "note_id"
-    const val ReminderId = "reminder_id"
-    const val LockType = "lock_type"
-    const val Action = "action"
-    const val ShortcutAction = "shortcut_action"
+    const val NOTE_ID = "note_id"
+    const val REMINDER_ID = "reminder_id"
+    const val LOCK_TYPE = "lock_type"
+    const val ACTION = "action"
+    const val SHORTCUT_ACTION = "shortcut_action"
 }
 
 object ArgumentDefaultValues {
-    const val Empty: Long = -2
-    const val NewNote: Long = -1
-    const val NewReminder: Long = -1
+    const val EMPTY: Long = -2
+    const val NEW_NOTE: Long = -1
+    const val NEW_REMINDER: Long = -1
 }
 
 private fun defaultNavOptions() = navOptions { launchSingleTop = true }
 
-fun NavController.navigateToOnBoarding(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.OnBoarding.route,
-        navOptions = navOptions
-    )
-}
-
 fun NavController.navigateToNoteDetail(
-    noteId: Long? = ArgumentDefaultValues.NewNote,
-    navOptions: NavOptions = defaultNavOptions()
+    noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
+    val noteIdArg = noteId ?: ArgumentDefaultValues.NEW_NOTE
 
     navigate(
         route = Screen.NoteDetail.withArgs(noteIdArg.toString()),
-        navOptions = navOptions
+        navOptions = navOptions,
     )
 }
 
-fun NavController.navigateToReminderEdit(
-    noteId: Long? = ArgumentDefaultValues.NewNote,
-    reminderId: Long? = ArgumentDefaultValues.NewReminder,
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
-    val reminderIdArg = reminderId ?: ArgumentDefaultValues.NewReminder
-
-    navigate(
-        route = Screen.ReminderEdit.withArgs(noteIdArg.toString(), reminderIdArg.toString()),
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToLabelSelection(
-    noteId: Long? = ArgumentDefaultValues.NewNote,
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
-
-    navigate(
-        route = Screen.LabelSelection.withArgs(noteIdArg.toString()),
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToLockSetup(
-    lockType: LockScreenType,
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.LockSetup.withArgs(lockType.string()),
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToSettings(
-    navOptions: NavOptions = defaultNavOptions()
-) {
+fun NavController.navigateToSettings(navOptions: NavOptions = defaultNavOptions()) {
     navigate(
         route = Screen.Settings.route,
-        navOptions = navOptions
+        navOptions = navOptions,
     )
 }
 
-fun NavController.navigateToAboutApp(
-    navOptions: NavOptions = defaultNavOptions()
-) {
+fun NavController.navigateToAboutApp(navOptions: NavOptions = defaultNavOptions()) {
     navigate(
         route = Screen.AboutApp.route,
-        navOptions = navOptions
+        navOptions = navOptions,
     )
 }
 
-fun NavController.navigateToHome(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.Home.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToSearch(
-    navOptions: NavOptions = defaultNavOptions()
-) {
+fun NavController.navigateToSearch(navOptions: NavOptions = defaultNavOptions()) {
     navigate(
         route = Screen.Search.route,
-        navOptions = navOptions
+        navOptions = navOptions,
     )
 }
 
 fun NavController.navigateToLabelEdit(
     navOptions: NavOptions = defaultNavOptions(),
-    action: String
+    action: String,
 ) {
     navigate(
         route = Screen.LabelEdit.withArgs(action),
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToLock(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.Lock.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToLockSelection(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.LockSelection.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToLanguageSelection(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.LanguageSelection.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToNoteStyleEdit(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.NoteStyleEdit.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToNoteSwipeEdit(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.NoteSwipeEdit.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToReset(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.Reset.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToChangelog(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.Changelog.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToPrivacyPolicy(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.PrivacyPolicy.route,
-        navOptions = navOptions
-    )
-}
-
-fun NavController.navigateToTermsAndConditions(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.TermsAndConditions.route,
-        navOptions = navOptions
-    )
-}
-
-
-fun NavController.navigateToUpdate(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.Update.route,
-        navOptions = navOptions
-    )
-}
-
-
-fun NavController.navigateToBackup(
-    navOptions: NavOptions = defaultNavOptions()
-) {
-    navigate(
-        route = Screen.Backup.route,
-        navOptions = navOptions
+        navOptions = navOptions,
     )
 }
 
 fun HellNotesAppState.navigateToOnBoarding(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.OnBoarding.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToNoteDetail(
     from: NavBackStackEntry,
-    noteId: Long? = ArgumentDefaultValues.NewNote,
-    navOptions: NavOptions = defaultNavOptions()
+    noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
+    val noteIdArg = noteId ?: ArgumentDefaultValues.NEW_NOTE
 
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.NoteDetail.withArgs(noteIdArg.toString()),
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToReminderEdit(
     from: NavBackStackEntry,
-    noteId: Long? = ArgumentDefaultValues.NewNote,
-    reminderId: Long? = ArgumentDefaultValues.NewReminder,
-    navOptions: NavOptions = defaultNavOptions()
+    noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
+    reminderId: Long? = ArgumentDefaultValues.NEW_REMINDER,
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
-    val reminderIdArg = reminderId ?: ArgumentDefaultValues.NewReminder
+    val noteIdArg = noteId ?: ArgumentDefaultValues.NEW_NOTE
+    val reminderIdArg = reminderId ?: ArgumentDefaultValues.NEW_REMINDER
 
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.ReminderEdit.withArgs(noteIdArg.toString(), reminderIdArg.toString()),
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToLabelSelection(
     from: NavBackStackEntry,
-    noteId: Long? = ArgumentDefaultValues.NewNote,
-    navOptions: NavOptions = defaultNavOptions()
+    noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NewNote
+    val noteIdArg = noteId ?: ArgumentDefaultValues.NEW_NOTE
 
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.LabelSelection.withArgs(noteIdArg.toString()),
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
@@ -355,207 +193,205 @@ fun HellNotesAppState.navigateToLabelSelection(
 fun HellNotesAppState.navigateToLockSetup(
     from: NavBackStackEntry,
     lockType: LockScreenType,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
-            route = Screen.LockSetup.withArgs(lockType.string()),
-            navOptions = navOptions
+            route = Screen.LockSetup.withArgs(lockType.tag),
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToSettings(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.Settings.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToAboutApp(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.AboutApp.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToHome(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.Home.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToSearch(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.Search.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToLabelEdit(
     from: NavBackStackEntry,
+    action: String,
     navOptions: NavOptions = defaultNavOptions(),
-    action: String
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.LabelEdit.withArgs(action),
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToLock(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.Lock.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToLockSelection(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.LockSelection.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToLanguageSelection(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.LanguageSelection.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToNoteStyleEdit(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.NoteStyleEdit.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToNoteSwipeEdit(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.NoteSwipeEdit.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToReset(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.Reset.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToChangelog(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.Changelog.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToPrivacyPolicy(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.PrivacyPolicy.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
 fun HellNotesAppState.navigateToTermsAndConditions(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.TermsAndConditions.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
-
 fun HellNotesAppState.navigateToUpdate(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.Update.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }
 
-
 fun HellNotesAppState.navigateToBackup(
     from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions()
+    navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.Backup.route,
-            navOptions = navOptions
+            navOptions = navOptions,
         )
     }
 }

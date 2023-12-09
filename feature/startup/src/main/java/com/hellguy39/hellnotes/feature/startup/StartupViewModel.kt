@@ -9,32 +9,33 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class StartupViewModel @Inject constructor(
-    dataStoreRepository: DataStoreRepository,
-): ViewModel() {
-
-    val startupState: StateFlow<StartupState> =
-        combine(
-            dataStoreRepository.readOnBoardingState(),
-            dataStoreRepository.readSecurityState()
-        ) { onBoarding, security ->
-            StartupState.Success(
-                securityState = security,
-                onBoardingState = onBoarding
-            )
-        }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = StartupState.Loading
-            )
-
-}
+class StartupViewModel
+    @Inject
+    constructor(
+        dataStoreRepository: DataStoreRepository,
+    ) : ViewModel() {
+        val startupState: StateFlow<StartupState> =
+            combine(
+                dataStoreRepository.readOnBoardingState(),
+                dataStoreRepository.readSecurityState(),
+            ) { onBoarding, security ->
+                StartupState.Success(
+                    securityState = security,
+                    onBoardingState = onBoarding,
+                )
+            }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    initialValue = StartupState.Loading,
+                )
+    }
 
 sealed class StartupState {
-    object Loading: StartupState()
+    object Loading : StartupState()
+
     data class Success(
         val securityState: SecurityState,
-        val onBoardingState: Boolean
-    ): StartupState()
+        val onBoardingState: Boolean,
+    ) : StartupState()
 }

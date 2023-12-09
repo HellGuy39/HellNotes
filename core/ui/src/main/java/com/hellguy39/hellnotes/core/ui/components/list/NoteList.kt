@@ -22,12 +22,13 @@ fun NoteList(
     selectedNotes: List<Note> = listOf(),
     listHeader: @Composable () -> Unit = {},
 ) {
-    val listModifier = Modifier
-        .fillMaxSize()
-        .padding(horizontal = Spaces.extraSmall, vertical = Spaces.extraSmall)
-        .testTag("item_list")
+    val listModifier =
+        Modifier
+            .fillMaxSize()
+            .padding(horizontal = Spaces.extraSmall, vertical = Spaces.extraSmall)
+            .testTag("item_list")
 
-    when(listStyle) {
+    when (listStyle) {
         ListStyle.Column -> {
             NoteColumnList(
                 modifier = listModifier,
@@ -35,7 +36,7 @@ fun NoteList(
                 noteSelection = noteSelection,
                 categories = categories,
                 selectedNotes = selectedNotes,
-                listHeader = listHeader
+                listHeader = listHeader,
             )
         }
         ListStyle.Grid -> {
@@ -45,7 +46,7 @@ fun NoteList(
                 noteSelection = noteSelection,
                 categories = categories,
                 selectedNotes = selectedNotes,
-                listHeader = listHeader
+                listHeader = listHeader,
             )
         }
     }

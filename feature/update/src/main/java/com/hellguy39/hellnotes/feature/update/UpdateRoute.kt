@@ -5,12 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 
 @Composable
 fun UpdateRoute(
     updateViewModel: UpdateViewModel = hiltViewModel(),
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
 ) {
     BackHandler { navigateBack() }
 
@@ -19,10 +18,11 @@ fun UpdateRoute(
     UpdateScreen(
         onNavigationButtonClick = { navigateBack() },
         uiState = uiState,
-        selection = UpdateScreenSelection(
-            onDownload = {
-                updateViewModel.send(UpdateUiEvent.DownloadUpdate)
-            }
-        )
+        selection =
+            UpdateScreenSelection(
+                onDownload = {
+                    updateViewModel.send(UpdateUiEvent.DownloadUpdate)
+                },
+            ),
     )
 }

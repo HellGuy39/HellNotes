@@ -9,11 +9,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-
 @Composable
 fun ChangelogRoute(
     changelogViewModel: ChangelogViewModel = hiltViewModel(),
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -31,6 +30,6 @@ fun ChangelogRoute(
             val uri = Uri.parse(release.htmlUrl.toString())
             val browserIntent = Intent(Intent.ACTION_VIEW, uri)
             context.startActivity(browserIntent)
-        }
+        },
     )
 }

@@ -8,15 +8,13 @@ import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToHome
 import com.hellguy39.hellnotes.feature.lock.LockRoute
 
-fun NavGraphBuilder.lockScreen(
-    appState: HellNotesAppState
-) {
+fun NavGraphBuilder.lockScreen(appState: HellNotesAppState) {
     composable(
         route = Screen.Lock.route,
         enterTransition = { null },
         popExitTransition = { null },
         exitTransition = { null },
-        popEnterTransition = { null }
+        popEnterTransition = { null },
     ) { from ->
         LockRoute(
             onUnlock = {
@@ -26,7 +24,7 @@ fun NavGraphBuilder.lockScreen(
                         popUpTo(Screen.Lock.route) {
                             inclusive = true
                         }
-                    }
+                    },
                 )
             },
         )

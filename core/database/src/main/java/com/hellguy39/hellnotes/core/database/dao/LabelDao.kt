@@ -7,22 +7,25 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LabelDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLabel(labelEntity: LabelEntity): Long
 
     @Delete
     suspend fun deleteLabel(labelEntity: LabelEntity)
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $LABELS_TABLE_NAME 
-    """)
+    """,
+    )
     suspend fun deleteAll()
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $LABELS_TABLE_NAME 
         WHERE id = :id
-    """)
+    """,
+    )
     suspend fun deleteLabelById(id: Long)
 
     @Update
@@ -31,20 +34,25 @@ interface LabelDao {
     @Update
     suspend fun updateLabels(labelEntities: List<LabelEntity>)
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $LABELS_TABLE_NAME
-    """)
+    """,
+    )
     suspend fun getAllLabels(): List<LabelEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $LABELS_TABLE_NAME
-    """)
+    """,
+    )
     fun getAllLabelsStream(): Flow<List<LabelEntity>>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $LABELS_TABLE_NAME
         WHERE id = :id
-    """)
+    """,
+    )
     suspend fun getLabelById(id: Long): LabelEntity
-
 }
