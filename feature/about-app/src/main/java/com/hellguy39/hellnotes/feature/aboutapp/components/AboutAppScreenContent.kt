@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.aboutapp.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
@@ -20,20 +22,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
-import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.aboutapp.AboutAppScreenSelection
+import com.hellguy39.hellnotes.feature.aboutapp.BuildConfig
 
 @Composable
 fun AboutAppScreenContent(
     innerPadding: PaddingValues,
     selection: AboutAppScreenSelection,
 ) {
-    val listItemModifier = Modifier.padding(Spaces.medium)
-
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,9 +46,10 @@ fun AboutAppScreenContent(
         item {
             Text(
                 modifier =
-                    Modifier.fillMaxWidth()
+                    Modifier
+                        .fillMaxWidth()
                         .padding(horizontal = Spaces.medium),
-                text = "Version: ${ProjectInfoProvider.appConfig.versionName}",
+                text = "Version ${BuildConfig.VERSION_NAME}",
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Start,
             )
@@ -57,7 +57,8 @@ fun AboutAppScreenContent(
         item {
             ElevatedCard(
                 modifier =
-                    Modifier.fillMaxWidth()
+                    Modifier
+                        .fillMaxWidth()
                         .padding(horizontal = Spaces.medium),
             ) {
                 Row(
@@ -96,36 +97,45 @@ fun AboutAppScreenContent(
         }
         item {
             ElevatedCard(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = Spaces.medium),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spaces.medium),
             ) {
-                HNListItem(
-                    modifier = listItemModifier,
-                    title = stringResource(id = HellNotesStrings.MenuItem.Changelog),
-                    onClick = selection.onChangelog,
+                ListItem(
+                    modifier = Modifier.clickable { selection.onChangelog() },
+                    headlineContent = {
+                        Text(text = stringResource(id = HellNotesStrings.MenuItem.Changelog))
+                    },
                 )
-
-                HNListItem(
-                    modifier = listItemModifier,
-                    title = stringResource(id = HellNotesStrings.MenuItem.PrivacyPolicy),
-                    onClick = selection.onPrivacyPolicy,
+                ListItem(
+                    modifier = Modifier.clickable { selection.onPrivacyPolicy() },
+                    headlineContent = {
+                        Text(text = stringResource(id = HellNotesStrings.MenuItem.PrivacyPolicy))
+                    },
                 )
-
-                HNListItem(
-                    modifier = listItemModifier,
-                    title = stringResource(id = HellNotesStrings.MenuItem.TermsAndConditions),
-                    onClick = selection.onTermsAndConditions,
+                ListItem(
+                    modifier = Modifier.clickable { selection.onTermsAndConditions() },
+                    headlineContent = {
+                        Text(
+                            text =
+                                stringResource(
+                                    id = HellNotesStrings.MenuItem.TermsAndConditions,
+                                ),
+                        )
+                    },
                 )
-
-                HNListItem(
-                    modifier = listItemModifier,
-                    title = stringResource(id = HellNotesStrings.MenuItem.ProvideFeedback),
-                    onClick = selection.onProvideFeedback,
+                ListItem(
+                    modifier = Modifier.clickable { selection.onProvideFeedback() },
+                    headlineContent = {
+                        Text(text = stringResource(id = HellNotesStrings.MenuItem.ProvideFeedback))
+                    },
                 )
-
-                HNListItem(
-                    modifier = listItemModifier,
-                    title = stringResource(id = HellNotesStrings.MenuItem.CheckForUpdates),
-                    onClick = selection.onCheckForUpdates,
+                ListItem(
+                    modifier = Modifier.clickable { selection.onCheckForUpdates() },
+                    headlineContent = {
+                        Text(text = stringResource(id = HellNotesStrings.MenuItem.CheckForUpdates))
+                    },
                 )
             }
         }
@@ -136,10 +146,11 @@ fun AboutAppScreenContent(
                         .fillMaxWidth()
                         .padding(horizontal = Spaces.medium),
             ) {
-                HNListItem(
-                    modifier = listItemModifier,
-                    title = stringResource(id = HellNotesStrings.MenuItem.Reset),
-                    onClick = selection.onReset,
+                ListItem(
+                    modifier = Modifier.clickable { selection.onReset() },
+                    headlineContent = {
+                        Text(text = stringResource(id = HellNotesStrings.MenuItem.Reset))
+                    },
                 )
             }
         }

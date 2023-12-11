@@ -3,7 +3,6 @@ package com.hellguy39.hellnotes.feature.aboutapp
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.aboutapp.util.openGithub
 import com.hellguy39.hellnotes.feature.aboutapp.util.provideFeedback
@@ -31,11 +30,11 @@ fun AboutAppRoute(
                 onProvideFeedback = { context.provideFeedback() },
                 onRateOnPlayStore = { toast.show() },
                 onCheckForUpdates = {
-                    if (ProjectInfoProvider.appConfig.isDebug) {
-                        navigateToUpdate()
-                    } else {
-                        toast.show()
-                    }
+//                    if (ProjectInfoProvider.appConfig.isDebug) {
+//                        navigateToUpdate()
+//                    } else {
+                    toast.show()
+                    // }
                 },
                 onTermsAndConditions = { navigateToTermsAndConditions() },
             ),

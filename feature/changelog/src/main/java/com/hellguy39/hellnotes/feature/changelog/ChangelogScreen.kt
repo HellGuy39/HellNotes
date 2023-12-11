@@ -75,7 +75,6 @@ fun ChangelogScreen(
                             modifier =
                                 Modifier
                                     .fillMaxWidth(),
-                            // .animateItemPlacement(),
                             release = release,
                             onOpenReleaseClick = { onOpenRelease(release) },
                         )
@@ -103,6 +102,7 @@ fun ChangelogScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChangelogCard(
     modifier: Modifier = Modifier,
@@ -116,6 +116,7 @@ fun ChangelogCard(
 
     ElevatedCard(
         modifier = modifier,
+        onClick = { isExpanded = isExpanded.not() },
     ) {
         Column(
             modifier =

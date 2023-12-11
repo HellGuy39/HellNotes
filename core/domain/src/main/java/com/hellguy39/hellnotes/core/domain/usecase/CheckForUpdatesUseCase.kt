@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.core.domain.usecase
 
-import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
 import com.hellguy39.hellnotes.core.model.repository.remote.Release
 import javax.inject.Inject
 
@@ -8,7 +7,7 @@ class CheckForUpdatesUseCase
     @Inject
     constructor() {
         operator fun invoke(latestRelease: Release): Boolean {
-            val currentVersion = ProjectInfoProvider.appConfig.versionName
+            val currentVersion = "" // ProjectInfoProvider.appConfig.versionName
             val latestVersion = latestRelease.tagName ?: ""
 
             return isUpdateNeeded(currentVersion, latestVersion)

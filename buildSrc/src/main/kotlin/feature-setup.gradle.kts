@@ -12,6 +12,8 @@ android {
 
     defaultConfig {
         minSdk = Configuration.minSdk
+
+        buildConfigField("String", "VERSION_NAME", "\"${Configuration.versionName}\"")
     }
 
     buildTypes {
@@ -19,6 +21,7 @@ android {
             isMinifyEnabled = false
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -28,6 +31,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Configuration.composeCompiler

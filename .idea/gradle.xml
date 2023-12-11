@@ -4,16 +4,31 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/buildSrc" name="buildSrc">
+                <projects>
+                  <project path="$PROJECT_DIR$/buildSrc" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/buildSrc/buildSrc" name="buildSrc">
+                <projects>
+                  <project path="$PROJECT_DIR$/buildSrc/buildSrc" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="jbr-17" />
+        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/benchmark" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/buildSrc/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/data" />
@@ -48,6 +63,7 @@
             <option value="$PROJECT_DIR$/feature/update" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
