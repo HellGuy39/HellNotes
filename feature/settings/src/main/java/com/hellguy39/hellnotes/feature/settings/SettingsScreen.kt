@@ -19,8 +19,7 @@ fun SettingsScreen(
 ) {
     BackHandler { onNavigationButtonClick() }
 
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier =

@@ -2,8 +2,6 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
-        mavenCentral()
-        maven { setUrl("https://jitpack.io") }
     }
 }
 
@@ -13,33 +11,36 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { setUrl("https://jitpack.io") }
+        maven("https://jitpack.io")
+        maven("https://artifactory-external.vkpartner.ru/artifactory/maven")
     }
 }
 
 rootProject.name = "HellNotes"
 
 /* App */
-include (":app")
+include(":app")
+
+/* Benchmark */
 include(":benchmark")
 
 /* Core */
-include (":core:database")
-include (":core:data")
-include (":core:model")
-include (":core:domain")
-include (":core:ui")
-include (":core:common")
-include (":core:datastore")
+include(":core:database")
+include(":core:data")
+include(":core:model")
+include(":core:domain")
+include(":core:ui")
+include(":core:common")
+include(":core:datastore")
 
 /* Feature */
-include (":feature:settings")
-include (":feature:about-app")
-include (":feature:note-detail")
-include (":feature:home")
-include (":feature:search")
-include (":feature:label-edit")
-include (":feature:on-boarding")
+include(":feature:settings")
+include(":feature:about-app")
+include(":feature:note-detail")
+include(":feature:home")
+include(":feature:search")
+include(":feature:label-edit")
+include(":feature:on-boarding")
 include(":feature:lock")
 include(":feature:lock-selection")
 include(":feature:language-selection")

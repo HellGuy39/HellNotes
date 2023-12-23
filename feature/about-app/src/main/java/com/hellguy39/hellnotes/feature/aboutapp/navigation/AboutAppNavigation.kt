@@ -8,7 +8,6 @@ import com.hellguy39.hellnotes.core.ui.navigations.navigateToChangelog
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToPrivacyPolicy
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReset
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToTermsAndConditions
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToUpdate
 import com.hellguy39.hellnotes.feature.aboutapp.AboutAppRoute
 
 fun NavGraphBuilder.aboutAppScreen(appState: HellNotesAppState) {
@@ -26,7 +25,6 @@ fun NavGraphBuilder.aboutAppScreen(appState: HellNotesAppState) {
             navigateToChangelog = { appState.navigateToChangelog(from) },
             navigateToPrivacyPolicy = { appState.navigateToPrivacyPolicy(from) },
             navigateToTermsAndConditions = { appState.navigateToTermsAndConditions(from) },
-            navigateToUpdate = { appState.navigateToUpdate(from) },
         )
     }
 }

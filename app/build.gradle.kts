@@ -99,4 +99,6 @@ dependencies {
 
     implementation(Dependencies.Firebase.Analytics)
     implementation(Dependencies.Firebase.Crashlytics)
+
+    implementation(Dependencies.RuStore.AppUpdate)
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
@@ -20,8 +21,12 @@ fun AboutAppScreen(
 ) {
     BackHandler { onNavigationButtonClick() }
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier =
+            Modifier.fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
             AboutAppScreenContent(
                 innerPadding = innerPadding,
@@ -32,6 +37,7 @@ fun AboutAppScreen(
             HNLargeTopAppBar(
                 onNavigationButtonClick = onNavigationButtonClick,
                 title = stringResource(id = HellNotesStrings.AppName),
+                scrollBehavior = scrollBehavior,
             )
         },
     )
@@ -43,9 +49,7 @@ data class AboutAppScreenSelection(
     val onPrivacyPolicy: () -> Unit = {},
     val onTermsAndConditions: () -> Unit = {},
     val onProvideFeedback: () -> Unit = {},
-    val onRateOnPlayStore: () -> Unit = {},
     val onReset: () -> Unit = {},
-    val onCheckForUpdates: () -> Unit = {},
 )
 
 @Preview(showBackground = true)

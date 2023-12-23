@@ -2,7 +2,8 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { setUrl("https://jitpack.io") }
+        maven("https://jitpack.io")
+        maven("https://artifactory-external.vkpartner.ru/artifactory/maven")
     }
     dependencies {
         classpath(Dependencies.Android.GradlePlugin)

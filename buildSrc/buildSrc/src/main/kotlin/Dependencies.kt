@@ -18,6 +18,10 @@ object Dependencies {
     private const val junitVersion = "4.13.2"
     const val JUnit = "junit:junit:$junitVersion"
 
+    object RuStore {
+        const val AppUpdate = "ru.rustore.sdk:appupdate:1.0.1"
+    }
+
     object SquareUp {
 
         private const val moshiVersion = "1.15.0"

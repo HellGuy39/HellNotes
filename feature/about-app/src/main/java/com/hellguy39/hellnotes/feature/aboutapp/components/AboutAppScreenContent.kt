@@ -131,12 +131,6 @@ fun AboutAppScreenContent(
                         Text(text = stringResource(id = HellNotesStrings.MenuItem.ProvideFeedback))
                     },
                 )
-                ListItem(
-                    modifier = Modifier.clickable { selection.onCheckForUpdates() },
-                    headlineContent = {
-                        Text(text = stringResource(id = HellNotesStrings.MenuItem.CheckForUpdates))
-                    },
-                )
             }
         }
         item {
@@ -154,5 +148,18 @@ fun AboutAppScreenContent(
                 )
             }
         }
+//        item {
+//            Column(
+//                modifier = Modifier.fillMaxWidth(),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//            ) {
+//                Text(
+//                    modifier = Modifier.alpha(0.5f),
+//                    text = "Developed and designed by\nAleksey Gadzhiev",
+//                    style = MaterialTheme.typography.bodyMedium,
+//                    textAlign = TextAlign.Center,
+//                )
+//            }
+//        }
     }
 }
