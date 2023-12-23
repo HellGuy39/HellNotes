@@ -4,14 +4,14 @@ import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
 import com.hellguy39.hellnotes.core.domain.tools.AlarmScheduler
 import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.tools.Downloader
+import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
 import com.hellguy39.hellnotes.core.domain.tools.LanguageHolder
-import com.hellguy39.hellnotes.core.domain.tools.NotificationSender
 import com.hellguy39.hellnotes.tools.AlarmSchedulerImpl
 import com.hellguy39.hellnotes.tools.AnalyticsLoggerImpl
 import com.hellguy39.hellnotes.tools.BiometricAuthenticatorImpl
 import com.hellguy39.hellnotes.tools.DownloaderImpl
+import com.hellguy39.hellnotes.tools.InAppNotificationManagerImpl
 import com.hellguy39.hellnotes.tools.LanguageHolderImpl
-import com.hellguy39.hellnotes.tools.NotificationSenderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -30,7 +30,7 @@ interface AppModule {
     fun bindBiometricAuthenticator(i: BiometricAuthenticatorImpl): BiometricAuthenticator
 
     @Binds
-    fun bindNotificationSender(i: NotificationSenderImpl): NotificationSender
+    fun bindNotificationSender(i: InAppNotificationManagerImpl): InAppNotificationManager
 
     @Binds
     fun bindLanguageHolder(i: LanguageHolderImpl): LanguageHolder

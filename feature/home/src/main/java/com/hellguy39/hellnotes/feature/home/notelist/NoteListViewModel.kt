@@ -2,7 +2,6 @@ package com.hellguy39.hellnotes.feature.home.notelist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
@@ -20,7 +19,6 @@ class NoteListViewModel
     constructor(
         getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase,
         private val dataStoreRepository: DataStoreRepository,
-        val analyticsLogger: AnalyticsLogger,
     ) : ViewModel() {
         val uiState =
             getAllNotesWithRemindersAndLabelsStreamUseCase.invoke()

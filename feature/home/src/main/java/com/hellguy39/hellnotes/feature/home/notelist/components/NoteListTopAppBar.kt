@@ -48,7 +48,7 @@ fun NoteListTopAppBar(
 
     AnimatedContent(
         targetState = selectedNotes.isNotEmpty(),
-        label = "",
+        label = "top_app_bar_animate_state",
     ) { targetState ->
         TopAppBar(
             scrollBehavior = scrollBehavior,

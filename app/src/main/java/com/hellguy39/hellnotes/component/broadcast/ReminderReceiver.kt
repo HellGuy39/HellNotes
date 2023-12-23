@@ -7,7 +7,8 @@ import android.content.Intent
 import com.hellguy39.hellnotes.component.main.MainActivity
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.tools.AlarmScheduler
-import com.hellguy39.hellnotes.core.domain.tools.NotificationSender
+import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
+import com.hellguy39.hellnotes.core.domain.tools.postReminderNotification
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.tools.AlarmSchedulerImpl
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class ReminderReceiver : BroadcastReceiver() {
     @Inject lateinit var reminderRepository: ReminderRepository
 
-    @Inject lateinit var notificationSender: NotificationSender
+    @Inject lateinit var inAppNotificationManager: InAppNotificationManager
 
     @Inject lateinit var alarmScheduler: AlarmScheduler
 
@@ -48,8 +49,8 @@ class ReminderReceiver : BroadcastReceiver() {
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
             )
 
-        notificationSender.send(
-            message = message.toString(),
+        inAppNotificationManager.postReminderNotification(
+            body = message.toString(),
             pendingIntent = pendingIntent,
         )
 

@@ -4,18 +4,18 @@ import android.app.Application
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.hellguy39.hellnotes.BuildConfig
-import com.hellguy39.hellnotes.core.domain.tools.NotificationSender
+import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
 class App : Application() {
-    @Inject lateinit var notificationSender: NotificationSender
+    @Inject lateinit var inAppNotificationManager: InAppNotificationManager
 
     override fun onCreate() {
         super.onCreate()
 
-        notificationSender.initNotificationChannels()
+        inAppNotificationManager.init()
 
         configureFirebase()
     }

@@ -1,8 +1,10 @@
 package com.hellguy39.hellnotes.core.model
 
 sealed class LockRequest {
-    object Force: LockRequest()
-    object Optional: LockRequest()
+
+    data object Force: LockRequest()
+
+    data object Optional: LockRequest()
 
     fun string(): String {
         return when(this) {

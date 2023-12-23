@@ -23,6 +23,7 @@ object HellNotesIcons {
     val ArrowBack = R.drawable.ic_arrow_back_24
     val StickyNote = R.drawable.ic_sticky_note_24
     val Notifications = R.drawable.ic_notifications_24
+    val NotificationsActive = R.drawable.ic_notifications_active_24
     val Share = R.drawable.ic_share_24
     val Magic = R.drawable.ic_magic_24
     val Sort = R.drawable.ic_sort_24
