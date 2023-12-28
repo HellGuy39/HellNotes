@@ -4,9 +4,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.model.OnStartupArguments
 import com.hellguy39.hellnotes.core.ui.HellNotesAppState
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToAboutApp
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelEdit
@@ -45,7 +45,7 @@ fun NavGraphBuilder.homeScreen(
                     else -> HomeScreen.NoteList
                 },
             onStartupAction = {
-                if (args.extraNoteId != ArgumentDefaultValues.EMPTY) {
+                if (Arguments.NoteId.isNotEmpty(args.extraNoteId)) {
                     appState.navigateToNoteDetail(from = from, noteId = args.extraNoteId)
                 }
 
@@ -53,7 +53,7 @@ fun NavGraphBuilder.homeScreen(
                     context.getString(HellNotesStrings.Action.NewNote) -> {
                         appState.navigateToNoteDetail(
                             from = from,
-                            noteId = ArgumentDefaultValues.NEW_NOTE,
+                            noteId = Arguments.NoteId.emptyValue,
                         )
                     }
                     else -> Unit

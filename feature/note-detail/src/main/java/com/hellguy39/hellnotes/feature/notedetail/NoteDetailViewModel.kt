@@ -3,6 +3,8 @@ package com.hellguy39.hellnotes.feature.notedetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
@@ -19,8 +21,6 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.addNewCheckl
 import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklistValid
 import com.hellguy39.hellnotes.core.model.repository.local.database.removeChecklistItem
 import com.hellguy39.hellnotes.core.model.repository.local.database.toggleAll
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -68,14 +68,14 @@ class NoteDetailViewModel
         init {
             viewModelScope.launch {
                 val noteId =
-                    savedStateHandle.get<Long>(ArgumentKeys.NOTE_ID)
+                    savedStateHandle.getArgument(Arguments.NoteId)
                         .let { id ->
-                            if (id != ArgumentDefaultValues.NEW_NOTE) {
-                                id
-                            } else {
+                            if (Arguments.NoteId.isEmpty(id)) {
                                 noteRepository.insertNote(Note())
+                            } else {
+                                id
                             }
-                        } ?: return@launch
+                        }
 
                 val note = noteRepository.getNoteById(noteId)
                 val checklists = checklistRepository.getChecklistsByNoteId(noteId)

@@ -3,9 +3,10 @@ package com.hellguy39.hellnotes.feature.labeledit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ class LabelEditViewModel
         private val labelRepository: LabelRepository,
         savedStateHandle: SavedStateHandle,
     ) : ViewModel() {
-        private val action = savedStateHandle.get<String>(ArgumentKeys.ACTION) ?: ""
+        private val action = savedStateHandle.getArgument(Arguments.Action)
 
         val uiState: StateFlow<LabelEditUiState> =
             labelRepository.getAllLabelsStream()
@@ -68,7 +69,7 @@ class LabelEditViewModel
     }
 
 sealed interface LabelEditUiState {
-    object Loading : LabelEditUiState
+    data object Loading : LabelEditUiState
 
     data class Success(
         val action: String,

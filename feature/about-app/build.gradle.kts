@@ -10,6 +10,7 @@ android {
 
 dependencies {
 
+    implementation(project(Modules.Core.Common))
     implementation(project(Modules.Core.Ui))
     implementation(project(Modules.Core.Domain))
     implementation(project(Modules.Core.Model))

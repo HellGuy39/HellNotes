@@ -4,21 +4,23 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.ui.HellNotesAppState
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.feature.labeledit.LabelEditRoute
 
 fun NavGraphBuilder.labelEditScreen(appState: HellNotesAppState) {
     composable(
-        route = Screen.LabelEdit.withArgKeys(ArgumentKeys.ACTION),
+        route = Screen.LabelEdit.withArgKeys(Arguments.Action.key),
         arguments =
             listOf(
-                navArgument(name = ArgumentKeys.ACTION) {
+                navArgument(name = Arguments.Action.key) {
                     type = NavType.StringType
                 },
             ),
         enterTransition = { null },
+        exitTransition = { null },
+        popEnterTransition = { null },
         popExitTransition = { null },
     ) {
         LabelEditRoute(

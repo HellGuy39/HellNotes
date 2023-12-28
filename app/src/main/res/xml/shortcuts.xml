@@ -15,7 +15,7 @@
             android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity">
 
             <extra
-                android:name="shortcut_action"
+                android:name="@string/arg_action"
                 android:value="com.hellguy39.hellnotes.NEW_NOTE" />
 
         </intent>
@@ -38,7 +38,7 @@
             android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity">
 
             <extra
-                android:name="shortcut_action"
+                android:name="@string/arg_action"
                 android:value="com.hellguy39.hellnotes.REMINDERS" />
 
         </intent>
@@ -61,7 +61,7 @@
             android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity">
 
             <extra
-                android:name="shortcut_action"
+                android:name="@string/arg_action"
                 android:value="com.hellguy39.hellnotes.ARCHIVE" />
 
         </intent>
@@ -84,7 +84,7 @@
             android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity">
 
             <extra
-                android:name="shortcut_action"
+                android:name="@string/arg_action"
                 android:value="com.hellguy39.hellnotes.TRASH" />
 
         </intent>

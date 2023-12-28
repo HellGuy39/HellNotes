@@ -161,7 +161,6 @@
     <string name="supporting_delete_label">The label will be permanently deleted. All notes with this label will lose it.</string>
     <string name="supporting_restore_note">After restoring, you will be able to open and edit this note again.</string>
     <string name="supporting_empty_trash">All notes in the trash will be permanently deleted.</string>
-    <!-- Creating a backup copy will help keep your notes safe and protect against possible loss of important information.  -->
     <string name="supporting_wrong_pin">Wrong PIN</string>
     <string name="supporting_wrong_password">Wrong password</string>
 
@@ -212,6 +211,9 @@
     <string name="stg_language">Language</string>
     <string name="stg_note_swipes">Note Swipes</string>
     <string name="stg_note_style">Note style</string>
+
+    <!-- Argument -->
+    <string name="arg_action" translatable="false">action</string>
 
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">New note</string>

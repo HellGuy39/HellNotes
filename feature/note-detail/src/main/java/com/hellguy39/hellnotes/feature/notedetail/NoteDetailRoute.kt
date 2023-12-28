@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
@@ -23,7 +24,6 @@ import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
 import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailChecklistSelection
@@ -330,7 +330,7 @@ fun NoteDetailRoute(
                 },
                 onReminder = {
                     val noteId = uiState.wrapper.note.id ?: 0
-                    val reminderId = ArgumentDefaultValues.NEW_REMINDER
+                    val reminderId = Arguments.ReminderId.emptyValue
                     navigateToReminderEdit(noteId, reminderId)
                 },
             ),

@@ -1,9 +1,9 @@
 package com.hellguy39.hellnotes.core.ui.navigations
 
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.lifecycleIsResumed
@@ -72,64 +72,7 @@ sealed class Screen(val route: String) {
     }
 }
 
-object ArgumentKeys {
-    const val NOTE_ID = "note_id"
-    const val REMINDER_ID = "reminder_id"
-    const val LOCK_TYPE = "lock_type"
-    const val ACTION = "action"
-    const val SHORTCUT_ACTION = "shortcut_action"
-}
-
-object ArgumentDefaultValues {
-    const val EMPTY: Long = -2
-    const val NEW_NOTE: Long = -1
-    const val NEW_REMINDER: Long = -1
-}
-
 private fun defaultNavOptions() = navOptions { launchSingleTop = true }
-
-fun NavController.navigateToNoteDetail(
-    noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NEW_NOTE
-
-    navigate(
-        route = Screen.NoteDetail.withArgs(noteIdArg.toString()),
-        navOptions = navOptions,
-    )
-}
-
-fun NavController.navigateToSettings(navOptions: NavOptions = defaultNavOptions()) {
-    navigate(
-        route = Screen.Settings.route,
-        navOptions = navOptions,
-    )
-}
-
-fun NavController.navigateToAboutApp(navOptions: NavOptions = defaultNavOptions()) {
-    navigate(
-        route = Screen.AboutApp.route,
-        navOptions = navOptions,
-    )
-}
-
-fun NavController.navigateToSearch(navOptions: NavOptions = defaultNavOptions()) {
-    navigate(
-        route = Screen.Search.route,
-        navOptions = navOptions,
-    )
-}
-
-fun NavController.navigateToLabelEdit(
-    navOptions: NavOptions = defaultNavOptions(),
-    action: String,
-) {
-    navigate(
-        route = Screen.LabelEdit.withArgs(action),
-        navOptions = navOptions,
-    )
-}
 
 fun HellNotesAppState.navigateToOnBoarding(
     from: NavBackStackEntry,
@@ -145,10 +88,10 @@ fun HellNotesAppState.navigateToOnBoarding(
 
 fun HellNotesAppState.navigateToNoteDetail(
     from: NavBackStackEntry,
-    noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
+    noteId: Long? = Arguments.NoteId.emptyValue,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NEW_NOTE
+    val noteIdArg = noteId ?: Arguments.NoteId.emptyValue
 
     if (from.lifecycleIsResumed()) {
         navController.navigate(
@@ -160,12 +103,12 @@ fun HellNotesAppState.navigateToNoteDetail(
 
 fun HellNotesAppState.navigateToReminderEdit(
     from: NavBackStackEntry,
-    noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
-    reminderId: Long? = ArgumentDefaultValues.NEW_REMINDER,
+    noteId: Long? = Arguments.NoteId.emptyValue,
+    reminderId: Long? = Arguments.ReminderId.emptyValue,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NEW_NOTE
-    val reminderIdArg = reminderId ?: ArgumentDefaultValues.NEW_REMINDER
+    val noteIdArg = noteId ?: Arguments.NoteId.emptyValue
+    val reminderIdArg = reminderId ?: Arguments.ReminderId.emptyValue
 
     if (from.lifecycleIsResumed()) {
         navController.navigate(
@@ -177,10 +120,10 @@ fun HellNotesAppState.navigateToReminderEdit(
 
 fun HellNotesAppState.navigateToLabelSelection(
     from: NavBackStackEntry,
-    noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
+    noteId: Long? = Arguments.NoteId.emptyValue,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
-    val noteIdArg = noteId ?: ArgumentDefaultValues.NEW_NOTE
+    val noteIdArg = noteId ?: Arguments.NoteId.emptyValue
 
     if (from.lifecycleIsResumed()) {
         navController.navigate(

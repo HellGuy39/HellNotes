@@ -1,17 +1,19 @@
 package com.hellguy39.hellnotes.component.broadcast
 
 import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.hellguy39.hellnotes.component.main.MainActivity
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.common.arguments.getArgument
+import com.hellguy39.hellnotes.core.common.logger.taggedLogger
+import com.hellguy39.hellnotes.core.common.uri.DeeplinkRoute
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
-import com.hellguy39.hellnotes.core.domain.tools.AlarmScheduler
 import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
 import com.hellguy39.hellnotes.core.domain.tools.postReminderNotification
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.tools.AlarmSchedulerImpl
+import com.hellguy39.hellnotes.core.domain.usecase.reminder.ActivateReminderUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -22,75 +24,52 @@ class ReminderReceiver : BroadcastReceiver() {
 
     @Inject lateinit var inAppNotificationManager: InAppNotificationManager
 
-    @Inject lateinit var alarmScheduler: AlarmScheduler
+    @Inject lateinit var activateReminderUseCase: ActivateReminderUseCase
 
-    private val coroutineScope = CoroutineScope(Dispatchers.IO) + SupervisorJob()
+    private val logger by taggedLogger("ReminderReceiver")
+
+    private val scope = CoroutineScope(Dispatchers.IO) + SupervisorJob()
 
     override fun onReceive(
         context: Context?,
         intent: Intent?,
     ) {
+        logger.i { "Reminder received" }
         if (context == null || intent == null) return
 
-        val message = intent.extras?.getString(AlarmSchedulerImpl.ALARM_MESSAGE, "")
-        val noteId = intent.extras?.getLong(AlarmSchedulerImpl.ALARM_NOTE_ID, EMPTY_ARG)
-        val reminderId = intent.extras?.getLong(AlarmSchedulerImpl.ALARM_REMINDER_ID, EMPTY_ARG)
+        val message = intent.getArgument(Arguments.Message)
+        val noteId = intent.getArgument(Arguments.NoteId)
+        val reminderId = intent.getArgument(Arguments.ReminderId)
 
-        val notificationIntent =
-            Intent(context, MainActivity::class.java).apply {
-                putExtra(AlarmSchedulerImpl.ALARM_NOTE_ID, noteId)
-            }
+        logger.i { "Arguments: noteId - $noteId, reminderId - $reminderId, message - $message" }
 
-        val pendingIntent =
-            PendingIntent.getActivity(
-                context,
-                notificationIntent.hashCode(),
-                notificationIntent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
-            )
+        if (Arguments.NoteId.isEmpty(noteId) && Arguments.ReminderId.isEmpty(reminderId)) return
 
         inAppNotificationManager.postReminderNotification(
-            body = message.toString(),
-            pendingIntent = pendingIntent,
+            body = message,
+            pendingIntent = buildPendingIntent(context, noteId, reminderId),
         )
 
-        if (noteId.isValidId() && reminderId.isValidId()) {
-            coroutineScope.launch {
-                val reminder = reminderRepository.getReminderById(reminderId!!)
-
-                if (reminder.repeat is Repeat.DoesNotRepeat) {
-                    reminderRepository.deleteReminder(reminder)
-                } else {
-                    val updatedReminder =
-                        reminder.copy(
-                            triggerDate =
-                                calculateNextTriggerDate(
-                                    reminder.repeat,
-                                    reminder.triggerDate,
-                                ),
-                        )
-                    reminderRepository.updateReminder(updatedReminder)
-                    alarmScheduler.scheduleAlarm(updatedReminder)
-                }
-            }
+        scope.launch {
+            activateReminderUseCase.invoke(reminderId)
         }
     }
 
-    private fun calculateNextTriggerDate(
-        repeat: Repeat,
-        triggerDate: Long,
-    ): Long {
-        return when (repeat) {
-            Repeat.Daily -> DateTimeUtils.increaseDays(triggerDate, 1)
-            Repeat.Weekly -> DateTimeUtils.increaseWeeks(triggerDate, 1)
-            Repeat.Monthly -> DateTimeUtils.increaseMonths(triggerDate, 1)
-            else -> triggerDate
+    private fun buildPendingIntent(context: Context, noteId: Long, reminderId: Long): PendingIntent {
+        val openNoteIntent =
+            Intent(
+                Intent.ACTION_VIEW,
+                DeeplinkRoute.fromApp().passArgument(Arguments.NoteId, noteId).asUri(),
+                context,
+                MainActivity::class.java,
+            )
+
+        return TaskStackBuilder.create(context).run {
+            addNextIntentWithParentStack(openNoteIntent)
+            getPendingIntent(
+                reminderId.toInt(),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+            )
         }
-    }
-
-    private fun Long?.isValidId() = this != null && this != EMPTY_ARG
-
-    companion object {
-        private const val EMPTY_ARG = -2L
     }
 }

@@ -16,6 +16,7 @@ android {
 
 dependencies {
 
+    implementation(project(Modules.Core.Common))
     implementation(project(Modules.Core.Model))
 
     implementation(Dependencies.AndroidX.CoreKtx)

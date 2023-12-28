@@ -3,6 +3,8 @@ package com.hellguy39.hellnotes.feature.reminderedit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.CreateReminderUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.DeleteReminderUseCase
@@ -10,8 +12,6 @@ import com.hellguy39.hellnotes.core.domain.usecase.reminder.UpdateReminderUseCas
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -43,10 +43,10 @@ class ReminderEditViewModel
 
         init {
             viewModelScope.launch {
-                val noteId = savedStateHandle.get<Long>(ArgumentKeys.NOTE_ID)
-                val reminderId = savedStateHandle.get<Long>(ArgumentKeys.REMINDER_ID)
+                val noteId = savedStateHandle.getArgument(Arguments.NoteId)
+                val reminderId = savedStateHandle.getArgument(Arguments.ReminderId)
 
-                val isReminderExist = reminderId != null && reminderId != ArgumentDefaultValues.NEW_REMINDER
+                val isReminderExist = Arguments.ReminderId.isNotEmpty(reminderId)
 
                 reminderEditViewModelState.update { state ->
                     state.copy(
@@ -57,7 +57,7 @@ class ReminderEditViewModel
                 }
 
                 if (isReminderExist) {
-                    val reminder = reminderRepository.getReminderById(id = reminderId ?: return@launch)
+                    val reminder = reminderRepository.getReminderById(id = reminderId)
 
                     reminderEditViewModelState.update { state ->
                         state.copy(
@@ -158,8 +158,8 @@ class ReminderEditViewModel
 
 private data class ReminderEditViewModelState(
     val localDateTime: LocalDateTime = LocalDateTime.now(),
-    val noteId: Long? = ArgumentDefaultValues.NEW_NOTE,
-    val reminderId: Long? = ArgumentDefaultValues.NEW_REMINDER,
+    val noteId: Long? = Arguments.NoteId.emptyValue,
+    val reminderId: Long? = Arguments.ReminderId.emptyValue,
     val repeat: Repeat = Repeat.DoesNotRepeat,
     val message: String = "",
     val isEdit: Boolean = false,

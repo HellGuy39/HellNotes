@@ -45,7 +45,7 @@ fun GlobalNavGraph(
             Modifier
                 .semantics { testTagsAsResourceId = true },
         navController = navController,
-        startDestination = Screen.Startup.route,
+        startDestination = Screen.Home.route,
     ) {
         startupScreen(appState)
 

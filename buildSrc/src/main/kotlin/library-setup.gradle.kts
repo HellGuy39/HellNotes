@@ -13,6 +13,8 @@ android {
     defaultConfig {
         minSdk = Configuration.minSdk
 
+        buildConfigField("String", "APPLICATION_ID", "\"${Configuration.applicationId}\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -24,6 +26,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        buildConfig = true
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()

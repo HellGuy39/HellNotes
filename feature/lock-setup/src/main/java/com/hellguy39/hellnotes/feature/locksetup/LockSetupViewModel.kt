@@ -3,10 +3,10 @@ package com.hellguy39.hellnotes.feature.locksetup
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class LockSetupViewModel
         val uiState: StateFlow<LockSetupUiState> =
             combine(
                 dataStoreRepository.readSecurityState(),
-                savedStateHandle.getStateFlow(ArgumentKeys.LOCK_TYPE, LockScreenType.None.tag),
+                savedStateHandle.getStateFlow(Arguments.Type.key, LockScreenType.None.tag),
             ) { securityState, newLockScreenType ->
                 LockSetupUiState(
                     securityState = securityState,

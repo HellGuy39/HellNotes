@@ -6,6 +6,8 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+// TODO: Migrate to DateManager
+@Deprecated("Use DateManager from :core:common instead")
 object DateTimeUtils {
     fun iso8061toLocalDateTime(date: String): LocalDateTime {
         val formatter =

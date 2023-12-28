@@ -13,14 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.common.arguments.getArgument
+import com.hellguy39.hellnotes.core.common.logger.taggedLogger
 import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
 import com.hellguy39.hellnotes.core.model.OnStartupArguments
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentDefaultValues
-import com.hellguy39.hellnotes.core.ui.navigations.ArgumentKeys
 import com.hellguy39.hellnotes.core.ui.rememberHellNotesAppState
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.navigation.GlobalNavGraph
-import com.hellguy39.hellnotes.tools.AlarmSchedulerImpl
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var analyticsLogger: AnalyticsLogger
 
+    private val logger by taggedLogger("MainActivity")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTransparentSystemBars(true)
@@ -36,14 +38,15 @@ class MainActivity : AppCompatActivity() {
         setContent { HellNotesApp(args = intent.getOnStartupArgs()) }
     }
 
-    private fun Intent.getOnStartupArgs(): OnStartupArguments =
-        OnStartupArguments(
-            extraNoteId =
-                this.extras?.getLong(
-                    AlarmSchedulerImpl.ALARM_NOTE_ID, ArgumentDefaultValues.EMPTY,
-                ) ?: ArgumentDefaultValues.EMPTY,
-            action = this.extras?.getString(ArgumentKeys.SHORTCUT_ACTION, "") ?: "",
+    private fun Intent.getOnStartupArgs(): OnStartupArguments {
+        val noteId = getArgument(Arguments.NoteId)
+        val action = getArgument(Arguments.Action)
+        logger.i { "Startup args: noteId - $noteId, action - $action" }
+        return OnStartupArguments(
+            extraNoteId = noteId,
+            action = action,
         )
+    }
 }
 
 @Composable
