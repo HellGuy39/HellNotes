@@ -1,22 +1,24 @@
 package com.hellguy39.hellnotes.feature.home
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
+import com.hellguy39.hellnotes.core.common.uri.DeeplinkRoute
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
 import com.hellguy39.hellnotes.core.ui.components.HNNavigationDrawer
 import com.hellguy39.hellnotes.core.ui.components.snack.*
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelEdit
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToSettings
+import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
 import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
@@ -30,31 +32,22 @@ import com.hellguy39.hellnotes.feature.home.reminders.RemindersScreen
 import com.hellguy39.hellnotes.feature.home.trash.TrashScreen
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 import com.hellguy39.hellnotes.feature.home.util.DrawerItemType
-import com.hellguy39.hellnotes.feature.home.util.HomeScreen
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
-    startScreen: HomeScreen = HomeScreen.NoteList,
     homeViewModel: HomeViewModel = hiltViewModel(),
     labelViewModel: LabelViewModel = hiltViewModel(),
-    onStartupAction: () -> Unit = {},
     navigateToSettings: () -> Unit,
     navigateToAbout: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToNoteDetail: (id: Long?) -> Unit,
     navigateToLabelEdit: (action: String) -> Unit,
 ) {
-    var isStartupActionPassed by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(key1 = Unit) {
-        if (!isStartupActionPassed) {
-            onStartupAction()
-            isStartupActionPassed = true
-        }
-    }
-
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val drawerUiState by homeViewModel.drawerUiState.collectAsStateWithLifecycle()
+
+    val homeNavController = rememberNavController()
 
     val context = LocalContext.current
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -124,9 +117,15 @@ fun HomeRoute(
         snackbarHostState.currentSnackbarData?.dismiss()
         when (drawerItem.itemType) {
             DrawerItemType.Primary -> {
+                homeNavController.navigate(drawerItem.route)
                 homeViewModel.setDrawerItem(drawerItem)
             }
             DrawerItemType.Secondary -> {
+                homeNavController.navigate(drawerItem.route)
+                homeViewModel.setDrawerItem(drawerItem)
+            }
+            DrawerItemType.Label -> {
+                homeNavController.navigate(drawerItem.route)
                 homeViewModel.setDrawerItem(drawerItem)
             }
             DrawerItemType.Static -> {
@@ -148,24 +147,28 @@ fun HomeRoute(
                 icon = painterResource(id = HellNotesIcons.StickyNote),
                 itemType = DrawerItemType.Primary,
                 onClick = onDrawerItemClick,
+                route = Screen.Notes.route,
             ),
             DrawerItem(
                 title = stringResource(id = HellNotesStrings.Title.Reminders),
                 icon = painterResource(id = HellNotesIcons.Notifications),
                 itemType = DrawerItemType.Primary,
                 onClick = onDrawerItemClick,
+                route = Screen.Reminders.route,
             ),
             DrawerItem(
                 title = stringResource(id = HellNotesStrings.Title.Archive),
                 icon = painterResource(id = HellNotesIcons.Archive),
                 itemType = DrawerItemType.Secondary,
                 onClick = onDrawerItemClick,
+                route = Screen.Archive.route,
             ),
             DrawerItem(
                 title = stringResource(id = HellNotesStrings.Title.Trash),
                 icon = painterResource(id = HellNotesIcons.Delete),
                 itemType = DrawerItemType.Secondary,
                 onClick = onDrawerItemClick,
+                route = Screen.Trash.route,
             ),
             DrawerItem(
                 title = stringResource(id = HellNotesStrings.Title.Settings),
@@ -196,12 +199,6 @@ fun HomeRoute(
                 },
             )
         }
-
-    LaunchedEffect(key1 = Unit) {
-        if (drawerUiState.drawerItem.itemType == DrawerItemType.None) {
-            homeViewModel.setDrawerItem(drawerItems[startScreen.index])
-        }
-    }
 
     val visualsSelection =
         HomeScreenVisualsSelection(
@@ -238,53 +235,93 @@ fun HomeRoute(
             )
         },
         content = {
-            Crossfade(
-                targetState = drawerUiState.drawerItem,
-                label = "home_drawer_anim",
-            ) { drawerItem ->
-                when (drawerItem.itemType) {
-                    DrawerItemType.Primary -> {
-                        if (drawerItem.title == stringResource(id = HellNotesStrings.Title.Notes)) {
-                            NoteListScreen(
-                                navigateToSearch = navigateToSearch,
-                                navigateToNoteDetail = navigateToNoteDetail,
-                                visualsSelection = visualsSelection,
-                                multiActionSelection = multiActionSelection,
-                            )
-                        } else {
-                            RemindersScreen(
-                                navigateToSearch = navigateToSearch,
-                                navigateToNoteDetail = navigateToNoteDetail,
-                                visualsSelection = visualsSelection,
-                                multiActionSelection = multiActionSelection,
-                            )
-                        }
-                    }
-                    DrawerItemType.Secondary -> {
-                        if (drawerItem.title == stringResource(id = HellNotesStrings.Title.Archive)) {
-                            ArchiveScreen(
-                                navigateToSearch = navigateToSearch,
-                                navigateToNoteDetail = navigateToNoteDetail,
-                                visualsSelection = visualsSelection,
-                                multiActionSelection = multiActionSelection,
-                            )
-                        } else {
-                            TrashScreen(
-                                visualsSelection = visualsSelection,
-                                multiActionSelection = multiActionSelection,
-                            )
-                        }
-                    }
-                    DrawerItemType.Label -> {
-                        LabelScreen(
-                            navigateToSearch = navigateToSearch,
-                            navigateToNoteDetail = navigateToNoteDetail,
-                            visualsSelection = visualsSelection,
-                            labelViewModel = labelViewModel,
-                            multiActionSelection = multiActionSelection,
-                        )
-                    }
-                    else -> Unit
+            NavHost(
+                navController = homeNavController,
+                startDestination = Screen.Notes.route,
+            ) {
+                composable(
+                    route = Screen.Notes.route,
+                    arguments = listOf(),
+                    deepLinks = listOf(),
+                ) {
+                    NoteListScreen(
+                        navigateToSearch = navigateToSearch,
+                        navigateToNoteDetail = navigateToNoteDetail,
+                        visualsSelection = visualsSelection,
+                        multiActionSelection = multiActionSelection,
+                    )
+                }
+                composable(
+                    route = Screen.Reminders.route,
+                    arguments = listOf(),
+                    deepLinks =
+                        listOf(
+                            navDeepLink {
+                                uriPattern =
+                                    DeeplinkRoute.fromApp()
+                                        .addPath(Screen.Reminders.route)
+                                        .asString()
+                            },
+                        ),
+                ) {
+                    RemindersScreen(
+                        navigateToSearch = navigateToSearch,
+                        navigateToNoteDetail = navigateToNoteDetail,
+                        visualsSelection = visualsSelection,
+                        multiActionSelection = multiActionSelection,
+                    )
+                }
+
+                composable(
+                    route = Screen.Archive.route,
+                    arguments = listOf(),
+                    deepLinks =
+                        listOf(
+                            navDeepLink {
+                                uriPattern =
+                                    DeeplinkRoute.fromApp()
+                                        .addPath(Screen.Archive.route)
+                                        .asString()
+                            },
+                        ),
+                ) {
+                    ArchiveScreen(
+                        navigateToSearch = navigateToSearch,
+                        navigateToNoteDetail = navigateToNoteDetail,
+                        visualsSelection = visualsSelection,
+                        multiActionSelection = multiActionSelection,
+                    )
+                }
+                composable(
+                    route = Screen.Trash.route,
+                    arguments = listOf(),
+                    deepLinks =
+                        listOf(
+                            navDeepLink {
+                                uriPattern =
+                                    DeeplinkRoute.fromApp()
+                                        .addPath(Screen.Trash.route)
+                                        .asString()
+                            },
+                        ),
+                ) {
+                    TrashScreen(
+                        visualsSelection = visualsSelection,
+                        multiActionSelection = multiActionSelection,
+                    )
+                }
+                composable(
+                    route = Screen.Label.route,
+                    arguments = listOf(),
+                    deepLinks = listOf(),
+                ) {
+                    LabelScreen(
+                        navigateToSearch = navigateToSearch,
+                        navigateToNoteDetail = navigateToNoteDetail,
+                        visualsSelection = visualsSelection,
+                        labelViewModel = labelViewModel,
+                        multiActionSelection = multiActionSelection,
+                    )
                 }
             }
         },

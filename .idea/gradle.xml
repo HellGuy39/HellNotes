@@ -58,7 +58,6 @@
             <option value="$PROJECT_DIR$/feature/reset" />
             <option value="$PROJECT_DIR$/feature/search" />
             <option value="$PROJECT_DIR$/feature/settings" />
-            <option value="$PROJECT_DIR$/feature/startup" />
             <option value="$PROJECT_DIR$/feature/terms-and-conditions" />
             <option value="$PROJECT_DIR$/feature/update" />
           </set>

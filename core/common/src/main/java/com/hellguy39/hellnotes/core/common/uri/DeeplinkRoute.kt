@@ -7,6 +7,12 @@ import com.hellguy39.hellnotes.core.common.arguments.Arguments
 class DeeplinkRoute private constructor(
     private var uriString: String,
 ) {
+    fun addPath(path: String): DeeplinkRoute {
+        return apply {
+            uriString = "$uriString/$path"
+        }
+    }
+
     fun <T> passArgument(argument: Arguments<T>, value: T): DeeplinkRoute {
         return apply {
             uriString = "$uriString/${argument.key}=$value"
