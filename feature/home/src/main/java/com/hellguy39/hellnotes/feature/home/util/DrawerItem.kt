@@ -6,17 +6,18 @@ data class DrawerItem(
     val title: String = "",
     val icon: Painter? = null,
     val itemType: DrawerItemType = DrawerItemType.None,
+    val route: String = "",
     val onClick: (item: DrawerItem) -> Unit = {},
 )
 
 sealed class DrawerItemType {
-    object Primary : DrawerItemType()
+    data object Primary : DrawerItemType()
 
-    object Secondary : DrawerItemType()
+    data object Secondary : DrawerItemType()
 
-    object Label : DrawerItemType()
+    data object Label : DrawerItemType()
 
-    object Static : DrawerItemType()
+    data object Static : DrawerItemType()
 
-    object None : DrawerItemType()
+    data object None : DrawerItemType()
 }

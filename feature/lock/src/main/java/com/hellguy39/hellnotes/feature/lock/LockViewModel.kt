@@ -1,6 +1,5 @@
 package com.hellguy39.hellnotes.feature.lock
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
@@ -10,7 +9,13 @@ import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,11 +25,19 @@ class LockViewModel
     constructor(
         dataStoreRepository: DataStoreRepository,
         val biometricAuth: BiometricAuthenticator,
-        savedStateHandle: SavedStateHandle,
     ) : ViewModel() {
         private val errorMessage = MutableStateFlow("")
         private val lockState: MutableStateFlow<LockState> = MutableStateFlow(LockState.Locked)
         private val password = MutableStateFlow("")
+
+        val isLocked =
+            lockState
+                .map { state -> state is LockState.Locked }
+                .stateIn(
+                    initialValue = false,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    scope = viewModelScope,
+                )
 
         val uiState: StateFlow<LockUiState> =
             combine(
@@ -41,7 +54,7 @@ class LockViewModel
                 )
             }
                 .stateIn(
-                    initialValue = LockUiState.initialInstance(),
+                    initialValue = LockUiState(),
                     started = SharingStarted.WhileSubscribed(5_000),
                     scope = viewModelScope,
                 )
@@ -135,26 +148,16 @@ class LockViewModel
     }
 
 data class LockUiState(
-    val securityState: SecurityState,
-    val errorMessage: String,
-    val password: String,
-    val lockState: LockState,
-) {
-    companion object {
-        fun initialInstance() =
-            LockUiState(
-                securityState = SecurityState.initialInstance(),
-                password = "",
-                lockState = LockState.Locked,
-                errorMessage = "",
-            )
-    }
-}
+    val securityState: SecurityState = SecurityState.initialInstance(),
+    val errorMessage: String = "",
+    val password: String = "",
+    val lockState: LockState = LockState.Locked,
+)
 
 sealed interface LockState {
-    object WrongPin : LockState
+    data object WrongPin : LockState
 
-    object Unlocked : LockState
+    data object Unlocked : LockState
 
-    object Locked : LockState
+    data object Locked : LockState
 }

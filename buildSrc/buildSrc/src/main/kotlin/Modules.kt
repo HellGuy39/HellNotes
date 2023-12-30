@@ -12,7 +12,6 @@ object Modules {
     }
 
     object Feature {
-        const val Startup = ":feature:startup"
         const val OnBoarding = ":feature:on-boarding"
         const val Reminders = ":feature:reminders"
         const val Search = ":feature:search"

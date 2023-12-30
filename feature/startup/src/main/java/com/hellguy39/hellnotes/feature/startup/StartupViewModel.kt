@@ -32,7 +32,7 @@ class StartupViewModel
     }
 
 sealed class StartupState {
-    object Loading : StartupState()
+    data object Loading : StartupState()
 
     data class Success(
         val securityState: SecurityState,

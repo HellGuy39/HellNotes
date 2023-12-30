@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
     ExperimentalComposeUiApi::class,
 )
 @Composable
-fun WelcomeScreen(
+fun OnBoardingScreen(
     pagerState: PagerState,
     pages: List<OnBoardingPage>,
     onFinish: () -> Unit,

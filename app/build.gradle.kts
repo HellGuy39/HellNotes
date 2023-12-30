@@ -31,7 +31,6 @@ android {
 
 dependencies {
 
-    implementation(project(Modules.Feature.Startup))
     implementation(project(Modules.Feature.OnBoarding))
     implementation(project(Modules.Feature.Lock))
     implementation(project(Modules.Feature.Search))
