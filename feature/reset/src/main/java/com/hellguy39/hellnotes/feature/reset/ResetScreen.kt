@@ -12,7 +12,7 @@ import com.hellguy39.hellnotes.core.ui.components.cards.InfoCard
 import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +35,7 @@ fun ResetScreen(
             HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
-                title = stringResource(id = HellNotesStrings.Title.Reset),
+                title = stringResource(id = AppStrings.Title.Reset),
             )
         },
         bottomBar = {
@@ -52,7 +52,7 @@ fun ResetScreen(
                     enabled = uiState.resetButtonEnabled(),
                 ) {
                     Text(
-                        text = stringResource(id = HellNotesStrings.Button.Reset),
+                        text = stringResource(id = AppStrings.Button.Reset),
                         style = MaterialTheme.typography.labelLarge,
                     )
                 }
@@ -74,8 +74,8 @@ fun ResetScreen(
         ) {
             InfoCard(
                 modifier = Modifier.padding(horizontal = Spaces.medium),
-                title = stringResource(id = HellNotesStrings.Title.Attention),
-                body = stringResource(id = HellNotesStrings.Body.Reset),
+                title = stringResource(id = AppStrings.Title.Attention),
+                body = stringResource(id = AppStrings.Body.Reset),
             )
 
             Column(
@@ -89,7 +89,7 @@ fun ResetScreen(
                         Modifier
                             .padding(horizontal = Spaces.medium)
                             .padding(bottom = Spaces.small),
-                    title = stringResource(id = HellNotesStrings.Subtitle.SelectActions),
+                    title = stringResource(id = AppStrings.Subtitle.SelectActions),
                 )
 
                 HNCheckboxItem(
@@ -98,8 +98,8 @@ fun ResetScreen(
                             .fillMaxWidth()
                             .padding(horizontal = Spaces.medium, vertical = Spaces.medium),
                     onClick = onToggleResetDatabase,
-                    title = stringResource(id = HellNotesStrings.Checkbox.ClearDatabaseTitle),
-                    subtitle = stringResource(id = HellNotesStrings.Checkbox.ClearDatabaseSubtitle),
+                    title = stringResource(id = AppStrings.Checkbox.ClearDatabaseTitle),
+                    subtitle = stringResource(id = AppStrings.Checkbox.ClearDatabaseSubtitle),
                     checked = uiState.isResetDatabase,
                 )
 
@@ -109,8 +109,8 @@ fun ResetScreen(
                             .fillMaxWidth()
                             .padding(Spaces.medium),
                     onClick = onToggleResetSettings,
-                    title = stringResource(id = HellNotesStrings.Checkbox.ResetSettingsTitle),
-                    subtitle = stringResource(id = HellNotesStrings.Checkbox.ResetSettingsSubtitle),
+                    title = stringResource(id = AppStrings.Checkbox.ResetSettingsTitle),
+                    subtitle = stringResource(id = AppStrings.Checkbox.ResetSettingsSubtitle),
                     checked = uiState.isResetSettings,
                 )
             }

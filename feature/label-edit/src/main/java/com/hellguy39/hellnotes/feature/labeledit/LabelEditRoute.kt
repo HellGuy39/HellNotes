@@ -11,7 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenContentSelection
 
 @Composable
@@ -39,7 +39,7 @@ fun LabelEditRoute(
     fun showLabelIsAlreadyExistSnack() {
         snackbarHostState.showDismissableSnackbar(
             scope = scope,
-            message = context.getString(HellNotesStrings.Snack.LabelAlreadyExist),
+            message = context.getString(AppStrings.Snack.LabelAlreadyExist),
             duration = SnackbarDuration.Short,
         )
     }

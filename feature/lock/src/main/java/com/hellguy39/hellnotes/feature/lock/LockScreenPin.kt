@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.components.input.HNVirtualNumberKeyboard
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -44,15 +44,15 @@ fun LockScreenPin(
     ) {
         val titleIcon =
             when (uiState.lockState) {
-                is LockState.Unlocked -> painterResource(id = HellNotesIcons.LockOpen)
-                else -> painterResource(id = HellNotesIcons.Lock)
+                is LockState.Unlocked -> painterResource(id = AppIcons.LockOpen)
+                else -> painterResource(id = AppIcons.Lock)
             }
 
         val titleText =
             when (uiState.lockState) {
-                is LockState.Locked -> stringResource(id = HellNotesStrings.Title.EnterPin)
-                is LockState.Unlocked -> stringResource(id = HellNotesStrings.Title.Unlocked)
-                is LockState.WrongPin -> stringResource(id = HellNotesStrings.Supporting.WrongPin)
+                is LockState.Locked -> stringResource(id = AppStrings.Title.EnterPin)
+                is LockState.Unlocked -> stringResource(id = AppStrings.Title.Unlocked)
+                is LockState.WrongPin -> stringResource(id = AppStrings.Supporting.WrongPin)
             }
 
         Icon(
@@ -111,13 +111,13 @@ fun LockScreenPin(
             leadingIcon = {
                 Icon(
                     modifier = Modifier.size(AssistChipDefaults.IconSize),
-                    painter = painterResource(id = HellNotesIcons.Fingerprint),
+                    painter = painterResource(id = AppIcons.Fingerprint),
                     contentDescription = null,
                 )
             },
             label = {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Button.Biometrics),
+                    text = stringResource(id = AppStrings.Button.Biometrics),
                     style = MaterialTheme.typography.labelMedium,
                 )
             },

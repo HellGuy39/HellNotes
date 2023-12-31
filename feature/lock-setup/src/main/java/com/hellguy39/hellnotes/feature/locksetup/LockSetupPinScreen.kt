@@ -20,7 +20,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -55,7 +55,7 @@ fun LockSetupPinScreen(
                         onPinEntered(pin)
                     } else {
                         isError = true
-                        errorMessage = context.getString(HellNotesStrings.Supporting.WrongPin)
+                        errorMessage = context.getString(AppStrings.Supporting.WrongPin)
                     }
                 }
             }
@@ -117,7 +117,7 @@ fun LockSetupPinScreen(
                                 if (isError) {
                                     errorMessage
                                 } else if (value.length < 4) {
-                                    stringResource(id = HellNotesStrings.Supporting.PinMustBeAtLeast4Digits)
+                                    stringResource(id = AppStrings.Supporting.PinMustBeAtLeast4Digits)
                                 } else {
                                     ""
                                 }
@@ -159,7 +159,7 @@ fun LockSetupPinScreen(
                             contentPadding = ButtonDefaults.TextButtonContentPadding,
                         ) {
                             Text(
-                                text = stringResource(id = HellNotesStrings.Button.Clear),
+                                text = stringResource(id = AppStrings.Button.Clear),
                                 modifier = Modifier,
                                 style = MaterialTheme.typography.labelLarge,
                             )
@@ -172,8 +172,8 @@ fun LockSetupPinScreen(
                             Text(
                                 text =
                                     when (state) {
-                                        is SetupPinState.SetPin -> stringResource(id = HellNotesStrings.Button.Next)
-                                        is SetupPinState.ConfirmPin -> stringResource(id = HellNotesStrings.Button.Confirm)
+                                        is SetupPinState.SetPin -> stringResource(id = AppStrings.Button.Next)
+                                        is SetupPinState.ConfirmPin -> stringResource(id = AppStrings.Button.Confirm)
                                     },
                                 modifier = Modifier,
                                 style = MaterialTheme.typography.labelLarge,
@@ -188,8 +188,8 @@ fun LockSetupPinScreen(
                     onNavigationButtonClick = onNavigationBack,
                     title =
                         when (state) {
-                            SetupPinState.SetPin -> stringResource(id = HellNotesStrings.Title.SetAPin)
-                            SetupPinState.ConfirmPin -> stringResource(id = HellNotesStrings.Title.ReEnterYourPin)
+                            SetupPinState.SetPin -> stringResource(id = AppStrings.Title.SetAPin)
+                            SetupPinState.ConfirmPin -> stringResource(id = AppStrings.Title.ReEnterYourPin)
                         },
                 )
             },

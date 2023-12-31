@@ -20,8 +20,8 @@ import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +44,7 @@ fun NoteSwipeEditScreen(
             HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
-                title = stringResource(id = HellNotesStrings.Title.NoteSwipe),
+                title = stringResource(id = AppStrings.Title.NoteSwipe),
             )
         },
         content = { innerPadding ->
@@ -85,7 +85,7 @@ fun NoteSwipeEditScreen(
                                 Modifier
                                     .fillMaxWidth()
                                     .padding(Spaces.large),
-                            title = stringResource(id = HellNotesStrings.Switch.UseNoteSwipesTitle),
+                            title = stringResource(id = AppStrings.Switch.UseNoteSwipesTitle),
                             checked = isChecked,
                             onClick = { selection.onNoteSwipesEnabled(!isChecked) },
                             showDivider = false,
@@ -97,8 +97,8 @@ fun NoteSwipeEditScreen(
                         modifier =
                             Modifier
                                 .padding(vertical = 8.dp, horizontal = 16.dp),
-                        title = stringResource(id = HellNotesStrings.Label.SwipeLeft),
-                        icon = painterResource(id = HellNotesIcons.SwipeLeft),
+                        title = stringResource(id = AppStrings.Label.SwipeLeft),
+                        icon = painterResource(id = AppIcons.SwipeLeft),
                     )
 
                     Column(
@@ -123,8 +123,8 @@ fun NoteSwipeEditScreen(
                         modifier =
                             Modifier
                                 .padding(vertical = 8.dp, horizontal = 16.dp),
-                        title = stringResource(id = HellNotesStrings.Label.SwipeRight),
-                        icon = painterResource(id = HellNotesIcons.SwipeRight),
+                        title = stringResource(id = AppStrings.Label.SwipeRight),
+                        icon = painterResource(id = AppIcons.SwipeRight),
                     )
                     Column(
                         modifier = Modifier.selectableGroup(),

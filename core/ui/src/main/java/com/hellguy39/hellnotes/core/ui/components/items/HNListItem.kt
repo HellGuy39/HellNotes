@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.core.ui.values.Alpha
 
@@ -93,7 +93,7 @@ fun HNListItemPreviewTitleAndSubtitleWithIcon() {
         ) {
             HNListItem(
                 modifier = Modifier.padding(16.dp),
-                heroIcon = painterResource(id = HellNotesIcons.Share),
+                heroIcon = painterResource(id = AppIcons.Share),
                 title = "Title",
                 subtitle = "Subtitle",
             )

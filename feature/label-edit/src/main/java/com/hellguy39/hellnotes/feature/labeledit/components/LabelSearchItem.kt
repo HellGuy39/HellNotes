@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @Composable
 fun LabelSearchItem(
@@ -50,7 +50,7 @@ fun LabelSearchItem(
                     },
                 ) {
                     Icon(
-                        painter = painterResource(id = HellNotesIcons.Close),
+                        painter = painterResource(id = AppIcons.Close),
                         contentDescription = null,
                     )
                 }
@@ -59,7 +59,7 @@ fun LabelSearchItem(
                     onClick = {},
                 ) {
                     Icon(
-                        painter = painterResource(id = HellNotesIcons.Add),
+                        painter = painterResource(id = AppIcons.Add),
                         contentDescription = null,
                     )
                 }
@@ -68,7 +68,7 @@ fun LabelSearchItem(
         HNClearTextField(
             value = newLabel,
             onValueChange = { newText -> newLabel = newText },
-            hint = stringResource(id = HellNotesStrings.Hint.CreateNewLabel),
+            hint = stringResource(id = AppStrings.Hint.CreateNewLabel),
             modifier =
                 Modifier
                     .focusRequester(focusRequester)
@@ -90,7 +90,7 @@ fun LabelSearchItem(
                 },
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.Done),
+                    painter = painterResource(id = AppIcons.Done),
                     contentDescription = null,
                 )
             }

@@ -1,353 +1,90 @@
 package com.hellguy39.hellnotes.feature.home
 
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navDeepLink
-import com.hellguy39.hellnotes.core.common.uri.DeeplinkRoute
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.hellguy39.hellnotes.core.ui.components.HNNavigationDrawer
-import com.hellguy39.hellnotes.core.ui.components.snack.*
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
-import com.hellguy39.hellnotes.feature.home.label.LabelScreen
-import com.hellguy39.hellnotes.feature.home.label.LabelUiEvent
-import com.hellguy39.hellnotes.feature.home.label.LabelViewModel
-import com.hellguy39.hellnotes.feature.home.notelist.NoteListScreen
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.UiText
+import com.hellguy39.hellnotes.core.ui.state.rememberHomeState
 import com.hellguy39.hellnotes.feature.home.notelist.components.DrawerSheetContent
-import com.hellguy39.hellnotes.feature.home.notelist.components.LabelSelection
-import com.hellguy39.hellnotes.feature.home.reminders.RemindersScreen
-import com.hellguy39.hellnotes.feature.home.trash.TrashScreen
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
-import com.hellguy39.hellnotes.feature.home.util.DrawerItemType
-import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
     homeViewModel: HomeViewModel = hiltViewModel(),
-    labelViewModel: LabelViewModel = hiltViewModel(),
     navigateToSettings: () -> Unit,
     navigateToAbout: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToNoteDetail: (id: Long?) -> Unit,
     navigateToLabelEdit: (action: String) -> Unit,
 ) {
-    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
-    val drawerUiState by homeViewModel.drawerUiState.collectAsStateWithLifecycle()
-
-    val homeNavController = rememberNavController()
-
     val context = LocalContext.current
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
 
-    val snackbarHostState = remember { SnackbarHostState() }
+    val homeState = rememberHomeState()
 
-    fun showOnActionSnack(
-        message: String,
-        onActionPerformed: () -> Unit,
-    ) {
-        snackbarHostState.showDismissableSnackbar(
-            scope = scope,
-            message = message,
-            actionLabel = context.getString(HellNotesStrings.Button.Undo),
-            duration = SnackbarDuration.Long,
-            onActionPerformed = onActionPerformed,
-        )
-    }
+    val labels by homeViewModel.labels.collectAsStateWithLifecycle()
 
-    val multiActionSelection =
-        HomeScreenMultiActionSelection(
-            selectedNotes = uiState.selectedNotes,
-            onCancelSelection = { homeViewModel.cancelNoteSelection() },
-            onArchiveSelectedNotes = { isArchived ->
-                val snackAction = if (isArchived) SnackAction.Archive else SnackAction.Unarchive
-                showOnActionSnack(
-                    message = snackAction.getSnackMessage(context, uiState.selectedNotes.size == 1),
-                    onActionPerformed = { homeViewModel.undoArchiveSelected(isArchived = isArchived) },
-                )
-                homeViewModel.archiveSelectedNotes(isArchived)
-            },
-            onDeleteSelectedNotes = {
-                showOnActionSnack(
-                    message = SnackAction.Delete.getSnackMessage(context, uiState.selectedNotes.size == 1),
-                    onActionPerformed = { homeViewModel.undoDeleteSelected() },
-                )
-                homeViewModel.deleteSelectedNotes()
-            },
-            onSelectNote = { note -> homeViewModel.selectNote(note) },
-            onUnselectNote = { note -> homeViewModel.unselectNote(note) },
-            onArchiveNote = { note, isArchived ->
-                val snackAction = if (isArchived) SnackAction.Archive else SnackAction.Unarchive
-                showOnActionSnack(
-                    message = snackAction.getSnackMessage(context, true),
-                    onActionPerformed = { homeViewModel.undoArchiveSelected(isArchived = isArchived) },
-                )
-                homeViewModel.archiveNote(clearBuffer = true, note = note, isArchived = isArchived)
-            },
-            onDeleteNote = { note ->
-                showOnActionSnack(
-                    message = SnackAction.Delete.getSnackMessage(context, true),
-                    onActionPerformed = { homeViewModel.undoDeleteSelected() },
-                )
-                homeViewModel.deleteNote(clearBuffer = true, note = note)
-            },
-            onDeleteSelectedNotesFromTrash = { homeViewModel.deleteSelectedNotesFromTrash() },
-            onRestoreSelectedNotesFromTrash = { homeViewModel.restoreSelectedNotesFromTrash() },
-            onRestoreNote = { note ->
-                homeViewModel.restoreNoteFromTrash(note)
-            },
-        )
-
-    val onDrawerItemClick: (DrawerItem) -> Unit = { drawerItem ->
-        scope.launch { drawerState.close() }
-        multiActionSelection.onCancelSelection()
-        snackbarHostState.currentSnackbarData?.dismiss()
-        when (drawerItem.itemType) {
-            DrawerItemType.Primary -> {
-                homeNavController.navigate(drawerItem.route)
-                homeViewModel.setDrawerItem(drawerItem)
-            }
-            DrawerItemType.Secondary -> {
-                homeNavController.navigate(drawerItem.route)
-                homeViewModel.setDrawerItem(drawerItem)
-            }
-            DrawerItemType.Label -> {
-                homeNavController.navigate(drawerItem.route)
-                homeViewModel.setDrawerItem(drawerItem)
-            }
-            DrawerItemType.Static -> {
-                if (drawerItem.title == context.getString(HellNotesStrings.Title.Settings)) {
-                    navigateToSettings()
-                }
-                if (drawerItem.title == context.getString(HellNotesStrings.Title.AboutApp)) {
-                    navigateToAbout()
-                }
-            }
-            else -> Unit
-        }
-    }
+    val navBackStackEntry by homeState.navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     val drawerItems =
-        listOf(
-            DrawerItem(
-                title = stringResource(id = HellNotesStrings.Title.Notes),
-                icon = painterResource(id = HellNotesIcons.StickyNote),
-                itemType = DrawerItemType.Primary,
-                onClick = onDrawerItemClick,
-                route = Screen.Notes.route,
-            ),
-            DrawerItem(
-                title = stringResource(id = HellNotesStrings.Title.Reminders),
-                icon = painterResource(id = HellNotesIcons.Notifications),
-                itemType = DrawerItemType.Primary,
-                onClick = onDrawerItemClick,
-                route = Screen.Reminders.route,
-            ),
-            DrawerItem(
-                title = stringResource(id = HellNotesStrings.Title.Archive),
-                icon = painterResource(id = HellNotesIcons.Archive),
-                itemType = DrawerItemType.Secondary,
-                onClick = onDrawerItemClick,
-                route = Screen.Archive.route,
-            ),
-            DrawerItem(
-                title = stringResource(id = HellNotesStrings.Title.Trash),
-                icon = painterResource(id = HellNotesIcons.Delete),
-                itemType = DrawerItemType.Secondary,
-                onClick = onDrawerItemClick,
-                route = Screen.Trash.route,
-            ),
-            DrawerItem(
-                title = stringResource(id = HellNotesStrings.Title.Settings),
-                icon = painterResource(id = HellNotesIcons.Settings),
-                itemType = DrawerItemType.Static,
-                onClick = onDrawerItemClick,
-            ),
-            DrawerItem(
-                title = stringResource(id = HellNotesStrings.Title.AboutApp),
-                icon = painterResource(id = HellNotesIcons.Info),
-                itemType = DrawerItemType.Static,
-                onClick = onDrawerItemClick,
-            ),
+        rememberDrawerItems(
+            onItemClick = { drawerItem ->
+                homeState.navigateToNavigationBarRoute(drawerItem.route)
+            },
         )
 
     val labelItems =
-        drawerUiState.drawerLabels.map { label ->
+        labels.map { label ->
             DrawerItem(
-                title = label.name,
-                icon = painterResource(id = HellNotesIcons.Label),
-                itemType = DrawerItemType.Label,
+                title = UiText.DynamicString(label.name),
+                icon = UiIcon.DrawableResources(AppIcons.Folder),
+                route = Screen.Label(label.id).withArgs(label.id.toString()),
                 onClick = { drawerItem ->
-                    scope.launch { drawerState.close() }
-                    snackbarHostState.currentSnackbarData?.dismiss()
-                    multiActionSelection.onCancelSelection()
-                    labelViewModel.send(LabelUiEvent.SelectLabel(label))
-                    homeViewModel.setDrawerItem(drawerItem)
+                    homeState.navigateToNavigationBarRoute(drawerItem.route)
                 },
             )
         }
 
-    val visualsSelection =
-        HomeScreenVisualsSelection(
-            listStyle = uiState.listStyle,
-            noteStyle = uiState.noteStyle,
-            onUpdateListStyle = homeViewModel::updateListStyle,
-            noteSwipesState = uiState.noteSwipesState,
-            drawerState = drawerState,
-            snackbarHost = {
-                CustomSnackbarHost(state = snackbarHostState)
-            },
-            resetDrawerRoute = {
-                onDrawerItemClick(drawerItems[0])
-            },
-        )
-
     HNNavigationDrawer(
-        drawerState = drawerState,
+        drawerState = homeState.drawerState,
         drawerSheet = {
             DrawerSheetContent(
-                selectedItem = drawerUiState.drawerItem,
+                currentDestination = currentDestination,
                 drawerItems = drawerItems,
                 labelItems = labelItems,
-                labelSelection =
-                    LabelSelection(
-                        onEditLabel = {
-                            navigateToLabelEdit(context.getString(HellNotesStrings.Action.Edit))
-                        },
-                        onCreateNewLabel = {
-                            navigateToLabelEdit(context.getString(HellNotesStrings.Action.Create))
-                        },
-                    ),
-                onClose = { scope.launch { drawerState.close() } },
+                onCreateNewLabelClick = {
+                    navigateToLabelEdit(context.getString(AppStrings.Action.Create))
+                    homeState.closeDrawer()
+                },
+                onManageLabelsClick = {
+                    navigateToLabelEdit(context.getString(AppStrings.Action.Edit))
+                    homeState.closeDrawer()
+                },
+                onSettingsClick = {
+                    navigateToSettings()
+                    homeState.closeDrawer()
+                },
+                onAboutClick = {
+                    navigateToAbout()
+                    homeState.closeDrawer()
+                },
             )
         },
         content = {
-            NavHost(
-                navController = homeNavController,
-                startDestination = Screen.Notes.route,
-            ) {
-                composable(
-                    route = Screen.Notes.route,
-                    arguments = listOf(),
-                    deepLinks = listOf(),
-                ) {
-                    NoteListScreen(
-                        navigateToSearch = navigateToSearch,
-                        navigateToNoteDetail = navigateToNoteDetail,
-                        visualsSelection = visualsSelection,
-                        multiActionSelection = multiActionSelection,
-                    )
-                }
-                composable(
-                    route = Screen.Reminders.route,
-                    arguments = listOf(),
-                    deepLinks =
-                        listOf(
-                            navDeepLink {
-                                uriPattern =
-                                    DeeplinkRoute.fromApp()
-                                        .addPath(Screen.Reminders.route)
-                                        .asString()
-                            },
-                        ),
-                ) {
-                    RemindersScreen(
-                        navigateToSearch = navigateToSearch,
-                        navigateToNoteDetail = navigateToNoteDetail,
-                        visualsSelection = visualsSelection,
-                        multiActionSelection = multiActionSelection,
-                    )
-                }
-
-                composable(
-                    route = Screen.Archive.route,
-                    arguments = listOf(),
-                    deepLinks =
-                        listOf(
-                            navDeepLink {
-                                uriPattern =
-                                    DeeplinkRoute.fromApp()
-                                        .addPath(Screen.Archive.route)
-                                        .asString()
-                            },
-                        ),
-                ) {
-                    ArchiveScreen(
-                        navigateToSearch = navigateToSearch,
-                        navigateToNoteDetail = navigateToNoteDetail,
-                        visualsSelection = visualsSelection,
-                        multiActionSelection = multiActionSelection,
-                    )
-                }
-                composable(
-                    route = Screen.Trash.route,
-                    arguments = listOf(),
-                    deepLinks =
-                        listOf(
-                            navDeepLink {
-                                uriPattern =
-                                    DeeplinkRoute.fromApp()
-                                        .addPath(Screen.Trash.route)
-                                        .asString()
-                            },
-                        ),
-                ) {
-                    TrashScreen(
-                        visualsSelection = visualsSelection,
-                        multiActionSelection = multiActionSelection,
-                    )
-                }
-                composable(
-                    route = Screen.Label.route,
-                    arguments = listOf(),
-                    deepLinks = listOf(),
-                ) {
-                    LabelScreen(
-                        navigateToSearch = navigateToSearch,
-                        navigateToNoteDetail = navigateToNoteDetail,
-                        visualsSelection = visualsSelection,
-                        labelViewModel = labelViewModel,
-                        multiActionSelection = multiActionSelection,
-                    )
-                }
-            }
+            HomeNavGraph(
+                homeState = homeState,
+                navigateToSearch = navigateToSearch,
+                navigateToNoteDetail = navigateToNoteDetail,
+                labels = labels,
+            )
         },
     )
 }
-
-data class HomeScreenVisualsSelection(
-    val noteStyle: NoteStyle,
-    val listStyle: ListStyle,
-    val drawerState: DrawerState,
-    val noteSwipesState: NoteSwipesState,
-    val onUpdateListStyle: () -> Unit,
-    val resetDrawerRoute: () -> Unit,
-    val snackbarHost: @Composable () -> Unit,
-)
-
-data class HomeScreenMultiActionSelection(
-    val selectedNotes: List<Note>,
-    val onSelectNote: (Note) -> Unit,
-    val onUnselectNote: (Note) -> Unit,
-    val onDeleteNote: (Note) -> Unit,
-    val onArchiveNote: (Note, isArchived: Boolean) -> Unit,
-    val onRestoreNote: (Note) -> Unit,
-    val onCancelSelection: () -> Unit,
-    val onDeleteSelectedNotes: () -> Unit,
-    val onDeleteSelectedNotesFromTrash: () -> Unit,
-    val onRestoreSelectedNotesFromTrash: () -> Unit,
-    val onArchiveSelectedNotes: (isArchive: Boolean) -> Unit,
-)

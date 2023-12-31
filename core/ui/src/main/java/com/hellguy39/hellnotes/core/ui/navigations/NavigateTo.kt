@@ -5,12 +5,12 @@ import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.model.LockScreenType
-import com.hellguy39.hellnotes.core.ui.HellNotesAppState
-import com.hellguy39.hellnotes.core.ui.lifecycleIsResumed
+import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 
 private fun defaultNavOptions() = navOptions { launchSingleTop = true }
 
-fun HellNotesAppState.navigateToOnBoarding(
+fun AppState.navigateToOnBoarding(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -22,7 +22,7 @@ fun HellNotesAppState.navigateToOnBoarding(
     }
 }
 
-fun HellNotesAppState.navigateToNoteDetail(
+fun AppState.navigateToNoteDetail(
     from: NavBackStackEntry,
     noteId: Long? = Arguments.NoteId.emptyValue,
     navOptions: NavOptions = defaultNavOptions(),
@@ -37,7 +37,7 @@ fun HellNotesAppState.navigateToNoteDetail(
     }
 }
 
-fun HellNotesAppState.navigateToReminderEdit(
+fun AppState.navigateToReminderEdit(
     from: NavBackStackEntry,
     noteId: Long? = Arguments.NoteId.emptyValue,
     reminderId: Long? = Arguments.ReminderId.emptyValue,
@@ -54,7 +54,7 @@ fun HellNotesAppState.navigateToReminderEdit(
     }
 }
 
-fun HellNotesAppState.navigateToLabelSelection(
+fun AppState.navigateToLabelSelection(
     from: NavBackStackEntry,
     noteId: Long? = Arguments.NoteId.emptyValue,
     navOptions: NavOptions = defaultNavOptions(),
@@ -69,7 +69,7 @@ fun HellNotesAppState.navigateToLabelSelection(
     }
 }
 
-fun HellNotesAppState.navigateToLockSetup(
+fun AppState.navigateToLockSetup(
     from: NavBackStackEntry,
     lockType: LockScreenType,
     navOptions: NavOptions = defaultNavOptions(),
@@ -82,7 +82,7 @@ fun HellNotesAppState.navigateToLockSetup(
     }
 }
 
-fun HellNotesAppState.navigateToSettings(
+fun AppState.navigateToSettings(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -94,7 +94,7 @@ fun HellNotesAppState.navigateToSettings(
     }
 }
 
-fun HellNotesAppState.navigateToAboutApp(
+fun AppState.navigateToAboutApp(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -106,7 +106,7 @@ fun HellNotesAppState.navigateToAboutApp(
     }
 }
 
-fun HellNotesAppState.navigateToHome(
+fun AppState.navigateToHome(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -118,7 +118,7 @@ fun HellNotesAppState.navigateToHome(
     }
 }
 
-fun HellNotesAppState.navigateToSearch(
+fun AppState.navigateToSearch(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -130,7 +130,7 @@ fun HellNotesAppState.navigateToSearch(
     }
 }
 
-fun HellNotesAppState.navigateToLabelEdit(
+fun AppState.navigateToLabelEdit(
     from: NavBackStackEntry,
     action: String,
     navOptions: NavOptions = defaultNavOptions(),
@@ -143,7 +143,7 @@ fun HellNotesAppState.navigateToLabelEdit(
     }
 }
 
-fun HellNotesAppState.navigateToLock(
+fun AppState.navigateToLock(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -155,7 +155,7 @@ fun HellNotesAppState.navigateToLock(
     }
 }
 
-fun HellNotesAppState.navigateToLockSelection(
+fun AppState.navigateToLockSelection(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -167,7 +167,7 @@ fun HellNotesAppState.navigateToLockSelection(
     }
 }
 
-fun HellNotesAppState.navigateToLanguageSelection(
+fun AppState.navigateToLanguageSelection(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -179,7 +179,7 @@ fun HellNotesAppState.navigateToLanguageSelection(
     }
 }
 
-fun HellNotesAppState.navigateToNoteStyleEdit(
+fun AppState.navigateToNoteStyleEdit(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -191,7 +191,7 @@ fun HellNotesAppState.navigateToNoteStyleEdit(
     }
 }
 
-fun HellNotesAppState.navigateToNoteSwipeEdit(
+fun AppState.navigateToNoteSwipeEdit(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -203,7 +203,7 @@ fun HellNotesAppState.navigateToNoteSwipeEdit(
     }
 }
 
-fun HellNotesAppState.navigateToReset(
+fun AppState.navigateToReset(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -215,7 +215,7 @@ fun HellNotesAppState.navigateToReset(
     }
 }
 
-fun HellNotesAppState.navigateToChangelog(
+fun AppState.navigateToChangelog(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -227,7 +227,7 @@ fun HellNotesAppState.navigateToChangelog(
     }
 }
 
-fun HellNotesAppState.navigateToPrivacyPolicy(
+fun AppState.navigateToPrivacyPolicy(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -239,7 +239,7 @@ fun HellNotesAppState.navigateToPrivacyPolicy(
     }
 }
 
-fun HellNotesAppState.navigateToTermsAndConditions(
+fun AppState.navigateToTermsAndConditions(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -251,7 +251,7 @@ fun HellNotesAppState.navigateToTermsAndConditions(
     }
 }
 
-fun HellNotesAppState.navigateToUpdate(
+fun AppState.navigateToUpdate(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -263,7 +263,7 @@ fun HellNotesAppState.navigateToUpdate(
     }
 }
 
-fun HellNotesAppState.navigateToBackup(
+fun AppState.navigateToBackup(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {

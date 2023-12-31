@@ -36,15 +36,22 @@ class LabelRepositoryImpl
         }
 
         override fun getAllLabelsStream(): Flow<List<Label>> {
-            return labelDao.getAllLabelsStream().map { it.map(LabelEntity::toLabel) }
+            return labelDao.getAllLabelsStream()
+                .map { it.map(LabelEntity::toLabel) }
         }
 
         override suspend fun getLabelById(id: Long): Label {
             return labelDao.getLabelById(id).toLabel()
         }
 
+        override fun getLabelByIdFlow(id: Long): Flow<Label> {
+            return labelDao.getLabelByIdFlow(id)
+                .map { it.toLabel() }
+        }
+
         override suspend fun getAllLabels(): List<Label> {
-            return labelDao.getAllLabels().map { labelEntity -> labelEntity.toLabel() }
+            return labelDao.getAllLabels()
+                .map { labelEntity -> labelEntity.toLabel() }
         }
 
         override suspend fun deleteNoteIdFromLabels(noteId: Long) {

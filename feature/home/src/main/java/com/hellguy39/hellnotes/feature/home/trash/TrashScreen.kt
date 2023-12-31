@@ -2,8 +2,12 @@ package com.hellguy39.hellnotes.feature.home.trash
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -12,40 +16,44 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.*
+import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.cards.TipCard
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.home.HomeScreenMultiActionSelection
-import com.hellguy39.hellnotes.feature.home.HomeScreenVisualsSelection
+import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
+import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.state.HomeState
+import com.hellguy39.hellnotes.feature.home.ActionViewModel
+import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 import com.hellguy39.hellnotes.feature.home.trash.components.TrashDropdownMenuSelection
 import com.hellguy39.hellnotes.feature.home.trash.components.TrashTopAppBar
 import com.hellguy39.hellnotes.feature.home.trash.components.TrashTopAppBarSelection
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrashScreen(
+    homeState: HomeState,
     trashViewModel: TrashViewModel = hiltViewModel(),
-    visualsSelection: HomeScreenVisualsSelection,
-    multiActionSelection: HomeScreenMultiActionSelection,
+    visualsViewModel: VisualsViewModel = hiltViewModel(),
+    actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
-    val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
     val restoreDialogState = rememberDialogState()
     val emptyTrashDialogState = rememberDialogState()
-    val scope = rememberCoroutineScope()
 
     val uiState by trashViewModel.uiState.collectAsStateWithLifecycle()
+    val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
+    val selectedNotes by actionViewModel.selectedNotes.collectAsStateWithLifecycle()
 
     CustomDialog(
         state = emptyTrashDialogState,
-        heroIcon = painterResource(id = HellNotesIcons.Delete),
-        title = stringResource(id = HellNotesStrings.Title.EmptyTrash),
-        message = stringResource(id = HellNotesStrings.Supporting.EmptyTrash),
+        heroIcon = painterResource(id = AppIcons.Delete),
+        title = stringResource(id = AppStrings.Title.EmptyTrash),
+        message = stringResource(id = AppStrings.Supporting.EmptyTrash),
         onCancel = {
             emptyTrashDialogState.dismiss()
         },
@@ -57,9 +65,9 @@ fun TrashScreen(
 
     CustomDialog(
         state = restoreDialogState,
-        heroIcon = painterResource(id = HellNotesIcons.RestoreFromTrash),
-        title = stringResource(id = HellNotesStrings.Title.RestoreThisNote),
-        message = stringResource(id = HellNotesStrings.Supporting.RestoreNote),
+        heroIcon = painterResource(id = AppIcons.RestoreFromTrash),
+        title = stringResource(id = AppStrings.Title.RestoreThisNote),
+        message = stringResource(id = AppStrings.Supporting.RestoreNote),
         onClose = {
             trashViewModel.clearSelectedNote()
             restoreDialogState.dismiss()
@@ -71,7 +79,7 @@ fun TrashScreen(
         onAccept = {
             val note = trashViewModel.selectedNote.value
             trashViewModel.clearSelectedNote()
-            multiActionSelection.onRestoreNote(note)
+            actionViewModel.restoreNoteFromTrash(note)
             restoreDialogState.dismiss()
         },
     )
@@ -86,15 +94,11 @@ fun TrashScreen(
                 scrollBehavior = scrollBehavior,
                 selection =
                     TrashTopAppBarSelection(
-                        onNavigation = {
-                            scope.launch {
-                                visualsSelection.drawerState.open()
-                            }
-                        },
-                        selectedNotes = multiActionSelection.selectedNotes,
-                        onCancelSelection = multiActionSelection.onCancelSelection,
-                        onRestoreSelected = multiActionSelection.onRestoreSelectedNotesFromTrash,
-                        onDeleteSelected = multiActionSelection.onDeleteSelectedNotesFromTrash,
+                        onNavigation = { homeState.openDrawer() },
+                        selectedNotes = selectedNotes,
+                        onCancelSelection = actionViewModel::cancelNoteSelection,
+                        onRestoreSelected = actionViewModel::restoreSelectedNotesFromTrash,
+                        onDeleteSelected = actionViewModel::deleteSelectedNotesFromTrash,
                     ),
                 trashDropdownMenuSelection =
                     TrashDropdownMenuSelection(
@@ -102,9 +106,8 @@ fun TrashScreen(
                     ),
             )
         },
-        snackbarHost = visualsSelection.snackbarHost,
+        snackbarHost = { CustomSnackbarHost(state = homeState.snackbarHostState) },
         content = { paddingValues ->
-
             if (uiState.trashNotes.isEmpty()) {
                 EmptyContentPlaceholder(
                     modifier =
@@ -112,8 +115,8 @@ fun TrashScreen(
                             .padding(horizontal = 32.dp)
                             .padding(paddingValues)
                             .fillMaxSize(),
-                    heroIcon = painterResource(id = HellNotesIcons.Delete),
-                    message = stringResource(id = HellNotesStrings.Placeholder.NoNotesInTrash),
+                    heroIcon = painterResource(id = AppIcons.Delete),
+                    message = stringResource(id = AppStrings.Placeholder.NoNotesInTrash),
                 )
             }
 
@@ -121,39 +124,39 @@ fun TrashScreen(
                 innerPadding = paddingValues,
                 noteSelection =
                     NoteSelection(
-                        noteStyle = visualsSelection.noteStyle,
+                        noteStyle = visualState.noteStyle,
                         onClick = { note ->
-                            if (multiActionSelection.selectedNotes.isEmpty()) {
+                            if (selectedNotes.isEmpty()) {
                                 trashViewModel.selectNote(note)
                                 restoreDialogState.show()
                             } else {
-                                if (multiActionSelection.selectedNotes.contains(note)) {
-                                    multiActionSelection.onUnselectNote(note)
+                                if (selectedNotes.contains(note)) {
+                                    actionViewModel.unselectNote(note)
                                 } else {
-                                    multiActionSelection.onSelectNote(note)
+                                    actionViewModel.selectNote(note)
                                 }
                             }
                         },
                         onLongClick = { note ->
-                            if (multiActionSelection.selectedNotes.contains(note)) {
-                                multiActionSelection.onUnselectNote(note)
+                            if (selectedNotes.contains(note)) {
+                                actionViewModel.unselectNote(note)
                             } else {
-                                multiActionSelection.onSelectNote(note)
+                                actionViewModel.selectNote(note)
                             }
                         },
                         onDismiss = { _, _ -> false },
-                        isSwipeable = visualsSelection.noteSwipesState.enabled,
+                        isSwipeable = visualState.noteSwipesState.enabled,
                     ),
                 categories =
                     listOf(
                         NoteCategory(notes = uiState.trashNotes),
                     ),
-                selectedNotes = multiActionSelection.selectedNotes,
-                listStyle = visualsSelection.listStyle,
+                selectedNotes = selectedNotes,
+                listStyle = visualState.listStyle,
                 listHeader = {
                     TipCard(
                         isVisible = !uiState.trashTipCompleted,
-                        message = stringResource(id = HellNotesStrings.Tip.AutoDeleteTrash),
+                        message = stringResource(id = AppStrings.Tip.AutoDeleteTrash),
                         onClose = { trashViewModel.trashTipCompleted(true) },
                     )
                 },

@@ -9,8 +9,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.ui.components.*
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -30,14 +30,14 @@ fun TrashTopAppBar(
                     Text(
                         text =
                             stringResource(
-                                id = HellNotesStrings.Title.Selected,
+                                id = AppStrings.Title.Selected,
                                 selection.selectedNotes.count(),
                             ),
                         style = MaterialTheme.typography.headlineSmall,
                     )
                 } else {
                     Text(
-                        text = stringResource(id = HellNotesStrings.Title.Trash),
+                        text = stringResource(id = AppStrings.Title.Trash),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge,
@@ -50,8 +50,8 @@ fun TrashTopAppBar(
                         onClick = { selection.onCancelSelection() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Close),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel),
+                            painter = painterResource(id = AppIcons.Close),
+                            contentDescription = stringResource(id = AppStrings.ContentDescription.Cancel),
                         )
                     }
                 } else {
@@ -59,7 +59,7 @@ fun TrashTopAppBar(
                         onClick = { selection.onNavigation() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Menu),
+                            painter = painterResource(id = AppIcons.Menu),
                             contentDescription = null,
                         )
                     }
@@ -71,7 +71,7 @@ fun TrashTopAppBar(
                         onClick = { selection.onRestoreSelected() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.RestoreFromTrash),
+                            painter = painterResource(id = AppIcons.RestoreFromTrash),
                             contentDescription = null,
                         )
                     }
@@ -79,7 +79,7 @@ fun TrashTopAppBar(
                         onClick = { selection.onDeleteSelected() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Delete),
+                            painter = painterResource(id = AppIcons.Delete),
                             contentDescription = null,
                         )
                     }
@@ -90,7 +90,7 @@ fun TrashTopAppBar(
                         },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.MoreVert),
+                            painter = painterResource(id = AppIcons.MoreVert),
                             contentDescription = null,
                         )
 
@@ -100,12 +100,12 @@ fun TrashTopAppBar(
                             items =
                                 listOf(
                                     CustomDropdownItemSelection(
-                                        text = stringResource(id = HellNotesStrings.MenuItem.EmptyTrash),
+                                        text = stringResource(id = AppStrings.MenuItem.EmptyTrash),
                                         onClick = {
                                             trashDropdownMenuState.dismiss()
                                             trashDropdownMenuSelection.onEmptyTrash()
                                         },
-                                        leadingIconId = painterResource(id = HellNotesIcons.Delete),
+                                        leadingIconId = painterResource(id = AppIcons.Delete),
                                     ),
                                 ),
                         )

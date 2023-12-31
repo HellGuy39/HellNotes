@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.lockselection.util.LockScreenTypeItemHolder
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,18 +33,18 @@ fun LockSelectionScreen(
     val screenTypes =
         listOf(
             LockScreenTypeItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.None),
-                icon = painterResource(id = HellNotesIcons.LockOpen),
+                title = stringResource(id = AppStrings.MenuItem.None),
+                icon = painterResource(id = AppIcons.LockOpen),
                 lockScreenType = LockScreenType.None,
             ),
             LockScreenTypeItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Pin),
-                icon = painterResource(id = HellNotesIcons.Pin),
+                title = stringResource(id = AppStrings.MenuItem.Pin),
+                icon = painterResource(id = AppIcons.Pin),
                 lockScreenType = LockScreenType.Pin,
             ),
             LockScreenTypeItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Password),
-                icon = painterResource(id = HellNotesIcons.Password),
+                title = stringResource(id = AppStrings.MenuItem.Password),
+                icon = painterResource(id = AppIcons.Password),
                 lockScreenType = LockScreenType.Password,
             ),
 //        LockScreenTypeItemHolder(
@@ -71,7 +71,7 @@ fun LockSelectionScreen(
                         title = item.title,
                         subtitle =
                             if (uiState.securityState.lockType == item.lockScreenType) {
-                                stringResource(id = HellNotesStrings.Subtitle.CurrentLockScreen)
+                                stringResource(id = AppStrings.Subtitle.CurrentLockScreen)
                             } else {
                                 ""
                             },
@@ -85,7 +85,7 @@ fun LockSelectionScreen(
             HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationBack,
-                title = stringResource(id = HellNotesStrings.Title.ChooseANewLockScreen),
+                title = stringResource(id = AppStrings.Title.ChooseANewLockScreen),
             )
         },
         snackbarHost = {

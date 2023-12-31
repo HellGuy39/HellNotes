@@ -25,7 +25,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,31 +47,33 @@ import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.feature.home.HomeScreenMultiActionSelection
-import com.hellguy39.hellnotes.feature.home.HomeScreenVisualsSelection
+import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.state.HomeState
+import com.hellguy39.hellnotes.feature.home.ActionViewModel
+import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 import com.hellguy39.hellnotes.feature.home.label.components.LabelDropdownMenuSelection
 import com.hellguy39.hellnotes.feature.home.label.components.LabelTopAppBar
 import com.hellguy39.hellnotes.feature.home.label.components.LabelTopAppBarSelection
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabelScreen(
+    homeState: HomeState,
     navigateToSearch: () -> Unit,
     navigateToNoteDetail: (id: Long?) -> Unit,
     labelViewModel: LabelViewModel = hiltViewModel(),
-    visualsSelection: HomeScreenVisualsSelection,
-    multiActionSelection: HomeScreenMultiActionSelection,
+    visualsViewModel: VisualsViewModel = hiltViewModel(),
+    actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
-    val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-    val scope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val context = LocalContext.current
 
     val uiState by labelViewModel.uiState.collectAsStateWithLifecycle()
+    val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
+    val selectedNotes by actionViewModel.selectedNotes.collectAsStateWithLifecycle()
 
     val deleteDialogState = rememberDialogState()
     val renameDialogState = rememberDialogState()
@@ -107,7 +108,7 @@ fun LabelScreen(
 
                 fun validate() {
                     if (name.text.isEmpty() || name.text.isBlank()) {
-                        errorMessage = context.getString(HellNotesStrings.Snack.LabelCannotBeEmpty)
+                        errorMessage = context.getString(AppStrings.Snack.LabelCannotBeEmpty)
                         isError = true
                         return
                     }
@@ -115,7 +116,7 @@ fun LabelScreen(
                         labelViewModel.send(LabelUiEvent.RenameLabel(name.text))
                         renameDialogState.dismiss()
                     } else {
-                        errorMessage = context.getString(HellNotesStrings.Snack.LabelAlreadyExist)
+                        errorMessage = context.getString(AppStrings.Snack.LabelAlreadyExist)
                         isError = true
                     }
                 }
@@ -136,13 +137,13 @@ fun LabelScreen(
                         singleLine = true,
                         placeholder = {
                             Text(
-                                text = stringResource(id = HellNotesStrings.Hint.Label),
+                                text = stringResource(id = AppStrings.Hint.Label),
                             )
                         },
                         trailingIcon = {
                             if (isError) {
                                 Icon(
-                                    painter = painterResource(id = HellNotesIcons.Error),
+                                    painter = painterResource(id = AppIcons.Error),
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.error,
                                 )
@@ -181,7 +182,7 @@ fun LabelScreen(
                         },
                     ) {
                         Text(
-                            text = stringResource(id = HellNotesStrings.Button.Cancel),
+                            text = stringResource(id = AppStrings.Button.Cancel),
                             style = MaterialTheme.typography.labelLarge,
                         )
                     }
@@ -193,7 +194,7 @@ fun LabelScreen(
                         },
                     ) {
                         Text(
-                            text = stringResource(id = HellNotesStrings.Button.Rename),
+                            text = stringResource(id = AppStrings.Button.Rename),
                             style = MaterialTheme.typography.labelLarge,
                         )
                     }
@@ -204,15 +205,15 @@ fun LabelScreen(
 
     CustomDialog(
         state = deleteDialogState,
-        heroIcon = painterResource(id = HellNotesIcons.Delete),
-        title = stringResource(id = HellNotesStrings.Title.DeleteThisLabel),
-        message = stringResource(id = HellNotesStrings.Supporting.DeleteLabel),
+        heroIcon = painterResource(id = AppIcons.Delete),
+        title = stringResource(id = AppStrings.Title.DeleteThisLabel),
+        message = stringResource(id = AppStrings.Supporting.DeleteLabel),
         onCancel = {
             deleteDialogState.dismiss()
         },
         onAccept = {
             labelViewModel.send(LabelUiEvent.DeleteLabel)
-            visualsSelection.resetDrawerRoute()
+            homeState.resetNavigation()
             deleteDialogState.dismiss()
         },
     )
@@ -222,9 +223,10 @@ fun LabelScreen(
             Modifier
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = { CustomSnackbarHost(state = homeState.snackbarHostState) },
         content = { paddingValues ->
             AnimatedContent(
-                targetState = visualsSelection.listStyle,
+                targetState = visualState.listStyle,
                 label = "listStyle",
             ) { listStyle ->
 
@@ -235,8 +237,8 @@ fun LabelScreen(
                                 .padding(horizontal = 32.dp)
                                 .padding(paddingValues)
                                 .fillMaxSize(),
-                        heroIcon = painterResource(id = HellNotesIcons.Label),
-                        message = stringResource(id = HellNotesStrings.Placeholder.Empty),
+                        heroIcon = painterResource(id = AppIcons.Label),
+                        message = stringResource(id = AppStrings.Placeholder.Empty),
                     )
                 }
 
@@ -244,46 +246,46 @@ fun LabelScreen(
                     innerPadding = paddingValues,
                     noteSelection =
                         NoteSelection(
-                            noteStyle = visualsSelection.noteStyle,
+                            noteStyle = visualState.noteStyle,
                             onClick = { note ->
-                                if (multiActionSelection.selectedNotes.isEmpty()) {
+                                if (selectedNotes.isEmpty()) {
                                     navigateToNoteDetail(note.id)
                                 } else {
-                                    if (multiActionSelection.selectedNotes.contains(note)) {
-                                        multiActionSelection.onUnselectNote(note)
+                                    if (selectedNotes.contains(note)) {
+                                        actionViewModel.unselectNote(note)
                                     } else {
-                                        multiActionSelection.onSelectNote(note)
+                                        actionViewModel.selectNote(note)
                                     }
                                 }
                             },
                             onLongClick = { note ->
-                                if (multiActionSelection.selectedNotes.contains(note)) {
-                                    multiActionSelection.onUnselectNote(note)
+                                if (selectedNotes.contains(note)) {
+                                    actionViewModel.unselectNote(note)
                                 } else {
-                                    multiActionSelection.onSelectNote(note)
+                                    actionViewModel.selectNote(note)
                                 }
                             },
                             onDismiss = { direction, note ->
                                 val swipeAction =
                                     if (direction == DismissDirection.StartToEnd) {
-                                        visualsSelection.noteSwipesState.swipeRight
+                                        visualState.noteSwipesState.swipeRight
                                     } else {
-                                        visualsSelection.noteSwipesState.swipeLeft
+                                        visualState.noteSwipesState.swipeLeft
                                     }
 
                                 when (swipeAction) {
                                     NoteSwipe.None -> false
                                     NoteSwipe.Delete -> {
-                                        multiActionSelection.onDeleteNote(note)
+                                        actionViewModel.deleteNote(note = note)
                                         true
                                     }
                                     NoteSwipe.Archive -> {
-                                        multiActionSelection.onArchiveNote(note, true)
+                                        actionViewModel.archiveNote(note = note, isArchived = true)
                                         true
                                     }
                                 }
                             },
-                            isSwipeable = visualsSelection.noteSwipesState.enabled,
+                            isSwipeable = visualState.noteSwipesState.enabled,
                         ),
                     categories =
                         listOf(
@@ -291,7 +293,7 @@ fun LabelScreen(
                                 notes = uiState.notes,
                             ),
                         ),
-                    selectedNotes = multiActionSelection.selectedNotes,
+                    selectedNotes = selectedNotes,
                     listStyle = listStyle,
                 )
             }
@@ -301,18 +303,14 @@ fun LabelScreen(
                 scrollBehavior = scrollBehavior,
                 selection =
                     LabelTopAppBarSelection(
-                        selectedNotes = multiActionSelection.selectedNotes,
-                        onDeleteSelected = multiActionSelection.onDeleteSelectedNotes,
-                        onCancelSelection = multiActionSelection.onCancelSelection,
-                        onArchiveSelected = { multiActionSelection.onArchiveSelectedNotes(true) },
-                        onNavigation = {
-                            scope.launch {
-                                visualsSelection.drawerState.open()
-                            }
-                        },
-                        listStyle = visualsSelection.listStyle,
+                        selectedNotes = selectedNotes,
+                        onDeleteSelected = actionViewModel::deleteSelectedNotes,
+                        onCancelSelection = actionViewModel::cancelNoteSelection,
+                        onArchiveSelected = { actionViewModel.archiveSelectedNotes(true) },
+                        onNavigation = { homeState.openDrawer() },
+                        listStyle = visualState.listStyle,
                         onSearch = { navigateToSearch() },
-                        onChangeListStyle = visualsSelection.onUpdateListStyle,
+                        onChangeListStyle = visualsViewModel::toggleListStyle,
                     ),
                 dropdownMenuSelection =
                     LabelDropdownMenuSelection(

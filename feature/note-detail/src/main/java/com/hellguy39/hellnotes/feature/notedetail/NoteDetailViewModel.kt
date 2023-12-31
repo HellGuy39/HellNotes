@@ -38,7 +38,7 @@ class NoteDetailViewModel
         private val deleteNoteUseCase: DeleteNoteUseCase,
         private val postProcessNoteUseCase: PostProcessNoteUseCase,
         private val copyNoteUseCase: CopyNoteUseCase,
-        savedStateHandle: SavedStateHandle,
+        private val savedStateHandle: SavedStateHandle,
     ) : ViewModel() {
         private val note: MutableStateFlow<Note> = MutableStateFlow(Note())
         private val checklists: MutableStateFlow<List<Checklist>> = MutableStateFlow(emptyList())
@@ -67,21 +67,7 @@ class NoteDetailViewModel
 
         init {
             viewModelScope.launch {
-                val noteId =
-                    savedStateHandle.getArgument(Arguments.NoteId)
-                        .let { id ->
-                            if (Arguments.NoteId.isEmpty(id)) {
-                                noteRepository.insertNote(Note())
-                            } else {
-                                id
-                            }
-                        }
-
-                val note = noteRepository.getNoteById(noteId)
-                val checklists = checklistRepository.getChecklistsByNoteId(noteId)
-
-                this@NoteDetailViewModel.note.update { note }
-                this@NoteDetailViewModel.checklists.update { checklists }
+                loadNote(getNoteId())
             }
         }
 
@@ -100,9 +86,9 @@ class NoteDetailViewModel
                 is NoteDetailUiEvent.UpdateChecklistItem ->
                     updateChecklistItem(uiEvent.checklist, uiEvent.oldItem, uiEvent.newItem)
 
-                is NoteDetailUiEvent.UpdateIsArchived -> updateIsArchived(uiEvent.isArchived)
+                is NoteDetailUiEvent.ToggleIsArchived -> toggleIsArchived()
 
-                is NoteDetailUiEvent.UpdateIsPinned -> updateIsPinned(uiEvent.isPinned)
+                is NoteDetailUiEvent.ToggleIsPinned -> toggleIsPinned()
 
                 is NoteDetailUiEvent.UpdateNoteContent -> updateNoteContent(uiEvent.text)
 
@@ -117,17 +103,17 @@ class NoteDetailViewModel
 
                 is NoteDetailUiEvent.DeleteNote -> moveNoteToTrash()
 
-                is NoteDetailUiEvent.CopyNote -> copyNote(uiEvent.onCopied)
+                is NoteDetailUiEvent.CopyNote -> copyNote()
 
                 is NoteDetailUiEvent.ExpandChecklist -> expandChecklist(uiEvent.checklist, uiEvent.isExpanded)
             }
         }
 
-        private fun copyNote(onCopied: (id: Long) -> Unit) {
+        private fun copyNote() {
             viewModelScope.launch {
                 val wrapper = uiState.value.wrapper
                 val noteId = copyNoteUseCase.invoke(wrapper)
-                onCopied(noteId)
+                loadNote(noteId)
             }
         }
 
@@ -180,15 +166,15 @@ class NoteDetailViewModel
             }
         }
 
-        private fun updateIsArchived(isArchived: Boolean) {
+        private fun toggleIsArchived() {
             viewModelScope.launch {
-                note.update { note -> note.copy(isArchived = isArchived) }
+                note.update { note -> note.copy(isArchived = note.isArchived.not()) }
             }
         }
 
-        private fun updateIsPinned(isPinned: Boolean) {
+        private fun toggleIsPinned() {
             viewModelScope.launch {
-                note.update { note -> note.copy(isPinned = isPinned) }
+                note.update { note -> note.copy(isPinned = note.isPinned.not()) }
             }
         }
 
@@ -320,6 +306,27 @@ class NoteDetailViewModel
                 }
             }
         }
+
+        private fun loadNote(noteId: Long) {
+            viewModelScope.launch {
+                val note = noteRepository.getNoteById(noteId)
+                val checklists = checklistRepository.getChecklistsByNoteId(noteId)
+
+                this@NoteDetailViewModel.note.update { note }
+                this@NoteDetailViewModel.checklists.update { checklists }
+            }
+        }
+
+        private suspend fun getNoteId(): Long {
+            return savedStateHandle.getArgument(Arguments.NoteId)
+                .let { id ->
+                    if (Arguments.NoteId.isEmpty(id)) {
+                        noteRepository.insertNote(Note())
+                    } else {
+                        id
+                    }
+                }
+        }
     }
 
 sealed class NoteDetailUiEvent {
@@ -327,9 +334,9 @@ sealed class NoteDetailUiEvent {
 
     data class UpdateNoteContent(val text: String) : NoteDetailUiEvent()
 
-    data class UpdateIsPinned(val isPinned: Boolean) : NoteDetailUiEvent()
+    data object ToggleIsPinned : NoteDetailUiEvent()
 
-    data class UpdateIsArchived(val isArchived: Boolean) : NoteDetailUiEvent()
+    data object ToggleIsArchived : NoteDetailUiEvent()
 
     data class CheckAllChecklistItems(val checklist: Checklist, val isCheck: Boolean) : NoteDetailUiEvent()
 
@@ -351,7 +358,7 @@ sealed class NoteDetailUiEvent {
 
     data object Close : NoteDetailUiEvent()
 
-    data class CopyNote(val onCopied: (id: Long) -> Unit) : NoteDetailUiEvent()
+    data object CopyNote : NoteDetailUiEvent()
 }
 
 data class NoteDetailUiState(

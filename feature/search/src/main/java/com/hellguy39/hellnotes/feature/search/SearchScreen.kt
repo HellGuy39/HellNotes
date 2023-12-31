@@ -20,8 +20,8 @@ import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 
@@ -73,8 +73,8 @@ fun SearchScreen(
                                 .padding(horizontal = Spaces.large)
                                 .padding(innerPadding)
                                 .fillMaxSize(),
-                        heroIcon = painterResource(id = HellNotesIcons.Search),
-                        message = stringResource(id = HellNotesStrings.Placeholder.NothingWasFound),
+                        heroIcon = painterResource(id = AppIcons.Search),
+                        message = stringResource(id = AppStrings.Placeholder.NothingWasFound),
                     )
                 }
 
@@ -97,12 +97,12 @@ fun SearchScreen(
                                             searchScreenSelection.onUpdateChecklistFilter(!uiState.filters.withChecklist)
                                         },
                                         label = {
-                                            Text(text = stringResource(id = HellNotesStrings.Label.Checklist))
+                                            Text(text = stringResource(id = AppStrings.Label.Checklist))
                                         },
                                         leadingIcon = {
                                             Icon(
                                                 modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = HellNotesIcons.Checklist),
+                                                painter = painterResource(id = AppIcons.Checklist),
                                                 contentDescription = null,
                                             )
                                         },
@@ -116,12 +116,12 @@ fun SearchScreen(
                                             searchScreenSelection.onUpdateReminderFilter(!uiState.filters.withReminder)
                                         },
                                         label = {
-                                            Text(text = stringResource(id = HellNotesStrings.Label.Reminder))
+                                            Text(text = stringResource(id = AppStrings.Label.Reminder))
                                         },
                                         leadingIcon = {
                                             Icon(
                                                 modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = HellNotesIcons.Alarm),
+                                                painter = painterResource(id = AppIcons.Alarm),
                                                 contentDescription = null,
                                             )
                                         },
@@ -135,12 +135,12 @@ fun SearchScreen(
                                             searchScreenSelection.onUpdateArchiveFilter(!uiState.filters.withArchive)
                                         },
                                         label = {
-                                            Text(text = stringResource(id = HellNotesStrings.Label.Archive))
+                                            Text(text = stringResource(id = AppStrings.Label.Archive))
                                         },
                                         leadingIcon = {
                                             Icon(
                                                 modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = HellNotesIcons.Archive),
+                                                painter = painterResource(id = AppIcons.Archive),
                                                 contentDescription = null,
                                             )
                                         },

@@ -49,13 +49,13 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
-import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
+import com.hellguy39.hellnotes.core.model.repository.local.database.hasContentText
 import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Alpha
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiState
@@ -73,8 +73,10 @@ fun NoteDetailContent(
     var isFirstLaunchFocusRequested by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(key1 = uiState, key2 = windowInfo) {
-        if (!uiState.wrapper.note.isNoteValid() && !isFirstLaunchFocusRequested) {
-            snapshotFlow { windowInfo.isWindowFocused }.collect { isWindowFocused ->
+        if (!uiState.wrapper.note.hasContentText() && !isFirstLaunchFocusRequested) {
+            snapshotFlow {
+                windowInfo.isWindowFocused
+            }.collect { isWindowFocused ->
                 if (isWindowFocused) {
                     focusRequester.requestFocus()
                     isFirstLaunchFocusRequested = true
@@ -86,16 +88,14 @@ fun NoteDetailContent(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         state = lazyListState,
-//        contentPadding = PaddingValues(
-//            top = innerPadding.calculateTopPadding() + Spaces.medium,
-//            bottom = innerPadding.calculateBottomPadding() + Spaces.medium
-//        ),
-        contentPadding = innerPadding,
+        contentPadding =
+            PaddingValues(
+                top = innerPadding.calculateTopPadding() + Spaces.medium,
+                bottom = innerPadding.calculateBottomPadding() + Spaces.medium,
+            ),
         verticalArrangement = Arrangement.spacedBy(Spaces.medium),
     ) {
-        item(
-            key = -1,
-        ) {
+        item(-1) {
             HNClearTextField(
                 modifier =
                     Modifier
@@ -104,13 +104,11 @@ fun NoteDetailContent(
                 value = uiState.wrapper.note.title,
                 isSingleLine = false,
                 onValueChange = { newText -> selection.onTitleTextChanged(newText) },
-                hint = stringResource(id = HellNotesStrings.Hint.Title),
+                hint = stringResource(id = AppStrings.Hint.Title),
                 textStyle = MaterialTheme.typography.titleLarge,
             )
         }
-        item(
-            key = -2,
-        ) {
+        item(-2) {
             HNClearTextField(
                 modifier =
                     Modifier
@@ -120,7 +118,7 @@ fun NoteDetailContent(
                 value = uiState.wrapper.note.note,
                 isSingleLine = false,
                 onValueChange = { newText -> selection.onNoteTextChanged(newText) },
-                hint = stringResource(id = HellNotesStrings.Hint.Note),
+                hint = stringResource(id = AppStrings.Hint.Note),
                 textStyle = MaterialTheme.typography.bodyLarge,
             )
         }
@@ -161,7 +159,7 @@ fun NoteDetailContent(
                             modifier = Modifier.size(48.dp),
                             onClick = { checklistSelection.onUpdateIsChecklistExpanded(checklist, !isVisible) },
                         ) {
-                            val painterId = if (isVisible) HellNotesIcons.ExpandLess else HellNotesIcons.ExpandMore
+                            val painterId = if (isVisible) AppIcons.ExpandLess else AppIcons.ExpandMore
                             Icon(
                                 modifier = Modifier.size(24.dp),
                                 painter = painterResource(id = painterId),
@@ -181,7 +179,7 @@ fun NoteDetailContent(
                                 checklistSelection.onChecklistNameChange(checklist, newText)
                             },
                             isSingleLine = true,
-                            hint = stringResource(id = HellNotesStrings.Hint.NewChecklist),
+                            hint = stringResource(id = AppStrings.Hint.NewChecklist),
                         )
 
                         IconButton(
@@ -190,7 +188,7 @@ fun NoteDetailContent(
                         ) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
-                                painter = painterResource(id = HellNotesIcons.MoreHoriz),
+                                painter = painterResource(id = AppIcons.MoreHoriz),
                                 contentDescription = null,
                             )
 
@@ -263,7 +261,7 @@ fun NoteDetailContent(
                                         modifier =
                                             Modifier
                                                 .size(24.dp),
-                                        painter = painterResource(id = HellNotesIcons.Add),
+                                        painter = painterResource(id = AppIcons.Add),
                                         tint = MaterialTheme.colorScheme.onPrimaryContainer,
                                         contentDescription = null,
                                     )
@@ -274,7 +272,7 @@ fun NoteDetailContent(
                                 ) {
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
-                                        text = stringResource(id = HellNotesStrings.Hint.AddNewItem),
+                                        text = stringResource(id = AppStrings.Hint.AddNewItem),
                                         style = MaterialTheme.typography.bodyLarge,
                                         textAlign = TextAlign.Start,
                                         color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -288,9 +286,7 @@ fun NoteDetailContent(
         }
 
         if (uiState.wrapper.reminders.isNotEmpty() || uiState.wrapper.labels.isNotEmpty()) {
-            item(
-                key = -3,
-            ) {
+            item(-3) {
                 NoteChipGroup(
                     modifier =
                         Modifier
@@ -410,13 +406,13 @@ fun CheckListItem(
                     MaterialTheme.typography.bodyLarge.copy(
                         textDecoration = if (item.isChecked) TextDecoration.LineThrough else null,
                     ),
-                hint = stringResource(id = HellNotesStrings.Hint.Item),
+                hint = stringResource(id = AppStrings.Hint.Item),
             )
 
             HNIconButton(
                 enabled = isFocused,
                 onClick = onDeleteItem,
-                enabledPainter = painterResource(id = HellNotesIcons.Delete),
+                enabledPainter = painterResource(id = AppIcons.Delete),
                 containerSize = 48.dp,
             )
         }

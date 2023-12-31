@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -61,7 +61,7 @@ fun NoteChipGroup(
                         modifier =
                             Modifier
                                 .size(FilterChipDefaults.IconSize),
-                        painter = painterResource(id = HellNotesIcons.Alarm),
+                        painter = painterResource(id = AppIcons.Alarm),
                         contentDescription = null,
                     )
                 },

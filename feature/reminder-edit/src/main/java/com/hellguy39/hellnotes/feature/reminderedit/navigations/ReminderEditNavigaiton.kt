@@ -5,13 +5,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
-import com.hellguy39.hellnotes.core.ui.HellNotesAppState
+import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.values.slideEnterTransition
-import com.hellguy39.hellnotes.core.ui.values.slideExitTransition
+import com.hellguy39.hellnotes.core.ui.state.AppState
 import com.hellguy39.hellnotes.feature.reminderedit.ReminderEditRoute
 
-fun NavGraphBuilder.reminderEditScreen(appState: HellNotesAppState) {
+fun NavGraphBuilder.reminderEditScreen(appState: AppState) {
     composable(
         route = Screen.ReminderEdit.withArgKeys(Arguments.NoteId.key, Arguments.ReminderId.key),
         arguments =

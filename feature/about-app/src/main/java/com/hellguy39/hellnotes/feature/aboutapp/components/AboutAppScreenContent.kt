@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.aboutapp.AboutAppScreenSelection
 import com.hellguy39.hellnotes.feature.aboutapp.BuildConfig
@@ -88,7 +88,7 @@ fun AboutAppScreenContent(
                         onClick = selection.onGithub,
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.GitHub),
+                            painter = painterResource(id = AppIcons.GitHub),
                             contentDescription = null,
                         )
                     }
@@ -105,13 +105,13 @@ fun AboutAppScreenContent(
                 ListItem(
                     modifier = Modifier.clickable { selection.onChangelog() },
                     headlineContent = {
-                        Text(text = stringResource(id = HellNotesStrings.MenuItem.Changelog))
+                        Text(text = stringResource(id = AppStrings.MenuItem.Changelog))
                     },
                 )
                 ListItem(
                     modifier = Modifier.clickable { selection.onPrivacyPolicy() },
                     headlineContent = {
-                        Text(text = stringResource(id = HellNotesStrings.MenuItem.PrivacyPolicy))
+                        Text(text = stringResource(id = AppStrings.MenuItem.PrivacyPolicy))
                     },
                 )
                 ListItem(
@@ -120,7 +120,7 @@ fun AboutAppScreenContent(
                         Text(
                             text =
                                 stringResource(
-                                    id = HellNotesStrings.MenuItem.TermsAndConditions,
+                                    id = AppStrings.MenuItem.TermsAndConditions,
                                 ),
                         )
                     },
@@ -128,7 +128,7 @@ fun AboutAppScreenContent(
                 ListItem(
                     modifier = Modifier.clickable { selection.onProvideFeedback() },
                     headlineContent = {
-                        Text(text = stringResource(id = HellNotesStrings.MenuItem.ProvideFeedback))
+                        Text(text = stringResource(id = AppStrings.MenuItem.ProvideFeedback))
                     },
                 )
             }
@@ -143,7 +143,7 @@ fun AboutAppScreenContent(
                 ListItem(
                     modifier = Modifier.clickable { selection.onReset() },
                     headlineContent = {
-                        Text(text = stringResource(id = HellNotesStrings.MenuItem.Reset))
+                        Text(text = stringResource(id = AppStrings.MenuItem.Reset))
                     },
                 )
             }

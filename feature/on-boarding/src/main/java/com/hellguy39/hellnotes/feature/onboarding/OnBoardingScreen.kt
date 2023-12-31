@@ -39,7 +39,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.onboarding.util.OnBoardingPage
 import kotlinx.coroutines.launch
@@ -108,7 +108,7 @@ fun OnBoardingScreen(
                     onClick = onSkip,
                     enabled = animatedSkipButton == 1f,
                 ) {
-                    Text(text = stringResource(id = HellNotesStrings.Button.Skip))
+                    Text(text = stringResource(id = AppStrings.Button.Skip))
                 }
 
                 Button(
@@ -126,7 +126,7 @@ fun OnBoardingScreen(
                     },
                 ) {
                     Text(
-                        text = stringResource(id = HellNotesStrings.Button.finish(isFinished)),
+                        text = stringResource(id = AppStrings.Button.finish(isFinished)),
                     )
                 }
             }

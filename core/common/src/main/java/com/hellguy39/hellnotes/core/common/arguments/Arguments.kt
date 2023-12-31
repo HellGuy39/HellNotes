@@ -8,6 +8,8 @@ sealed class Arguments<T>(
 
     data object ReminderId : Arguments<Long>("reminder_id", -1L)
 
+    data object LabelId : Arguments<Long>("label_id", -1L)
+
     data object Message : Arguments<String>("message", "")
 
     data object Action : Arguments<String>("action", "")

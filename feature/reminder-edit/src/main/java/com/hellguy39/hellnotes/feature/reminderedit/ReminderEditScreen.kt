@@ -26,8 +26,8 @@ import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -93,7 +93,7 @@ fun ReminderEditScreen(
 
     CustomDialog(
         state = repeatDialogState,
-        title = stringResource(id = HellNotesStrings.Title.Repeat),
+        title = stringResource(id = AppStrings.Title.Repeat),
         onCancel = { repeatDialogState.dismiss() },
         limitMaxHeight = false,
         content = {
@@ -133,9 +133,9 @@ fun ReminderEditScreen(
                 onNavigationButtonClick = onNavigationBack,
                 title =
                     if (uiState.isEdit) {
-                        stringResource(id = HellNotesStrings.Title.EditReminder)
+                        stringResource(id = AppStrings.Title.EditReminder)
                     } else {
-                        stringResource(id = HellNotesStrings.Title.NewReminder)
+                        stringResource(id = AppStrings.Title.NewReminder)
                     },
             )
         },
@@ -154,14 +154,14 @@ fun ReminderEditScreen(
                     Button(
                         onClick = { notificationPermissionState.launchPermissionRequest() },
                     ) {
-                        Text(text = stringResource(id = HellNotesStrings.Button.RequestPermission))
+                        Text(text = stringResource(id = AppStrings.Button.RequestPermission))
                     }
                 } else if (!uiState.isEdit) {
                     Button(
                         onClick = { selection.onCreateReminder() },
                     ) {
                         Text(
-                            text = stringResource(id = HellNotesStrings.Button.Create),
+                            text = stringResource(id = AppStrings.Button.Create),
                             style = MaterialTheme.typography.labelLarge,
                         )
                     }
@@ -175,7 +175,7 @@ fun ReminderEditScreen(
                             onClick = { selection.onDeleteReminder() },
                         ) {
                             Text(
-                                text = stringResource(id = HellNotesStrings.Button.Delete),
+                                text = stringResource(id = AppStrings.Button.Delete),
                                 style = MaterialTheme.typography.labelLarge,
                             )
                         }
@@ -185,7 +185,7 @@ fun ReminderEditScreen(
                             onClick = { selection.onUpdateReminder() },
                         ) {
                             Text(
-                                text = stringResource(id = HellNotesStrings.Button.Save),
+                                text = stringResource(id = AppStrings.Button.Save),
                                 style = MaterialTheme.typography.labelLarge,
                             )
                         }
@@ -198,9 +198,9 @@ fun ReminderEditScreen(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val textToShow =
                     if (notificationPermissionState?.status?.shouldShowRationale == true) {
-                        stringResource(id = HellNotesStrings.Permission.NotificationRationale)
+                        stringResource(id = AppStrings.Permission.NotificationRationale)
                     } else {
-                        stringResource(id = HellNotesStrings.Permission.NotificationDefault)
+                        stringResource(id = AppStrings.Permission.NotificationDefault)
                     }
 
                 if (notificationPermissionState?.status?.isGranted == false) {
@@ -218,7 +218,7 @@ fun ReminderEditScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Notifications),
+                            painter = painterResource(id = AppIcons.Notifications),
                             contentDescription = null,
                             modifier =
                                 Modifier
@@ -261,7 +261,7 @@ fun ReminderEditScreen(
                                     Modifier
                                         .padding(vertical = 16.dp)
                                         .padding(start = 16.dp, end = 12.dp),
-                                painter = painterResource(id = HellNotesIcons.Event),
+                                painter = painterResource(id = AppIcons.Event),
                                 contentDescription = null,
                             )
                             Text(
@@ -286,7 +286,7 @@ fun ReminderEditScreen(
                                     Modifier
                                         .padding(vertical = 12.dp)
                                         .padding(start = 16.dp, end = 12.dp),
-                                painter = painterResource(id = HellNotesIcons.Schedule),
+                                painter = painterResource(id = AppIcons.Schedule),
                                 contentDescription = null,
                             )
                             Text(
@@ -311,13 +311,13 @@ fun ReminderEditScreen(
                                 .padding(horizontal = 16.dp),
                         placeholder = {
                             Text(
-                                text = stringResource(id = HellNotesStrings.Hint.Message),
+                                text = stringResource(id = AppStrings.Hint.Message),
                                 style = MaterialTheme.typography.bodyLarge,
                             )
                         },
                         label = {
                             Text(
-                                text = stringResource(id = HellNotesStrings.Hint.Message),
+                                text = stringResource(id = AppStrings.Hint.Message),
                                 style = MaterialTheme.typography.bodySmall,
                             )
                         },
@@ -337,7 +337,7 @@ fun ReminderEditScreen(
                                 Modifier
                                     .padding(vertical = 16.dp)
                                     .padding(start = 16.dp, end = 12.dp),
-                            painter = painterResource(id = HellNotesIcons.Repeat),
+                            painter = painterResource(id = AppIcons.Repeat),
                             contentDescription = null,
                         )
                         Text(

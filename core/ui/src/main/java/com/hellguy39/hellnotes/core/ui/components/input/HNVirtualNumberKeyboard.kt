@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 
 @Composable
 fun HNVirtualNumberKeyboard(
@@ -134,7 +134,7 @@ fun KeyboardNumberButton(
                 shape = CircleShape,
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.Backspace),
+                    painter = painterResource(id = AppIcons.Backspace),
                     contentDescription = null,
                     modifier = Modifier.size(32.dp),
                 )
@@ -148,7 +148,7 @@ fun KeyboardNumberButton(
                 shape = CircleShape,
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.KeyboardTab),
+                    painter = painterResource(id = AppIcons.KeyboardTab),
                     contentDescription = null,
                     modifier = Modifier.size(32.dp),
                 )

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Elevation
 import java.io.Serializable
 
@@ -140,7 +140,7 @@ fun CustomDialog(
                                 onClick = onCancel,
                             ) {
                                 Text(
-                                    text = stringResource(id = HellNotesStrings.Button.Cancel),
+                                    text = stringResource(id = AppStrings.Button.Cancel),
                                     style = MaterialTheme.typography.labelLarge,
                                 )
                             }
@@ -151,7 +151,7 @@ fun CustomDialog(
                                 onClick = onAccept,
                             ) {
                                 Text(
-                                    text = stringResource(id = HellNotesStrings.Button.Accept),
+                                    text = stringResource(id = AppStrings.Button.Accept),
                                     style = MaterialTheme.typography.labelLarge,
                                 )
                             }

@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.ui.values
+package com.hellguy39.hellnotes.core.ui.animations
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
@@ -6,6 +6,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
+import com.hellguy39.hellnotes.core.ui.values.Duration
 
 fun <T> AnimatedContentTransitionScope<T>.slideEnterTransition(
     duration: Int = Duration.MEDIUM,

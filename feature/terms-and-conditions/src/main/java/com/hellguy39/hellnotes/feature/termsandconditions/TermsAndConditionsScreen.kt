@@ -13,8 +13,8 @@ import com.halilibo.richtext.markdown.Markdown
 import com.halilibo.richtext.ui.material3.Material3RichText
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +38,7 @@ fun TermsAndConditionsScreen(
                 HNTopAppBar(
                     scrollBehavior = scrollBehavior,
                     onNavigationButtonClick = onNavigationButtonClick,
-                    title = stringResource(id = HellNotesStrings.Title.TermsAndConditions),
+                    title = stringResource(id = AppStrings.Title.TermsAndConditions),
                     actions = {
                         if (!uiState.isLoading && !uiState.isError) {
                             FilterChip(
@@ -49,7 +49,7 @@ fun TermsAndConditionsScreen(
                                 selected = false,
                                 onClick = {
                                 },
-                                label = { Text(text = stringResource(id = HellNotesStrings.Markdown)) },
+                                label = { Text(text = stringResource(id = AppStrings.Markdown)) },
                             )
                         }
                     },
@@ -87,13 +87,13 @@ fun TermsAndConditionsScreen(
                             .padding(paddingValues)
                             .padding(horizontal = 32.dp)
                             .fillMaxSize(),
-                    heroIcon = painterResource(id = HellNotesIcons.Error),
-                    message = stringResource(id = HellNotesStrings.Placeholder.FailedToLoadData),
+                    heroIcon = painterResource(id = AppIcons.Error),
+                    message = stringResource(id = AppStrings.Placeholder.FailedToLoadData),
                     actions = {
                         TextButton(
                             onClick = onTryAgain,
                         ) {
-                            Text(text = stringResource(id = HellNotesStrings.Button.TryAgain))
+                            Text(text = stringResource(id = AppStrings.Button.TryAgain))
                         }
                     },
                 )

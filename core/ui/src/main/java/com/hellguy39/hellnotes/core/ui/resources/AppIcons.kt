@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.core.ui.resources
 
 import com.hellguy39.hellnotes.core.ui.R
 
-object HellNotesIcons {
+object AppIcons {
     val PinActivated = R.drawable.ic_push_pin_filled_24
     val PinDisabled = R.drawable.ic_push_pin_24
 
@@ -53,6 +53,7 @@ object HellNotesIcons {
     val PhotoCamera = R.drawable.ic_photo_camera_24
     val Save = R.drawable.ic_save_24
     val MenuOpen = R.drawable.ic_menu_open_24
+    val Folder = R.drawable.ic_folder_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24

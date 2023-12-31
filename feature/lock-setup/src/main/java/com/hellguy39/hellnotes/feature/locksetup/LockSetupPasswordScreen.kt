@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -57,7 +57,7 @@ fun LockSetupPasswordScreen(
                         onPasswordEntered(password)
                     } else {
                         isError = true
-                        errorMessage = context.getString(HellNotesStrings.Supporting.WrongPassword)
+                        errorMessage = context.getString(AppStrings.Supporting.WrongPassword)
                     }
                 }
             }
@@ -116,7 +116,7 @@ fun LockSetupPasswordScreen(
                                 if (isError) {
                                     errorMessage
                                 } else if (value.length < 4) {
-                                    stringResource(id = HellNotesStrings.Supporting.PasswordMustBeAtLeast4Characters)
+                                    stringResource(id = AppStrings.Supporting.PasswordMustBeAtLeast4Characters)
                                 } else {
                                     ""
                                 }
@@ -158,7 +158,7 @@ fun LockSetupPasswordScreen(
                             contentPadding = ButtonDefaults.TextButtonContentPadding,
                         ) {
                             Text(
-                                text = stringResource(id = HellNotesStrings.Button.Clear),
+                                text = stringResource(id = AppStrings.Button.Clear),
                                 modifier = Modifier,
                                 style = MaterialTheme.typography.labelLarge,
                             )
@@ -171,8 +171,8 @@ fun LockSetupPasswordScreen(
                             Text(
                                 text =
                                     when (state) {
-                                        is SetupPasswordState.SetPassword -> stringResource(id = HellNotesStrings.Button.Next)
-                                        is SetupPasswordState.ConfirmPassword -> stringResource(id = HellNotesStrings.Button.Confirm)
+                                        is SetupPasswordState.SetPassword -> stringResource(id = AppStrings.Button.Next)
+                                        is SetupPasswordState.ConfirmPassword -> stringResource(id = AppStrings.Button.Confirm)
                                     },
                                 modifier = Modifier,
                                 style = MaterialTheme.typography.labelLarge,
@@ -187,8 +187,8 @@ fun LockSetupPasswordScreen(
                     onNavigationButtonClick = onNavigationBack,
                     title =
                         when (state) {
-                            SetupPasswordState.SetPassword -> stringResource(id = HellNotesStrings.Title.SetAPassword)
-                            SetupPasswordState.ConfirmPassword -> stringResource(id = HellNotesStrings.Title.ReEnterYourPassword)
+                            SetupPasswordState.SetPassword -> stringResource(id = AppStrings.Title.SetAPassword)
+                            SetupPasswordState.ConfirmPassword -> stringResource(id = AppStrings.Title.ReEnterYourPassword)
                         },
                 )
             },

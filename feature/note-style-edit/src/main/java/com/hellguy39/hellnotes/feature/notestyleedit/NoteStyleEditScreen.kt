@@ -32,14 +32,14 @@ import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.ui.animations.slideRightOnlyContentTransform
 import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteCard
 import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Duration
 import com.hellguy39.hellnotes.core.ui.values.Spaces
-import com.hellguy39.hellnotes.core.ui.values.slideRightOnlyContentTransform
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,7 +76,7 @@ fun NoteStyleEditScreen(
             HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
-                title = stringResource(id = HellNotesStrings.Title.NoteStyle),
+                title = stringResource(id = AppStrings.Title.NoteStyle),
             )
         },
         content = { innerPadding ->

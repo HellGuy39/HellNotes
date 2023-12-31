@@ -19,8 +19,7 @@ fun NoteDetailScreen(
     topAppBarSelection: NoteDetailTopAppBarSelection,
     bottomBarSelection: NoteDetailBottomBarSelection,
 ) {
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val focusRequester = remember { FocusRequester() }
 
@@ -32,14 +31,16 @@ fun NoteDetailScreen(
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { innerPadding ->
-            NoteDetailContent(
-                innerPadding = innerPadding,
-                selection = noteDetailContentSelection,
-                checklistSelection = noteDetailChecklistSelection,
-                focusRequester = focusRequester,
-                uiState = uiState,
-                lazyListState = lazyListState,
-            )
+            if (uiState.wrapper.note.id != null) {
+                NoteDetailContent(
+                    innerPadding = innerPadding,
+                    selection = noteDetailContentSelection,
+                    checklistSelection = noteDetailChecklistSelection,
+                    focusRequester = focusRequester,
+                    uiState = uiState,
+                    lazyListState = lazyListState,
+                )
+            }
         },
         topBar = {
             NoteDetailTopAppBar(

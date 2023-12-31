@@ -55,4 +55,12 @@ interface LabelDao {
     """,
     )
     suspend fun getLabelById(id: Long): LabelEntity
+
+    @Query(
+        """
+        SELECT * FROM $LABELS_TABLE_NAME 
+        WHERE id LIKE :id LIMIT 1
+    """,
+    )
+    fun getLabelByIdFlow(id: Long): Flow<LabelEntity>
 }

@@ -6,8 +6,8 @@ import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownItemSelection
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenu
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenuState
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @Composable
 fun NoteDetailDropdownMenu(
@@ -20,16 +20,16 @@ fun NoteDetailDropdownMenu(
         items =
             listOf(
                 CustomDropdownItemSelection(
-                    leadingIconId = painterResource(id = HellNotesIcons.Share),
-                    text = stringResource(id = HellNotesStrings.MenuItem.Share),
+                    leadingIconId = painterResource(id = AppIcons.Share),
+                    text = stringResource(id = AppStrings.MenuItem.Share),
                     onClick = {
                         state.dismiss()
                         selection.onShare()
                     },
                 ),
                 CustomDropdownItemSelection(
-                    leadingIconId = painterResource(id = HellNotesIcons.Delete),
-                    text = stringResource(id = HellNotesStrings.MenuItem.Delete),
+                    leadingIconId = painterResource(id = AppIcons.Delete),
+                    text = stringResource(id = AppStrings.MenuItem.Delete),
                     onClick = {
                         state.dismiss()
                         selection.onDelete()

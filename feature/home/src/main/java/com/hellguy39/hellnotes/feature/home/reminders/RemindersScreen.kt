@@ -12,7 +12,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -25,29 +24,31 @@ import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.state.HomeState
 import com.hellguy39.hellnotes.core.ui.values.Spaces
-import com.hellguy39.hellnotes.feature.home.HomeScreenMultiActionSelection
-import com.hellguy39.hellnotes.feature.home.HomeScreenVisualsSelection
+import com.hellguy39.hellnotes.feature.home.ActionViewModel
+import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 import com.hellguy39.hellnotes.feature.home.reminders.components.ReminderTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.reminders.components.RemindersTopAppBar
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RemindersScreen(
+    homeState: HomeState,
     navigateToSearch: () -> Unit,
     navigateToNoteDetail: (id: Long?) -> Unit,
     remindersViewModel: RemindersViewModel = hiltViewModel(),
-    visualsSelection: HomeScreenVisualsSelection,
-    multiActionSelection: HomeScreenMultiActionSelection,
+    visualsViewModel: VisualsViewModel = hiltViewModel(),
+    actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
-    val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-    val scope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val uiState by remindersViewModel.uiState.collectAsStateWithLifecycle()
+    val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
+    val selectedNotes by actionViewModel.selectedNotes.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier =
@@ -59,22 +60,20 @@ fun RemindersScreen(
                 scrollBehavior = scrollBehavior,
                 selection =
                     ReminderTopAppBarSelection(
-                        listStyle = visualsSelection.listStyle,
-                        selectedNotes = multiActionSelection.selectedNotes,
-                        onNavigation = {
-                            scope.launch { visualsSelection.drawerState.open() }
-                        },
-                        onChangeListStyle = visualsSelection.onUpdateListStyle,
-                        onDeleteSelected = multiActionSelection.onDeleteSelectedNotes,
-                        onCancelSelection = multiActionSelection.onCancelSelection,
+                        listStyle = visualState.listStyle,
+                        selectedNotes = selectedNotes,
+                        onNavigation = { homeState.openDrawer() },
+                        onChangeListStyle = visualsViewModel::toggleListStyle,
+                        onDeleteSelected = actionViewModel::deleteSelectedNotes,
+                        onCancelSelection = actionViewModel::cancelNoteSelection,
                         onSearch = { navigateToSearch() },
                     ),
             )
         },
-        snackbarHost = visualsSelection.snackbarHost,
+        snackbarHost = { CustomSnackbarHost(state = homeState.snackbarHostState) },
         content = { paddingValues ->
             AnimatedContent(
-                targetState = visualsSelection.listStyle,
+                targetState = visualState.listStyle,
                 label = "listStyle",
             ) { listStyle ->
 
@@ -85,8 +84,8 @@ fun RemindersScreen(
                                 .padding(horizontal = 32.dp)
                                 .padding(paddingValues)
                                 .fillMaxSize(),
-                        heroIcon = painterResource(id = HellNotesIcons.Notifications),
-                        message = stringResource(id = HellNotesStrings.Placeholder.Empty),
+                        heroIcon = painterResource(id = AppIcons.Notifications),
+                        message = stringResource(id = AppStrings.Placeholder.Empty),
                     )
                 }
 
@@ -94,56 +93,56 @@ fun RemindersScreen(
                     innerPadding = paddingValues,
                     noteSelection =
                         NoteSelection(
-                            noteStyle = visualsSelection.noteStyle,
+                            noteStyle = visualState.noteStyle,
                             onClick = { note ->
-                                if (multiActionSelection.selectedNotes.isEmpty()) {
+                                if (selectedNotes.isEmpty()) {
                                     navigateToNoteDetail(note.id)
                                 } else {
-                                    if (multiActionSelection.selectedNotes.contains(note)) {
-                                        multiActionSelection.onUnselectNote(note)
+                                    if (selectedNotes.contains(note)) {
+                                        actionViewModel.unselectNote(note)
                                     } else {
-                                        multiActionSelection.onSelectNote(note)
+                                        actionViewModel.selectNote(note)
                                     }
                                 }
                             },
                             onLongClick = { note ->
-                                if (multiActionSelection.selectedNotes.contains(note)) {
-                                    multiActionSelection.onUnselectNote(note)
+                                if (selectedNotes.contains(note)) {
+                                    actionViewModel.unselectNote(note)
                                 } else {
-                                    multiActionSelection.onSelectNote(note)
+                                    actionViewModel.selectNote(note)
                                 }
                             },
                             onDismiss = { direction, note ->
                                 val swipeAction =
                                     if (direction == DismissDirection.StartToEnd) {
-                                        visualsSelection.noteSwipesState.swipeRight
+                                        visualState.noteSwipesState.swipeRight
                                     } else {
-                                        visualsSelection.noteSwipesState.swipeLeft
+                                        visualState.noteSwipesState.swipeLeft
                                     }
 
                                 when (swipeAction) {
                                     NoteSwipe.None -> false
                                     NoteSwipe.Delete -> {
-                                        multiActionSelection.onDeleteNote(note)
+                                        actionViewModel.deleteNote(note)
                                         true
                                     }
                                     NoteSwipe.Archive -> {
-                                        multiActionSelection.onArchiveNote(note, true)
+                                        actionViewModel.archiveNote(note)
                                         true
                                     }
                                 }
                             },
-                            isSwipeable = visualsSelection.noteSwipesState.enabled,
+                            isSwipeable = visualState.noteSwipesState.enabled,
                         ),
                     categories =
                         listOf(
                             NoteCategory(notes = uiState.notes),
                         ),
                     listStyle = listStyle,
-                    selectedNotes = multiActionSelection.selectedNotes,
+                    selectedNotes = selectedNotes,
                     listHeader = {
                         Text(
-                            text = stringResource(id = HellNotesStrings.Label.Upcoming),
+                            text = stringResource(id = AppStrings.Label.Upcoming),
                             modifier =
                                 Modifier
                                     .padding(horizontal = Spaces.medium, vertical = Spaces.small),

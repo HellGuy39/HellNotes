@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.core.ui.values.Elevation
 
@@ -43,7 +43,7 @@ fun SearchTopAppBar(
                 onClick = onNavigationButtonClick,
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.ArrowBack),
+                    painter = painterResource(id = AppIcons.ArrowBack),
                     contentDescription = null,
                 )
             }
@@ -51,7 +51,7 @@ fun SearchTopAppBar(
         title = {
             HNClearTextField(
                 value = query,
-                hint = stringResource(id = HellNotesStrings.Hint.Search),
+                hint = stringResource(id = AppStrings.Hint.Search),
                 onValueChange = onQueryChanged,
                 modifier =
                     Modifier
@@ -67,7 +67,7 @@ fun SearchTopAppBar(
                     onClick = onClearQuery,
                 ) {
                     Icon(
-                        painter = painterResource(id = HellNotesIcons.Close),
+                        painter = painterResource(id = AppIcons.Close),
                         contentDescription = null,
                     )
                 }

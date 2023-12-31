@@ -9,8 +9,8 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
-import com.hellguy39.hellnotes.core.ui.HellNotesAppState
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
+import com.hellguy39.hellnotes.core.ui.state.AppState
 import com.hellguy39.hellnotes.feature.aboutapp.navigation.aboutAppScreen
 import com.hellguy39.hellnotes.feature.backup.navigation.backupScreen
 import com.hellguy39.hellnotes.feature.changelog.navigation.changelogScreen
@@ -40,7 +40,7 @@ import com.hellguy39.hellnotes.feature.update.navigation.updateScreen
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun GlobalNavGraph(
-    appState: HellNotesAppState,
+    appState: AppState,
     onBoardingViewModel: OnBoardingViewModel = hiltViewModel(),
     lockViewModel: LockViewModel = hiltViewModel(),
 ) {
@@ -56,7 +56,7 @@ fun GlobalNavGraph(
     )
 
     LockFullScreenDialog(
-        isShowDialog = isLocked
+        isShowDialog = isLocked,
     )
 
     NavHost(

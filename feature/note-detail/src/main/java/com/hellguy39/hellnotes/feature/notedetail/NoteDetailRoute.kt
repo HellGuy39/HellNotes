@@ -24,8 +24,8 @@ import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
 import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailContentSelection
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailTopAppBarSelection
@@ -39,7 +39,6 @@ import kotlinx.coroutines.launch
 fun NoteDetailRoute(
     noteDetailViewModel: NoteDetailViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
-    navigateToNoteDetail: (id: Long) -> Unit,
     navigateToLabelSelection: (id: Long) -> Unit,
     navigateToReminderEdit: (noteId: Long, reminderId: Long) -> Unit,
 ) {
@@ -49,6 +48,7 @@ fun NoteDetailRoute(
 
     val shareDialogState = rememberDialogState()
     val confirmDialogState = rememberDialogState()
+
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -69,16 +69,16 @@ fun NoteDetailRoute(
 
     CustomDialog(
         state = shareDialogState,
-        heroIcon = painterResource(id = HellNotesIcons.Share),
-        title = stringResource(id = HellNotesStrings.Title.Share),
-        message = stringResource(id = HellNotesStrings.Supporting.ShareNote),
+        heroIcon = painterResource(id = AppIcons.Share),
+        title = stringResource(id = AppStrings.Title.Share),
+        message = stringResource(id = AppStrings.Supporting.ShareNote),
         onCancel = { shareDialogState.dismiss() },
         content = {
             val listItemModifier = Modifier.padding(16.dp)
             Spacer(modifier = Modifier.height(8.dp))
             HNListItem(
                 modifier = listItemModifier,
-                title = stringResource(id = HellNotesStrings.MenuItem.TxtFile),
+                title = stringResource(id = AppStrings.MenuItem.TxtFile),
                 onClick = {
                     shareDialogState.dismiss()
                     onShare(ShareType.TxtFile)
@@ -86,7 +86,7 @@ fun NoteDetailRoute(
             )
             HNListItem(
                 modifier = listItemModifier,
-                title = stringResource(id = HellNotesStrings.MenuItem.PlainText),
+                title = stringResource(id = AppStrings.MenuItem.PlainText),
                 onClick = {
                     shareDialogState.dismiss()
                     onShare(ShareType.PlainText)
@@ -98,9 +98,9 @@ fun NoteDetailRoute(
 
     CustomDialog(
         state = confirmDialogState,
-        heroIcon = painterResource(id = HellNotesIcons.Delete),
-        title = stringResource(id = HellNotesStrings.Title.DeleteThisNote),
-        message = stringResource(id = HellNotesStrings.Supporting.DeleteNote),
+        heroIcon = painterResource(id = AppIcons.Delete),
+        title = stringResource(id = AppStrings.Title.DeleteThisNote),
+        message = stringResource(id = AppStrings.Supporting.DeleteNote),
         onCancel = { confirmDialogState.dismiss() },
         onAccept = {
             confirmDialogState.dismiss()
@@ -143,36 +143,29 @@ fun NoteDetailRoute(
 
     val listItemModifier = Modifier.padding(16.dp)
 
-    val toast = Toast.makeText(context, context.getString(HellNotesStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
+    val toast = Toast.makeText(context, context.getString(AppStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
 
     val menuBottomSheetItems =
         listOf(
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Delete),
-                icon = painterResource(id = HellNotesIcons.Delete),
+                title = stringResource(id = AppStrings.MenuItem.Delete),
+                icon = painterResource(id = AppIcons.Delete),
                 onClick = {
                     closeMenuBottomSheet()
                     confirmDialogState.show()
                 },
             ),
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.MakeACopy),
-                icon = painterResource(id = HellNotesIcons.ContentCopy),
+                title = stringResource(id = AppStrings.MenuItem.MakeACopy),
+                icon = painterResource(id = AppIcons.ContentCopy),
                 onClick = {
                     closeMenuBottomSheet()
-                    noteDetailViewModel.send(
-                        NoteDetailUiEvent.CopyNote(
-                            onCopied = { id ->
-                                navigateBack()
-                                navigateToNoteDetail(id)
-                            },
-                        ),
-                    )
+                    noteDetailViewModel.send(NoteDetailUiEvent.CopyNote)
                 },
             ),
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Share),
-                icon = painterResource(id = HellNotesIcons.Share),
+                title = stringResource(id = AppStrings.MenuItem.Share),
+                icon = painterResource(id = AppIcons.Share),
                 onClick = {
                     closeMenuBottomSheet()
                     val note = uiState.wrapper.note
@@ -181,7 +174,7 @@ fun NoteDetailRoute(
                     } else {
                         snackbarHostState.showDismissableSnackbar(
                             scope = scope,
-                            message = context.getString(HellNotesStrings.Snack.NothingToShare),
+                            message = context.getString(AppStrings.Snack.NothingToShare),
                             duration = SnackbarDuration.Short,
                         )
                     }
@@ -192,48 +185,48 @@ fun NoteDetailRoute(
     val attachmentSheetItems =
         listOf(
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.TakeAPhoto),
-                icon = painterResource(id = HellNotesIcons.PhotoCamera),
+                title = stringResource(id = AppStrings.MenuItem.TakeAPhoto),
+                icon = painterResource(id = AppIcons.PhotoCamera),
                 onClick = {
                     closeAttachmentBottomSheet()
                     toast.show()
                 },
             ),
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Image),
-                icon = painterResource(id = HellNotesIcons.Image),
+                title = stringResource(id = AppStrings.MenuItem.Image),
+                icon = painterResource(id = AppIcons.Image),
                 onClick = {
                     closeAttachmentBottomSheet()
                     toast.show()
                 },
             ),
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Recording),
-                icon = painterResource(id = HellNotesIcons.Mic),
+                title = stringResource(id = AppStrings.MenuItem.Recording),
+                icon = painterResource(id = AppIcons.Mic),
                 onClick = {
                     closeAttachmentBottomSheet()
                     toast.show()
                 },
             ),
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Place),
-                icon = painterResource(id = HellNotesIcons.PinDrop),
+                title = stringResource(id = AppStrings.MenuItem.Place),
+                icon = painterResource(id = AppIcons.PinDrop),
                 onClick = {
                     closeAttachmentBottomSheet()
                     toast.show()
                 },
             ),
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Checklist),
-                icon = painterResource(id = HellNotesIcons.Checklist),
+                title = stringResource(id = AppStrings.MenuItem.Checklist),
+                icon = painterResource(id = AppIcons.Checklist),
                 onClick = {
                     closeAttachmentBottomSheet()
                     noteDetailViewModel.send(NoteDetailUiEvent.AddChecklist)
                 },
             ),
             BottomSheetMenuItemHolder(
-                title = stringResource(id = HellNotesStrings.MenuItem.Labels),
-                icon = painterResource(id = HellNotesIcons.Label),
+                title = stringResource(id = AppStrings.MenuItem.Labels),
+                icon = painterResource(id = AppIcons.Label),
                 onClick = {
                     closeAttachmentBottomSheet()
                     val id = uiState.wrapper.note.id ?: 0
@@ -307,7 +300,7 @@ fun NoteDetailRoute(
                     navigateBack()
                 },
                 onPin = { isPinned ->
-                    noteDetailViewModel.send(NoteDetailUiEvent.UpdateIsPinned(isPinned))
+                    noteDetailViewModel.send(NoteDetailUiEvent.ToggleIsPinned)
 
                     val snackAction = if (isPinned) SnackAction.Pinned else SnackAction.Unpinned
 
@@ -318,7 +311,7 @@ fun NoteDetailRoute(
                     )
                 },
                 onArchive = { isArchived ->
-                    noteDetailViewModel.send(NoteDetailUiEvent.UpdateIsArchived(isArchived))
+                    noteDetailViewModel.send(NoteDetailUiEvent.ToggleIsArchived)
 
                     val snackAction = if (isArchived) SnackAction.Archive else SnackAction.Unarchive
 

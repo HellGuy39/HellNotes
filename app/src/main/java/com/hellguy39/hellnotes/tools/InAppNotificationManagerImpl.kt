@@ -13,7 +13,7 @@ import com.hellguy39.hellnotes.core.common.permission.canPostNotifications
 import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
 import com.hellguy39.hellnotes.core.model.notification.HellNotesNotificationChannel
 import com.hellguy39.hellnotes.core.ui.decorator.NotificationChannelDecorator
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -96,7 +96,7 @@ class InAppNotificationManagerImpl
                     listOf(
                         Notification.Action
                             .Builder(
-                                Icon.createWithResource(context, HellNotesIcons.Info),
+                                Icon.createWithResource(context, AppIcons.Info),
                                 "Set aside for 15 min",
                                 PendingIntent.getBroadcast(
                                     context,
@@ -108,7 +108,7 @@ class InAppNotificationManagerImpl
                             .build(),
                         Notification.Action
                             .Builder(
-                                Icon.createWithResource(context, HellNotesIcons.Info),
+                                Icon.createWithResource(context, AppIcons.Info),
                                 "Done",
                                 PendingIntent.getBroadcast(
                                     context,

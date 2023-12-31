@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import com.hellguy39.hellnotes.core.domain.tools.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -54,9 +54,9 @@ class BiometricAuthenticatorImpl
         override fun authenticate(activity: AppCompatActivity) {
             val promptInfo =
                 BiometricPrompt.PromptInfo.Builder()
-                    .setTitle(context.getString(HellNotesStrings.Title.AuthRequired))
-                    .setSubtitle(context.getString(HellNotesStrings.AppName))
-                    .setNegativeButtonText(context.getString(HellNotesStrings.Button.Cancel))
+                    .setTitle(context.getString(AppStrings.Title.AuthRequired))
+                    .setSubtitle(context.getString(AppStrings.AppName))
+                    .setNegativeButtonText(context.getString(AppStrings.Button.Cancel))
                     .build()
 
             val biometricPrompt = BiometricPrompt(activity, executor, this)

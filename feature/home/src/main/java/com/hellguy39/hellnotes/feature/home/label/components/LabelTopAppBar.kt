@@ -14,8 +14,8 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -27,9 +27,9 @@ fun LabelTopAppBar(
 ) {
     val listStyleIcon =
         if (selection.listStyle == ListStyle.Column) {
-            painterResource(id = HellNotesIcons.GridView)
+            painterResource(id = AppIcons.GridView)
         } else {
-            painterResource(id = HellNotesIcons.ListView)
+            painterResource(id = AppIcons.ListView)
         }
 
     val labelDropdownMenuState = rememberDropdownMenuState()
@@ -42,7 +42,7 @@ fun LabelTopAppBar(
                     Text(
                         text =
                             stringResource(
-                                id = HellNotesStrings.Title.Selected,
+                                id = AppStrings.Title.Selected,
                                 selection.selectedNotes.count(),
                             ),
                         style = MaterialTheme.typography.headlineSmall,
@@ -62,8 +62,8 @@ fun LabelTopAppBar(
                         onClick = { selection.onCancelSelection() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Close),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel),
+                            painter = painterResource(id = AppIcons.Close),
+                            contentDescription = stringResource(id = AppStrings.ContentDescription.Cancel),
                         )
                     }
                 } else {
@@ -71,7 +71,7 @@ fun LabelTopAppBar(
                         onClick = { selection.onNavigation() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Menu),
+                            painter = painterResource(id = AppIcons.Menu),
                             contentDescription = null,
                         )
                     }
@@ -83,7 +83,7 @@ fun LabelTopAppBar(
                         onClick = { selection.onArchiveSelected() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Archive),
+                            painter = painterResource(id = AppIcons.Archive),
                             contentDescription = null,
                         )
                     }
@@ -91,8 +91,8 @@ fun LabelTopAppBar(
                         onClick = { selection.onDeleteSelected() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Delete),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete),
+                            painter = painterResource(id = AppIcons.Delete),
+                            contentDescription = stringResource(id = AppStrings.ContentDescription.Delete),
                         )
                     }
                 } else {
@@ -100,7 +100,7 @@ fun LabelTopAppBar(
                         onClick = { selection.onSearch() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Search),
+                            painter = painterResource(id = AppIcons.Search),
                             contentDescription = null,
                         )
                     }
@@ -117,8 +117,8 @@ fun LabelTopAppBar(
                         onClick = { labelDropdownMenuState.show() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.MoreVert),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.More),
+                            painter = painterResource(id = AppIcons.MoreVert),
+                            contentDescription = stringResource(id = AppStrings.ContentDescription.More),
                         )
                         LabelDropdownMenu(
                             state = labelDropdownMenuState,

@@ -7,8 +7,8 @@ import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.usecase.backup.BackupDatabaseUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.backup.RestoreDatabaseUseCase
 import com.hellguy39.hellnotes.core.model.Resource
-import com.hellguy39.hellnotes.core.ui.UiText
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -61,7 +61,7 @@ class BackupViewModel
                                 state.copy(
                                     message =
                                         UiText
-                                            .StringResources(HellNotesStrings.Snack.StorageRestored),
+                                            .StringResources(AppStrings.Snack.StorageRestored),
                                 )
                             }
                         }
@@ -89,7 +89,7 @@ class BackupViewModel
                                 state.copy(
                                     message =
                                         UiText
-                                            .StringResources(HellNotesStrings.Snack.BackupCreated),
+                                            .StringResources(AppStrings.Snack.BackupCreated),
                                 )
                             }
                         }

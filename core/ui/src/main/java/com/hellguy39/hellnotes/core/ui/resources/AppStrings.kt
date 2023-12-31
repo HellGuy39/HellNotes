@@ -2,7 +2,7 @@ package com.hellguy39.hellnotes.core.ui.resources
 
 import com.hellguy39.hellnotes.core.ui.R
 
-object HellNotesStrings {
+object AppStrings {
     val AppName = R.string.app_name
 
     val Markdown = R.string.markdown

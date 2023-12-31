@@ -13,14 +13,14 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.UiText
 import com.hellguy39.hellnotes.core.ui.components.cards.InfoCard
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.UiText
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +62,7 @@ fun BackupScreen(
                 HNLargeTopAppBar(
                     scrollBehavior = scrollBehavior,
                     onNavigationButtonClick = onNavigationButtonClick,
-                    title = stringResource(id = HellNotesStrings.Title.Backup),
+                    title = stringResource(id = AppStrings.Title.Backup),
                 )
                 if (uiState.isLoading) {
                     LinearProgressIndicator(
@@ -85,13 +85,13 @@ fun BackupScreen(
                     modifier = Modifier,
                     onClick = onRestoreClick,
                 ) {
-                    Text(text = stringResource(id = HellNotesStrings.Button.Restore))
+                    Text(text = stringResource(id = AppStrings.Button.Restore))
                 }
                 Button(
                     modifier = Modifier,
                     onClick = onBackupClick,
                 ) {
-                    Text(text = stringResource(id = HellNotesStrings.Button.Create))
+                    Text(text = stringResource(id = AppStrings.Button.Create))
                 }
             }
         },
@@ -120,9 +120,9 @@ fun BackupScreen(
                     Text(
                         text =
                             stringResource(
-                                id = HellNotesStrings.Subtitle.LastCopy,
+                                id = AppStrings.Subtitle.LastCopy,
                                 if (uiState.lastBackupDate == 0L) {
-                                    stringResource(id = HellNotesStrings.Value.Never)
+                                    stringResource(id = AppStrings.Value.Never)
                                 } else {
                                     DateTimeUtils.formatEpochMillis(uiState.lastBackupDate, DateTimeUtils.FULL_DATE_PATTERN)
                                 },
@@ -134,8 +134,8 @@ fun BackupScreen(
             item {
                 InfoCard(
                     modifier = Modifier.padding(horizontal = Spaces.medium),
-                    title = stringResource(id = HellNotesStrings.Title.Attention),
-                    body = stringResource(id = HellNotesStrings.Body.Backup),
+                    title = stringResource(id = AppStrings.Title.Attention),
+                    body = stringResource(id = AppStrings.Body.Backup),
                 )
             }
             item {
@@ -147,15 +147,15 @@ fun BackupScreen(
                             Modifier
                                 .padding(horizontal = Spaces.medium)
                                 .padding(bottom = Spaces.small),
-                        title = stringResource(id = HellNotesStrings.Subtitle.Options),
+                        title = stringResource(id = AppStrings.Subtitle.Options),
                     )
                     HNSwitchItem(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = Spaces.medium, vertical = Spaces.medium),
-                        title = stringResource(id = HellNotesStrings.Switch.AutoBackupTitle),
-                        subtitle = stringResource(id = HellNotesStrings.Switch.AutoBackupSubtitle),
+                        title = stringResource(id = AppStrings.Switch.AutoBackupTitle),
+                        subtitle = stringResource(id = AppStrings.Switch.AutoBackupSubtitle),
                         checked = false,
                         enabled = false,
                     )

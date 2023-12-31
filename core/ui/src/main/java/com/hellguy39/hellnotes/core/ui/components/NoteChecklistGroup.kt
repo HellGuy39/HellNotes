@@ -14,8 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @Composable
 fun NoteChecklistGroup(
@@ -49,7 +49,7 @@ fun NoteChecklistGroup(
                         ) {
                             Icon(
                                 modifier = Modifier.size(16.dp),
-                                painter = painterResource(id = HellNotesIcons.CheckboxUnchecked),
+                                painter = painterResource(id = AppIcons.CheckboxUnchecked),
                                 contentDescription = null,
                             )
                             Spacer(modifier = Modifier.width(4.dp))
@@ -66,9 +66,9 @@ fun NoteChecklistGroup(
                         Text(
                             text =
                                 if (uncheckedCount == 1) {
-                                    stringResource(id = HellNotesStrings.Subtitle.UncheckedItem, uncheckedCount)
+                                    stringResource(id = AppStrings.Subtitle.UncheckedItem, uncheckedCount)
                                 } else {
-                                    stringResource(id = HellNotesStrings.Subtitle.UncheckedItems, uncheckedCount)
+                                    stringResource(id = AppStrings.Subtitle.UncheckedItems, uncheckedCount)
                                 },
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.secondary,
@@ -82,9 +82,9 @@ fun NoteChecklistGroup(
                 Text(
                     text =
                         if (count == 1) {
-                            stringResource(id = HellNotesStrings.Subtitle.Checklist, count)
+                            stringResource(id = AppStrings.Subtitle.Checklist, count)
                         } else {
-                            stringResource(id = HellNotesStrings.Subtitle.Checklists, count)
+                            stringResource(id = AppStrings.Subtitle.Checklists, count)
                         },
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,

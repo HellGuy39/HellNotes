@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 
 @Composable
@@ -75,7 +75,7 @@ fun TipCard(
                 ) {
                     Icon(
                         modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = HellNotesIcons.Close),
+                        painter = painterResource(id = AppIcons.Close),
                         contentDescription = null,
                     )
                 }

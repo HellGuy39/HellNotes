@@ -17,8 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Elevation
 import com.hellguy39.hellnotes.feature.notedetail.NoteDetailBottomBarSelection
 import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiState
@@ -51,6 +51,7 @@ fun NoteDetailBottomBar(
         Row(
             modifier =
                 Modifier
+                    .imePadding()
                     .navigationBarsPadding()
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 4.dp),
@@ -61,7 +62,7 @@ fun NoteDetailBottomBar(
                 onClick = bottomBarSelection.onAttachment,
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.Attachment),
+                    painter = painterResource(id = AppIcons.Attachment),
                     contentDescription = null,
                 )
             }
@@ -69,7 +70,7 @@ fun NoteDetailBottomBar(
             Text(
                 text =
                     stringResource(
-                        id = HellNotesStrings.Subtitle.Edited,
+                        id = AppStrings.Subtitle.Edited,
                         formatArgs =
                             arrayOf(
                                 DateTimeUtils.formatBest(uiState.wrapper.note.editedAt),
@@ -84,7 +85,7 @@ fun NoteDetailBottomBar(
                 onClick = bottomBarSelection.onMenu,
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.MoreVert),
+                    painter = painterResource(id = AppIcons.MoreVert),
                     contentDescription = null,
                 )
             }

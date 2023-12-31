@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -37,23 +37,23 @@ fun SnackAction.getSnackMessage(isSingleItem: Boolean = true) =
     when (this) {
         SnackAction.Archive -> {
             if (isSingleItem) {
-                stringResource(id = HellNotesStrings.Snack.NoteArchived)
+                stringResource(id = AppStrings.Snack.NoteArchived)
             } else {
-                stringResource(id = HellNotesStrings.Snack.NotesArchived)
+                stringResource(id = AppStrings.Snack.NotesArchived)
             }
         }
         SnackAction.Delete -> {
             if (isSingleItem) {
-                stringResource(id = HellNotesStrings.Snack.NoteMovedToTrash)
+                stringResource(id = AppStrings.Snack.NoteMovedToTrash)
             } else {
-                stringResource(id = HellNotesStrings.Snack.NotesMovedToTrash)
+                stringResource(id = AppStrings.Snack.NotesMovedToTrash)
             }
         }
         SnackAction.Unarchive -> {
             if (isSingleItem) {
-                stringResource(id = HellNotesStrings.Snack.NoteUnarchived)
+                stringResource(id = AppStrings.Snack.NoteUnarchived)
             } else {
-                stringResource(id = HellNotesStrings.Snack.NotesUnarchived)
+                stringResource(id = AppStrings.Snack.NotesUnarchived)
             }
         }
         SnackAction.Restore -> {
@@ -64,10 +64,10 @@ fun SnackAction.getSnackMessage(isSingleItem: Boolean = true) =
             }
         }
         SnackAction.Pinned -> {
-            stringResource(HellNotesStrings.Snack.NotePinned)
+            stringResource(AppStrings.Snack.NotePinned)
         }
         SnackAction.Unpinned -> {
-            stringResource(HellNotesStrings.Snack.NotePinned)
+            stringResource(AppStrings.Snack.NotePinned)
         }
     }
 
@@ -77,23 +77,23 @@ fun SnackAction.getSnackMessage(
 ) = when (this) {
     SnackAction.Archive -> {
         if (isSingleItem) {
-            context.getString(HellNotesStrings.Snack.NoteArchived)
+            context.getString(AppStrings.Snack.NoteArchived)
         } else {
-            context.getString(HellNotesStrings.Snack.NotesArchived)
+            context.getString(AppStrings.Snack.NotesArchived)
         }
     }
     SnackAction.Delete -> {
         if (isSingleItem) {
-            context.getString(HellNotesStrings.Snack.NoteMovedToTrash)
+            context.getString(AppStrings.Snack.NoteMovedToTrash)
         } else {
-            context.getString(HellNotesStrings.Snack.NotesMovedToTrash)
+            context.getString(AppStrings.Snack.NotesMovedToTrash)
         }
     }
     SnackAction.Unarchive -> {
         if (isSingleItem) {
-            context.getString(HellNotesStrings.Snack.NoteUnarchived)
+            context.getString(AppStrings.Snack.NoteUnarchived)
         } else {
-            context.getString(HellNotesStrings.Snack.NotesUnarchived)
+            context.getString(AppStrings.Snack.NotesUnarchived)
         }
     }
     SnackAction.Restore -> {
@@ -104,9 +104,9 @@ fun SnackAction.getSnackMessage(
         }
     }
     SnackAction.Pinned -> {
-        context.getString(HellNotesStrings.Snack.NotePinned)
+        context.getString(AppStrings.Snack.NotePinned)
     }
     SnackAction.Unpinned -> {
-        context.getString(HellNotesStrings.Snack.NoteUnpinned)
+        context.getString(AppStrings.Snack.NoteUnpinned)
     }
 }

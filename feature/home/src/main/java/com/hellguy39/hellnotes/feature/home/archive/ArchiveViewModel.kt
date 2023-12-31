@@ -32,19 +32,12 @@ class ArchiveViewModel
                 )
             }
                 .stateIn(
-                    viewModelScope,
-                    SharingStarted.WhileSubscribed(5_000),
-                    ArchiveUiState.initialInstance(),
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    initialValue = ArchiveUiState(),
                 )
     }
 
 data class ArchiveUiState(
-    val notes: List<NoteDetailWrapper>,
-) {
-    companion object {
-        fun initialInstance() =
-            ArchiveUiState(
-                notes = listOf(),
-            )
-    }
-}
+    val notes: List<NoteDetailWrapper> = listOf(),
+)

@@ -6,9 +6,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.values.slideEnterTransition
-import com.hellguy39.hellnotes.core.ui.values.slideExitTransition
 import com.hellguy39.hellnotes.feature.locksetup.LockSetupRoute
 
 fun NavGraphBuilder.lockSetupScreen(navController: NavController) {

@@ -2,7 +2,6 @@ package com.hellguy39.hellnotes.feature.home.notelist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
 import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.removeCompletedChecklists
@@ -14,11 +13,10 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteListViewModel
+class NotesViewModel
     @Inject
     constructor(
         getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase,
-        private val dataStoreRepository: DataStoreRepository,
     ) : ViewModel() {
         val uiState =
             getAllNotesWithRemindersAndLabelsStreamUseCase.invoke()
@@ -41,7 +39,6 @@ class NoteListViewModel
                     NoteListUiState(
                         pinnedNotes = pinnedNotes,
                         unpinnedNotes = unpinnedNotes,
-                        isLoading = false,
                     )
                 }
                 .stateIn(
@@ -52,7 +49,6 @@ class NoteListViewModel
     }
 
 data class NoteListUiState(
-    val isLoading: Boolean = true,
     val pinnedNotes: List<NoteDetailWrapper> = listOf(),
     val unpinnedNotes: List<NoteDetailWrapper> = listOf(),
 )

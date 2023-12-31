@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenContent
 import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenContentSelection
 
@@ -35,7 +35,7 @@ fun LabelEditScreen(
     LaunchedEffect(key1 = uiState is LabelEditUiState.Success) {
         uiState.let { state ->
             if (state is LabelEditUiState.Success) {
-                if (state.action == context.getString(HellNotesStrings.Action.Create)) {
+                if (state.action == context.getString(AppStrings.Action.Create)) {
                     focusRequester.requestFocus()
                 }
             }
@@ -64,7 +64,7 @@ fun LabelEditScreen(
             HNTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
-                title = stringResource(id = HellNotesStrings.Title.Labels),
+                title = stringResource(id = AppStrings.Title.Labels),
             )
         },
         snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },

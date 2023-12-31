@@ -9,8 +9,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -20,9 +20,9 @@ fun RemindersTopAppBar(
 ) {
     val listStyleIcon =
         if (selection.listStyle == ListStyle.Column) {
-            painterResource(id = HellNotesIcons.GridView)
+            painterResource(id = AppIcons.GridView)
         } else {
-            painterResource(id = HellNotesIcons.ListView)
+            painterResource(id = AppIcons.ListView)
         }
 
     AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
@@ -33,14 +33,14 @@ fun RemindersTopAppBar(
                     Text(
                         text =
                             stringResource(
-                                id = HellNotesStrings.Title.Selected,
+                                id = AppStrings.Title.Selected,
                                 selection.selectedNotes.count(),
                             ),
                         style = MaterialTheme.typography.headlineSmall,
                     )
                 } else {
                     Text(
-                        stringResource(id = HellNotesStrings.Title.Reminders),
+                        stringResource(id = AppStrings.Title.Reminders),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge,
@@ -53,8 +53,8 @@ fun RemindersTopAppBar(
                         onClick = { selection.onCancelSelection() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Close),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel),
+                            painter = painterResource(id = AppIcons.Close),
+                            contentDescription = stringResource(id = AppStrings.ContentDescription.Cancel),
                         )
                     }
                 } else {
@@ -62,7 +62,7 @@ fun RemindersTopAppBar(
                         onClick = { selection.onNavigation() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Menu),
+                            painter = painterResource(id = AppIcons.Menu),
                             contentDescription = null,
                         )
                     }
@@ -74,8 +74,8 @@ fun RemindersTopAppBar(
                         onClick = { selection.onDeleteSelected() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Delete),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete),
+                            painter = painterResource(id = AppIcons.Delete),
+                            contentDescription = stringResource(id = AppStrings.ContentDescription.Delete),
                         )
                     }
                 } else {
@@ -83,7 +83,7 @@ fun RemindersTopAppBar(
                         onClick = { selection.onSearch() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Search),
+                            painter = painterResource(id = AppIcons.Search),
                             contentDescription = null,
                         )
                     }

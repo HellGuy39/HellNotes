@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.repository.remote.Release
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.changelog.component.ChangelogCard
 
@@ -50,7 +50,7 @@ fun ChangelogScreen(
                 HNTopAppBar(
                     scrollBehavior = scrollBehavior,
                     onNavigationButtonClick = onNavigationButtonClick,
-                    title = stringResource(id = HellNotesStrings.Title.Changelog),
+                    title = stringResource(id = AppStrings.Title.Changelog),
                 )
                 if (uiState.isLoading) {
                     LinearProgressIndicator(
@@ -91,13 +91,13 @@ fun ChangelogScreen(
                             .padding(innerPadding)
                             .padding(horizontal = Spaces.extraLarge)
                             .fillMaxSize(),
-                    heroIcon = painterResource(id = HellNotesIcons.Error),
-                    message = stringResource(id = HellNotesStrings.Placeholder.FailedToLoadData),
+                    heroIcon = painterResource(id = AppIcons.Error),
+                    message = stringResource(id = AppStrings.Placeholder.FailedToLoadData),
                     actions = {
                         TextButton(
                             onClick = onTryAgain,
                         ) {
-                            Text(text = stringResource(id = HellNotesStrings.Button.TryAgain))
+                            Text(text = stringResource(id = AppStrings.Button.TryAgain))
                         }
                     },
                 )

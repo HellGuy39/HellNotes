@@ -13,8 +13,10 @@ data class Note(
     val colorHex: Long = ColorParam.DefaultColor,
 )
 
-fun Note.isNoteValid(): Boolean {
-    return note.isTextValid() || title.isTextValid()
+fun Note.hasContentText(): Boolean {
+    return note.isNotBlank()
 }
 
-private fun String.isTextValid() = this.isNotEmpty() && this.isNotBlank()
+fun Note.isNoteValid(): Boolean {
+    return note.isNotBlank() || title.isNotBlank()
+}

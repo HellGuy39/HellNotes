@@ -29,8 +29,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.repository.remote.Release
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,7 +82,7 @@ fun ChangelogCard(
                 }
                 IconButton(onClick = { isExpanded = isExpanded.not() }) {
                     Icon(
-                        painter = painterResource(id = HellNotesIcons.expand(isExpanded)),
+                        painter = painterResource(id = AppIcons.expand(isExpanded)),
                         contentDescription = null,
                     )
                 }
@@ -108,11 +108,11 @@ fun ChangelogCard(
                 ) {
                     Icon(
                         modifier = Modifier.size(ButtonDefaults.IconSize),
-                        painter = painterResource(id = HellNotesIcons.ArrowOutward),
+                        painter = painterResource(id = AppIcons.ArrowOutward),
                         contentDescription = null,
                     )
                     Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
-                    Text(text = stringResource(id = HellNotesStrings.Button.OpenARelease))
+                    Text(text = stringResource(id = AppStrings.Button.OpenARelease))
                 }
             }
         }

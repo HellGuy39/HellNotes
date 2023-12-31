@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,8 +66,8 @@ private fun SmallTopAppBar(
                 onClick = onNavigationButtonClick,
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.ArrowBack),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Back),
+                    painter = painterResource(id = AppIcons.ArrowBack),
+                    contentDescription = stringResource(id = AppStrings.ContentDescription.Back),
                 )
             }
         },

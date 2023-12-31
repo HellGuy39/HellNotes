@@ -9,7 +9,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import kotlinx.coroutines.launch
 
 @Composable
@@ -50,7 +50,7 @@ fun ReminderEditRoute(
                         snackbarHostState.currentSnackbarData?.dismiss()
                         scope.launch {
                             snackbarHostState.showSnackbar(
-                                message = context.getString(HellNotesStrings.Snack.RemindTimeIsTooLate),
+                                message = context.getString(AppStrings.Snack.RemindTimeIsTooLate),
                                 withDismissAction = true,
                             )
                         }
@@ -68,7 +68,7 @@ fun ReminderEditRoute(
                         snackbarHostState.currentSnackbarData?.dismiss()
                         scope.launch {
                             snackbarHostState.showSnackbar(
-                                message = context.getString(HellNotesStrings.Snack.RemindTimeIsTooLate),
+                                message = context.getString(AppStrings.Snack.RemindTimeIsTooLate),
                                 withDismissAction = true,
                             )
                         }

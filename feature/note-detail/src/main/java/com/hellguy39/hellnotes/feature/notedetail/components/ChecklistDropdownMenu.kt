@@ -6,8 +6,8 @@ import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownItemSelection
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenu
 import com.hellguy39.hellnotes.core.ui.components.CustomDropdownMenuState
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @Composable
 fun ChecklistDropdownMenu(
@@ -20,24 +20,24 @@ fun ChecklistDropdownMenu(
         items =
             listOf(
                 CustomDropdownItemSelection(
-                    leadingIconId = painterResource(id = HellNotesIcons.DoneAll),
-                    text = stringResource(id = HellNotesStrings.MenuItem.CheckAllItems),
+                    leadingIconId = painterResource(id = AppIcons.DoneAll),
+                    text = stringResource(id = AppStrings.MenuItem.CheckAllItems),
                     onClick = {
                         state.dismiss()
                         selection.onDoneAllItems()
                     },
                 ),
                 CustomDropdownItemSelection(
-                    leadingIconId = painterResource(id = HellNotesIcons.RemoveDone),
-                    text = stringResource(id = HellNotesStrings.MenuItem.UncheckAllItems),
+                    leadingIconId = painterResource(id = AppIcons.RemoveDone),
+                    text = stringResource(id = AppStrings.MenuItem.UncheckAllItems),
                     onClick = {
                         state.dismiss()
                         selection.onRemoveDoneItems()
                     },
                 ),
                 CustomDropdownItemSelection(
-                    leadingIconId = painterResource(id = HellNotesIcons.Delete),
-                    text = stringResource(id = HellNotesStrings.MenuItem.Delete),
+                    leadingIconId = painterResource(id = AppIcons.Delete),
+                    text = stringResource(id = AppStrings.MenuItem.Delete),
                     onClick = {
                         state.dismiss()
                         selection.onDeleteChecklist()

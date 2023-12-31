@@ -4,7 +4,11 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.core.os.bundleOf
 import com.hellguy39.hellnotes.component.broadcast.ReminderReceiver
+import com.hellguy39.hellnotes.core.common.api.ApiCapabilities
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.common.logger.taggedLogger
 import com.hellguy39.hellnotes.core.domain.tools.AlarmScheduler
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -17,40 +21,53 @@ class AlarmSchedulerImpl
     ) : AlarmScheduler {
         private val alarmManager by lazy { context.getSystemService(AlarmManager::class.java) }
 
+        private val logger by taggedLogger("AlarmSchedulerImpl")
+
         override fun scheduleAlarm(reminder: Reminder) {
+            if (!canScheduleAlarm()) {
+                logger.i { "Alarm ${reminder.id} can't be scheduled" }
+                return
+            }
+
+            logger.i { "Alarm ${reminder.id} scheduled" }
+
             alarmManager.setExactAndAllowWhileIdle(
-                ALARM_TYPE,
+                AlarmManager.RTC_WAKEUP,
                 reminder.triggerDate,
-                reminder.createAlarmPendingIntent(),
+                buildPendingIntent(reminder),
             )
         }
 
         override fun cancelAlarm(reminder: Reminder) {
-            alarmManager.cancel(
-                reminder.createAlarmPendingIntent(),
-            )
+            logger.i { "Alarm ${reminder.id} cancelled" }
+            alarmManager.cancel(buildPendingIntent(reminder))
         }
 
-        private fun Reminder.createAlarmPendingIntent(): PendingIntent {
+        private fun canScheduleAlarm() =
+            if (ApiCapabilities.scheduleExactAlarmsPermissionRequired) {
+                alarmManager.canScheduleExactAlarms()
+            } else {
+                true
+            }
+
+        private fun buildPendingIntent(reminder: Reminder): PendingIntent {
             return PendingIntent.getBroadcast(
                 context,
-                hashCode(),
-                Intent(context, ReminderReceiver::class.java).apply {
-                    putExtra(ALARM_REMINDER_ID, id)
-                    putExtra(ALARM_MESSAGE, message)
-                    putExtra(ALARM_NOTE_ID, noteId)
-                },
-                PENDING_INTENT_FLAGS,
+                reminder.id?.toInt() ?: 0,
+                buildIntent(reminder),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
         }
 
-        companion object {
-            private const val ALARM_TYPE = AlarmManager.RTC_WAKEUP
-            private const val PENDING_INTENT_FLAGS =
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-
-            const val ALARM_REMINDER_ID = "reminder_id"
-            const val ALARM_MESSAGE = "alarm_message"
-            const val ALARM_NOTE_ID = "note_id"
+        private fun buildIntent(reminder: Reminder): Intent {
+            return Intent(context, ReminderReceiver::class.java).apply {
+                putExtras(
+                    bundleOf(
+                        Arguments.ReminderId.key to reminder.id,
+                        Arguments.Message.key to reminder.message,
+                        Arguments.NoteId.key to reminder.noteId,
+                    ),
+                )
+            }
         }
     }

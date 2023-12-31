@@ -15,8 +15,8 @@ import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @Composable
@@ -42,25 +42,25 @@ fun SettingsScreenContent(
                     modifier =
                         Modifier
                             .padding(vertical = 8.dp, horizontal = 16.dp),
-                    title = stringResource(id = HellNotesStrings.Label.General),
-                    icon = painterResource(id = HellNotesIcons.Settings),
+                    title = stringResource(id = AppStrings.Label.General),
+                    icon = painterResource(id = AppIcons.Settings),
                 )
                 HNListItem(
                     modifier = listItemModifier,
                     onClick = selection.onLanguage,
-                    title = stringResource(id = HellNotesStrings.Setting.Language),
+                    title = stringResource(id = AppStrings.Setting.Language),
                     subtitle = uiState.language.asDisplayableString(),
                 )
 
                 HNListItem(
                     modifier = listItemModifier,
                     onClick = selection.onBackup,
-                    title = stringResource(id = HellNotesStrings.MenuItem.Backup),
+                    title = stringResource(id = AppStrings.MenuItem.Backup),
                     subtitle =
                         stringResource(
-                            id = HellNotesStrings.Subtitle.LastCopy,
+                            id = AppStrings.Subtitle.LastCopy,
                             if (uiState.lastBackupDate == 0L) {
-                                stringResource(id = HellNotesStrings.Value.Never)
+                                stringResource(id = AppStrings.Value.Never)
                             } else {
                                 DateTimeUtils.formatEpochMillis(uiState.lastBackupDate, DateTimeUtils.FULL_DATE_PATTERN)
                             },
@@ -76,14 +76,14 @@ fun SettingsScreenContent(
             ) {
                 HNListHeader(
                     modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
-                    title = stringResource(id = HellNotesStrings.Label.Security),
-                    icon = painterResource(id = HellNotesIcons.SecurityVerified),
+                    title = stringResource(id = AppStrings.Label.Security),
+                    icon = painterResource(id = AppIcons.SecurityVerified),
                 )
 
                 HNListItem(
                     modifier = listItemModifier,
                     onClick = selection.onLockScreen,
-                    title = stringResource(id = HellNotesStrings.Setting.ScreenLock),
+                    title = stringResource(id = AppStrings.Setting.ScreenLock),
                     subtitle = uiState.securityState.lockType.asDisplayableString(),
                 )
 
@@ -94,7 +94,7 @@ fun SettingsScreenContent(
                         Modifier
                             .fillMaxWidth()
                             .padding(Spaces.medium),
-                    title = stringResource(id = HellNotesStrings.Switch.UseBiometricTitle),
+                    title = stringResource(id = AppStrings.Switch.UseBiometricTitle),
                     checked = isChecked,
                     enabled = uiState.isBioAuthAvailable,
                     onClick = { selection.onUseBiometric(!isChecked) },
@@ -111,14 +111,14 @@ fun SettingsScreenContent(
                     modifier =
                         Modifier
                             .padding(vertical = 8.dp, horizontal = 16.dp),
-                    title = stringResource(id = HellNotesStrings.Label.Gestures),
-                    icon = painterResource(id = HellNotesIcons.Gesture),
+                    title = stringResource(id = AppStrings.Label.Gestures),
+                    icon = painterResource(id = AppIcons.Gesture),
                 )
                 HNListItem(
                     modifier = listItemModifier,
                     onClick = selection.onNoteSwipeEdit,
-                    title = stringResource(id = HellNotesStrings.Setting.NoteSwipes),
-                    subtitle = stringResource(HellNotesStrings.Subtitle.enabled(uiState.noteSwipesState.enabled)),
+                    title = stringResource(id = AppStrings.Setting.NoteSwipes),
+                    subtitle = stringResource(AppStrings.Subtitle.enabled(uiState.noteSwipesState.enabled)),
                 )
             }
         }
@@ -132,13 +132,13 @@ fun SettingsScreenContent(
                     modifier =
                         Modifier
                             .padding(vertical = 8.dp, horizontal = 16.dp),
-                    title = stringResource(id = HellNotesStrings.Label.Appearance),
-                    icon = painterResource(id = HellNotesIcons.Palette),
+                    title = stringResource(id = AppStrings.Label.Appearance),
+                    icon = painterResource(id = AppIcons.Palette),
                 )
                 HNListItem(
                     modifier = listItemModifier,
                     onClick = selection.onNoteStyleEdit,
-                    title = stringResource(id = HellNotesStrings.Setting.NoteStyle),
+                    title = stringResource(id = AppStrings.Setting.NoteStyle),
                     subtitle = uiState.noteStyle.asDisplayableString(),
                 )
             }

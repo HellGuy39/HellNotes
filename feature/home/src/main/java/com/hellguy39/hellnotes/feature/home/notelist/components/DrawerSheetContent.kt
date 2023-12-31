@@ -1,7 +1,8 @@
 package com.hellguy39.hellnotes.feature.home.notelist.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,138 +14,130 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.UiText
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
-import com.hellguy39.hellnotes.feature.home.util.DrawerItemType
 
 @Composable
 fun DrawerSheetContent(
-    selectedItem: DrawerItem,
+    currentDestination: NavDestination?,
     drawerItems: List<DrawerItem>,
     labelItems: List<DrawerItem>,
-    labelSelection: LabelSelection,
-    onClose: () -> Unit,
+    onManageLabelsClick: () -> Unit,
+    onCreateNewLabelClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+    onAboutClick: () -> Unit,
 ) {
-    val primaryItems = drawerItems.filter { it.itemType == DrawerItemType.Primary }
-    val secondaryItems = drawerItems.filter { it.itemType == DrawerItemType.Secondary }
-    val staticItems = drawerItems.filter { it.itemType == DrawerItemType.Static }
-
     ModalDrawerSheet {
-        LazyColumn {
-            item {
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier =
+                    Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 24.dp, bottom = 8.dp),
+            ) {
+                Text(
                     modifier =
                         Modifier
-                            .padding(horizontal = 16.dp)
-                            .padding(top = 24.dp, bottom = 8.dp),
-                ) {
-                    Text(
-                        modifier =
-                            Modifier.weight(1f)
-                                .padding(horizontal = 16.dp),
-                        text =
-                            buildAnnotatedString {
-                                append("Hell")
-                                withStyle(
-                                    SpanStyle(
-                                        color = MaterialTheme.colorScheme.primary,
-                                    ),
-                                ) {
-                                    append("Notes")
-                                }
-                            },
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-//                    HNIconButton(
-//                        onClick = onClose,
-//                        enabledPainter = painterResource(id = HellNotesIcons.MenuOpen),
-//                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-//                    )
-                }
+                            .weight(1f)
+                            .padding(horizontal = 16.dp),
+                    text =
+                        buildAnnotatedString {
+                            append("Hell")
+                            withStyle(
+                                SpanStyle(
+                                    color = MaterialTheme.colorScheme.primary,
+                                ),
+                            ) {
+                                append("Notes")
+                            }
+                        },
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+            }
 
-                Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-                primaryItems.forEach { item ->
-                    CustomNavDrawerItem(
-                        drawerItem = item,
-                        selectedItem = selectedItem,
-                    )
-                }
+            drawerItems.forEach { item ->
+                CustomNavDrawerItem(
+                    drawerItem = item,
+                    currentDestination = currentDestination,
+                )
+            }
 
-                if (labelItems.isNotEmpty()) {
-                    Divider(
-                        modifier =
-                            Modifier
-                                .alpha(0.5f)
-                                .padding(vertical = 8.dp, horizontal = 32.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
+            Divider(
+                modifier =
+                    Modifier
+                        .alpha(0.5f)
+                        .padding(horizontal = 32.dp),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
 
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = stringResource(id = HellNotesStrings.Label.Labels),
-                            style = MaterialTheme.typography.titleSmall,
-                            modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp),
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(id = AppStrings.Label.Labels),
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp),
+                )
+                Spacer(modifier = Modifier.weight(1f))
+            }
 
-                        TextButton(
-                            onClick = { labelSelection.onEditLabel() },
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                        ) {
-                            Text(
-                                text = stringResource(id = HellNotesStrings.Button.Edit),
-                                modifier = Modifier.padding(horizontal = 4.dp),
-                                style = MaterialTheme.typography.labelLarge,
-                            )
-                        }
-                    }
+            labelItems.forEach { item ->
+                CustomNavDrawerItem(
+                    drawerItem = item,
+                    currentDestination = currentDestination,
+                )
+            }
 
-                    labelItems.forEach { item ->
-                        CustomNavDrawerItem(
-                            drawerItem = item,
-                            selectedItem = selectedItem,
-                        )
-                    }
+            // TODO: Replace with resource strings
+            CustomNavDrawerItem(
+                drawerItem =
+                    DrawerItem(
+                        title = UiText.DynamicString("Manage lables"),
+                        icon = UiIcon.DrawableResources(AppIcons.Settings),
+                        onClick = { onManageLabelsClick() },
+                    ),
+                currentDestination = currentDestination,
+            )
 
-                    CustomNavDrawerItem(
-                        drawerItem =
-                            DrawerItem(
-                                title = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
-                                icon = painterResource(id = HellNotesIcons.Add),
-                                onClick = { labelSelection.onCreateNewLabel() },
-                            ),
-                        selectedItem = selectedItem,
-                    )
-
-                    Divider(
-                        modifier =
-                            Modifier
-                                .alpha(0.5f)
-                                .padding(vertical = 8.dp, horizontal = 32.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
+            CustomNavDrawerItem(
+                drawerItem =
+                    DrawerItem(
+                        title = UiText.StringResources(AppStrings.MenuItem.CreateNewLabel),
+                        icon = UiIcon.DrawableResources(AppIcons.Add),
+                        onClick = { onCreateNewLabelClick() },
+                    ),
+                currentDestination = currentDestination,
+            )
+            Row(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp, horizontal = 8.dp),
+            ) {
+                Spacer(modifier = Modifier.weight(1f))
+                FilledTonalIconButton(onClick = { onAboutClick() }) {
+                    Icon(
+                        painter = painterResource(id = AppIcons.Info),
+                        contentDescription = null,
                     )
                 }
-
-                secondaryItems.forEach { item ->
-                    CustomNavDrawerItem(
-                        drawerItem = item,
-                        selectedItem = selectedItem,
-                    )
-                }
-
-                staticItems.forEach { item ->
-                    CustomNavDrawerItem(
-                        drawerItem = item,
-                        selectedItem = selectedItem,
+                FilledIconButton(onClick = { onSettingsClick() }) {
+                    Icon(
+                        painter = painterResource(id = AppIcons.Settings),
+                        contentDescription = null,
                     )
                 }
             }
@@ -152,33 +145,45 @@ fun DrawerSheetContent(
     }
 }
 
-data class LabelSelection(
-    val onEditLabel: () -> Unit,
-    val onCreateNewLabel: () -> Unit,
-)
-
 @Composable
 fun CustomNavDrawerItem(
     drawerItem: DrawerItem,
-    selectedItem: DrawerItem,
+    currentDestination: NavDestination?,
 ) {
+    val isSelected =
+        currentDestination?.hierarchy
+            ?.any {
+                it.route == drawerItem.route ||
+                    if ((it.route ?: "").contains("label")) {
+                        (it.route ?: "").substringBefore("/") ==
+                            drawerItem.route.substringBefore("/")
+                    } else {
+                        false
+                    }
+            } ?: false
+
     NavigationDrawerItem(
         icon = {
-            drawerItem.icon?.let { icon ->
-                Icon(
-                    painter = icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-            }
+            Icon(
+                painter = drawerItem.icon.asPainter(),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
         },
+//        badge = {
+//            if (isSelected) {
+//                Text(
+//                    text = "24",
+//                )
+//            }
+//        },
         label = {
             Text(
-                text = drawerItem.title,
+                text = drawerItem.title.asString(),
                 style = MaterialTheme.typography.labelLarge,
             )
         },
-        selected = selectedItem.title == drawerItem.title,
+        selected = isSelected,
         onClick = { drawerItem.onClick(drawerItem) },
         modifier =
             Modifier

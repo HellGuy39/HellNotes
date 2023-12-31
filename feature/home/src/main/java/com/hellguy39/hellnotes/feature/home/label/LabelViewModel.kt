@@ -1,7 +1,10 @@
 package com.hellguy39.hellnotes.feature.home.label
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.*
@@ -17,21 +20,22 @@ class LabelViewModel
     constructor(
         private val labelRepository: LabelRepository,
         getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase,
+        savedStateHandle: SavedStateHandle,
     ) : ViewModel() {
-        private val selectedLabel = MutableStateFlow(Label())
+        private val labelId = savedStateHandle.getArgument(Arguments.LabelId)
 
         val uiState: StateFlow<LabelUiState> =
             combine(
-                selectedLabel,
+                labelRepository.getLabelByIdFlow(labelId),
                 labelRepository.getAllLabelsStream(),
                 getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
-            ) { selectedLabel, labels, notes ->
+            ) { label, labels, notes ->
                 LabelUiState(
                     notes =
                         notes
                             .filter { wrapper -> !wrapper.note.isArchived }
-                            .filter { wrapper -> wrapper.labels.contains(selectedLabel) },
-                    label = selectedLabel,
+                            .filter { wrapper -> wrapper.labels.contains(label) },
+                    label = label,
                     allLabels = labels,
                 )
             }
@@ -49,42 +53,32 @@ class LabelViewModel
                 is LabelUiEvent.RenameLabel -> {
                     renameLabel(uiEvent.name)
                 }
-                is LabelUiEvent.SelectLabel -> {
-                    selectLabel(uiEvent.label)
-                }
-            }
-        }
-
-        private fun selectLabel(label: Label) {
-            viewModelScope.launch {
-                selectedLabel.update { label }
             }
         }
 
         private fun deleteLabel() {
             viewModelScope.launch {
-                val label = selectedLabel.value
+                val label = uiState.value.label
                 labelRepository.deleteLabel(label)
             }
         }
 
         private fun renameLabel(name: String) {
             viewModelScope.launch {
-                val label = selectedLabel.value.copy(name = name)
+                val label = uiState.value.label.copy(name = name)
                 labelRepository.updateLabel(label)
-                selectedLabel.update { label }
             }
         }
 
-        fun isLabelUnique(name: String) = uiState.value.allLabels.find { label -> label.name == name } == null
+        fun isLabelUnique(name: String) =
+            uiState.value.allLabels
+                .find { label -> label.name == name } == null
     }
 
 sealed class LabelUiEvent {
     data class RenameLabel(val name: String) : LabelUiEvent()
 
-    object DeleteLabel : LabelUiEvent()
-
-    data class SelectLabel(val label: Label) : LabelUiEvent()
+    data object DeleteLabel : LabelUiEvent()
 }
 
 data class LabelUiState(

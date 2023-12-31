@@ -14,7 +14,7 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
 import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 
 @Composable
 fun LabelItem(
@@ -42,8 +42,8 @@ fun LabelItem(
         HNIconButton(
             enabled = isFocused,
             onClick = onDelete,
-            enabledPainter = painterResource(id = HellNotesIcons.Delete),
-            disabledPainter = painterResource(id = HellNotesIcons.Label),
+            enabledPainter = painterResource(id = AppIcons.Delete),
+            disabledPainter = painterResource(id = AppIcons.Label),
         )
 
         HNClearTextField(
@@ -69,7 +69,7 @@ fun LabelItem(
                 saveLabel()
                 focusManager.clearFocus()
             },
-            enabledPainter = painterResource(id = HellNotesIcons.Done),
+            enabledPainter = painterResource(id = AppIcons.Done),
         )
     }
 

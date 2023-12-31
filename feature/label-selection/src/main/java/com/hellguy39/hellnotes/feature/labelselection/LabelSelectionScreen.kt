@@ -17,8 +17,8 @@ import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,7 +43,7 @@ fun LabelSelectionScreen(
                 content = {
                     HNClearTextField(
                         value = uiState.search,
-                        hint = stringResource(id = HellNotesStrings.Hint.Label),
+                        hint = stringResource(id = AppStrings.Hint.Label),
                         onValueChange = { newText -> selection.onSearchUpdate(newText) },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = MaterialTheme.typography.bodyLarge,
@@ -64,8 +64,8 @@ fun LabelSelectionScreen(
                             .padding(horizontal = 32.dp)
                             .padding(paddingValues)
                             .fillMaxSize(),
-                    heroIcon = painterResource(id = HellNotesIcons.Label),
-                    message = stringResource(id = HellNotesStrings.Placeholder.LabelSelection),
+                    heroIcon = painterResource(id = AppIcons.Label),
+                    message = stringResource(id = AppStrings.Placeholder.LabelSelection),
                 )
                 return@Scaffold
             }
@@ -82,7 +82,7 @@ fun LabelSelectionScreen(
                     HNCheckboxItem(
                         modifier = listItemModifier,
                         onClick = { selection.onLabelSelectedUpdate(label, !isChecked) },
-                        heroIcon = painterResource(id = HellNotesIcons.Label),
+                        heroIcon = painterResource(id = AppIcons.Label),
                         title = label.name,
                         checked = isChecked,
                         iconSize = 24.dp,
@@ -94,8 +94,8 @@ fun LabelSelectionScreen(
                     ) {
                         HNListItem(
                             modifier = listItemModifier,
-                            heroIcon = painterResource(id = HellNotesIcons.NewLabel),
-                            title = stringResource(id = HellNotesStrings.MenuItem.CreateNewLabel),
+                            heroIcon = painterResource(id = AppIcons.NewLabel),
+                            title = stringResource(id = AppStrings.MenuItem.CreateNewLabel),
                             onClick = selection.onCreateNewLabel,
                             iconSize = 24.dp,
                         )

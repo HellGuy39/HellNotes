@@ -22,7 +22,7 @@ import com.hellguy39.hellnotes.core.model.Language
 import com.hellguy39.hellnotes.core.ui.asDisplayableString
 import com.hellguy39.hellnotes.core.ui.components.items.HNRadioButtonItem
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +42,7 @@ fun LanguageSelectionScreen(
             HNLargeTopAppBar(
                 scrollBehavior = scrollBehavior,
                 onNavigationButtonClick = onNavigationButtonClick,
-                title = stringResource(id = HellNotesStrings.Title.Language),
+                title = stringResource(id = AppStrings.Title.Language),
             )
         },
     ) { innerPadding ->

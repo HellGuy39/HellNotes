@@ -12,13 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @Composable
 fun InfoCard(
     modifier: Modifier = Modifier,
-    @DrawableRes iconId: Int = HellNotesIcons.Info,
+    @DrawableRes iconId: Int = AppIcons.Info,
     title: String = "",
     body: String = "",
 ) {

@@ -18,9 +18,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.values.slideContentTransform
+import com.hellguy39.hellnotes.core.ui.animations.slideContentTransform
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -53,15 +53,15 @@ fun LockScreenPassword(
     ) {
         val titleIcon =
             when (uiState.lockState) {
-                is LockState.Unlocked -> painterResource(id = HellNotesIcons.LockOpen)
-                else -> painterResource(id = HellNotesIcons.Lock)
+                is LockState.Unlocked -> painterResource(id = AppIcons.LockOpen)
+                else -> painterResource(id = AppIcons.Lock)
             }
 
         val titleText =
             when (uiState.lockState) {
-                is LockState.Locked -> stringResource(id = HellNotesStrings.Title.EnterPassword)
-                is LockState.Unlocked -> stringResource(id = HellNotesStrings.Title.Unlocked)
-                is LockState.WrongPin -> stringResource(id = HellNotesStrings.Supporting.WrongPassword)
+                is LockState.Locked -> stringResource(id = AppStrings.Title.EnterPassword)
+                is LockState.Unlocked -> stringResource(id = AppStrings.Title.Unlocked)
+                is LockState.WrongPin -> stringResource(id = AppStrings.Supporting.WrongPassword)
             }
 
         Icon(
@@ -106,7 +106,7 @@ fun LockScreenPassword(
                 contentPadding = ButtonDefaults.TextButtonContentPadding,
             ) {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Button.Clear),
+                    text = stringResource(id = AppStrings.Button.Clear),
                     modifier = Modifier,
                     style = MaterialTheme.typography.labelLarge,
                 )
@@ -117,13 +117,13 @@ fun LockScreenPassword(
                 leadingIcon = {
                     Icon(
                         modifier = Modifier.size(AssistChipDefaults.IconSize),
-                        painter = painterResource(id = HellNotesIcons.Fingerprint),
+                        painter = painterResource(id = AppIcons.Fingerprint),
                         contentDescription = null,
                     )
                 },
                 label = {
                     Text(
-                        text = stringResource(id = HellNotesStrings.Button.Biometrics),
+                        text = stringResource(id = AppStrings.Button.Biometrics),
                         style = MaterialTheme.typography.labelMedium,
                     )
                 },
@@ -135,7 +135,7 @@ fun LockScreenPassword(
                 onClick = passwordSelection.onEntered,
             ) {
                 Text(
-                    text = stringResource(id = HellNotesStrings.Button.Enter),
+                    text = stringResource(id = AppStrings.Button.Enter),
                     modifier = Modifier,
                     style = MaterialTheme.typography.labelLarge,
                 )

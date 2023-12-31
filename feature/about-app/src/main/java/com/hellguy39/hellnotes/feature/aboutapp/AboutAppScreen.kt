@@ -9,7 +9,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.feature.aboutapp.components.AboutAppScreenContent
 
@@ -36,7 +36,7 @@ fun AboutAppScreen(
         topBar = {
             HNLargeTopAppBar(
                 onNavigationButtonClick = onNavigationButtonClick,
-                title = stringResource(id = HellNotesStrings.AppName),
+                title = stringResource(id = AppStrings.AppName),
                 scrollBehavior = scrollBehavior,
             )
         },

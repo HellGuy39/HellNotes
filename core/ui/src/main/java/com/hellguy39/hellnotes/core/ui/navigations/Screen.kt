@@ -3,8 +3,6 @@ package com.hellguy39.hellnotes.core.ui.navigations
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 
 sealed class Screen(val route: String) {
-    data object Startup : Screen(route = "startup")
-
     data object OnBoarding : Screen(route = "on_boarding")
 
     data object Lock : Screen(route = "lock")
@@ -20,8 +18,6 @@ sealed class Screen(val route: String) {
     data object Notes : Screen(route = "notes")
 
     data object Reminders : Screen(route = "reminders")
-
-    data object Label : Screen(route = "label")
 
     data object Archive : Screen(route = "archive")
 
@@ -57,6 +53,8 @@ sealed class Screen(val route: String) {
 
     data object Backup : Screen(route = "backup")
 
+    data class Label(val labelId: Long?) : Screen(route = "label_$labelId")
+
     fun withArgs(vararg args: String): String {
         return buildString {
             append(route)
@@ -71,15 +69,6 @@ sealed class Screen(val route: String) {
             append(route)
             args.forEach { arg ->
                 append("/{$arg}")
-            }
-        }
-    }
-
-    fun withArgs(vararg args: Arguments<*>): String {
-        return buildString {
-            append(route)
-            args.forEach { arg ->
-                append("/${arg.key}")
             }
         }
     }

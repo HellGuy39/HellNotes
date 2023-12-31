@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.model.ColorParam
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,8 +37,8 @@ fun NoteDetailTopAppBar(
                 onClick = { topAppBarSelection.onNavigationButtonClick() },
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.ArrowBack),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Back),
+                    painter = painterResource(id = AppIcons.ArrowBack),
+                    contentDescription = stringResource(id = AppStrings.ContentDescription.Back),
                 )
             }
         },
@@ -47,8 +47,8 @@ fun NoteDetailTopAppBar(
                 onClick = { topAppBarSelection.onPin(!note.isPinned) },
             ) {
                 Icon(
-                    painter = painterResource(HellNotesIcons.pin(note.isPinned)),
-                    contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Pin),
+                    painter = painterResource(AppIcons.pin(note.isPinned)),
+                    contentDescription = stringResource(id = AppStrings.ContentDescription.Pin),
                 )
             }
 
@@ -56,7 +56,7 @@ fun NoteDetailTopAppBar(
                 onClick = { topAppBarSelection.onReminder() },
             ) {
                 Icon(
-                    painter = painterResource(id = HellNotesIcons.NotificationAdd),
+                    painter = painterResource(id = AppIcons.NotificationAdd),
                     contentDescription = null,
                 )
             }
@@ -65,7 +65,7 @@ fun NoteDetailTopAppBar(
                 onClick = { topAppBarSelection.onArchive(!note.isArchived) },
             ) {
                 Icon(
-                    painter = painterResource(HellNotesIcons.archive(!note.isArchived)),
+                    painter = painterResource(AppIcons.archive(!note.isArchived)),
                     contentDescription = null,
                 )
             }

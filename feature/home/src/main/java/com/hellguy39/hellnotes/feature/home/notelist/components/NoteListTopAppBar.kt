@@ -27,8 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Alpha
 import com.hellguy39.hellnotes.core.ui.values.Elevation
 
@@ -41,9 +41,9 @@ fun NoteListTopAppBar(
 ) {
     val listStyleIcon =
         if (selection.listStyle == ListStyle.Column) {
-            painterResource(id = HellNotesIcons.GridView)
+            painterResource(id = AppIcons.GridView)
         } else {
-            painterResource(id = HellNotesIcons.ListView)
+            painterResource(id = AppIcons.ListView)
         }
 
     AnimatedContent(
@@ -58,8 +58,8 @@ fun NoteListTopAppBar(
                         onClick = { selection.onCancelSelection() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Close),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Cancel),
+                            painter = painterResource(id = AppIcons.Close),
+                            contentDescription = stringResource(id = AppStrings.ContentDescription.Cancel),
                         )
                     }
                 }
@@ -69,7 +69,7 @@ fun NoteListTopAppBar(
                     Text(
                         text =
                             stringResource(
-                                id = HellNotesStrings.Title.Selected,
+                                id = AppStrings.Title.Selected,
                                 selectedNotes.count(),
                             ),
                         style = MaterialTheme.typography.headlineSmall,
@@ -96,7 +96,7 @@ fun NoteListTopAppBar(
                                 onClick = { selection.onNavigation() },
                             ) {
                                 Icon(
-                                    painter = painterResource(id = HellNotesIcons.Menu),
+                                    painter = painterResource(id = AppIcons.Menu),
                                     contentDescription = null,
                                 )
                             }
@@ -106,7 +106,7 @@ fun NoteListTopAppBar(
                                         .alpha(Alpha.HINT),
                                 text =
                                     stringResource(
-                                        id = HellNotesStrings.Hint.Search,
+                                        id = AppStrings.Hint.Search,
                                     ),
                                 style = MaterialTheme.typography.bodyLarge,
                             )
@@ -131,7 +131,7 @@ fun NoteListTopAppBar(
                         onClick = { selection.onArchive() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Archive),
+                            painter = painterResource(id = AppIcons.Archive),
                             contentDescription = null,
                         )
                     }
@@ -139,8 +139,8 @@ fun NoteListTopAppBar(
                         onClick = { selection.onDeleteSelected() },
                     ) {
                         Icon(
-                            painter = painterResource(id = HellNotesIcons.Delete),
-                            contentDescription = stringResource(id = HellNotesStrings.ContentDescription.Delete),
+                            painter = painterResource(id = AppIcons.Delete),
+                            contentDescription = stringResource(id = AppStrings.ContentDescription.Delete),
                         )
                     }
                 } else {
