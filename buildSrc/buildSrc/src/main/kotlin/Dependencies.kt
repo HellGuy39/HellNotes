@@ -2,7 +2,7 @@ object Dependencies {
 
     object Kotlin {
 
-        private const val kotlinVersion = "1.9.20"
+        private const val kotlinVersion = "1.9.21"
         const val GradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         const val GradleSerializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion"
 
@@ -76,9 +76,9 @@ object Dependencies {
     object Compose {
         private const val composeVersion = "1.5.4"
         private const val lifecycleVersion = "2.6.2"
-        private const val navigationVersion = "2.7.5"
+        private const val navigationVersion = "2.7.6"
         private const val material3Version = "1.1.2"
-        private const val activityVersion = "1.8.1"
+        private const val activityVersion = "1.8.2"
 
         const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
         const val Activity = "androidx.activity:activity-compose:$activityVersion"
