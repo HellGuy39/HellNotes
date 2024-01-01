@@ -210,13 +210,12 @@ object AppStrings {
 
     object Snack {
         val NoteMovedToTrash = R.string.snack_note_moved_to_trash
-        val NotesMovedToTrash = R.string.snack_notes_moved_to_trash
-
         val NoteArchived = R.string.snack_note_archived
         val NoteUnarchived = R.string.snack_note_unarchived
 
-        val NotesArchived = R.string.snack_notes_archived
-        val NotesUnarchived = R.string.snack_notes_unarchived
+        fun noteArchived(isArchived: Boolean) = if (isArchived) NoteArchived else NoteUnarchived
+
+        fun notePinned(isPinned: Boolean) = if (isPinned) NotePinned else NoteUnpinned
 
         val NotePinned = R.string.snack_note_pinned
         val NoteUnpinned = R.string.snack_note_unpinned

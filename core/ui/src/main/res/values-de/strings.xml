@@ -214,14 +214,11 @@
     <string name="permission_notification_default">Für diese Funktion ist die Berechtigung zum Senden von Benachrichtigungen erforderlich. Bitte genehmige die Genehmigung.</string>
 
     <!--  Snack  -->
-    <string name="snack_note_moved_to_trash">Notiz wurde in den Papierkorb verschoben</string>
-    <string name="snack_notes_moved_to_trash">Notizen wurden in den Papierkorb verschoben</string>
-    <string name="snack_note_archived">Notiz archiviert</string>
-    <string name="snack_note_unarchived">Notiz entpackt</string>
-    <string name="snack_notes_archived">Notizen werden archiviert</string>
-    <string name="snack_notes_unarchived">Notizen entpackt</string>
-    <string name="snack_note_pinned">Notiz ist fixiert</string>
-    <string name="snack_note_unpinned">Notiz unpinnen</string>
+    <string name="snack_note_moved_to_trash">Notiz(en) in den Papierkorb verschoben</string>
+    <string name="snack_note_archived">Notiz (en) werden archiviert</string>
+    <string name="snack_note_unarchived">Notiz (en) sind nicht archiviert</string>
+    <string name="snack_note_pinned">Notiz (en) sind angeheftet</string>
+    <string name="snack_note_unpinned">Notiz (en) sind nicht angeheftet</string>
     <string name="snack_backup_created">Backup wurde erfolgreich erstellt</string>
     <string name="snack_storage_restored">Der Speicher wurde erfolgreich wiederhergestellt</string>
     <string name="snack_label_already_exist">Eine Bezeichnung mit diesem Namen existiert bereits</string>

@@ -134,12 +134,7 @@ class ActionViewModel
                 }
 
                 val action = if (isArchived) Action.Archive else Action.Unarchive
-                val message =
-                    if (isArchived) {
-                        AppStrings.Snack.NoteArchived
-                    } else {
-                        AppStrings.Snack.NotesArchived
-                    }
+                val message = AppStrings.Snack.noteArchived(isArchived)
 
                 lastNoteAction.update { NoteAction(action, notes.asList()) }
 

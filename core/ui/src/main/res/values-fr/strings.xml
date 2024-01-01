@@ -209,12 +209,9 @@
     <string name="value_never">jamais</string>
 
     <!-- Snack -->
-    <string name="snack_note_moved_to_trash">La note a été déplacée dans la corbeille</string>
-    <string name="snack_notes_moved_to_trash">Les notes ont été déplacées dans la corbeille</string>
-    <string name="snack_note_archived">La note a été archivée</string>
-    <string name="snack_note_unarchived">Note désarchivée</string>
-    <string name="snack_notes_archived">Notes archivées</string>
-    <string name="snack_notes_unarchived">Notes désarchivées</string>
+    <string name="snack_note_moved_to_trash">Note(s) déplacée (s) vers la corbeille</string>
+    <string name="snack_note_archived">Note(s) archivée (s)</string>
+    <string name="snack_note_unarchived">Note(s) non archivée (s)</string>
     <string name="snack_note_pinned">Note épinglée</string>
     <string name="snack_note_unpinned">Note détachée</string>
     <string name="snack_remind_time_is_too_late">Impossible de définir un rappel, l\'heure de rappel est tard que l\'heure système</string>

@@ -222,14 +222,11 @@
     <string name="shortcut_label_trash">Trash</string>
 
     <!-- Snack -->
-    <string name="snack_note_moved_to_trash">Note moved to trash</string>
-    <string name="snack_notes_moved_to_trash">Notes moved to trash</string>
-    <string name="snack_note_archived">Note archived</string>
-    <string name="snack_note_unarchived">Note unarchived</string>
-    <string name="snack_notes_archived">Notes archived</string>
-    <string name="snack_notes_unarchived">Notes unarchived</string>
-    <string name="snack_note_pinned">Note pinned</string>
-    <string name="snack_note_unpinned">Note unpinned</string>
+    <string name="snack_note_moved_to_trash">Note(s) moved to trash</string>
+    <string name="snack_note_archived">Note(s) are archived</string>
+    <string name="snack_note_unarchived">Note(s) are unarchived</string>
+    <string name="snack_note_pinned">Note are pinned</string>
+    <string name="snack_note_unpinned">Note are unpinned</string>
     <string name="snack_backup_created">Backup was successfully created</string>
     <string name="snack_storage_restored">Storage was successfully restored</string>
     <string name="snack_label_already_exist">Label with this name already exists</string>

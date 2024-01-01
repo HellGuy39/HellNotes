@@ -2,6 +2,8 @@ package com.hellguy39.hellnotes.feature.privacypolicy.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
@@ -15,15 +17,15 @@ fun NavGraphBuilder.privacyPolicyScreen(appState: AppState) {
         enterTransition = {
             when (initialState.destination.route) {
                 Screen.AboutApp.route -> slideEnterTransition()
-                else -> null
+                else -> fadeEnterTransition()
             }
         },
-        exitTransition = { null },
-        popEnterTransition = { null },
+        exitTransition = { fadeExitTransition() },
+        popEnterTransition = { fadeEnterTransition() },
         popExitTransition = {
             when (targetState.destination.route) {
                 Screen.AboutApp.route -> slideExitTransition()
-                else -> null
+                else -> fadeExitTransition()
             }
         },
     ) {

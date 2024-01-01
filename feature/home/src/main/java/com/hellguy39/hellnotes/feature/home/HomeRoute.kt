@@ -25,11 +25,15 @@ fun HomeRoute(
     navigateToNoteDetail: (id: Long?) -> Unit,
     navigateToLabelEdit: (action: String) -> Unit,
 ) {
+    val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+
+    if (homeUiState.isIdle) {
+        return
+    }
+
     val context = LocalContext.current
 
     val homeState = rememberHomeState()
-
-    val labels by homeViewModel.labels.collectAsStateWithLifecycle()
 
     val navBackStackEntry by homeState.navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -42,7 +46,7 @@ fun HomeRoute(
         )
 
     val labelItems =
-        labels.map { label ->
+        homeUiState.labels.map { label ->
             DrawerItem(
                 title = UiText.DynamicString(label.name),
                 icon = UiIcon.DrawableResources(AppIcons.Folder),
@@ -83,7 +87,7 @@ fun HomeRoute(
                 homeState = homeState,
                 navigateToSearch = navigateToSearch,
                 navigateToNoteDetail = navigateToNoteDetail,
-                labels = labels,
+                labels = homeUiState.labels,
             )
         },
     )

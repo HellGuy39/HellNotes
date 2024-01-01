@@ -81,6 +81,7 @@ fun LabelScreen(
     CustomDialog(
         state = renameDialogState,
         showContentDividers = false,
+        // TODO: replace with resource string
         title = "Rename label",
         content = {
             val focusRequester = remember { FocusRequester() }

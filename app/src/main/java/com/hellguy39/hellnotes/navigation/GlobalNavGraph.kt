@@ -86,7 +86,7 @@ fun GlobalNavGraph(
 
         lockSelectionScreen(appState)
 
-        lockSetupScreen(navController)
+        lockSetupScreen(appState)
 
         languageSelectionScreen(appState)
 

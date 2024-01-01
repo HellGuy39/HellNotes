@@ -7,6 +7,8 @@ import androidx.navigation.navDeepLink
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.uri.DeeplinkRoute
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
 import com.hellguy39.hellnotes.core.ui.state.HomeState
@@ -31,6 +33,10 @@ fun HomeNavGraph(
             route = Screen.Notes.route,
             arguments = listOf(),
             deepLinks = listOf(),
+            enterTransition = { fadeEnterTransition() },
+            exitTransition = { fadeExitTransition() },
+            popEnterTransition = { fadeEnterTransition() },
+            popExitTransition = { fadeExitTransition() },
         ) {
             NotesScreen(
                 homeState = homeState,
@@ -50,6 +56,10 @@ fun HomeNavGraph(
                                 .asString()
                     },
                 ),
+            enterTransition = { fadeEnterTransition() },
+            exitTransition = { fadeExitTransition() },
+            popEnterTransition = { fadeEnterTransition() },
+            popExitTransition = { fadeExitTransition() },
         ) {
             RemindersScreen(
                 homeState = homeState,
@@ -70,6 +80,10 @@ fun HomeNavGraph(
                                 .asString()
                     },
                 ),
+            enterTransition = { fadeEnterTransition() },
+            exitTransition = { fadeExitTransition() },
+            popEnterTransition = { fadeEnterTransition() },
+            popExitTransition = { fadeExitTransition() },
         ) {
             ArchiveScreen(
                 homeState = homeState,
@@ -89,6 +103,10 @@ fun HomeNavGraph(
                                 .asString()
                     },
                 ),
+            enterTransition = { fadeEnterTransition() },
+            exitTransition = { fadeExitTransition() },
+            popEnterTransition = { fadeEnterTransition() },
+            popExitTransition = { fadeExitTransition() },
         ) {
             TrashScreen(
                 homeState = homeState,
@@ -102,6 +120,10 @@ fun HomeNavGraph(
                         Arguments.LabelId.asNavigationArgument(),
                     ),
                 deepLinks = listOf(),
+                enterTransition = { fadeEnterTransition() },
+                exitTransition = { fadeExitTransition() },
+                popEnterTransition = { fadeEnterTransition() },
+                popExitTransition = { fadeExitTransition() },
             ) {
                 LabelScreen(
                     homeState = homeState,

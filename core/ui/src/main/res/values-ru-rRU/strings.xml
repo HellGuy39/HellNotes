@@ -209,12 +209,9 @@
     <string name="value_never">никогда</string>
 
     <!-- Snack -->
-    <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>
-    <string name="snack_notes_moved_to_trash">Заметки перемещены в корзину</string>
-    <string name="snack_note_archived">Заметка архивирована</string>
-    <string name="snack_note_unarchived">Заметка разархивирована</string>
-    <string name="snack_notes_archived">Заметки архивированы</string>
-    <string name="snack_notes_unarchived">Заметки разархивированы</string>
+    <string name="snack_note_moved_to_trash">Заметка(-и) перемещена(-ы) в корзину</string>
+    <string name="snack_note_archived">Заметка(-и) архивирована(-ы)</string>
+    <string name="snack_note_unarchived">Заметка(-и) разархивирована(-ы)</string>
     <string name="snack_note_pinned">Заметка закреплена</string>
     <string name="snack_note_unpinned">Заметка откреплена</string>
     <string name="snack_backup_created">Резервная копия была успешно создана</string>

@@ -2,6 +2,8 @@ package com.hellguy39.hellnotes.feature.settings.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToBackup
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLanguageSelection
@@ -15,10 +17,10 @@ fun NavGraphBuilder.settingsScreen(appState: AppState) {
     composable(
         route = Screen.Settings.route,
         arguments = listOf(),
-        enterTransition = { null },
-        exitTransition = { null },
-        popEnterTransition = { null },
-        popExitTransition = { null },
+        enterTransition = { fadeEnterTransition() },
+        exitTransition = { fadeExitTransition() },
+        popEnterTransition = { fadeEnterTransition() },
+        popExitTransition = { fadeExitTransition() },
     ) { from ->
         SettingsRoute(
             navigateBack = { appState.navigateUp() },

@@ -3,6 +3,8 @@ package com.hellguy39.hellnotes.feature.notedetail.navigations
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
@@ -28,16 +30,16 @@ fun NavGraphBuilder.noteDetailScreen(appState: AppState) {
             when (initialState.destination.route) {
                 Screen.Home.route -> slideEnterTransition()
                 Screen.Search.route -> slideEnterTransition()
-                else -> null
+                else -> fadeEnterTransition()
             }
         },
-        exitTransition = { null },
-        popEnterTransition = { null },
+        exitTransition = { fadeExitTransition() },
+        popEnterTransition = { fadeEnterTransition() },
         popExitTransition = {
             when (targetState.destination.route) {
                 Screen.Home.route -> slideExitTransition()
                 Screen.Search.route -> slideExitTransition()
-                else -> null
+                else -> fadeExitTransition()
             }
         },
     ) { from ->

@@ -66,6 +66,7 @@ class HomeState(
         if (route != currentRoute) {
             closeDrawer()
             navController.navigate(route) {
+                // TODO: This breaks deeplinks
                 launchSingleTop = true
                 restoreState = true
                 // Pop up backstack to the first destination and save state. This makes going back

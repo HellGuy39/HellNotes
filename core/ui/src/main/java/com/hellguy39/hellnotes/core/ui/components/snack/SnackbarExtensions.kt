@@ -36,32 +36,16 @@ fun SnackbarHostState.showDismissableSnackbar(
 fun SnackAction.getSnackMessage(isSingleItem: Boolean = true) =
     when (this) {
         SnackAction.Archive -> {
-            if (isSingleItem) {
-                stringResource(id = AppStrings.Snack.NoteArchived)
-            } else {
-                stringResource(id = AppStrings.Snack.NotesArchived)
-            }
+            stringResource(id = AppStrings.Snack.NoteArchived)
         }
         SnackAction.Delete -> {
-            if (isSingleItem) {
-                stringResource(id = AppStrings.Snack.NoteMovedToTrash)
-            } else {
-                stringResource(id = AppStrings.Snack.NotesMovedToTrash)
-            }
+            stringResource(id = AppStrings.Snack.NoteMovedToTrash)
         }
         SnackAction.Unarchive -> {
-            if (isSingleItem) {
-                stringResource(id = AppStrings.Snack.NoteUnarchived)
-            } else {
-                stringResource(id = AppStrings.Snack.NotesUnarchived)
-            }
+            stringResource(id = AppStrings.Snack.NoteUnarchived)
         }
         SnackAction.Restore -> {
-            if (isSingleItem) {
-                ""
-            } else {
-                ""
-            }
+            ""
         }
         SnackAction.Pinned -> {
             stringResource(AppStrings.Snack.NotePinned)
@@ -76,32 +60,16 @@ fun SnackAction.getSnackMessage(
     isSingleItem: Boolean = true,
 ) = when (this) {
     SnackAction.Archive -> {
-        if (isSingleItem) {
-            context.getString(AppStrings.Snack.NoteArchived)
-        } else {
-            context.getString(AppStrings.Snack.NotesArchived)
-        }
+        context.getString(AppStrings.Snack.NoteArchived)
     }
     SnackAction.Delete -> {
-        if (isSingleItem) {
-            context.getString(AppStrings.Snack.NoteMovedToTrash)
-        } else {
-            context.getString(AppStrings.Snack.NotesMovedToTrash)
-        }
+        context.getString(AppStrings.Snack.NoteMovedToTrash)
     }
     SnackAction.Unarchive -> {
-        if (isSingleItem) {
-            context.getString(AppStrings.Snack.NoteUnarchived)
-        } else {
-            context.getString(AppStrings.Snack.NotesUnarchived)
-        }
+        context.getString(AppStrings.Snack.NoteUnarchived)
     }
     SnackAction.Restore -> {
-        if (isSingleItem) {
-            ""
-        } else {
-            ""
-        }
+        ""
     }
     SnackAction.Pinned -> {
         context.getString(AppStrings.Snack.NotePinned)

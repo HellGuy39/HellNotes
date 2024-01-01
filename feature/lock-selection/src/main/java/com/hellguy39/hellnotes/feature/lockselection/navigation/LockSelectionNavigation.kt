@@ -2,6 +2,8 @@ package com.hellguy39.hellnotes.feature.lockselection.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
@@ -15,15 +17,15 @@ fun NavGraphBuilder.lockSelectionScreen(appState: AppState) {
         enterTransition = {
             when (initialState.destination.route) {
                 Screen.Settings.route -> slideEnterTransition()
-                else -> null
+                else -> fadeEnterTransition()
             }
         },
-        exitTransition = { null },
-        popEnterTransition = { null },
+        exitTransition = { fadeExitTransition() },
+        popEnterTransition = { fadeEnterTransition() },
         popExitTransition = {
             when (targetState.destination.route) {
                 Screen.Settings.route -> slideExitTransition()
-                else -> null
+                else -> fadeExitTransition()
             }
         },
     ) { from ->
