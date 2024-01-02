@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.core.ui.resources.UiText
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

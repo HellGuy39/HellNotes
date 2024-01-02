@@ -5,12 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
 fun LabelSelectionRoute(
     navigateBack: () -> Unit,
     labelSelectionViewModel: LabelSelectionViewModel = hiltViewModel(),
 ) {
+    TrackScreenView(screenName = "LabelSelectionScreen")
+
     BackHandler { navigateBack() }
 
     val uiState by labelSelectionViewModel.uiState.collectAsStateWithLifecycle()

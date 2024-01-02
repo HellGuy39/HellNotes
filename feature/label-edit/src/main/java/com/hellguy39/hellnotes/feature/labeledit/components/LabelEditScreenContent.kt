@@ -8,23 +8,30 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.ui.focus.requestFocusWhen
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.labeledit.LabelEditUiState
 
 @Composable
 fun LabelEditScreenContent(
     paddingValues: PaddingValues,
-    uiState: LabelEditUiState.Success,
+    uiState: LabelEditUiState,
     selection: LabelEditScreenContentSelection,
     focusRequester: FocusRequester,
 ) {
+    val context = LocalContext.current
+
+    focusRequester.requestFocusWhen {
+        uiState.action == context.getString(AppStrings.Action.Create)
+    }
+
     LazyColumn(
         contentPadding = paddingValues,
     ) {
-        item(
-            key = -1,
-        ) {
+        item(key = -1) {
             LabelSearchItem(
                 modifier =
                     Modifier

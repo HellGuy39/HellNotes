@@ -22,6 +22,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.analytics.LocalAnalytics
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
+import com.hellguy39.hellnotes.core.ui.analytics.buttonClick
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
@@ -36,6 +39,8 @@ import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 import com.hellguy39.hellnotes.feature.home.notelist.components.NoteListTopAppBar
 import com.hellguy39.hellnotes.feature.home.notelist.components.NoteListTopAppBarSelection
 
+private const val SCREEN_NAME = "NotesScreen"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesScreen(
@@ -46,6 +51,10 @@ fun NotesScreen(
     visualsViewModel: VisualsViewModel = hiltViewModel(),
     actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
+    TrackScreenView(screenName = SCREEN_NAME)
+
+    val analyticsLogger = LocalAnalytics.current
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val uiState by notesViewModel.uiState.collectAsStateWithLifecycle()
@@ -161,7 +170,10 @@ fun NotesScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigateToNoteDetail(Arguments.NoteId.emptyValue) },
+                onClick = {
+                    analyticsLogger.buttonClick(SCREEN_NAME, "fab_add_new_note")
+                    navigateToNoteDetail(Arguments.NoteId.emptyValue)
+                },
             ) {
                 Icon(
                     painter = painterResource(id = AppIcons.Add),

@@ -24,20 +24,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -54,6 +50,7 @@ import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
+import com.hellguy39.hellnotes.core.ui.focus.requestFocusWhen
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Alpha
@@ -69,21 +66,7 @@ fun NoteDetailContent(
     focusRequester: FocusRequester,
     lazyListState: LazyListState,
 ) {
-    val windowInfo = LocalWindowInfo.current
-    var isFirstLaunchFocusRequested by rememberSaveable { mutableStateOf(false) }
-
-    LaunchedEffect(key1 = uiState, key2 = windowInfo) {
-        if (!uiState.wrapper.note.hasContentText() && !isFirstLaunchFocusRequested) {
-            snapshotFlow {
-                windowInfo.isWindowFocused
-            }.collect { isWindowFocused ->
-                if (isWindowFocused) {
-                    focusRequester.requestFocus()
-                    isFirstLaunchFocusRequested = true
-                }
-            }
-        }
-    }
+    focusRequester.requestFocusWhen { !uiState.wrapper.note.hasContentText() }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),

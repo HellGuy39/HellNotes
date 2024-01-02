@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenContentSelection
@@ -19,6 +20,8 @@ fun LabelEditRoute(
     navigateBack: () -> Unit,
     labelEditViewModel: LabelEditViewModel = hiltViewModel(),
 ) {
+    TrackScreenView(screenName = "LabelEditScreen")
+
     val context = LocalContext.current
 
     val uiState by labelEditViewModel.uiState.collectAsStateWithLifecycle()
@@ -27,13 +30,7 @@ fun LabelEditRoute(
     val snackbarHostState = remember { SnackbarHostState() }
 
     fun Label.isLabelUnique(): Boolean {
-        uiState.let { state ->
-            return if (state is LabelEditUiState.Success) {
-                state.labels.find { label -> label.name == this.name } == null
-            } else {
-                false
-            }
-        }
+        return uiState.labels.find { label -> label.name == this.name } == null
     }
 
     fun showLabelIsAlreadyExistSnack() {

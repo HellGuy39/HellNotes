@@ -8,12 +8,15 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
 fun BackupRoute(
     backupViewModel: BackupViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
 ) {
+    TrackScreenView(screenName = "BackupScreen")
+
     BackHandler { navigateBack() }
 
     val createBackupLauncher =

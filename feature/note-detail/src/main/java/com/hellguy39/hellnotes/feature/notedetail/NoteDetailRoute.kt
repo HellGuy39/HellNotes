@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
@@ -42,6 +43,8 @@ fun NoteDetailRoute(
     navigateToLabelSelection: (id: Long) -> Unit,
     navigateToReminderEdit: (noteId: Long, reminderId: Long) -> Unit,
 ) {
+    TrackScreenView(screenName = "NoteDetailScreen")
+
     val context = LocalContext.current
 
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()

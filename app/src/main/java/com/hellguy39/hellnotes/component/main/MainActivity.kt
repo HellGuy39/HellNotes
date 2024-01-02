@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
+import com.hellguy39.hellnotes.core.ui.analytics.LocalAnalytics
 import com.hellguy39.hellnotes.core.ui.state.rememberAppState
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.navigation.GlobalNavGraph
@@ -27,7 +29,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTransparentSystemBars(true)
         installSplashScreen()
-        setContent { HellNotesApp() }
+        setContent {
+            CompositionLocalProvider(
+                LocalAnalytics provides analyticsLogger,
+            ) {
+                HellNotesApp()
+            }
+        }
     }
 }
 

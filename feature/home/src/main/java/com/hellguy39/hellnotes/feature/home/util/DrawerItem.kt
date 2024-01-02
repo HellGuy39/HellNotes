@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.feature.home.util
 
-import com.hellguy39.hellnotes.core.ui.resources.UiIcon
-import com.hellguy39.hellnotes.core.ui.resources.UiText
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 
 data class DrawerItem(
     val title: UiText = UiText.Empty,

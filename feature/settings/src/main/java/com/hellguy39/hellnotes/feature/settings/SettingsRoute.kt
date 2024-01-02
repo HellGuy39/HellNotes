@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.domain.tools.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.lifecycle.rememberLifecycleEvent
 
 @Composable
@@ -22,6 +23,8 @@ fun SettingsRoute(
     navigateToNoteSwipeEdit: () -> Unit,
     navigateToBackup: () -> Unit,
 ) {
+    TrackScreenView(screenName = "SettingsScreen")
+
     val activity = LocalContext.current as AppCompatActivity
 
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()

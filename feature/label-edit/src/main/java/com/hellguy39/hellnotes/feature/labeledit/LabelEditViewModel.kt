@@ -24,13 +24,14 @@ class LabelEditViewModel
         val uiState: StateFlow<LabelEditUiState> =
             labelRepository.getAllLabelsStream()
                 .map { labels ->
-                    LabelEditUiState.Success(
+                    LabelEditUiState(
                         labels = labels.sortedByDescending { label -> label.id },
                         action = action,
+                        isIdle = false,
                     )
                 }
                 .stateIn(
-                    initialValue = LabelEditUiState.Loading,
+                    initialValue = LabelEditUiState(),
                     started = SharingStarted.WhileSubscribed(5_000),
                     scope = viewModelScope,
                 )
@@ -68,14 +69,11 @@ class LabelEditViewModel
         }
     }
 
-sealed interface LabelEditUiState {
-    data object Loading : LabelEditUiState
-
-    data class Success(
-        val action: String,
-        val labels: List<Label>,
-    ) : LabelEditUiState
-}
+data class LabelEditUiState(
+    val isIdle: Boolean = true,
+    val action: String = "",
+    val labels: List<Label> = listOf(),
+)
 
 sealed class LabelEditScreenUiEvent {
     data class InsertLabel(val label: Label) : LabelEditScreenUiEvent()

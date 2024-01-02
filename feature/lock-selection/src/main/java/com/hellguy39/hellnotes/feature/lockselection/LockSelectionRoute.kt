@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.LockScreenType
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
 fun LockSelectionRoute(
@@ -14,6 +15,8 @@ fun LockSelectionRoute(
     navigateBack: () -> Unit,
     navigateToLockSetup: (type: LockScreenType) -> Unit,
 ) {
+    TrackScreenView(screenName = "LockSelectionScreen")
+
     val snackbarHostState = remember { SnackbarHostState() }
 
     val uiState by lockSelectionViewModel.uiState.collectAsStateWithLifecycle()

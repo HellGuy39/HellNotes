@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.ui.resources
+package com.hellguy39.hellnotes.core.ui.resources.wrapper
 
 import android.content.Context
 import android.content.res.Resources

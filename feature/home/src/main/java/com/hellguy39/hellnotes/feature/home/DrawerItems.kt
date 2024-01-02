@@ -5,8 +5,8 @@ import androidx.compose.runtime.remember
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.core.ui.resources.UiIcon
-import com.hellguy39.hellnotes.core.ui.resources.UiText
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 
 @Composable

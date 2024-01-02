@@ -1,9 +1,10 @@
-package com.hellguy39.hellnotes.core.ui.resources
+package com.hellguy39.hellnotes.core.ui.resources.wrapper
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 
 sealed class UiIcon {
     data object Empty : UiIcon()

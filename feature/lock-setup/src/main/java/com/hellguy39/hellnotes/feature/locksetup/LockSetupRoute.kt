@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
 fun LockSetupRoute(
@@ -11,6 +12,8 @@ fun LockSetupRoute(
     navigateBackToSettings: () -> Unit,
     navigateBack: () -> Unit,
 ) {
+    TrackScreenView(screenName = "LockSetupScreen")
+
     val uiState by lockSetupViewModel.uiState.collectAsStateWithLifecycle()
 
     LockSetupScreen(

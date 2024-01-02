@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -15,6 +16,8 @@ fun SearchRoute(
     navigateToNoteDetail: (id: Long) -> Unit,
     searchViewModel: SearchViewModel = hiltViewModel(),
 ) {
+    TrackScreenView(screenName = "SearchScreen")
+
     val uiState by searchViewModel.uiState.collectAsStateWithLifecycle()
 
     SearchScreen(

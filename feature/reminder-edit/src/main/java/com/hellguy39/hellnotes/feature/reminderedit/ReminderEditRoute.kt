@@ -9,6 +9,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import kotlinx.coroutines.launch
 
@@ -17,6 +18,8 @@ fun ReminderEditRoute(
     navigateBack: () -> Unit,
     reminderEditViewModel: ReminderEditViewModel = hiltViewModel(),
 ) {
+    TrackScreenView(screenName = "ReminderEditScreen")
+
     val context = LocalContext.current
     val uiState by reminderEditViewModel.uiState.collectAsStateWithLifecycle()
 

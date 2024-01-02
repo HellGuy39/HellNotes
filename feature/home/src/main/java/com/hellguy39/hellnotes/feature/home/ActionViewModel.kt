@@ -8,7 +8,7 @@ import com.hellguy39.hellnotes.core.domain.usecase.note.MoveNoteToTrashUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.note.RestoreNoteFromTrashUseCase
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.core.ui.resources.UiText
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

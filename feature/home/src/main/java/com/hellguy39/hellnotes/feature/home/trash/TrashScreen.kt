@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.cards.TipCard
@@ -40,6 +41,8 @@ fun TrashScreen(
     visualsViewModel: VisualsViewModel = hiltViewModel(),
     actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
+    TrackScreenView(screenName = "TrashScreen")
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val restoreDialogState = rememberDialogState()

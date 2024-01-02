@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
@@ -39,6 +40,8 @@ fun ArchiveScreen(
     visualsViewModel: VisualsViewModel = hiltViewModel(),
     actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
+    TrackScreenView(screenName = "ArchiveScreen")
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     val uiState by archiveViewModel.uiState.collectAsStateWithLifecycle()

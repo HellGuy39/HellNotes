@@ -8,7 +8,7 @@ import com.hellguy39.hellnotes.core.domain.usecase.backup.BackupDatabaseUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.backup.RestoreDatabaseUseCase
 import com.hellguy39.hellnotes.core.model.Resource
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.core.ui.resources.UiText
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

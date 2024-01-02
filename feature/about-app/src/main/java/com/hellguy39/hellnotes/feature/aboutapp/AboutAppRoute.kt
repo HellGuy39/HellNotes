@@ -2,6 +2,7 @@ package com.hellguy39.hellnotes.feature.aboutapp
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.feature.aboutapp.util.openGithub
 import com.hellguy39.hellnotes.feature.aboutapp.util.provideFeedback
 
@@ -13,6 +14,8 @@ fun AboutAppRoute(
     navigateToPrivacyPolicy: () -> Unit,
     navigateToTermsAndConditions: () -> Unit,
 ) {
+    TrackScreenView(screenName = "AboutScreen")
+
     val context = LocalContext.current
 
     AboutAppScreen(

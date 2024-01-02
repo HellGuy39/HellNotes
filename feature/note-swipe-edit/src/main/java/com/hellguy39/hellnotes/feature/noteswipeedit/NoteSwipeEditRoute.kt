@@ -6,12 +6,15 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
 fun NoteSwipeEditRoute(
     viewModel: NoteSwipeEditScreenViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
 ) {
+    TrackScreenView(screenName = "NoteSwipeEditScreen")
+
     BackHandler { navigateBack() }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
 import kotlinx.coroutines.launch
@@ -28,6 +29,8 @@ fun LockRoute(
     onUnlock: () -> Unit = {},
     context: Context = LocalContext.current,
 ) {
+    TrackScreenView(screenName = "LockScreen")
+
     BackHandler { /* Block back gesture */ }
 
     val uiState by lockViewModel.uiState.collectAsStateWithLifecycle()

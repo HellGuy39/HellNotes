@@ -32,32 +32,19 @@ fun LabelEditScreen(
 
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(key1 = uiState is LabelEditUiState.Success) {
-        uiState.let { state ->
-            if (state is LabelEditUiState.Success) {
-                if (state.action == context.getString(AppStrings.Action.Create)) {
-                    focusRequester.requestFocus()
-                }
-            }
-        }
-    }
-
     Scaffold(
         modifier =
             Modifier
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
         content = { paddingValues ->
-            when (uiState) {
-                is LabelEditUiState.Loading -> Unit
-                is LabelEditUiState.Success -> {
-                    LabelEditScreenContent(
-                        paddingValues = paddingValues,
-                        uiState = uiState,
-                        selection = labelEditScreenContentSelection,
-                        focusRequester = focusRequester,
-                    )
-                }
+            if (!uiState.isIdle) {
+                LabelEditScreenContent(
+                    paddingValues = paddingValues,
+                    uiState = uiState,
+                    selection = labelEditScreenContentSelection,
+                    focusRequester = focusRequester,
+                )
             }
         },
         topBar = {

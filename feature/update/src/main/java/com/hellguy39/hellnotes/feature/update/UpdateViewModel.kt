@@ -7,7 +7,7 @@ import com.hellguy39.hellnotes.core.domain.tools.Downloader
 import com.hellguy39.hellnotes.core.domain.usecase.CheckForUpdatesUseCase
 import com.hellguy39.hellnotes.core.model.Resource
 import com.hellguy39.hellnotes.core.model.repository.remote.Release
-import com.hellguy39.hellnotes.core.ui.resources.UiText
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
