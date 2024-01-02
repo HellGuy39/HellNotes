@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.feature.home.trash.components
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
@@ -12,7 +11,7 @@ import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrashTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
@@ -21,28 +20,24 @@ fun TrashTopAppBar(
 ) {
     val trashDropdownMenuState = rememberDropdownMenuState()
 
-    AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
-
+    AnimatedContent(
+        targetState = selection.selectedNotes.isNotEmpty(),
+        label = "isNoteSelection",
+    ) { isNoteSelection ->
         TopAppBar(
             scrollBehavior = scrollBehavior,
             title = {
-                if (isNoteSelection) {
-                    Text(
-                        text =
-                            stringResource(
-                                id = AppStrings.Title.Selected,
-                                selection.selectedNotes.count(),
-                            ),
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-                } else {
-                    Text(
-                        text = stringResource(id = AppStrings.Title.Trash),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                }
+                Text(
+                    text =
+                        if (isNoteSelection) {
+                            selection.selectedNotes.count().toString()
+                        } else {
+                            stringResource(id = AppStrings.Title.Trash)
+                        },
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
+                )
             },
             navigationIcon = {
                 if (isNoteSelection) {

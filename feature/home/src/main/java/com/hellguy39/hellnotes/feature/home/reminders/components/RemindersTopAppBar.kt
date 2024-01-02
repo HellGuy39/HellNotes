@@ -25,27 +25,23 @@ fun RemindersTopAppBar(
             painterResource(id = AppIcons.ListView)
         }
 
-    AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
+    AnimatedContent(
+        targetState = selection.selectedNotes.isNotEmpty(),
+        label = "isNoteSelection",
+    ) { isNoteSelection ->
         TopAppBar(
             scrollBehavior = scrollBehavior,
             title = {
-                if (isNoteSelection) {
-                    Text(
-                        text =
-                            stringResource(
-                                id = AppStrings.Title.Selected,
-                                selection.selectedNotes.count(),
-                            ),
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-                } else {
-                    Text(
-                        stringResource(id = AppStrings.Title.Reminders),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                }
+                Text(
+                    if (isNoteSelection) {
+                        selection.selectedNotes.count().toString()
+                    } else {
+                        stringResource(id = AppStrings.Title.Reminders)
+                    },
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
+                )
             },
             navigationIcon = {
                 if (isNoteSelection) {

@@ -34,27 +34,24 @@ fun LabelTopAppBar(
 
     val labelDropdownMenuState = rememberDropdownMenuState()
 
-    AnimatedContent(targetState = selection.selectedNotes.isNotEmpty()) { isNoteSelection ->
+    AnimatedContent(
+        targetState = selection.selectedNotes.isNotEmpty(),
+        label = "isNoteSelection",
+    ) { isNoteSelection ->
         TopAppBar(
             scrollBehavior = scrollBehavior,
             title = {
-                if (isNoteSelection) {
-                    Text(
-                        text =
-                            stringResource(
-                                id = AppStrings.Title.Selected,
-                                selection.selectedNotes.count(),
-                            ),
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-                } else {
-                    Text(
-                        label.name,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                }
+                Text(
+                    text =
+                        if (isNoteSelection) {
+                            selection.selectedNotes.count().toString()
+                        } else {
+                            label.name
+                        },
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
+                )
             },
             navigationIcon = {
                 if (isNoteSelection) {

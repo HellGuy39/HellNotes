@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
@@ -67,12 +68,10 @@ fun NoteListTopAppBar(
             title = {
                 if (targetState) {
                     Text(
-                        text =
-                            stringResource(
-                                id = AppStrings.Title.Selected,
-                                selectedNotes.count(),
-                            ),
-                        style = MaterialTheme.typography.headlineSmall,
+                        text = selectedNotes.count().toString(),
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                     )
                 } else {
                     Card(
