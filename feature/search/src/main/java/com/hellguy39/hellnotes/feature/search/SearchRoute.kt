@@ -1,15 +1,12 @@
 package com.hellguy39.hellnotes.feature.search
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRoute(
     navigateBack: () -> Unit,
@@ -42,18 +39,13 @@ fun SearchRoute(
                     searchViewModel.send(SearchScreenUiEvent.OnToggleReminderFilter(enabled))
                 },
             ),
-        noteSelection =
-            NoteSelection(
-                noteStyle = uiState.noteStyle,
-                onClick = { note ->
-                    navigateToNoteDetail(note.id ?: return@NoteSelection)
-                },
-                onLongClick = { note -> },
-                onDismiss = { dismissDirection, note ->
-                    false
-                },
-                isSwipeable = false,
-            ),
+        noteStyle = uiState.noteStyle,
+        onClick = { note ->
+            note.id?.let { id ->
+                navigateToNoteDetail(id)
+            }
+        },
+        onLongClick = { note -> },
         categories =
             listOf(
                 NoteCategory(

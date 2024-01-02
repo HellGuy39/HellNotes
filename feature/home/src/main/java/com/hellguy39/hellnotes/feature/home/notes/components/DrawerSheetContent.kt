@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.feature.home.notelist.components
+package com.hellguy39.hellnotes.feature.home.notes.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -77,6 +77,7 @@ fun DrawerSheetContent(
                 modifier =
                     Modifier
                         .alpha(0.5f)
+                        .padding(top = 16.dp)
                         .padding(horizontal = 32.dp),
                 thickness = 1.dp,
                 color = MaterialTheme.colorScheme.onSurface,

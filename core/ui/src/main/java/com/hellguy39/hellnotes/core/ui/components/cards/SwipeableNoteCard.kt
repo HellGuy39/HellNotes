@@ -13,50 +13,60 @@ import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 fun SwipeableNoteCard(
     modifier: Modifier = Modifier,
     noteStyle: NoteStyle,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
     noteDetailWrapper: NoteDetailWrapper,
     isSelected: Boolean = false,
     isSwipeable: Boolean = true,
     onDismissed: (DismissDirection, Note) -> Boolean,
 ) {
-    if (isSwipeable) {
-        val dismissState =
-            rememberDismissState(
-                confirmValueChange = { dismissValue ->
-                    when (dismissValue) {
-                        DismissValue.DismissedToEnd -> {
-                            onDismissed(DismissDirection.StartToEnd, noteDetailWrapper.note)
-                        }
-                        DismissValue.DismissedToStart -> {
-                            onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
-                        }
-                        else -> {
-                            false
-                        }
+    val dismissState =
+        rememberDismissState(
+            confirmValueChange = { dismissValue ->
+                when (dismissValue) {
+                    DismissValue.DismissedToEnd -> {
+                        onDismissed(DismissDirection.StartToEnd, noteDetailWrapper.note)
                     }
-                },
-            )
-        SwipeToDismiss(
-            modifier = Modifier,
-            state = dismissState,
-            directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
-            background = {},
-            dismissContent = {
-                val visibility = if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
-
-                NoteCard(
-                    modifier = modifier.alpha(visibility),
-                    noteDetailWrapper = noteDetailWrapper,
-                    isSelected = isSelected,
-                    noteStyle = noteStyle,
-                )
+                    DismissValue.DismissedToStart -> {
+                        onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
+                    }
+                    else -> {
+                        false
+                    }
+                }
             },
         )
-    } else {
-        NoteCard(
-            modifier = modifier,
-            noteDetailWrapper = noteDetailWrapper,
-            isSelected = isSelected,
-            noteStyle = noteStyle,
+
+    val swipeDirections by remember {
+        mutableStateOf(
+            if (isSwipeable) {
+                setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart)
+            } else {
+                setOf()
+            },
         )
     }
+
+    val visibility by remember {
+        derivedStateOf {
+            if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
+        }
+    }
+
+    SwipeToDismiss(
+        modifier = Modifier,
+        state = dismissState,
+        directions = swipeDirections,
+        background = { /* no-op */ },
+        dismissContent = {
+            NoteCard(
+                modifier = modifier.alpha(visibility),
+                onClick = onClick,
+                onLongClick = onLongClick,
+                noteDetailWrapper = noteDetailWrapper,
+                isSelected = isSelected,
+                noteStyle = noteStyle,
+            )
+        },
+    )
 }

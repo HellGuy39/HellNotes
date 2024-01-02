@@ -14,7 +14,7 @@ import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
 import com.hellguy39.hellnotes.core.ui.state.HomeState
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
 import com.hellguy39.hellnotes.feature.home.label.LabelScreen
-import com.hellguy39.hellnotes.feature.home.notelist.NotesScreen
+import com.hellguy39.hellnotes.feature.home.notes.NotesScreen
 import com.hellguy39.hellnotes.feature.home.reminders.RemindersScreen
 import com.hellguy39.hellnotes.feature.home.trash.TrashScreen
 

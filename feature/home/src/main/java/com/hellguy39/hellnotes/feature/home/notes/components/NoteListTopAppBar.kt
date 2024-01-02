@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.feature.home.notelist.components
+package com.hellguy39.hellnotes.feature.home.notes.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement

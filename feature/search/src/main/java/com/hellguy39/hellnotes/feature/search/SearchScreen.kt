@@ -2,11 +2,24 @@ package com.hellguy39.hellnotes.feature.search
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -15,11 +28,13 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
+import com.hellguy39.hellnotes.core.ui.focus.requestFocusWhenBeAvailable
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
@@ -31,19 +46,19 @@ fun SearchScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: SearchUiState,
     listStyle: ListStyle,
-    noteSelection: NoteSelection,
+    noteStyle: NoteStyle,
+    onClick: (Note) -> Unit,
+    onLongClick: (Note) -> Unit,
     searchScreenSelection: SearchScreenSelection,
     categories: List<NoteCategory>,
 ) {
     BackHandler { onNavigationButtonClick() }
 
-    val focusRequester = remember { FocusRequester() }
-
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
-    LaunchedEffect(key1 = Unit) {
-        focusRequester.requestFocus()
-    }
+    val focusRequester = remember { FocusRequester() }
+
+    focusRequester.requestFocusWhenBeAvailable()
 
     Scaffold(
         modifier =
@@ -80,9 +95,13 @@ fun SearchScreen(
 
                 NoteList(
                     innerPadding = innerPadding,
-                    noteSelection = noteSelection,
                     categories = categories,
                     listStyle = listStyle,
+                    noteStyle = noteStyle,
+                    isSwipeable = false,
+                    onClick = onClick,
+                    onLongClick = onLongClick,
+                    onDismiss = { _, _ -> false },
                     listHeader = {
                         Column {
                             LazyRow(

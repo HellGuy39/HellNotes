@@ -362,5 +362,5 @@ sealed class NoteDetailUiEvent {
 }
 
 data class NoteDetailUiState(
-    val wrapper: NoteDetailWrapper = NoteDetailWrapper.emptyInstance(),
+    val wrapper: NoteDetailWrapper = NoteDetailWrapper(),
 )

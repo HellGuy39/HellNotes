@@ -120,6 +120,9 @@ fun NoteStyleEditScreen(
                                             .width(192.dp),
                                     noteDetailWrapper = exampleNoteDetailWrapper,
                                     noteStyle = style,
+                                    isSelected = false,
+                                    onClick = {},
+                                    onLongClick = {},
                                 )
                             }
                         }

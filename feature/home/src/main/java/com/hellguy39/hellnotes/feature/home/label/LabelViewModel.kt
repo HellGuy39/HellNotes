@@ -30,17 +30,19 @@ class LabelViewModel
                 labelRepository.getAllLabelsStream(),
                 getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
             ) { label, labels, notes ->
+                val wrappers =
+                    notes
+                        .filter { wrapper -> !wrapper.note.isArchived }
+                        .filter { wrapper -> wrapper.labels.contains(label) }
                 LabelUiState(
-                    notes =
-                        notes
-                            .filter { wrapper -> !wrapper.note.isArchived }
-                            .filter { wrapper -> wrapper.labels.contains(label) },
+                    isEmpty = wrappers.isEmpty(),
+                    notes = wrappers,
                     label = label,
                     allLabels = labels,
                 )
             }
                 .stateIn(
-                    initialValue = LabelUiState.initialInstance(),
+                    initialValue = LabelUiState(),
                     started = SharingStarted.WhileSubscribed(5_000),
                     scope = viewModelScope,
                 )
@@ -82,16 +84,8 @@ sealed class LabelUiEvent {
 }
 
 data class LabelUiState(
-    val label: Label,
-    val allLabels: List<Label>,
-    val notes: List<NoteDetailWrapper>,
-) {
-    companion object {
-        fun initialInstance() =
-            LabelUiState(
-                label = Label(),
-                notes = listOf(),
-                allLabels = listOf(),
-            )
-    }
-}
+    val isEmpty: Boolean = false,
+    val label: Label = Label(),
+    val allLabels: List<Label> = listOf(),
+    val notes: List<NoteDetailWrapper> = listOf(),
+)

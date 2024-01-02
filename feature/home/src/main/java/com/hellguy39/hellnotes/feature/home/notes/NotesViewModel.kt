@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.feature.home.notelist
+package com.hellguy39.hellnotes.feature.home.notes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,6 +37,7 @@ class NotesViewModel
                     val unpinnedNotes = sortedNotes.filter { note -> !note.note.isPinned }
 
                     NoteListUiState(
+                        isEmpty = pinnedNotes.isEmpty() && unpinnedNotes.isEmpty(),
                         pinnedNotes = pinnedNotes,
                         unpinnedNotes = unpinnedNotes,
                     )
@@ -49,6 +50,7 @@ class NotesViewModel
     }
 
 data class NoteListUiState(
+    val isEmpty: Boolean = false,
     val pinnedNotes: List<NoteDetailWrapper> = listOf(),
     val unpinnedNotes: List<NoteDetailWrapper> = listOf(),
 )

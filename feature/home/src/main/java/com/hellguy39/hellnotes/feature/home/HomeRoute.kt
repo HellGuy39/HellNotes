@@ -13,7 +13,7 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.state.rememberHomeState
-import com.hellguy39.hellnotes.feature.home.notelist.components.DrawerSheetContent
+import com.hellguy39.hellnotes.feature.home.notes.components.DrawerSheetContent
 import com.hellguy39.hellnotes.feature.home.util.DrawerItem
 
 @Composable

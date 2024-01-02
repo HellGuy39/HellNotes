@@ -24,11 +24,13 @@ class ArchiveViewModel
                 reminderRepository.getAllRemindersStream(),
                 labelRepository.getAllLabelsStream(),
             ) { notes, reminders, labels ->
+                val wrappers =
+                    notes.filter { note -> note.isArchived }
+                        .map { note -> note.toNoteDetailWrapper(reminders, labels) }
+
                 ArchiveUiState(
-                    notes =
-                        notes
-                            .filter { note -> note.isArchived }
-                            .map { note -> note.toNoteDetailWrapper(reminders, labels) },
+                    notes = wrappers,
+                    isEmpty = wrappers.isEmpty(),
                 )
             }
                 .stateIn(
@@ -40,4 +42,5 @@ class ArchiveViewModel
 
 data class ArchiveUiState(
     val notes: List<NoteDetailWrapper> = listOf(),
+    val isEmpty: Boolean = false,
 )

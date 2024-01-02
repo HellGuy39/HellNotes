@@ -14,20 +14,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.state.HomeState
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.home.ActionViewModel
@@ -75,84 +74,77 @@ fun RemindersScreen(
         },
         snackbarHost = { CustomSnackbarHost(state = homeState.snackbarHostState) },
         content = { paddingValues ->
-            AnimatedContent(
-                targetState = visualState.listStyle,
-                label = "listStyle",
-            ) { listStyle ->
-
-                if (uiState.notes.isEmpty()) {
-                    EmptyContentPlaceholder(
-                        modifier =
-                            Modifier
-                                .padding(horizontal = 32.dp)
-                                .padding(paddingValues)
-                                .fillMaxSize(),
-                        heroIcon = painterResource(id = AppIcons.Notifications),
-                        message = stringResource(id = AppStrings.Placeholder.Empty),
-                    )
-                }
-
-                NoteList(
-                    innerPadding = paddingValues,
-                    noteSelection =
-                        NoteSelection(
-                            noteStyle = visualState.noteStyle,
-                            onClick = { note ->
-                                if (selectedNotes.isEmpty()) {
-                                    navigateToNoteDetail(note.id)
-                                } else {
-                                    if (selectedNotes.contains(note)) {
-                                        actionViewModel.unselectNote(note)
-                                    } else {
-                                        actionViewModel.selectNote(note)
-                                    }
-                                }
-                            },
-                            onLongClick = { note ->
+            if (uiState.isEmpty) {
+                EmptyContentPlaceholder(
+                    modifier = Modifier.fillMaxSize(),
+                    heroIcon = UiIcon.DrawableResources(AppIcons.Notifications),
+                    message = UiText.StringResources(AppStrings.Placeholder.Empty),
+                )
+            } else {
+                AnimatedContent(
+                    targetState = visualState.listStyle,
+                    label = "listStyle",
+                ) { listStyle ->
+                    NoteList(
+                        innerPadding = paddingValues,
+                        noteStyle = visualState.noteStyle,
+                        onClick = { note ->
+                            if (selectedNotes.isEmpty()) {
+                                navigateToNoteDetail(note.id)
+                            } else {
                                 if (selectedNotes.contains(note)) {
                                     actionViewModel.unselectNote(note)
                                 } else {
                                     actionViewModel.selectNote(note)
                                 }
-                            },
-                            onDismiss = { direction, note ->
-                                val swipeAction =
-                                    if (direction == DismissDirection.StartToEnd) {
-                                        visualState.noteSwipesState.swipeRight
-                                    } else {
-                                        visualState.noteSwipesState.swipeLeft
-                                    }
-
-                                when (swipeAction) {
-                                    NoteSwipe.None -> false
-                                    NoteSwipe.Delete -> {
-                                        actionViewModel.deleteNote(note)
-                                        true
-                                    }
-                                    NoteSwipe.Archive -> {
-                                        actionViewModel.archiveNote(note)
-                                        true
-                                    }
+                            }
+                        },
+                        onLongClick = { note ->
+                            if (selectedNotes.contains(note)) {
+                                actionViewModel.unselectNote(note)
+                            } else {
+                                actionViewModel.selectNote(note)
+                            }
+                        },
+                        onDismiss = { direction, note ->
+                            val swipeAction =
+                                if (direction == DismissDirection.StartToEnd) {
+                                    visualState.noteSwipesState.swipeRight
+                                } else {
+                                    visualState.noteSwipesState.swipeLeft
                                 }
-                            },
-                            isSwipeable = visualState.noteSwipesState.enabled,
-                        ),
-                    categories =
-                        listOf(
-                            NoteCategory(notes = uiState.notes),
-                        ),
-                    listStyle = listStyle,
-                    selectedNotes = selectedNotes,
-                    listHeader = {
-                        Text(
-                            text = stringResource(id = AppStrings.Label.Upcoming),
-                            modifier =
-                                Modifier
-                                    .padding(horizontal = Spaces.medium, vertical = Spaces.small),
-                            style = MaterialTheme.typography.titleSmall,
-                        )
-                    },
-                )
+
+                            when (swipeAction) {
+                                NoteSwipe.None -> false
+                                NoteSwipe.Delete -> {
+                                    actionViewModel.deleteNote(note)
+                                    true
+                                }
+
+                                NoteSwipe.Archive -> {
+                                    actionViewModel.archiveNote(note)
+                                    true
+                                }
+                            }
+                        },
+                        isSwipeable = visualState.noteSwipesState.enabled,
+                        categories =
+                            listOf(
+                                NoteCategory(notes = uiState.notes),
+                            ),
+                        listStyle = listStyle,
+                        selectedNotes = selectedNotes,
+                        listHeader = {
+                            Text(
+                                text = stringResource(id = AppStrings.Label.Upcoming),
+                                modifier =
+                                    Modifier
+                                        .padding(horizontal = Spaces.medium, vertical = Spaces.small),
+                                style = MaterialTheme.typography.titleSmall,
+                            )
+                        },
+                    )
+                }
             }
         },
     )

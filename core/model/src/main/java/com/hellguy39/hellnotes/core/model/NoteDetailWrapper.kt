@@ -3,19 +3,11 @@ package com.hellguy39.hellnotes.core.model
 import com.hellguy39.hellnotes.core.model.repository.local.database.*
 
 data class NoteDetailWrapper(
-    val note: Note,
+    val note: Note = Note(),
     val labels: List<Label> = listOf(),
     val reminders: List<Reminder> = listOf(),
     val checklists: List<Checklist> = listOf()
-) {
-    companion object {
-        fun emptyInstance(): NoteDetailWrapper {
-            return NoteDetailWrapper(
-                note = Note()
-            )
-        }
-    }
-}
+)
 
 fun Note.toNoteDetailWrapper(
     reminders: List<Reminder> = listOf(),

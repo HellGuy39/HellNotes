@@ -31,15 +31,17 @@ class TrashViewModel
                 trashRepository.getAllTrashStream(),
                 dataStoreRepository.readTrashTipState(),
             ) { trashes, tipState ->
+                val wrappers = trashes.map { trash -> NoteDetailWrapper(note = trash.note) }
                 TrashUiState(
                     trashTipCompleted = tipState,
-                    trashNotes = trashes.map { trash -> NoteDetailWrapper(note = trash.note) },
+                    trashNotes = wrappers,
+                    isEmpty = wrappers.isEmpty(),
                 )
             }
                 .stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5_000),
-                    initialValue = TrashUiState.initialInstance(),
+                    initialValue = TrashUiState(),
                 )
 
         fun trashTipCompleted(completed: Boolean) {
@@ -81,14 +83,7 @@ class TrashViewModel
     }
 
 data class TrashUiState(
-    val trashTipCompleted: Boolean,
-    val trashNotes: List<NoteDetailWrapper>,
-) {
-    companion object {
-        fun initialInstance() =
-            TrashUiState(
-                trashTipCompleted = true,
-                trashNotes = listOf(),
-            )
-    }
-}
+    val trashTipCompleted: Boolean = true,
+    val trashNotes: List<NoteDetailWrapper> = listOf(),
+    val isEmpty: Boolean = false,
+)

@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.feature.home.trash
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -12,13 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.cards.TipCard
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
@@ -26,6 +23,8 @@ import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.state.HomeState
 import com.hellguy39.hellnotes.feature.home.ActionViewModel
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
@@ -111,59 +110,52 @@ fun TrashScreen(
         },
         snackbarHost = { CustomSnackbarHost(state = homeState.snackbarHostState) },
         content = { paddingValues ->
-            if (uiState.trashNotes.isEmpty()) {
+            if (uiState.isEmpty) {
                 EmptyContentPlaceholder(
-                    modifier =
-                        Modifier
-                            .padding(horizontal = 32.dp)
-                            .padding(paddingValues)
-                            .fillMaxSize(),
-                    heroIcon = painterResource(id = AppIcons.Delete),
-                    message = stringResource(id = AppStrings.Placeholder.NoNotesInTrash),
+                    modifier = Modifier.fillMaxSize(),
+                    heroIcon = UiIcon.DrawableResources(AppIcons.Delete),
+                    message = UiText.StringResources(AppStrings.Placeholder.NoNotesInTrash),
                 )
-            }
-
-            NoteList(
-                innerPadding = paddingValues,
-                noteSelection =
-                    NoteSelection(
-                        noteStyle = visualState.noteStyle,
-                        onClick = { note ->
-                            if (selectedNotes.isEmpty()) {
-                                trashViewModel.selectNote(note)
-                                restoreDialogState.show()
-                            } else {
-                                if (selectedNotes.contains(note)) {
-                                    actionViewModel.unselectNote(note)
-                                } else {
-                                    actionViewModel.selectNote(note)
-                                }
-                            }
-                        },
-                        onLongClick = { note ->
+            } else {
+                NoteList(
+                    innerPadding = paddingValues,
+                    noteStyle = visualState.noteStyle,
+                    onClick = { note ->
+                        if (selectedNotes.isEmpty()) {
+                            trashViewModel.selectNote(note)
+                            restoreDialogState.show()
+                        } else {
                             if (selectedNotes.contains(note)) {
                                 actionViewModel.unselectNote(note)
                             } else {
                                 actionViewModel.selectNote(note)
                             }
-                        },
-                        onDismiss = { _, _ -> false },
-                        isSwipeable = visualState.noteSwipesState.enabled,
-                    ),
-                categories =
-                    listOf(
-                        NoteCategory(notes = uiState.trashNotes),
-                    ),
-                selectedNotes = selectedNotes,
-                listStyle = visualState.listStyle,
-                listHeader = {
-                    TipCard(
-                        isVisible = !uiState.trashTipCompleted,
-                        message = stringResource(id = AppStrings.Tip.AutoDeleteTrash),
-                        onClose = { trashViewModel.trashTipCompleted(true) },
-                    )
-                },
-            )
+                        }
+                    },
+                    onLongClick = { note ->
+                        if (selectedNotes.contains(note)) {
+                            actionViewModel.unselectNote(note)
+                        } else {
+                            actionViewModel.selectNote(note)
+                        }
+                    },
+                    onDismiss = { _, _ -> false },
+                    isSwipeable = visualState.noteSwipesState.enabled,
+                    categories =
+                        listOf(
+                            NoteCategory(notes = uiState.trashNotes),
+                        ),
+                    selectedNotes = selectedNotes,
+                    listStyle = visualState.listStyle,
+                    listHeader = {
+                        TipCard(
+                            isVisible = !uiState.trashTipCompleted,
+                            message = stringResource(id = AppStrings.Tip.AutoDeleteTrash),
+                            onClose = { trashViewModel.trashTipCompleted(true) },
+                        )
+                    },
+                )
+            }
         },
     )
 }

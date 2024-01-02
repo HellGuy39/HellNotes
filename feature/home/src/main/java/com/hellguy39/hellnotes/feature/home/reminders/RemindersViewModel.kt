@@ -24,33 +24,30 @@ class RemindersViewModel
                 labelRepository.getAllLabelsStream(),
                 reminderRepository.getAllRemindersStream(),
             ) { notes, labels, reminders ->
+
+                val wrappers =
+                    notes.map { note ->
+                        note.toNoteDetailWrapper(
+                            reminders = reminders.sortedBy { it.triggerDate },
+                            labels = labels,
+                        )
+                    }
+                        .filter { wrapper -> wrapper.reminders.isNotEmpty() }
+                        .sortedBy { wrapper -> wrapper.reminders.first().triggerDate }
+
                 RemindersUiState(
-                    notes =
-                        notes
-                            .map { note ->
-                                note.toNoteDetailWrapper(
-                                    reminders = reminders.sortedBy { it.triggerDate },
-                                    labels = labels,
-                                )
-                            }
-                            .filter { wrapper -> wrapper.reminders.isNotEmpty() }
-                            .sortedBy { wrapper -> wrapper.reminders.first().triggerDate },
+                    notes = wrappers,
+                    isEmpty = wrappers.isEmpty(),
                 )
             }
                 .stateIn(
-                    initialValue = RemindersUiState.initialInstance(),
+                    initialValue = RemindersUiState(),
                     started = SharingStarted.WhileSubscribed(5_000),
                     scope = viewModelScope,
                 )
     }
 
 data class RemindersUiState(
-    val notes: List<NoteDetailWrapper>,
-) {
-    companion object {
-        fun initialInstance() =
-            RemindersUiState(
-                notes = listOf(),
-            )
-    }
-}
+    val isEmpty: Boolean = false,
+    val notes: List<NoteDetailWrapper> = listOf(),
+)

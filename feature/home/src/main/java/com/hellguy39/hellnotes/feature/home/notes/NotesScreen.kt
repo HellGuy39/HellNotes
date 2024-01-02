@@ -1,8 +1,7 @@
-package com.hellguy39.hellnotes.feature.home.notelist
+package com.hellguy39.hellnotes.feature.home.notes
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -16,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
@@ -25,19 +23,20 @@ import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.analytics.LocalAnalytics
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.analytics.buttonClick
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.lifecycle.collectAsEventsWithLifecycle
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.state.HomeState
 import com.hellguy39.hellnotes.feature.home.ActionSingleEvent
 import com.hellguy39.hellnotes.feature.home.ActionViewModel
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
-import com.hellguy39.hellnotes.feature.home.notelist.components.NoteListTopAppBar
-import com.hellguy39.hellnotes.feature.home.notelist.components.NoteListTopAppBarSelection
+import com.hellguy39.hellnotes.feature.home.notes.components.NoteListTopAppBar
+import com.hellguy39.hellnotes.feature.home.notes.components.NoteListTopAppBarSelection
 
 private const val SCREEN_NAME = "NotesScreen"
 
@@ -91,81 +90,75 @@ fun NotesScreen(
             )
         },
         content = { innerPadding ->
-            AnimatedContent(
-                visualState.listStyle,
-                label = "note_list_screen_animation",
-            ) { listStyle ->
-                if (uiState.pinnedNotes.isEmpty() && uiState.unpinnedNotes.isEmpty()) {
-                    EmptyContentPlaceholder(
-                        modifier =
-                            Modifier
-                                .padding(horizontal = 32.dp)
-                                .padding(innerPadding)
-                                .fillMaxSize(),
-                        heroIcon = painterResource(id = AppIcons.NoteAdd),
-                        message = stringResource(id = AppStrings.Placeholder.Empty),
-                    )
-                }
-                NoteList(
-                    innerPadding = innerPadding,
-                    noteSelection =
-                        NoteSelection(
-                            noteStyle = visualState.noteStyle,
-                            onClick = { note ->
-                                if (selectedNotes.isEmpty()) {
-                                    navigateToNoteDetail(note.id)
-                                } else {
-                                    if (selectedNotes.contains(note)) {
-                                        actionViewModel.unselectNote(note)
-                                    } else {
-                                        actionViewModel.selectNote(note)
-                                    }
-                                }
-                            },
-                            onLongClick = { note ->
+            if (uiState.isEmpty) {
+                EmptyContentPlaceholder(
+                    modifier = Modifier.fillMaxSize(),
+                    heroIcon = UiIcon.DrawableResources(AppIcons.NoteAdd),
+                    message = UiText.StringResources(AppStrings.Placeholder.Empty),
+                )
+            } else {
+                AnimatedContent(
+                    visualState.listStyle,
+                    label = "note_list_screen_animation",
+                ) { listStyle ->
+                    NoteList(
+                        innerPadding = innerPadding,
+                        noteStyle = visualState.noteStyle,
+                        onClick = { note ->
+                            if (selectedNotes.isEmpty()) {
+                                navigateToNoteDetail(note.id)
+                            } else {
                                 if (selectedNotes.contains(note)) {
                                     actionViewModel.unselectNote(note)
                                 } else {
                                     actionViewModel.selectNote(note)
                                 }
-                            },
-                            onDismiss = { direction, note ->
+                            }
+                        },
+                        onLongClick = { note ->
+                            if (selectedNotes.contains(note)) {
+                                actionViewModel.unselectNote(note)
+                            } else {
+                                actionViewModel.selectNote(note)
+                            }
+                        },
+                        onDismiss = { direction, note ->
 
-                                val swipeAction =
-                                    if (direction == DismissDirection.StartToEnd) {
-                                        visualState.noteSwipesState.swipeRight
-                                    } else {
-                                        visualState.noteSwipesState.swipeLeft
-                                    }
-
-                                when (swipeAction) {
-                                    NoteSwipe.None -> false
-                                    NoteSwipe.Delete -> {
-                                        actionViewModel.deleteNote(note = note)
-                                        true
-                                    }
-                                    NoteSwipe.Archive -> {
-                                        actionViewModel.archiveNote(note = note, isArchived = true)
-                                        true
-                                    }
+                            val swipeAction =
+                                if (direction == DismissDirection.StartToEnd) {
+                                    visualState.noteSwipesState.swipeRight
+                                } else {
+                                    visualState.noteSwipesState.swipeLeft
                                 }
-                            },
-                            isSwipeable = visualState.noteSwipesState.enabled,
-                        ),
-                    categories =
-                        listOf(
-                            NoteCategory(
-                                title = stringResource(id = AppStrings.Label.Pinned),
-                                notes = uiState.pinnedNotes,
+
+                            when (swipeAction) {
+                                NoteSwipe.None -> false
+                                NoteSwipe.Delete -> {
+                                    actionViewModel.deleteNote(note = note)
+                                    true
+                                }
+                                NoteSwipe.Archive -> {
+                                    actionViewModel.archiveNote(note = note, isArchived = true)
+                                    true
+                                }
+                            }
+                        },
+                        isSwipeable = visualState.noteSwipesState.enabled,
+                        categories =
+                            listOf(
+                                NoteCategory(
+                                    title = stringResource(id = AppStrings.Label.Pinned),
+                                    notes = uiState.pinnedNotes,
+                                ),
+                                NoteCategory(
+                                    title = stringResource(id = AppStrings.Label.Others),
+                                    notes = uiState.unpinnedNotes,
+                                ),
                             ),
-                            NoteCategory(
-                                title = stringResource(id = AppStrings.Label.Others),
-                                notes = uiState.unpinnedNotes,
-                            ),
-                        ),
-                    selectedNotes = selectedNotes,
-                    listStyle = listStyle,
-                )
+                        selectedNotes = selectedNotes,
+                        listStyle = listStyle,
+                    )
+                }
             }
         },
         floatingActionButton = {
