@@ -3,9 +3,7 @@ package com.hellguy39.hellnotes.feature.home
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navDeepLink
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
-import com.hellguy39.hellnotes.core.common.uri.DeeplinkRoute
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
@@ -46,15 +44,7 @@ fun HomeNavGraph(
         composable(
             route = Screen.Reminders.route,
             arguments = listOf(),
-            deepLinks =
-                listOf(
-                    navDeepLink {
-                        uriPattern =
-                            DeeplinkRoute.fromApp()
-                                .addPath(Screen.Reminders.route)
-                                .asString()
-                    },
-                ),
+            deepLinks = listOf(),
             enterTransition = { fadeEnterTransition() },
             exitTransition = { fadeExitTransition() },
             popEnterTransition = { fadeEnterTransition() },
@@ -70,15 +60,7 @@ fun HomeNavGraph(
         composable(
             route = Screen.Archive.route,
             arguments = listOf(),
-            deepLinks =
-                listOf(
-                    navDeepLink {
-                        uriPattern =
-                            DeeplinkRoute.fromApp()
-                                .addPath(Screen.Archive.route)
-                                .asString()
-                    },
-                ),
+            deepLinks = listOf(),
             enterTransition = { fadeEnterTransition() },
             exitTransition = { fadeExitTransition() },
             popEnterTransition = { fadeEnterTransition() },
@@ -93,15 +75,7 @@ fun HomeNavGraph(
         composable(
             route = Screen.Trash.route,
             arguments = listOf(),
-            deepLinks =
-                listOf(
-                    navDeepLink {
-                        uriPattern =
-                            DeeplinkRoute.fromApp()
-                                .addPath(Screen.Trash.route)
-                                .asString()
-                    },
-                ),
+            deepLinks = listOf(),
             enterTransition = { fadeEnterTransition() },
             exitTransition = { fadeExitTransition() },
             popEnterTransition = { fadeEnterTransition() },
