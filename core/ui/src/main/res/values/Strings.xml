@@ -69,6 +69,7 @@
     <string name="menu_item_about_app">About app</string>
     <string name="menu_item_reminders">Reminders</string>
     <string name="menu_item_labels">Labels</string>
+    <string name="menu_item_manage_labels">Manage labels</string>
     <string name="menu_item_rename">Rename</string>
     <string name="menu_item_delete">Delete</string>
     <string name="menu_item_plain_text">Plain text</string>
@@ -144,8 +145,10 @@
     <string name="title_enter_password">Enter your password</string>
     <string name="title_unlocked">Unlocked</string>
     <string name="title_attention">Attention</string>
+    <string name="title_rename_label">Rename label</string>
 
     <!-- Body -->
+    <string name="body_new_note">New note</string>
     <string name="body_reset">Your data will be permanently deleted. This action will not be undone.</string>
     <string name="body_backup">Please do not close the application or turn off the device during the copying process.</string>
 
@@ -183,6 +186,7 @@
     <string name="hint_message">Message</string>
 
     <!-- Button -->
+    <string name="btn_done">Done</string>
     <string name="btn_request_permission">Request permission</string>
     <string name="btn_create">Create</string>
     <string name="btn_restore">Restore</string>
@@ -222,6 +226,7 @@
     <string name="shortcut_label_trash">Trash</string>
 
     <!-- Snack -->
+    <string name="snack_note_has_been_copied">Note has been copied and opened</string>
     <string name="snack_note_moved_to_trash">Note(s) moved to trash</string>
     <string name="snack_note_archived">Note(s) are archived</string>
     <string name="snack_note_unarchived">Note(s) are unarchived</string>
@@ -258,6 +263,7 @@
     <string name="action_trash" translatable="false">com.hellguy39.hellnotes.TRASH</string>
     <string name="action_edit" translatable="false">com.hellguy39.hellnotes.EDIT</string>
     <string name="action_create" translatable="false">com.hellguy39.hellnotes.CREATE</string>
+    <string name="action_notification_done" translatable="false">com.hellguy39.hellnotes.NOTIFICATION_DONE</string>
 
     <!-- On boarding -->
     <string name="on_boarding_first_page_title">Welcome!</string>

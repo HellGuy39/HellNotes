@@ -11,7 +11,6 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
-import com.hellguy39.hellnotes.core.ui.state.HomeState
 import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
 import com.hellguy39.hellnotes.feature.home.label.LabelScreen
 import com.hellguy39.hellnotes.feature.home.notes.NotesScreen

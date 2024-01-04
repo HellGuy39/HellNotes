@@ -10,6 +10,8 @@ sealed class Arguments<T>(
 
     data object LabelId : Arguments<Long>("label_id", -1L)
 
+    data object NotificationId : Arguments<Int>("notification_id", -1)
+
     data object Message : Arguments<String>("message", "")
 
     data object Action : Arguments<String>("action", "")

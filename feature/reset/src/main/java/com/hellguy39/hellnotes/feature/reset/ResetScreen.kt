@@ -13,6 +13,7 @@ import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,8 +75,8 @@ fun ResetScreen(
         ) {
             InfoCard(
                 modifier = Modifier.padding(horizontal = Spaces.medium),
-                title = stringResource(id = AppStrings.Title.Attention),
-                body = stringResource(id = AppStrings.Body.Reset),
+                title = UiText.StringResources(AppStrings.Title.Attention),
+                body = UiText.StringResources(AppStrings.Body.Reset),
             )
 
             Column(

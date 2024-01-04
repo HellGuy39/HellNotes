@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
@@ -36,6 +37,7 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklists
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.ui.components.NoteChecklistGroup
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Duration
 import com.hellguy39.hellnotes.core.ui.values.Elevation
 
@@ -149,8 +151,7 @@ fun NoteCardContent(
 
             if (isNoteVisible || !hasAnyVisibleContent) {
                 Text(
-                    // TODO: replace with resource string
-                    text = if (!hasAnyVisibleContent) "New note" else noteDetailWrapper.note.note,
+                    text = if (!hasAnyVisibleContent) stringResource(id = AppStrings.Body.NewNote) else noteDetailWrapper.note.note,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 3,
                     modifier = Modifier,

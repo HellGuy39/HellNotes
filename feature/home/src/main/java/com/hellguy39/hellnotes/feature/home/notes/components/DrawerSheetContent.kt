@@ -102,11 +102,10 @@ fun DrawerSheetContent(
                 )
             }
 
-            // TODO: Replace with resource strings
             CustomNavDrawerItem(
                 drawerItem =
                     DrawerItem(
-                        title = UiText.DynamicString("Manage lables"),
+                        title = UiText.StringResources(AppStrings.MenuItem.ManageLabels),
                         icon = UiIcon.DrawableResources(AppIcons.Settings),
                         onClick = { onManageLabelsClick() },
                     ),

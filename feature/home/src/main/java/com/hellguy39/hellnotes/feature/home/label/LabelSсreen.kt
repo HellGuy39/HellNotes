@@ -52,8 +52,8 @@ import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
-import com.hellguy39.hellnotes.core.ui.state.HomeState
 import com.hellguy39.hellnotes.feature.home.ActionViewModel
+import com.hellguy39.hellnotes.feature.home.HomeState
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 import com.hellguy39.hellnotes.feature.home.label.components.LabelDropdownMenuSelection
 import com.hellguy39.hellnotes.feature.home.label.components.LabelTopAppBar
@@ -85,8 +85,7 @@ fun LabelScreen(
     CustomDialog(
         state = renameDialogState,
         showContentDividers = false,
-        // TODO: replace with resource string
-        title = "Rename label",
+        title = stringResource(id = AppStrings.Title.RenameLabel),
         content = {
             val focusRequester = remember { FocusRequester() }
 
@@ -233,7 +232,7 @@ fun LabelScreen(
             if (uiState.isEmpty) {
                 EmptyContentPlaceholder(
                     modifier = Modifier.fillMaxSize(),
-                    heroIcon = UiIcon.DrawableResources(AppIcons.Label),
+                    heroIcon = UiIcon.DrawableResources(AppIcons.Folder),
                     message = UiText.StringResources(AppStrings.Placeholder.Empty),
                 )
             } else {

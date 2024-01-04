@@ -288,62 +288,6 @@ fun NoteDetailContent(
                 )
             }
         }
-
-//        if (ProjectInfoProvider.appConfig.isDebug) {
-//            val images = listOf(
-//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
-//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
-//                com.hellguy39.hellnotes.core.ui.R.drawable.test_image,
-//            )
-//            item(
-//                key = -4
-//            ) {
-//                LazyRow(
-//                    modifier = Modifier,
-//                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-//                    contentPadding = PaddingValues(horizontal = 16.dp)
-//                ) {
-//                    items(images) { imageId ->
-//                        Image(
-//                            modifier = Modifier
-//                                .height(256.dp)
-//                                .width(256.dp)
-//                                .clip(RoundedCornerShape(16.dp))
-//                                .clickable(
-//                                    onClick = {
-//
-//                                    }
-//                                )
-//                            ,
-//                            painter = painterResource(id = imageId),
-//                            contentScale = ContentScale.Crop,
-//                            contentDescription = null
-//                        )
-//                    }
-//                    item {
-//                        ElevatedCard(
-//                            modifier = Modifier
-//                                .height(256.dp)
-//                                .width(256.dp),
-//                            shape = RoundedCornerShape(16.dp),
-//                            onClick = {}
-//                        ) {
-//                            Box(
-//                                modifier = Modifier.fillMaxSize(),
-//                                contentAlignment = Alignment.Center
-//                            ) {
-//                                Icon(
-//                                    modifier = Modifier.size(48.dp),
-//                                    painter = painterResource(id = HellNotesIcons.Add),
-//                                    tint = MaterialTheme.colorScheme.primary,
-//                                    contentDescription = null
-//                                )
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 }
 

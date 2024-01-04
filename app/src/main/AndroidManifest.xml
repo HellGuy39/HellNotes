@@ -57,6 +57,10 @@
         </activity>
 
         <receiver
+            android:name=".component.broadcast.NotificationActionReceiver"
+            android:enabled="true" />
+
+        <receiver
             android:name=".component.broadcast.ReminderReceiver"
             android:enabled="true" />
 

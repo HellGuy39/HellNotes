@@ -47,6 +47,7 @@
     <string name="permission_notification_default">Pour cette fonctionnalité il est nécessaire d\'approuver la permission d\'envoyer des notifications.\nAprouvez la permission, s\'il vous plaît.</string>
 
     <!-- Button -->
+    <string name="btn_done">Fait</string>
     <string name="btn_request_permission">Demander la permission</string>
     <string name="btn_create">Créer</string>
     <string name="btn_restore">Restaurer</string>
@@ -88,6 +89,7 @@
     <string name="stg_note_style">Style de notes</string>
 
     <!-- MenuItem -->
+    <string name="menu_item_manage_labels">Gérer les étiquettes</string>
     <string name="menu_item_settings">Paramètres</string>
     <string name="menu_item_about_app">À propos de l\'application</string>
     <string name="menu_item_reminders">Rappels</string>
@@ -174,8 +176,10 @@
     <string name="title_auth_required">Authentification requise</string>
     <string name="title_backup">Sauvegarde</string>
     <string name="title_attention">Attention</string>
+    <string name="title_rename_label">Renommer l\'étiquette</string>
 
     <!-- Body -->
+    <string name="body_new_note">Nouvelle note</string>
     <string name="body_reset">Vos données seront définitivement supprimées. Cette action ne sera pas annulée.</string>
     <string name="body_backup">Veuillez ne pas fermer l\'application ou éteindre l\'appareil pendant le processus de copie.</string>
 
@@ -209,6 +213,7 @@
     <string name="value_never">jamais</string>
 
     <!-- Snack -->
+    <string name="snack_note_has_been_copied">La note a été copiée et ouverte</string>
     <string name="snack_note_moved_to_trash">Note(s) déplacée (s) vers la corbeille</string>
     <string name="snack_note_archived">Note(s) archivée (s)</string>
     <string name="snack_note_unarchived">Note(s) non archivée (s)</string>

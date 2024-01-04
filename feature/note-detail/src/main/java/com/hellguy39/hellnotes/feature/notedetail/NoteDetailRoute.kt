@@ -1,15 +1,19 @@
 package com.hellguy39.hellnotes.feature.notedetail
 
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,17 +26,14 @@ import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
-import com.hellguy39.hellnotes.core.ui.components.snack.SnackAction
-import com.hellguy39.hellnotes.core.ui.components.snack.getSnackMessage
-import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailContentSelection
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailTopAppBarSelection
 import com.hellguy39.hellnotes.feature.notedetail.util.BottomSheetMenuItemHolder
 import com.hellguy39.hellnotes.feature.notedetail.util.ShareType
-import com.hellguy39.hellnotes.feature.notedetail.util.ShareUtils
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +46,7 @@ fun NoteDetailRoute(
 ) {
     TrackScreenView(screenName = "NoteDetailScreen")
 
-    val context = LocalContext.current
+    val noteDetailState = rememberNoteDetailState()
 
     val uiState by noteDetailViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -53,17 +54,6 @@ fun NoteDetailRoute(
     val confirmDialogState = rememberDialogState()
 
     val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    fun onShare(type: ShareType) {
-        uiState.let { state ->
-            ShareUtils.share(
-                context = context,
-                note = state.wrapper.note,
-                type = type,
-            )
-        }
-    }
 
     BackHandler {
         noteDetailViewModel.send(NoteDetailUiEvent.Close)
@@ -84,7 +74,7 @@ fun NoteDetailRoute(
                 title = stringResource(id = AppStrings.MenuItem.TxtFile),
                 onClick = {
                     shareDialogState.dismiss()
-                    onShare(ShareType.TxtFile)
+                    noteDetailState.shareNote(ShareType.TxtFile, uiState.wrapper)
                 },
             )
             HNListItem(
@@ -92,7 +82,7 @@ fun NoteDetailRoute(
                 title = stringResource(id = AppStrings.MenuItem.PlainText),
                 onClick = {
                     shareDialogState.dismiss()
-                    onShare(ShareType.PlainText)
+                    noteDetailState.shareNote(ShareType.PlainText, uiState.wrapper)
                 },
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -146,8 +136,6 @@ fun NoteDetailRoute(
 
     val listItemModifier = Modifier.padding(16.dp)
 
-    val toast = Toast.makeText(context, context.getString(AppStrings.Toast.ComingSoon), Toast.LENGTH_SHORT)
-
     val menuBottomSheetItems =
         listOf(
             BottomSheetMenuItemHolder(
@@ -164,6 +152,9 @@ fun NoteDetailRoute(
                 onClick = {
                     closeMenuBottomSheet()
                     noteDetailViewModel.send(NoteDetailUiEvent.CopyNote)
+                    noteDetailState.showSnack(
+                        UiText.StringResources(AppStrings.Snack.NoteHasBeenCopied),
+                    )
                 },
             ),
             BottomSheetMenuItemHolder(
@@ -175,10 +166,8 @@ fun NoteDetailRoute(
                     if (note.isNoteValid()) {
                         shareDialogState.show()
                     } else {
-                        snackbarHostState.showDismissableSnackbar(
-                            scope = scope,
-                            message = context.getString(AppStrings.Snack.NothingToShare),
-                            duration = SnackbarDuration.Short,
+                        noteDetailState.showSnack(
+                            UiText.StringResources(AppStrings.Snack.NothingToShare),
                         )
                     }
                 },
@@ -192,7 +181,7 @@ fun NoteDetailRoute(
                 icon = painterResource(id = AppIcons.PhotoCamera),
                 onClick = {
                     closeAttachmentBottomSheet()
-                    toast.show()
+                    noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
                 },
             ),
             BottomSheetMenuItemHolder(
@@ -200,7 +189,7 @@ fun NoteDetailRoute(
                 icon = painterResource(id = AppIcons.Image),
                 onClick = {
                     closeAttachmentBottomSheet()
-                    toast.show()
+                    noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
                 },
             ),
             BottomSheetMenuItemHolder(
@@ -208,7 +197,7 @@ fun NoteDetailRoute(
                 icon = painterResource(id = AppIcons.Mic),
                 onClick = {
                     closeAttachmentBottomSheet()
-                    toast.show()
+                    noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
                 },
             ),
             BottomSheetMenuItemHolder(
@@ -216,7 +205,7 @@ fun NoteDetailRoute(
                 icon = painterResource(id = AppIcons.PinDrop),
                 onClick = {
                     closeAttachmentBottomSheet()
-                    toast.show()
+                    noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
                 },
             ),
             BottomSheetMenuItemHolder(
@@ -275,7 +264,7 @@ fun NoteDetailRoute(
     }
 
     NoteDetailScreen(
-        snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
+        snackbarHost = { CustomSnackbarHost(state = noteDetailState.snackbarHostState) },
         uiState = uiState,
         noteDetailContentSelection =
             NoteDetailContentSelection(
@@ -305,23 +294,15 @@ fun NoteDetailRoute(
                 onPin = { isPinned ->
                     noteDetailViewModel.send(NoteDetailUiEvent.ToggleIsPinned)
 
-                    val snackAction = if (isPinned) SnackAction.Pinned else SnackAction.Unpinned
-
-                    snackbarHostState.showDismissableSnackbar(
-                        scope = scope,
-                        message = snackAction.getSnackMessage(context),
-                        duration = SnackbarDuration.Short,
+                    noteDetailState.showSnack(
+                        UiText.StringResources(AppStrings.Snack.notePinned(isPinned)),
                     )
                 },
                 onArchive = { isArchived ->
                     noteDetailViewModel.send(NoteDetailUiEvent.ToggleIsArchived)
 
-                    val snackAction = if (isArchived) SnackAction.Archive else SnackAction.Unarchive
-
-                    snackbarHostState.showDismissableSnackbar(
-                        scope = scope,
-                        message = snackAction.getSnackMessage(context = context, isSingleItem = true),
-                        duration = SnackbarDuration.Short,
+                    noteDetailState.showSnack(
+                        UiText.StringResources(AppStrings.Snack.noteArchived(isArchived)),
                     )
                 },
                 onReminder = {

@@ -7,6 +7,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
+import com.hellguy39.hellnotes.component.broadcast.NotificationActionReceiver
+import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.id.randomId
 import com.hellguy39.hellnotes.core.common.logger.taggedLogger
 import com.hellguy39.hellnotes.core.common.permission.canPostNotifications
@@ -14,6 +16,7 @@ import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
 import com.hellguy39.hellnotes.core.model.notification.HellNotesNotificationChannel
 import com.hellguy39.hellnotes.core.ui.decorator.NotificationChannelDecorator
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -27,7 +30,16 @@ class InAppNotificationManagerImpl
 
         private val logger by taggedLogger("InAppNotificationManagerImpl")
 
+        override fun init() {
+            logger.i { "Initializing notification channels" }
+            val notificationChannels = getNotificationChannels()
+            notificationChannels.forEach { channel ->
+                notificationManager.createNotificationChannel(channel)
+            }
+        }
+
         override fun postNotification(
+            notificationId: Int,
             title: String,
             body: String,
             pendingIntent: PendingIntent,
@@ -39,22 +51,20 @@ class InAppNotificationManagerImpl
                     body = body.ifBlank { channelDecorator.getBody(channel) },
                     pendingIntent = pendingIntent,
                     channel = channel,
+                    notificationId = notificationId,
                 )
 
             if (context.canPostNotifications()) {
-                notificationManager.notify(randomId(), notification)
-                logger.i { "Notification posted to ${channel.info.name} channel" }
+                notificationManager.notify(notificationId, notification)
+                logger.i { "Notification $notificationId posted to ${channel.info.name} channel" }
             } else {
                 logger.i { "Unable to send notifications: Access denied" }
             }
         }
 
-        override fun init() {
-            logger.i { "Initializing notification channels" }
-            val notificationChannels = getNotificationChannels()
-            notificationChannels.forEach { channel ->
-                notificationManager.createNotificationChannel(channel)
-            }
+        override fun cancelNotification(notificationId: Int) {
+            logger.i { "Cancelling notification $notificationId" }
+            notificationManager.cancel(notificationId)
         }
 
         private fun buildNotification(
@@ -62,6 +72,7 @@ class InAppNotificationManagerImpl
             body: String,
             pendingIntent: PendingIntent,
             channel: HellNotesNotificationChannel,
+            notificationId: Int,
         ): Notification {
             return Notification
                 .Builder(context, channel.info.id)
@@ -72,24 +83,25 @@ class InAppNotificationManagerImpl
                 .setAutoCancel(true)
                 .setShowWhen(true)
                 .setWhen(System.currentTimeMillis())
-                .setActions(channel)
+                .setActions(channel, notificationId)
                 .build()
         }
 
         private fun Notification.Builder.setActions(
             channel: HellNotesNotificationChannel,
+            notificationId: Int,
         ): Notification.Builder {
             return apply {
-                val actions = getNotificationActions(channel)
+                val actions = getNotificationActions(channel, notificationId)
                 actions.forEach { action ->
                     addAction(action)
                 }
             }
         }
 
-        // TODO: Finish notification actions
         private fun getNotificationActions(
             channel: HellNotesNotificationChannel,
+            notificationId: Int,
         ): List<Notification.Action> {
             return when (channel) {
                 HellNotesNotificationChannel.Reminders -> {
@@ -97,23 +109,18 @@ class InAppNotificationManagerImpl
                         Notification.Action
                             .Builder(
                                 Icon.createWithResource(context, AppIcons.Info),
-                                "Set aside for 15 min",
+                                context.getString(AppStrings.Button.Done),
                                 PendingIntent.getBroadcast(
                                     context,
-                                    1,
-                                    Intent(),
-                                    PendingIntent.FLAG_IMMUTABLE,
-                                ),
-                            )
-                            .build(),
-                        Notification.Action
-                            .Builder(
-                                Icon.createWithResource(context, AppIcons.Info),
-                                "Done",
-                                PendingIntent.getBroadcast(
-                                    context,
-                                    1,
-                                    Intent(),
+                                    randomId(),
+                                    Intent(
+                                        context,
+                                        NotificationActionReceiver::class.java,
+                                    )
+                                        .apply {
+                                            action = context.getString(AppStrings.Action.NotificationDone)
+                                            putExtra(Arguments.NotificationId.key, notificationId)
+                                        },
                                     PendingIntent.FLAG_IMMUTABLE,
                                 ),
                             )

@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.feature.home
+package com.hellguy39.hellnotes.feature.home.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

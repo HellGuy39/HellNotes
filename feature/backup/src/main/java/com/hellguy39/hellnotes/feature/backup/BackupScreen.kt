@@ -134,8 +134,8 @@ fun BackupScreen(
             item {
                 InfoCard(
                     modifier = Modifier.padding(horizontal = Spaces.medium),
-                    title = stringResource(id = AppStrings.Title.Attention),
-                    body = stringResource(id = AppStrings.Body.Backup),
+                    title = UiText.StringResources(AppStrings.Title.Attention),
+                    body = UiText.StringResources(AppStrings.Body.Backup),
                 )
             }
             item {

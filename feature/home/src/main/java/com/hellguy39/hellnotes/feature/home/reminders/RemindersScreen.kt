@@ -27,9 +27,9 @@ import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
-import com.hellguy39.hellnotes.core.ui.state.HomeState
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.home.ActionViewModel
+import com.hellguy39.hellnotes.feature.home.HomeState
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 import com.hellguy39.hellnotes.feature.home.reminders.components.ReminderTopAppBarSelection
 import com.hellguy39.hellnotes.feature.home.reminders.components.RemindersTopAppBar

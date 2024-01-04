@@ -1,10 +1,8 @@
 package com.hellguy39.hellnotes.core.ui.components.snack
 
-import android.content.Context
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -29,52 +27,5 @@ fun SnackbarHostState.showDismissableSnackbar(
                 else -> Unit
             }
         }
-    }
-}
-
-@Composable
-fun SnackAction.getSnackMessage(isSingleItem: Boolean = true) =
-    when (this) {
-        SnackAction.Archive -> {
-            stringResource(id = AppStrings.Snack.NoteArchived)
-        }
-        SnackAction.Delete -> {
-            stringResource(id = AppStrings.Snack.NoteMovedToTrash)
-        }
-        SnackAction.Unarchive -> {
-            stringResource(id = AppStrings.Snack.NoteUnarchived)
-        }
-        SnackAction.Restore -> {
-            ""
-        }
-        SnackAction.Pinned -> {
-            stringResource(AppStrings.Snack.NotePinned)
-        }
-        SnackAction.Unpinned -> {
-            stringResource(AppStrings.Snack.NotePinned)
-        }
-    }
-
-fun SnackAction.getSnackMessage(
-    context: Context,
-    isSingleItem: Boolean = true,
-) = when (this) {
-    SnackAction.Archive -> {
-        context.getString(AppStrings.Snack.NoteArchived)
-    }
-    SnackAction.Delete -> {
-        context.getString(AppStrings.Snack.NoteMovedToTrash)
-    }
-    SnackAction.Unarchive -> {
-        context.getString(AppStrings.Snack.NoteUnarchived)
-    }
-    SnackAction.Restore -> {
-        ""
-    }
-    SnackAction.Pinned -> {
-        context.getString(AppStrings.Snack.NotePinned)
-    }
-    SnackAction.Unpinned -> {
-        context.getString(AppStrings.Snack.NoteUnpinned)
     }
 }

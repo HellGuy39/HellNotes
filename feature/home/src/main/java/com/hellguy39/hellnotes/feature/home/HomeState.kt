@@ -1,4 +1,4 @@
-package com.hellguy39.hellnotes.core.ui.state
+package com.hellguy39.hellnotes.feature.home
 
 import android.content.res.Resources
 import androidx.compose.material3.DrawerState
@@ -10,11 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
+import com.hellguy39.hellnotes.core.ui.state.findStartDestination
+import com.hellguy39.hellnotes.core.ui.state.resources
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -25,7 +28,7 @@ fun rememberHomeState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-) = remember(navController, resources, coroutineScope) {
+) = remember(navController, resources, coroutineScope, drawerState, snackbarHostState) {
     HomeState(
         navController = navController,
         resources = resources,
@@ -66,14 +69,17 @@ class HomeState(
         if (route != currentRoute) {
             closeDrawer()
             navController.navigate(route) {
-                // TODO: This breaks deeplinks
-                launchSingleTop = true
-                restoreState = true
-                // Pop up backstack to the first destination and save state. This makes going back
-                // to the start destination when pressing back in any other bottom tab.
-                popUpTo(findStartDestination(navController.graph).id) {
+                // Pop up to the start destination of the graph to
+                // avoid building up a large stack of destinations
+                // on the back stack as users select items
+                popUpTo(navController.graph.findStartDestination().id) {
                     saveState = true
                 }
+                // Avoid multiple copies of the same destination when
+                // reselecting the same item
+                launchSingleTop = true
+                // Restore state when reselecting a previously selected item
+                restoreState = true
             }
         }
     }

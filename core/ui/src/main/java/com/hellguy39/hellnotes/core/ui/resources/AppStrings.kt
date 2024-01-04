@@ -40,6 +40,7 @@ object AppStrings {
         val Reminders = R.string.menu_item_reminders
         val Settings = R.string.menu_item_settings
         val AboutApp = R.string.menu_item_about_app
+        val ManageLabels = R.string.menu_item_manage_labels
 
         val Labels = R.string.menu_item_labels
         val Rename = R.string.menu_item_rename
@@ -123,9 +124,11 @@ object AppStrings {
         val EnterPassword = R.string.title_enter_password
         val Unlocked = R.string.title_unlocked
         val Attention = R.string.title_attention
+        val RenameLabel = R.string.title_rename_label
     }
 
     object Body {
+        val NewNote = R.string.body_new_note
         val Reset = R.string.body_reset
         val Backup = R.string.body_backup
     }
@@ -171,6 +174,7 @@ object AppStrings {
     }
 
     object Button {
+        val Done = R.string.btn_done
         val RequestPermission = R.string.btn_request_permission
         val Create = R.string.btn_create
         val Edit = R.string.btn_edit
@@ -200,6 +204,7 @@ object AppStrings {
     }
 
     object Action {
+        val NotificationDone = R.string.action_notification_done
         val NewNote = R.string.action_new_note
         val Reminders = R.string.action_reminders
         val Archive = R.string.action_archive
@@ -217,6 +222,7 @@ object AppStrings {
 
         fun notePinned(isPinned: Boolean) = if (isPinned) NotePinned else NoteUnpinned
 
+        val NoteHasBeenCopied = R.string.snack_note_has_been_copied
         val NotePinned = R.string.snack_note_pinned
         val NoteUnpinned = R.string.snack_note_unpinned
         val BackupCreated = R.string.snack_backup_created
