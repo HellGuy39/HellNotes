@@ -216,9 +216,9 @@ fun LabelScreen(
             deleteDialogState.dismiss()
         },
         onAccept = {
-            labelViewModel.send(LabelUiEvent.DeleteLabel)
-            homeState.resetNavigation()
             deleteDialogState.dismiss()
+            homeState.resetNavigation()
+            labelViewModel.send(LabelUiEvent.DeleteLabel)
         },
     )
 

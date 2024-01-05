@@ -1,17 +1,21 @@
 package com.hellguy39.hellnotes.feature.labelselection
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
@@ -19,21 +23,21 @@ import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceho
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
+import com.hellguy39.hellnotes.core.ui.values.IconSize
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabelSelectionScreen(
-    onNavigationBack: () -> Unit,
     uiState: LabelSelectionUiState,
-    selection: LabelSelectionScreenSelection,
+    onNavigationBack: () -> Unit,
+    onSearchUpdate: (String) -> Unit,
+    onCreateNewLabelClick: () -> Unit,
+    onToggleLabelCheckbox: (index: Int) -> Unit,
 ) {
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
-
-    val listItemModifier =
-        Modifier
-            .padding(horizontal = 16.dp, vertical = 16.dp)
-            .fillMaxWidth()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         topBar = {
@@ -44,7 +48,7 @@ fun LabelSelectionScreen(
                     HNClearTextField(
                         value = uiState.search,
                         hint = stringResource(id = AppStrings.Hint.Label),
-                        onValueChange = { newText -> selection.onSearchUpdate(newText) },
+                        onValueChange = { newText -> onSearchUpdate(newText) },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = MaterialTheme.typography.bodyLarge,
                     )
@@ -52,74 +56,73 @@ fun LabelSelectionScreen(
             )
         },
         content = { paddingValues ->
-
-            if (uiState.isLoading) {
-                return@Scaffold
-            }
-
-            if (uiState.labels.isEmpty() && uiState.search.isEmpty()) {
-                EmptyContentPlaceholder(
-                    modifier =
-                        Modifier
-                            .padding(horizontal = 32.dp)
-                            .padding(paddingValues)
-                            .fillMaxSize(),
-                    heroIcon = painterResource(id = AppIcons.Label),
-                    message = stringResource(id = AppStrings.Placeholder.LabelSelection),
-                )
-                return@Scaffold
-            }
-
-            LazyColumn(
-                contentPadding = paddingValues,
+            LabelSelectionContent(
                 modifier = Modifier.fillMaxSize(),
-            ) {
-                items(
-                    items = uiState.labels,
-                    key = { label -> label.id ?: 0 },
-                ) { label ->
-                    val isChecked = label.noteIds.contains(uiState.noteId)
-                    HNCheckboxItem(
-                        modifier = listItemModifier,
-                        onClick = { selection.onLabelSelectedUpdate(label, !isChecked) },
-                        heroIcon = painterResource(id = AppIcons.Label),
-                        title = label.name,
-                        checked = isChecked,
-                        iconSize = 24.dp,
-                    )
-                }
-                if (isShowCreateNewLabelItem(uiState.labels, uiState.search)) {
-                    item(
-                        key = -1,
-                    ) {
-                        HNListItem(
-                            modifier = listItemModifier,
-                            heroIcon = painterResource(id = AppIcons.NewLabel),
-                            title = stringResource(id = AppStrings.MenuItem.CreateNewLabel),
-                            onClick = selection.onCreateNewLabel,
-                            iconSize = 24.dp,
-                        )
-                    }
-                }
-            }
+                contentPadding = paddingValues,
+                isEmpty = uiState.isEmpty,
+                isShowCreateNewLabel = uiState.isShowCreateNewLabelItem,
+                checkableLabels = uiState.checkableLabels,
+                onCreateNewLabelClick = onCreateNewLabelClick,
+                onToggleLabelCheckbox = onToggleLabelCheckbox,
+            )
         },
     )
 }
 
-data class LabelSelectionScreenSelection(
-    val onCreateNewLabel: () -> Unit,
-    val onSearchUpdate: (String) -> Unit,
-    val onLabelSelectedUpdate: (Label, Boolean) -> Unit,
-)
-
-private fun isShowCreateNewLabelItem(
-    allLabels: List<Label>,
-    query: String,
-): Boolean {
-    return (
-        allLabels.isEmpty() ||
-            allLabels.size > 2 ||
-            (allLabels.size == 1 && query != allLabels[0].name)
-    ) &&
-        (query.isNotBlank() && query.isNotEmpty())
+@Composable
+fun LabelSelectionContent(
+    modifier: Modifier,
+    contentPadding: PaddingValues,
+    isEmpty: Boolean,
+    isShowCreateNewLabel: Boolean,
+    checkableLabels: SnapshotStateList<CheckableLabel>,
+    onCreateNewLabelClick: () -> Unit,
+    onToggleLabelCheckbox: (index: Int) -> Unit,
+) {
+    if (isEmpty) {
+        EmptyContentPlaceholder(
+            modifier = modifier,
+            heroIcon = UiIcon.DrawableResources(AppIcons.Label),
+            message = UiText.StringResources(AppStrings.Placeholder.LabelSelection),
+        )
+    } else {
+        LazyColumn(
+            contentPadding = contentPadding,
+            modifier = modifier,
+        ) {
+            itemsIndexed(
+                items = checkableLabels,
+                key = { index, checkableLabel -> checkableLabel.label.id ?: 0 },
+                contentType = { index, checkableLabel -> checkableLabel },
+            ) { index, checkableLabel ->
+                HNCheckboxItem(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(Spaces.medium),
+                    onClick = {
+                        onToggleLabelCheckbox(index)
+                    },
+                    heroIcon = UiIcon.DrawableResources(AppIcons.Label),
+                    title = UiText.DynamicString(checkableLabel.label.name),
+                    checked = checkableLabel.isChecked,
+                    iconSize = IconSize.medium,
+                )
+            }
+            if (isShowCreateNewLabel) {
+                item(key = -1) {
+                    HNListItem(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(Spaces.medium),
+                        heroIcon = UiIcon.DrawableResources(AppIcons.NewLabel),
+                        title = UiText.StringResources(AppStrings.MenuItem.CreateNewLabel),
+                        onClick = onCreateNewLabelClick,
+                        iconSize = IconSize.medium,
+                    )
+                }
+            }
+        }
+    }
 }

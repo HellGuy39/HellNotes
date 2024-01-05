@@ -29,7 +29,7 @@ fun LabelItem(
     var text by remember { mutableStateOf(label.name) }
 
     fun saveLabel() {
-        if (text.isNotBlank() && text.isNotEmpty()) {
+        if (text.isNotBlank()) {
             onLabelChange(text)
         }
     }

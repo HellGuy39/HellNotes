@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.labeledit
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,7 +27,10 @@ class LabelEditViewModel
             labelRepository.getAllLabelsStream()
                 .map { labels ->
                     LabelEditUiState(
-                        labels = labels.sortedByDescending { label -> label.id },
+                        labels =
+                            mutableStateListOf<Label>().apply {
+                                addAll(labels.sortedByDescending { label -> label.id })
+                            },
                         action = action,
                         isIdle = false,
                     )
@@ -39,31 +44,40 @@ class LabelEditViewModel
         fun send(uiEvent: LabelEditScreenUiEvent) {
             when (uiEvent) {
                 is LabelEditScreenUiEvent.InsertLabel -> {
-                    insertLabel(uiEvent.label)
+                    insertLabel(uiEvent.name)
                 }
                 is LabelEditScreenUiEvent.UpdateLabel -> {
-                    updateLabel(uiEvent.label)
+                    updateLabel(uiEvent.index, uiEvent.name)
                 }
                 is LabelEditScreenUiEvent.DeleteLabel -> {
-                    deleteLabel(uiEvent.label)
+                    deleteLabel(uiEvent.index)
                 }
             }
         }
 
-        private fun insertLabel(label: Label) {
+        fun isLabelUnique(name: String): Boolean {
+            return uiState.value.labels.find { label ->
+                label.name == name.trim()
+            } == null
+        }
+
+        private fun insertLabel(name: String) {
             viewModelScope.launch {
+                val label = Label(name = name.trim())
                 labelRepository.insertLabel(label)
             }
         }
 
-        private fun deleteLabel(label: Label) {
+        private fun deleteLabel(index: Int) {
             viewModelScope.launch {
+                val label = uiState.value.labels[index]
                 labelRepository.deleteLabel(label)
             }
         }
 
-        private fun updateLabel(label: Label) {
+        private fun updateLabel(index: Int, name: String) {
             viewModelScope.launch {
+                val label = uiState.value.labels[index].copy(name = name.trim())
                 labelRepository.updateLabel(label)
             }
         }
@@ -72,13 +86,13 @@ class LabelEditViewModel
 data class LabelEditUiState(
     val isIdle: Boolean = true,
     val action: String = "",
-    val labels: List<Label> = listOf(),
+    val labels: SnapshotStateList<Label> = mutableStateListOf(),
 )
 
 sealed class LabelEditScreenUiEvent {
-    data class InsertLabel(val label: Label) : LabelEditScreenUiEvent()
+    data class InsertLabel(val name: String) : LabelEditScreenUiEvent()
 
-    data class DeleteLabel(val label: Label) : LabelEditScreenUiEvent()
+    data class DeleteLabel(val index: Int) : LabelEditScreenUiEvent()
 
-    data class UpdateLabel(val label: Label) : LabelEditScreenUiEvent()
+    data class UpdateLabel(val index: Int, val name: String) : LabelEditScreenUiEvent()
 }

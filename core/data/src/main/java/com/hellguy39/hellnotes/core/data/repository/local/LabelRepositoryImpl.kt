@@ -16,50 +16,50 @@ class LabelRepositoryImpl
         private val labelDao: LabelDao,
     ) : LabelRepository {
         override suspend fun insertLabel(label: Label): Long {
-            return labelDao.insertLabel(label.toLabelEntity())
+            return labelDao.insert(label.toLabelEntity())
         }
 
         override suspend fun deleteLabel(label: Label) {
-            labelDao.deleteLabel(label.toLabelEntity())
+            labelDao.delete(label.toLabelEntity())
         }
 
         override suspend fun deleteLabelById(id: Long) {
-            labelDao.deleteLabelById(id)
+            labelDao.deleteById(id)
         }
 
         override suspend fun updateLabel(label: Label) {
-            labelDao.updateLabel(label.toLabelEntity())
+            labelDao.update(label.toLabelEntity())
         }
 
         override suspend fun updateLabels(labels: List<Label>) {
-            labelDao.updateLabels(labels.map { label -> label.toLabelEntity() })
+            labelDao.update(labels.map { label -> label.toLabelEntity() })
         }
 
         override fun getAllLabelsStream(): Flow<List<Label>> {
-            return labelDao.getAllLabelsStream()
+            return labelDao.getAllFlow()
                 .map { it.map(LabelEntity::toLabel) }
         }
 
-        override suspend fun getLabelById(id: Long): Label {
-            return labelDao.getLabelById(id).toLabel()
+        override suspend fun getLabelById(id: Long): Label? {
+            return labelDao.findById(id)?.toLabel()
         }
 
-        override fun getLabelByIdFlow(id: Long): Flow<Label> {
-            return labelDao.getLabelByIdFlow(id)
-                .map { it.toLabel() }
+        override fun getLabelByIdFlow(id: Long): Flow<Label?> {
+            return labelDao.findByIdFlow(id)
+                .map { it?.toLabel() }
         }
 
         override suspend fun getAllLabels(): List<Label> {
-            return labelDao.getAllLabels()
+            return labelDao.getAll()
                 .map { labelEntity -> labelEntity.toLabel() }
         }
 
         override suspend fun deleteNoteIdFromLabels(noteId: Long) {
-            val labels = labelDao.getAllLabels()
+            val labels = labelDao.getAll()
             labels.forEach { labelEntity ->
                 if (labelEntity.noteIds.contains(noteId)) {
                     val newLabel = labelEntity.copy(noteIds = labelEntity.noteIds.minus(noteId))
-                    labelDao.updateLabel(newLabel)
+                    labelDao.update(newLabel)
                 }
             }
         }

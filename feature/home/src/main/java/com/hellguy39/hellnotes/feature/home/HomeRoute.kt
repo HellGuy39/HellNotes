@@ -51,6 +51,16 @@ fun HomeRoute(
                 title = UiText.DynamicString(label.name),
                 icon = UiIcon.DrawableResources(AppIcons.Folder),
                 route = Screen.Label(label.id).withArgs(label.id.toString()),
+                badge =
+                    label.noteIds.count().let { count ->
+                        if (count >= 100) {
+                            UiText.DynamicString("99+")
+                        } else if (count > 0) {
+                            UiText.DynamicString(count.toString())
+                        } else {
+                            UiText.Empty
+                        }
+                    },
                 onClick = { drawerItem ->
                     homeState.navigateToNavigationBarRoute(drawerItem.route)
                 },

@@ -15,8 +15,71 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.core.ui.values.Spaces
+
+@Composable
+fun HNCheckboxItem(
+    modifier: Modifier = Modifier,
+    heroIcon: UiIcon = UiIcon.Empty,
+    title: UiText = UiText.Empty,
+    subtitle: UiText = UiText.Empty,
+    checked: Boolean = false,
+    onClick: () -> Unit = {},
+    iconTint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    iconSize: Dp = 32.dp,
+) {
+    Box(
+        modifier =
+            Modifier
+                .selectable(
+                    selected = checked,
+                    onClick = onClick,
+                    role = Role.RadioButton,
+                ),
+    ) {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally),
+        ) {
+            if (heroIcon !is UiIcon.Empty) {
+                Icon(
+                    modifier = Modifier.size(iconSize),
+                    painter = heroIcon.asPainter(),
+                    tint = iconTint,
+                    contentDescription = null,
+                )
+            }
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(Spaces.small),
+            ) {
+                if (title !is UiText.Empty) {
+                    Text(
+                        text = title.asString(),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
+                if (subtitle !is UiText.Empty) {
+                    Text(
+                        text = subtitle.asString(),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+            }
+
+            Checkbox(
+                modifier = Modifier,
+                checked = checked,
+                onCheckedChange = null,
+            )
+        }
+    }
+}
 
 @Composable
 fun HNCheckboxItem(

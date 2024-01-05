@@ -37,7 +37,7 @@ class LabelViewModel
                 LabelUiState(
                     isEmpty = wrappers.isEmpty(),
                     notes = wrappers,
-                    label = label,
+                    label = label ?: Label(),
                     allLabels = labels,
                 )
             }

@@ -25,8 +25,64 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.core.ui.values.Alpha
+
+@Composable
+fun HNListItem(
+    modifier: Modifier = Modifier,
+    heroIcon: UiIcon = UiIcon.Empty,
+    title: UiText = UiText.Empty,
+    subtitle: UiText = UiText.Empty,
+    onClick: () -> Unit = {},
+    iconTint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    iconSize: Dp = 32.dp,
+) {
+    Box(
+        modifier = Modifier.clickable { onClick() },
+    ) {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally),
+        ) {
+            if (heroIcon !is UiIcon.Empty) {
+                Icon(
+                    modifier = Modifier.size(iconSize),
+                    painter = heroIcon.asPainter(),
+                    tint = iconTint,
+                    contentDescription = null,
+                )
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                if (title !is UiText.Empty) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = title.asString(),
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Start,
+                    )
+                }
+                if (subtitle !is UiText.Empty) {
+                    Text(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .alpha(Alpha.LEVEL_1),
+                        text = subtitle.asString(),
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Start,
+                    )
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun HNListItem(

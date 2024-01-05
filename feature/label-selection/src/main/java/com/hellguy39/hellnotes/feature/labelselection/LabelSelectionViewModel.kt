@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.labelselection
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,14 +34,31 @@ class LabelSelectionViewModel
                 labelRepository.getAllLabelsStream(),
                 search,
             ) { labels, search ->
+                val filteredLabels =
+                    labels
+                        .filter { label -> label.name.contains(search) }
+                        .sortedByDescending { label -> label.id }
+
+                val checkableLabels =
+                    filteredLabels.map { label ->
+                        CheckableLabel(
+                            label = label,
+                            isChecked = label.noteIds.contains(noteId),
+                        )
+                    }
+
+                val isShowCreateNewLabel = isShowCreateNewLabel(filteredLabels, search)
+
+                val isEmpty = filteredLabels.isEmpty() && search.isEmpty()
+
                 LabelSelectionUiState(
+                    isShowCreateNewLabelItem = isShowCreateNewLabel,
+                    isEmpty = isEmpty,
                     search = search,
-                    labels =
-                        labels
-                            .filter { label -> label.name.contains(search) }
-                            .sortedByDescending { label -> label.id },
-                    noteId = noteId,
-                    isLoading = false,
+                    checkableLabels =
+                        mutableStateListOf<CheckableLabel>().apply {
+                            addAll(checkableLabels)
+                        },
                 )
             }
                 .stateIn(
@@ -50,14 +69,11 @@ class LabelSelectionViewModel
 
         fun sendEvent(event: LabelSelectionUiEvent) {
             when (event) {
-                is LabelSelectionUiEvent.SelectLabel -> {
-                    selectLabel(label = event.label)
-                }
-                is LabelSelectionUiEvent.UnselectLabel -> {
-                    unselectLabel(label = event.label)
+                is LabelSelectionUiEvent.ToggleLabelCheckbox -> {
+                    toggleLabelCheckbox(event.index)
                 }
                 is LabelSelectionUiEvent.UpdateSearch -> {
-                    updateSearch(s = event.search)
+                    updateSearch(event.search)
                 }
                 is LabelSelectionUiEvent.CreateNewLabel -> {
                     createNewLabel()
@@ -65,18 +81,19 @@ class LabelSelectionViewModel
             }
         }
 
-        private fun selectLabel(label: Label) {
+        private fun toggleLabelCheckbox(index: Int) {
             viewModelScope.launch {
+                val checkableLabel = uiState.value.checkableLabels[index]
+                val noteIds = checkableLabel.label.noteIds
                 labelRepository.updateLabel(
-                    label.copy(noteIds = label.noteIds.plus(noteId)),
-                )
-            }
-        }
-
-        private fun unselectLabel(label: Label) {
-            viewModelScope.launch {
-                labelRepository.updateLabel(
-                    label.copy(noteIds = label.noteIds.minus(noteId)),
+                    checkableLabel.label.copy(
+                        noteIds =
+                            if (checkableLabel.isChecked.not()) {
+                                noteIds.plus(noteId)
+                            } else {
+                                noteIds.minus(noteId)
+                            },
+                    ),
                 )
             }
         }
@@ -89,26 +106,45 @@ class LabelSelectionViewModel
 
         private fun createNewLabel() {
             viewModelScope.launch {
-                val label = Label(name = search.value)
-                val labelId = labelRepository.insertLabel(label)
-                selectLabel(labelRepository.getLabelById(labelId))
+                val name = search.value.trim()
+                updateSearch(name)
+                labelRepository.insertLabel(
+                    Label(
+                        name = name,
+                        noteIds = listOf(noteId),
+                    ),
+                )
             }
         }
     }
 
 sealed class LabelSelectionUiEvent {
-    data class SelectLabel(val label: Label) : LabelSelectionUiEvent()
-
-    data class UnselectLabel(val label: Label) : LabelSelectionUiEvent()
+    data class ToggleLabelCheckbox(val index: Int) : LabelSelectionUiEvent()
 
     data class UpdateSearch(val search: String) : LabelSelectionUiEvent()
 
-    object CreateNewLabel : LabelSelectionUiEvent()
+    data object CreateNewLabel : LabelSelectionUiEvent()
 }
 
-data class LabelSelectionUiState(
-    val isLoading: Boolean = false,
-    val noteId: Long = Arguments.NoteId.emptyValue,
-    val search: String = "",
-    val labels: List<Label> = emptyList(),
+data class CheckableLabel(
+    val label: Label,
+    val isChecked: Boolean,
 )
+
+data class LabelSelectionUiState(
+    val isShowCreateNewLabelItem: Boolean = false,
+    val isEmpty: Boolean = false,
+    val search: String = "",
+    val checkableLabels: SnapshotStateList<CheckableLabel> = mutableStateListOf(),
+)
+
+private fun isShowCreateNewLabel(
+    labels: List<Label>,
+    query: String,
+): Boolean {
+    return (
+        labels.isEmpty() || labels.size > 2 ||
+            (labels.size == 1 && query != labels[0].name)
+    ) &&
+        (query.isNotBlank() && query.isNotEmpty())
+}

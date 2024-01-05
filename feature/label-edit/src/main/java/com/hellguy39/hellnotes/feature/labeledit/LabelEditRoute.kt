@@ -9,11 +9,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenContentSelection
 
 @Composable
 fun LabelEditRoute(
@@ -29,10 +27,6 @@ fun LabelEditRoute(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    fun Label.isLabelUnique(): Boolean {
-        return uiState.labels.find { label -> label.name == this.name } == null
-    }
-
     fun showLabelIsAlreadyExistSnack() {
         snackbarHostState.showDismissableSnackbar(
             scope = scope,
@@ -41,27 +35,38 @@ fun LabelEditRoute(
         )
     }
 
+    val onNavigationButtonClick = remember { navigateBack }
+    val onCreateLabel =
+        remember {
+            { name: String ->
+                if (labelEditViewModel.isLabelUnique(name)) {
+                    labelEditViewModel.send(LabelEditScreenUiEvent.InsertLabel(name))
+                    true
+                } else {
+                    showLabelIsAlreadyExistSnack()
+                    false
+                }
+            }
+        }
+    val onLabelUpdated =
+        remember {
+            { index: Int, name: String ->
+                labelEditViewModel.send(LabelEditScreenUiEvent.UpdateLabel(index, name))
+            }
+        }
+    val onDeleteLabel =
+        remember {
+            { index: Int ->
+                labelEditViewModel.send(LabelEditScreenUiEvent.DeleteLabel(index))
+            }
+        }
+
     LabelEditScreen(
-        onNavigationButtonClick = { navigateBack() },
+        onNavigationButtonClick = onNavigationButtonClick,
         uiState = uiState,
-        labelEditScreenContentSelection =
-            LabelEditScreenContentSelection(
-                onCreateLabel = { label ->
-                    if (label.isLabelUnique()) {
-                        labelEditViewModel.send(LabelEditScreenUiEvent.InsertLabel(label))
-                        true
-                    } else {
-                        showLabelIsAlreadyExistSnack()
-                        false
-                    }
-                },
-                onLabelUpdated = { label ->
-                    labelEditViewModel.send(LabelEditScreenUiEvent.UpdateLabel(label))
-                },
-                onDeleteLabel = { label ->
-                    labelEditViewModel.send(LabelEditScreenUiEvent.DeleteLabel(label))
-                },
-            ),
+        onCreateLabel = onCreateLabel,
+        onLabelUpdated = onLabelUpdated,
+        onDeleteLabel = onDeleteLabel,
         snackbarHostState = snackbarHostState,
     )
 }

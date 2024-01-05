@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -16,7 +20,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.components.CustomDivider
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
@@ -26,7 +29,7 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 fun LabelSearchItem(
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester,
-    onCreateLabel: (Label) -> Boolean,
+    onCreateLabel: (name: String) -> Boolean,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -56,7 +59,7 @@ fun LabelSearchItem(
                 }
             } else {
                 IconButton(
-                    onClick = {},
+                    onClick = { },
                 ) {
                     Icon(
                         painter = painterResource(id = AppIcons.Add),
@@ -79,10 +82,8 @@ fun LabelSearchItem(
         AnimatedVisibility(isFocused) {
             IconButton(
                 onClick = {
-                    if (newLabel.isNotBlank() && newLabel.isNotEmpty()) {
-                        val label = Label(name = newLabel)
-                        val result = onCreateLabel(label)
-                        if (result) {
+                    if (newLabel.isNotBlank()) {
+                        if (onCreateLabel(newLabel)) {
                             newLabel = ""
                             focusManager.clearFocus()
                         }

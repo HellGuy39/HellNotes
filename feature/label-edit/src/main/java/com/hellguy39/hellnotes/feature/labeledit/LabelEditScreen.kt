@@ -1,34 +1,36 @@
 package com.hellguy39.hellnotes.feature.labeledit
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenContent
-import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenContentSelection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabelEditScreen(
     uiState: LabelEditUiState,
     onNavigationButtonClick: () -> Unit,
-    labelEditScreenContentSelection: LabelEditScreenContentSelection,
+    onCreateLabel: (name: String) -> Boolean,
+    onLabelUpdated: (index: Int, name: String) -> Unit,
+    onDeleteLabel: (index: Int) -> Unit,
     snackbarHostState: SnackbarHostState,
 ) {
     BackHandler { onNavigationButtonClick() }
 
-    val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)
-
-    val context = LocalContext.current
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val focusRequester = remember { FocusRequester() }
 
@@ -42,7 +44,9 @@ fun LabelEditScreen(
                 LabelEditScreenContent(
                     paddingValues = paddingValues,
                     uiState = uiState,
-                    selection = labelEditScreenContentSelection,
+                    onCreateLabel = onCreateLabel,
+                    onLabelUpdated = onLabelUpdated,
+                    onDeleteLabel = onDeleteLabel,
                     focusRequester = focusRequester,
                 )
             }
