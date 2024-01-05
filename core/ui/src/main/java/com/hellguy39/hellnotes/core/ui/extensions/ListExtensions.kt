@@ -5,6 +5,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 
 fun <T> List<T>.toStateList(): SnapshotStateList<T> {
     return mutableStateListOf<T>().apply {
-        addAll(this)
+        addAll(this@toStateList)
     }
 }
