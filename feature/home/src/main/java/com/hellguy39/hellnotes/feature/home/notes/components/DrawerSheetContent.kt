@@ -170,13 +170,16 @@ fun CustomNavDrawerItem(
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         },
-//        badge = {
-//            if (isSelected) {
-//                Text(
-//                    text = "24",
-//                )
-//            }
-//        },
+        badge =
+            if (drawerItem.badge !is UiText.Empty) {
+                {
+                    Text(
+                        text = drawerItem.badge.asString(),
+                    )
+                }
+            } else {
+                null
+            },
         label = {
             Text(
                 text = drawerItem.title.asString(),
