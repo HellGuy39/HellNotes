@@ -9,6 +9,7 @@ import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -27,10 +28,7 @@ class LabelEditViewModel
             labelRepository.getAllLabelsStream()
                 .map { labels ->
                     LabelEditUiState(
-                        labels =
-                            mutableStateListOf<Label>().apply {
-                                addAll(labels.sortedByDescending { label -> label.id })
-                            },
+                        labels = labels.sortedByDescending { label -> label.id }.toStateList(),
                         action = action,
                         isIdle = false,
                     )

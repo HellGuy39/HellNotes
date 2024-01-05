@@ -9,6 +9,7 @@ import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -55,10 +56,7 @@ class LabelSelectionViewModel
                     isShowCreateNewLabelItem = isShowCreateNewLabel,
                     isEmpty = isEmpty,
                     search = search,
-                    checkableLabels =
-                        mutableStateListOf<CheckableLabel>().apply {
-                            addAll(checkableLabels)
-                        },
+                    checkableLabels = checkableLabels.toStateList(),
                 )
             }
                 .stateIn(
@@ -135,7 +133,7 @@ data class LabelSelectionUiState(
     val isShowCreateNewLabelItem: Boolean = false,
     val isEmpty: Boolean = false,
     val search: String = "",
-    val checkableLabels: SnapshotStateList<CheckableLabel> = mutableStateListOf(),
+    val checkableLabels: SnapshotStateList<CheckableLabel> = mutableStateListOf()
 )
 
 private fun isShowCreateNewLabel(
