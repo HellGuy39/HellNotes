@@ -4,16 +4,16 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
@@ -21,29 +21,27 @@ import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
-import com.hellguy39.hellnotes.feature.home.ActionViewModel
-import com.hellguy39.hellnotes.feature.home.HomeState
-import com.hellguy39.hellnotes.feature.home.VisualsViewModel
+import com.hellguy39.hellnotes.feature.home.VisualState
 import com.hellguy39.hellnotes.feature.home.archive.components.ArchiveTopAppBar
-import com.hellguy39.hellnotes.feature.home.archive.components.ArchiveTopAppBarSelection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArchiveScreen(
-    homeState: HomeState,
-    navigateToSearch: () -> Unit,
-    navigateToNoteDetail: (id: Long?) -> Unit,
-    archiveViewModel: ArchiveViewModel = hiltViewModel(),
-    visualsViewModel: VisualsViewModel = hiltViewModel(),
-    actionViewModel: ActionViewModel = hiltViewModel(),
+    uiState: ArchiveUiState,
+    visualState: VisualState,
+    selectedNotes: SnapshotStateList<Note>,
+    snackbarHostState: SnackbarHostState,
+    listStyle: ListStyle,
+    onNoteClick: (note: Note) -> Unit,
+    onNotePress: (note: Note) -> Unit,
+    onSearchClick: () -> Unit,
+    onToggleListStyle: () -> Unit,
+    onCancelSelectionClick: () -> Unit,
+    onDeleteSelectedClick: () -> Unit,
+    onUnarchiveSelectedClick: () -> Unit,
+    onNavigationClick: () -> Unit,
 ) {
-    TrackScreenView(screenName = "ArchiveScreen")
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
-    val uiState by archiveViewModel.uiState.collectAsStateWithLifecycle()
-    val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
-    val selectedNotes by actionViewModel.selectedNotes.collectAsStateWithLifecycle()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier =
@@ -53,20 +51,17 @@ fun ArchiveScreen(
         topBar = {
             ArchiveTopAppBar(
                 scrollBehavior = scrollBehavior,
-                selection =
-                    ArchiveTopAppBarSelection(
-                        listStyle = visualState.listStyle,
-                        selectedNotes = selectedNotes,
-                        onCancelSelection = actionViewModel::cancelNoteSelection,
-                        onDeleteSelected = actionViewModel::deleteSelectedNotes,
-                        onNavigation = { homeState.openDrawer() },
-                        onUnarchiveSelected = { actionViewModel.archiveSelectedNotes(false) },
-                        onSearch = { navigateToSearch() },
-                        onChangeListStyle = visualsViewModel::toggleListStyle,
-                    ),
+                listStyle = listStyle,
+                selectedNotes = selectedNotes,
+                onCancelSelectionClick = onCancelSelectionClick,
+                onDeleteSelectedClick = onDeleteSelectedClick,
+                onNavigationClick = onNavigationClick,
+                onUnarchiveSelectedClick = onUnarchiveSelectedClick,
+                onSearchClick = onSearchClick,
+                onToggleListStyle = onToggleListStyle,
             )
         },
-        snackbarHost = { CustomSnackbarHost(state = homeState.snackbarHostState) },
+        snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
         content = { paddingValues ->
             if (uiState.isEmpty) {
                 EmptyContentPlaceholder(
@@ -82,30 +77,11 @@ fun ArchiveScreen(
                     NoteList(
                         innerPadding = paddingValues,
                         noteStyle = visualState.noteStyle,
-                        onClick = { note ->
-                            if (selectedNotes.isEmpty()) {
-                                navigateToNoteDetail(note.id)
-                            } else {
-                                if (selectedNotes.contains(note)) {
-                                    actionViewModel.unselectNote(note)
-                                } else {
-                                    actionViewModel.selectNote(note)
-                                }
-                            }
-                        },
-                        onLongClick = { note ->
-                            if (selectedNotes.contains(note)) {
-                                actionViewModel.unselectNote(note)
-                            } else {
-                                actionViewModel.selectNote(note)
-                            }
-                        },
-                        onDismiss = { _, _ -> false },
+                        onClick = onNoteClick,
+                        onLongClick = onNotePress,
+                        onDismiss = remember { { _, _ -> false } },
                         isSwipeable = visualState.noteSwipesState.enabled,
-                        categories =
-                            listOf(
-                                NoteCategory(notes = uiState.notes),
-                            ),
+                        categories = uiState.notes,
                         selectedNotes = selectedNotes,
                         listStyle = listStyle,
                     )

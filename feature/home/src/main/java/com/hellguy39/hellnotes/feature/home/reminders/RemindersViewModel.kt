@@ -1,11 +1,15 @@
 package com.hellguy39.hellnotes.feature.home.reminders
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -36,7 +40,12 @@ class RemindersViewModel
                         .sortedBy { wrapper -> wrapper.reminders.first().triggerDate }
 
                 RemindersUiState(
-                    notes = wrappers,
+                    noteCategories =
+                        mutableStateListOf(
+                            NoteCategory(
+                                notes = wrappers.toStateList(),
+                            ),
+                        ),
                     isEmpty = wrappers.isEmpty(),
                 )
             }
@@ -49,5 +58,5 @@ class RemindersViewModel
 
 data class RemindersUiState(
     val isEmpty: Boolean = false,
-    val notes: List<NoteDetailWrapper> = listOf(),
+    val noteCategories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
 )

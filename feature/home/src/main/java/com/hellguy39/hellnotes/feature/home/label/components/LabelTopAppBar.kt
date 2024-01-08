@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,21 +21,22 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 @Composable
 fun LabelTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    selection: LabelTopAppBarSelection,
+    selectedNotes: SnapshotStateList<Note>,
+    listStyle: ListStyle,
+    onSearchClick: () -> Unit,
+    onToggleListStyle: () -> Unit,
+    onArchiveSelectedClick: () -> Unit,
+    onCancelSelectionClick: () -> Unit,
+    onDeleteSelectedClick: () -> Unit,
+    onNavigationClick: () -> Unit,
+    onRenameClick: () -> Unit,
+    onDeleteClick: () -> Unit,
     label: Label,
-    dropdownMenuSelection: LabelDropdownMenuSelection,
 ) {
-    val listStyleIcon =
-        if (selection.listStyle == ListStyle.Column) {
-            painterResource(id = AppIcons.GridView)
-        } else {
-            painterResource(id = AppIcons.ListView)
-        }
-
     val labelDropdownMenuState = rememberDropdownMenuState()
 
     AnimatedContent(
-        targetState = selection.selectedNotes.isNotEmpty(),
+        targetState = selectedNotes.isNotEmpty(),
         label = "isNoteSelection",
     ) { isNoteSelection ->
         TopAppBar(
@@ -43,7 +45,7 @@ fun LabelTopAppBar(
                 Text(
                     text =
                         if (isNoteSelection) {
-                            selection.selectedNotes.count().toString()
+                            selectedNotes.count().toString()
                         } else {
                             label.name
                         },
@@ -55,7 +57,7 @@ fun LabelTopAppBar(
             navigationIcon = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onCancelSelection() },
+                        onClick = { onCancelSelectionClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Close),
@@ -64,7 +66,7 @@ fun LabelTopAppBar(
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onNavigation() },
+                        onClick = { onNavigationClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Menu),
@@ -76,7 +78,7 @@ fun LabelTopAppBar(
             actions = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onArchiveSelected() },
+                        onClick = { onArchiveSelectedClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Archive),
@@ -84,7 +86,7 @@ fun LabelTopAppBar(
                         )
                     }
                     IconButton(
-                        onClick = { selection.onDeleteSelected() },
+                        onClick = { onDeleteSelectedClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Delete),
@@ -93,7 +95,7 @@ fun LabelTopAppBar(
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onSearch() },
+                        onClick = { onSearchClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Search),
@@ -101,10 +103,15 @@ fun LabelTopAppBar(
                         )
                     }
                     IconButton(
-                        onClick = { selection.onChangeListStyle() },
+                        onClick = { onToggleListStyle() },
                     ) {
                         Icon(
-                            painter = listStyleIcon,
+                            painter =
+                                if (listStyle == ListStyle.Column) {
+                                    painterResource(id = AppIcons.GridView)
+                                } else {
+                                    painterResource(id = AppIcons.ListView)
+                                },
                             contentDescription = null,
                         )
                     }
@@ -118,7 +125,8 @@ fun LabelTopAppBar(
                         )
                         LabelDropdownMenu(
                             state = labelDropdownMenuState,
-                            selection = dropdownMenuSelection,
+                            onDeleteClick = onDeleteClick,
+                            onRenameClick = onRenameClick,
                         )
                     }
                 }
@@ -126,14 +134,3 @@ fun LabelTopAppBar(
         )
     }
 }
-
-data class LabelTopAppBarSelection(
-    val selectedNotes: List<Note>,
-    val listStyle: ListStyle,
-    val onSearch: () -> Unit,
-    val onChangeListStyle: () -> Unit,
-    val onArchiveSelected: () -> Unit,
-    val onCancelSelection: () -> Unit,
-    val onDeleteSelected: () -> Unit,
-    val onNavigation: () -> Unit,
-)

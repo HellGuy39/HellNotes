@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -20,20 +23,22 @@ import com.hellguy39.hellnotes.core.ui.values.Spaces
 fun NoteList(
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteStyle: NoteStyle,
-    isSwipeable: Boolean,
+    isSwipeable: Boolean = false,
     onClick: (Note) -> Unit,
     onLongClick: (Note) -> Unit,
-    onDismiss: (DismissDirection, Note) -> Boolean,
-    categories: List<NoteCategory> = listOf(),
+    onDismiss: (DismissDirection, Note) -> Boolean = remember { { _, _ -> false } },
+    categories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
     listStyle: ListStyle = ListStyle.Column,
-    selectedNotes: List<Note> = listOf(),
+    selectedNotes: SnapshotStateList<Note> = mutableStateListOf(),
     listHeader: @Composable () -> Unit = {},
 ) {
     val listModifier =
-        Modifier
-            .fillMaxSize()
-            .padding(horizontal = Spaces.extraSmall, vertical = Spaces.extraSmall)
-            .testTag("item_list")
+        remember {
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = Spaces.extraSmall, vertical = Spaces.extraSmall)
+                .testTag("item_list")
+        }
 
     when (listStyle) {
         ListStyle.Column -> {

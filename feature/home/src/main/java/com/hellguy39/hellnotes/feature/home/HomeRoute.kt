@@ -1,7 +1,9 @@
 package com.hellguy39.hellnotes.feature.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -45,27 +47,30 @@ fun HomeRoute(
             },
         )
 
-    val labelItems =
-        homeUiState.labels.map { label ->
-            DrawerItem(
-                title = UiText.DynamicString(label.name),
-                icon = UiIcon.DrawableResources(AppIcons.Folder),
-                route = Screen.Label(label.id).withArgs(label.id.toString()),
-                badge =
-                    label.noteIds.count().let { count ->
-                        if (count >= 100) {
-                            UiText.DynamicString("99+")
-                        } else if (count > 0) {
-                            UiText.DynamicString(count.toString())
-                        } else {
-                            UiText.Empty
-                        }
+    val labelItems by remember {
+        derivedStateOf {
+            homeUiState.labels.map { label ->
+                DrawerItem(
+                    title = UiText.DynamicString(label.name),
+                    icon = UiIcon.DrawableResources(AppIcons.Folder),
+                    route = Screen.Label(label.id).withArgs(label.id.toString()),
+                    badge =
+                        label.noteIds.count().let { count ->
+                            if (count >= 100) {
+                                UiText.DynamicString("99+")
+                            } else if (count > 0) {
+                                UiText.DynamicString(count.toString())
+                            } else {
+                                UiText.Empty
+                            }
+                        },
+                    onClick = { drawerItem ->
+                        homeState.navigateToNavigationBarRoute(drawerItem.route)
                     },
-                onClick = { drawerItem ->
-                    homeState.navigateToNavigationBarRoute(drawerItem.route)
-                },
-            )
+                )
+            }
         }
+    }
 
     HNNavigationDrawer(
         drawerState = homeState.drawerState,

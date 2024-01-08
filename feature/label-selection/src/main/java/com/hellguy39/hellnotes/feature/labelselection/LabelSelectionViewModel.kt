@@ -133,7 +133,7 @@ data class LabelSelectionUiState(
     val isShowCreateNewLabelItem: Boolean = false,
     val isEmpty: Boolean = false,
     val search: String = "",
-    val checkableLabels: SnapshotStateList<CheckableLabel> = mutableStateListOf()
+    val checkableLabels: SnapshotStateList<CheckableLabel> = mutableStateListOf(),
 )
 
 private fun isShowCreateNewLabel(

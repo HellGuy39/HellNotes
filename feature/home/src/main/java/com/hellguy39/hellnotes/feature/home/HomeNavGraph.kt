@@ -9,11 +9,11 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
-import com.hellguy39.hellnotes.feature.home.archive.ArchiveScreen
-import com.hellguy39.hellnotes.feature.home.label.LabelScreen
-import com.hellguy39.hellnotes.feature.home.notes.NotesScreen
-import com.hellguy39.hellnotes.feature.home.reminders.RemindersScreen
-import com.hellguy39.hellnotes.feature.home.trash.TrashScreen
+import com.hellguy39.hellnotes.feature.home.archive.ArchiveRoute
+import com.hellguy39.hellnotes.feature.home.label.LabelRoute
+import com.hellguy39.hellnotes.feature.home.notes.NotesRoute
+import com.hellguy39.hellnotes.feature.home.reminders.RemindersRoute
+import com.hellguy39.hellnotes.feature.home.trash.TrashRoute
 
 @Composable
 fun HomeNavGraph(
@@ -35,7 +35,7 @@ fun HomeNavGraph(
             popEnterTransition = { fadeEnterTransition() },
             popExitTransition = { fadeExitTransition() },
         ) {
-            NotesScreen(
+            NotesRoute(
                 homeState = homeState,
                 navigateToSearch = navigateToSearch,
                 navigateToNoteDetail = navigateToNoteDetail,
@@ -50,7 +50,7 @@ fun HomeNavGraph(
             popEnterTransition = { fadeEnterTransition() },
             popExitTransition = { fadeExitTransition() },
         ) {
-            RemindersScreen(
+            RemindersRoute(
                 homeState = homeState,
                 navigateToSearch = navigateToSearch,
                 navigateToNoteDetail = navigateToNoteDetail,
@@ -66,7 +66,7 @@ fun HomeNavGraph(
             popEnterTransition = { fadeEnterTransition() },
             popExitTransition = { fadeExitTransition() },
         ) {
-            ArchiveScreen(
+            ArchiveRoute(
                 homeState = homeState,
                 navigateToSearch = navigateToSearch,
                 navigateToNoteDetail = navigateToNoteDetail,
@@ -81,9 +81,7 @@ fun HomeNavGraph(
             popEnterTransition = { fadeEnterTransition() },
             popExitTransition = { fadeExitTransition() },
         ) {
-            TrashScreen(
-                homeState = homeState,
-            )
+            TrashRoute(homeState = homeState)
         }
         labels.forEach { label ->
             composable(
@@ -98,7 +96,7 @@ fun HomeNavGraph(
                 popEnterTransition = { fadeEnterTransition() },
                 popExitTransition = { fadeExitTransition() },
             ) {
-                LabelScreen(
+                LabelRoute(
                     homeState = homeState,
                     navigateToSearch = navigateToSearch,
                     navigateToNoteDetail = navigateToNoteDetail,

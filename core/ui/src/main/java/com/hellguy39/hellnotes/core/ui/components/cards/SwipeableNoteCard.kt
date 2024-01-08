@@ -16,8 +16,8 @@ fun SwipeableNoteCard(
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     noteDetailWrapper: NoteDetailWrapper,
-    isSelected: Boolean = false,
-    isSwipeable: Boolean = true,
+    isSelected: Boolean,
+    isSwipeable: Boolean,
     onDismissed: (DismissDirection, Note) -> Boolean,
 ) {
     val dismissState =
@@ -30,21 +30,19 @@ fun SwipeableNoteCard(
                     DismissValue.DismissedToStart -> {
                         onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
                     }
-                    else -> {
-                        false
-                    }
+                    else -> false
                 }
             },
         )
 
     val swipeDirections by remember {
-        mutableStateOf(
+        derivedStateOf {
             if (isSwipeable) {
                 setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart)
             } else {
                 setOf()
-            },
-        )
+            }
+        }
     }
 
     val visibility by remember {

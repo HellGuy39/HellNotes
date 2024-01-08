@@ -12,7 +12,8 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 @Composable
 fun LabelDropdownMenu(
     state: CustomDropdownMenuState,
-    selection: LabelDropdownMenuSelection,
+    onRenameClick: () -> Unit,
+    onDeleteClick: () -> Unit,
 ) {
     CustomDropdownMenu(
         expanded = state.visible,
@@ -24,7 +25,7 @@ fun LabelDropdownMenu(
                     text = stringResource(id = AppStrings.MenuItem.Rename),
                     onClick = {
                         state.dismiss()
-                        selection.onRename()
+                        onRenameClick()
                     },
                 ),
                 CustomDropdownItemSelection(
@@ -32,14 +33,9 @@ fun LabelDropdownMenu(
                     text = stringResource(id = AppStrings.MenuItem.Delete),
                     onClick = {
                         state.dismiss()
-                        selection.onDelete()
+                        onDeleteClick()
                     },
                 ),
             ),
     )
 }
-
-data class LabelDropdownMenuSelection(
-    val onRename: () -> Unit,
-    val onDelete: () -> Unit,
-)

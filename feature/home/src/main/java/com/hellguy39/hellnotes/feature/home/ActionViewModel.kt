@@ -1,5 +1,6 @@
 package com.hellguy39.hellnotes.feature.home
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
@@ -12,8 +13,6 @@ import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -30,27 +29,27 @@ class ActionViewModel
     ) : ViewModel() {
         private val lastNoteAction = MutableStateFlow(NoteAction())
 
-        private val _selectedNotes = MutableStateFlow(listOf<Note>())
-        val selectedNotes: StateFlow<List<Note>> = _selectedNotes.asStateFlow()
+        var selectedNotes = mutableStateListOf<Note>()
+            private set
 
         private val _actionSingleEvents = Channel<ActionSingleEvent>()
         val actionSingleEvents = _actionSingleEvents.receiveAsFlow()
 
         fun selectNote(note: Note) {
             viewModelScope.launch {
-                _selectedNotes.update { selectedNotes -> selectedNotes.plus(note) }
+                selectedNotes.add(note)
             }
         }
 
         fun unselectNote(note: Note) {
             viewModelScope.launch {
-                _selectedNotes.update { selectedNotes -> selectedNotes.minus(note) }
+                selectedNotes.remove(note)
             }
         }
 
         fun cancelNoteSelection() {
             viewModelScope.launch {
-                _selectedNotes.update { listOf() }
+                selectedNotes.clear()
             }
         }
 
@@ -62,7 +61,7 @@ class ActionViewModel
 
         fun restoreSelectedNotesFromTrash() {
             viewModelScope.launch {
-                selectedNotes.value.forEach { note ->
+                selectedNotes.forEach { note ->
                     trashRepository.deleteTrashByNote(note)
                     noteRepository.insertNote(note)
                 }
@@ -72,7 +71,7 @@ class ActionViewModel
 
         fun deleteSelectedNotesFromTrash() {
             viewModelScope.launch {
-                selectedNotes.value.forEach { note ->
+                selectedNotes.forEach { note ->
                     trashRepository.deleteTrashByNote(note)
                 }
                 cancelNoteSelection()
@@ -80,7 +79,7 @@ class ActionViewModel
         }
 
         fun deleteSelectedNotes() {
-            delete(*_selectedNotes.value.toTypedArray())
+            delete(*selectedNotes.toTypedArray())
         }
 
         fun deleteNote(note: Note) {
@@ -120,7 +119,7 @@ class ActionViewModel
         }
 
         fun archiveSelectedNotes(isArchived: Boolean = true) {
-            archive(*_selectedNotes.value.toTypedArray(), isArchived = isArchived)
+            archive(*selectedNotes.toTypedArray(), isArchived = isArchived)
         }
 
         fun archiveNote(note: Note, isArchived: Boolean = true) {

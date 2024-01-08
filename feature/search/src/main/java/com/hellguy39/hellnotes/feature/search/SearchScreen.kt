@@ -29,15 +29,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.focus.requestFocusWhenBeAvailable
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,16 +43,17 @@ import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 fun SearchScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: SearchUiState,
-    listStyle: ListStyle,
-    noteStyle: NoteStyle,
     onClick: (Note) -> Unit,
     onLongClick: (Note) -> Unit,
-    searchScreenSelection: SearchScreenSelection,
-    categories: List<NoteCategory>,
+    onQueryChanged: (query: String) -> Unit,
+    onClearQuery: () -> Unit,
+    onUpdateReminderFilter: (Boolean) -> Unit,
+    onUpdateChecklistFilter: (Boolean) -> Unit,
+    onUpdateArchiveFilter: (Boolean) -> Unit,
 ) {
     BackHandler { onNavigationButtonClick() }
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val focusRequester = remember { FocusRequester() }
 
@@ -70,38 +69,32 @@ fun SearchScreen(
                 onNavigationButtonClick = onNavigationButtonClick,
                 scrollBehavior = scrollBehavior,
                 query = uiState.search,
-                onQueryChanged = searchScreenSelection.onQueryChanged,
+                onQueryChanged = onQueryChanged,
                 focusRequester = focusRequester,
-                onClearQuery = searchScreenSelection.onClearQuery,
+                onClearQuery = onClearQuery,
             )
         },
         content = { innerPadding ->
+
+            if (uiState.isEmpty) {
+                EmptyContentPlaceholder(
+                    modifier = Modifier.fillMaxSize(),
+                    heroIcon = UiIcon.DrawableResources(AppIcons.Search),
+                    message = UiText.StringResources(AppStrings.Placeholder.NothingWasFound),
+                )
+            }
+
             Crossfade(
-                targetState = categories,
+                targetState = uiState.noteCategories,
                 label = "search_screen_content",
             ) { categories ->
-
-                if (uiState.notes.isEmpty() && !uiState.isLoading) {
-                    EmptyContentPlaceholder(
-                        modifier =
-                            Modifier
-                                .padding(horizontal = Spaces.large)
-                                .padding(innerPadding)
-                                .fillMaxSize(),
-                        heroIcon = painterResource(id = AppIcons.Search),
-                        message = stringResource(id = AppStrings.Placeholder.NothingWasFound),
-                    )
-                }
-
                 NoteList(
                     innerPadding = innerPadding,
                     categories = categories,
-                    listStyle = listStyle,
-                    noteStyle = noteStyle,
-                    isSwipeable = false,
+                    listStyle = uiState.listStyle,
+                    noteStyle = uiState.noteStyle,
                     onClick = onClick,
                     onLongClick = onLongClick,
-                    onDismiss = { _, _ -> false },
                     listHeader = {
                         Column {
                             LazyRow(
@@ -113,7 +106,7 @@ fun SearchScreen(
                                         modifier = Modifier.height(FilterChipDefaults.Height),
                                         selected = uiState.filters.withChecklist,
                                         onClick = {
-                                            searchScreenSelection.onUpdateChecklistFilter(!uiState.filters.withChecklist)
+                                            onUpdateChecklistFilter(!uiState.filters.withChecklist)
                                         },
                                         label = {
                                             Text(text = stringResource(id = AppStrings.Label.Checklist))
@@ -132,7 +125,7 @@ fun SearchScreen(
                                         modifier = Modifier.height(FilterChipDefaults.Height),
                                         selected = uiState.filters.withReminder,
                                         onClick = {
-                                            searchScreenSelection.onUpdateReminderFilter(!uiState.filters.withReminder)
+                                            onUpdateReminderFilter(!uiState.filters.withReminder)
                                         },
                                         label = {
                                             Text(text = stringResource(id = AppStrings.Label.Reminder))
@@ -151,7 +144,7 @@ fun SearchScreen(
                                         modifier = Modifier.height(FilterChipDefaults.Height),
                                         selected = uiState.filters.withArchive,
                                         onClick = {
-                                            searchScreenSelection.onUpdateArchiveFilter(!uiState.filters.withArchive)
+                                            onUpdateArchiveFilter(!uiState.filters.withArchive)
                                         },
                                         label = {
                                             Text(text = stringResource(id = AppStrings.Label.Archive))
@@ -181,11 +174,3 @@ fun SearchScreen(
         },
     )
 }
-
-data class SearchScreenSelection(
-    val onQueryChanged: (query: String) -> Unit,
-    val onClearQuery: () -> Unit,
-    val onUpdateReminderFilter: (Boolean) -> Unit,
-    val onUpdateChecklistFilter: (Boolean) -> Unit,
-    val onUpdateArchiveFilter: (Boolean) -> Unit,
-)

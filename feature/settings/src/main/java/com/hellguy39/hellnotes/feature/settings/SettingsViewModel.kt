@@ -86,5 +86,5 @@ data class SettingsUiState(
     val lastBackupDate: Long = 0L,
     val isBioAuthAvailable: Boolean = false,
     val noteStyle: NoteStyle = NoteStyle.Outlined,
-    val noteSwipesState: NoteSwipesState = NoteSwipesState.initialInstance(),
+    val noteSwipesState: NoteSwipesState = NoteSwipesState(),
 )

@@ -1,13 +1,19 @@
 package com.hellguy39.hellnotes.feature.home.trash.components
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.ui.components.*
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
@@ -15,13 +21,15 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 @Composable
 fun TrashTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    selection: TrashTopAppBarSelection,
-    trashDropdownMenuSelection: TrashDropdownMenuSelection,
+    selectedNotes: SnapshotStateList<Note>,
+    onNavigationClick: () -> Unit,
+    onCancelSelectionClick: () -> Unit,
+    onRestoreSelectedClick: () -> Unit,
+    onDeleteSelectedClick: () -> Unit,
+    onEmptyTrashClick: () -> Unit,
 ) {
-    val trashDropdownMenuState = rememberDropdownMenuState()
-
     AnimatedContent(
-        targetState = selection.selectedNotes.isNotEmpty(),
+        targetState = selectedNotes.isNotEmpty(),
         label = "isNoteSelection",
     ) { isNoteSelection ->
         TopAppBar(
@@ -30,7 +38,7 @@ fun TrashTopAppBar(
                 Text(
                     text =
                         if (isNoteSelection) {
-                            selection.selectedNotes.count().toString()
+                            selectedNotes.count().toString()
                         } else {
                             stringResource(id = AppStrings.Title.Trash)
                         },
@@ -42,7 +50,7 @@ fun TrashTopAppBar(
             navigationIcon = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onCancelSelection() },
+                        onClick = { onCancelSelectionClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Close),
@@ -51,7 +59,7 @@ fun TrashTopAppBar(
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onNavigation() },
+                        onClick = { onNavigationClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Menu),
@@ -63,7 +71,7 @@ fun TrashTopAppBar(
             actions = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onRestoreSelected() },
+                        onClick = { onRestoreSelectedClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.RestoreFromTrash),
@@ -71,7 +79,7 @@ fun TrashTopAppBar(
                         )
                     }
                     IconButton(
-                        onClick = { selection.onDeleteSelected() },
+                        onClick = { onDeleteSelectedClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Delete),
@@ -80,29 +88,11 @@ fun TrashTopAppBar(
                     }
                 } else {
                     IconButton(
-                        onClick = {
-                            trashDropdownMenuState.show()
-                        },
+                        onClick = { onEmptyTrashClick() },
                     ) {
                         Icon(
-                            painter = painterResource(id = AppIcons.MoreVert),
+                            painter = painterResource(id = AppIcons.Delete),
                             contentDescription = null,
-                        )
-
-                        CustomDropdownMenu(
-                            expanded = trashDropdownMenuState.visible,
-                            onDismissRequest = { trashDropdownMenuState.dismiss() },
-                            items =
-                                listOf(
-                                    CustomDropdownItemSelection(
-                                        text = stringResource(id = AppStrings.MenuItem.EmptyTrash),
-                                        onClick = {
-                                            trashDropdownMenuState.dismiss()
-                                            trashDropdownMenuSelection.onEmptyTrash()
-                                        },
-                                        leadingIconId = painterResource(id = AppIcons.Delete),
-                                    ),
-                                ),
                         )
                     }
                 }
@@ -110,15 +100,3 @@ fun TrashTopAppBar(
         )
     }
 }
-
-data class TrashTopAppBarSelection(
-    val selectedNotes: List<Note>,
-    val onNavigation: () -> Unit,
-    val onCancelSelection: () -> Unit,
-    val onRestoreSelected: () -> Unit,
-    val onDeleteSelected: () -> Unit,
-)
-
-data class TrashDropdownMenuSelection(
-    val onEmptyTrash: () -> Unit,
-)

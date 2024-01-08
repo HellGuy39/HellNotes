@@ -3,6 +3,7 @@ package com.hellguy39.hellnotes.feature.home.archive.components
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -15,17 +16,17 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 @Composable
 fun ArchiveTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    selection: ArchiveTopAppBarSelection,
+    selectedNotes: SnapshotStateList<Note>,
+    listStyle: ListStyle,
+    onSearchClick: () -> Unit,
+    onToggleListStyle: () -> Unit,
+    onCancelSelectionClick: () -> Unit,
+    onDeleteSelectedClick: () -> Unit,
+    onUnarchiveSelectedClick: () -> Unit,
+    onNavigationClick: () -> Unit,
 ) {
-    val listStyleIcon =
-        if (selection.listStyle == ListStyle.Column) {
-            painterResource(id = AppIcons.GridView)
-        } else {
-            painterResource(id = AppIcons.ListView)
-        }
-
     AnimatedContent(
-        targetState = selection.selectedNotes.isNotEmpty(),
+        targetState = selectedNotes.isNotEmpty(),
         label = "isSelection",
     ) { isNoteSelection ->
         TopAppBar(
@@ -34,7 +35,7 @@ fun ArchiveTopAppBar(
                 Text(
                     text =
                         if (isNoteSelection) {
-                            selection.selectedNotes.count().toString()
+                            selectedNotes.count().toString()
                         } else {
                             stringResource(id = AppStrings.Title.Archive)
                         },
@@ -46,7 +47,7 @@ fun ArchiveTopAppBar(
             navigationIcon = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onCancelSelection() },
+                        onClick = { onCancelSelectionClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Close),
@@ -55,7 +56,7 @@ fun ArchiveTopAppBar(
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onNavigation() },
+                        onClick = { onNavigationClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Menu),
@@ -67,7 +68,7 @@ fun ArchiveTopAppBar(
             actions = {
                 if (isNoteSelection) {
                     IconButton(
-                        onClick = { selection.onUnarchiveSelected() },
+                        onClick = { onUnarchiveSelectedClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Unarchive),
@@ -75,7 +76,7 @@ fun ArchiveTopAppBar(
                         )
                     }
                     IconButton(
-                        onClick = { selection.onDeleteSelected() },
+                        onClick = { onDeleteSelectedClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Delete),
@@ -84,7 +85,7 @@ fun ArchiveTopAppBar(
                     }
                 } else {
                     IconButton(
-                        onClick = { selection.onSearch() },
+                        onClick = { onSearchClick() },
                     ) {
                         Icon(
                             painter = painterResource(id = AppIcons.Search),
@@ -92,10 +93,15 @@ fun ArchiveTopAppBar(
                         )
                     }
                     IconButton(
-                        onClick = { selection.onChangeListStyle() },
+                        onClick = { onToggleListStyle() },
                     ) {
                         Icon(
-                            painter = listStyleIcon,
+                            painter =
+                                if (listStyle == ListStyle.Column) {
+                                    painterResource(id = AppIcons.GridView)
+                                } else {
+                                    painterResource(id = AppIcons.ListView)
+                                },
                             contentDescription = null,
                         )
                     }
@@ -104,14 +110,3 @@ fun ArchiveTopAppBar(
         )
     }
 }
-
-data class ArchiveTopAppBarSelection(
-    val selectedNotes: List<Note>,
-    val listStyle: ListStyle,
-    val onSearch: () -> Unit,
-    val onChangeListStyle: () -> Unit,
-    val onCancelSelection: () -> Unit,
-    val onDeleteSelected: () -> Unit,
-    val onUnarchiveSelected: () -> Unit,
-    val onNavigation: () -> Unit,
-)

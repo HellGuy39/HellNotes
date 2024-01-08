@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.home.trash
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
@@ -7,6 +9,8 @@ import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
+import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -34,7 +38,12 @@ class TrashViewModel
                 val wrappers = trashes.map { trash -> NoteDetailWrapper(note = trash.note) }
                 TrashUiState(
                     trashTipCompleted = tipState,
-                    trashNotes = wrappers,
+                    noteCategories =
+                        mutableStateListOf(
+                            NoteCategory(
+                                notes = wrappers.toStateList(),
+                            ),
+                        ),
                     isEmpty = wrappers.isEmpty(),
                 )
             }
@@ -84,6 +93,6 @@ class TrashViewModel
 
 data class TrashUiState(
     val trashTipCompleted: Boolean = true,
-    val trashNotes: List<NoteDetailWrapper> = listOf(),
+    val noteCategories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
     val isEmpty: Boolean = false,
 )

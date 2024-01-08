@@ -1,10 +1,13 @@
 package com.hellguy39.hellnotes.core.ui
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 
 data class NoteCategory(
-    val title: String = "",
-    val notes: List<NoteDetailWrapper> = listOf(),
+    val title: UiText = UiText.Empty,
+    val notes: SnapshotStateList<NoteDetailWrapper> = mutableStateListOf(),
 )
 
 fun List<NoteCategory>.isSingleList(): Boolean {

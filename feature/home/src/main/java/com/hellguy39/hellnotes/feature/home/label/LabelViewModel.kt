@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.home.label
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +11,8 @@ import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
 import com.hellguy39.hellnotes.core.model.*
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -36,9 +40,14 @@ class LabelViewModel
                         .filter { wrapper -> wrapper.labels.contains(label) }
                 LabelUiState(
                     isEmpty = wrappers.isEmpty(),
-                    notes = wrappers,
+                    noteCategories =
+                        mutableStateListOf(
+                            NoteCategory(
+                                notes = wrappers.toStateList(),
+                            ),
+                        ),
                     label = label ?: Label(),
-                    allLabels = labels,
+                    allLabels = labels.toStateList(),
                 )
             }
                 .stateIn(
@@ -86,6 +95,6 @@ sealed class LabelUiEvent {
 data class LabelUiState(
     val isEmpty: Boolean = false,
     val label: Label = Label(),
-    val allLabels: List<Label> = listOf(),
-    val notes: List<NoteDetailWrapper> = listOf(),
+    val allLabels: SnapshotStateList<Label> = mutableStateListOf(),
+    val noteCategories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
 )

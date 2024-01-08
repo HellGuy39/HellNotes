@@ -1,72 +1,55 @@
 package com.hellguy39.hellnotes.feature.home.notes
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.common.arguments.Arguments
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.analytics.LocalAnalytics
-import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
-import com.hellguy39.hellnotes.core.ui.analytics.buttonClick
+import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
-import com.hellguy39.hellnotes.core.ui.lifecycle.collectAsEventsWithLifecycle
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
-import com.hellguy39.hellnotes.feature.home.ActionSingleEvent
-import com.hellguy39.hellnotes.feature.home.ActionViewModel
-import com.hellguy39.hellnotes.feature.home.HomeState
-import com.hellguy39.hellnotes.feature.home.VisualsViewModel
+import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.feature.home.VisualState
 import com.hellguy39.hellnotes.feature.home.notes.components.NoteListTopAppBar
-import com.hellguy39.hellnotes.feature.home.notes.components.NoteListTopAppBarSelection
-
-private const val SCREEN_NAME = "NotesScreen"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesScreen(
-    homeState: HomeState,
-    navigateToSearch: () -> Unit,
-    navigateToNoteDetail: (id: Long?) -> Unit,
-    notesViewModel: NotesViewModel = hiltViewModel(),
-    visualsViewModel: VisualsViewModel = hiltViewModel(),
-    actionViewModel: ActionViewModel = hiltViewModel(),
+    uiState: NoteListUiState,
+    visualState: VisualState,
+    selectedNotes: SnapshotStateList<Note>,
+    onNoteClick: (note: Note) -> Unit,
+    onNotePress: (note: Note) -> Unit,
+    onDismissNote: (direction: DismissDirection, note: Note) -> Boolean,
+    onNavigationClick: () -> Unit,
+    onDeleteSelectedNotesClick: () -> Unit,
+    onToggleListStyle: () -> Unit,
+    onSearchbarClick: () -> Unit,
+    onCancelNoteSelection: () -> Unit,
+    onArchiveSelectedNotesClick: () -> Unit,
+    onAddNewNoteClick: () -> Unit,
+    snackbarHostState: SnackbarHostState,
 ) {
-    TrackScreenView(screenName = SCREEN_NAME)
-
-    val analyticsLogger = LocalAnalytics.current
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
-    val uiState by notesViewModel.uiState.collectAsStateWithLifecycle()
-    val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
-    val selectedNotes by actionViewModel.selectedNotes.collectAsStateWithLifecycle()
-
-    actionViewModel.actionSingleEvents.collectAsEventsWithLifecycle { event ->
-        when (event) {
-            is ActionSingleEvent.ShowSnackbar -> {
-                homeState.showSnack(event.text, actionViewModel::undo)
-            }
-        }
-    }
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
         modifier =
@@ -77,16 +60,13 @@ fun NotesScreen(
             NoteListTopAppBar(
                 scrollBehavior = scrollBehavior,
                 selectedNotes = selectedNotes,
-                selection =
-                    NoteListTopAppBarSelection(
-                        listStyle = visualState.listStyle,
-                        onCancelSelection = actionViewModel::cancelNoteSelection,
-                        onNavigation = { homeState.openDrawer() },
-                        onDeleteSelected = actionViewModel::deleteSelectedNotes,
-                        onSearch = { navigateToSearch() },
-                        onChangeListStyle = visualsViewModel::toggleListStyle,
-                        onArchive = { actionViewModel.archiveSelectedNotes(true) },
-                    ),
+                listStyle = visualState.listStyle,
+                onCancelSelectionClick = onCancelNoteSelection,
+                onNavigationClick = onNavigationClick,
+                onDeleteSelectedClick = onDeleteSelectedNotesClick,
+                onSearchClick = onSearchbarClick,
+                onToggleListStyle = onToggleListStyle,
+                onArchiveClick = onArchiveSelectedNotesClick,
             )
         },
         content = { innerPadding ->
@@ -98,63 +78,21 @@ fun NotesScreen(
                 )
             } else {
                 AnimatedContent(
-                    visualState.listStyle,
+                    targetState = visualState.listStyle,
                     label = "note_list_screen_animation",
                 ) { listStyle ->
                     NoteList(
-                        innerPadding = innerPadding,
-                        noteStyle = visualState.noteStyle,
-                        onClick = { note ->
-                            if (selectedNotes.isEmpty()) {
-                                navigateToNoteDetail(note.id)
-                            } else {
-                                if (selectedNotes.contains(note)) {
-                                    actionViewModel.unselectNote(note)
-                                } else {
-                                    actionViewModel.selectNote(note)
-                                }
-                            }
-                        },
-                        onLongClick = { note ->
-                            if (selectedNotes.contains(note)) {
-                                actionViewModel.unselectNote(note)
-                            } else {
-                                actionViewModel.selectNote(note)
-                            }
-                        },
-                        onDismiss = { direction, note ->
-
-                            val swipeAction =
-                                if (direction == DismissDirection.StartToEnd) {
-                                    visualState.noteSwipesState.swipeRight
-                                } else {
-                                    visualState.noteSwipesState.swipeLeft
-                                }
-
-                            when (swipeAction) {
-                                NoteSwipe.None -> false
-                                NoteSwipe.Delete -> {
-                                    actionViewModel.deleteNote(note = note)
-                                    true
-                                }
-                                NoteSwipe.Archive -> {
-                                    actionViewModel.archiveNote(note = note, isArchived = true)
-                                    true
-                                }
-                            }
-                        },
-                        isSwipeable = visualState.noteSwipesState.enabled,
-                        categories =
-                            listOf(
-                                NoteCategory(
-                                    title = stringResource(id = AppStrings.Label.Pinned),
-                                    notes = uiState.pinnedNotes,
-                                ),
-                                NoteCategory(
-                                    title = stringResource(id = AppStrings.Label.Others),
-                                    notes = uiState.unpinnedNotes,
-                                ),
+                        innerPadding =
+                            PaddingValues(
+                                top = Spaces.small + innerPadding.calculateTopPadding(),
+                                bottom = Spaces.small + innerPadding.calculateBottomPadding(),
                             ),
+                        noteStyle = visualState.noteStyle,
+                        onClick = onNoteClick,
+                        onLongClick = onNotePress,
+                        onDismiss = onDismissNote,
+                        isSwipeable = visualState.noteSwipesState.enabled,
+                        categories = uiState.noteCategories,
                         selectedNotes = selectedNotes,
                         listStyle = listStyle,
                     )
@@ -163,10 +101,7 @@ fun NotesScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {
-                    analyticsLogger.buttonClick(SCREEN_NAME, "fab_add_new_note")
-                    navigateToNoteDetail(Arguments.NoteId.emptyValue)
-                },
+                onClick = onAddNewNoteClick,
             ) {
                 Icon(
                     painter = painterResource(id = AppIcons.Add),
@@ -174,6 +109,6 @@ fun NotesScreen(
                 )
             }
         },
-        snackbarHost = { CustomSnackbarHost(state = homeState.snackbarHostState) },
+        snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
     )
 }

@@ -1,11 +1,16 @@
 package com.hellguy39.hellnotes.feature.home.notes
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.removeCompletedChecklists
 import com.hellguy39.hellnotes.core.model.repository.local.database.sortByPriority
+import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -38,8 +43,17 @@ class NotesViewModel
 
                     NoteListUiState(
                         isEmpty = pinnedNotes.isEmpty() && unpinnedNotes.isEmpty(),
-                        pinnedNotes = pinnedNotes,
-                        unpinnedNotes = unpinnedNotes,
+                        noteCategories =
+                            mutableStateListOf(
+                                NoteCategory(
+                                    title = UiText.StringResources(AppStrings.Label.Pinned),
+                                    notes = pinnedNotes.toStateList(),
+                                ),
+                                NoteCategory(
+                                    title = UiText.StringResources(AppStrings.Label.Others),
+                                    notes = unpinnedNotes.toStateList(),
+                                ),
+                            ),
                     )
                 }
                 .stateIn(
@@ -51,6 +65,5 @@ class NotesViewModel
 
 data class NoteListUiState(
     val isEmpty: Boolean = false,
-    val pinnedNotes: List<NoteDetailWrapper> = listOf(),
-    val unpinnedNotes: List<NoteDetailWrapper> = listOf(),
+    val noteCategories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
 )

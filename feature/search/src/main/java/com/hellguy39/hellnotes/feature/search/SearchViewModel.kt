@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.search
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
@@ -7,6 +9,8 @@ import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNotesWithReminders
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -54,9 +58,16 @@ class SearchViewModel
 
                 SearchUiState(
                     search = search,
-                    isLoading = false,
-                    notes = searchedNotes,
+                    isEmpty = searchedNotes.isEmpty(),
+                    noteCategories =
+                        mutableStateListOf(
+                            NoteCategory(
+                                notes = searchedNotes.toStateList(),
+                            ),
+                        ),
                     filters = filters,
+                    listStyle = listStyle,
+                    noteStyle = noteStyle,
                 )
             }
                 .stateIn(
@@ -120,8 +131,8 @@ data class SearchUiState(
     val search: String = "",
     val listStyle: ListStyle = ListStyle.Column,
     val noteStyle: NoteStyle = NoteStyle.Outlined,
-    val isLoading: Boolean = true,
-    val notes: List<NoteDetailWrapper> = listOf(),
+    val isEmpty: Boolean = false,
+    val noteCategories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
     val filters: FilterSelection = FilterSelection(),
 )
 

@@ -1,11 +1,15 @@
 package com.hellguy39.hellnotes.feature.home.archive
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -29,7 +33,12 @@ class ArchiveViewModel
                         .map { note -> note.toNoteDetailWrapper(reminders, labels) }
 
                 ArchiveUiState(
-                    notes = wrappers,
+                    notes =
+                        mutableStateListOf(
+                            NoteCategory(
+                                notes = wrappers.toStateList(),
+                            ),
+                        ),
                     isEmpty = wrappers.isEmpty(),
                 )
             }
@@ -41,6 +50,6 @@ class ArchiveViewModel
     }
 
 data class ArchiveUiState(
-    val notes: List<NoteDetailWrapper> = listOf(),
+    val notes: SnapshotStateList<NoteCategory> = mutableStateListOf(),
     val isEmpty: Boolean = false,
 )
