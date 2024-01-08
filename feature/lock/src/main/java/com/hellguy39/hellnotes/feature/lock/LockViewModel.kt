@@ -158,7 +158,7 @@ data class LockUiState(
     val securityState: SecurityState = SecurityState.initialInstance(),
     val errorMessage: String = "",
     val password: String = "",
-    val lockState: LockState = LockState.Locked,
+    val lockState: LockState = LockState.Idle,
 )
 
 sealed interface LockState {
@@ -167,4 +167,6 @@ sealed interface LockState {
     data object Unlocked : LockState
 
     data object Locked : LockState
+
+    data object Idle : LockState
 }

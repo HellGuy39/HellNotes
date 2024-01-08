@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.lock.navigation
 
+import androidx.compose.ui.platform.LocalContext
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
@@ -18,7 +20,10 @@ fun NavGraphBuilder.lockScreen(appState: AppState) {
         exitTransition = { fadeExitTransition() },
         popEnterTransition = { fadeEnterTransition() },
     ) { from ->
+        val activity = LocalContext.current as FragmentActivity
+
         LockRoute(
+            activity = activity,
             onUnlock = {
                 appState.navigateToHome(
                     from,

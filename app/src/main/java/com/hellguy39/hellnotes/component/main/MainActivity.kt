@@ -3,7 +3,6 @@ package com.hellguy39.hellnotes.component.main
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -12,6 +11,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.FragmentActivity
 import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
 import com.hellguy39.hellnotes.core.ui.analytics.LocalAnalytics
 import com.hellguy39.hellnotes.core.ui.state.rememberAppState
@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : FragmentActivity() {
     @Inject
     lateinit var analyticsLogger: AnalyticsLogger
 

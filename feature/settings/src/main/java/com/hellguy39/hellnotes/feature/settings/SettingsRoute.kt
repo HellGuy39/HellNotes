@@ -1,10 +1,10 @@
 package com.hellguy39.hellnotes.feature.settings
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -25,7 +25,7 @@ fun SettingsRoute(
 ) {
     TrackScreenView(screenName = "SettingsScreen")
 
-    val activity = LocalContext.current as AppCompatActivity
+    val activity = LocalContext.current as FragmentActivity
 
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
 

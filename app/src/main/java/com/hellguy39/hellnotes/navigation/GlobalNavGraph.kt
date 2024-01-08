@@ -20,7 +20,6 @@ import com.hellguy39.hellnotes.feature.labelselection.navigation.labelSelectionS
 import com.hellguy39.hellnotes.feature.languageselection.navigation.languageSelectionScreen
 import com.hellguy39.hellnotes.feature.lock.LockFullScreenDialog
 import com.hellguy39.hellnotes.feature.lock.LockViewModel
-import com.hellguy39.hellnotes.feature.lock.navigation.lockScreen
 import com.hellguy39.hellnotes.feature.lockselection.navigation.lockSelectionScreen
 import com.hellguy39.hellnotes.feature.locksetup.navigation.lockSetupScreen
 import com.hellguy39.hellnotes.feature.notedetail.navigations.noteDetailScreen
@@ -28,7 +27,6 @@ import com.hellguy39.hellnotes.feature.notestyleedit.navigation.noteStyleEditScr
 import com.hellguy39.hellnotes.feature.noteswipeedit.navigation.noteSwipeEditScreen
 import com.hellguy39.hellnotes.feature.onboarding.OnBoardingFullScreenDialog
 import com.hellguy39.hellnotes.feature.onboarding.OnBoardingViewModel
-import com.hellguy39.hellnotes.feature.onboarding.navigation.onBoardingScreen
 import com.hellguy39.hellnotes.feature.privacypolicy.navigation.privacyPolicyScreen
 import com.hellguy39.hellnotes.feature.reminderedit.navigations.reminderEditScreen
 import com.hellguy39.hellnotes.feature.reset.navigation.resetScreen
@@ -68,7 +66,7 @@ fun GlobalNavGraph(
     ) {
         homeScreen(appState)
 
-        onBoardingScreen(appState)
+        // onBoardingScreen(appState)
 
         noteDetailScreen(appState)
 
@@ -82,7 +80,7 @@ fun GlobalNavGraph(
 
         settingsScreen(appState)
 
-        lockScreen(appState)
+        // lockScreen(appState)
 
         lockSelectionScreen(appState)
 

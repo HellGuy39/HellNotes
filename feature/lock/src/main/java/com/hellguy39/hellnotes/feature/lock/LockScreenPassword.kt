@@ -22,7 +22,6 @@ import com.hellguy39.hellnotes.core.ui.animations.slideContentTransform
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun LockScreenPassword(
     paddingValues: PaddingValues,
@@ -62,6 +61,7 @@ fun LockScreenPassword(
                 is LockState.Locked -> stringResource(id = AppStrings.Title.EnterPassword)
                 is LockState.Unlocked -> stringResource(id = AppStrings.Title.Unlocked)
                 is LockState.WrongPin -> stringResource(id = AppStrings.Supporting.WrongPassword)
+                else -> ""
             }
 
         Icon(

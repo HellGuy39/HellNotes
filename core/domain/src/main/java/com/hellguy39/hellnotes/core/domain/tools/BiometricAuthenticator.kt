@@ -1,11 +1,11 @@
 package com.hellguy39.hellnotes.core.domain.tools
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 
 interface BiometricAuthenticator {
     fun deviceBiometricSupportStatus(): DeviceBiometricStatus
 
-    fun authenticate(activity: AppCompatActivity)
+    fun authenticate(activity: FragmentActivity)
 
     fun setOnBiometricStatusListener(onStatus: (status: DeviceBiometricStatus) -> Unit)
 

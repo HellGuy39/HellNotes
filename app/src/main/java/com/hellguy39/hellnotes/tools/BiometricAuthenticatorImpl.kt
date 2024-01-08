@@ -1,10 +1,10 @@
 package com.hellguy39.hellnotes.tools
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.hellguy39.hellnotes.core.domain.tools.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
@@ -51,7 +51,7 @@ class BiometricAuthenticatorImpl
             onAuthListener.invoke(AuthenticationResult.Success)
         }
 
-        override fun authenticate(activity: AppCompatActivity) {
+        override fun authenticate(activity: FragmentActivity) {
             val promptInfo =
                 BiometricPrompt.PromptInfo.Builder()
                     .setTitle(context.getString(AppStrings.Title.AuthRequired))
