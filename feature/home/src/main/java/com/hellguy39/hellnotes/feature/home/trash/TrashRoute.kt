@@ -12,7 +12,6 @@ import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.feature.home.ActionViewModel
 import com.hellguy39.hellnotes.feature.home.HomeState
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 
@@ -21,7 +20,6 @@ fun TrashRoute(
     homeState: HomeState,
     trashViewModel: TrashViewModel = hiltViewModel(),
     visualsViewModel: VisualsViewModel = hiltViewModel(),
-    actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
     TrackScreenView(screenName = "TrashScreen")
 
@@ -30,7 +28,6 @@ fun TrashRoute(
 
     val uiState by trashViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
-    val selectedNotes = actionViewModel.selectedNotes
 
     CustomDialog(
         state = emptyTrashDialogState,
@@ -62,7 +59,7 @@ fun TrashRoute(
         onAccept = {
             val note = trashViewModel.selectedNote.value
             trashViewModel.clearSelectedNote()
-            actionViewModel.restoreNoteFromTrash(note)
+            // actionViewModel.restoreNoteFromTrash(note)
             restoreDialogState.dismiss()
         },
     )
@@ -70,36 +67,12 @@ fun TrashRoute(
     TrashScreen(
         uiState = uiState,
         visualState = visualState,
-        selectedNotes = selectedNotes,
-        onNoteClick =
-            remember {
-                { note ->
-                    if (selectedNotes.isEmpty()) {
-                        trashViewModel.selectNote(note)
-                        restoreDialogState.show()
-                    } else {
-                        if (selectedNotes.contains(note)) {
-                            actionViewModel.unselectNote(note)
-                        } else {
-                            actionViewModel.selectNote(note)
-                        }
-                    }
-                }
-            },
-        onNotePress =
-            remember {
-                { note ->
-                    if (selectedNotes.contains(note)) {
-                        actionViewModel.unselectNote(note)
-                    } else {
-                        actionViewModel.selectNote(note)
-                    }
-                }
-            },
+        onNoteClick = remember { { index -> } },
+        onNotePress = remember { { index -> } },
         onNavigationClick = remember { { homeState.openDrawer() } },
-        onCancelSelectionClick = remember { actionViewModel::cancelNoteSelection },
-        onRestoreSelectedClick = remember { actionViewModel::restoreSelectedNotesFromTrash },
-        onDeleteSelectedClick = remember { actionViewModel::deleteSelectedNotesFromTrash },
+        onCancelSelectionClick = remember { { } },
+        onRestoreSelectedClick = remember { { } },
+        onDeleteSelectedClick = remember { { } },
         onEmptyTrashClick = remember { { emptyTrashDialogState.show() } },
         onCloseTrashTip = remember { { trashViewModel.trashTipCompleted(true) } },
         snackbarHostState = homeState.snackbarHostState,

@@ -12,11 +12,23 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
+import com.hellguy39.hellnotes.core.ui.wrapper.UiVolume
+
+@Composable
+private fun rememberListModifier(): Modifier {
+    return remember {
+        Modifier
+            .fillMaxSize()
+            .padding(horizontal = Spaces.extraSmall, vertical = Spaces.extraSmall)
+            .testTag("item_list")
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,21 +36,14 @@ fun NoteList(
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteStyle: NoteStyle,
     isSwipeable: Boolean = false,
-    onClick: (Note) -> Unit,
-    onLongClick: (Note) -> Unit,
-    onDismiss: (DismissDirection, Note) -> Boolean = remember { { _, _ -> false } },
-    categories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
+    onClick: (position: PartitionElementPositionInfo) -> Unit,
+    onLongClick: (position: PartitionElementPositionInfo) -> Unit,
+    onDismiss: (DismissDirection, position: PartitionElementPositionInfo) -> Boolean = remember { { _, _ -> false } },
+    volume: UiVolume<Selectable<NoteDetailWrapper>>,
     listStyle: ListStyle = ListStyle.Column,
-    selectedNotes: SnapshotStateList<Note> = mutableStateListOf(),
     listHeader: @Composable () -> Unit = {},
 ) {
-    val listModifier =
-        remember {
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = Spaces.extraSmall, vertical = Spaces.extraSmall)
-                .testTag("item_list")
-        }
+    val listModifier = rememberListModifier()
 
     when (listStyle) {
         ListStyle.Column -> {
@@ -50,8 +55,7 @@ fun NoteList(
                 onLongClick = onLongClick,
                 onDismiss = onDismiss,
                 innerPadding = innerPadding,
-                categories = categories,
-                selectedNotes = selectedNotes,
+                volume = volume,
                 listHeader = listHeader,
             )
         }
@@ -63,8 +67,52 @@ fun NoteList(
                 onClick = onClick,
                 onLongClick = onLongClick,
                 onDismiss = onDismiss,
-                categories = categories,
-                selectedNotes = selectedNotes,
+                volume = volume,
+                noteStyle = noteStyle,
+                listHeader = listHeader,
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NoteList(
+    innerPadding: PaddingValues = PaddingValues(0.dp),
+    noteStyle: NoteStyle,
+    isSwipeable: Boolean = false,
+    onClick: (index: Int) -> Unit,
+    onLongClick: (index: Int) -> Unit,
+    onDismiss: (DismissDirection, index: Int) -> Boolean = remember { { _, _ -> false } },
+    notes: SnapshotStateList<Selectable<NoteDetailWrapper>> = mutableStateListOf(),
+    listStyle: ListStyle = ListStyle.Column,
+    listHeader: @Composable () -> Unit = {},
+) {
+    val listModifier = rememberListModifier()
+
+    when (listStyle) {
+        ListStyle.Column -> {
+            NoteColumnList(
+                modifier = listModifier,
+                noteStyle = noteStyle,
+                isSwipeable = isSwipeable,
+                onClick = onClick,
+                onLongClick = onLongClick,
+                onDismiss = onDismiss,
+                innerPadding = innerPadding,
+                notes = notes,
+                listHeader = listHeader,
+            )
+        }
+        ListStyle.Grid -> {
+            NoteGridList(
+                modifier = listModifier,
+                innerPadding = innerPadding,
+                isSwipeable = isSwipeable,
+                onClick = onClick,
+                onLongClick = onLongClick,
+                onDismiss = onDismiss,
+                notes = notes,
                 noteStyle = noteStyle,
                 listHeader = listHeader,
             )

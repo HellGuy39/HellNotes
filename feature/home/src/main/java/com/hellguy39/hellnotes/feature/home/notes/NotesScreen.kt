@@ -12,14 +12,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
@@ -28,6 +24,7 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 import com.hellguy39.hellnotes.feature.home.VisualState
 import com.hellguy39.hellnotes.feature.home.notes.components.NoteListTopAppBar
 
@@ -36,10 +33,9 @@ import com.hellguy39.hellnotes.feature.home.notes.components.NoteListTopAppBar
 fun NotesScreen(
     uiState: NoteListUiState,
     visualState: VisualState,
-    selectedNotes: SnapshotStateList<Note>,
-    onNoteClick: (note: Note) -> Unit,
-    onNotePress: (note: Note) -> Unit,
-    onDismissNote: (direction: DismissDirection, note: Note) -> Boolean,
+    onNoteClick: (position: PartitionElementPositionInfo) -> Unit,
+    onNotePress: (position: PartitionElementPositionInfo) -> Unit,
+    onDismissNote: (direction: DismissDirection, position: PartitionElementPositionInfo) -> Boolean,
     onNavigationClick: () -> Unit,
     onDeleteSelectedNotesClick: () -> Unit,
     onToggleListStyle: () -> Unit,
@@ -59,7 +55,7 @@ fun NotesScreen(
         topBar = {
             NoteListTopAppBar(
                 scrollBehavior = scrollBehavior,
-                selectedNotes = selectedNotes,
+                uiState = uiState,
                 listStyle = visualState.listStyle,
                 onCancelSelectionClick = onCancelNoteSelection,
                 onNavigationClick = onNavigationClick,
@@ -88,12 +84,11 @@ fun NotesScreen(
                                 bottom = Spaces.small + innerPadding.calculateBottomPadding(),
                             ),
                         noteStyle = visualState.noteStyle,
+                        volume = uiState.noteVolume,
                         onClick = onNoteClick,
                         onLongClick = onNotePress,
                         onDismiss = onDismissNote,
                         isSwipeable = visualState.noteSwipesState.enabled,
-                        categories = uiState.noteCategories,
-                        selectedNotes = selectedNotes,
                         listStyle = listStyle,
                     )
                 }

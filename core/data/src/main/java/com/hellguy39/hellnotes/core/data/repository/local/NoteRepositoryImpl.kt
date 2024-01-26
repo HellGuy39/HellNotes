@@ -15,38 +15,38 @@ class NoteRepositoryImpl
     constructor(
         private val noteDao: NoteDao,
     ) : NoteRepository {
-        override fun getAllNotesStream(): Flow<List<Note>> = noteDao.getAllNotesStream().map { it.map(NoteEntity::toNote) }
+        override fun getAllNotesStream(): Flow<List<Note>> = noteDao.getAllFlow().map { it.map(NoteEntity::toNote) }
 
-        override fun getNoteByIdStream(id: Long): Flow<Note> {
-            return noteDao.getNoteByIdStream(id).map(NoteEntity::toNote)
+        override fun getNoteByIdStream(id: Long): Flow<Note?> {
+            return noteDao.findByIdFlow(id).map { it?.toNote() }
         }
 
-        override suspend fun getAllNotes(): List<Note> = noteDao.getAllNotes().map(NoteEntity::toNote)
+        override suspend fun getAllNotes(): List<Note> = noteDao.getAll().map(NoteEntity::toNote)
 
-        override suspend fun getNoteById(id: Long): Note = noteDao.getNoteById(id).toNote()
+        override suspend fun getNoteById(id: Long): Note? = noteDao.findById(id)?.toNote()
 
         override suspend fun insertNote(note: Note): Long {
-            return noteDao.insertNote(note.toNoteEntity())
+            return noteDao.insert(note.toNoteEntity())
         }
 
         override suspend fun updateNote(note: Note) {
-            noteDao.updateNote(note.toNoteEntity())
+            noteDao.update(note.toNoteEntity())
         }
 
         override suspend fun updateNotes(notes: List<Note>) {
-            noteDao.updateNotes(notes.map(Note::toNoteEntity))
+            noteDao.update(notes.map(Note::toNoteEntity))
         }
 
         override suspend fun deleteNote(note: Note) {
-            noteDao.deleteNote(note.toNoteEntity())
+            noteDao.delete(note.toNoteEntity())
         }
 
         override suspend fun deleteNotes(notes: List<Note>) {
-            noteDao.deleteNotes(notes.map { it.toNoteEntity() })
+            noteDao.delete(notes.map { it.toNoteEntity() })
         }
 
         override suspend fun deleteNoteById(id: Long) {
-            noteDao.deleteNoteById(id)
+            noteDao.deleteById(id)
         }
 
         override suspend fun deleteAll() {

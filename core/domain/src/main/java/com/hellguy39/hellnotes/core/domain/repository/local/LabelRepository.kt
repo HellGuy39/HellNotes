@@ -20,6 +20,8 @@ interface LabelRepository {
 
     suspend fun getLabelById(id: Long): Label?
 
+    suspend fun getLabelsByNoteId(noteId: Long): List<Label>
+
     fun getLabelByIdFlow(id: Long): Flow<Label?>
 
     suspend fun deleteNoteIdFromLabels(noteId: Long)

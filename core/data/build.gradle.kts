@@ -14,6 +14,7 @@ dependencies {
     implementation(project(Modules.Core.Network))
     implementation(project(Modules.Core.Model))
     implementation(project(Modules.Core.Domain))
+    implementation(project(Modules.Core.Common))
 
     implementation(Dependencies.Kotlin.Coroutines)
 

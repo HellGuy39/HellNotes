@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.core.database.dao
 
 import androidx.room.*
+import com.hellguy39.hellnotes.core.database.entity.TRASH_TABLE_NAME
 import com.hellguy39.hellnotes.core.database.entity.TrashEntity
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import kotlinx.coroutines.flow.Flow
@@ -9,35 +10,35 @@ import kotlinx.coroutines.flow.Flow
 interface TrashDao {
     @Query(
         """
-        SELECT * FROM trash_table
+        SELECT * FROM $TRASH_TABLE_NAME
     """,
     )
-    fun getAllTrashStream(): Flow<List<TrashEntity>>
+    fun getAllFlow(): Flow<List<TrashEntity>>
 
     @Query(
         """
-        SELECT * FROM trash_table
+        SELECT * FROM $TRASH_TABLE_NAME
     """,
     )
-    suspend fun getAllTrash(): List<TrashEntity>
+    suspend fun getAll(): List<TrashEntity>
 
     @Delete
-    suspend fun deleteTrash(trashEntity: TrashEntity)
+    suspend fun delete(trashEntity: TrashEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTrash(trashEntity: TrashEntity)
+    suspend fun insert(trashEntity: TrashEntity)
 
     @Query(
         """
-        DELETE FROM trash_table 
+        DELETE FROM $TRASH_TABLE_NAME 
         WHERE note = :note
     """,
     )
-    suspend fun deleteTrashByNote(note: Note)
+    suspend fun deleteByNote(note: Note)
 
     @Query(
         """
-        DELETE FROM trash_table
+        DELETE FROM $TRASH_TABLE_NAME
     """,
     )
     suspend fun deleteAll()

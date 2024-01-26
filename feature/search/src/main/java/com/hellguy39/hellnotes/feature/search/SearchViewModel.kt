@@ -5,11 +5,12 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNotesWithRemindersAndLabelsStreamUseCase
+import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNoteWrappersUseCase
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.model.toSelectable
+import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -21,7 +22,7 @@ class SearchViewModel
     @Inject
     constructor(
         dataStoreRepository: DataStoreRepository,
-        getAllNotesWithRemindersAndLabelsStreamUseCase: GetAllNotesWithRemindersAndLabelsStreamUseCase,
+        getAllNoteWrappersUseCase: GetAllNoteWrappersUseCase,
     ) : ViewModel() {
         private val search = MutableStateFlow("")
 
@@ -29,7 +30,7 @@ class SearchViewModel
 
         val uiState: StateFlow<SearchUiState> =
             combine(
-                getAllNotesWithRemindersAndLabelsStreamUseCase.invoke(),
+                getAllNoteWrappersUseCase.invoke(),
                 search,
                 filters,
                 dataStoreRepository.readListStyleState(),
@@ -59,12 +60,7 @@ class SearchViewModel
                 SearchUiState(
                     search = search,
                     isEmpty = searchedNotes.isEmpty(),
-                    noteCategories =
-                        mutableStateListOf(
-                            NoteCategory(
-                                notes = searchedNotes.toStateList(),
-                            ),
-                        ),
+                    noteWrappers = searchedNotes.toSelectable().toStateList(),
                     filters = filters,
                     listStyle = listStyle,
                     noteStyle = noteStyle,
@@ -132,7 +128,7 @@ data class SearchUiState(
     val listStyle: ListStyle = ListStyle.Column,
     val noteStyle: NoteStyle = NoteStyle.Outlined,
     val isEmpty: Boolean = false,
-    val noteCategories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
+    val noteWrappers: SnapshotStateList<Selectable<NoteDetailWrapper>> = mutableStateListOf(),
     val filters: FilterSelection = FilterSelection(),
 )
 

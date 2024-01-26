@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ReminderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertReminder(remindEntity: ReminderEntity): Long
+    suspend fun insert(remindEntity: ReminderEntity): Long
 
     @Delete
-    suspend fun deleteReminder(remindEntity: ReminderEntity)
+    suspend fun delete(remindEntity: ReminderEntity)
 
     @Query(
         """
@@ -19,7 +19,7 @@ interface ReminderDao {
         WHERE id = :id
     """,
     )
-    suspend fun deleteReminderById(id: Long)
+    suspend fun deleteById(id: Long)
 
     @Query(
         """
@@ -27,21 +27,21 @@ interface ReminderDao {
         WHERE noteId = :noteId
     """,
     )
-    suspend fun deleteReminderByNoteId(noteId: Long)
+    suspend fun deleteByNoteId(noteId: Long)
 
     @Query(
         """
         SELECT * FROM $REMINDERS_TABLE_NAME
     """,
     )
-    fun getAllRemindersStream(): Flow<List<ReminderEntity>>
+    fun getAllFlow(): Flow<List<ReminderEntity>>
 
     @Query(
         """
         SELECT * FROM $REMINDERS_TABLE_NAME
     """,
     )
-    suspend fun getAllReminders(): List<ReminderEntity>
+    suspend fun getAll(): List<ReminderEntity>
 
     @Query(
         """
@@ -49,15 +49,16 @@ interface ReminderDao {
         WHERE noteId = :noteId
     """,
     )
-    fun getRemindersByNoteIdStream(noteId: Long): Flow<List<ReminderEntity>>
+    fun findByNoteIdFlow(noteId: Long): Flow<List<ReminderEntity>>
 
     @Query(
         """
         SELECT * FROM $REMINDERS_TABLE_NAME 
         WHERE id = :id
+        LIMIT 1
     """,
     )
-    suspend fun getReminderById(id: Long): ReminderEntity
+    suspend fun findById(id: Long): ReminderEntity?
 
     @Query(
         """
@@ -65,8 +66,8 @@ interface ReminderDao {
         WHERE noteId = :noteId
     """,
     )
-    suspend fun getRemindersByNoteId(noteId: Long): List<ReminderEntity>
+    suspend fun findByNoteId(noteId: Long): List<ReminderEntity>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateReminder(remindEntity: ReminderEntity)
+    suspend fun update(remindEntity: ReminderEntity)
 }

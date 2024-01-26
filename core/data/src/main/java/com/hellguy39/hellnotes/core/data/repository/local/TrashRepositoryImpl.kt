@@ -16,22 +16,22 @@ class TrashRepositoryImpl
     constructor(
         private val trashDao: TrashDao,
     ) : TrashRepository {
-        override fun getAllTrashStream(): Flow<List<Trash>> = trashDao.getAllTrashStream().map { it.map(TrashEntity::toTrash) }
+        override fun getAllTrashStream(): Flow<List<Trash>> = trashDao.getAllFlow().map { it.map(TrashEntity::toTrash) }
 
         override suspend fun getAllTrash(): List<Trash> {
-            return trashDao.getAllTrash().map { it.toTrash() }
+            return trashDao.getAll().map { it.toTrash() }
         }
 
         override suspend fun deleteTrash(trash: Trash) {
-            trashDao.deleteTrash(trash.toTrashEntity())
+            trashDao.delete(trash.toTrashEntity())
         }
 
         override suspend fun deleteTrashByNote(note: Note) {
-            trashDao.deleteTrashByNote(note)
+            trashDao.deleteByNote(note)
         }
 
         override suspend fun insertTrash(trash: Trash) {
-            trashDao.insertTrash(trash.toTrashEntity())
+            trashDao.insert(trash.toTrashEntity())
         }
 
         override suspend fun deleteAll() {

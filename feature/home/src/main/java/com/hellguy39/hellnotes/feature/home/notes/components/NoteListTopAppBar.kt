@@ -21,7 +21,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -29,19 +28,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Alpha
 import com.hellguy39.hellnotes.core.ui.values.Elevation
 import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.feature.home.notes.NoteListUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteListTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    selectedNotes: SnapshotStateList<Note>,
+    uiState: NoteListUiState,
     listStyle: ListStyle,
     onCancelSelectionClick: () -> Unit,
     onDeleteSelectedClick: () -> Unit,
@@ -51,7 +50,7 @@ fun NoteListTopAppBar(
     onToggleListStyle: () -> Unit,
 ) {
     AnimatedContent(
-        targetState = selectedNotes.isNotEmpty(),
+        targetState = uiState.isNoteSelection,
         label = "top_app_bar_animate_state",
     ) { isSelection ->
         if (isSelection) {
@@ -69,7 +68,7 @@ fun NoteListTopAppBar(
                 },
                 title = {
                     Text(
-                        text = selectedNotes.count().toString(),
+                        text = uiState.countOfSelectedNotes.toString(),
                         style = MaterialTheme.typography.titleLarge,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,15 +33,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
+import com.hellguy39.hellnotes.core.ui.lifecycle.collectAsEventsWithLifecycle
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.feature.home.ActionViewModel
 import com.hellguy39.hellnotes.feature.home.HomeState
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
+import com.hellguy39.hellnotes.feature.home.reminders.RemindersNavigationEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +51,6 @@ fun LabelRoute(
     navigateToNoteDetail: (id: Long?) -> Unit,
     labelViewModel: LabelViewModel = hiltViewModel(),
     visualsViewModel: VisualsViewModel = hiltViewModel(),
-    actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
     TrackScreenView(screenName = "LabelScreen")
 
@@ -60,7 +58,14 @@ fun LabelRoute(
 
     val uiState by labelViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
-    val selectedNotes = actionViewModel.selectedNotes
+
+    labelViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
+        when (event) {
+            is RemindersNavigationEvent.NavigateToNoteDetail -> {
+                navigateToNoteDetail(event.noteId)
+            }
+        }
+    }
 
     val deleteDialogState = rememberDialogState()
     val renameDialogState = rememberDialogState()
@@ -207,58 +212,20 @@ fun LabelRoute(
 
     LabelScreen(
         uiState = uiState,
-        selectedNotes = selectedNotes,
         visualState = visualState,
-        onNoteClick =
-            remember {
-                { note ->
-                    if (selectedNotes.isEmpty()) {
-                        navigateToNoteDetail(note.id)
-                    } else {
-                        if (selectedNotes.contains(note)) {
-                            actionViewModel.unselectNote(note)
-                        } else {
-                            actionViewModel.selectNote(note)
-                        }
-                    }
-                }
-            },
-        onNotePress =
-            remember {
-                { note ->
-                    if (selectedNotes.contains(note)) {
-                        actionViewModel.unselectNote(note)
-                    } else {
-                        actionViewModel.selectNote(note)
-                    }
-                }
-            },
+        onNoteClick = remember { { index -> labelViewModel.send(LabelUiEvent.NoteClick(index)) } },
+        onNotePress = remember { { index -> labelViewModel.send(LabelUiEvent.NotePress(index)) } },
         onDismissNote =
             remember {
-                { direction, note ->
-                    val swipeAction =
-                        if (direction == DismissDirection.StartToEnd) {
-                            visualState.noteSwipesState.swipeRight
-                        } else {
-                            visualState.noteSwipesState.swipeLeft
-                        }
-
-                    when (swipeAction) {
-                        NoteSwipe.None -> false
-                        NoteSwipe.Delete -> {
-                            actionViewModel.deleteNote(note = note)
-                            true
-                        }
-                        NoteSwipe.Archive -> {
-                            actionViewModel.archiveNote(note = note, isArchived = true)
-                            true
-                        }
-                    }
+                { direction, index ->
+                    val swipeAction = visualsViewModel.calculateSwipeAction(direction)
+                    labelViewModel.send(LabelUiEvent.DismissNote(swipeAction, index))
+                    visualsViewModel.calculateSwipeResult(swipeAction)
                 }
             },
-        onDeleteSelectedClick = remember { actionViewModel::deleteSelectedNotes },
-        onCancelSelectionClick = remember { actionViewModel::cancelNoteSelection },
-        onArchiveSelectedClick = remember { { actionViewModel.archiveSelectedNotes(true) } },
+        onDeleteSelectedClick = remember { { labelViewModel.onDeleteSelectedItems() } },
+        onCancelSelectionClick = remember { { labelViewModel.onCancelItemSelection() } },
+        onArchiveSelectedClick = remember { { labelViewModel.onArchiveSelectedItems() } },
         onNavigationClick = remember { { homeState.openDrawer() } },
         listStyle = visualState.listStyle,
         onSearchClick = remember { { navigateToSearch() } },

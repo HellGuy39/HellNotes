@@ -4,59 +4,113 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
-import com.hellguy39.hellnotes.core.model.*
-import com.hellguy39.hellnotes.core.ui.NoteCategory
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
+import com.hellguy39.hellnotes.core.domain.usecase.reminder.GetAllNoteWrappersWithRemindersUseCase
+import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
+import com.hellguy39.hellnotes.core.model.toSelectable
+import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RemindersViewModel
     @Inject
     constructor(
-        noteRepository: NoteRepository,
-        labelRepository: LabelRepository,
-        reminderRepository: ReminderRepository,
+        getAllNoteWrappersWithRemindersUseCase: GetAllNoteWrappersWithRemindersUseCase,
+        private val noteActionController: NoteActionController,
     ) : ViewModel() {
+        private val _navigationEvents = Channel<RemindersNavigationEvent>()
+        val navigationEvents = _navigationEvents.receiveAsFlow()
+
         val uiState: StateFlow<RemindersUiState> =
-            combine(
-                noteRepository.getAllNotesStream(),
-                labelRepository.getAllLabelsStream(),
-                reminderRepository.getAllRemindersStream(),
-            ) { notes, labels, reminders ->
-
-                val wrappers =
-                    notes.map { note ->
-                        note.toNoteDetailWrapper(
-                            reminders = reminders.sortedBy { it.triggerDate },
-                            labels = labels,
-                        )
-                    }
-                        .filter { wrapper -> wrapper.reminders.isNotEmpty() }
-                        .sortedBy { wrapper -> wrapper.reminders.first().triggerDate }
-
-                RemindersUiState(
-                    noteCategories =
-                        mutableStateListOf(
-                            NoteCategory(
-                                notes = wrappers.toStateList(),
-                            ),
-                        ),
-                    isEmpty = wrappers.isEmpty(),
-                )
-            }
+            getAllNoteWrappersWithRemindersUseCase.invoke()
+                .combine(noteActionController.items) { noteWrappers, selectedIds ->
+                    RemindersUiState(
+                        countOfSelectedNotes = selectedIds.size,
+                        selectableNoteWrappers = noteWrappers.toSelectable(selectedIds).toStateList(),
+                        isEmpty = noteWrappers.isEmpty(),
+                    )
+                }
                 .stateIn(
                     initialValue = RemindersUiState(),
                     started = SharingStarted.WhileSubscribed(5_000),
                     scope = viewModelScope,
                 )
+
+        fun onNoteClick(index: Int) {
+            viewModelScope.launch {
+                val noteWrapper = uiState.value.selectableNoteWrappers[index]
+                val noteId = noteWrapper.value.note.id ?: return@launch
+                val selectedIds = noteActionController.items.value
+
+                if (selectedIds.isEmpty()) {
+                    _navigationEvents.send(RemindersNavigationEvent.NavigateToNoteDetail(noteId))
+                } else {
+                    if (selectedIds.contains(noteId)) {
+                        noteActionController.unselect(noteId)
+                    } else {
+                        noteActionController.select(noteId)
+                    }
+                }
+            }
+        }
+
+        fun onNotePress(index: Int) {
+            viewModelScope.launch {
+                val noteWrapper = uiState.value.selectableNoteWrappers[index]
+                val noteId = noteWrapper.value.note.id ?: return@launch
+                val buffer = noteActionController.items.value
+
+                if (buffer.contains(noteId)) {
+                    noteActionController.unselect(noteId)
+                } else {
+                    noteActionController.select(noteId)
+                }
+            }
+        }
+
+        fun onNoteDismiss(noteSwipe: NoteSwipe, index: Int) {
+            viewModelScope.launch {
+                if (noteSwipe is NoteSwipe.None) return@launch
+
+                val noteWrapper = uiState.value.selectableNoteWrappers[index]
+                val noteId = noteWrapper.value.note.id ?: return@launch
+
+                noteActionController.handleSwipe(noteSwipe, noteId)
+            }
+        }
+
+        fun onDeleteSelectedItems() {
+            viewModelScope.launch {
+                noteActionController.deleteSelected()
+            }
+        }
+
+        fun onCancelItemSelection() {
+            viewModelScope.launch {
+                noteActionController.cancel()
+            }
+        }
     }
 
+sealed interface RemindersNavigationEvent {
+    data class NavigateToNoteDetail(val noteId: Long) : RemindersNavigationEvent
+}
+
 data class RemindersUiState(
+    val countOfSelectedNotes: Int = 0,
     val isEmpty: Boolean = false,
-    val noteCategories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
-)
+    val selectableNoteWrappers: SnapshotStateList<Selectable<NoteDetailWrapper>> = mutableStateListOf(),
+) {
+    val isNoteSelection: Boolean
+        get() = countOfSelectedNotes > 0
+}

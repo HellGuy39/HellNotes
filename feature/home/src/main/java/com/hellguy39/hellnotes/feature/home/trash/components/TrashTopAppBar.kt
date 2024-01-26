@@ -9,19 +9,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.feature.home.trash.TrashUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrashTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    selectedNotes: SnapshotStateList<Note>,
+    uiState: TrashUiState,
     onNavigationClick: () -> Unit,
     onCancelSelectionClick: () -> Unit,
     onRestoreSelectedClick: () -> Unit,
@@ -29,7 +28,7 @@ fun TrashTopAppBar(
     onEmptyTrashClick: () -> Unit,
 ) {
     AnimatedContent(
-        targetState = selectedNotes.isNotEmpty(),
+        targetState = uiState.isNoteSelection,
         label = "isNoteSelection",
     ) { isNoteSelection ->
         TopAppBar(
@@ -38,7 +37,7 @@ fun TrashTopAppBar(
                 Text(
                     text =
                         if (isNoteSelection) {
-                            selectedNotes.count().toString()
+                            uiState.countOfSelectedNotes.toString()
                         } else {
                             stringResource(id = AppStrings.Title.Trash)
                         },

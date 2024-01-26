@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+import java.util.Properties
 
 plugins {
     id("app-setup")
@@ -8,18 +9,43 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
+val signingProperties = readProperties(file("signing.properties"))
+
+fun readProperties(propertiesFile: File) =
+    Properties().apply {
+        propertiesFile.inputStream().use { fileInputStream -> load(fileInputStream) }
+    }
+
 android {
     namespace = "com.hellguy39.hellnotes"
+
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = signingProperties["KEY_ALIAS"].toString()
+            keyPassword = signingProperties["KEY_PASSWORD"].toString()
+            storeFile = file("keystore")
+            storePassword = signingProperties["KEYSTORE_PASSWORD"].toString()
+        }
+        create("release") {
+            keyAlias = signingProperties["KEY_ALIAS"].toString()
+            keyPassword = signingProperties["KEY_PASSWORD"].toString()
+            storeFile = file("keystore")
+            storePassword = signingProperties["KEYSTORE_PASSWORD"].toString()
+        }
+    }
 
     defaultConfig {
         archivesName.set("HellNotes v$versionName")
     }
 
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")

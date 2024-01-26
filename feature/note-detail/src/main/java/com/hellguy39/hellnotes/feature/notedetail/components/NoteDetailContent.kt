@@ -50,7 +50,7 @@ import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.components.rememberDropdownMenuState
-import com.hellguy39.hellnotes.core.ui.focus.requestFocusWhen
+import com.hellguy39.hellnotes.core.ui.focus.requestOnceAfterRecompositionIf
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Alpha
@@ -66,7 +66,7 @@ fun NoteDetailContent(
     focusRequester: FocusRequester,
     lazyListState: LazyListState,
 ) {
-    focusRequester.requestFocusWhen { !uiState.wrapper.note.hasContentText() }
+    focusRequester.requestOnceAfterRecompositionIf { !uiState.wrapper.note.hasContentText() }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),

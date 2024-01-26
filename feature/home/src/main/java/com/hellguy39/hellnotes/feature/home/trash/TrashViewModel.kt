@@ -5,12 +5,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
 import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.extensions.toStateList
+import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -22,10 +21,11 @@ class TrashViewModel
     constructor(
         private val trashRepository: TrashRepository,
         private val dataStoreRepository: DataStoreRepository,
+        private val noteActionController: NoteActionController,
     ) : ViewModel() {
-        init {
-            deleteAllExpiredNotes()
-        }
+//        init {
+//            deleteAllExpiredNotes()
+//        }
 
         private val _selectedNote = MutableStateFlow(Note())
         val selectedNote = _selectedNote.asStateFlow()
@@ -35,16 +35,11 @@ class TrashViewModel
                 trashRepository.getAllTrashStream(),
                 dataStoreRepository.readTrashTipState(),
             ) { trashes, tipState ->
-                val wrappers = trashes.map { trash -> NoteDetailWrapper(note = trash.note) }
+//                val wrappers = trashes.map { trash -> NoteDetailWrapper(note = trash.note) }
                 TrashUiState(
                     trashTipCompleted = tipState,
-                    noteCategories =
-                        mutableStateListOf(
-                            NoteCategory(
-                                notes = wrappers.toStateList(),
-                            ),
-                        ),
-                    isEmpty = wrappers.isEmpty(),
+                    selectableNoteWrappers = mutableStateListOf(),
+                    isEmpty = true,
                 )
             }
                 .stateIn(
@@ -77,22 +72,28 @@ class TrashViewModel
             }
         }
 
-        private fun deleteAllExpiredNotes() {
-            viewModelScope.launch {
-                trashRepository.getAllTrash().forEach { trash ->
+        // TODO: Add worker
 
-                    val expirationDate = trash.dateOfAdding + ((3600 * 1000) * (24 * 7))
-
-                    if (DateTimeUtils.getCurrentTimeInEpochMilli() > expirationDate) {
-                        trashRepository.deleteTrash(trash)
-                    }
-                }
-            }
-        }
+//        private fun deleteAllExpiredNotes() {
+//            viewModelScope.launch {
+//                trashRepository.getAllTrash().forEach { trash ->
+//
+//                    val expirationDate = trash.dateOfAdding + ((3600 * 1000) * (24 * 7))
+//
+//                    if (DateTimeUtils.getCurrentTimeInEpochMilli() > expirationDate) {
+//                        trashRepository.deleteTrash(trash)
+//                    }
+//                }
+//            }
+//        }
     }
 
 data class TrashUiState(
+    val countOfSelectedNotes: Int = 0,
     val trashTipCompleted: Boolean = true,
-    val noteCategories: SnapshotStateList<NoteCategory> = mutableStateListOf(),
+    val selectableNoteWrappers: SnapshotStateList<Selectable<NoteDetailWrapper>> = mutableStateListOf(),
     val isEmpty: Boolean = false,
-)
+) {
+    val isNoteSelection: Boolean
+        get() = countOfSelectedNotes > 0
+}

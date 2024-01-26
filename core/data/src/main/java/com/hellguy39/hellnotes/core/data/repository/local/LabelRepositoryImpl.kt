@@ -1,19 +1,24 @@
 package com.hellguy39.hellnotes.core.data.repository.local
 
+import com.hellguy39.hellnotes.core.common.di.IoDispatcher
 import com.hellguy39.hellnotes.core.database.dao.LabelDao
 import com.hellguy39.hellnotes.core.database.entity.LabelEntity
 import com.hellguy39.hellnotes.core.database.mapper.toLabel
 import com.hellguy39.hellnotes.core.database.mapper.toLabelEntity
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LabelRepositoryImpl
     @Inject
     constructor(
         private val labelDao: LabelDao,
+        @IoDispatcher
+        private val ioDispatcher: CoroutineDispatcher,
     ) : LabelRepository {
         override suspend fun insertLabel(label: Label): Long {
             return labelDao.insert(label.toLabelEntity())
@@ -44,6 +49,12 @@ class LabelRepositoryImpl
             return labelDao.findById(id)?.toLabel()
         }
 
+        override suspend fun getLabelsByNoteId(noteId: Long): List<Label> {
+            return labelDao.getAll()
+                .filter { it.noteIds.contains(noteId) }
+                .map { it.toLabel() }
+        }
+
         override fun getLabelByIdFlow(id: Long): Flow<Label?> {
             return labelDao.findByIdFlow(id)
                 .map { it?.toLabel() }
@@ -56,10 +67,12 @@ class LabelRepositoryImpl
 
         override suspend fun deleteNoteIdFromLabels(noteId: Long) {
             val labels = labelDao.getAll()
-            labels.forEach { labelEntity ->
-                if (labelEntity.noteIds.contains(noteId)) {
-                    val newLabel = labelEntity.copy(noteIds = labelEntity.noteIds.minus(noteId))
-                    labelDao.update(newLabel)
+            withContext(ioDispatcher) {
+                labels.forEach { labelEntity ->
+                    if (labelEntity.noteIds.contains(noteId)) {
+                        val newLabel = labelEntity.copy(noteIds = labelEntity.noteIds.minus(noteId))
+                        labelDao.update(newLabel)
+                    }
                 }
             }
         }

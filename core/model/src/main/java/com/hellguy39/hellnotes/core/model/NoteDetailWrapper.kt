@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.core.model
 
 import com.hellguy39.hellnotes.core.model.repository.local.database.*
+import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 
 data class NoteDetailWrapper(
     val note: Note = Note(),
@@ -30,4 +31,10 @@ fun NoteDetailWrapper.hasAnythingToShow(): Boolean {
     val isChipsValid = labels.isNotEmpty() || reminders.isNotEmpty()
     val isChecklistsValid = checklists.isChecklistsValid()
     return isTitleValid || isNoteValid || isChipsValid || isChecklistsValid
+}
+
+fun List<NoteDetailWrapper>.toSelectable(
+    selectedIds: List<Long?> = listOf()
+): List<Selectable<NoteDetailWrapper>> {
+    return map { Selectable(it, selectedIds.contains(it.note.id)) }
 }

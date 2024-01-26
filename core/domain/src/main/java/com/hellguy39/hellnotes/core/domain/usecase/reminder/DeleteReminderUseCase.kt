@@ -11,7 +11,8 @@ class DeleteReminderUseCase
         private val alarmScheduler: AlarmScheduler,
     ) {
         suspend operator fun invoke(id: Long) {
-            val reminder = reminderRepository.getReminderById(id)
+            // TODO: handle null
+            val reminder = reminderRepository.getReminderById(id) ?: return
 
             reminderRepository.deleteReminder(reminder)
             alarmScheduler.cancelAlarm(reminder)

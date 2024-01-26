@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 interface NoteRepository {
     fun getAllNotesStream(): Flow<List<Note>>
 
-    fun getNoteByIdStream(id: Long): Flow<Note>
+    fun getNoteByIdStream(id: Long): Flow<Note?>
 
     suspend fun getAllNotes(): List<Note>
 
-    suspend fun getNoteById(id: Long): Note
+    suspend fun getNoteById(id: Long): Note?
 
     suspend fun insertNote(note: Note): Long
 

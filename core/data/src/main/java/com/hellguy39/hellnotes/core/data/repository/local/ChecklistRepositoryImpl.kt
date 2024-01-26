@@ -15,53 +15,53 @@ class ChecklistRepositoryImpl
         private val checklistDao: ChecklistDao,
     ) : ChecklistRepository {
         override fun getAllChecklistsStream(): Flow<List<Checklist>> {
-            return checklistDao.getAllChecklistsStream()
+            return checklistDao.getAllFlow()
                 .map { list ->
                     list.map { checklistEntity -> checklistEntity.toChecklist() }
                 }
         }
 
         override suspend fun insertChecklist(checklist: Checklist): Long {
-            return checklistDao.insertChecklist(checklist.toChecklistEntity())
+            return checklistDao.insert(checklist.toChecklistEntity())
         }
 
         override suspend fun deleteChecklist(checklist: Checklist) {
-            checklistDao.deleteChecklist(checklist.toChecklistEntity())
+            checklistDao.delete(checklist.toChecklistEntity())
         }
 
         override suspend fun updateChecklist(checklist: Checklist) {
-            checklistDao.updateChecklist(checklist.toChecklistEntity())
+            checklistDao.update(checklist.toChecklistEntity())
         }
 
         override suspend fun updateChecklists(checklists: List<Checklist>) {
-            checklistDao.updateChecklists(checklists.map { checklist -> checklist.toChecklistEntity() })
+            checklistDao.update(checklists.map { checklist -> checklist.toChecklistEntity() })
         }
 
-        override fun getChecklistByIdStream(id: Long): Flow<Checklist> {
-            return checklistDao.getChecklistByIdStream(id)
-                .map { checklistEntity -> checklistEntity.toChecklist() }
+        override fun getChecklistByIdStream(id: Long): Flow<Checklist?> {
+            return checklistDao.findByIdFlow(id)
+                .map { checklistEntity -> checklistEntity?.toChecklist() }
         }
 
-        override suspend fun getChecklistById(id: Long): Checklist {
-            return checklistDao.getChecklistById(id).toChecklist()
+        override suspend fun getChecklistById(id: Long): Checklist? {
+            return checklistDao.findById(id)?.toChecklist()
         }
 
         override suspend fun getChecklistsByNoteId(noteId: Long): List<Checklist> {
-            return checklistDao.getChecklistsByNoteId(noteId)
+            return checklistDao.findByNoteId(noteId)
                 .map { checklistEntity -> checklistEntity.toChecklist() }
         }
 
-        override fun getChecklistByNoteIdStream(noteId: Long): Flow<Checklist> {
-            return checklistDao.getChecklistByNoteIdStream(noteId)
-                .map { checklist -> checklist.toChecklist() }
+        override fun getChecklistByNoteIdStream(noteId: Long): Flow<Checklist?> {
+            return checklistDao.findByNoteIdFlow(noteId)
+                .map { checklist -> checklist?.toChecklist() }
         }
 
         override suspend fun deleteChecklistById(id: Long) {
-            checklistDao.deleteChecklistById(id)
+            checklistDao.deleteById(id)
         }
 
         override suspend fun deleteChecklistByNoteId(noteId: Long) {
-            checklistDao.deleteChecklistByNoteId(noteId)
+            checklistDao.deleteByNoteId(noteId)
         }
 
         override suspend fun deleteAll() {

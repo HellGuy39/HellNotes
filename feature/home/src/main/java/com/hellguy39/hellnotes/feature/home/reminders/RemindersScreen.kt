@@ -12,11 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
@@ -33,11 +31,10 @@ import com.hellguy39.hellnotes.feature.home.reminders.components.RemindersTopApp
 fun RemindersScreen(
     uiState: RemindersUiState,
     visualState: VisualState,
-    selectedNotes: SnapshotStateList<Note>,
     snackbarHostState: SnackbarHostState,
-    onNoteClick: (note: Note) -> Unit,
-    onNotePress: (note: Note) -> Unit,
-    onDismissNote: (direction: DismissDirection, note: Note) -> Boolean,
+    onNoteClick: (index: Int) -> Unit,
+    onNotePress: (index: Int) -> Unit,
+    onDismissNote: (direction: DismissDirection, index: Int) -> Boolean,
     onNavigationClick: () -> Unit,
     onToggleListStyle: () -> Unit,
     onDeleteSelectedClick: () -> Unit,
@@ -55,7 +52,7 @@ fun RemindersScreen(
             RemindersTopAppBar(
                 scrollBehavior = scrollBehavior,
                 listStyle = visualState.listStyle,
-                selectedNotes = selectedNotes,
+                uiState = uiState,
                 onNavigationClick = onNavigationClick,
                 onToggleListStyle = onToggleListStyle,
                 onDeleteSelectedClick = onDeleteSelectedClick,
@@ -83,9 +80,8 @@ fun RemindersScreen(
                         onLongClick = onNotePress,
                         onDismiss = onDismissNote,
                         isSwipeable = visualState.noteSwipesState.enabled,
-                        categories = uiState.noteCategories,
+                        notes = uiState.selectableNoteWrappers,
                         listStyle = listStyle,
-                        selectedNotes = selectedNotes,
                         listHeader = {
                             Text(
                                 text = stringResource(id = AppStrings.Label.Upcoming),

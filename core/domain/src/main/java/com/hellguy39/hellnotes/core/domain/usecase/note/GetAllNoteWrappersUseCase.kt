@@ -1,22 +1,27 @@
 package com.hellguy39.hellnotes.core.domain.usecase.note
 
+import com.hellguy39.hellnotes.core.common.di.IoDispatcher
 import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
 import com.hellguy39.hellnotes.core.model.toNoteDetailWrapper
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetAllNotesWithRemindersAndLabelsStreamUseCase
+class GetAllNoteWrappersUseCase
     @Inject
     constructor(
         private val noteRepository: NoteRepository,
         private val labelRepository: LabelRepository,
         private val reminderRepository: ReminderRepository,
         private val checklistRepository: ChecklistRepository,
+        @IoDispatcher
+        private val ioDispatcher: CoroutineDispatcher,
     ) {
         operator fun invoke(): Flow<List<NoteDetailWrapper>> {
             return combine(
@@ -33,5 +38,6 @@ class GetAllNotesWithRemindersAndLabelsStreamUseCase
                     )
                 }
             }
+                .flowOn(ioDispatcher)
         }
     }

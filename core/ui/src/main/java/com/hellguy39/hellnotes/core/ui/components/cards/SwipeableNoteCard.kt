@@ -68,3 +68,64 @@ fun SwipeableNoteCard(
         },
     )
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SwipeableNoteCard(
+    modifier: Modifier = Modifier,
+    noteStyle: NoteStyle,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+    noteDetailWrapper: NoteDetailWrapper,
+    isSelected: Boolean,
+    isSwipeable: Boolean,
+    onDismissed: (DismissDirection) -> Boolean,
+) {
+    val dismissState =
+        rememberDismissState(
+            confirmValueChange = { dismissValue ->
+                when (dismissValue) {
+                    DismissValue.DismissedToEnd -> {
+                        onDismissed(DismissDirection.StartToEnd)
+                    }
+                    DismissValue.DismissedToStart -> {
+                        onDismissed(DismissDirection.EndToStart)
+                    }
+                    else -> false
+                }
+            },
+        )
+
+    val swipeDirections by remember {
+        derivedStateOf {
+            if (isSwipeable) {
+                setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart)
+            } else {
+                setOf()
+            }
+        }
+    }
+
+    val visibility by remember {
+        derivedStateOf {
+            if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
+        }
+    }
+
+    SwipeToDismiss(
+        modifier = Modifier,
+        state = dismissState,
+        directions = swipeDirections,
+        background = { /* no-op */ },
+        dismissContent = {
+            NoteCard(
+                modifier = modifier.alpha(visibility),
+                onClick = onClick,
+                onLongClick = onLongClick,
+                noteDetailWrapper = noteDetailWrapper,
+                isSelected = isSelected,
+                noteStyle = noteStyle,
+            )
+        },
+    )
+}

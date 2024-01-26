@@ -28,7 +28,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.focus.requestFocusWhenBeAvailable
@@ -43,8 +42,8 @@ import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 fun SearchScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: SearchUiState,
-    onClick: (Note) -> Unit,
-    onLongClick: (Note) -> Unit,
+    onClick: (index: Int) -> Unit,
+    onLongClick: (index: Int) -> Unit,
     onQueryChanged: (query: String) -> Unit,
     onClearQuery: () -> Unit,
     onUpdateReminderFilter: (Boolean) -> Unit,
@@ -85,12 +84,12 @@ fun SearchScreen(
             }
 
             Crossfade(
-                targetState = uiState.noteCategories,
+                targetState = uiState.noteWrappers,
                 label = "search_screen_content",
-            ) { categories ->
+            ) { noteWrappers ->
                 NoteList(
                     innerPadding = innerPadding,
-                    categories = categories,
+                    notes = noteWrappers,
                     listStyle = uiState.listStyle,
                     noteStyle = uiState.noteStyle,
                     onClick = onClick,

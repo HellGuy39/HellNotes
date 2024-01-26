@@ -1,23 +1,28 @@
 package com.hellguy39.hellnotes.feature.home.reminders.components
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.feature.home.reminders.RemindersUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RemindersTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     listStyle: ListStyle,
-    selectedNotes: SnapshotStateList<Note>,
+    uiState: RemindersUiState,
     onNavigationClick: () -> Unit,
     onSearchClick: () -> Unit,
     onToggleListStyle: () -> Unit,
@@ -25,7 +30,7 @@ fun RemindersTopAppBar(
     onDeleteSelectedClick: () -> Unit,
 ) {
     AnimatedContent(
-        targetState = selectedNotes.isNotEmpty(),
+        targetState = uiState.isNoteSelection,
         label = "isNoteSelection",
     ) { isNoteSelection ->
         TopAppBar(
@@ -33,7 +38,7 @@ fun RemindersTopAppBar(
             title = {
                 Text(
                     if (isNoteSelection) {
-                        selectedNotes.count().toString()
+                        uiState.countOfSelectedNotes.toString()
                     } else {
                         stringResource(id = AppStrings.Title.Reminders)
                     },

@@ -17,6 +17,7 @@ fun SearchRoute(
 
     val uiState by searchViewModel.uiState.collectAsStateWithLifecycle()
 
+    // TODO: refactor
     SearchScreen(
         onNavigationButtonClick = remember { { navigateBack() } },
         uiState = uiState,
@@ -53,9 +54,9 @@ fun SearchRoute(
         onClick =
             remember {
                 { note ->
-                    note.id?.let { id ->
-                        navigateToNoteDetail(id)
-                    }
+//                    note.id?.let { id ->
+//                        navigateToNoteDetail(id)
+//                    }
                 }
             },
         onLongClick = remember { { note -> } },

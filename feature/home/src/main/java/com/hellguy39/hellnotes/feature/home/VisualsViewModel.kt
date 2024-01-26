@@ -1,5 +1,7 @@
 package com.hellguy39.hellnotes.feature.home
 
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
@@ -43,6 +45,23 @@ class VisualsViewModel
             viewModelScope.launch {
                 val listStyle = visualState.value.listStyle
                 dataStoreRepository.saveListStyleState(listStyle.swap())
+            }
+        }
+
+        @OptIn(ExperimentalMaterial3Api::class)
+        fun calculateSwipeAction(direction: DismissDirection): NoteSwipe {
+            return if (direction == DismissDirection.StartToEnd) {
+                visualState.value.noteSwipesState.swipeRight
+            } else {
+                visualState.value.noteSwipesState.swipeLeft
+            }
+        }
+
+        fun calculateSwipeResult(swipe: NoteSwipe): Boolean {
+            return when (swipe) {
+                NoteSwipe.None -> false
+                NoteSwipe.Delete -> true
+                NoteSwipe.Archive -> true
             }
         }
     }

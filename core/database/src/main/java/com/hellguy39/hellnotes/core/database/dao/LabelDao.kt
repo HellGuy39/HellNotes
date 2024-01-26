@@ -52,6 +52,7 @@ interface LabelDao {
         """
         SELECT * FROM $LABELS_TABLE_NAME
         WHERE id = :id
+        LIMIT 1
     """,
     )
     suspend fun findById(id: Long): LabelEntity?
@@ -59,7 +60,8 @@ interface LabelDao {
     @Query(
         """
         SELECT * FROM $LABELS_TABLE_NAME 
-        WHERE id LIKE :id LIMIT 1
+        WHERE id LIKE :id 
+        LIMIT 1
     """,
     )
     fun findByIdFlow(id: Long): Flow<LabelEntity?>

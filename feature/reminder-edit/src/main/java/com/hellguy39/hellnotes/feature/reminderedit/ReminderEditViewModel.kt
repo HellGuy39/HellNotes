@@ -57,7 +57,8 @@ class ReminderEditViewModel
                 }
 
                 if (isReminderExist) {
-                    val reminder = reminderRepository.getReminderById(id = reminderId)
+                    // TODO: Handle null
+                    val reminder = reminderRepository.getReminderById(id = reminderId) ?: return@launch
 
                     reminderEditViewModelState.update { state ->
                         state.copy(

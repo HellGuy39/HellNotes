@@ -12,7 +12,8 @@ class UpdateReminderUseCase
         private val alarmScheduler: AlarmScheduler,
     ) {
         suspend operator fun invoke(reminder: Reminder) {
-            val oldReminder = reminderRepository.getReminderById(reminder.id ?: return)
+            // TODO: handle null
+            val oldReminder = reminderRepository.getReminderById(reminder.id ?: return) ?: return
             reminderRepository.updateReminder(reminder)
 
             alarmScheduler.cancelAlarm(oldReminder)

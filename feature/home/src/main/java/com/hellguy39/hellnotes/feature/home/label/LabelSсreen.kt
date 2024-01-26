@@ -9,10 +9,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
@@ -29,12 +27,11 @@ import com.hellguy39.hellnotes.feature.home.label.components.LabelTopAppBar
 fun LabelScreen(
     uiState: LabelUiState,
     visualState: VisualState,
-    selectedNotes: SnapshotStateList<Note>,
     snackbarHostState: SnackbarHostState,
     listStyle: ListStyle,
-    onNoteClick: (note: Note) -> Unit,
-    onNotePress: (note: Note) -> Unit,
-    onDismissNote: (DismissDirection, Note) -> Boolean,
+    onNoteClick: (index: Int) -> Unit,
+    onNotePress: (index: Int) -> Unit,
+    onDismissNote: (DismissDirection, index: Int) -> Boolean,
     onSearchClick: () -> Unit,
     onToggleListStyle: () -> Unit,
     onArchiveSelectedClick: () -> Unit,
@@ -55,7 +52,7 @@ fun LabelScreen(
         topBar = {
             LabelTopAppBar(
                 scrollBehavior = scrollBehavior,
-                selectedNotes = selectedNotes,
+                uiState = uiState,
                 onDeleteSelectedClick = onDeleteSelectedClick,
                 onCancelSelectionClick = onCancelSelectionClick,
                 onArchiveSelectedClick = onArchiveSelectedClick,
@@ -65,7 +62,6 @@ fun LabelScreen(
                 onToggleListStyle = onToggleListStyle,
                 onRenameClick = onRenameClick,
                 onDeleteClick = onDeleteClick,
-                label = uiState.label,
             )
         },
     ) { paddingValues ->
@@ -87,8 +83,7 @@ fun LabelScreen(
                     onLongClick = onNotePress,
                     onDismiss = onDismissNote,
                     isSwipeable = visualState.noteSwipesState.enabled,
-                    categories = uiState.noteCategories,
-                    selectedNotes = selectedNotes,
+                    notes = uiState.selectableNoteWrappers,
                     listStyle = listStyle,
                 )
             }

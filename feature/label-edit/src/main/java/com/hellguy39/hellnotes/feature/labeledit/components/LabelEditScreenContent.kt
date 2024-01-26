@@ -10,7 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalContext
-import com.hellguy39.hellnotes.core.ui.focus.requestFocusWhen
+import com.hellguy39.hellnotes.core.ui.focus.requestOnceAfterRecompositionIf
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.labeledit.LabelEditUiState
@@ -26,7 +26,7 @@ fun LabelEditScreenContent(
 ) {
     val context = LocalContext.current
 
-    focusRequester.requestFocusWhen {
+    focusRequester.requestOnceAfterRecompositionIf {
         uiState.action == context.getString(AppStrings.Action.Create)
     }
 

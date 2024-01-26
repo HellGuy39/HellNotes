@@ -235,15 +235,18 @@ class NoteDetailViewModel
             viewModelScope.launch {
                 val noteId = note.value.id ?: return@launch
 
-                val checklist =
-                    Checklist.initialInstance(
-                        noteId = noteId,
-                        items = listOf(ChecklistItem.newInstance()),
+                val checklistId =
+                    checklistRepository.insertChecklist(
+                        checklist =
+                            Checklist.initialInstance(
+                                noteId = noteId,
+                                items = listOf(ChecklistItem.newInstance()),
+                            ),
                     )
-
-                val checklistId = checklistRepository.insertChecklist(checklist = checklist)
+                // TODO: Handle null
+                val checklist = checklistRepository.getChecklistById(checklistId) ?: return@launch
                 checklists.update { checklists ->
-                    checklists.plus(checklistRepository.getChecklistById(checklistId))
+                    checklists.plus(checklist)
                 }
             }
         }
@@ -309,7 +312,8 @@ class NoteDetailViewModel
 
         private fun loadNote(noteId: Long) {
             viewModelScope.launch {
-                val note = noteRepository.getNoteById(noteId)
+                // TODO: Handle that note not found
+                val note = noteRepository.getNoteById(noteId) ?: return@launch
                 val checklists = checklistRepository.getChecklistsByNoteId(noteId)
 
                 this@NoteDetailViewModel.note.update { note }

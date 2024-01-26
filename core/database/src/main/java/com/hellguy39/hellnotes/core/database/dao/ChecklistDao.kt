@@ -12,35 +12,37 @@ interface ChecklistDao {
         SELECT * FROM $CHECKLIST_TABLE_NAME
     """,
     )
-    fun getAllChecklistsStream(): Flow<List<ChecklistEntity>>
+    fun getAllFlow(): Flow<List<ChecklistEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertChecklist(checklistEntity: ChecklistEntity): Long
+    suspend fun insert(checklistEntity: ChecklistEntity): Long
 
     @Delete
-    suspend fun deleteChecklist(checklistEntity: ChecklistEntity)
+    suspend fun delete(checklistEntity: ChecklistEntity)
 
     @Update
-    suspend fun updateChecklist(checklistEntity: ChecklistEntity)
+    suspend fun update(checklistEntity: ChecklistEntity)
 
     @Update
-    suspend fun updateChecklists(checklistEntities: List<ChecklistEntity>)
+    suspend fun update(checklistEntities: List<ChecklistEntity>)
 
     @Query(
         """
         SELECT * FROM $CHECKLIST_TABLE_NAME 
         WHERE id = :id
+        LIMIT 1
     """,
     )
-    fun getChecklistByIdStream(id: Long): Flow<ChecklistEntity>
+    fun findByIdFlow(id: Long): Flow<ChecklistEntity?>
 
     @Query(
         """
         SELECT * FROM $CHECKLIST_TABLE_NAME 
         WHERE id = :id
+        LIMIT 1
     """,
     )
-    suspend fun getChecklistById(id: Long): ChecklistEntity
+    suspend fun findById(id: Long): ChecklistEntity?
 
     @Query(
         """
@@ -48,7 +50,7 @@ interface ChecklistDao {
         WHERE id = :id
     """,
     )
-    suspend fun deleteChecklistById(id: Long)
+    suspend fun deleteById(id: Long)
 
     @Query(
         """
@@ -63,7 +65,7 @@ interface ChecklistDao {
         WHERE noteId = :noteId
     """,
     )
-    suspend fun deleteChecklistByNoteId(noteId: Long)
+    suspend fun deleteByNoteId(noteId: Long)
 
     @Query(
         """
@@ -71,13 +73,14 @@ interface ChecklistDao {
         WHERE noteId = :noteId
     """,
     )
-    suspend fun getChecklistsByNoteId(noteId: Long): List<ChecklistEntity>
+    suspend fun findByNoteId(noteId: Long): List<ChecklistEntity>
 
     @Query(
         """
         SELECT * FROM $CHECKLIST_TABLE_NAME 
         WHERE noteId = :noteId
+        LIMIT 1
     """,
     )
-    fun getChecklistByNoteIdStream(noteId: Long): Flow<ChecklistEntity>
+    fun findByNoteIdFlow(noteId: Long): Flow<ChecklistEntity?>
 }

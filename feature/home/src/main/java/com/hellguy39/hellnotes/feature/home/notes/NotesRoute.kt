@@ -8,14 +8,11 @@ import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.analytics.LocalAnalytics
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.analytics.buttonClick
 import com.hellguy39.hellnotes.core.ui.lifecycle.collectAsEventsWithLifecycle
-import com.hellguy39.hellnotes.feature.home.ActionSingleEvent
-import com.hellguy39.hellnotes.feature.home.ActionViewModel
+import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 import com.hellguy39.hellnotes.feature.home.HomeState
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 
@@ -29,7 +26,6 @@ fun NotesRoute(
     navigateToNoteDetail: (id: Long?) -> Unit,
     notesViewModel: NotesViewModel = hiltViewModel(),
     visualsViewModel: VisualsViewModel = hiltViewModel(),
-    actionViewModel: ActionViewModel = hiltViewModel(),
 ) {
     TrackScreenView(screenName = SCREEN_NAME)
 
@@ -37,12 +33,20 @@ fun NotesRoute(
 
     val uiState by notesViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
-    val selectedNotes = actionViewModel.selectedNotes
 
-    actionViewModel.actionSingleEvents.collectAsEventsWithLifecycle { event ->
+//    notesViewModel.singleEvents.collectAsEventsWithLifecycle { event ->
+//        when (event) {
+//            is NotesSingleEvent.ShowSnackbar -> {
+//                homeState.showSnack(event.text, event.action)
+//            }
+//            else -> Unit
+//        }
+//    }
+
+    notesViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
         when (event) {
-            is ActionSingleEvent.ShowSnackbar -> {
-                homeState.showSnack(event.text, actionViewModel::undo)
+            is NotesNavigationEvent.NavigateToNoteDetail -> {
+                navigateToNoteDetail(event.noteId)
             }
         }
     }
@@ -50,73 +54,39 @@ fun NotesRoute(
     NotesScreen(
         uiState = uiState,
         visualState = visualState,
-        selectedNotes = selectedNotes,
         onAddNewNoteClick =
             remember {
                 {
-                    analyticsLogger.buttonClick("NotesScreen", "fab_add_new_note")
+                    analyticsLogger.buttonClick(SCREEN_NAME, "fab_add_new_note")
                     navigateToNoteDetail(Arguments.NoteId.emptyValue)
                 }
             },
         onNoteClick =
             remember {
-                { note: Note ->
-                    if (selectedNotes.isEmpty()) {
-                        navigateToNoteDetail(note.id)
-                    } else {
-                        if (selectedNotes.contains(note)) {
-                            actionViewModel.unselectNote(note)
-                        } else {
-                            actionViewModel.selectNote(note)
-                        }
-                    }
+                { positionInfo: PartitionElementPositionInfo ->
+                    notesViewModel.onNoteClick(positionInfo)
                 }
             },
         onNotePress =
             remember {
-                { note: Note ->
-                    if (selectedNotes.contains(note)) {
-                        actionViewModel.unselectNote(note)
-                    } else {
-                        actionViewModel.selectNote(note)
-                    }
+                { positionInfo: PartitionElementPositionInfo ->
+                    notesViewModel.onNotePress(positionInfo)
                 }
             },
         onDismissNote =
             remember {
-                { direction: DismissDirection, note: Note ->
-                    val swipeAction =
-                        if (direction == DismissDirection.StartToEnd) {
-                            visualState.noteSwipesState.swipeRight
-                        } else {
-                            visualState.noteSwipesState.swipeLeft
-                        }
-
-                    when (swipeAction) {
-                        NoteSwipe.None -> false
-                        NoteSwipe.Delete -> {
-                            actionViewModel.deleteNote(note = note)
-                            true
-                        }
-
-                        NoteSwipe.Archive -> {
-                            actionViewModel.archiveNote(note = note, isArchived = true)
-                            true
-                        }
-                    }
+                { direction: DismissDirection, positionInfo: PartitionElementPositionInfo ->
+                    val swipeAction = visualsViewModel.calculateSwipeAction(direction)
+                    notesViewModel.onNoteDismiss(swipeAction, positionInfo)
+                    visualsViewModel.calculateSwipeResult(swipeAction)
                 }
             },
         onNavigationClick = remember { { homeState.openDrawer() } },
-        onDeleteSelectedNotesClick = remember { { actionViewModel.deleteSelectedNotes() } },
+        onDeleteSelectedNotesClick = remember { { notesViewModel.onDeleteSelectedItems() } },
         onToggleListStyle = remember { { visualsViewModel.toggleListStyle() } },
         onSearchbarClick = remember { { navigateToSearch() } },
-        onCancelNoteSelection = remember { { actionViewModel.cancelNoteSelection() } },
-        onArchiveSelectedNotesClick =
-            remember {
-                {
-                    actionViewModel.archiveSelectedNotes(true)
-                }
-            },
+        onCancelNoteSelection = remember { { notesViewModel.onCancelItemSelection() } },
+        onArchiveSelectedNotesClick = remember { { notesViewModel.onArchiveSelectedItems() } },
         snackbarHostState = homeState.snackbarHostState,
     )
 }

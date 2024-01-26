@@ -39,4 +39,7 @@ interface DataModule {
 
     @Binds
     fun bindBackupManager(i: BackupManagerImpl): BackupManager
+
+    @Binds
+    fun bindNoteActionController(i: NoteActionControllerImpl): NoteActionController
 }

@@ -9,9 +9,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalWindowInfo
+import kotlinx.coroutines.job
+
+fun FocusRequester.tryRequestFocus() {
+    try {
+        requestFocus()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
 
 @Composable
-fun FocusRequester.requestFocusWhen(condition: () -> Boolean) {
+fun FocusRequester.requestAfterRecomposition() {
+    LaunchedEffect(Unit) {
+        this.coroutineContext.job.invokeOnCompletion {
+            tryRequestFocus()
+        }
+    }
+}
+
+@Composable
+fun FocusRequester.requestOnceAfterRecompositionIf(condition: () -> Boolean) {
     var isFocusRequested by rememberSaveable { mutableStateOf(false) }
 
     if (isFocusRequested) return
@@ -24,8 +42,10 @@ fun FocusRequester.requestFocusWhen(condition: () -> Boolean) {
                 windowInfo.isWindowFocused
             }.collect { isWindowFocused ->
                 if (isWindowFocused) {
-                    requestFocus()
                     isFocusRequested = true
+                    this.coroutineContext.job.invokeOnCompletion {
+                        tryRequestFocus()
+                    }
                 }
             }
         }

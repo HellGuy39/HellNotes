@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNote(noteEntity: NoteEntity): Long
+    suspend fun insert(noteEntity: NoteEntity): Long
 
     @Delete
-    suspend fun deleteNote(noteEntity: NoteEntity)
+    suspend fun delete(noteEntity: NoteEntity)
 
     @Delete
-    suspend fun deleteNotes(noteEntity: List<NoteEntity>)
+    suspend fun delete(noteEntity: List<NoteEntity>)
 
     @Query(
         """
@@ -27,48 +27,45 @@ interface NoteDao {
         WHERE id = :id
     """,
     )
-    suspend fun deleteNoteById(id: Long)
+    suspend fun deleteById(id: Long)
 
     @Query(
         """
         SELECT * FROM $NOTES_TABLE_NAME
     """,
     )
-    suspend fun getAllNotes(): List<NoteEntity>
+    suspend fun getAll(): List<NoteEntity>
 
     @Query(
         """
         SELECT * FROM $NOTES_TABLE_NAME
     """,
     )
-    fun getAllNotesStream(): Flow<List<NoteEntity>>
-
-//    @Query("SELECT * FROM notes_table " +
-//            "WHERE title LIKE '%' || :query || '%' " +
-//            "OR note LIKE '%' || :query || '%'")
-//    fun getAllNotesByQueryStream(query: String): Flow<List<NoteEntity>>
+    fun getAllFlow(): Flow<List<NoteEntity>>
 
     @Query(
         """
         SELECT * FROM $NOTES_TABLE_NAME
         WHERE id = :id
+        LIMIT 1
     """,
     )
-    fun getNoteByIdStream(id: Long): Flow<NoteEntity>
+    fun findByIdFlow(id: Long): Flow<NoteEntity?>
 
     @Query(
         """
         SELECT * FROM $NOTES_TABLE_NAME
         WHERE id = :id
+        LIMIT 1
     """,
     )
-    suspend fun getNoteById(id: Long): NoteEntity
+    suspend fun findById(id: Long): NoteEntity?
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateNote(noteEntity: NoteEntity)
+    suspend fun update(noteEntity: NoteEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateNotes(noteEntities: List<NoteEntity>)
+    suspend fun update(noteEntities: List<NoteEntity>)
 
     @Query(
         """
