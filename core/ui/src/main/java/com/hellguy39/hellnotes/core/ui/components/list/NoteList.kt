@@ -12,7 +12,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
@@ -39,7 +39,7 @@ fun NoteList(
     onClick: (position: PartitionElementPositionInfo) -> Unit,
     onLongClick: (position: PartitionElementPositionInfo) -> Unit,
     onDismiss: (DismissDirection, position: PartitionElementPositionInfo) -> Boolean = remember { { _, _ -> false } },
-    volume: UiVolume<Selectable<NoteDetailWrapper>>,
+    volume: UiVolume<Selectable<NoteWrapper>>,
     listStyle: ListStyle = ListStyle.Column,
     listHeader: @Composable () -> Unit = {},
 ) {
@@ -84,7 +84,7 @@ fun NoteList(
     onClick: (index: Int) -> Unit,
     onLongClick: (index: Int) -> Unit,
     onDismiss: (DismissDirection, index: Int) -> Boolean = remember { { _, _ -> false } },
-    notes: SnapshotStateList<Selectable<NoteDetailWrapper>> = mutableStateListOf(),
+    notes: SnapshotStateList<Selectable<NoteWrapper>> = mutableStateListOf(),
     listStyle: ListStyle = ListStyle.Column,
     listHeader: @Composable () -> Unit = {},
 ) {

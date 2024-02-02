@@ -5,7 +5,10 @@ import com.hellguy39.hellnotes.core.ui.R
 object AppStrings {
     val AppName = R.string.app_name
 
-    val Markdown = R.string.markdown
+    object Chip {
+        val Markdown = R.string.markdown
+        val ReadOnly = R.string.read_only
+    }
 
     object ContentDescription {
         val Pin = R.string.content_description_pin
@@ -45,6 +48,8 @@ object AppStrings {
         val Labels = R.string.menu_item_labels
         val Rename = R.string.menu_item_rename
         val Delete = R.string.menu_item_delete
+        val DeleteForever = R.string.menu_item_delete_forever
+        val Restore = R.string.menu_item_restore
         val PlainText = R.string.menu_item_plain_text
         val TxtFile = R.string.menu_item_txt_file
         val Share = R.string.menu_item_share

@@ -45,7 +45,6 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
-import com.hellguy39.hellnotes.core.model.repository.local.database.hasContentText
 import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
@@ -66,7 +65,7 @@ fun NoteDetailContent(
     focusRequester: FocusRequester,
     lazyListState: LazyListState,
 ) {
-    focusRequester.requestOnceAfterRecompositionIf { !uiState.wrapper.note.hasContentText() }
+    focusRequester.requestOnceAfterRecompositionIf { !uiState.wrapper.note.hasContentText }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -89,6 +88,7 @@ fun NoteDetailContent(
                 onValueChange = { newText -> selection.onTitleTextChanged(newText) },
                 hint = stringResource(id = AppStrings.Hint.Title),
                 textStyle = MaterialTheme.typography.titleLarge,
+                readOnly = uiState.isReadOnly,
             )
         }
         item(-2) {
@@ -103,6 +103,7 @@ fun NoteDetailContent(
                 onValueChange = { newText -> selection.onNoteTextChanged(newText) },
                 hint = stringResource(id = AppStrings.Hint.Note),
                 textStyle = MaterialTheme.typography.bodyLarge,
+                readOnly = uiState.isReadOnly,
             )
         }
 
@@ -163,11 +164,13 @@ fun NoteDetailContent(
                             },
                             isSingleLine = true,
                             hint = stringResource(id = AppStrings.Hint.NewChecklist),
+                            readOnly = uiState.isReadOnly,
                         )
 
                         IconButton(
                             modifier = Modifier.size(48.dp),
                             onClick = { dropdownMenuState.show() },
+                            enabled = !uiState.isReadOnly,
                         ) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
@@ -201,6 +204,7 @@ fun NoteDetailContent(
                                     modifier =
                                         Modifier
                                             .clickable(
+                                                enabled = !uiState.isReadOnly,
                                                 role = Role.Checkbox,
                                                 onClick = {
                                                     checklistSelection.onCheckedChange(
@@ -223,43 +227,46 @@ fun NoteDetailContent(
                                     onDeleteItem = {
                                         checklistSelection.onDeleteChecklistItem(checklist, item)
                                     },
+                                    readOnly = uiState.isReadOnly,
                                 )
                             }
-                            Row(
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .size(56.dp)
-                                        .clickable { checklistSelection.onAddChecklistItem(checklist) },
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Box(
+                            if (!uiState.isReadOnly) {
+                                Row(
                                     modifier =
                                         Modifier
-                                            .size(48.dp),
-                                    contentAlignment = Alignment.Center,
+                                            .fillMaxWidth()
+                                            .size(56.dp)
+                                            .clickable { checklistSelection.onAddChecklistItem(checklist) },
+                                    verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Icon(
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Box(
                                         modifier =
                                             Modifier
-                                                .size(24.dp),
-                                        painter = painterResource(id = AppIcons.Add),
-                                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                        contentDescription = null,
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                ) {
-                                    Text(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        text = stringResource(id = AppStrings.Hint.AddNewItem),
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        textAlign = TextAlign.Start,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    )
+                                                .size(48.dp),
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        Icon(
+                                            modifier =
+                                                Modifier
+                                                    .size(24.dp),
+                                            painter = painterResource(id = AppIcons.Add),
+                                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                            contentDescription = null,
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                    ) {
+                                        Text(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            text = stringResource(id = AppStrings.Hint.AddNewItem),
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            textAlign = TextAlign.Start,
+                                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -274,7 +281,7 @@ fun NoteDetailContent(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = Spaces.medium),
                     reminders = uiState.wrapper.reminders,
                     labels = uiState.wrapper.labels,
                     onRemindClick = { remind ->
@@ -283,8 +290,8 @@ fun NoteDetailContent(
                     onLabelClick = { label ->
                         selection.onLabelClick(label)
                     },
-                    crossAxisSpacing = 16.dp,
-                    mainAxisSpacing = 16.dp,
+                    crossAxisSpacing = Spaces.medium,
+                    mainAxisSpacing = Spaces.medium,
                 )
             }
         }
@@ -296,6 +303,7 @@ fun CheckListItem(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
     startPadding: Dp = 0.dp,
+    readOnly: Boolean = false,
     item: ChecklistItem,
     onDeleteItem: () -> Unit,
     onValueChange: (String) -> Unit,
@@ -334,6 +342,7 @@ fun CheckListItem(
                         textDecoration = if (item.isChecked) TextDecoration.LineThrough else null,
                     ),
                 hint = stringResource(id = AppStrings.Hint.Item),
+                readOnly = readOnly,
             )
 
             HNIconButton(

@@ -2,8 +2,8 @@ package com.hellguy39.hellnotes.core.data.repository.local
 
 import com.hellguy39.hellnotes.core.database.dao.ReminderDao
 import com.hellguy39.hellnotes.core.database.entity.ReminderEntity
-import com.hellguy39.hellnotes.core.database.mapper.toRemind
-import com.hellguy39.hellnotes.core.database.mapper.toRemindEntity
+import com.hellguy39.hellnotes.core.database.mapper.toReminder
+import com.hellguy39.hellnotes.core.database.mapper.toReminderEntity
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import kotlinx.coroutines.flow.Flow
@@ -16,11 +16,11 @@ class ReminderRepositoryImpl
         private val reminderDao: ReminderDao,
     ) : ReminderRepository {
         override suspend fun insertReminder(reminder: Reminder): Long {
-            return reminderDao.insert(reminder.toRemindEntity())
+            return reminderDao.insert(reminder.toReminderEntity())
         }
 
         override suspend fun deleteReminder(reminder: Reminder) {
-            reminderDao.delete(reminder.toRemindEntity())
+            reminderDao.delete(reminder.toReminderEntity())
         }
 
         override suspend fun deleteReminderById(id: Long) {
@@ -32,26 +32,26 @@ class ReminderRepositoryImpl
         }
 
         override fun getAllRemindersStream(): Flow<List<Reminder>> {
-            return reminderDao.getAllFlow().map { it.map(ReminderEntity::toRemind) }
+            return reminderDao.getAllFlow().map { it.map(ReminderEntity::toReminder) }
         }
 
         override suspend fun getReminderById(id: Long): Reminder? {
-            return reminderDao.findById(id)?.toRemind()
+            return reminderDao.findById(id)?.toReminder()
         }
 
         override suspend fun getRemindersByNoteId(noteId: Long): List<Reminder> {
-            return reminderDao.findByNoteId(noteId).map { it.toRemind() }
+            return reminderDao.findByNoteId(noteId).map { it.toReminder() }
         }
 
         override fun getRemindersByNoteIdStream(noteId: Long): Flow<List<Reminder>> {
-            return reminderDao.findByNoteIdFlow(noteId).map { it.map(ReminderEntity::toRemind) }
+            return reminderDao.findByNoteIdFlow(noteId).map { it.map(ReminderEntity::toReminder) }
         }
 
         override suspend fun updateReminder(reminder: Reminder) {
-            reminderDao.update(reminder.toRemindEntity())
+            reminderDao.update(reminder.toReminderEntity())
         }
 
         override suspend fun getAllReminders(): List<Reminder> {
-            return reminderDao.getAll().map { reminderEntity -> reminderEntity.toRemind() }
+            return reminderDao.getAll().map { reminderEntity -> reminderEntity.toReminder() }
         }
     }

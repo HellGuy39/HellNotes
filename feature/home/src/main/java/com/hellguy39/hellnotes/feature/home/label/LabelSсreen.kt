@@ -83,7 +83,7 @@ fun LabelScreen(
                     onLongClick = onNotePress,
                     onDismiss = onDismissNote,
                     isSwipeable = visualState.noteSwipesState.enabled,
-                    notes = uiState.selectableNoteWrappers,
+                    notes = uiState.noteWrappers,
                     listStyle = listStyle,
                 )
             }

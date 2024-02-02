@@ -47,9 +47,8 @@ fun TermsAndConditionsScreen(
                                         .height(FilterChipDefaults.Height)
                                         .padding(horizontal = 12.dp),
                                 selected = false,
-                                onClick = {
-                                },
-                                label = { Text(text = stringResource(id = AppStrings.Markdown)) },
+                                onClick = {},
+                                label = { Text(text = stringResource(id = AppStrings.Chip.Markdown)) },
                             )
                         }
                     },

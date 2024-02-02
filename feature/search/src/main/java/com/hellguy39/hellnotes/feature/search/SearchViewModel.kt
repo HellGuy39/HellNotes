@@ -5,8 +5,8 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNoteWrappersUseCase
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNoteWrappersFlowUseCase
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.toSelectable
@@ -22,7 +22,7 @@ class SearchViewModel
     @Inject
     constructor(
         dataStoreRepository: DataStoreRepository,
-        getAllNoteWrappersUseCase: GetAllNoteWrappersUseCase,
+        getAllNoteWrappersFlowUseCase: GetAllNoteWrappersFlowUseCase,
     ) : ViewModel() {
         private val search = MutableStateFlow("")
 
@@ -30,14 +30,14 @@ class SearchViewModel
 
         val uiState: StateFlow<SearchUiState> =
             combine(
-                getAllNoteWrappersUseCase.invoke(),
+                getAllNoteWrappersFlowUseCase.invoke(),
                 search,
                 filters,
                 dataStoreRepository.readListStyleState(),
                 dataStoreRepository.readNoteStyleState(),
             ) { notes, search, filters, listStyle, noteStyle ->
 
-                var searchedNotes: List<NoteDetailWrapper> =
+                var searchedNotes: List<NoteWrapper> =
                     notes.filter { note ->
                         note.note.note.contains(search, true) ||
                             note.note.title.contains(search, true)
@@ -128,7 +128,7 @@ data class SearchUiState(
     val listStyle: ListStyle = ListStyle.Column,
     val noteStyle: NoteStyle = NoteStyle.Outlined,
     val isEmpty: Boolean = false,
-    val noteWrappers: SnapshotStateList<Selectable<NoteDetailWrapper>> = mutableStateListOf(),
+    val noteWrappers: SnapshotStateList<Selectable<NoteWrapper>> = mutableStateListOf(),
     val filters: FilterSelection = FilterSelection(),
 )
 

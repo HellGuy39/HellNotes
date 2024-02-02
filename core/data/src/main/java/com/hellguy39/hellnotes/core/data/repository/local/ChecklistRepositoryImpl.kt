@@ -21,6 +21,10 @@ class ChecklistRepositoryImpl
                 }
         }
 
+        override suspend fun getAllChecklists(): List<Checklist> {
+            return checklistDao.getAll().map { checklistEntity -> checklistEntity.toChecklist() }
+        }
+
         override suspend fun insertChecklist(checklist: Checklist): Long {
             return checklistDao.insert(checklist.toChecklistEntity())
         }

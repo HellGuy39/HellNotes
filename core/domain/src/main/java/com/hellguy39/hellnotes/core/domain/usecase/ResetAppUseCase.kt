@@ -12,7 +12,6 @@ class ResetAppUseCase
         private val labelRepository: LabelRepository,
         private val checklistRepository: ChecklistRepository,
         private val reminderRepository: ReminderRepository,
-        private val trashRepository: TrashRepository,
         private val deleteReminderUseCase: DeleteReminderUseCase,
     ) {
         suspend operator fun invoke(
@@ -31,7 +30,6 @@ class ResetAppUseCase
             noteRepository.deleteAll()
             labelRepository.deleteAll()
             checklistRepository.deleteAll()
-            trashRepository.deleteAll()
 
             reminderRepository.getAllReminders().forEach { reminder ->
                 deleteReminderUseCase.invoke(reminder.id ?: return)

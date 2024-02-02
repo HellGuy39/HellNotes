@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.hasAnythingToShow
 import com.hellguy39.hellnotes.core.model.repository.local.database.isChecklistsValid
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
@@ -48,7 +48,7 @@ fun NoteCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
-    noteDetailWrapper: NoteDetailWrapper,
+    noteWrapper: NoteWrapper,
     isSelected: Boolean = false,
     noteStyle: NoteStyle,
 ) {
@@ -87,7 +87,7 @@ fun NoteCard(
                 border = cardBorder,
             ) {
                 NoteCardContent(
-                    noteDetailWrapper = noteDetailWrapper,
+                    noteWrapper = noteWrapper,
                     onClick = onClick,
                     onLongClick = onLongClick,
                 )
@@ -104,7 +104,7 @@ fun NoteCard(
                 elevation = CardDefaults.elevatedCardElevation(defaultElevation = Elevation.Level2),
             ) {
                 NoteCardContent(
-                    noteDetailWrapper = noteDetailWrapper,
+                    noteWrapper = noteWrapper,
                     onClick = onClick,
                     onLongClick = onLongClick,
                 )
@@ -116,17 +116,17 @@ fun NoteCard(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteCardContent(
-    noteDetailWrapper: NoteDetailWrapper,
+    noteWrapper: NoteWrapper,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
 
-    val isTitleVisible = noteDetailWrapper.note.title.isNotEmpty() || noteDetailWrapper.note.title.isNotBlank()
-    val isNoteVisible = noteDetailWrapper.note.note.isNotEmpty() || noteDetailWrapper.note.note.isNotBlank()
-    val isChipsVisible = noteDetailWrapper.labels.isNotEmpty() || noteDetailWrapper.reminders.isNotEmpty()
-    val isChecklistVisible = noteDetailWrapper.checklists.isChecklistsValid()
-    val hasAnyVisibleContent = noteDetailWrapper.hasAnythingToShow()
+    val isTitleVisible = noteWrapper.note.title.isNotEmpty() || noteWrapper.note.title.isNotBlank()
+    val isNoteVisible = noteWrapper.note.note.isNotEmpty() || noteWrapper.note.note.isNotBlank()
+    val isChipsVisible = noteWrapper.labels.isNotEmpty() || noteWrapper.reminders.isNotEmpty()
+    val isChecklistVisible = noteWrapper.checklists.isChecklistsValid()
+    val hasAnyVisibleContent = noteWrapper.hasAnythingToShow()
 
     Box(
         modifier =
@@ -148,7 +148,7 @@ fun NoteCardContent(
         ) {
             if (isTitleVisible) {
                 Text(
-                    text = noteDetailWrapper.note.title,
+                    text = noteWrapper.note.title,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -157,7 +157,7 @@ fun NoteCardContent(
 
             if (isNoteVisible || !hasAnyVisibleContent) {
                 Text(
-                    text = if (!hasAnyVisibleContent) stringResource(id = AppStrings.Body.NewNote) else noteDetailWrapper.note.note,
+                    text = if (!hasAnyVisibleContent) stringResource(id = AppStrings.Body.NewNote) else noteWrapper.note.note,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 3,
                     modifier = Modifier,
@@ -167,15 +167,15 @@ fun NoteCardContent(
 
             if (isChecklistVisible) {
                 NoteChecklistGroup(
-                    checklists = noteDetailWrapper.checklists,
+                    checklists = noteWrapper.checklists,
                 )
             }
 
             if (isChipsVisible) {
                 NoteChipGroup(
                     modifier = Modifier,
-                    reminders = noteDetailWrapper.reminders,
-                    labels = noteDetailWrapper.labels,
+                    reminders = noteWrapper.reminders,
+                    labels = noteWrapper.labels,
                     limitElements = true,
                     maxElements = 2,
                 )

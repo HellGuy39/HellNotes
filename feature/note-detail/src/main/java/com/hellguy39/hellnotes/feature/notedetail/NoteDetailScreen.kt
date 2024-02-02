@@ -46,6 +46,7 @@ fun NoteDetailScreen(
             NoteDetailTopAppBar(
                 scrollBehavior = scrollBehavior,
                 topAppBarSelection = topAppBarSelection,
+                isReadOnly = uiState.isReadOnly,
             )
         },
         bottomBar = {

@@ -1,9 +1,10 @@
 package com.hellguy39.hellnotes.feature.notedetail.util
 
-import androidx.compose.ui.graphics.painter.Painter
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 
 data class BottomSheetMenuItemHolder(
-    val icon: Painter,
-    val title: String = "",
+    val icon: UiIcon = UiIcon.Empty,
+    val title: UiText = UiText.Empty,
     val onClick: () -> Unit = {},
 )

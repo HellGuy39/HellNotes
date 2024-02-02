@@ -9,7 +9,9 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -20,14 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
-import com.hellguy39.hellnotes.core.model.repository.local.database.isNoteValid
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.CustomDialog
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.rememberDialogState
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.lifecycle.collectAsEventsWithLifecycle
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailChecklistSelection
 import com.hellguy39.hellnotes.feature.notedetail.components.NoteDetailContentSelection
@@ -45,6 +48,14 @@ fun NoteDetailRoute(
     navigateToReminderEdit: (noteId: Long, reminderId: Long) -> Unit,
 ) {
     TrackScreenView(screenName = "NoteDetailScreen")
+
+    noteDetailViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
+        when (event) {
+            NoteDetailNavigationEvent.NavigateBack -> {
+                navigateBack()
+            }
+        }
+    }
 
     val noteDetailState = rememberNoteDetailState()
 
@@ -97,22 +108,18 @@ fun NoteDetailRoute(
         onCancel = { confirmDialogState.dismiss() },
         onAccept = {
             confirmDialogState.dismiss()
-            noteDetailViewModel.send(NoteDetailUiEvent.DeleteNote)
+            noteDetailViewModel.send(NoteDetailUiEvent.MoveToTrash)
             navigateBack()
         },
     )
 
     var isOpenMenuBottomSheet by rememberSaveable { mutableStateOf(false) }
     val attachmentBottomSheetState =
-        rememberModalBottomSheetState(
-            skipPartiallyExpanded = false,
-        )
+        rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     var isOpenAttachmentBottomSheet by rememberSaveable { mutableStateOf(false) }
     val menuBottomSheetState =
-        rememberModalBottomSheetState(
-            skipPartiallyExpanded = false,
-        )
+        rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     fun closeMenuBottomSheet() {
         scope.launch {
@@ -136,98 +143,68 @@ fun NoteDetailRoute(
 
     val listItemModifier = Modifier.padding(16.dp)
 
-    val menuBottomSheetItems =
-        listOf(
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.Delete),
-                icon = painterResource(id = AppIcons.Delete),
-                onClick = {
-                    closeMenuBottomSheet()
-                    confirmDialogState.show()
-                },
-            ),
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.MakeACopy),
-                icon = painterResource(id = AppIcons.ContentCopy),
-                onClick = {
-                    closeMenuBottomSheet()
-                    noteDetailViewModel.send(NoteDetailUiEvent.CopyNote)
-                    noteDetailState.showSnack(
-                        UiText.StringResources(AppStrings.Snack.NoteHasBeenCopied),
-                    )
-                },
-            ),
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.Share),
-                icon = painterResource(id = AppIcons.Share),
-                onClick = {
-                    closeMenuBottomSheet()
-                    val note = uiState.wrapper.note
-                    if (note.isNoteValid()) {
-                        shareDialogState.show()
-                    } else {
-                        noteDetailState.showSnack(
-                            UiText.StringResources(AppStrings.Snack.NothingToShare),
-                        )
-                    }
-                },
-            ),
-        )
-
-    val attachmentSheetItems =
-        listOf(
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.TakeAPhoto),
-                icon = painterResource(id = AppIcons.PhotoCamera),
-                onClick = {
-                    closeAttachmentBottomSheet()
-                    noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
-                },
-            ),
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.Image),
-                icon = painterResource(id = AppIcons.Image),
-                onClick = {
-                    closeAttachmentBottomSheet()
-                    noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
-                },
-            ),
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.Recording),
-                icon = painterResource(id = AppIcons.Mic),
-                onClick = {
-                    closeAttachmentBottomSheet()
-                    noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
-                },
-            ),
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.Place),
-                icon = painterResource(id = AppIcons.PinDrop),
-                onClick = {
-                    closeAttachmentBottomSheet()
-                    noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
-                },
-            ),
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.Checklist),
-                icon = painterResource(id = AppIcons.Checklist),
-                onClick = {
-                    closeAttachmentBottomSheet()
-                    noteDetailViewModel.send(NoteDetailUiEvent.AddChecklist)
-                },
-            ),
-            BottomSheetMenuItemHolder(
-                title = stringResource(id = AppStrings.MenuItem.Labels),
-                icon = painterResource(id = AppIcons.Label),
-                onClick = {
-                    closeAttachmentBottomSheet()
-                    val id = uiState.wrapper.note.id ?: 0
-                    navigateToLabelSelection(id)
-                },
-            ),
-        )
-
     if (isOpenMenuBottomSheet) {
+        val menuBottomSheetItems =
+            remember {
+                if (uiState.isReadOnly) {
+                    mutableStateListOf(
+                        BottomSheetMenuItemHolder(
+                            title = UiText.StringResources(AppStrings.MenuItem.Restore),
+                            icon = UiIcon.DrawableResources(AppIcons.RestoreFromTrash),
+                            onClick = {
+                                closeMenuBottomSheet()
+                                noteDetailViewModel.send(NoteDetailUiEvent.Restore)
+                            },
+                        ),
+                        BottomSheetMenuItemHolder(
+                            title = UiText.StringResources(AppStrings.MenuItem.DeleteForever),
+                            icon = UiIcon.DrawableResources(AppIcons.DeleteForever),
+                            onClick = {
+                                closeMenuBottomSheet()
+                                noteDetailViewModel.send(NoteDetailUiEvent.DeleteForever)
+                            },
+                        ),
+                    )
+                } else {
+                    mutableStateListOf(
+                        BottomSheetMenuItemHolder(
+                            title = UiText.StringResources(AppStrings.MenuItem.Delete),
+                            icon = UiIcon.DrawableResources(AppIcons.Delete),
+                            onClick = {
+                                closeMenuBottomSheet()
+                                confirmDialogState.show()
+                            },
+                        ),
+                        BottomSheetMenuItemHolder(
+                            title = UiText.StringResources(AppStrings.MenuItem.MakeACopy),
+                            icon = UiIcon.DrawableResources(AppIcons.ContentCopy),
+                            onClick = {
+                                closeMenuBottomSheet()
+                                noteDetailViewModel.send(NoteDetailUiEvent.CopyNote)
+                                noteDetailState.showSnack(
+                                    UiText.StringResources(AppStrings.Snack.NoteHasBeenCopied),
+                                )
+                            },
+                        ),
+                        BottomSheetMenuItemHolder(
+                            title = UiText.StringResources(AppStrings.MenuItem.Share),
+                            icon = UiIcon.DrawableResources(AppIcons.Share),
+                            onClick = {
+                                closeMenuBottomSheet()
+                                val note = uiState.wrapper.note
+                                if (note.isValid) {
+                                    shareDialogState.show()
+                                } else {
+                                    noteDetailState.showSnack(
+                                        UiText.StringResources(AppStrings.Snack.NothingToShare),
+                                    )
+                                }
+                            },
+                        ),
+                    )
+                }
+            }
+
         ModalBottomSheet(
             modifier = Modifier,
             onDismissRequest = { isOpenMenuBottomSheet = false },
@@ -246,6 +223,61 @@ fun NoteDetailRoute(
     }
 
     if (isOpenAttachmentBottomSheet) {
+        val attachmentSheetItems =
+            remember {
+                mutableStateListOf(
+                    BottomSheetMenuItemHolder(
+                        title = UiText.StringResources(AppStrings.MenuItem.TakeAPhoto),
+                        icon = UiIcon.DrawableResources(AppIcons.PhotoCamera),
+                        onClick = {
+                            closeAttachmentBottomSheet()
+                            noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
+                        },
+                    ),
+                    BottomSheetMenuItemHolder(
+                        title = UiText.StringResources(AppStrings.MenuItem.Image),
+                        icon = UiIcon.DrawableResources(AppIcons.Image),
+                        onClick = {
+                            closeAttachmentBottomSheet()
+                            noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
+                        },
+                    ),
+                    BottomSheetMenuItemHolder(
+                        title = UiText.StringResources(AppStrings.MenuItem.Recording),
+                        icon = UiIcon.DrawableResources(AppIcons.Mic),
+                        onClick = {
+                            closeAttachmentBottomSheet()
+                            noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
+                        },
+                    ),
+                    BottomSheetMenuItemHolder(
+                        title = UiText.StringResources(AppStrings.MenuItem.Place),
+                        icon = UiIcon.DrawableResources(AppIcons.PinDrop),
+                        onClick = {
+                            closeAttachmentBottomSheet()
+                            noteDetailState.showToast(UiText.StringResources(AppStrings.Toast.ComingSoon))
+                        },
+                    ),
+                    BottomSheetMenuItemHolder(
+                        title = UiText.StringResources(AppStrings.MenuItem.Checklist),
+                        icon = UiIcon.DrawableResources(AppIcons.Checklist),
+                        onClick = {
+                            closeAttachmentBottomSheet()
+                            noteDetailViewModel.send(NoteDetailUiEvent.AddChecklist)
+                        },
+                    ),
+                    BottomSheetMenuItemHolder(
+                        title = UiText.StringResources(AppStrings.MenuItem.Labels),
+                        icon = UiIcon.DrawableResources(AppIcons.Label),
+                        onClick = {
+                            closeAttachmentBottomSheet()
+                            val id = uiState.wrapper.note.id ?: 0
+                            navigateToLabelSelection(id)
+                        },
+                    ),
+                )
+            }
+
         ModalBottomSheet(
             modifier = Modifier,
             onDismissRequest = { isOpenAttachmentBottomSheet = false },
@@ -275,11 +307,13 @@ fun NoteDetailRoute(
                     noteDetailViewModel.send(NoteDetailUiEvent.UpdateNoteContent(newText))
                 },
                 onReminderClick = { reminder ->
+                    if (uiState.isReadOnly) return@NoteDetailContentSelection
                     val noteId = uiState.wrapper.note.id ?: 0
                     val reminderId = reminder.id ?: 0
                     navigateToReminderEdit(noteId, reminderId)
                 },
                 onLabelClick = { label ->
+                    if (uiState.isReadOnly) return@NoteDetailContentSelection
                     val id = uiState.wrapper.note.id ?: 0
                     navigateToLabelSelection(id)
                 },

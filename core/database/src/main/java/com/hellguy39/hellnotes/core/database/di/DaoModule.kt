@@ -24,7 +24,4 @@ object DaoModule {
 
     @Provides
     fun provideChecklistDao(database: HellNotesDatabase): ChecklistDao = database.checklistDao
-
-    @Provides
-    fun provideTrashDao(database: HellNotesDatabase): TrashDao = database.trashDao
 }

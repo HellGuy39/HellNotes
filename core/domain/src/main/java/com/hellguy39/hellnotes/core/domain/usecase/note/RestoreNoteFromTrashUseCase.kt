@@ -1,18 +1,21 @@
 package com.hellguy39.hellnotes.core.domain.usecase.note
 
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import javax.inject.Inject
 
 class RestoreNoteFromTrashUseCase
     @Inject
     constructor(
         private val noteRepository: NoteRepository,
-        private val trashRepository: TrashRepository,
     ) {
-        suspend operator fun invoke(note: Note) {
-            trashRepository.deleteTrashByNote(note)
-            noteRepository.insertNote(note)
+        suspend operator fun invoke(noteId: Long?) {
+            if (noteId == null) return
+            val note = noteRepository.getNoteById(noteId) ?: return
+            noteRepository.updateNote(
+                note.copy(
+                    editedAt = System.currentTimeMillis(),
+                    atTrash = false,
+                ),
+            )
         }
     }

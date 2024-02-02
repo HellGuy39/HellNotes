@@ -4,6 +4,8 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import kotlinx.coroutines.flow.Flow
 
 interface ChecklistRepository {
+    suspend fun getAllChecklists(): List<Checklist>
+
     fun getAllChecklistsStream(): Flow<List<Checklist>>
 
     suspend fun insertChecklist(checklist: Checklist): Long

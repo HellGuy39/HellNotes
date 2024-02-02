@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.components.items.noteItems
@@ -30,7 +30,7 @@ internal fun NoteColumnList(
     onClick: (position: PartitionElementPositionInfo) -> Unit,
     onLongClick: (position: PartitionElementPositionInfo) -> Unit,
     onDismiss: (DismissDirection, position: PartitionElementPositionInfo) -> Boolean,
-    volume: UiVolume<Selectable<NoteDetailWrapper>>,
+    volume: UiVolume<Selectable<NoteWrapper>>,
     listHeader: @Composable () -> Unit,
 ) {
     val state = rememberLazyListState()
@@ -80,7 +80,7 @@ internal fun NoteColumnList(
     onClick: (index: Int) -> Unit,
     onLongClick: (index: Int) -> Unit,
     onDismiss: (DismissDirection, index: Int) -> Boolean,
-    notes: SnapshotStateList<Selectable<NoteDetailWrapper>>,
+    notes: SnapshotStateList<Selectable<NoteWrapper>>,
     listHeader: @Composable () -> Unit,
 ) {
     val state = rememberLazyListState()

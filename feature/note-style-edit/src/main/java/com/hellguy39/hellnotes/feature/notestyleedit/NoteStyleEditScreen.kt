@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
@@ -51,8 +51,8 @@ fun NoteStyleEditScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val styles by remember { mutableStateOf(NoteStyle.styles()) }
 
-    val exampleNoteDetailWrapper =
-        NoteDetailWrapper(
+    val exampleNoteWrapper =
+        NoteWrapper(
             note =
                 Note(
                     title = "This is a sample note",
@@ -118,7 +118,7 @@ fun NoteStyleEditScreen(
                                         Modifier
                                             .padding(horizontal = 32.dp, vertical = 32.dp)
                                             .width(192.dp),
-                                    noteDetailWrapper = exampleNoteDetailWrapper,
+                                    noteWrapper = exampleNoteWrapper,
                                     noteStyle = style,
                                     isSelected = false,
                                     onClick = {},

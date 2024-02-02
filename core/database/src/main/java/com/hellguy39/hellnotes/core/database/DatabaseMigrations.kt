@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.core.database
 
 import androidx.room.DeleteColumn
+import androidx.room.DeleteTable
 import androidx.room.RenameColumn
 import androidx.room.RenameTable
 import androidx.room.migration.AutoMigrationSpec
@@ -10,6 +11,7 @@ import com.hellguy39.hellnotes.core.database.entity.CHECKLIST_TABLE_NAME
 import com.hellguy39.hellnotes.core.database.entity.NOTES_TABLE_NAME
 import com.hellguy39.hellnotes.core.database.entity.REMINDERS_TABLE_NAME
 import com.hellguy39.hellnotes.core.database.entity.REMINDS_TABLE_NAME
+import com.hellguy39.hellnotes.core.database.entity.TRASH_TABLE_NAME
 
 object DatabaseMigrations {
     @RenameTable(
@@ -43,4 +45,7 @@ object DatabaseMigrations {
                 )
             }
         }
+
+    @DeleteTable(tableName = TRASH_TABLE_NAME)
+    class Schema4to5 : AutoMigrationSpec
 }

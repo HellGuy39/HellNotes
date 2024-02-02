@@ -34,16 +34,15 @@ fun NotesRoute(
     val uiState by notesViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
 
-//    notesViewModel.singleEvents.collectAsEventsWithLifecycle { event ->
-//        when (event) {
-//            is NotesSingleEvent.ShowSnackbar -> {
-//                homeState.showSnack(event.text, event.action)
-//            }
-//            else -> Unit
-//        }
-//    }
+    notesViewModel.singleUiEventFlow.collectAsEventsWithLifecycle { event ->
+        when (event) {
+            is NotesSingleUiEvent.ShowSnackbar -> {
+                homeState.showSnack(event.text, event.action)
+            }
+        }
+    }
 
-    notesViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
+    notesViewModel.navigationEventsFlow.collectAsEventsWithLifecycle { event ->
         when (event) {
             is NotesNavigationEvent.NavigateToNoteDetail -> {
                 navigateToNoteDetail(event.noteId)

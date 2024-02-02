@@ -67,6 +67,7 @@ class HomeState(
 
     fun navigateToNavigationBarRoute(route: String) {
         if (route != currentRoute) {
+            dismissSnack()
             closeDrawer()
             navController.navigate(route) {
                 // Pop up to the start destination of the graph to
@@ -103,5 +104,9 @@ class HomeState(
             duration = SnackbarDuration.Long,
             onActionPerformed = onActionPerformed,
         )
+    }
+
+    fun dismissSnack() {
+        snackbarHostState.currentSnackbarData?.dismiss()
     }
 }

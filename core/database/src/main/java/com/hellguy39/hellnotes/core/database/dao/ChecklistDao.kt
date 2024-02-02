@@ -14,6 +14,13 @@ interface ChecklistDao {
     )
     fun getAllFlow(): Flow<List<ChecklistEntity>>
 
+    @Query(
+        """
+        SELECT * FROM $CHECKLIST_TABLE_NAME
+    """,
+    )
+    suspend fun getAll(): List<ChecklistEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(checklistEntity: ChecklistEntity): Long
 

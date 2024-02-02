@@ -4,7 +4,7 @@ import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.CreateReminderUseCase
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import javax.inject.Inject
 
 class CopyNoteUseCase
@@ -15,7 +15,7 @@ class CopyNoteUseCase
         private val checklistRepository: ChecklistRepository,
         private val createReminderUseCase: CreateReminderUseCase,
     ) {
-        suspend operator fun invoke(noteWrapper: NoteDetailWrapper): Long {
+        suspend operator fun invoke(noteWrapper: NoteWrapper): Long {
             val copiedNoteId =
                 noteRepository.insertNote(
                     noteWrapper.note.copy(

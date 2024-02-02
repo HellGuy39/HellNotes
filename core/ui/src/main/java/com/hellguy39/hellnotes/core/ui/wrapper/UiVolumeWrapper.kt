@@ -20,6 +20,16 @@ data class UiVolume<T>(
             return nonEmptyPartitions <= 1
         }
 
+    val isEmpty: Boolean
+        get() {
+            for (partition in partitions) {
+                if (!partition.isEmpty) {
+                    return false
+                }
+            }
+            return true
+        }
+
     fun getElementByPositionInfo(positionInfo: PartitionElementPositionInfo): T {
         return partitions[positionInfo.partitionIndex].elements[positionInfo.elementIndex]
     }

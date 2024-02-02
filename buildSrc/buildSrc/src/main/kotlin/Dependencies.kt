@@ -112,12 +112,16 @@ object Dependencies {
 
         private const val version = "2.48.1"
         private const val navigationVersion = "1.1.0"
+        private const val workVersion = "1.1.0"
+        private const val androidXCompilerVersion = "1.1.0"
 
         const val GradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
 
         const val Android = "com.google.dagger:hilt-android:$version"
+        const val AndroidXCompiler = "androidx.hilt:hilt-compiler:$androidXCompilerVersion"
         const val Compiler = "com.google.dagger:hilt-compiler:$version"
         const val NavigationCompose = "androidx.hilt:hilt-navigation-compose:$navigationVersion"
+        const val Work = "androidx.hilt:hilt-work:$workVersion"
     }
 
     object Firebase {

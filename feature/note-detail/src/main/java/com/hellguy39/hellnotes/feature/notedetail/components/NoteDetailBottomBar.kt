@@ -60,6 +60,7 @@ fun NoteDetailBottomBar(
         ) {
             IconButton(
                 onClick = bottomBarSelection.onAttachment,
+                enabled = !uiState.isReadOnly,
             ) {
                 Icon(
                     painter = painterResource(id = AppIcons.Attachment),

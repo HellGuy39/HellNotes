@@ -10,7 +10,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
@@ -57,11 +57,11 @@ class HomeState(
 
     fun shareNote(
         shareType: ShareType,
-        noteDetailWrapper: NoteDetailWrapper,
+        noteWrapper: NoteWrapper,
     ) {
         ShareUtils.share(
             context = context,
-            note = noteDetailWrapper.note,
+            note = noteWrapper.note,
             type = shareType,
         )
     }

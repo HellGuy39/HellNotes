@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
-import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNoteWrappersUseCase
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNoteWrappersFlowUseCase
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.removeCompletedChecklists
 import com.hellguy39.hellnotes.core.model.repository.local.database.sortByPriority
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
@@ -21,7 +21,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -31,42 +30,17 @@ import javax.inject.Inject
 class NotesViewModel
     @Inject
     constructor(
-        getAllNoteWrappersUseCase: GetAllNoteWrappersUseCase,
+        getAllNoteWrappersFlowUseCase: GetAllNoteWrappersFlowUseCase,
         private val noteActionController: NoteActionController,
     ) : ViewModel() {
-//        val singleEvents =
-//            noteActionController.singleEvents
-//                .map { event ->
-//                    when (event) {
-//                        is NoteActionController.SingleEvent.ExecutedAction -> {
-//                            when (event.action) {
-//                                is NoteActionController.Action.Delete ->
-//                                    NotesSingleEvent.ShowSnackbar(
-//                                        text = UiText.StringResources(AppStrings.Snack.NoteMovedToTrash),
-//                                        action = { viewModelScope.launch { noteActionController.undo() } },
-//                                    )
-//                                is NoteActionController.Action.Archive ->
-//                                    NotesSingleEvent.ShowSnackbar(
-//                                        text = UiText.StringResources(AppStrings.Snack.NoteArchived),
-//                                        action = { viewModelScope.launch { noteActionController.undo() } },
-//                                    )
-//                                is NoteActionController.Action.Unarchive ->
-//                                    NotesSingleEvent.ShowSnackbar(
-//                                        text = UiText.StringResources(AppStrings.Snack.NoteUnarchived),
-//                                        action = { viewModelScope.launch { noteActionController.undo() } },
-//                                    )
-//                                else -> NotesSingleEvent.Idle
-//                            }
-//                        }
-//                        else -> NotesSingleEvent.Idle
-//                    }
-//                }
+        private val singleUiEvents = Channel<NotesSingleUiEvent>()
+        val singleUiEventFlow = singleUiEvents.receiveAsFlow()
 
-        private val _navigationEvents = Channel<NotesNavigationEvent>()
-        val navigationEvents = _navigationEvents.receiveAsFlow()
+        private val navigationEvents = Channel<NotesNavigationEvent>()
+        val navigationEventsFlow = navigationEvents.receiveAsFlow()
 
         val uiState =
-            getAllNoteWrappersUseCase.invoke()
+            getAllNoteWrappersFlowUseCase.invoke()
                 .combine(noteActionController.items) { noteWrappers, selectedIds ->
                     val sortedNotes =
                         noteWrappers
@@ -114,7 +88,7 @@ class NotesViewModel
                 val selectedIds = noteActionController.items.value
 
                 if (selectedIds.isEmpty()) {
-                    _navigationEvents.send(NotesNavigationEvent.NavigateToNoteDetail(noteId))
+                    navigationEvents.send(NotesNavigationEvent.NavigateToNoteDetail(noteId))
                 } else {
                     if (selectedIds.contains(noteId)) {
                         noteActionController.unselect(noteId)
@@ -146,19 +120,33 @@ class NotesViewModel
                 val noteWrapper = uiState.value.noteVolume.getElementByPositionInfo(positionInfo)
                 val noteId = noteWrapper.value.note.id ?: return@launch
 
+                when (noteSwipe) {
+                    is NoteSwipe.Archive -> {
+                        showNoteArchivedSnackbar()
+                    }
+                    is NoteSwipe.Delete -> {
+                        showNoteMovedToTrashSnackbar()
+                    }
+                    else -> Unit
+                }
+
                 noteActionController.handleSwipe(noteSwipe, noteId)
             }
         }
 
         fun onDeleteSelectedItems() {
             viewModelScope.launch {
-                noteActionController.deleteSelected()
+                noteActionController.moveToTrash()
+
+                showNoteMovedToTrashSnackbar()
             }
         }
 
         fun onArchiveSelectedItems() {
             viewModelScope.launch {
-                noteActionController.archiveSelected(isArchived = true)
+                noteActionController.archive(isArchived = true)
+
+                showNoteArchivedSnackbar()
             }
         }
 
@@ -167,12 +155,28 @@ class NotesViewModel
                 noteActionController.cancel()
             }
         }
+
+        private suspend fun showNoteMovedToTrashSnackbar() {
+            singleUiEvents.send(
+                NotesSingleUiEvent.ShowSnackbar(
+                    text = UiText.StringResources(AppStrings.Snack.NoteMovedToTrash),
+                    action = { viewModelScope.launch { noteActionController.undo() } },
+                ),
+            )
+        }
+
+        private suspend fun showNoteArchivedSnackbar() {
+            singleUiEvents.send(
+                NotesSingleUiEvent.ShowSnackbar(
+                    text = UiText.StringResources(AppStrings.Snack.NoteArchived),
+                    action = { viewModelScope.launch { noteActionController.undo() } },
+                ),
+            )
+        }
     }
 
-sealed interface NotesSingleEvent {
-    data class ShowSnackbar(val text: UiText, val action: () -> Unit) : NotesSingleEvent
-
-    data object Idle : NotesSingleEvent
+sealed interface NotesSingleUiEvent {
+    data class ShowSnackbar(val text: UiText, val action: () -> Unit) : NotesSingleUiEvent
 }
 
 sealed interface NotesNavigationEvent {
@@ -182,7 +186,7 @@ sealed interface NotesNavigationEvent {
 data class NoteListUiState(
     val countOfSelectedNotes: Int = 0,
     val isEmpty: Boolean = false,
-    val noteVolume: UiVolume<Selectable<NoteDetailWrapper>> = UiVolume(mutableStateListOf()),
+    val noteVolume: UiVolume<Selectable<NoteWrapper>> = UiVolume(mutableStateListOf()),
 ) {
     val isNoteSelection: Boolean
         get() = countOfSelectedNotes > 0

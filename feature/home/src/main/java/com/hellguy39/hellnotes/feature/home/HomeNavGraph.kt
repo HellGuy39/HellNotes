@@ -1,6 +1,7 @@
 package com.hellguy39.hellnotes.feature.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
@@ -20,7 +21,7 @@ fun HomeNavGraph(
     homeState: HomeState,
     navigateToSearch: () -> Unit,
     navigateToNoteDetail: (id: Long?) -> Unit,
-    labels: List<Label>,
+    labels: SnapshotStateList<Label>,
 ) {
     NavHost(
         navController = homeState.navController,
@@ -81,7 +82,10 @@ fun HomeNavGraph(
             popEnterTransition = { fadeEnterTransition() },
             popExitTransition = { fadeExitTransition() },
         ) {
-            TrashRoute(homeState = homeState)
+            TrashRoute(
+                homeState = homeState,
+                navigateToNoteDetail = navigateToNoteDetail,
+            )
         }
         labels.forEach { label ->
             composable(

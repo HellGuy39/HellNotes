@@ -31,7 +31,7 @@ fun TrashScreen(
     onNavigationClick: () -> Unit,
     onCancelSelectionClick: () -> Unit,
     onRestoreSelectedClick: () -> Unit,
-    onDeleteSelectedClick: () -> Unit,
+    onDeleteForeverSelectedClick: () -> Unit,
     onEmptyTrashClick: () -> Unit,
     onCloseTrashTip: () -> Unit,
     snackbarHostState: SnackbarHostState,
@@ -50,7 +50,7 @@ fun TrashScreen(
                 onNavigationClick = onNavigationClick,
                 onCancelSelectionClick = onCancelSelectionClick,
                 onRestoreSelectedClick = onRestoreSelectedClick,
-                onDeleteSelectedClick = onDeleteSelectedClick,
+                onDeleteForeverSelectedClick = onDeleteForeverSelectedClick,
                 onEmptyTrashClick = onEmptyTrashClick,
             )
         },

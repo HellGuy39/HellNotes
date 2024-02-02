@@ -202,7 +202,7 @@
     <string name="supporting_pin_must_be_at_least_4_digits">Le code PIN doit contenir au moins 4 chiffres</string>
     <string name="supporting_password_must_be_at_least_4_characters">Le mot de passe doit contenir au moins 4 caractères</string>
     <string name="supporting_share_note">Choisissez comment partager la note. Ensuite, vous pourrez sélectionner le destinataire et le mode d\'envoi.</string>
-    <string name="supporting_delete_note">La note sera déplacée dans la corbeille où vous pourrez la supprimer définitivement ou la restaurer. Toutes les étiquettes et rappels seront détachés.</string>
+    <string name="supporting_delete_note">La note sera déplacée dans la corbeille où vous pourrez la supprimer définitivement ou la restaurer.</string>
     <string name="supporting_restore_note">Après la restauration, vous pourrez à nouveau ouvrir et modifier cette note.</string>
     <string name="supporting_delete_label">L\'étiquette sera supprimée de manière permanente. Toutes les notes avec cette étiquette la perdront.</string>
     <string name="supporting_empty_trash">Toutes les notes dans la corbeille seront supprimées de manière permanente.</string>

@@ -14,6 +14,8 @@ data class NoteEntity(
     val note: String,
     @ColumnInfo(name = "edited_at", defaultValue = "0")
     val editedAt: Long,
+    @ColumnInfo(name = "at_trash", defaultValue = "0")
+    val atTrash: Boolean,
     val isPinned: Boolean,
     @ColumnInfo(name = "is_archived", defaultValue = "0")
     val isArchived: Boolean,

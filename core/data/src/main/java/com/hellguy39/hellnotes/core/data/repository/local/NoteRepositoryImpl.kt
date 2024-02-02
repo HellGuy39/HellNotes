@@ -15,10 +15,13 @@ class NoteRepositoryImpl
     constructor(
         private val noteDao: NoteDao,
     ) : NoteRepository {
-        override fun getAllNotesStream(): Flow<List<Note>> = noteDao.getAllFlow().map { it.map(NoteEntity::toNote) }
+        override fun getAllNotesStream(): Flow<List<Note>> =
+            noteDao.getAllFlow()
+                .map { it.map(NoteEntity::toNote) }
 
         override fun getNoteByIdStream(id: Long): Flow<Note?> {
-            return noteDao.findByIdFlow(id).map { it?.toNote() }
+            return noteDao.findByIdFlow(id)
+                .map { it?.toNote() }
         }
 
         override suspend fun getAllNotes(): List<Note> = noteDao.getAll().map(NoteEntity::toNote)

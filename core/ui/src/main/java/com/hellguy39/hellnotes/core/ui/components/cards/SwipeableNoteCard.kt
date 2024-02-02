@@ -4,7 +4,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 
@@ -15,7 +15,7 @@ fun SwipeableNoteCard(
     noteStyle: NoteStyle,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
-    noteDetailWrapper: NoteDetailWrapper,
+    noteWrapper: NoteWrapper,
     isSelected: Boolean,
     isSwipeable: Boolean,
     onDismissed: (DismissDirection, Note) -> Boolean,
@@ -25,10 +25,10 @@ fun SwipeableNoteCard(
             confirmValueChange = { dismissValue ->
                 when (dismissValue) {
                     DismissValue.DismissedToEnd -> {
-                        onDismissed(DismissDirection.StartToEnd, noteDetailWrapper.note)
+                        onDismissed(DismissDirection.StartToEnd, noteWrapper.note)
                     }
                     DismissValue.DismissedToStart -> {
-                        onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
+                        onDismissed(DismissDirection.EndToStart, noteWrapper.note)
                     }
                     else -> false
                 }
@@ -61,7 +61,7 @@ fun SwipeableNoteCard(
                 modifier = modifier.alpha(visibility),
                 onClick = onClick,
                 onLongClick = onLongClick,
-                noteDetailWrapper = noteDetailWrapper,
+                noteWrapper = noteWrapper,
                 isSelected = isSelected,
                 noteStyle = noteStyle,
             )
@@ -76,7 +76,7 @@ fun SwipeableNoteCard(
     noteStyle: NoteStyle,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
-    noteDetailWrapper: NoteDetailWrapper,
+    noteWrapper: NoteWrapper,
     isSelected: Boolean,
     isSwipeable: Boolean,
     onDismissed: (DismissDirection) -> Boolean,
@@ -122,7 +122,7 @@ fun SwipeableNoteCard(
                 modifier = modifier.alpha(visibility),
                 onClick = onClick,
                 onLongClick = onLongClick,
-                noteDetailWrapper = noteDetailWrapper,
+                noteWrapper = noteWrapper,
                 isSelected = isSelected,
                 noteStyle = noteStyle,
             )

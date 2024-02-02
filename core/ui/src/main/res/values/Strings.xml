@@ -3,7 +3,9 @@
 
     <string name="app_name" translatable="false">HellNotes</string>
 
+    <!-- Chip -->
     <string name="markdown" translatable="false">Markdown</string>
+    <string name="read_only" translatable="false">Read Only</string>
 
     <!-- Content description -->
     <string name="content_description_back">Back</string>
@@ -72,6 +74,8 @@
     <string name="menu_item_manage_labels">Manage labels</string>
     <string name="menu_item_rename">Rename</string>
     <string name="menu_item_delete">Delete</string>
+    <string name="menu_item_delete_forever">Delete forever</string>
+    <string name="menu_item_restore">Restore</string>
     <string name="menu_item_plain_text">Plain text</string>
     <string name="menu_item_txt_file">.txt file</string>
     <string name="menu_item_share">Share</string>
@@ -160,7 +164,7 @@
     <string name="supporting_pin_must_be_at_least_4_digits">PIN must be at least 4 digits</string>
     <string name="supporting_password_must_be_at_least_4_characters">Password must be at least 4 characters</string>
     <string name="supporting_share_note">Choose which way to share the note. After that you will be able to choose the recipient and the method of sending.</string>
-    <string name="supporting_delete_note">The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned.</string>
+    <string name="supporting_delete_note">The note will end up in the trash, where it can be completely deleted or restored.</string>
     <string name="supporting_delete_label">The label will be permanently deleted. All notes with this label will lose it.</string>
     <string name="supporting_restore_note">After restoring, you will be able to open and edit this note again.</string>
     <string name="supporting_empty_trash">All notes in the trash will be permanently deleted.</string>

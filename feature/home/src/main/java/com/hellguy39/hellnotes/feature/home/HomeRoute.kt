@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.hellguy39.hellnotes.core.ui.components.HNNavigationDrawer
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
@@ -54,21 +55,21 @@ fun HomeRoute(
                     title = UiText.DynamicString(label.name),
                     icon = UiIcon.DrawableResources(AppIcons.Folder),
                     route = Screen.Label(label.id).withArgs(label.id.toString()),
-                    badge =
-                        label.noteIds.count().let { count ->
-                            if (count >= 100) {
-                                UiText.DynamicString("99+")
-                            } else if (count > 0) {
-                                UiText.DynamicString(count.toString())
-                            } else {
-                                UiText.Empty
-                            }
-                        },
+                    badge = UiText.Empty,
+//                        label.noteIds.count().let { count ->
+//                            if (count >= 100) {
+//                                UiText.DynamicString("99+")
+//                            } else if (count > 0) {
+//                                UiText.DynamicString(count.toString())
+//                            } else {
+//                                UiText.Empty
+//                            }
+//                        }
                     onClick = { drawerItem ->
                         homeState.navigateToNavigationBarRoute(drawerItem.route)
                     },
                 )
-            }
+            }.toStateList()
         }
     }
 
@@ -79,22 +80,34 @@ fun HomeRoute(
                 currentDestination = currentDestination,
                 drawerItems = drawerItems,
                 labelItems = labelItems,
-                onCreateNewLabelClick = {
-                    navigateToLabelEdit(context.getString(AppStrings.Action.Create))
-                    homeState.closeDrawer()
-                },
-                onManageLabelsClick = {
-                    navigateToLabelEdit(context.getString(AppStrings.Action.Edit))
-                    homeState.closeDrawer()
-                },
-                onSettingsClick = {
-                    navigateToSettings()
-                    homeState.closeDrawer()
-                },
-                onAboutClick = {
-                    navigateToAbout()
-                    homeState.closeDrawer()
-                },
+                onCreateNewLabelClick =
+                    remember {
+                        {
+                            navigateToLabelEdit(context.getString(AppStrings.Action.Create))
+                            homeState.closeDrawer()
+                        }
+                    },
+                onManageLabelsClick =
+                    remember {
+                        {
+                            navigateToLabelEdit(context.getString(AppStrings.Action.Edit))
+                            homeState.closeDrawer()
+                        }
+                    },
+                onSettingsClick =
+                    remember {
+                        {
+                            navigateToSettings()
+                            homeState.closeDrawer()
+                        }
+                    },
+                onAboutClick =
+                    remember {
+                        {
+                            navigateToAbout()
+                            homeState.closeDrawer()
+                        }
+                    },
             )
         },
         content = {

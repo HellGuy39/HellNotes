@@ -10,13 +10,14 @@ import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
 import com.hellguy39.hellnotes.core.domain.usecase.label.GetAllNoteWrappersByLabelId
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.model.toSelectable
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.extensions.toStateList
-import com.hellguy39.hellnotes.feature.home.reminders.RemindersNavigationEvent
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,7 +37,10 @@ class LabelViewModel
         savedStateHandle: SavedStateHandle,
         private val noteActionController: NoteActionController,
     ) : ViewModel() {
-        private val _navigationEvents = Channel<RemindersNavigationEvent>()
+        private val singleUiEvents = Channel<LabelSingleUiEvent>()
+        val singleUiEventFlow = singleUiEvents.receiveAsFlow()
+
+        private val _navigationEvents = Channel<LabelNavigationEvent>()
         val navigationEvents = _navigationEvents.receiveAsFlow()
 
         private val labelId = savedStateHandle.getArgument(Arguments.LabelId)
@@ -51,7 +55,7 @@ class LabelViewModel
                 LabelUiState(
                     countOfSelectedNotes = selectedIds.size,
                     isEmpty = noteWrappers.isEmpty(),
-                    selectableNoteWrappers = noteWrappers.toSelectable(selectedIds).toStateList(),
+                    noteWrappers = noteWrappers.toSelectable(selectedIds).toStateList(),
                     label = label ?: Label(),
                     allLabels = allLabels.toStateList(),
                 )
@@ -98,16 +102,44 @@ class LabelViewModel
 
         private fun noteClick(index: Int) {
             viewModelScope.launch {
+                val noteWrapper = uiState.value.noteWrappers[index]
+                val noteId = noteWrapper.value.note.id ?: return@launch
+                val selectedIds = noteActionController.items.value
+
+                if (selectedIds.isEmpty()) {
+                    _navigationEvents.send(LabelNavigationEvent.NavigateToNoteDetail(noteId))
+                } else {
+                    if (selectedIds.contains(noteId)) {
+                        noteActionController.unselect(noteId)
+                    } else {
+                        noteActionController.select(noteId)
+                    }
+                }
             }
         }
 
         private fun notePress(index: Int) {
             viewModelScope.launch {
+                val noteWrapper = uiState.value.noteWrappers[index]
+                val noteId = noteWrapper.value.note.id ?: return@launch
+                val buffer = noteActionController.items.value
+
+                if (buffer.contains(noteId)) {
+                    noteActionController.unselect(noteId)
+                } else {
+                    noteActionController.select(noteId)
+                }
             }
         }
 
         private fun dismiss(noteSwipe: NoteSwipe, index: Int) {
             viewModelScope.launch {
+                if (noteSwipe is NoteSwipe.None) return@launch
+
+                val noteWrapper = uiState.value.noteWrappers[index]
+                val noteId = noteWrapper.value.note.id ?: return@launch
+
+                noteActionController.handleSwipe(noteSwipe, noteId)
             }
         }
 
@@ -117,13 +149,17 @@ class LabelViewModel
 
         fun onDeleteSelectedItems() {
             viewModelScope.launch {
-                noteActionController.deleteSelected()
+                noteActionController.moveToTrash()
+
+                showNoteMovedToTrashSnackbar()
             }
         }
 
         fun onArchiveSelectedItems() {
             viewModelScope.launch {
-                noteActionController.deleteSelected()
+                noteActionController.moveToTrash()
+
+                showNoteArchivedSnackbar()
             }
         }
 
@@ -132,7 +168,29 @@ class LabelViewModel
                 noteActionController.cancel()
             }
         }
+
+        private suspend fun showNoteMovedToTrashSnackbar() {
+            singleUiEvents.send(
+                LabelSingleUiEvent.ShowSnackbar(
+                    text = UiText.StringResources(AppStrings.Snack.NoteMovedToTrash),
+                    action = { viewModelScope.launch { noteActionController.undo() } },
+                ),
+            )
+        }
+
+        private suspend fun showNoteArchivedSnackbar() {
+            singleUiEvents.send(
+                LabelSingleUiEvent.ShowSnackbar(
+                    text = UiText.StringResources(AppStrings.Snack.NoteArchived),
+                    action = { viewModelScope.launch { noteActionController.undo() } },
+                ),
+            )
+        }
     }
+
+sealed interface LabelSingleUiEvent {
+    data class ShowSnackbar(val text: UiText, val action: () -> Unit) : LabelSingleUiEvent
+}
 
 sealed interface LabelNavigationEvent {
     data class NavigateToNoteDetail(val noteId: Long) : LabelNavigationEvent
@@ -154,7 +212,7 @@ data class LabelUiState(
     val isEmpty: Boolean = false,
     val label: Label = Label(),
     val allLabels: SnapshotStateList<Label> = mutableStateListOf(),
-    val selectableNoteWrappers: SnapshotStateList<Selectable<NoteDetailWrapper>> = mutableStateListOf(),
+    val noteWrappers: SnapshotStateList<Selectable<NoteWrapper>> = mutableStateListOf(),
     val countOfSelectedNotes: Int = 0,
 ) {
     val isNoteSelection: Boolean

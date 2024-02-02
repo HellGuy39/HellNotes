@@ -41,7 +41,6 @@ import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.home.HomeState
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
-import com.hellguy39.hellnotes.feature.home.reminders.RemindersNavigationEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +60,7 @@ fun LabelRoute(
 
     labelViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
         when (event) {
-            is RemindersNavigationEvent.NavigateToNoteDetail -> {
+            is LabelNavigationEvent.NavigateToNoteDetail -> {
                 navigateToNoteDetail(event.noteId)
             }
         }

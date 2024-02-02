@@ -29,9 +29,6 @@ interface DataModule {
     fun bindChecklistRepository(i: ChecklistRepositoryImpl): ChecklistRepository
 
     @Binds
-    fun bindTrashRepository(i: TrashRepositoryImpl): TrashRepository
-
-    @Binds
     fun bindDataStoreRepository(i: DataStoreRepositoryImpl): DataStoreRepository
 
     @Binds

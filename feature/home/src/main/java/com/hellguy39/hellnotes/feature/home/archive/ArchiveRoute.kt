@@ -23,6 +23,14 @@ fun ArchiveRoute(
     val uiState by archiveViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
 
+    archiveViewModel.singleUiEventFlow.collectAsEventsWithLifecycle { event ->
+        when (event) {
+            is ArchiveSingleUiEvent.ShowSnackbar -> {
+                homeState.showSnack(event.text, event.action)
+            }
+        }
+    }
+
     archiveViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
         when (event) {
             is ArchiveNavigationEvent.NavigateToNoteDetail -> {

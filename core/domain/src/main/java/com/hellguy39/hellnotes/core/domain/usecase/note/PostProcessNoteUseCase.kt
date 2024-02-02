@@ -1,6 +1,6 @@
 package com.hellguy39.hellnotes.core.domain.usecase.note
 
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
@@ -9,7 +9,7 @@ import javax.inject.Inject
 class PostProcessNoteUseCase
     @Inject
     constructor() {
-        operator fun invoke(wrapper: NoteDetailWrapper): NoteDetailWrapper {
+        operator fun invoke(wrapper: NoteWrapper): NoteWrapper {
             return wrapper.copy(
                 note = wrapper.note.postProcessNote(),
                 checklists = wrapper.checklists.postProcessChecklists(),

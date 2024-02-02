@@ -1,18 +1,24 @@
 package com.hellguy39.hellnotes.core.ui.components.placeholer
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
+import com.hellguy39.hellnotes.core.ui.values.Duration
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @Composable
@@ -61,10 +67,19 @@ fun EmptyContentPlaceholder(
     heroIconSize: Dp = 128.dp,
     actions: (@Composable RowScope.() -> Unit)? = null,
 ) {
+    val animatableAlpha = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        animatableAlpha.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(durationMillis = Duration.SLOW),
+        )
+    }
+
     Column(
         modifier =
             modifier.then(
-                Modifier.padding(horizontal = Spaces.extraLarge),
+                Modifier.padding(horizontal = Spaces.extraLarge)
+                    .alpha(animatableAlpha.value),
             ),
         verticalArrangement =
             Arrangement.spacedBy(

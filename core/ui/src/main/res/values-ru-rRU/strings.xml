@@ -201,7 +201,7 @@
     <string name="supporting_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
     <string name="supporting_password_must_be_at_least_4_characters">Пароль должен состоять не менее чем из 4 символов</string>
     <string name="supporting_share_note">Выберите, каким способом поделиться заметкой. После этого вы сможете выбрать получателя и способ отправки.</string>
-    <string name="supporting_delete_note">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
+    <string name="supporting_delete_note">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить.</string>
     <string name="supporting_restore_note">После восстановления можно снова открыть и редактировать эту заметку.</string>
     <string name="supporting_delete_label">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
     <string name="supporting_empty_trash">Все заметки в корзине будут безвозвратно удалены.</string>

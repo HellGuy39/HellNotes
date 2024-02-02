@@ -118,7 +118,9 @@ dependencies {
 
     implementation(Dependencies.Hilt.Android)
     ksp(Dependencies.Hilt.Compiler)
+    ksp(Dependencies.Hilt.AndroidXCompiler)
     implementation(Dependencies.Hilt.NavigationCompose)
+    implementation(Dependencies.Hilt.Work)
 
     implementation(Dependencies.SquareUp.Moshi)
 

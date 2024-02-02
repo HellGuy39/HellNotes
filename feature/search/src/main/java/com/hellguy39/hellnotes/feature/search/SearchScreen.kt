@@ -1,7 +1,6 @@
 package com.hellguy39.hellnotes.feature.search
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -83,93 +82,88 @@ fun SearchScreen(
                 )
             }
 
-            Crossfade(
-                targetState = uiState.noteWrappers,
-                label = "search_screen_content",
-            ) { noteWrappers ->
-                NoteList(
-                    innerPadding = innerPadding,
-                    notes = noteWrappers,
-                    listStyle = uiState.listStyle,
-                    noteStyle = uiState.noteStyle,
-                    onClick = onClick,
-                    onLongClick = onLongClick,
-                    listHeader = {
-                        Column {
-                            LazyRow(
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            ) {
-                                item {
-                                    FilterChip(
-                                        modifier = Modifier.height(FilterChipDefaults.Height),
-                                        selected = uiState.filters.withChecklist,
-                                        onClick = {
-                                            onUpdateChecklistFilter(!uiState.filters.withChecklist)
-                                        },
-                                        label = {
-                                            Text(text = stringResource(id = AppStrings.Label.Checklist))
-                                        },
-                                        leadingIcon = {
-                                            Icon(
-                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = AppIcons.Checklist),
-                                                contentDescription = null,
-                                            )
-                                        },
-                                    )
-                                }
-                                item {
-                                    FilterChip(
-                                        modifier = Modifier.height(FilterChipDefaults.Height),
-                                        selected = uiState.filters.withReminder,
-                                        onClick = {
-                                            onUpdateReminderFilter(!uiState.filters.withReminder)
-                                        },
-                                        label = {
-                                            Text(text = stringResource(id = AppStrings.Label.Reminder))
-                                        },
-                                        leadingIcon = {
-                                            Icon(
-                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = AppIcons.Alarm),
-                                                contentDescription = null,
-                                            )
-                                        },
-                                    )
-                                }
-                                item {
-                                    FilterChip(
-                                        modifier = Modifier.height(FilterChipDefaults.Height),
-                                        selected = uiState.filters.withArchive,
-                                        onClick = {
-                                            onUpdateArchiveFilter(!uiState.filters.withArchive)
-                                        },
-                                        label = {
-                                            Text(text = stringResource(id = AppStrings.Label.Archive))
-                                        },
-                                        leadingIcon = {
-                                            Icon(
-                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = AppIcons.Archive),
-                                                contentDescription = null,
-                                            )
-                                        },
-                                    )
-                                }
+            NoteList(
+                innerPadding = innerPadding,
+                notes = uiState.noteWrappers,
+                listStyle = uiState.listStyle,
+                noteStyle = uiState.noteStyle,
+                onClick = onClick,
+                onLongClick = onLongClick,
+                listHeader = {
+                    Column {
+                        LazyRow(
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            item {
+                                FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
+                                    selected = uiState.filters.withChecklist,
+                                    onClick = {
+                                        onUpdateChecklistFilter(!uiState.filters.withChecklist)
+                                    },
+                                    label = {
+                                        Text(text = stringResource(id = AppStrings.Label.Checklist))
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = AppIcons.Checklist),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                )
                             }
-                            Divider(
-                                modifier =
-                                    Modifier
-                                        .padding(vertical = 4.dp, horizontal = 8.dp)
-                                        .alpha(0.5f),
-                                thickness = 1.dp,
-                                color = MaterialTheme.colorScheme.outline,
-                            )
+                            item {
+                                FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
+                                    selected = uiState.filters.withReminder,
+                                    onClick = {
+                                        onUpdateReminderFilter(!uiState.filters.withReminder)
+                                    },
+                                    label = {
+                                        Text(text = stringResource(id = AppStrings.Label.Reminder))
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = AppIcons.Alarm),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                )
+                            }
+                            item {
+                                FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
+                                    selected = uiState.filters.withArchive,
+                                    onClick = {
+                                        onUpdateArchiveFilter(!uiState.filters.withArchive)
+                                    },
+                                    label = {
+                                        Text(text = stringResource(id = AppStrings.Label.Archive))
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = AppIcons.Archive),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                )
+                            }
                         }
-                    },
-                )
-            }
+                        Divider(
+                            modifier =
+                                Modifier
+                                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                                    .alpha(0.5f),
+                            thickness = 1.dp,
+                            color = MaterialTheme.colorScheme.outline,
+                        )
+                    }
+                },
+            )
         },
     )
 }

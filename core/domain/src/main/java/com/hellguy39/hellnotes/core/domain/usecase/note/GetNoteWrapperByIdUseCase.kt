@@ -4,8 +4,8 @@ import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.toNoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.toNoteWrapper
 import javax.inject.Inject
 
 class GetNoteWrapperByIdUseCase
@@ -16,12 +16,12 @@ class GetNoteWrapperByIdUseCase
         private val reminderRepository: ReminderRepository,
         private val checklistRepository: ChecklistRepository,
     ) {
-        suspend operator fun invoke(noteId: Long): NoteDetailWrapper? {
+        suspend operator fun invoke(noteId: Long): NoteWrapper? {
             val note = noteRepository.getNoteById(noteId)
             val labels = labelRepository.getLabelsByNoteId(noteId)
             val reminders = reminderRepository.getRemindersByNoteId(noteId)
             val checklists = checklistRepository.getChecklistsByNoteId(noteId)
-            return note?.toNoteDetailWrapper(
+            return note?.toNoteWrapper(
                 reminders = reminders,
                 labels = labels,
                 checklists = checklists,

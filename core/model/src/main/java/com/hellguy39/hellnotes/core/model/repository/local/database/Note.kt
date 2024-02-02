@@ -10,13 +10,12 @@ data class Note(
     val createdAt: Long = System.currentTimeMillis(),
     val isArchived: Boolean = false,
     val isPinned: Boolean = false,
+    val atTrash: Boolean = false,
     val colorHex: Long = ColorParam.DefaultColor,
-)
+) {
+    val hasContentText: Boolean
+        get() = note.isNotBlank()
 
-fun Note.hasContentText(): Boolean {
-    return note.isNotBlank()
-}
-
-fun Note.isNoteValid(): Boolean {
-    return note.isNotBlank() || title.isNotBlank()
+    val isValid: Boolean
+        get() = note.isNotBlank() || title.isNotBlank()
 }

@@ -25,6 +25,14 @@ fun RemindersRoute(
     val uiState by remindersViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
 
+    remindersViewModel.singleUiEventFlow.collectAsEventsWithLifecycle { event ->
+        when (event) {
+            is RemindersSingleUiEvent.ShowSnackbar -> {
+                homeState.showSnack(event.text, event.action)
+            }
+        }
+    }
+
     remindersViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
         when (event) {
             is RemindersNavigationEvent.NavigateToNoteDetail -> {

@@ -61,7 +61,7 @@
 
     <!-- Supporting -->
     <string name="supporting_share_note">Wähle aus, wie man die Notiz freigeben möchte. Danach kann man den Empfänger und die Versandmethode auswählen.</string>
-    <string name="supporting_delete_note">Die Notiz wird in den Papierkorb verschoben, wo sie vollständig gelöscht oder wiederhergestellt werden kann. Alle Markierungen und Erinnerungen werden entfernt.</string>
+    <string name="supporting_delete_note">Die Notiz wird in den Papierkorb verschoben, wo sie vollständig gelöscht oder wiederhergestellt werden kann.</string>
     <string name="supporting_restore_note">Nach der Wiederherstellung kann man die Notiz erneut öffnen und bearbeiten.</string>
     <string name="supporting_delete_label">Das Label wird dauerhaft gelöscht. Alle Notizen mit diesem Etikett verlieren es..</string>
     <string name="supporting_empty_trash">Alle Notizen im Papierkorb werden dauerhaft gelöscht.</string>

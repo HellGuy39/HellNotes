@@ -49,7 +49,7 @@ fun PrivacyPolicyScreen(
                                 selected = false,
                                 onClick = {
                                 },
-                                label = { Text(text = stringResource(id = AppStrings.Markdown)) },
+                                label = { Text(text = stringResource(id = AppStrings.Chip.Markdown)) },
                             )
                         }
                     },

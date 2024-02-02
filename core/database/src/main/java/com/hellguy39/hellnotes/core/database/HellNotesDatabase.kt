@@ -11,17 +11,17 @@ import com.hellguy39.hellnotes.core.database.entity.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Database(
-    version = 4,
+    version = 5,
     entities = [
         NoteEntity::class,
         ReminderEntity::class,
         LabelEntity::class,
-        TrashEntity::class,
         ChecklistEntity::class,
     ],
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3, spec = DatabaseMigrations.Schema2to3::class),
+        AutoMigration(from = 4, to = 5, spec = DatabaseMigrations.Schema4to5::class),
     ],
     exportSchema = true,
 )
@@ -31,7 +31,6 @@ abstract class HellNotesDatabase : RoomDatabase() {
     abstract val noteDao: NoteDao
     abstract val reminderDao: ReminderDao
     abstract val labelDao: LabelDao
-    abstract val trashDao: TrashDao
     abstract val checklistDao: ChecklistDao
 
     suspend fun checkpoint() {
@@ -39,7 +38,7 @@ abstract class HellNotesDatabase : RoomDatabase() {
     }
 
     companion object {
-        const val DATABASE_NAME = "hellnotes-database"
+        private const val DATABASE_NAME = "hellnotes-database"
 
         @Volatile
         private var instance: HellNotesDatabase? = null

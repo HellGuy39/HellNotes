@@ -19,7 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.components.cards.SwipeableNoteCard
@@ -30,7 +30,7 @@ import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 fun LazyListScope.noteItems(
     state: LazyListState,
-    notes: SnapshotStateList<Selectable<NoteDetailWrapper>>,
+    notes: SnapshotStateList<Selectable<NoteWrapper>>,
     isSwipeable: Boolean,
     onClick: (index: Int) -> Unit,
     onLongClick: (index: Int) -> Unit,
@@ -66,7 +66,7 @@ fun LazyListScope.noteItems(
                     .padding(Spaces.extraSmall)
                     .alpha(animatableAlpha.value)
                     .animateItemPlacement(),
-            noteDetailWrapper = wrapper.value,
+            noteWrapper = wrapper.value,
             isSwipeable = isSwipeable,
             isSelected = wrapper.selected,
             onDismissed = { direction -> onDismiss(direction, index) },
@@ -80,7 +80,7 @@ fun LazyListScope.noteItems(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 fun LazyListScope.noteItems(
     state: LazyListState,
-    notes: SnapshotStateList<Selectable<NoteDetailWrapper>>,
+    notes: SnapshotStateList<Selectable<NoteWrapper>>,
     isSwipeable: Boolean,
     onClick: (position: PartitionElementPositionInfo) -> Unit,
     onLongClick: (position: PartitionElementPositionInfo) -> Unit,
@@ -120,7 +120,7 @@ fun LazyListScope.noteItems(
                     .padding(Spaces.extraSmall)
                     .alpha(animatableAlpha.value)
                     .animateItemPlacement(),
-            noteDetailWrapper = wrapper.value,
+            noteWrapper = wrapper.value,
             isSwipeable = isSwipeable,
             isSelected = wrapper.selected,
             onDismissed = { direction -> onDismiss(direction, positionInfo()) },
@@ -134,7 +134,7 @@ fun LazyListScope.noteItems(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 fun LazyStaggeredGridScope.noteItems(
     state: LazyStaggeredGridState,
-    notes: SnapshotStateList<Selectable<NoteDetailWrapper>>,
+    notes: SnapshotStateList<Selectable<NoteWrapper>>,
     isSwipeable: Boolean,
     onClick: (index: Int) -> Unit,
     onLongClick: (index: Int) -> Unit,
@@ -169,7 +169,7 @@ fun LazyStaggeredGridScope.noteItems(
                     .padding(Spaces.extraSmall)
                     .alpha(animatableAlpha.value)
                     .animateItemPlacement(),
-            noteDetailWrapper = item.value,
+            noteWrapper = item.value,
             isSwipeable = isSwipeable,
             isSelected = item.selected,
             onDismissed = { direction -> onDismiss(direction, index) },
@@ -183,7 +183,7 @@ fun LazyStaggeredGridScope.noteItems(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 fun LazyStaggeredGridScope.noteItems(
     state: LazyStaggeredGridState,
-    notes: SnapshotStateList<Selectable<NoteDetailWrapper>>,
+    notes: SnapshotStateList<Selectable<NoteWrapper>>,
     isSwipeable: Boolean,
     onClick: (position: PartitionElementPositionInfo) -> Unit,
     onLongClick: (position: PartitionElementPositionInfo) -> Unit,
@@ -221,7 +221,7 @@ fun LazyStaggeredGridScope.noteItems(
                     .padding(Spaces.extraSmall)
                     .alpha(animatableAlpha.value)
                     .animateItemPlacement(),
-            noteDetailWrapper = item.value,
+            noteWrapper = item.value,
             isSwipeable = isSwipeable,
             isSelected = item.selected,
             onDismissed = { direction -> onDismiss(direction, positionInfo()) },

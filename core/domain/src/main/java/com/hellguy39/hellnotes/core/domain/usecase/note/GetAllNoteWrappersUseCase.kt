@@ -1,16 +1,11 @@
 package com.hellguy39.hellnotes.core.domain.usecase.note
 
-import com.hellguy39.hellnotes.core.common.di.IoDispatcher
 import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
-import com.hellguy39.hellnotes.core.model.toNoteDetailWrapper
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
+import com.hellguy39.hellnotes.core.model.NoteWrapper
+import com.hellguy39.hellnotes.core.model.toNoteWrapper
 import javax.inject.Inject
 
 class GetAllNoteWrappersUseCase
@@ -20,24 +15,20 @@ class GetAllNoteWrappersUseCase
         private val labelRepository: LabelRepository,
         private val reminderRepository: ReminderRepository,
         private val checklistRepository: ChecklistRepository,
-        @IoDispatcher
-        private val ioDispatcher: CoroutineDispatcher,
     ) {
-        operator fun invoke(): Flow<List<NoteDetailWrapper>> {
-            return combine(
-                noteRepository.getAllNotesStream(),
-                labelRepository.getAllLabelsStream(),
-                reminderRepository.getAllRemindersStream(),
-                checklistRepository.getAllChecklistsStream(),
-            ) { notes, labels, reminders, checklists ->
-                notes.map { note ->
-                    note.toNoteDetailWrapper(
-                        reminders = reminders,
+        suspend operator fun invoke(): List<NoteWrapper> {
+            val notes = noteRepository.getAllNotes()
+            val labels = labelRepository.getAllLabels()
+            val reminders = reminderRepository.getAllReminders()
+            val checklists = checklistRepository.getAllChecklists()
+
+            return notes.filter { note -> !note.atTrash }
+                .map { note ->
+                    note.toNoteWrapper(
                         labels = labels,
+                        reminders = reminders,
                         checklists = checklists,
                     )
                 }
-            }
-                .flowOn(ioDispatcher)
         }
     }

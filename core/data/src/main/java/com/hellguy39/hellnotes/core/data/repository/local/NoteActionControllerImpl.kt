@@ -2,10 +2,9 @@ package com.hellguy39.hellnotes.core.data.repository.local
 
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.TrashRepository
 import com.hellguy39.hellnotes.core.domain.usecase.note.MoveNoteToTrashUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.note.RestoreNoteFromTrashUseCase
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.domain.usecase.trash.DeleteNoteUseCase
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,18 +16,15 @@ class NoteActionControllerImpl
     @Inject
     constructor(
         private val noteRepository: NoteRepository,
-        private val trashRepository: TrashRepository,
         private val moveNoteToTrashUseCase: MoveNoteToTrashUseCase,
         private val restoreNoteFromTrashUseCase: RestoreNoteFromTrashUseCase,
+        private val deleteNoteUseCase: DeleteNoteUseCase,
     ) : NoteActionController {
         private val lastAction =
             MutableStateFlow<Pair<NoteActionController.Action, List<Long>>?>(null)
 
         private val _items = MutableStateFlow(listOf<Long>())
         override val items: StateFlow<List<Long>> = _items.asStateFlow()
-
-//        private val _singleEvents = Channel<NoteActionController.SingleEvent>()
-//        override val singleEvents: Flow<NoteActionController.SingleEvent> = _singleEvents.receiveAsFlow()
 
         override fun select(noteId: Long) {
             _items.update { current -> current.plus(noteId) }
@@ -50,10 +46,10 @@ class NoteActionControllerImpl
 
             when (action) {
                 NoteActionController.Action.Archive -> {
-                    undoArchive(*noteIds.toLongArray(), isArchived = true)
+                    undoArchive(*noteIds.toLongArray(), isArchived = false)
                 }
                 NoteActionController.Action.Unarchive -> {
-                    undoArchive(*noteIds.toLongArray(), isArchived = false)
+                    undoArchive(*noteIds.toLongArray(), isArchived = true)
                 }
                 NoteActionController.Action.Delete -> {
                     undoDelete(*noteIds.toLongArray())
@@ -74,14 +70,27 @@ class NoteActionControllerImpl
             }
         }
 
-        override suspend fun deleteSelected() {
+        override suspend fun moveToTrash() {
             delete(*_items.value.toLongArray())
+        }
+
+        override suspend fun deleteForever() {
+            _items.value.forEach { noteId ->
+                deleteNoteUseCase.invoke(noteId)
+            }
+            cancel()
+        }
+
+        override suspend fun restoreFromTrash() {
+            _items.value.forEach { noteId ->
+                restoreNoteFromTrashUseCase.invoke(noteId)
+            }
+            cancel()
         }
 
         private suspend fun delete(vararg noteIds: Long) {
             noteIds.forEach { noteId ->
-                val note = noteRepository.getNoteById(noteId) ?: return
-                moveNoteToTrashUseCase.invoke(note)
+                moveNoteToTrashUseCase.invoke(noteId)
             }
 
             lastAction.update {
@@ -91,44 +100,18 @@ class NoteActionControllerImpl
                 )
             }
 
-//            _singleEvents.send(
-//                NoteActionController.SingleEvent.ExecutedAction(
-//                    NoteActionController.Action.Delete,
-//                ),
-//            )
-
             cancel()
         }
 
         private suspend fun undoDelete(vararg noteIds: Long) {
             noteIds.forEach { noteId ->
-                val note = noteRepository.getNoteById(noteId) ?: return
-                restoreNoteFromTrashUseCase.invoke(note)
+                restoreNoteFromTrashUseCase.invoke(noteId)
             }
             clearLastAction()
         }
 
-        override suspend fun archiveSelected(isArchived: Boolean) {
+        override suspend fun archive(isArchived: Boolean) {
             archive(*_items.value.toLongArray(), isArchived = isArchived)
-        }
-
-        private suspend fun restoreNoteFromTrash(note: Note) {
-            restoreNoteFromTrashUseCase.invoke(note)
-        }
-
-        private suspend fun restoreSelectedFromTrash() {
-            _items.value.forEach { note ->
-//                trashRepository.deleteTrashByNote(note)
-//                noteRepository.insertNote(note)
-            }
-            cancel()
-        }
-
-        private suspend fun deleteSelectedFromTrash() {
-//                selectedNotes.forEach { note ->
-//                    trashRepository.deleteTrashByNote(note)
-//                }
-            cancel()
         }
 
         private suspend fun archive(vararg noteIds: Long, isArchived: Boolean) {
@@ -145,12 +128,6 @@ class NoteActionControllerImpl
                     noteIds.asList(),
                 )
             }
-
-//            _singleEvents.send(
-//                NoteActionController.SingleEvent.ExecutedAction(
-//                    action,
-//                ),
-//            )
 
             cancel()
         }

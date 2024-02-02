@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.GetAllNoteWrappersWithRemindersUseCase
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.model.toSelectable
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.extensions.toStateList
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,6 +30,9 @@ class RemindersViewModel
         getAllNoteWrappersWithRemindersUseCase: GetAllNoteWrappersWithRemindersUseCase,
         private val noteActionController: NoteActionController,
     ) : ViewModel() {
+        private val singleUiEvents = Channel<RemindersSingleUiEvent>()
+        val singleUiEventFlow = singleUiEvents.receiveAsFlow()
+
         private val _navigationEvents = Channel<RemindersNavigationEvent>()
         val navigationEvents = _navigationEvents.receiveAsFlow()
 
@@ -91,7 +96,8 @@ class RemindersViewModel
 
         fun onDeleteSelectedItems() {
             viewModelScope.launch {
-                noteActionController.deleteSelected()
+                noteActionController.moveToTrash()
+                showNoteMovedToTrashSnackbar()
             }
         }
 
@@ -100,16 +106,29 @@ class RemindersViewModel
                 noteActionController.cancel()
             }
         }
+
+        private suspend fun showNoteMovedToTrashSnackbar() {
+            singleUiEvents.send(
+                RemindersSingleUiEvent.ShowSnackbar(
+                    text = UiText.StringResources(AppStrings.Snack.NoteMovedToTrash),
+                    action = { viewModelScope.launch { noteActionController.undo() } },
+                ),
+            )
+        }
     }
 
 sealed interface RemindersNavigationEvent {
     data class NavigateToNoteDetail(val noteId: Long) : RemindersNavigationEvent
 }
 
+sealed interface RemindersSingleUiEvent {
+    data class ShowSnackbar(val text: UiText, val action: () -> Unit) : RemindersSingleUiEvent
+}
+
 data class RemindersUiState(
     val countOfSelectedNotes: Int = 0,
     val isEmpty: Boolean = false,
-    val selectableNoteWrappers: SnapshotStateList<Selectable<NoteDetailWrapper>> = mutableStateListOf(),
+    val selectableNoteWrappers: SnapshotStateList<Selectable<NoteWrapper>> = mutableStateListOf(),
 ) {
     val isNoteSelection: Boolean
         get() = countOfSelectedNotes > 0

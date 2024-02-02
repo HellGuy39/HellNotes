@@ -24,7 +24,7 @@ fun TrashTopAppBar(
     onNavigationClick: () -> Unit,
     onCancelSelectionClick: () -> Unit,
     onRestoreSelectedClick: () -> Unit,
-    onDeleteSelectedClick: () -> Unit,
+    onDeleteForeverSelectedClick: () -> Unit,
     onEmptyTrashClick: () -> Unit,
 ) {
     AnimatedContent(
@@ -78,10 +78,10 @@ fun TrashTopAppBar(
                         )
                     }
                     IconButton(
-                        onClick = { onDeleteSelectedClick() },
+                        onClick = { onDeleteForeverSelectedClick() },
                     ) {
                         Icon(
-                            painter = painterResource(id = AppIcons.Delete),
+                            painter = painterResource(id = AppIcons.DeleteForever),
                             contentDescription = null,
                         )
                     }
@@ -90,7 +90,7 @@ fun TrashTopAppBar(
                         onClick = { onEmptyTrashClick() },
                     ) {
                         Icon(
-                            painter = painterResource(id = AppIcons.Delete),
+                            painter = painterResource(id = AppIcons.DeleteSweep),
                             contentDescription = null,
                         )
                     }
