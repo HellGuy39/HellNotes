@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -29,7 +29,7 @@ internal fun NoteColumnList(
     isSwipeable: Boolean,
     onClick: (position: PartitionElementPositionInfo) -> Unit,
     onLongClick: (position: PartitionElementPositionInfo) -> Unit,
-    onDismiss: (DismissDirection, position: PartitionElementPositionInfo) -> Boolean,
+    onDismiss: (SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean,
     volume: UiVolume<Selectable<NoteWrapper>>,
     listHeader: @Composable () -> Unit,
 ) {
@@ -79,7 +79,7 @@ internal fun NoteColumnList(
     isSwipeable: Boolean,
     onClick: (index: Int) -> Unit,
     onLongClick: (index: Int) -> Unit,
-    onDismiss: (DismissDirection, index: Int) -> Boolean,
+    onDismiss: (SwipeToDismissBoxValue, index: Int) -> Boolean,
     notes: SnapshotStateList<Selectable<NoteWrapper>>,
     listHeader: @Composable () -> Unit,
 ) {

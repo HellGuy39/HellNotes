@@ -11,8 +11,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridScope
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +34,7 @@ fun LazyListScope.noteItems(
     isSwipeable: Boolean,
     onClick: (index: Int) -> Unit,
     onLongClick: (index: Int) -> Unit,
-    onDismiss: (DismissDirection, index: Int) -> Boolean,
+    onDismiss: (SwipeToDismissBoxValue, index: Int) -> Boolean,
     noteStyle: NoteStyle,
 ) {
     itemsIndexed(
@@ -84,7 +84,7 @@ fun LazyListScope.noteItems(
     isSwipeable: Boolean,
     onClick: (position: PartitionElementPositionInfo) -> Unit,
     onLongClick: (position: PartitionElementPositionInfo) -> Unit,
-    onDismiss: (DismissDirection, position: PartitionElementPositionInfo) -> Boolean,
+    onDismiss: (SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean,
     partitionIndex: Int,
     noteStyle: NoteStyle,
 ) {
@@ -138,7 +138,7 @@ fun LazyStaggeredGridScope.noteItems(
     isSwipeable: Boolean,
     onClick: (index: Int) -> Unit,
     onLongClick: (index: Int) -> Unit,
-    onDismiss: (DismissDirection, index: Int) -> Boolean,
+    onDismiss: (SwipeToDismissBoxValue, index: Int) -> Boolean,
     noteStyle: NoteStyle,
 ) {
     itemsIndexed(
@@ -187,7 +187,7 @@ fun LazyStaggeredGridScope.noteItems(
     isSwipeable: Boolean,
     onClick: (position: PartitionElementPositionInfo) -> Unit,
     onLongClick: (position: PartitionElementPositionInfo) -> Unit,
-    onDismiss: (DismissDirection, position: PartitionElementPositionInfo) -> Boolean,
+    onDismiss: (SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean,
     partitionIndex: Int,
     noteStyle: NoteStyle,
 ) {

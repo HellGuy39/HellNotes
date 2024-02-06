@@ -2,10 +2,10 @@ package com.hellguy39.hellnotes.feature.home.label
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -31,7 +31,7 @@ fun LabelScreen(
     listStyle: ListStyle,
     onNoteClick: (index: Int) -> Unit,
     onNotePress: (index: Int) -> Unit,
-    onDismissNote: (DismissDirection, index: Int) -> Boolean,
+    onDismissNote: (SwipeToDismissBoxValue, index: Int) -> Boolean,
     onSearchClick: () -> Unit,
     onToggleListStyle: () -> Unit,
     onArchiveSelectedClick: () -> Unit,

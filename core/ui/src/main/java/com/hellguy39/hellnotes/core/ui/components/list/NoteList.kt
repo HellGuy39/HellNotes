@@ -3,8 +3,8 @@ package com.hellguy39.hellnotes.core.ui.components.list
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -38,7 +38,7 @@ fun NoteList(
     isSwipeable: Boolean = false,
     onClick: (position: PartitionElementPositionInfo) -> Unit,
     onLongClick: (position: PartitionElementPositionInfo) -> Unit,
-    onDismiss: (DismissDirection, position: PartitionElementPositionInfo) -> Boolean = remember { { _, _ -> false } },
+    onDismiss: (SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean = remember { { _, _ -> false } },
     volume: UiVolume<Selectable<NoteWrapper>>,
     listStyle: ListStyle = ListStyle.Column,
     listHeader: @Composable () -> Unit = {},
@@ -83,7 +83,7 @@ fun NoteList(
     isSwipeable: Boolean = false,
     onClick: (index: Int) -> Unit,
     onLongClick: (index: Int) -> Unit,
-    onDismiss: (DismissDirection, index: Int) -> Boolean = remember { { _, _ -> false } },
+    onDismiss: (SwipeToDismissBoxValue, index: Int) -> Boolean = remember { { _, _ -> false } },
     notes: SnapshotStateList<Selectable<NoteWrapper>> = mutableStateListOf(),
     listStyle: ListStyle = ListStyle.Column,
     listHeader: @Composable () -> Unit = {},

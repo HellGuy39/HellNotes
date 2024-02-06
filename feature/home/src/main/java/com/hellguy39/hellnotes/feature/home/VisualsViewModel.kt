@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.feature.home
 
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
@@ -49,8 +49,8 @@ class VisualsViewModel
         }
 
         @OptIn(ExperimentalMaterial3Api::class)
-        fun calculateSwipeAction(direction: DismissDirection): NoteSwipe {
-            return if (direction == DismissDirection.StartToEnd) {
+        fun calculateSwipeAction(direction: SwipeToDismissBoxValue): NoteSwipe {
+            return if (direction == SwipeToDismissBoxValue.StartToEnd) {
                 visualState.value.noteSwipesState.swipeRight
             } else {
                 visualState.value.noteSwipesState.swipeLeft

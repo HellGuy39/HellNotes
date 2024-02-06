@@ -139,6 +139,16 @@ class LabelViewModel
                 val noteWrapper = uiState.value.noteWrappers[index]
                 val noteId = noteWrapper.value.note.id ?: return@launch
 
+                when (noteSwipe) {
+                    is NoteSwipe.Archive -> {
+                        showNoteArchivedSnackbar()
+                    }
+                    is NoteSwipe.Delete -> {
+                        showNoteMovedToTrashSnackbar()
+                    }
+                    else -> Unit
+                }
+
                 noteActionController.handleSwipe(noteSwipe, noteId)
             }
         }

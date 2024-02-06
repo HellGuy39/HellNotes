@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.feature.home.notes
 
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -74,7 +74,7 @@ fun NotesRoute(
             },
         onDismissNote =
             remember {
-                { direction: DismissDirection, positionInfo: PartitionElementPositionInfo ->
+                { direction: SwipeToDismissBoxValue, positionInfo: PartitionElementPositionInfo ->
                     val swipeAction = visualsViewModel.calculateSwipeAction(direction)
                     notesViewModel.onNoteDismiss(swipeAction, positionInfo)
                     visualsViewModel.calculateSwipeResult(swipeAction)

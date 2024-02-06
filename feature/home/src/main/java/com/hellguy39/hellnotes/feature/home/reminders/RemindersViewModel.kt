@@ -90,6 +90,16 @@ class RemindersViewModel
                 val noteWrapper = uiState.value.selectableNoteWrappers[index]
                 val noteId = noteWrapper.value.note.id ?: return@launch
 
+                when (noteSwipe) {
+                    is NoteSwipe.Archive -> {
+                        showNoteArchivedSnackbar()
+                    }
+                    is NoteSwipe.Delete -> {
+                        showNoteMovedToTrashSnackbar()
+                    }
+                    else -> Unit
+                }
+
                 noteActionController.handleSwipe(noteSwipe, noteId)
             }
         }
@@ -105,6 +115,15 @@ class RemindersViewModel
             viewModelScope.launch {
                 noteActionController.cancel()
             }
+        }
+
+        private suspend fun showNoteArchivedSnackbar() {
+            singleUiEvents.send(
+                RemindersSingleUiEvent.ShowSnackbar(
+                    text = UiText.StringResources(AppStrings.Snack.NoteArchived),
+                    action = { viewModelScope.launch { noteActionController.undo() } },
+                ),
+            )
         }
 
         private suspend fun showNoteMovedToTrashSnackbar() {

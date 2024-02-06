@@ -16,15 +16,15 @@ fun CustomSnackbarHost(state: SnackbarHostState) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun rememberSnackbarDismissState(snackbarHostState: SnackbarHostState): DismissState {
-    return rememberDismissState(
+fun rememberSnackbarDismissState(snackbarHostState: SnackbarHostState): SwipeToDismissBoxState {
+    return rememberSwipeToDismissBoxState(
         confirmValueChange = { dismissValue ->
             when (dismissValue) {
-                DismissValue.DismissedToEnd -> {
+                SwipeToDismissBoxValue.EndToStart -> {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     true
                 }
-                DismissValue.DismissedToStart -> {
+                SwipeToDismissBoxValue.StartToEnd -> {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     true
                 }

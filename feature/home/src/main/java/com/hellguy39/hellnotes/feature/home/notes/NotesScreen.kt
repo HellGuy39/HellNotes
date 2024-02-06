@@ -3,12 +3,12 @@ package com.hellguy39.hellnotes.feature.home.notes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -35,7 +35,7 @@ fun NotesScreen(
     visualState: VisualState,
     onNoteClick: (position: PartitionElementPositionInfo) -> Unit,
     onNotePress: (position: PartitionElementPositionInfo) -> Unit,
-    onDismissNote: (direction: DismissDirection, position: PartitionElementPositionInfo) -> Boolean,
+    onDismissNote: (direction: SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean,
     onNavigationClick: () -> Unit,
     onDeleteSelectedNotesClick: () -> Unit,
     onToggleListStyle: () -> Unit,

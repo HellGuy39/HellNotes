@@ -1,11 +1,13 @@
 package com.hellguy39.hellnotes.core.ui.components.cards
 
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import com.hellguy39.hellnotes.core.model.NoteWrapper
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,114 +20,66 @@ fun SwipeableNoteCard(
     noteWrapper: NoteWrapper,
     isSelected: Boolean,
     isSwipeable: Boolean,
-    onDismissed: (DismissDirection, Note) -> Boolean,
+    onDismissed: (SwipeToDismissBoxValue) -> Boolean,
 ) {
-    val dismissState =
-        rememberDismissState(
-            confirmValueChange = { dismissValue ->
-                when (dismissValue) {
-                    DismissValue.DismissedToEnd -> {
-                        onDismissed(DismissDirection.StartToEnd, noteWrapper.note)
+    val swipeToDismissBoxState =
+        rememberSwipeToDismissBoxState(
+            confirmValueChange = { value ->
+                when (value) {
+                    SwipeToDismissBoxValue.StartToEnd -> {
+                        onDismissed(value)
                     }
-                    DismissValue.DismissedToStart -> {
-                        onDismissed(DismissDirection.EndToStart, noteWrapper.note)
+                    SwipeToDismissBoxValue.EndToStart -> {
+                        onDismissed(value)
                     }
                     else -> false
                 }
             },
         )
 
-    val swipeDirections by remember {
-        derivedStateOf {
-            if (isSwipeable) {
-                setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart)
-            } else {
-                setOf()
-            }
-        }
-    }
+//    if (swipeToDismissBoxState.currentValue != SwipeToDismissBoxValue.Settled) {
+//        LaunchedEffect(Unit) {
+//            swipeToDismissBoxState.reset()
+//        }
+//    }
 
-    val visibility by remember {
-        derivedStateOf {
-            if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
-        }
-    }
+    val visibility = if (swipeToDismissBoxState.progress == 1f) 1f else 1f - swipeToDismissBoxState.progress
 
-    SwipeToDismiss(
-        modifier = Modifier,
-        state = dismissState,
-        directions = swipeDirections,
-        background = { /* no-op */ },
-        dismissContent = {
-            NoteCard(
-                modifier = modifier.alpha(visibility),
-                onClick = onClick,
-                onLongClick = onLongClick,
-                noteWrapper = noteWrapper,
-                isSelected = isSelected,
-                noteStyle = noteStyle,
-            )
-        },
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SwipeableNoteCard(
-    modifier: Modifier = Modifier,
-    noteStyle: NoteStyle,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit,
-    noteWrapper: NoteWrapper,
-    isSelected: Boolean,
-    isSwipeable: Boolean,
-    onDismissed: (DismissDirection) -> Boolean,
-) {
-    val dismissState =
-        rememberDismissState(
-            confirmValueChange = { dismissValue ->
-                when (dismissValue) {
-                    DismissValue.DismissedToEnd -> {
-                        onDismissed(DismissDirection.StartToEnd)
-                    }
-                    DismissValue.DismissedToStart -> {
-                        onDismissed(DismissDirection.EndToStart)
-                    }
-                    else -> false
-                }
-            },
+    SwipeToDismissBox(
+        state = swipeToDismissBoxState,
+        backgroundContent = { /* no-op */ },
+        enableDismissFromEndToStart = isSwipeable,
+        enableDismissFromStartToEnd = isSwipeable,
+    ) {
+        NoteCard(
+            modifier = modifier.alpha(visibility),
+            onClick = onClick,
+            onLongClick = onLongClick,
+            noteWrapper = noteWrapper,
+            isSelected = isSelected,
+            noteStyle = noteStyle,
         )
-
-    val swipeDirections by remember {
-        derivedStateOf {
-            if (isSwipeable) {
-                setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart)
-            } else {
-                setOf()
-            }
-        }
     }
-
-    val visibility by remember {
-        derivedStateOf {
-            if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
-        }
-    }
-
-    SwipeToDismiss(
-        modifier = Modifier,
-        state = dismissState,
-        directions = swipeDirections,
-        background = { /* no-op */ },
-        dismissContent = {
-            NoteCard(
-                modifier = modifier.alpha(visibility),
-                onClick = onClick,
-                onLongClick = onLongClick,
-                noteWrapper = noteWrapper,
-                isSelected = isSelected,
-                noteStyle = noteStyle,
-            )
-        },
-    )
 }
+
+// @OptIn(ExperimentalMaterial3Api::class)
+// @Composable
+// fun SwipeableNoteBackground(
+//    state: SwipeToDismissBoxState,
+// ) {
+//    val visibility by animateFloatAsState(targetValue = if (state.dismissDirection == SwipeToDismissBoxValue.EndToStart) 1f else 0f)
+//
+//    Box(
+//        modifier =
+//            Modifier
+//                .fillMaxSize()
+//                .alpha(visibility)
+//                .padding(16.dp),
+//        contentAlignment = Alignment.CenterEnd,
+//    ) {
+//        Icon(
+//            painter = painterResource(id = AppIcons.Delete),
+//            contentDescription = null,
+//        )
+//    }
+// }

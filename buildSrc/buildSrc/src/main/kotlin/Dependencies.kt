@@ -2,7 +2,7 @@ object Dependencies {
 
     object Kotlin {
 
-        private const val kotlinVersion = "1.9.21"
+        private const val kotlinVersion = "1.9.22"
         const val GradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         const val GradleSerializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion"
 
@@ -12,7 +12,7 @@ object Dependencies {
     }
 
     object Android {
-        const val GradlePlugin = "com.android.tools.build:gradle:8.1.4"
+        const val GradlePlugin = "com.android.tools.build:gradle:8.2.2"
     }
 
     private const val junitVersion = "4.13.2"
@@ -24,7 +24,7 @@ object Dependencies {
 
     object SquareUp {
 
-        private const val moshiVersion = "1.15.0"
+        private const val moshiVersion = "1.15.1"
         const val Moshi = "com.squareup.moshi:moshi:$moshiVersion"
         const val MoshiKotlin = "com.squareup.moshi:moshi-kotlin:$moshiVersion"
 
@@ -74,10 +74,10 @@ object Dependencies {
     }
 
     object Compose {
-        private const val composeVersion = "1.5.4"
-        private const val lifecycleVersion = "2.6.2"
+        private const val composeVersion = "1.6.0"
+        private const val lifecycleVersion = "2.7.0"
         private const val navigationVersion = "2.7.6"
-        private const val material3Version = "1.1.2"
+        private const val material3Version = "1.2.0-rc01"
         private const val activityVersion = "1.8.2"
 
         const val Lifecycle = "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
@@ -85,6 +85,9 @@ object Dependencies {
         const val Ui = "androidx.compose.ui:ui:$composeVersion"
         const val ToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
         const val Material3 = "androidx.compose.material3:material3:$material3Version"
+        const val Material3WindowSizeClass = "androidx.compose.material3:material3-window-size-class:$material3Version"
+        const val Material3Adaptive = "androidx.compose.material3:material3-adaptive:1.0.0-alpha05"
+        const val Material3AdaptiveNavigationSuite = "androidx.compose.material3:material3-adaptive-navigation-suite:1.0.0-alpha02"
         const val Navigation = "androidx.navigation:navigation-compose:$navigationVersion"
         const val LiveData = "androidx.compose.runtime:runtime-livedata:$composeVersion"
 
@@ -102,9 +105,10 @@ object Dependencies {
 
     object Accompanist {
 
-        private const val version = "0.32.0"
+        private const val version = "0.34.0"
 
         const val Permissions = "com.google.accompanist:accompanist-permissions:$version"
+        const val Adaptive = "com.google.accompanist:accompanist-adaptive:$version"
     }
 
 
@@ -158,13 +162,6 @@ object Dependencies {
             const val Calendar = "com.maxkeppeler.sheets-compose-dialogs:calendar:$version"
             const val Clock = "com.maxkeppeler.sheets-compose-dialogs:clock:$version"
 
-        }
-
-        object ReorderList {
-            private const val version = "0.9.6"
-
-            const val ComposeReorderableList =
-                "org.burnoutcrew.composereorderable:reorderable:$version"
         }
 
         object ComposeRichText {
