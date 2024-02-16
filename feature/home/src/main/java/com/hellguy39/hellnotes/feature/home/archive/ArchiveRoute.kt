@@ -42,8 +42,8 @@ fun ArchiveRoute(
     ArchiveScreen(
         uiState = uiState,
         visualState = visualState,
-        onNoteClick = remember { { index -> archiveViewModel.onNoteClick(index) } },
-        onNotePress = remember { { index -> archiveViewModel.onNotePress(index) } },
+        onNoteClick = remember { { noteId -> archiveViewModel.onNoteClick(noteId) } },
+        onNotePress = remember { { noteId -> archiveViewModel.onNotePress(noteId) } },
         onCancelSelectionClick = remember { { archiveViewModel.onCancelItemSelection() } },
         onDeleteSelectedClick = remember { { archiveViewModel.onDeleteSelectedItems() } },
         onNavigationClick = remember { { homeState.openDrawer() } },

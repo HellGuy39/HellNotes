@@ -12,7 +12,6 @@ import com.hellguy39.hellnotes.core.ui.analytics.LocalAnalytics
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.analytics.buttonClick
 import com.hellguy39.hellnotes.core.ui.lifecycle.collectAsEventsWithLifecycle
-import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 import com.hellguy39.hellnotes.feature.home.HomeState
 import com.hellguy39.hellnotes.feature.home.VisualsViewModel
 
@@ -62,21 +61,21 @@ fun NotesRoute(
             },
         onNoteClick =
             remember {
-                { positionInfo: PartitionElementPositionInfo ->
-                    notesViewModel.onNoteClick(positionInfo)
+                { noteId: Long? ->
+                    notesViewModel.onNoteClick(noteId)
                 }
             },
         onNotePress =
             remember {
-                { positionInfo: PartitionElementPositionInfo ->
-                    notesViewModel.onNotePress(positionInfo)
+                { noteId: Long? ->
+                    notesViewModel.onNotePress(noteId)
                 }
             },
         onDismissNote =
             remember {
-                { direction: SwipeToDismissBoxValue, positionInfo: PartitionElementPositionInfo ->
+                { direction: SwipeToDismissBoxValue, noteId: Long? ->
                     val swipeAction = visualsViewModel.calculateSwipeAction(direction)
-                    notesViewModel.onNoteDismiss(swipeAction, positionInfo)
+                    notesViewModel.onNoteDismiss(swipeAction, noteId)
                     visualsViewModel.calculateSwipeResult(swipeAction)
                 }
             },

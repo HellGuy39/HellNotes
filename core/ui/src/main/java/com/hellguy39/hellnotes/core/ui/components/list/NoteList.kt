@@ -17,7 +17,6 @@ import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.values.Spaces
-import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 import com.hellguy39.hellnotes.core.ui.wrapper.UiVolume
 
 @Composable
@@ -32,13 +31,13 @@ private fun rememberListModifier(): Modifier {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteList(
+fun NoteList2(
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteStyle: NoteStyle,
     isSwipeable: Boolean = false,
-    onClick: (position: PartitionElementPositionInfo) -> Unit,
-    onLongClick: (position: PartitionElementPositionInfo) -> Unit,
-    onDismiss: (SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean = remember { { _, _ -> false } },
+    onClick: (noteId: Long?) -> Unit,
+    onLongClick: (noteId: Long?) -> Unit,
+    onDismiss: (SwipeToDismissBoxValue, noteId: Long?) -> Boolean = remember { { _, _ -> false } },
     volume: UiVolume<Selectable<NoteWrapper>>,
     listStyle: ListStyle = ListStyle.Column,
     listHeader: @Composable () -> Unit = {},
@@ -77,13 +76,13 @@ fun NoteList(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteList(
+fun NoteList2(
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteStyle: NoteStyle,
     isSwipeable: Boolean = false,
-    onClick: (index: Int) -> Unit,
-    onLongClick: (index: Int) -> Unit,
-    onDismiss: (SwipeToDismissBoxValue, index: Int) -> Boolean = remember { { _, _ -> false } },
+    onClick: (noteId: Long?) -> Unit,
+    onLongClick: (noteId: Long?) -> Unit,
+    onDismiss: (SwipeToDismissBoxValue, noteId: Long?) -> Boolean = remember { { _, _ -> false } },
     notes: SnapshotStateList<Selectable<NoteWrapper>> = mutableStateListOf(),
     listStyle: ListStyle = ListStyle.Column,
     listHeader: @Composable () -> Unit = {},
@@ -100,8 +99,8 @@ fun NoteList(
                 onLongClick = onLongClick,
                 onDismiss = onDismiss,
                 innerPadding = innerPadding,
-                notes = notes,
                 listHeader = listHeader,
+                notes = notes,
             )
         }
         ListStyle.Grid -> {

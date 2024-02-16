@@ -45,13 +45,13 @@ fun RemindersRoute(
         uiState = uiState,
         visualState = visualState,
         snackbarHostState = homeState.snackbarHostState,
-        onNoteClick = remember { { index -> remindersViewModel.onNoteClick(index) } },
-        onNotePress = remember { { index -> remindersViewModel.onNotePress(index) } },
+        onNoteClick = remember { { noteId -> remindersViewModel.onNoteClick(noteId) } },
+        onNotePress = remember { { noteId -> remindersViewModel.onNotePress(noteId) } },
         onDismissNote =
             remember {
-                { direction, index ->
+                { direction, noteId ->
                     val swipeAction = visualsViewModel.calculateSwipeAction(direction)
-                    remindersViewModel.onNoteDismiss(swipeAction, index)
+                    remindersViewModel.onNoteDismiss(swipeAction, noteId)
                     visualsViewModel.calculateSwipeResult(swipeAction)
                 }
             },

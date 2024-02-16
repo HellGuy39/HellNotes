@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.cards.TipCard
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList
+import com.hellguy39.hellnotes.core.ui.components.list.NoteList2
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
@@ -26,8 +26,8 @@ import com.hellguy39.hellnotes.feature.home.trash.components.TrashTopAppBar
 fun TrashScreen(
     uiState: TrashUiState,
     visualState: VisualState,
-    onNoteClick: (index: Int) -> Unit,
-    onNotePress: (index: Int) -> Unit,
+    onNoteClick: (noteId: Long?) -> Unit,
+    onNotePress: (noteId: Long?) -> Unit,
     onNavigationClick: () -> Unit,
     onCancelSelectionClick: () -> Unit,
     onRestoreSelectedClick: () -> Unit,
@@ -63,7 +63,7 @@ fun TrashScreen(
                     message = UiText.StringResources(AppStrings.Placeholder.NoNotesInTrash),
                 )
             } else {
-                NoteList(
+                NoteList2(
                     innerPadding = paddingValues,
                     noteStyle = visualState.noteStyle,
                     onClick = onNoteClick,

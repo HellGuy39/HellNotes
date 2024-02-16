@@ -47,10 +47,9 @@ class ArchiveViewModel
                     initialValue = ArchiveUiState(),
                 )
 
-        fun onNoteClick(index: Int) {
+        fun onNoteClick(noteId: Long?) {
             viewModelScope.launch {
-                val noteWrapper = uiState.value.selectableNoteWrappers[index]
-                val noteId = noteWrapper.value.note.id ?: return@launch
+                if (noteId == null) return@launch
                 val selectedIds = noteActionController.items.value
 
                 if (selectedIds.isEmpty()) {
@@ -65,10 +64,9 @@ class ArchiveViewModel
             }
         }
 
-        fun onNotePress(index: Int) {
+        fun onNotePress(noteId: Long?) {
             viewModelScope.launch {
-                val noteWrapper = uiState.value.selectableNoteWrappers[index]
-                val noteId = noteWrapper.value.note.id ?: return@launch
+                if (noteId == null) return@launch
                 val buffer = noteActionController.items.value
 
                 if (buffer.contains(noteId)) {

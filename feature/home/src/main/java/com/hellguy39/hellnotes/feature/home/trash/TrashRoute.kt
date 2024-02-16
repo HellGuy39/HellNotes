@@ -74,8 +74,8 @@ fun TrashRoute(
     TrashScreen(
         uiState = uiState,
         visualState = visualState,
-        onNoteClick = remember { { index -> trashViewModel.onNoteClick(index) } },
-        onNotePress = remember { { index -> trashViewModel.onNotePress(index) } },
+        onNoteClick = remember { { noteId -> trashViewModel.onNoteClick(noteId) } },
+        onNotePress = remember { { noteId -> trashViewModel.onNotePress(noteId) } },
         onNavigationClick = remember { { homeState.openDrawer() } },
         onCancelSelectionClick = remember { { trashViewModel.onCancelItemSelection() } },
         onRestoreSelectedClick = remember { { trashViewModel.onRestoreSelectedItems() } },

@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList
+import com.hellguy39.hellnotes.core.ui.components.list.NoteList2
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
@@ -28,8 +28,8 @@ fun ArchiveScreen(
     visualState: VisualState,
     snackbarHostState: SnackbarHostState,
     listStyle: ListStyle,
-    onNoteClick: (index: Int) -> Unit,
-    onNotePress: (index: Int) -> Unit,
+    onNoteClick: (noteId: Long?) -> Unit,
+    onNotePress: (noteId: Long?) -> Unit,
     onSearchClick: () -> Unit,
     onToggleListStyle: () -> Unit,
     onCancelSelectionClick: () -> Unit,
@@ -70,7 +70,7 @@ fun ArchiveScreen(
                     targetState = visualState.listStyle,
                     label = "listStyle",
                 ) { listStyle ->
-                    NoteList(
+                    NoteList2(
                         innerPadding = paddingValues,
                         noteStyle = visualState.noteStyle,
                         onClick = onNoteClick,

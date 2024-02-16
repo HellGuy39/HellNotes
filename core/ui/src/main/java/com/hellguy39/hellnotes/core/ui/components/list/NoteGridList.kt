@@ -21,7 +21,6 @@ import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.components.items.noteItems
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
-import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 import com.hellguy39.hellnotes.core.ui.wrapper.UiVolume
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,9 +30,9 @@ internal fun NoteGridList(
     innerPadding: PaddingValues,
     noteStyle: NoteStyle,
     isSwipeable: Boolean,
-    onClick: (position: PartitionElementPositionInfo) -> Unit,
-    onLongClick: (position: PartitionElementPositionInfo) -> Unit,
-    onDismiss: (SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean,
+    onClick: (noteId: Long?) -> Unit,
+    onLongClick: (noteId: Long?) -> Unit,
+    onDismiss: (SwipeToDismissBoxValue, noteId: Long?) -> Boolean,
     volume: UiVolume<Selectable<NoteWrapper>>,
     listHeader: @Composable () -> Unit,
 ) {
@@ -53,6 +52,7 @@ internal fun NoteGridList(
     ) {
         item(
             span = StaggeredGridItemSpan.FullLine,
+            key = { Int.MIN_VALUE },
         ) {
             listHeader()
         }
@@ -79,7 +79,6 @@ internal fun NoteGridList(
                     onClick = onClick,
                     onLongClick = onLongClick,
                     onDismiss = onDismiss,
-                    partitionIndex = index,
                     noteStyle = noteStyle,
                 )
             }
@@ -94,9 +93,9 @@ internal fun NoteGridList(
     innerPadding: PaddingValues,
     noteStyle: NoteStyle,
     isSwipeable: Boolean,
-    onClick: (index: Int) -> Unit,
-    onLongClick: (index: Int) -> Unit,
-    onDismiss: (SwipeToDismissBoxValue, index: Int) -> Boolean,
+    onClick: (noteId: Long?) -> Unit,
+    onLongClick: (noteId: Long?) -> Unit,
+    onDismiss: (SwipeToDismissBoxValue, noteId: Long?) -> Boolean,
     notes: SnapshotStateList<Selectable<NoteWrapper>>,
     listHeader: @Composable () -> Unit,
 ) {

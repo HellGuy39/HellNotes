@@ -51,16 +51,15 @@ class RemindersViewModel
                     scope = viewModelScope,
                 )
 
-        fun onNoteClick(index: Int) {
+        fun onNoteClick(noteId: Long?) {
             viewModelScope.launch {
-                val noteWrapper = uiState.value.selectableNoteWrappers[index]
-                val noteId = noteWrapper.value.note.id ?: return@launch
-                val selectedIds = noteActionController.items.value
+                if (noteId == null) return@launch
+                val buffer = noteActionController.items.value
 
-                if (selectedIds.isEmpty()) {
+                if (buffer.isEmpty()) {
                     _navigationEvents.send(RemindersNavigationEvent.NavigateToNoteDetail(noteId))
                 } else {
-                    if (selectedIds.contains(noteId)) {
+                    if (buffer.contains(noteId)) {
                         noteActionController.unselect(noteId)
                     } else {
                         noteActionController.select(noteId)
@@ -69,10 +68,9 @@ class RemindersViewModel
             }
         }
 
-        fun onNotePress(index: Int) {
+        fun onNotePress(noteId: Long?) {
             viewModelScope.launch {
-                val noteWrapper = uiState.value.selectableNoteWrappers[index]
-                val noteId = noteWrapper.value.note.id ?: return@launch
+                if (noteId == null) return@launch
                 val buffer = noteActionController.items.value
 
                 if (buffer.contains(noteId)) {
@@ -83,12 +81,10 @@ class RemindersViewModel
             }
         }
 
-        fun onNoteDismiss(noteSwipe: NoteSwipe, index: Int) {
+        fun onNoteDismiss(noteSwipe: NoteSwipe, noteId: Long?) {
             viewModelScope.launch {
+                if (noteId == null) return@launch
                 if (noteSwipe is NoteSwipe.None) return@launch
-
-                val noteWrapper = uiState.value.selectableNoteWrappers[index]
-                val noteId = noteWrapper.value.note.id ?: return@launch
 
                 when (noteSwipe) {
                     is NoteSwipe.Archive -> {

@@ -53,10 +53,10 @@ fun SearchRoute(
             },
         onClick =
             remember {
-                { note ->
-//                    note.id?.let { id ->
-//                        navigateToNoteDetail(id)
-//                    }
+                { noteId ->
+                    if (noteId != null) {
+                        navigateToNoteDetail(noteId)
+                    }
                 }
             },
         onLongClick = remember { { note -> } },

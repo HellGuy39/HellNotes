@@ -58,6 +58,14 @@ fun LabelRoute(
     val uiState by labelViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
 
+    labelViewModel.singleUiEventFlow.collectAsEventsWithLifecycle { event ->
+        when (event) {
+            is LabelSingleUiEvent.ShowSnackbar -> {
+                homeState.showSnack(event.text, event.action)
+            }
+        }
+    }
+
     labelViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
         when (event) {
             is LabelNavigationEvent.NavigateToNoteDetail -> {
@@ -212,13 +220,13 @@ fun LabelRoute(
     LabelScreen(
         uiState = uiState,
         visualState = visualState,
-        onNoteClick = remember { { index -> labelViewModel.send(LabelUiEvent.NoteClick(index)) } },
-        onNotePress = remember { { index -> labelViewModel.send(LabelUiEvent.NotePress(index)) } },
+        onNoteClick = remember { { noteId -> labelViewModel.send(LabelUiEvent.NoteClick(noteId)) } },
+        onNotePress = remember { { noteId -> labelViewModel.send(LabelUiEvent.NotePress(noteId)) } },
         onDismissNote =
             remember {
-                { direction, index ->
+                { direction, noteId ->
                     val swipeAction = visualsViewModel.calculateSwipeAction(direction)
-                    labelViewModel.send(LabelUiEvent.DismissNote(swipeAction, index))
+                    labelViewModel.send(LabelUiEvent.DismissNote(swipeAction, noteId))
                     visualsViewModel.calculateSwipeResult(swipeAction)
                 }
             },

@@ -25,16 +25,15 @@ import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.components.cards.SwipeableNoteCard
 import com.hellguy39.hellnotes.core.ui.values.Duration
 import com.hellguy39.hellnotes.core.ui.values.Spaces
-import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 fun LazyListScope.noteItems(
     state: LazyListState,
     notes: SnapshotStateList<Selectable<NoteWrapper>>,
     isSwipeable: Boolean,
-    onClick: (index: Int) -> Unit,
-    onLongClick: (index: Int) -> Unit,
-    onDismiss: (SwipeToDismissBoxValue, index: Int) -> Boolean,
+    onClick: (noteId: Long?) -> Unit,
+    onLongClick: (noteId: Long?) -> Unit,
+    onDismiss: (SwipeToDismissBoxValue, noteId: Long?) -> Boolean,
     noteStyle: NoteStyle,
 ) {
     itemsIndexed(
@@ -59,6 +58,8 @@ fun LazyListScope.noteItems(
             }
         }
 
+        val noteId = wrapper.value.note.id
+
         SwipeableNoteCard(
             modifier =
                 Modifier
@@ -69,33 +70,28 @@ fun LazyListScope.noteItems(
             noteWrapper = wrapper.value,
             isSwipeable = isSwipeable,
             isSelected = wrapper.selected,
-            onDismissed = { direction -> onDismiss(direction, index) },
-            onClick = { onClick(index) },
-            onLongClick = { onLongClick(index) },
+            onDismissed = { direction -> onDismiss(direction, noteId) },
+            onClick = { onClick(noteId) },
+            onLongClick = { onLongClick(noteId) },
             noteStyle = noteStyle,
         )
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
-fun LazyListScope.noteItems(
-    state: LazyListState,
+fun LazyStaggeredGridScope.noteItems(
+    state: LazyStaggeredGridState,
     notes: SnapshotStateList<Selectable<NoteWrapper>>,
     isSwipeable: Boolean,
-    onClick: (position: PartitionElementPositionInfo) -> Unit,
-    onLongClick: (position: PartitionElementPositionInfo) -> Unit,
-    onDismiss: (SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean,
-    partitionIndex: Int,
+    onClick: (noteId: Long?) -> Unit,
+    onLongClick: (noteId: Long?) -> Unit,
+    onDismiss: (SwipeToDismissBoxValue, noteId: Long?) -> Boolean,
     noteStyle: NoteStyle,
 ) {
     itemsIndexed(
         items = notes,
-        key = { _, note -> note.value.note.id ?: 0 },
-        contentType = { _, selectable -> selectable },
+        key = { _, wrapper -> wrapper.value.note.id ?: 0 },
     ) { index, wrapper ->
-
-        fun positionInfo() = PartitionElementPositionInfo(partitionIndex, index)
-
         val animatableAlpha = remember { Animatable(0f) }
         val isVisible =
             remember {
@@ -112,6 +108,8 @@ fun LazyListScope.noteItems(
                 )
             }
         }
+
+        val noteId = wrapper.value.note.id
 
         SwipeableNoteCard(
             modifier =
@@ -123,110 +121,9 @@ fun LazyListScope.noteItems(
             noteWrapper = wrapper.value,
             isSwipeable = isSwipeable,
             isSelected = wrapper.selected,
-            onDismissed = { direction -> onDismiss(direction, positionInfo()) },
-            onClick = { onClick(positionInfo()) },
-            onLongClick = { onLongClick(positionInfo()) },
-            noteStyle = noteStyle,
-        )
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
-fun LazyStaggeredGridScope.noteItems(
-    state: LazyStaggeredGridState,
-    notes: SnapshotStateList<Selectable<NoteWrapper>>,
-    isSwipeable: Boolean,
-    onClick: (index: Int) -> Unit,
-    onLongClick: (index: Int) -> Unit,
-    onDismiss: (SwipeToDismissBoxValue, index: Int) -> Boolean,
-    noteStyle: NoteStyle,
-) {
-    itemsIndexed(
-        items = notes,
-        key = { _, item -> item.value.note.id ?: 0 },
-    ) { index, item ->
-        val animatableAlpha = remember { Animatable(0f) }
-        val isVisible =
-            remember {
-                derivedStateOf {
-                    state.firstVisibleItemIndex <= index
-                }
-            }
-
-        LaunchedEffect(isVisible.value) {
-            if (isVisible.value) {
-                animatableAlpha.animateTo(
-                    targetValue = 1f,
-                    animationSpec = tween(durationMillis = Duration.SLOW),
-                )
-            }
-        }
-
-        SwipeableNoteCard(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(Spaces.extraSmall)
-                    .alpha(animatableAlpha.value)
-                    .animateItemPlacement(),
-            noteWrapper = item.value,
-            isSwipeable = isSwipeable,
-            isSelected = item.selected,
-            onDismissed = { direction -> onDismiss(direction, index) },
-            onClick = { onClick(index) },
-            onLongClick = { onLongClick(index) },
-            noteStyle = noteStyle,
-        )
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
-fun LazyStaggeredGridScope.noteItems(
-    state: LazyStaggeredGridState,
-    notes: SnapshotStateList<Selectable<NoteWrapper>>,
-    isSwipeable: Boolean,
-    onClick: (position: PartitionElementPositionInfo) -> Unit,
-    onLongClick: (position: PartitionElementPositionInfo) -> Unit,
-    onDismiss: (SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean,
-    partitionIndex: Int,
-    noteStyle: NoteStyle,
-) {
-    itemsIndexed(
-        items = notes,
-        key = { _, item -> item.value.note.id ?: 0 },
-    ) { index, item ->
-        fun positionInfo() = PartitionElementPositionInfo(partitionIndex, index)
-
-        val animatableAlpha = remember { Animatable(0f) }
-        val isVisible =
-            remember {
-                derivedStateOf {
-                    state.firstVisibleItemIndex <= index
-                }
-            }
-
-        LaunchedEffect(isVisible.value) {
-            if (isVisible.value) {
-                animatableAlpha.animateTo(
-                    targetValue = 1f,
-                    animationSpec = tween(durationMillis = Duration.SLOW),
-                )
-            }
-        }
-
-        SwipeableNoteCard(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(Spaces.extraSmall)
-                    .alpha(animatableAlpha.value)
-                    .animateItemPlacement(),
-            noteWrapper = item.value,
-            isSwipeable = isSwipeable,
-            isSelected = item.selected,
-            onDismissed = { direction -> onDismiss(direction, positionInfo()) },
-            onClick = { onClick(positionInfo()) },
-            onLongClick = { onLongClick(positionInfo()) },
+            onDismissed = { direction -> onDismiss(direction, noteId) },
+            onClick = { onClick(noteId) },
+            onLongClick = { onLongClick(noteId) },
             noteStyle = noteStyle,
         )
     }

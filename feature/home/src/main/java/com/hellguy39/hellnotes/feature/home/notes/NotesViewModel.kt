@@ -14,7 +14,6 @@ import com.hellguy39.hellnotes.core.model.wrapper.Selectable
 import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
-import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 import com.hellguy39.hellnotes.core.ui.wrapper.UiPartition
 import com.hellguy39.hellnotes.core.ui.wrapper.UiVolume
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -81,10 +80,11 @@ class NotesViewModel
                     initialValue = NoteListUiState(),
                 )
 
-        fun onNoteClick(positionInfo: PartitionElementPositionInfo) {
+        fun onNoteClick(noteId: Long?) {
             viewModelScope.launch {
-                val noteWrapper = uiState.value.noteVolume.getElementByPositionInfo(positionInfo)
-                val noteId = noteWrapper.value.note.id ?: return@launch
+                if (noteId == null) return@launch
+//                val noteWrapper = uiState.value.noteVolume.getElementByPositionInfo(positionInfo)
+//                val noteId = noteWrapper.value.note.id ?: return@launch
                 val selectedIds = noteActionController.items.value
 
                 if (selectedIds.isEmpty()) {
@@ -99,10 +99,11 @@ class NotesViewModel
             }
         }
 
-        fun onNotePress(positionInfo: PartitionElementPositionInfo) {
+        fun onNotePress(noteId: Long?) {
             viewModelScope.launch {
-                val noteWrapper = uiState.value.noteVolume.getElementByPositionInfo(positionInfo)
-                val noteId = noteWrapper.value.note.id ?: return@launch
+                if (noteId == null) return@launch
+//                val noteWrapper = uiState.value.noteVolume.getElementByPositionInfo(positionInfo)
+//                val noteId = noteWrapper.value.note.id ?: return@launch
                 val buffer = noteActionController.items.value
 
                 if (buffer.contains(noteId)) {
@@ -113,12 +114,13 @@ class NotesViewModel
             }
         }
 
-        fun onNoteDismiss(noteSwipe: NoteSwipe, positionInfo: PartitionElementPositionInfo) {
+        fun onNoteDismiss(noteSwipe: NoteSwipe, noteId: Long?) {
             viewModelScope.launch {
+                if (noteId == null) return@launch
                 if (noteSwipe is NoteSwipe.None) return@launch
 
-                val noteWrapper = uiState.value.noteVolume.getElementByPositionInfo(positionInfo)
-                val noteId = noteWrapper.value.note.id ?: return@launch
+                // val noteWrapper = uiState.value.noteVolume.getElementByPositionInfo(positionInfo)
+                // val noteId = noteWrapper.value.note.id ?: return@launch
 
                 when (noteSwipe) {
                     is NoteSwipe.Archive -> {

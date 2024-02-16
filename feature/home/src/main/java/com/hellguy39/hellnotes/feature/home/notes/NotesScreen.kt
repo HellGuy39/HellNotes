@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList
+import com.hellguy39.hellnotes.core.ui.components.list.NoteList2
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
@@ -24,7 +24,6 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.values.Spaces
-import com.hellguy39.hellnotes.core.ui.wrapper.PartitionElementPositionInfo
 import com.hellguy39.hellnotes.feature.home.VisualState
 import com.hellguy39.hellnotes.feature.home.notes.components.NoteListTopAppBar
 
@@ -33,9 +32,9 @@ import com.hellguy39.hellnotes.feature.home.notes.components.NoteListTopAppBar
 fun NotesScreen(
     uiState: NoteListUiState,
     visualState: VisualState,
-    onNoteClick: (position: PartitionElementPositionInfo) -> Unit,
-    onNotePress: (position: PartitionElementPositionInfo) -> Unit,
-    onDismissNote: (direction: SwipeToDismissBoxValue, position: PartitionElementPositionInfo) -> Boolean,
+    onNoteClick: (noteId: Long?) -> Unit,
+    onNotePress: (noteId: Long?) -> Unit,
+    onDismissNote: (direction: SwipeToDismissBoxValue, noteId: Long?) -> Boolean,
     onNavigationClick: () -> Unit,
     onDeleteSelectedNotesClick: () -> Unit,
     onToggleListStyle: () -> Unit,
@@ -77,7 +76,7 @@ fun NotesScreen(
                     targetState = visualState.listStyle,
                     label = "note_list_screen_animation",
                 ) { listStyle ->
-                    NoteList(
+                    NoteList2(
                         innerPadding =
                             PaddingValues(
                                 top = Spaces.small + innerPadding.calculateTopPadding(),

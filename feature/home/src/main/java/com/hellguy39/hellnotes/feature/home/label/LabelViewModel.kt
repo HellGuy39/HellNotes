@@ -69,13 +69,13 @@ class LabelViewModel
         fun send(uiEvent: LabelUiEvent) {
             when (uiEvent) {
                 is LabelUiEvent.NoteClick -> {
-                    noteClick(uiEvent.index)
+                    noteClick(uiEvent.noteId)
                 }
                 is LabelUiEvent.NotePress -> {
-                    notePress(uiEvent.index)
+                    notePress(uiEvent.noteId)
                 }
                 is LabelUiEvent.DismissNote -> {
-                    dismiss(uiEvent.noteSwipe, uiEvent.index)
+                    dismiss(uiEvent.noteSwipe, uiEvent.noteId)
                 }
                 is LabelUiEvent.DeleteLabel -> {
                     deleteLabel()
@@ -100,10 +100,9 @@ class LabelViewModel
             }
         }
 
-        private fun noteClick(index: Int) {
+        private fun noteClick(noteId: Long?) {
             viewModelScope.launch {
-                val noteWrapper = uiState.value.noteWrappers[index]
-                val noteId = noteWrapper.value.note.id ?: return@launch
+                if (noteId == null) return@launch
                 val selectedIds = noteActionController.items.value
 
                 if (selectedIds.isEmpty()) {
@@ -118,10 +117,9 @@ class LabelViewModel
             }
         }
 
-        private fun notePress(index: Int) {
+        private fun notePress(noteId: Long?) {
             viewModelScope.launch {
-                val noteWrapper = uiState.value.noteWrappers[index]
-                val noteId = noteWrapper.value.note.id ?: return@launch
+                if (noteId == null) return@launch
                 val buffer = noteActionController.items.value
 
                 if (buffer.contains(noteId)) {
@@ -132,12 +130,10 @@ class LabelViewModel
             }
         }
 
-        private fun dismiss(noteSwipe: NoteSwipe, index: Int) {
+        private fun dismiss(noteSwipe: NoteSwipe, noteId: Long?) {
             viewModelScope.launch {
+                if (noteId == null) return@launch
                 if (noteSwipe is NoteSwipe.None) return@launch
-
-                val noteWrapper = uiState.value.noteWrappers[index]
-                val noteId = noteWrapper.value.note.id ?: return@launch
 
                 when (noteSwipe) {
                     is NoteSwipe.Archive -> {
@@ -207,11 +203,11 @@ sealed interface LabelNavigationEvent {
 }
 
 sealed class LabelUiEvent {
-    data class NoteClick(val index: Int) : LabelUiEvent()
+    data class NoteClick(val noteId: Long?) : LabelUiEvent()
 
-    data class NotePress(val index: Int) : LabelUiEvent()
+    data class NotePress(val noteId: Long?) : LabelUiEvent()
 
-    data class DismissNote(val noteSwipe: NoteSwipe, val index: Int) : LabelUiEvent()
+    data class DismissNote(val noteSwipe: NoteSwipe, val noteId: Long?) : LabelUiEvent()
 
     data class RenameLabel(val name: String) : LabelUiEvent()
 
