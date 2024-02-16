@@ -1,6 +1,8 @@
 package com.hellguy39.hellnotes.core.domain.repository.local
 
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
+import com.hellguy39.hellnotes.core.model.repository.local.database.NoteEditor
+import com.hellguy39.hellnotes.core.model.repository.local.database.edit
 import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
@@ -25,4 +27,11 @@ interface NoteRepository {
     suspend fun deleteNoteById(id: Long)
 
     suspend fun deleteAll()
+}
+
+suspend fun NoteRepository.findByIdAndEdit(noteId: Long?, editor: NoteEditor) {
+    if (noteId == null) return
+    val note = getNoteById(noteId) ?: return
+    val editedNote = note.edit(editor)
+    updateNote(editedNote)
 }

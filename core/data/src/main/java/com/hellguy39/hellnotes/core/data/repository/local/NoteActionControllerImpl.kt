@@ -1,7 +1,7 @@
 package com.hellguy39.hellnotes.core.data.repository.local
 
 import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.usecase.archive.MoveNoteToArchiveUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.note.MoveNoteToTrashUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.note.RestoreNoteFromTrashUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.trash.DeleteNoteUseCase
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class NoteActionControllerImpl
     @Inject
     constructor(
-        private val noteRepository: NoteRepository,
+        private val moveNoteToArchiveUseCase: MoveNoteToArchiveUseCase,
         private val moveNoteToTrashUseCase: MoveNoteToTrashUseCase,
         private val restoreNoteFromTrashUseCase: RestoreNoteFromTrashUseCase,
         private val deleteNoteUseCase: DeleteNoteUseCase,
@@ -116,8 +116,7 @@ class NoteActionControllerImpl
 
         private suspend fun archive(vararg noteIds: Long, isArchived: Boolean) {
             noteIds.forEach { noteId ->
-                val note = noteRepository.getNoteById(noteId) ?: return
-                noteRepository.updateNote(note.copy(isArchived = isArchived))
+                moveNoteToArchiveUseCase.invoke(noteId, isArchived)
             }
 
             val action = if (isArchived) NoteActionController.Action.Archive else NoteActionController.Action.Unarchive
@@ -134,8 +133,7 @@ class NoteActionControllerImpl
 
         private suspend fun undoArchive(vararg noteIds: Long, isArchived: Boolean) {
             noteIds.forEach { noteId ->
-                val note = noteRepository.getNoteById(noteId) ?: return
-                noteRepository.updateNote(note.copy(isArchived = isArchived))
+                moveNoteToArchiveUseCase.invoke(noteId, isArchived)
             }
             clearLastAction()
         }

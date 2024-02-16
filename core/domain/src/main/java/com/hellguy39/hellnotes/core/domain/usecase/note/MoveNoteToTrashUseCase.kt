@@ -9,15 +9,10 @@ class MoveNoteToTrashUseCase
         private val noteRepository: NoteRepository,
     ) {
         suspend operator fun invoke(noteId: Long?) {
-            if (noteId == null) return
-            val note = noteRepository.getNoteById(noteId) ?: return
-            noteRepository.updateNote(
-                note.copy(
-                    atTrash = true,
-                    editedAt = System.currentTimeMillis(),
-                    isArchived = false,
-                    isPinned = false,
-                ),
-            )
+            noteRepository.findByIdAndEdit(noteId) {
+                atTrash = true
+                isArchived = false
+                isPinned = false
+            }
         }
     }
