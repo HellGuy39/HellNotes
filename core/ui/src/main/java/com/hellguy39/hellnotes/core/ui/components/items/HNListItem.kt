@@ -2,7 +2,13 @@ package com.hellguy39.hellnotes.core.ui.components.items
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -18,9 +24,65 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.values.Alpha
+
+@Composable
+fun HNListItem(
+    modifier: Modifier = Modifier,
+    heroIcon: UiIcon = UiIcon.Empty,
+    title: UiText = UiText.Empty,
+    subtitle: UiText = UiText.Empty,
+    onClick: () -> Unit = {},
+    iconTint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    iconSize: Dp = 32.dp,
+) {
+    Box(
+        modifier = Modifier.clickable { onClick() },
+    ) {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally),
+        ) {
+            if (heroIcon !is UiIcon.Empty) {
+                Icon(
+                    modifier = Modifier.size(iconSize),
+                    painter = heroIcon.asPainter(),
+                    tint = iconTint,
+                    contentDescription = null,
+                )
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                if (title !is UiText.Empty) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = title.asString(),
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Start,
+                    )
+                }
+                if (subtitle !is UiText.Empty) {
+                    Text(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .alpha(Alpha.LEVEL_1),
+                        text = subtitle.asString(),
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Start,
+                    )
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun HNListItem(
@@ -30,7 +92,7 @@ fun HNListItem(
     subtitle: String = "",
     onClick: () -> Unit = {},
     iconTint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    iconSize: Dp = 32.dp
+    iconSize: Dp = 32.dp,
 ) {
     Box(
         modifier = Modifier.clickable { onClick() },
@@ -38,43 +100,43 @@ fun HNListItem(
         Row(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally)
+            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterHorizontally),
         ) {
             if (heroIcon != null) {
                 Icon(
                     modifier = Modifier.size(iconSize),
                     painter = heroIcon,
                     tint = iconTint,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 if (title.isNotEmpty()) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
                     )
                 }
                 if (subtitle.isNotEmpty()) {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .alpha(UiDefaults.Alpha.Accented),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .alpha(Alpha.LEVEL_1),
                         text = subtitle,
                         style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
                     )
                 }
             }
         }
     }
 }
-
 
 @Preview(name = "Title & Subtitle with Icon / LightMode", uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(name = "Title & Subtitle with Icon / DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -83,18 +145,17 @@ fun HNListItemPreviewTitleAndSubtitleWithIcon() {
     HellNotesTheme {
         Surface(
             modifier = Modifier,
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             HNListItem(
                 modifier = Modifier.padding(16.dp),
-                heroIcon = painterResource(id = HellNotesIcons.Share),
+                heroIcon = painterResource(id = AppIcons.Share),
                 title = "Title",
-                subtitle = "Subtitle"
+                subtitle = "Subtitle",
             )
         }
     }
 }
-
 
 @Preview(name = "Title & Subtitle / LightMode", uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(name = "Title & Subtitle / DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -103,12 +164,12 @@ fun HNListItemPreviewTitleAndSubtitle() {
     HellNotesTheme {
         Surface(
             modifier = Modifier,
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             HNListItem(
                 modifier = Modifier.padding(16.dp),
                 title = "Title",
-                subtitle = "Subtitle"
+                subtitle = "Subtitle",
             )
         }
     }
@@ -121,11 +182,11 @@ fun HNListItemPreviewTitleOnly() {
     HellNotesTheme {
         Surface(
             modifier = Modifier,
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             HNListItem(
                 modifier = Modifier.padding(16.dp),
-                title = "Title"
+                title = "Title",
             )
         }
     }

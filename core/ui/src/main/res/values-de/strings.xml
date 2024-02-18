@@ -61,7 +61,7 @@
 
     <!-- Supporting -->
     <string name="supporting_share_note">Wähle aus, wie man die Notiz freigeben möchte. Danach kann man den Empfänger und die Versandmethode auswählen.</string>
-    <string name="supporting_delete_note">Die Notiz wird in den Papierkorb verschoben, wo sie vollständig gelöscht oder wiederhergestellt werden kann. Alle Markierungen und Erinnerungen werden entfernt.</string>
+    <string name="supporting_delete_note">Die Notiz wird in den Papierkorb verschoben, wo sie vollständig gelöscht oder wiederhergestellt werden kann.</string>
     <string name="supporting_restore_note">Nach der Wiederherstellung kann man die Notiz erneut öffnen und bearbeiten.</string>
     <string name="supporting_delete_label">Das Label wird dauerhaft gelöscht. Alle Notizen mit diesem Etikett verlieren es..</string>
     <string name="supporting_empty_trash">Alle Notizen im Papierkorb werden dauerhaft gelöscht.</string>
@@ -77,6 +77,7 @@
     <string name="value_never">nie</string>
 
     <!--  Button  -->
+    <string name="btn_done">Erfolgen</string>
     <string name="btn_request_permission">Erlaubnis anfordern</string>
     <string name="btn_create">Erstellen</string>
     <string name="btn_edit">Bearbeiten</string>
@@ -118,6 +119,7 @@
     <string name="stg_note_style">Stil der Notizen</string>
 
     <!--  MenuItem  -->
+    <string name="menu_item_manage_labels">Etiketten labels</string>
     <string name="menu_item_settings">Einstellungen</string>
     <string name="menu_item_about_app">Über die App</string>
     <string name="menu_item_reminders">Erinnerungen</string>
@@ -204,8 +206,10 @@
     <string name="title_enter_password">Passwort eingeben</string>
     <string name="title_unlocked">Freigeschaltet</string>
     <string name="title_attention">Aufmerksamkeit</string>
+    <string name="title_rename_label">Beschriftung label</string>
 
     <!-- Body -->
+    <string name="body_new_note">Neue Notiz</string>
     <string name="body_reset">Ihre Daten werden dauerhaft gelöscht. Diese Aktion wird nicht rückgängig gemacht.</string>
     <string name="body_backup">Bitte schließen Sie die Anwendung nicht und schalten Sie das Gerät während des Kopiervorgangs nicht aus.</string>
 
@@ -214,14 +218,12 @@
     <string name="permission_notification_default">Für diese Funktion ist die Berechtigung zum Senden von Benachrichtigungen erforderlich. Bitte genehmige die Genehmigung.</string>
 
     <!--  Snack  -->
-    <string name="snack_note_moved_to_trash">Notiz wurde in den Papierkorb verschoben</string>
-    <string name="snack_notes_moved_to_trash">Notizen wurden in den Papierkorb verschoben</string>
-    <string name="snack_note_archived">Notiz archiviert</string>
-    <string name="snack_note_unarchived">Notiz entpackt</string>
-    <string name="snack_notes_archived">Notizen werden archiviert</string>
-    <string name="snack_notes_unarchived">Notizen entpackt</string>
-    <string name="snack_note_pinned">Notiz ist fixiert</string>
-    <string name="snack_note_unpinned">Notiz unpinnen</string>
+    <string name="snack_note_has_been_copied">Notiz wurde kopiert und geöffnet</string>
+    <string name="snack_note_moved_to_trash">Notiz(en) in den Papierkorb verschoben</string>
+    <string name="snack_note_archived">Notiz (en) werden archiviert</string>
+    <string name="snack_note_unarchived">Notiz (en) sind nicht archiviert</string>
+    <string name="snack_note_pinned">Notiz (en) sind angeheftet</string>
+    <string name="snack_note_unpinned">Notiz (en) sind nicht angeheftet</string>
     <string name="snack_backup_created">Backup wurde erfolgreich erstellt</string>
     <string name="snack_storage_restored">Der Speicher wurde erfolgreich wiederhergestellt</string>
     <string name="snack_label_already_exist">Eine Bezeichnung mit diesem Namen existiert bereits</string>

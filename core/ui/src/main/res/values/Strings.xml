@@ -3,7 +3,9 @@
 
     <string name="app_name" translatable="false">HellNotes</string>
 
+    <!-- Chip -->
     <string name="markdown" translatable="false">Markdown</string>
+    <string name="read_only" translatable="false">Read Only</string>
 
     <!-- Content description -->
     <string name="content_description_back">Back</string>
@@ -69,8 +71,11 @@
     <string name="menu_item_about_app">About app</string>
     <string name="menu_item_reminders">Reminders</string>
     <string name="menu_item_labels">Labels</string>
+    <string name="menu_item_manage_labels">Manage labels</string>
     <string name="menu_item_rename">Rename</string>
     <string name="menu_item_delete">Delete</string>
+    <string name="menu_item_delete_forever">Delete forever</string>
+    <string name="menu_item_restore">Restore</string>
     <string name="menu_item_plain_text">Plain text</string>
     <string name="menu_item_txt_file">.txt file</string>
     <string name="menu_item_share">Share</string>
@@ -144,8 +149,10 @@
     <string name="title_enter_password">Enter your password</string>
     <string name="title_unlocked">Unlocked</string>
     <string name="title_attention">Attention</string>
+    <string name="title_rename_label">Rename label</string>
 
     <!-- Body -->
+    <string name="body_new_note">New note</string>
     <string name="body_reset">Your data will be permanently deleted. This action will not be undone.</string>
     <string name="body_backup">Please do not close the application or turn off the device during the copying process.</string>
 
@@ -157,11 +164,10 @@
     <string name="supporting_pin_must_be_at_least_4_digits">PIN must be at least 4 digits</string>
     <string name="supporting_password_must_be_at_least_4_characters">Password must be at least 4 characters</string>
     <string name="supporting_share_note">Choose which way to share the note. After that you will be able to choose the recipient and the method of sending.</string>
-    <string name="supporting_delete_note">The note will end up in the trash, where it can be completely deleted or restored. All labels and reminders will be unpinned.</string>
+    <string name="supporting_delete_note">The note will end up in the trash, where it can be completely deleted or restored.</string>
     <string name="supporting_delete_label">The label will be permanently deleted. All notes with this label will lose it.</string>
     <string name="supporting_restore_note">After restoring, you will be able to open and edit this note again.</string>
     <string name="supporting_empty_trash">All notes in the trash will be permanently deleted.</string>
-    <!-- Creating a backup copy will help keep your notes safe and protect against possible loss of important information.  -->
     <string name="supporting_wrong_pin">Wrong PIN</string>
     <string name="supporting_wrong_password">Wrong password</string>
 
@@ -184,6 +190,7 @@
     <string name="hint_message">Message</string>
 
     <!-- Button -->
+    <string name="btn_done">Done</string>
     <string name="btn_request_permission">Request permission</string>
     <string name="btn_create">Create</string>
     <string name="btn_restore">Restore</string>
@@ -213,6 +220,9 @@
     <string name="stg_note_swipes">Note Swipes</string>
     <string name="stg_note_style">Note style</string>
 
+    <!-- Argument -->
+    <string name="arg_action" translatable="false">action</string>
+
     <!-- Shortcuts -->
     <string name="shortcut_label_new_note">New note</string>
     <string name="shortcut_label_reminders">Reminders</string>
@@ -220,14 +230,12 @@
     <string name="shortcut_label_trash">Trash</string>
 
     <!-- Snack -->
-    <string name="snack_note_moved_to_trash">Note moved to trash</string>
-    <string name="snack_notes_moved_to_trash">Notes moved to trash</string>
-    <string name="snack_note_archived">Note archived</string>
-    <string name="snack_note_unarchived">Note unarchived</string>
-    <string name="snack_notes_archived">Notes archived</string>
-    <string name="snack_notes_unarchived">Notes unarchived</string>
-    <string name="snack_note_pinned">Note pinned</string>
-    <string name="snack_note_unpinned">Note unpinned</string>
+    <string name="snack_note_has_been_copied">Note has been copied and opened</string>
+    <string name="snack_note_moved_to_trash">Note(s) moved to trash</string>
+    <string name="snack_note_archived">Note(s) are archived</string>
+    <string name="snack_note_unarchived">Note(s) are unarchived</string>
+    <string name="snack_note_pinned">Note are pinned</string>
+    <string name="snack_note_unpinned">Note are unpinned</string>
     <string name="snack_backup_created">Backup was successfully created</string>
     <string name="snack_storage_restored">Storage was successfully restored</string>
     <string name="snack_label_already_exist">Label with this name already exists</string>
@@ -259,6 +267,7 @@
     <string name="action_trash" translatable="false">com.hellguy39.hellnotes.TRASH</string>
     <string name="action_edit" translatable="false">com.hellguy39.hellnotes.EDIT</string>
     <string name="action_create" translatable="false">com.hellguy39.hellnotes.CREATE</string>
+    <string name="action_notification_done" translatable="false">com.hellguy39.hellnotes.NOTIFICATION_DONE</string>
 
     <!-- On boarding -->
     <string name="on_boarding_first_page_title">Welcome!</string>

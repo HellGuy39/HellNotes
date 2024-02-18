@@ -2,20 +2,21 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { setUrl("https://jitpack.io") }
+        maven("https://jitpack.io")
+        maven("https://artifactory-external.vkpartner.ru/artifactory/maven")
     }
     dependencies {
-        classpath(Libs.Gradle.Plugin)
-        classpath(Libs.Google.Hilt.Plugin)
-        classpath(Libs.Kotlin.Plugin)
-        classpath(Libs.Kotlin.SerializationPlugin)
-        classpath(Libs.Google.ServicesPlugin)
-        classpath(Libs.Google.Firebase.CrashlyticsPlugin)
+        classpath(Dependencies.Android.GradlePlugin)
+        classpath(Dependencies.Hilt.GradlePlugin)
+        classpath(Dependencies.Kotlin.GradlePlugin)
+        classpath(Dependencies.Kotlin.GradleSerializationPlugin)
+        classpath(Dependencies.Google.GradleServicesPlugin)
+        classpath(Dependencies.Firebase.CrashlyticsPlugin)
     }
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.9.20-1.0.14" apply false
+    id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
 }
 
 tasks.register("clean", Delete::class) {

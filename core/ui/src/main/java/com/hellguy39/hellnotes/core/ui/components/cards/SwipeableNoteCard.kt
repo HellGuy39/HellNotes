@@ -1,11 +1,13 @@
 package com.hellguy39.hellnotes.core.ui.components.cards
 
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import com.hellguy39.hellnotes.core.model.repository.local.database.Note
-import com.hellguy39.hellnotes.core.model.NoteDetailWrapper
+import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -13,48 +15,71 @@ import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 fun SwipeableNoteCard(
     modifier: Modifier = Modifier,
     noteStyle: NoteStyle,
-    noteDetailWrapper: NoteDetailWrapper,
-    isSelected: Boolean = false,
-    isSwipeable: Boolean = true,
-    onDismissed: (DismissDirection, Note) -> Boolean
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+    noteWrapper: NoteWrapper,
+    isSelected: Boolean,
+    isSwipeable: Boolean,
+    onDismissed: (SwipeToDismissBoxValue) -> Boolean,
 ) {
-    if (isSwipeable) {
-        val dismissState = rememberDismissState(
-            confirmValueChange = { dismissValue ->
-                when (dismissValue) {
-                    DismissValue.DismissedToEnd -> {
-                        onDismissed(DismissDirection.StartToEnd, noteDetailWrapper.note)
+    val swipeToDismissBoxState =
+        rememberSwipeToDismissBoxState(
+            confirmValueChange = { value ->
+                when (value) {
+                    SwipeToDismissBoxValue.StartToEnd -> {
+                        onDismissed(value)
                     }
-                    DismissValue.DismissedToStart -> {
-                        onDismissed(DismissDirection.EndToStart, noteDetailWrapper.note)
+                    SwipeToDismissBoxValue.EndToStart -> {
+                        onDismissed(value)
                     }
-                    else -> { false }
+                    else -> false
                 }
-            }
+            },
         )
-        SwipeToDismiss(
-            modifier = Modifier,
-            state = dismissState,
-            directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
-            background = {},
-            dismissContent = {
-                val visibility = if (dismissState.progress == 1f) 1f else 1f - dismissState.progress
 
-                NoteCard(
-                    modifier = modifier.alpha(visibility),
-                    noteDetailWrapper = noteDetailWrapper,
-                    isSelected = isSelected,
-                    noteStyle = noteStyle
-                )
-            }
-        )
-    } else {
+//    if (swipeToDismissBoxState.currentValue != SwipeToDismissBoxValue.Settled) {
+//        LaunchedEffect(Unit) {
+//            swipeToDismissBoxState.reset()
+//        }
+//    }
+
+    val visibility = if (swipeToDismissBoxState.progress == 1f) 1f else 1f - swipeToDismissBoxState.progress
+
+    SwipeToDismissBox(
+        state = swipeToDismissBoxState,
+        backgroundContent = { /* no-op */ },
+        enableDismissFromEndToStart = isSwipeable,
+        enableDismissFromStartToEnd = isSwipeable,
+    ) {
         NoteCard(
-            modifier = modifier,
-            noteDetailWrapper = noteDetailWrapper,
+            modifier = modifier.alpha(visibility),
+            onClick = onClick,
+            onLongClick = onLongClick,
+            noteWrapper = noteWrapper,
             isSelected = isSelected,
-            noteStyle = noteStyle
+            noteStyle = noteStyle,
         )
     }
-
 }
+
+// @OptIn(ExperimentalMaterial3Api::class)
+// @Composable
+// fun SwipeableNoteBackground(
+//    state: SwipeToDismissBoxState,
+// ) {
+//    val visibility by animateFloatAsState(targetValue = if (state.dismissDirection == SwipeToDismissBoxValue.EndToStart) 1f else 0f)
+//
+//    Box(
+//        modifier =
+//            Modifier
+//                .fillMaxSize()
+//                .alpha(visibility)
+//                .padding(16.dp),
+//        contentAlignment = Alignment.CenterEnd,
+//    ) {
+//        Icon(
+//            painter = painterResource(id = AppIcons.Delete),
+//            contentDescription = null,
+//        )
+//    }
+// }

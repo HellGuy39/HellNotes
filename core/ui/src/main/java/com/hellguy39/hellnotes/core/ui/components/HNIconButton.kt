@@ -22,35 +22,35 @@ fun HNIconButton(
     tint: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     disabledPainter: Painter? = null,
     containerSize: Dp = 48.dp,
-    iconSize: Dp = 24.dp
+    iconSize: Dp = 24.dp,
 ) {
     if (enabled) {
         IconButton(
             modifier = Modifier.size(containerSize),
-            onClick = onClick
+            onClick = onClick,
         ) {
             Icon(
                 modifier = Modifier.size(iconSize),
                 painter = enabledPainter,
                 tint = tint,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     } else {
         Box(
             modifier = Modifier.size(containerSize),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             if (disabledPainter == null) {
                 Spacer(
-                    modifier = Modifier.size(iconSize)
+                    modifier = Modifier.size(iconSize),
                 )
             } else {
                 Icon(
                     modifier = Modifier.size(iconSize),
                     painter = disabledPainter,
                     tint = tint,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
         }

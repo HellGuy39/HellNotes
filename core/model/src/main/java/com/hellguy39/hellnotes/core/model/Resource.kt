@@ -8,13 +8,3 @@ sealed class Resource<T>(
     class Error<T>(message: String, data: T? = null): Resource<T>(data, message)
     class Loading<T>(val isLoading: Boolean = true): Resource<T>(null)
 }
-
-//sealed class Resource {
-//
-//    data class Success<T>(val data: T): Resource()
-//
-//    data class Error(val message: String): Resource()
-//
-//    data class Loading(val isLoading: Boolean): Resource()
-//
-//}

@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.values.Alpha
 
 @Composable
 fun HNClearTextField(
@@ -24,15 +24,16 @@ fun HNClearTextField(
     readOnly: Boolean = false,
     keyboardActions: KeyboardActions = KeyboardActions(),
     keyboardOptions: KeyboardOptions = KeyboardOptions(),
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
-        textStyle = textStyle.copy(
-            color = MaterialTheme.colorScheme.onSurface
-        ),
+        textStyle =
+            textStyle.copy(
+                color = MaterialTheme.colorScheme.onSurface,
+            ),
         readOnly = readOnly,
         singleLine = isSingleLine,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
@@ -40,16 +41,17 @@ fun HNClearTextField(
             if (value.isEmpty() && (hint.isNotEmpty() && hint.isNotBlank())) {
                 Text(
                     text = hint,
-                    style = textStyle.copy(
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    modifier = Modifier.alpha(UiDefaults.Alpha.Hint)
+                    style =
+                        textStyle.copy(
+                            color = MaterialTheme.colorScheme.onSurface,
+                        ),
+                    modifier = Modifier.alpha(Alpha.HINT),
                 )
             }
             innerTextField()
         },
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+        keyboardActions = keyboardActions,
     )
 }

@@ -1,15 +1,9 @@
 package com.hellguy39.hellnotes.core.model.repository.local.datastore
 
-sealed interface ListStyle {
-    object Column: ListStyle
-    object Grid: ListStyle
+sealed class ListStyle(val tag: String) {
 
-    fun string(): String {
-        return when(this) {
-            is Grid -> GRID
-            is Column -> COLUMN
-        }
-    }
+    data object Column: ListStyle(COLUMN)
+    data object Grid: ListStyle(GRID)
 
     fun swap(): ListStyle = when(this) {
         Grid -> Column
@@ -21,11 +15,13 @@ sealed interface ListStyle {
         const val GRID = "list_style_grid"
         const val COLUMN = "list_style_column"
 
-        fun from(
-            s: String?,
-            defaultValue: ListStyle = Column
+        fun default() = ListStyle.Column
+
+        fun fromTag(
+            tag: String?,
+            defaultValue: ListStyle = default()
         ): ListStyle {
-            return when(s) {
+            return when(tag) {
                 GRID -> Grid
                 COLUMN -> Column
                 else -> defaultValue

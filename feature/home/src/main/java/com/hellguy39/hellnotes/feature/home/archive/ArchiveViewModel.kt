@@ -1,48 +1,136 @@
 package com.hellguy39.hellnotes.feature.home.archive
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
+import com.hellguy39.hellnotes.core.domain.usecase.archive.GetAllArchivedNoteWrappersFlowUseCase
 import com.hellguy39.hellnotes.core.model.*
+import com.hellguy39.hellnotes.core.model.wrapper.Selectable
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ArchiveViewModel @Inject constructor(
-    noteRepository: NoteRepository,
-    labelRepository: LabelRepository,
-    reminderRepository: ReminderRepository,
-): ViewModel() {
+class ArchiveViewModel
+    @Inject
+    constructor(
+        getAllArchivedNoteWrappersFlowUseCase: GetAllArchivedNoteWrappersFlowUseCase,
+        private val noteActionController: NoteActionController,
+    ) : ViewModel() {
+        private val singleUiEvents = Channel<ArchiveSingleUiEvent>()
+        val singleUiEventFlow = singleUiEvents.receiveAsFlow()
 
-    val uiState: StateFlow<ArchiveUiState> =
-        combine(
-            noteRepository.getAllNotesStream(),
-            reminderRepository.getAllRemindersStream(),
-            labelRepository.getAllLabelsStream()
-        ) { notes, reminders, labels ->
-            ArchiveUiState(
-                notes = notes
-                    .filter { note -> note.isArchived }
-                    .map { note -> note.toNoteDetailWrapper(reminders, labels) },
+        private val _navigationEvents = Channel<ArchiveNavigationEvent>()
+        val navigationEvents = _navigationEvents.receiveAsFlow()
+
+        val uiState: StateFlow<ArchiveUiState> =
+            combine(
+                getAllArchivedNoteWrappersFlowUseCase.invoke(),
+                noteActionController.items,
+            ) { noteWrappers, selectedIds ->
+                ArchiveUiState(
+                    countOfSelectedNotes = selectedIds.size,
+                    selectableNoteWrappers = noteWrappers.toSelectable(selectedIds).toStateList(),
+                    isEmpty = noteWrappers.isEmpty(),
+                )
+            }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    initialValue = ArchiveUiState(),
+                )
+
+        fun onNoteClick(noteId: Long?) {
+            viewModelScope.launch {
+                if (noteId == null) return@launch
+                val selectedIds = noteActionController.items.value
+
+                if (selectedIds.isEmpty()) {
+                    _navigationEvents.send(ArchiveNavigationEvent.NavigateToNoteDetail(noteId))
+                } else {
+                    if (selectedIds.contains(noteId)) {
+                        noteActionController.unselect(noteId)
+                    } else {
+                        noteActionController.select(noteId)
+                    }
+                }
+            }
+        }
+
+        fun onNotePress(noteId: Long?) {
+            viewModelScope.launch {
+                if (noteId == null) return@launch
+                val buffer = noteActionController.items.value
+
+                if (buffer.contains(noteId)) {
+                    noteActionController.unselect(noteId)
+                } else {
+                    noteActionController.select(noteId)
+                }
+            }
+        }
+
+        fun onDeleteSelectedItems() {
+            viewModelScope.launch {
+                noteActionController.moveToTrash()
+
+                showNoteMovedToTrashSnackbar()
+            }
+        }
+
+        fun onArchiveSelectedItems() {
+            viewModelScope.launch {
+                noteActionController.archive(false)
+
+                showNoteUnarchivedSnackbar()
+            }
+        }
+
+        fun onCancelItemSelection() {
+            viewModelScope.launch {
+                noteActionController.cancel()
+            }
+        }
+
+        private suspend fun showNoteMovedToTrashSnackbar() {
+            singleUiEvents.send(
+                ArchiveSingleUiEvent.ShowSnackbar(
+                    text = UiText.StringResources(AppStrings.Snack.NoteMovedToTrash),
+                    action = { viewModelScope.launch { noteActionController.undo() } },
+                ),
             )
         }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            ArchiveUiState.initialInstance()
-        )
 
+        private suspend fun showNoteUnarchivedSnackbar() {
+            singleUiEvents.send(
+                ArchiveSingleUiEvent.ShowSnackbar(
+                    text = UiText.StringResources(AppStrings.Snack.NoteUnarchived),
+                    action = { viewModelScope.launch { noteActionController.undo() } },
+                ),
+            )
+        }
+    }
+
+sealed interface ArchiveSingleUiEvent {
+    data class ShowSnackbar(val text: UiText, val action: () -> Unit) : ArchiveSingleUiEvent
+}
+
+sealed interface ArchiveNavigationEvent {
+    data class NavigateToNoteDetail(val noteId: Long) : ArchiveNavigationEvent
 }
 
 data class ArchiveUiState(
-    val notes: List<NoteDetailWrapper>,
+    val countOfSelectedNotes: Int = 0,
+    val selectableNoteWrappers: SnapshotStateList<Selectable<NoteWrapper>> = mutableStateListOf(),
+    val isEmpty: Boolean = false,
 ) {
-    companion object {
-        fun initialInstance() = ArchiveUiState(
-            notes = listOf()
-        )
-    }
+    val isNoteSelection: Boolean
+        get() = countOfSelectedNotes > 0
 }

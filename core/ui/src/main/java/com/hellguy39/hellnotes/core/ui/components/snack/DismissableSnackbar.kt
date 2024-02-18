@@ -6,15 +6,15 @@ import androidx.compose.runtime.Composable
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DismissableSnackbar(
-    dismissState: DismissState,
-    snackbarData: SnackbarData
+    dismissState: SwipeToDismissBoxState,
+    snackbarData: SnackbarData,
 ) {
-    SwipeToDismiss(
+    SwipeToDismissBox(
         state = dismissState,
-        background = {},
-        directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
-        dismissContent = {
-            CustomSnackbar(data = snackbarData)
-        }
-    )
+        enableDismissFromStartToEnd = true,
+        enableDismissFromEndToStart = true,
+        backgroundContent = { /* no-op */ },
+    ) {
+        CustomSnackbar(data = snackbarData)
+    }
 }

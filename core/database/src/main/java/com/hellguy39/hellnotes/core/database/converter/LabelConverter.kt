@@ -7,11 +7,12 @@ import com.squareup.moshi.Types
 import java.lang.reflect.ParameterizedType
 
 class LabelConverter {
-
     private val moshi = Moshi.Builder().build()
-    private val type: ParameterizedType = Types.newParameterizedType(
-        List::class.java, Long::class.javaObjectType
-    )
+    private val type: ParameterizedType =
+        Types.newParameterizedType(
+            List::class.java,
+            Long::class.javaObjectType,
+        )
     private val jsonAdapter: JsonAdapter<List<Long>> = moshi.adapter(type)
 
     @TypeConverter

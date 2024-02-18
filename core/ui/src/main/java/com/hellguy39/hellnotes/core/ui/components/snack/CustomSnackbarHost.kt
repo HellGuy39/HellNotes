@@ -5,33 +5,33 @@ import androidx.compose.runtime.Composable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomSnackbarHost(
-    state: SnackbarHostState,
-) {
+fun CustomSnackbarHost(state: SnackbarHostState) {
     SnackbarHost(hostState = state) { data ->
         DismissableSnackbar(
             dismissState = rememberSnackbarDismissState(snackbarHostState = state),
-            snackbarData = data
+            snackbarData = data,
         )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun rememberSnackbarDismissState(snackbarHostState: SnackbarHostState): DismissState {
-    return rememberDismissState(
+fun rememberSnackbarDismissState(snackbarHostState: SnackbarHostState): SwipeToDismissBoxState {
+    return rememberSwipeToDismissBoxState(
         confirmValueChange = { dismissValue ->
             when (dismissValue) {
-                DismissValue.DismissedToEnd -> {
+                SwipeToDismissBoxValue.EndToStart -> {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     true
                 }
-                DismissValue.DismissedToStart -> {
+                SwipeToDismissBoxValue.StartToEnd -> {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     true
                 }
-                else -> { false }
+                else -> {
+                    false
+                }
             }
-        }
+        },
     )
 }

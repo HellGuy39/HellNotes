@@ -1,37 +1,51 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    id("app-setup")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
 
+val signingProperties = readProperties(file("signing.properties"))
+
+fun readProperties(propertiesFile: File) =
+    Properties().apply {
+        propertiesFile.inputStream().use { fileInputStream -> load(fileInputStream) }
+    }
+
 android {
     namespace = "com.hellguy39.hellnotes"
-    compileSdk = Config.compileSdk
+
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = signingProperties["KEY_ALIAS"].toString()
+            keyPassword = signingProperties["KEY_PASSWORD"].toString()
+            storeFile = file("keystore")
+            storePassword = signingProperties["KEYSTORE_PASSWORD"].toString()
+        }
+        create("release") {
+            keyAlias = signingProperties["KEY_ALIAS"].toString()
+            keyPassword = signingProperties["KEY_PASSWORD"].toString()
+            storeFile = file("keystore")
+            storePassword = signingProperties["KEYSTORE_PASSWORD"].toString()
+        }
+    }
 
     defaultConfig {
-        applicationId = Config.ApplicationId
-        minSdk = Config.minSdk
-        targetSdk = Config.targetSdk
-        versionCode = 7
-        versionName = "1.1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
         archivesName.set("HellNotes v$versionName")
     }
 
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
@@ -39,30 +53,10 @@ android {
             isDebuggable = false
         }
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Config.ComposeCompiler
-    }
-    packaging {
-        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-        resources.excludes.add("/META-INF/INDEX.LIST")
-    }
 }
 
 dependencies {
 
-    implementation(project(Modules.Feature.Startup))
     implementation(project(Modules.Feature.OnBoarding))
     implementation(project(Modules.Feature.Lock))
     implementation(project(Modules.Feature.Search))
@@ -93,42 +87,45 @@ dependencies {
     implementation(project(Modules.Core.Datastore))
     implementation(project(Modules.Core.Model))
 
-    implementation(Libs.AndroidX.CoreKtx)
-    implementation(Libs.AndroidX.LifecycleKtx)
-    implementation(Libs.AndroidX.AppCompat)
-    implementation(Libs.AndroidX.WorkKtx)
-    implementation(Libs.AndroidX.Biometric)
-    implementation(Libs.AndroidX.SplashScreen)
-    implementation(Libs.AndroidX.ProfileInstaller)
+    implementation(Dependencies.AndroidX.CoreKtx)
+    implementation(Dependencies.AndroidX.LifecycleKtx)
+    implementation(Dependencies.AndroidX.AppCompat)
+    implementation(Dependencies.AndroidX.WorkKtx)
+    implementation(Dependencies.AndroidX.Biometric)
+    implementation(Dependencies.AndroidX.SplashScreen)
+    implementation(Dependencies.AndroidX.ProfileInstaller)
 
-    implementation(Libs.Google.Material)
+    implementation(Dependencies.Google.Material)
 
-    implementation(Libs.AndroidX.Compose.Lifecycle)
-    implementation(Libs.AndroidX.Compose.Activity)
-    implementation(Libs.AndroidX.Compose.Ui)
-    implementation(Libs.AndroidX.Compose.ToolingPreview)
-    implementation(Libs.AndroidX.Compose.Material3)
-    implementation(Libs.AndroidX.Compose.Navigation)
-    androidTestImplementation(Libs.AndroidX.Compose.UiTestJUnit)
-    debugImplementation(Libs.AndroidX.Compose.UiTooling)
-    debugImplementation(Libs.AndroidX.Compose.UiTestManifest)
+    implementation(Dependencies.Compose.Lifecycle)
+    implementation(Dependencies.Compose.Activity)
+    implementation(Dependencies.Compose.Ui)
+    implementation(Dependencies.Compose.ToolingPreview)
+    implementation(Dependencies.Compose.Material3)
+    implementation(Dependencies.Compose.Navigation)
+    androidTestImplementation(Dependencies.Compose.UiTestJUnit)
+    debugImplementation(Dependencies.Compose.UiTooling)
+    debugImplementation(Dependencies.Compose.UiTestManifest)
 
-    testImplementation(Libs.JUnit)
-    androidTestImplementation(Libs.AndroidX.JUnit)
-    androidTestImplementation(Libs.AndroidX.Espresso)
+    testImplementation(Dependencies.JUnit)
+    androidTestImplementation(Dependencies.AndroidX.JUnit)
+    androidTestImplementation(Dependencies.AndroidX.Espresso)
 
-    implementation(Libs.AndroidX.Room.RoomKtx)
-    ksp(Libs.AndroidX.Room.RoomCompiler)
+    implementation(Dependencies.Room.RoomKtx)
+    ksp(Dependencies.Room.RoomCompiler)
 
-    implementation(Libs.Kotlin.Coroutines)
+    implementation(Dependencies.Kotlin.Coroutines)
 
-    implementation(Libs.Google.Hilt.Android)
-    ksp(Libs.Google.Hilt.Compiler)
-    implementation(Libs.Google.Hilt.NavigationCompose)
+    implementation(Dependencies.Hilt.Android)
+    ksp(Dependencies.Hilt.Compiler)
+    ksp(Dependencies.Hilt.AndroidXCompiler)
+    implementation(Dependencies.Hilt.NavigationCompose)
+    implementation(Dependencies.Hilt.Work)
 
-    implementation(Libs.SquareUp.Moshi)
+    implementation(Dependencies.SquareUp.Moshi)
 
-    implementation(Libs.Google.Firebase.Analytics)
-    implementation(Libs.Google.Firebase.Crashlytics)
+    implementation(Dependencies.Firebase.Analytics)
+    implementation(Dependencies.Firebase.Crashlytics)
 
+    implementation(Dependencies.RuStore.AppUpdate)
 }

@@ -9,31 +9,32 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: UpdateUiState,
-    selection: UpdateScreenSelection
+    selection: UpdateScreenSelection,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 HNTopAppBar(
                     scrollBehavior = scrollBehavior,
                     onNavigationButtonClick = onNavigationButtonClick,
-                    title = stringResource(id = HellNotesStrings.Title.Backup),
+                    title = stringResource(id = AppStrings.Title.Backup),
                 )
                 if (uiState.isLoading) {
                     LinearProgressIndicator(
@@ -44,17 +45,18 @@ fun UpdateScreen(
         },
         content = { paddingValues ->
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(paddingValues),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(paddingValues),
                 verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Icon(
                     modifier = Modifier.size(192.dp),
-                    painter = painterResource(id = HellNotesIcons.Save),
+                    painter = painterResource(id = AppIcons.Save),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
 
                 Text(
@@ -75,10 +77,10 @@ fun UpdateScreen(
                     }
                 }
             }
-        }
+        },
     )
 }
 
 data class UpdateScreenSelection(
-    val onDownload: () -> Unit
+    val onDownload: () -> Unit,
 )

@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.hellguy39.hellnotes.core.ui.UiDefaults
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.values.Elevation
 import java.io.Serializable
 
 @Composable
@@ -34,47 +34,53 @@ fun CustomDialog(
     limitMaxHeight: Boolean = true,
     limitMinHeight: Boolean = false,
     showContentDividers: Boolean = true,
-    content: (@Composable () -> Unit)? = null
+    content: (@Composable () -> Unit)? = null,
 ) {
-    if (!state.visible)
+    if (!state.visible) {
         return
+    }
 
     Dialog(
         onDismissRequest = onClose,
         properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 48.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 48.dp),
             shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surfaceColorAtElevation(UiDefaults.Elevation.Level3)
+            color = MaterialTheme.colorScheme.surfaceColorAtElevation(Elevation.Level3),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .sizeIn(
-                        minHeight = if (limitMinHeight) 384.dp else Dp.Unspecified,
-                        maxHeight = if (limitMaxHeight) 384.dp else Dp.Unspecified
-                    ),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .sizeIn(
+                            minHeight = if (limitMinHeight) 384.dp else Dp.Unspecified,
+                            maxHeight = if (limitMaxHeight) 384.dp else Dp.Unspecified,
+                        ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 16.dp, alignment = Alignment.CenterVertically
-                    )
+                    verticalArrangement =
+                        Arrangement.spacedBy(
+                            space = 16.dp,
+                            alignment = Alignment.CenterVertically,
+                        ),
                 ) {
                     if (heroIcon != null) {
                         Icon(
                             modifier = Modifier.size(32.dp),
                             painter = heroIcon,
                             tint = MaterialTheme.colorScheme.secondary,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     if (title.isNotEmpty()) {
@@ -82,7 +88,7 @@ fun CustomDialog(
                             modifier = Modifier.fillMaxWidth(),
                             text = title,
                             style = MaterialTheme.typography.headlineSmall,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
                         )
                     }
                     if (message.isNotEmpty()) {
@@ -90,7 +96,7 @@ fun CustomDialog(
                             modifier = Modifier.fillMaxWidth(),
                             text = message,
                             style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
                         )
                     }
                 }
@@ -99,7 +105,7 @@ fun CustomDialog(
                         if (showContentDividers) {
                             CustomDivider(
                                 paddingValues = PaddingValues(horizontal = 16.dp),
-                                color = MaterialTheme.colorScheme.outline
+                                color = MaterialTheme.colorScheme.outline,
                             )
                         }
 
@@ -108,7 +114,7 @@ fun CustomDialog(
                         if (showContentDividers) {
                             CustomDivider(
                                 paddingValues = PaddingValues(horizontal = 16.dp),
-                                color = MaterialTheme.colorScheme.outline
+                                color = MaterialTheme.colorScheme.outline,
                             )
                         }
 
@@ -117,22 +123,25 @@ fun CustomDialog(
                 }
                 if (onCancel != null || onAccept != null) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                            .padding(bottom = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 8.dp, alignment = Alignment.End
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                                .padding(bottom = 16.dp),
+                        horizontalArrangement =
+                            Arrangement.spacedBy(
+                                space = 8.dp,
+                                alignment = Alignment.End,
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         if (onCancel != null) {
                             TextButton(
                                 onClick = onCancel,
                             ) {
                                 Text(
-                                    text = stringResource(id = HellNotesStrings.Button.Cancel),
-                                    style = MaterialTheme.typography.labelLarge
+                                    text = stringResource(id = AppStrings.Button.Cancel),
+                                    style = MaterialTheme.typography.labelLarge,
                                 )
                             }
                         }
@@ -142,8 +151,8 @@ fun CustomDialog(
                                 onClick = onAccept,
                             ) {
                                 Text(
-                                    text = stringResource(id = HellNotesStrings.Button.Accept),
-                                    style = MaterialTheme.typography.labelLarge
+                                    text = stringResource(id = AppStrings.Button.Accept),
+                                    style = MaterialTheme.typography.labelLarge,
                                 )
                             }
                         }
@@ -160,12 +169,11 @@ fun rememberDialogState(): CustomDialogState {
         saver = CustomDialogState.saver(),
         init = {
             CustomDialogState(
-                visible = false
+                visible = false,
             )
-        }
+        },
     )
 }
-
 
 class CustomDialogState(
     visible: Boolean,
@@ -181,22 +189,22 @@ class CustomDialogState(
     }
 
     data class CustomDialogStateData(
-        val visible: Boolean
-    ): Serializable
+        val visible: Boolean,
+    ) : Serializable
 
     companion object {
-
-        fun saver(): Saver<CustomDialogState, *> = Saver(
-            save = { state ->
-                CustomDialogStateData(
-                    visible = state.visible
-                )
-            },
-            restore = { data ->
-                CustomDialogState(
-                    visible = data.visible
-                )
-            }
-        )
+        fun saver(): Saver<CustomDialogState, *> =
+            Saver(
+                save = { state ->
+                    CustomDialogStateData(
+                        visible = state.visible,
+                    )
+                },
+                restore = { data ->
+                    CustomDialogState(
+                        visible = data.visible,
+                    )
+                },
+            )
     }
 }

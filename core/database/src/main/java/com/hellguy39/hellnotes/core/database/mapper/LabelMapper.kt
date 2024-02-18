@@ -7,7 +7,7 @@ fun Label.toLabelEntity(): LabelEntity {
     return LabelEntity(
         id = id,
         name = name,
-        noteIds = noteIds
+        noteIds = noteIds,
     )
 }
 
@@ -15,6 +15,6 @@ fun LabelEntity.toLabel(): Label {
     return Label(
         id = id,
         name = name,
-        noteIds = noteIds
+        noteIds = noteIds,
     )
 }

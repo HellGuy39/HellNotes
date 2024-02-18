@@ -16,45 +16,27 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
+    @Binds
+    fun bindNoteRepository(i: NoteRepositoryImpl): NoteRepository
 
     @Binds
-    fun bindNoteRepository(
-        i: NoteRepositoryImpl
-    ): NoteRepository
+    fun bindRemindRepository(i: ReminderRepositoryImpl): ReminderRepository
 
     @Binds
-    fun bindRemindRepository(
-        i: ReminderRepositoryImpl
-    ): ReminderRepository
+    fun bindLabelRepository(i: LabelRepositoryImpl): LabelRepository
 
     @Binds
-    fun bindLabelRepository(
-        i: LabelRepositoryImpl
-    ): LabelRepository
+    fun bindChecklistRepository(i: ChecklistRepositoryImpl): ChecklistRepository
 
     @Binds
-    fun bindChecklistRepository(
-        i: ChecklistRepositoryImpl
-    ): ChecklistRepository
+    fun bindDataStoreRepository(i: DataStoreRepositoryImpl): DataStoreRepository
 
     @Binds
-    fun bindTrashRepository(
-        i: TrashRepositoryImpl
-    ): TrashRepository
+    fun bindReleaseService(i: GithubRepositoryServiceImpl): GithubRepositoryService
 
     @Binds
-    fun bindDataStoreRepository(
-        i: DataStoreRepositoryImpl
-    ): DataStoreRepository
+    fun bindBackupManager(i: BackupManagerImpl): BackupManager
 
     @Binds
-    fun bindReleaseService(
-        i: GithubRepositoryServiceImpl
-    ): GithubRepositoryService
-
-    @Binds
-    fun bindBackupManager(
-        i: BackupManagerImpl
-    ): BackupManager
-
+    fun bindNoteActionController(i: NoteActionControllerImpl): NoteActionController
 }

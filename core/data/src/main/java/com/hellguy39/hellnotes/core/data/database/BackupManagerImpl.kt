@@ -10,34 +10,34 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
 
-class BackupManagerImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-) : BackupManager {
+class BackupManagerImpl
+    @Inject
+    constructor(
+        @ApplicationContext private val context: Context,
+    ) : BackupManager {
+        override suspend fun restoreFromBackup(filepath: Uri): Restore {
+            val contentResolver = context.contentResolver
+            val database = HellNotesDatabase.getDatabase(context)
 
-    override suspend fun restoreFromBackup(filepath: Uri): Restore {
-        val contentResolver = context.contentResolver
-        val database = HellNotesDatabase.getDatabase(context)
+            val databaseFile = File(database.openHelper.writableDatabase.path.toString())
 
-        val databaseFile = File(database.openHelper.writableDatabase.path.toString())
+            contentResolver.openInputStream(filepath)?.use { stream ->
+                databaseFile.writeBytes(stream.readBytes())
+            }
 
-        contentResolver.openInputStream(filepath)?.use { stream ->
-            databaseFile.writeBytes(stream.readBytes())
+            return Restore(uri = filepath.toString())
         }
 
-        return Restore(uri = filepath.toString())
-    }
+        override suspend fun createBackup(filepath: Uri): Backup {
+            val contentResolver = context.contentResolver
+            val database = HellNotesDatabase.getDatabase(context)
 
-    override suspend fun createBackup(filepath: Uri): Backup {
-        val contentResolver = context.contentResolver
-        val database = HellNotesDatabase.getDatabase(context)
+            val databaseFile = File(database.openHelper.writableDatabase.path.toString())
 
-        val databaseFile = File(database.openHelper.writableDatabase.path.toString())
+            contentResolver.openOutputStream(filepath)?.use { stream ->
+                stream.write(databaseFile.readBytes())
+            }
 
-        contentResolver.openOutputStream(filepath)?.use { stream ->
-            stream.write(databaseFile.readBytes())
+            return Backup(uri = filepath.toString())
         }
-
-        return Backup(uri = filepath.toString())
     }
-
-}

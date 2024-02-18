@@ -7,44 +7,62 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LabelDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLabel(labelEntity: LabelEntity): Long
+    suspend fun insert(labelEntity: LabelEntity): Long
 
     @Delete
-    suspend fun deleteLabel(labelEntity: LabelEntity)
+    suspend fun delete(labelEntity: LabelEntity)
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $LABELS_TABLE_NAME 
-    """)
+    """,
+    )
     suspend fun deleteAll()
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $LABELS_TABLE_NAME 
         WHERE id = :id
-    """)
-    suspend fun deleteLabelById(id: Long)
+    """,
+    )
+    suspend fun deleteById(id: Long)
 
     @Update
-    suspend fun updateLabel(labelEntity: LabelEntity)
+    suspend fun update(labelEntity: LabelEntity)
 
     @Update
-    suspend fun updateLabels(labelEntities: List<LabelEntity>)
+    suspend fun update(labelEntities: List<LabelEntity>)
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $LABELS_TABLE_NAME
-    """)
-    suspend fun getAllLabels(): List<LabelEntity>
+    """,
+    )
+    suspend fun getAll(): List<LabelEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $LABELS_TABLE_NAME
-    """)
-    fun getAllLabelsStream(): Flow<List<LabelEntity>>
+    """,
+    )
+    fun getAllFlow(): Flow<List<LabelEntity>>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $LABELS_TABLE_NAME
         WHERE id = :id
-    """)
-    suspend fun getLabelById(id: Long): LabelEntity
+        LIMIT 1
+    """,
+    )
+    suspend fun findById(id: Long): LabelEntity?
 
+    @Query(
+        """
+        SELECT * FROM $LABELS_TABLE_NAME 
+        WHERE id LIKE :id 
+        LIMIT 1
+    """,
+    )
+    fun findByIdFlow(id: Long): Flow<LabelEntity?>
 }

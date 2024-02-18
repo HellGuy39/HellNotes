@@ -16,26 +16,26 @@ fun HNListHeader(
     modifier: Modifier = Modifier,
     title: String = "",
     icon: Painter? = null,
-    color: Color = MaterialTheme.colorScheme.primary
+    color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (icon != null) {
             Icon(
                 modifier = Modifier.size(16.dp),
                 painter = icon,
                 contentDescription = null,
-                tint = color
+                tint = color,
             )
             Spacer(modifier = Modifier.width(4.dp))
         }
         Text(
             text = title,
             style = MaterialTheme.typography.labelLarge,
-            color = color
+            color = color,
         )
     }
 }

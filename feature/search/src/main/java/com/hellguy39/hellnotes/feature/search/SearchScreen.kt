@@ -1,12 +1,24 @@
 package com.hellguy39.hellnotes.feature.search
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -15,14 +27,13 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesIcons
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
-import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.core.ui.focus.requestFocusWhenBeAvailable
+import com.hellguy39.hellnotes.core.ui.resources.AppIcons
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,141 +41,129 @@ import com.hellguy39.hellnotes.feature.search.components.SearchTopAppBar
 fun SearchScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: SearchUiState,
-    listStyle: ListStyle,
-    noteSelection: NoteSelection,
-    searchScreenSelection: SearchScreenSelection,
-    categories: List<NoteCategory>
+    onClick: (noteId: Long?) -> Unit,
+    onLongClick: (noteId: Long?) -> Unit,
+    onQueryChanged: (query: String) -> Unit,
+    onClearQuery: () -> Unit,
+    onUpdateReminderFilter: (Boolean) -> Unit,
+    onUpdateChecklistFilter: (Boolean) -> Unit,
+    onUpdateArchiveFilter: (Boolean) -> Unit,
 ) {
     BackHandler { onNavigationButtonClick() }
 
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
     val focusRequester = remember { FocusRequester() }
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
-    LaunchedEffect(key1 = Unit) {
-        focusRequester.requestFocus()
-    }
+    focusRequester.requestFocusWhenBeAvailable()
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SearchTopAppBar(
                 onNavigationButtonClick = onNavigationButtonClick,
                 scrollBehavior = scrollBehavior,
                 query = uiState.search,
-                onQueryChanged = searchScreenSelection.onQueryChanged,
+                onQueryChanged = onQueryChanged,
                 focusRequester = focusRequester,
-                onClearQuery = searchScreenSelection.onClearQuery
+                onClearQuery = onClearQuery,
             )
         },
         content = { innerPadding ->
-            Crossfade(
-                targetState = categories,
-                label = "search_screen_content"
-            ) { categories ->
 
-                if (uiState.notes.isEmpty() && !uiState.isLoading) {
-                    EmptyContentPlaceholder(
-                        modifier = Modifier
-                            .padding(horizontal = Spaces.large)
-                            .padding(innerPadding)
-                            .fillMaxSize(),
-                        heroIcon = painterResource(id = HellNotesIcons.Search),
-                        message = stringResource(id = HellNotesStrings.Placeholder.NothingWasFound)
-                    )
-                }
-
-                NoteList(
-                    innerPadding = innerPadding,
-                    noteSelection = noteSelection,
-                    categories = categories,
-                    listStyle = listStyle,
-                    listHeader = {
-                        Column {
-                            LazyRow(
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                item {
-                                    FilterChip(
-                                        modifier = Modifier.height(FilterChipDefaults.Height),
-                                        selected = uiState.filters.withChecklist,
-                                        onClick = {
-                                            searchScreenSelection.onUpdateChecklistFilter(!uiState.filters.withChecklist)
-                                        },
-                                        label = {
-                                            Text(text = stringResource(id = HellNotesStrings.Label.Checklist))
-                                        },
-                                        leadingIcon = {
-                                            Icon(
-                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = HellNotesIcons.Checklist),
-                                                contentDescription = null
-                                            )
-                                        }
-                                    )
-                                }
-                                item {
-                                    FilterChip(
-                                        modifier = Modifier.height(FilterChipDefaults.Height),
-                                        selected = uiState.filters.withReminder,
-                                        onClick = {
-                                            searchScreenSelection.onUpdateReminderFilter(!uiState.filters.withReminder)
-                                        },
-                                        label = {
-                                            Text(text = stringResource(id = HellNotesStrings.Label.Reminder))
-                                        },
-                                        leadingIcon = {
-                                            Icon(
-                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = HellNotesIcons.Alarm),
-                                                contentDescription = null
-                                            )
-                                        }
-                                    )
-                                }
-                                item {
-                                    FilterChip(
-                                        modifier = Modifier.height(FilterChipDefaults.Height),
-                                        selected = uiState.filters.withArchive,
-                                        onClick = {
-                                            searchScreenSelection.onUpdateArchiveFilter(!uiState.filters.withArchive)
-                                        },
-                                        label = {
-                                            Text(text = stringResource(id = HellNotesStrings.Label.Archive))
-                                        },
-                                        leadingIcon = {
-                                            Icon(
-                                                modifier = Modifier.size(FilterChipDefaults.IconSize),
-                                                painter = painterResource(id = HellNotesIcons.Archive),
-                                                contentDescription = null
-                                            )
-                                        }
-                                    )
-                                }
-                            }
-                            Divider(
-                                modifier = Modifier
-                                    .padding(vertical = 4.dp, horizontal = 8.dp)
-                                    .alpha(0.5f),
-                                thickness = 1.dp,
-                                color = MaterialTheme.colorScheme.outline
-                            )
-                        }
-                    }
+            if (uiState.isEmpty) {
+                EmptyContentPlaceholder(
+                    modifier = Modifier.fillMaxSize(),
+                    heroIcon = UiIcon.DrawableResources(AppIcons.Search),
+                    message = UiText.StringResources(AppStrings.Placeholder.NothingWasFound),
                 )
             }
 
-        }
+            NoteList(
+                innerPadding = innerPadding,
+                notes = uiState.noteWrappers,
+                listStyle = uiState.listStyle,
+                noteStyle = uiState.noteStyle,
+                onClick = onClick,
+                onLongClick = onLongClick,
+                listHeader = {
+                    Column {
+                        LazyRow(
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            item {
+                                FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
+                                    selected = uiState.filters.withChecklist,
+                                    onClick = {
+                                        onUpdateChecklistFilter(!uiState.filters.withChecklist)
+                                    },
+                                    label = {
+                                        Text(text = stringResource(id = AppStrings.Label.Checklist))
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = AppIcons.Checklist),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                )
+                            }
+                            item {
+                                FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
+                                    selected = uiState.filters.withReminder,
+                                    onClick = {
+                                        onUpdateReminderFilter(!uiState.filters.withReminder)
+                                    },
+                                    label = {
+                                        Text(text = stringResource(id = AppStrings.Label.Reminder))
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = AppIcons.Alarm),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                )
+                            }
+                            item {
+                                FilterChip(
+                                    modifier = Modifier.height(FilterChipDefaults.Height),
+                                    selected = uiState.filters.withArchive,
+                                    onClick = {
+                                        onUpdateArchiveFilter(!uiState.filters.withArchive)
+                                    },
+                                    label = {
+                                        Text(text = stringResource(id = AppStrings.Label.Archive))
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                            painter = painterResource(id = AppIcons.Archive),
+                                            contentDescription = null,
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        Divider(
+                            modifier =
+                                Modifier
+                                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                                    .alpha(0.5f),
+                            thickness = 1.dp,
+                            color = MaterialTheme.colorScheme.outline,
+                        )
+                    }
+                },
+            )
+        },
     )
 }
-
-data class SearchScreenSelection(
-    val onQueryChanged: (query: String) -> Unit,
-    val onClearQuery: () -> Unit,
-    val onUpdateReminderFilter: (Boolean) -> Unit,
-    val onUpdateChecklistFilter: (Boolean) -> Unit,
-    val onUpdateArchiveFilter: (Boolean) -> Unit,
-)

@@ -1,9 +1,7 @@
 package com.hellguy39.hellnotes.feature.lock
 
-import android.content.Context
 import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,23 +9,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.domain.system_features.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardSelection
 import kotlinx.coroutines.launch
 
 @Composable
 fun LockRoute(
+    activity: FragmentActivity,
     lockViewModel: LockViewModel = hiltViewModel(),
     biometricAuth: BiometricAuthenticator = lockViewModel.biometricAuth,
     onUnlock: () -> Unit = {},
-    context: Context = LocalContext.current
 ) {
+    TrackScreenView(screenName = "LockScreen")
+
     BackHandler { /* Block back gesture */ }
 
     val uiState by lockViewModel.uiState.collectAsStateWithLifecycle()
@@ -46,7 +47,7 @@ fun LockRoute(
     LaunchedEffect(key1 = uiState.securityState.isUseBiometricData) {
         if (uiState.securityState.isUseBiometricData) {
             lockViewModel.authByBiometric {
-                biometricAuth.authenticate(context as AppCompatActivity)
+                biometricAuth.authenticate(activity)
             }
         }
     }
@@ -61,28 +62,30 @@ fun LockRoute(
 
     LockScreen(
         uiState = uiState,
-        numberKeyboardSelection = NumberKeyboardSelection(
-            onClick = { key ->
-                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-                lockViewModel.enterKey(key)
-            },
-            onLongClick = { key ->
-                if (key == NumberKeyboardKeys.KeyBackspace) {
-                    lockViewModel.clearPassword()
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                }
-            }
-        ),
-        passwordSelection = PasswordSelection(
-            onClear = lockViewModel::clearPassword,
-            onEntered = lockViewModel::enterPassword,
-            onValueChange = lockViewModel::enterValue
-        ),
+        numberKeyboardSelection =
+            NumberKeyboardSelection(
+                onClick = { key ->
+                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+                    lockViewModel.enterKey(key)
+                },
+                onLongClick = { key ->
+                    if (key == NumberKeyboardKeys.KEY_BACKSPACE) {
+                        lockViewModel.clearPassword()
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+                },
+            ),
+        passwordSelection =
+            PasswordSelection(
+                onClear = lockViewModel::clearPassword,
+                onEntered = lockViewModel::enterPassword,
+                onValueChange = lockViewModel::enterValue,
+            ),
         snackbarHostState = snackbarHostState,
         onBiometricsAuth = {
             lockViewModel.authByBiometric {
-                biometricAuth.authenticate(context as AppCompatActivity)
+                biometricAuth.authenticate(activity)
             }
-        }
+        },
     )
 }

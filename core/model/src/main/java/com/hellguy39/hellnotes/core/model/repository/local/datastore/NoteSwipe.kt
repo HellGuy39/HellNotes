@@ -1,17 +1,12 @@
 package com.hellguy39.hellnotes.core.model.repository.local.datastore
 
-sealed interface NoteSwipe {
-    object None: NoteSwipe
-    object Delete: NoteSwipe
-    object Archive: NoteSwipe
+sealed class NoteSwipe(val tag: String) {
 
-    fun string(): String {
-        return when(this) {
-            is None -> NONE
-            is Delete -> DELETE
-            is Archive -> ARCHIVE
-        }
-    }
+    data object None: NoteSwipe(NONE)
+
+    data object Delete: NoteSwipe(DELETE)
+
+    data object Archive: NoteSwipe(ARCHIVE)
 
     companion object {
 
@@ -19,21 +14,22 @@ sealed interface NoteSwipe {
         const val DELETE = "delete"
         const val ARCHIVE = "archive"
 
-        val actions = listOf(
-            None,
-            Delete,
-            Archive
-        )
+        fun swipes() = listOf(None, Delete, Archive)
 
-        fun from(
-            s: String?,
+        fun default() = None
+
+        fun defaultSwipeRight() = Delete
+
+        fun defaultSwipeLeft() = Archive
+
+        fun fromTag(
+            tag: String?,
             defaultValue: NoteSwipe = None
-        ) = when(s) {
+        ) = when(tag) {
             NONE -> None
             DELETE -> Delete
             ARCHIVE -> Archive
             else -> defaultValue
         }
     }
-
 }

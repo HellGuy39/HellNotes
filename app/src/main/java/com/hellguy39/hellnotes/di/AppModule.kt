@@ -1,8 +1,17 @@
 package com.hellguy39.hellnotes.di
 
-import com.hellguy39.hellnotes.android_features.*
 import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
-import com.hellguy39.hellnotes.core.domain.system_features.*
+import com.hellguy39.hellnotes.core.domain.tools.AlarmScheduler
+import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.tools.Downloader
+import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
+import com.hellguy39.hellnotes.core.domain.tools.LanguageHolder
+import com.hellguy39.hellnotes.tools.AlarmSchedulerImpl
+import com.hellguy39.hellnotes.tools.AnalyticsLoggerImpl
+import com.hellguy39.hellnotes.tools.BiometricAuthenticatorImpl
+import com.hellguy39.hellnotes.tools.DownloaderImpl
+import com.hellguy39.hellnotes.tools.InAppNotificationManagerImpl
+import com.hellguy39.hellnotes.tools.LanguageHolderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -11,35 +20,21 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 interface AppModule {
+    @Binds
+    fun bindAnalyticsLogger(i: AnalyticsLoggerImpl): AnalyticsLogger
 
     @Binds
-    fun bindAnalyticsLogger(
-        i: AnalyticsLoggerImpl
-    ): AnalyticsLogger
+    fun bindAlarmScheduler(i: AlarmSchedulerImpl): AlarmScheduler
 
     @Binds
-    fun bindAlarmScheduler(
-        i: AndroidAlarmScheduler
-    ): AlarmScheduler
+    fun bindBiometricAuthenticator(i: BiometricAuthenticatorImpl): BiometricAuthenticator
 
     @Binds
-    fun bindBiometricAuthenticator(
-        i: AndroidBiometricAuthenticator
-    ): BiometricAuthenticator
+    fun bindNotificationSender(i: InAppNotificationManagerImpl): InAppNotificationManager
 
     @Binds
-    fun bindNotificationSender(
-        i: AndroidNotificationSender
-    ): NotificationSender
+    fun bindLanguageHolder(i: LanguageHolderImpl): LanguageHolder
 
     @Binds
-    fun bindLanguageHolder(
-        i: AndroidLanguageHolder
-    ): LanguageHolder
-
-    @Binds
-    fun bindDownloader(
-        i: AndroidDownloader
-    ): Downloader
-
+    fun bindDownloader(i: DownloaderImpl): Downloader
 }

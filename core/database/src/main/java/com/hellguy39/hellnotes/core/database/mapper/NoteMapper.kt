@@ -9,9 +9,11 @@ fun NoteEntity.toNote(): Note {
         title = title,
         note = note,
         editedAt = editedAt,
-        isPinned = isPinned,
-        colorHex = colorHex,
+        createdAt = createdAt,
         isArchived = isArchived,
+        isPinned = isPinned,
+        atTrash = atTrash,
+        colorHex = colorHex,
     )
 }
 
@@ -21,9 +23,10 @@ fun Note.toNoteEntity(): NoteEntity {
         title = title,
         note = note,
         editedAt = editedAt,
-        isPinned = isPinned,
-        colorHex = colorHex,
-        isArchived = isArchived,
         createdAt = createdAt,
+        isArchived = isArchived,
+        isPinned = isPinned,
+        atTrash = atTrash,
+        colorHex = colorHex,
     )
 }

@@ -13,14 +13,14 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
-import com.hellguy39.hellnotes.core.ui.UiText
 import com.hellguy39.hellnotes.core.ui.components.cards.InfoCard
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
-import com.hellguy39.hellnotes.core.ui.components.top_bars.HNLargeTopAppBar
-import com.hellguy39.hellnotes.core.ui.resources.HellNotesStrings
+import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
+import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,7 +29,7 @@ fun BackupScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: BackupUiState,
     onBackupClick: () -> Unit,
-    onRestoreClick: () -> Unit
+    onRestoreClick: () -> Unit,
 ) {
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -44,24 +44,25 @@ fun BackupScreen(
                 snackbarHostState.showDismissableSnackbar(
                     scope = scope,
                     message = message.asString(context),
-                    duration = SnackbarDuration.Long
+                    duration = SnackbarDuration.Long,
                 )
             }
         }
     }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 HNLargeTopAppBar(
                     scrollBehavior = scrollBehavior,
                     onNavigationButtonClick = onNavigationButtonClick,
-                    title = stringResource(id = HellNotesStrings.Title.Backup),
+                    title = stringResource(id = AppStrings.Title.Backup),
                 )
                 if (uiState.isLoading) {
                     LinearProgressIndicator(
@@ -72,24 +73,25 @@ fun BackupScreen(
         },
         bottomBar = {
             Row(
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .fillMaxWidth()
-                    .padding(horizontal = Spaces.medium, vertical = Spaces.small),
+                modifier =
+                    Modifier
+                        .navigationBarsPadding()
+                        .fillMaxWidth()
+                        .padding(horizontal = Spaces.medium, vertical = Spaces.small),
                 horizontalArrangement = Arrangement.spacedBy(Spaces.medium),
             ) {
                 Spacer(modifier = Modifier.weight(1f))
                 OutlinedButton(
                     modifier = Modifier,
-                    onClick = onRestoreClick
+                    onClick = onRestoreClick,
                 ) {
-                    Text(text = stringResource(id = HellNotesStrings.Button.Restore))
+                    Text(text = stringResource(id = AppStrings.Button.Restore))
                 }
                 Button(
                     modifier = Modifier,
-                    onClick = onBackupClick
+                    onClick = onBackupClick,
                 ) {
-                    Text(text = stringResource(id = HellNotesStrings.Button.Create))
+                    Text(text = stringResource(id = AppStrings.Button.Create))
                 }
             }
         },
@@ -97,29 +99,34 @@ fun BackupScreen(
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(
-                space = Spaces.large,
-                alignment = Alignment.Top
-            ),
-            contentPadding = PaddingValues(
-                top = innerPadding.calculateTopPadding() + Spaces.medium,
-                bottom = innerPadding.calculateBottomPadding() + Spaces.medium
-            )
+            verticalArrangement =
+                Arrangement.spacedBy(
+                    space = Spaces.large,
+                    alignment = Alignment.Top,
+                ),
+            contentPadding =
+                PaddingValues(
+                    top = innerPadding.calculateTopPadding() + Spaces.medium,
+                    bottom = innerPadding.calculateBottomPadding() + Spaces.medium,
+                ),
         ) {
             item {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Spaces.medium)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spaces.medium),
                 ) {
                     Text(
-                        text = stringResource(
-                            id = HellNotesStrings.Subtitle.LastCopy,
-                            if (uiState.lastBackupDate == 0L)
-                                stringResource(id = HellNotesStrings.Value.Never)
-                            else
-                                DateTimeUtils.formatEpochMillis(uiState.lastBackupDate, DateTimeUtils.FULL_DATE_PATTERN)
-                        ),
+                        text =
+                            stringResource(
+                                id = AppStrings.Subtitle.LastCopy,
+                                if (uiState.lastBackupDate == 0L) {
+                                    stringResource(id = AppStrings.Value.Never)
+                                } else {
+                                    DateTimeUtils.formatEpochMillis(uiState.lastBackupDate, DateTimeUtils.FULL_DATE_PATTERN)
+                                },
+                            ),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
@@ -127,28 +134,30 @@ fun BackupScreen(
             item {
                 InfoCard(
                     modifier = Modifier.padding(horizontal = Spaces.medium),
-                    title = stringResource(id = HellNotesStrings.Title.Attention),
-                    body = stringResource(id = HellNotesStrings.Body.Backup)
+                    title = UiText.StringResources(AppStrings.Title.Attention),
+                    body = UiText.StringResources(AppStrings.Body.Backup),
                 )
             }
             item {
                 Column(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     HNListHeader(
-                        modifier = Modifier
-                            .padding(horizontal = Spaces.medium)
-                            .padding(bottom = Spaces.small),
-                        title = stringResource(id = HellNotesStrings.Subtitle.Options),
+                        modifier =
+                            Modifier
+                                .padding(horizontal = Spaces.medium)
+                                .padding(bottom = Spaces.small),
+                        title = stringResource(id = AppStrings.Subtitle.Options),
                     )
                     HNSwitchItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = Spaces.medium, vertical = Spaces.medium),
-                        title = stringResource(id = HellNotesStrings.Switch.AutoBackupTitle),
-                        subtitle = stringResource(id = HellNotesStrings.Switch.AutoBackupSubtitle),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = Spaces.medium, vertical = Spaces.medium),
+                        title = stringResource(id = AppStrings.Switch.AutoBackupTitle),
+                        subtitle = stringResource(id = AppStrings.Switch.AutoBackupSubtitle),
                         checked = false,
-                        enabled = false
+                        enabled = false,
                     )
                 }
             }

@@ -1,36 +1,33 @@
 package com.hellguy39.hellnotes.app
 
 import android.app.Application
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.WorkManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.hellguy39.hellnotes.BuildConfig
-import com.hellguy39.hellnotes.core.domain.system_features.NotificationSender
-import com.hellguy39.hellnotes.core.model.AppConfig
-import com.hellguy39.hellnotes.core.domain.ProjectInfoProvider
+import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
+import com.hellguy39.hellnotes.worker.DeleteAllExpiredNoteWrappersAtTrashWorker
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
 class App : Application() {
+    @Inject lateinit var workerFactory: HiltWorkerFactory
 
-    @Inject lateinit var notificationSender: NotificationSender
+    @Inject lateinit var inAppNotificationManager: InAppNotificationManager
+
+    private val workManager by lazy { WorkManager.getInstance(this) }
 
     override fun onCreate() {
         super.onCreate()
 
-        notificationSender.initNotificationChannels()
-
-        ProjectInfoProvider.setAppConfig(
-            AppConfig(
-                buildType = BuildConfig.BUILD_TYPE,
-                applicationId = BuildConfig.APPLICATION_ID,
-                versionCode = BuildConfig.VERSION_CODE,
-                versionName = BuildConfig.VERSION_NAME,
-                isDebug = BuildConfig.DEBUG,
-            )
-        )
+        inAppNotificationManager.init()
 
         configureFirebase()
+        initWorkers()
     }
 
     private fun configureFirebase() {
@@ -41,5 +38,28 @@ class App : Application() {
 
         analytics.setAnalyticsCollectionEnabled(isFirebaseEnabled)
         crashlytics.setCrashlyticsCollectionEnabled(isFirebaseEnabled)
+    }
+
+    private fun initWorkers() {
+        WorkManager.initialize(
+            this,
+            buildWorkManagerConfiguration(),
+        )
+
+        val deleteAllExpiredNoteWrappersAtTrashWorkerRequest =
+            DeleteAllExpiredNoteWrappersAtTrashWorker.buildRequest()
+
+        workManager.enqueueUniquePeriodicWork(
+            DeleteAllExpiredNoteWrappersAtTrashWorker.WORK_NAME,
+            ExistingPeriodicWorkPolicy.KEEP,
+            deleteAllExpiredNoteWrappersAtTrashWorkerRequest,
+        )
+    }
+
+    private fun buildWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .setMinimumLoggingLevel(android.util.Log.INFO)
+            .build()
     }
 }

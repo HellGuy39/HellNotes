@@ -2,8 +2,9 @@ package com.hellguy39.hellnotes.core.model
 
 sealed class LockResult {
 
-    object Success: LockResult()
-    object Denied: LockResult()
+    data object Success: LockResult()
+
+    data object Denied: LockResult()
 
     fun string(): String {
         return when(this) {

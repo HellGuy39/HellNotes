@@ -1,32 +1,13 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    id("library-setup")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.hellguy39.hellnotes.core.database"
-    compileSdk = Config.compileSdk
-
-    defaultConfig {
-        minSdk = Config.minSdk
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-        }
-    }
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 
@@ -34,14 +15,14 @@ dependencies {
 
     implementation(project(Modules.Core.Model))
 
-    api(Libs.AndroidX.Room.RoomKtx)
-    ksp(Libs.AndroidX.Room.RoomCompiler)
+    api(Dependencies.Room.RoomKtx)
+    ksp(Dependencies.Room.RoomCompiler)
 
-    implementation (Libs.Kotlin.Coroutines)
+    implementation(Dependencies.Kotlin.Coroutines)
 
-    implementation(Libs.Google.Hilt.Android)
-    ksp(Libs.Google.Hilt.Compiler)
+    implementation(Dependencies.Hilt.Android)
+    ksp(Dependencies.Hilt.Compiler)
 
-    implementation(Libs.SquareUp.Moshi)
-    implementation(Libs.SquareUp.MoshiKotlin)
+    implementation(Dependencies.SquareUp.Moshi)
+    implementation(Dependencies.SquareUp.MoshiKotlin)
 }

@@ -5,21 +5,20 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.hellguy39.hellnotes.core.ui.WindowInfo
 import com.hellguy39.hellnotes.core.ui.rememberWindowInfo
 
 @Composable
 fun HNNavigationDrawer(
     drawerState: DrawerState,
     drawerSheet: @Composable () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val windowInfo = rememberWindowInfo()
 
     HNModalNavigationDrawer(
         drawerState = drawerState,
         drawerSheet = drawerSheet,
-        content = content
+        content = content,
     )
 
 //    when(windowInfo.screenWidthInfo) {
@@ -37,18 +36,17 @@ fun HNNavigationDrawer(
 //            )
 //        }
 //    }
-
 }
 
 @Composable
 private fun HNPermanentNavigationDrawer(
     drawerSheet: @Composable () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     PermanentNavigationDrawer(
         modifier = Modifier,
         drawerContent = drawerSheet,
-        content = content
+        content = content,
     )
 }
 
@@ -56,11 +54,11 @@ private fun HNPermanentNavigationDrawer(
 private fun HNModalNavigationDrawer(
     drawerState: DrawerState,
     drawerSheet: @Composable () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = drawerSheet,
-        content = content
+        content = content,
     )
 }

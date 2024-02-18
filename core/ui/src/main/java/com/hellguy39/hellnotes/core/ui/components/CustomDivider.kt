@@ -12,19 +12,19 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.ui.UiDefaults
+import com.hellguy39.hellnotes.core.ui.values.Alpha
 
 @Composable
 fun CustomDivider(
     paddingValues: PaddingValues = PaddingValues(0.dp),
     isVisible: Boolean = true,
-    alpha: Float = UiDefaults.Alpha.Emphasize,
+    alpha: Float = Alpha.LEVEL_2,
     thickness: Dp = 1.dp,
-    color: Color = MaterialTheme.colorScheme.surfaceTint
+    color: Color = MaterialTheme.colorScheme.surfaceTint,
 ) {
-    val transition = updateTransition(isVisible, label = "")
+    val transition = updateTransition(isVisible, label = "transition")
 
-    val animatedColor by transition.animateColor(label = "") { state ->
+    val animatedColor by transition.animateColor(label = "animatedColor") { state ->
         when (state) {
             true -> color
             false -> Color.Transparent
@@ -32,44 +32,12 @@ fun CustomDivider(
     }
 
     Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(paddingValues)
-            .alpha(alpha),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(paddingValues)
+                .alpha(alpha),
         thickness = thickness,
-        color = animatedColor
+        color = animatedColor,
     )
-
-}
-
-@Composable
-fun CustomVerticalDivider(
-    paddingValues: PaddingValues = PaddingValues(0.dp),
-    isVisible: Boolean = true,
-    alpha: Float = UiDefaults.Alpha.Emphasize,
-    thickness: Dp = 1.dp,
-    height: Dp = 48.dp,
-    color: Color = MaterialTheme.colorScheme.surfaceTint
-) {
-    val transition = updateTransition(isVisible, label = "")
-
-    val animatedColor by transition.animateColor(
-        label = ""
-    ) { state ->
-        when (state) {
-            true -> color
-            false -> Color.Transparent
-        }
-    }
-
-    Divider(
-        modifier = Modifier
-            .height(height)
-            .width(thickness)
-            .padding(paddingValues)
-            .alpha(alpha),
-        thickness = thickness,
-        color = animatedColor
-    )
-
 }

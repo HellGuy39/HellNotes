@@ -7,63 +7,87 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChecklistDao {
-
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $CHECKLIST_TABLE_NAME
-    """)
-    fun getAllChecklistsStream(): Flow<List<ChecklistEntity>>
+    """,
+    )
+    fun getAllFlow(): Flow<List<ChecklistEntity>>
+
+    @Query(
+        """
+        SELECT * FROM $CHECKLIST_TABLE_NAME
+    """,
+    )
+    suspend fun getAll(): List<ChecklistEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertChecklist(checklistEntity: ChecklistEntity): Long
+    suspend fun insert(checklistEntity: ChecklistEntity): Long
 
     @Delete
-    suspend fun deleteChecklist(checklistEntity: ChecklistEntity)
+    suspend fun delete(checklistEntity: ChecklistEntity)
 
     @Update
-    suspend fun updateChecklist(checklistEntity: ChecklistEntity)
+    suspend fun update(checklistEntity: ChecklistEntity)
 
     @Update
-    suspend fun updateChecklists(checklistEntities: List<ChecklistEntity>)
+    suspend fun update(checklistEntities: List<ChecklistEntity>)
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $CHECKLIST_TABLE_NAME 
         WHERE id = :id
-    """)
-    fun getChecklistByIdStream(id: Long): Flow<ChecklistEntity>
+        LIMIT 1
+    """,
+    )
+    fun findByIdFlow(id: Long): Flow<ChecklistEntity?>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $CHECKLIST_TABLE_NAME 
         WHERE id = :id
-    """)
-    suspend fun getChecklistById(id: Long): ChecklistEntity
+        LIMIT 1
+    """,
+    )
+    suspend fun findById(id: Long): ChecklistEntity?
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $CHECKLIST_TABLE_NAME 
         WHERE id = :id
-    """)
-    suspend fun deleteChecklistById(id: Long)
+    """,
+    )
+    suspend fun deleteById(id: Long)
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $CHECKLIST_TABLE_NAME 
-    """)
+    """,
+    )
     suspend fun deleteAll()
 
-    @Query("""
+    @Query(
+        """
         DELETE FROM $CHECKLIST_TABLE_NAME 
         WHERE noteId = :noteId
-    """)
-    suspend fun deleteChecklistByNoteId(noteId: Long)
+    """,
+    )
+    suspend fun deleteByNoteId(noteId: Long)
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $CHECKLIST_TABLE_NAME 
         WHERE noteId = :noteId
-    """)
-    suspend fun getChecklistsByNoteId(noteId: Long): List<ChecklistEntity>
+    """,
+    )
+    suspend fun findByNoteId(noteId: Long): List<ChecklistEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM $CHECKLIST_TABLE_NAME 
         WHERE noteId = :noteId
-    """)
-    fun getChecklistByNoteIdStream(noteId: Long): Flow<ChecklistEntity>
-
+        LIMIT 1
+    """,
+    )
+    fun findByNoteIdFlow(noteId: Long): Flow<ChecklistEntity?>
 }

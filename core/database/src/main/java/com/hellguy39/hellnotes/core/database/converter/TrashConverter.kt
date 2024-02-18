@@ -6,10 +6,10 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 class TrashConverter {
-
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
+    private val moshi =
+        Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
 
     private val jsonAdapter = moshi.adapter(Note::class.java)
 
@@ -22,5 +22,4 @@ class TrashConverter {
     fun toTrashNote(jsonStr: String): Note? {
         return jsonAdapter.fromJson(jsonStr)
     }
-
 }

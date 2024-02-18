@@ -61,6 +61,7 @@
     <string name="permission_notification_default">Для этой функции необходимо разрешение на отправку уведомлений.\nПожалуйста, одобрите разрешение.</string>
 
     <!-- Button -->
+    <string name="btn_done">Готово</string>
     <string name="btn_request_permission">Запросить разрешение</string>
     <string name="btn_create">Создать</string>
     <string name="btn_restore">Восстановить</string>
@@ -102,6 +103,7 @@
     <string name="stg_note_style">Стиль заметок</string>
 
     <!-- MenuItem -->
+    <string name="menu_item_manage_labels">Управление метками</string>
     <string name="menu_item_settings">Настройки</string>
     <string name="menu_item_about_app">О приложении</string>
     <string name="menu_item_reminders">Напоминания</string>
@@ -188,8 +190,10 @@
     <string name="title_enter_password">Введите пароль</string>
     <string name="title_unlocked">Разблокировано</string>
     <string name="title_attention">Внимание</string>
+    <string name="title_rename_label">Переименовать метку</string>
 
     <!-- Body -->
+    <string name="body_new_note">Новая заметка</string>
     <string name="body_reset">Ваши данные будут безвозвратно удалены. Это действие невозможно отменить.</string>
     <string name="body_backup">Пожалуйста, не закрывайте приложение и не выключайте устройство во время процесса копирования.</string>
 
@@ -197,7 +201,7 @@
     <string name="supporting_pin_must_be_at_least_4_digits">PIN-код должен состоять не менее чем из 4 цифр</string>
     <string name="supporting_password_must_be_at_least_4_characters">Пароль должен состоять не менее чем из 4 символов</string>
     <string name="supporting_share_note">Выберите, каким способом поделиться заметкой. После этого вы сможете выбрать получателя и способ отправки.</string>
-    <string name="supporting_delete_note">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить. Все метки и напоминания будут откреплены.</string>
+    <string name="supporting_delete_note">Заметка попадет в корзину, где ее можно будет полностью удалить или восстановить.</string>
     <string name="supporting_restore_note">После восстановления можно снова открыть и редактировать эту заметку.</string>
     <string name="supporting_delete_label">Метка будет безвозвратно удалена. Все заметки с этой меткой потеряют её.</string>
     <string name="supporting_empty_trash">Все заметки в корзине будут безвозвратно удалены.</string>
@@ -209,12 +213,10 @@
     <string name="value_never">никогда</string>
 
     <!-- Snack -->
-    <string name="snack_note_moved_to_trash">Заметка перемещена в корзину</string>
-    <string name="snack_notes_moved_to_trash">Заметки перемещены в корзину</string>
-    <string name="snack_note_archived">Заметка архивирована</string>
-    <string name="snack_note_unarchived">Заметка разархивирована</string>
-    <string name="snack_notes_archived">Заметки архивированы</string>
-    <string name="snack_notes_unarchived">Заметки разархивированы</string>
+    <string name="snack_note_has_been_copied">Заметка скопирована и открыта</string>
+    <string name="snack_note_moved_to_trash">Заметка(-и) перемещена(-ы) в корзину</string>
+    <string name="snack_note_archived">Заметка(-и) архивирована(-ы)</string>
+    <string name="snack_note_unarchived">Заметка(-и) разархивирована(-ы)</string>
     <string name="snack_note_pinned">Заметка закреплена</string>
     <string name="snack_note_unpinned">Заметка откреплена</string>
     <string name="snack_backup_created">Резервная копия была успешно создана</string>

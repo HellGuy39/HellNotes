@@ -9,16 +9,11 @@ const val CHECKLIST_TABLE_NAME = "checklist_table"
 
 @Entity(tableName = CHECKLIST_TABLE_NAME)
 data class ChecklistEntity(
-
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
-
     val noteId: Long,
-
     val name: String,
-
     @ColumnInfo(name = "is_expanded")
     val isExpanded: Boolean,
-
-    val items: List<ChecklistItem>
+    val items: List<ChecklistItem>,
 )

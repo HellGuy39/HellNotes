@@ -10,21 +10,16 @@ const val NOTES_TABLE_NAME = "notes_table"
 data class NoteEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
-
     val title: String,
-
     val note: String,
-
     @ColumnInfo(name = "edited_at", defaultValue = "0")
     val editedAt: Long,
-
+    @ColumnInfo(name = "at_trash", defaultValue = "0")
+    val atTrash: Boolean,
     val isPinned: Boolean,
-
     @ColumnInfo(name = "is_archived", defaultValue = "0")
     val isArchived: Boolean,
-
     @ColumnInfo(name = "created_at", defaultValue = "0")
     val createdAt: Long,
-
     val colorHex: Long,
 )

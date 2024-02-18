@@ -2,10 +2,10 @@ package com.hellguy39.hellnotes.feature.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.ui.NoteCategory
-import com.hellguy39.hellnotes.core.ui.components.cards.NoteSelection
+import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
 fun SearchRoute(
@@ -13,44 +13,52 @@ fun SearchRoute(
     navigateToNoteDetail: (id: Long) -> Unit,
     searchViewModel: SearchViewModel = hiltViewModel(),
 ) {
+    TrackScreenView(screenName = "SearchScreen")
+
     val uiState by searchViewModel.uiState.collectAsStateWithLifecycle()
 
+    // TODO: refactor
     SearchScreen(
-        onNavigationButtonClick = { navigateBack() },
+        onNavigationButtonClick = remember { { navigateBack() } },
         uiState = uiState,
-        listStyle = uiState.listStyle,
-        searchScreenSelection = SearchScreenSelection(
-            onQueryChanged = { search ->
-                searchViewModel.send(SearchScreenUiEvent.OnSearchChange(search))
+        onQueryChanged =
+            remember {
+                { search ->
+                    searchViewModel.send(SearchScreenUiEvent.OnSearchChange(search))
+                }
             },
-            onClearQuery = {
-                searchViewModel.send(SearchScreenUiEvent.OnClearSearch)
+        onClearQuery =
+            remember {
+                {
+                    searchViewModel.send(SearchScreenUiEvent.OnClearSearch)
+                }
             },
-            onUpdateArchiveFilter = { enabled ->
-                searchViewModel.send(SearchScreenUiEvent.OnToggleArchiveFilter(enabled))
+        onUpdateArchiveFilter =
+            remember {
+                { enabled ->
+                    searchViewModel.send(SearchScreenUiEvent.OnToggleArchiveFilter(enabled))
+                }
             },
-            onUpdateChecklistFilter = { enabled ->
-                searchViewModel.send(SearchScreenUiEvent.OnToggleChecklistFilter(enabled))
+        onUpdateChecklistFilter =
+            remember {
+                { enabled ->
+                    searchViewModel.send(SearchScreenUiEvent.OnToggleChecklistFilter(enabled))
+                }
             },
-            onUpdateReminderFilter = { enabled ->
-                searchViewModel.send(SearchScreenUiEvent.OnToggleReminderFilter(enabled))
-            }
-        ),
-        noteSelection = NoteSelection(
-            noteStyle = uiState.noteStyle,
-            onClick = { note ->
-                navigateToNoteDetail(note.id ?: return@NoteSelection)
+        onUpdateReminderFilter =
+            remember {
+                { enabled ->
+                    searchViewModel.send(SearchScreenUiEvent.OnToggleReminderFilter(enabled))
+                }
             },
-            onLongClick = { note -> },
-            onDismiss = { dismissDirection, note ->
-                false
+        onClick =
+            remember {
+                { noteId ->
+                    if (noteId != null) {
+                        navigateToNoteDetail(noteId)
+                    }
+                }
             },
-            isSwipeable = false
-        ),
-        categories = listOf(
-            NoteCategory(
-                notes = uiState.notes
-            ),
-        )
+        onLongClick = remember { { note -> } },
     )
 }

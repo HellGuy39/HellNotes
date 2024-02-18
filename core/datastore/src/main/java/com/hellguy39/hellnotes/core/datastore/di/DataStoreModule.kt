@@ -12,11 +12,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
-
     @Provides
     @Singleton
     fun provideHellNotesPreferencesDataSource(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ) = HellNotesPreferencesDataSource(context)
-
 }

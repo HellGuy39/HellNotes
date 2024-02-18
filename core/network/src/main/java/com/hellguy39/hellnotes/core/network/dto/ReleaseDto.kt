@@ -1,86 +1,180 @@
 package com.hellguy39.hellnotes.core.network.dto
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReleaseDto(
-    val assets: List<ReleaseAssetDto?>?,
-    val assets_url: String?,
-    val author: ReleaseAuthorDto?,
-    val body: String?,
-    val created_at: String?,
-    val draft: Boolean?,
-    val html_url: String?,
-    val id: Int?,
-    val name: String?,
-    val node_id: String?,
-    val prerelease: Boolean?,
-    val published_at: String?,
-    val tag_name: String?,
-    val tarball_url: String?,
-    val target_commitish: String?,
-    val upload_url: String?,
-    val url: String?,
-    val zipball_url: String?
+    @SerialName("assets")
+    val assets: List<ReleaseAssetDto?>? = null,
+    @SerialName("assets_url")
+    val assetsUrl: String? = null,
+    @SerialName("author")
+    val author: ReleaseAuthorDto? = null,
+    @SerialName("body")
+    val body: String? = null,
+    @SerialName("created_at")
+    val createdAt: String? = null,
+    @SerialName("draft")
+    val draft: Boolean? = null,
+    @SerialName("html_url")
+    val htmlUrl: String? = null,
+    @SerialName("id")
+    val id: Int? = null,
+    @SerialName("name")
+    val name: String? = null,
+    @SerialName("node_id")
+    val nodeId: String? = null,
+    @SerialName("prerelease")
+    val isPreRelease: Boolean? = null,
+    @SerialName("published_at")
+    val publishedAt: String? = null,
+    @SerialName("reactions")
+    val reactions: ReactionsDto? = null,
+    @SerialName("tag_name")
+    val tagName: String? = null,
+    @SerialName("tarball_url")
+    val tarballUrl: String? = null,
+    @SerialName("target_commitish")
+    val targetCommitish: String? = null,
+    @SerialName("upload_url")
+    val uploadUrl: String? = null,
+    @SerialName("url")
+    val url: String? = null,
+    @SerialName("zipball_url")
+    val zipballUrl: String? = null,
 )
 
 @Serializable
 data class ReleaseAssetDto(
-    val browser_download_url: String?,
-    val content_type: String?,
-    val created_at: String?,
-    val download_count: Int?,
+    @SerialName("browser_download_url")
+    val browserDownloadUrl: String?,
+    @SerialName("content_type")
+    val contentType: String?,
+    @SerialName("created_at")
+    val createdAt: String?,
+    @SerialName("download_count")
+    val downloadCount: Int?,
+    @SerialName("id")
     val id: Int?,
+    @SerialName("label")
     val label: String?,
+    @SerialName("name")
     val name: String?,
-    val node_id: String?,
+    @SerialName("node_id")
+    val nodeId: String?,
+    @SerialName("size")
     val size: Int?,
+    @SerialName("state")
     val state: String?,
-    val updated_at: String?,
+    @SerialName("updated_at")
+    val updatedAt: String?,
+    @SerialName("uploader")
     val uploader: ReleaseUploaderDto?,
-    val url: String?
+    @SerialName("url")
+    val url: String?,
+)
+
+@Serializable
+data class ReactionsDto(
+    @SerialName("+1")
+    val plusOne: Int? = null,
+    @SerialName("-2")
+    val minusOne: Int? = null,
+    @SerialName("confused")
+    val confused: Int? = null,
+    @SerialName("eyes")
+    val eyes: Int? = null,
+    @SerialName("heart")
+    val heart: Int? = null,
+    @SerialName("hooray")
+    val hooray: Int? = null,
+    @SerialName("laugh")
+    val laugh: Int? = null,
+    @SerialName("rocket")
+    val rocket: Int? = null,
+    @SerialName("total_count")
+    val totalCount: Int? = null,
+    @SerialName("url")
+    val url: String? = null,
 )
 
 @Serializable
 data class ReleaseAuthorDto(
-    val avatar_url: String?,
-    val events_url: String?,
-    val followers_url: String?,
-    val following_url: String?,
-    val gists_url: String?,
-    val gravatar_id: String?,
-    val html_url: String?,
-    val id: Int?,
-    val login: String?,
-    val node_id: String?,
-    val organizations_url: String?,
-    val received_events_url: String?,
-    val repos_url: String?,
-    val site_admin: Boolean?,
-    val starred_url: String?,
-    val subscriptions_url: String?,
-    val type: String?,
-    val url: String?
+    @SerialName("avatar_url")
+    val avatarUrl: String? = null,
+    @SerialName("events_url")
+    val eventsUrl: String? = null,
+    @SerialName("followers_url")
+    val followersUrl: String? = null,
+    @SerialName("following_url")
+    val followingUrl: String? = null,
+    @SerialName("gists_url")
+    val gistsUrl: String? = null,
+    @SerialName("gravatar_id")
+    val gravatarId: String? = null,
+    @SerialName("html_url")
+    val htmlUrl: String? = null,
+    @SerialName("id")
+    val id: Int? = null,
+    @SerialName("login")
+    val login: String? = null,
+    @SerialName("node_id")
+    val nodeId: String? = null,
+    @SerialName("organizations_url")
+    val organizationsUrl: String? = null,
+    @SerialName("received_events_url")
+    val receivedEventsUrl: String? = null,
+    @SerialName("repos_url")
+    val reposUrl: String? = null,
+    @SerialName("site_admin")
+    val siteAdmin: Boolean? = null,
+    @SerialName("starred_url")
+    val starredUrl: String? = null,
+    @SerialName("subscriptions_url")
+    val subscriptionsUrl: String? = null,
+    @SerialName("type")
+    val type: String? = null,
+    @SerialName("url")
+    val url: String? = null,
 )
 
 @Serializable
 data class ReleaseUploaderDto(
-    val avatar_url: String?,
-    val events_url: String?,
-    val followers_url: String?,
-    val following_url: String?,
-    val gists_url: String?,
-    val gravatar_id: String?,
-    val html_url: String?,
-    val id: Int?,
-    val login: String?,
-    val node_id: String?,
-    val organizations_url: String?,
-    val received_events_url: String?,
-    val repos_url: String?,
-    val site_admin: Boolean?,
-    val starred_url: String?,
-    val subscriptions_url: String?,
-    val type: String?,
-    val url: String?
+    @SerialName("avatar_url")
+    val avatarUrl: String? = null,
+    @SerialName("events_url")
+    val eventsUrl: String? = null,
+    @SerialName("followers_url")
+    val followersUrl: String? = null,
+    @SerialName("following_url")
+    val followingUrl: String? = null,
+    @SerialName("gists_url")
+    val gistsUrl: String? = null,
+    @SerialName("gravatar_id")
+    val gravatarId: String? = null,
+    @SerialName("html_url")
+    val htmlUrl: String? = null,
+    @SerialName("id")
+    val id: Int? = null,
+    @SerialName("login")
+    val login: String? = null,
+    @SerialName("node_id")
+    val nodeId: String? = null,
+    @SerialName("organizations_url")
+    val organizationsUrl: String? = null,
+    @SerialName("received_events_url")
+    val receivedEventsUrl: String? = null,
+    @SerialName("repos_url")
+    val reposUrl: String? = null,
+    @SerialName("site_admin")
+    val siteAdmin: Boolean? = null,
+    @SerialName("starred_url")
+    val starredUrl: String? = null,
+    @SerialName("subscriptions_url")
+    val subscriptionsUrl: String? = null,
+    @SerialName("type")
+    val type: String? = null,
+    @SerialName("url")
+    val url: String? = null,
 )

@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        android:maxSdkVersion="32"/>
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <application
@@ -26,7 +27,7 @@
             tools:targetApi="33" />
 
         <activity
-            android:name=".activity.main.MainActivity"
+            android:name=".component.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.HellNotes.Splash"
             android:windowSoftInputMode="adjustResize">
@@ -37,6 +38,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="com.hellguy39.hellnotes"
+                    android:scheme="app" />
+
+            </intent-filter>
+
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
@@ -44,10 +57,14 @@
         </activity>
 
         <receiver
-            android:name=".broadcast.ReminderReceiver"
+            android:name=".component.broadcast.NotificationActionReceiver"
             android:enabled="true" />
 
-        <receiver android:name=".broadcast.DownloadCompletedReceiver"
+        <receiver
+            android:name=".component.broadcast.ReminderReceiver"
+            android:enabled="true" />
+
+        <receiver android:name=".component.broadcast.DownloadCompletedReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
@@ -71,6 +88,18 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
+        </provider>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
         </provider>
 
     </application>

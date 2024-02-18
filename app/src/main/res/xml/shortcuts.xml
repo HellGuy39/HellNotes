@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- New note-->
     <shortcut
         android:shortcutId="new_note"
         android:enabled="true"
@@ -12,82 +11,8 @@
         <intent
             android:action="android.intent.action.MAIN"
             android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
-
-            <extra
-                android:name="shortcut_action"
-                android:value="com.hellguy39.hellnotes.NEW_NOTE" />
-
-        </intent>
-
-        <categories android:name="android.shortcut.conversation" />
-
-    </shortcut>
-
-    <!-- Reminders -->
-    <shortcut
-        android:shortcutId="reminders"
-        android:enabled="true"
-        android:icon="@mipmap/ic_shortcut_reminders"
-        android:shortcutShortLabel="@string/shortcut_label_reminders"
-        android:shortcutLongLabel="@string/shortcut_label_reminders">
-
-        <intent
-            android:action="android.intent.action.MAIN"
-            android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
-
-            <extra
-                android:name="shortcut_action"
-                android:value="com.hellguy39.hellnotes.REMINDERS" />
-
-        </intent>
-
-        <categories android:name="android.shortcut.conversation" />
-
-    </shortcut>
-
-    <!-- Archive -->
-    <shortcut
-        android:shortcutId="archive"
-        android:enabled="true"
-        android:icon="@mipmap/ic_shortcut_archive"
-        android:shortcutShortLabel="@string/shortcut_label_archive"
-        android:shortcutLongLabel="@string/shortcut_label_archive">
-
-        <intent
-            android:action="android.intent.action.MAIN"
-            android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
-
-            <extra
-                android:name="shortcut_action"
-                android:value="com.hellguy39.hellnotes.ARCHIVE" />
-
-        </intent>
-
-        <categories android:name="android.shortcut.conversation" />
-
-    </shortcut>
-
-    <!-- Trash -->
-    <shortcut
-        android:shortcutId="trash"
-        android:enabled="true"
-        android:icon="@mipmap/ic_shortcut_trash"
-        android:shortcutShortLabel="@string/shortcut_label_trash"
-        android:shortcutLongLabel="@string/shortcut_label_trash">
-
-        <intent
-            android:action="android.intent.action.MAIN"
-            android:targetPackage="com.hellguy39.hellnotes"
-            android:targetClass="com.hellguy39.hellnotes.activity.main.MainActivity">
-
-            <extra
-                android:name="shortcut_action"
-                android:value="com.hellguy39.hellnotes.TRASH" />
-
-        </intent>
+            android:targetClass="com.hellguy39.hellnotes.component.main.MainActivity"
+            android:data="app://com.hellguy39.hellnotes/note_id=-1"/>
 
         <categories android:name="android.shortcut.conversation" />
 

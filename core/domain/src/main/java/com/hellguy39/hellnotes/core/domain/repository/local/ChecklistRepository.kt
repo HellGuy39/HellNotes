@@ -4,6 +4,7 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import kotlinx.coroutines.flow.Flow
 
 interface ChecklistRepository {
+    suspend fun getAllChecklists(): List<Checklist>
 
     fun getAllChecklistsStream(): Flow<List<Checklist>>
 
@@ -19,14 +20,13 @@ interface ChecklistRepository {
 
     suspend fun updateChecklists(checklists: List<Checklist>)
 
-    fun getChecklistByIdStream(id: Long): Flow<Checklist>
+    fun getChecklistByIdStream(id: Long): Flow<Checklist?>
 
-    suspend fun getChecklistById(id: Long): Checklist
+    suspend fun getChecklistById(id: Long): Checklist?
 
     suspend fun getChecklistsByNoteId(noteId: Long): List<Checklist>
 
-    fun getChecklistByNoteIdStream(noteId: Long): Flow<Checklist>
+    fun getChecklistByNoteIdStream(noteId: Long): Flow<Checklist?>
 
     suspend fun deleteAll()
-
 }
