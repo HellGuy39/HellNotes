@@ -19,8 +19,6 @@ dependencies {
     implementation(Dependencies.AndroidX.LifecycleKtx)
     implementation(Dependencies.AndroidX.AppCompat)
 
-    implementation(Dependencies.Google.Material)
-
     implementation(Dependencies.Compose.Lifecycle)
     implementation(Dependencies.Compose.Activity)
     implementation(Dependencies.Compose.Ui)

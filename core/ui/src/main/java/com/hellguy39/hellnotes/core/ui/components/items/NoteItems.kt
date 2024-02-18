@@ -38,7 +38,7 @@ fun LazyListScope.noteItems(
 ) {
     itemsIndexed(
         items = notes,
-        key = { _, note -> note.value.note.id ?: 0 },
+        key = { _, wrapper -> wrapper.value.note.id ?: 0 },
         contentType = { _, selectable -> selectable },
     ) { index, wrapper ->
         val animatableAlpha = remember { Animatable(0f) }
@@ -91,6 +91,7 @@ fun LazyStaggeredGridScope.noteItems(
     itemsIndexed(
         items = notes,
         key = { _, wrapper -> wrapper.value.note.id ?: 0 },
+        contentType = { _, selectable -> selectable },
     ) { index, wrapper ->
         val animatableAlpha = remember { Animatable(0f) }
         val isVisible =

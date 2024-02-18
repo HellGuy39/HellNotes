@@ -25,7 +25,7 @@ fun LockSelectionScreen(
     onLockScreenTypeSelected: (LockScreenType) -> Unit,
     snackbarHostState: SnackbarHostState,
 ) {
-    BackHandler { onNavigationBack }
+    BackHandler { onNavigationBack() }
 
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(appBarState)

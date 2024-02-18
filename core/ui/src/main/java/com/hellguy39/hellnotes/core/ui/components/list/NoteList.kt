@@ -31,7 +31,7 @@ private fun rememberListModifier(): Modifier {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteList2(
+fun NoteList(
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteStyle: NoteStyle,
     isSwipeable: Boolean = false,
@@ -76,7 +76,7 @@ fun NoteList2(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteList2(
+fun NoteList(
     innerPadding: PaddingValues = PaddingValues(0.dp),
     noteStyle: NoteStyle,
     isSwipeable: Boolean = false,

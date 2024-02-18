@@ -52,7 +52,6 @@ internal fun NoteGridList(
     ) {
         item(
             span = StaggeredGridItemSpan.FullLine,
-            key = { Int.MIN_VALUE },
         ) {
             listHeader()
         }

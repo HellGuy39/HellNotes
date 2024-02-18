@@ -8,5 +8,5 @@ object Configuration {
     const val versionName = "1.2.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
     const val applicationId = "com.hellguy39.hellnotes"
 
-    const val composeCompiler = "1.5.8"
+    const val composeCompiler = "1.5.9"
 }

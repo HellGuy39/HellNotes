@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.ui.components.list.NoteList2
+import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
@@ -73,7 +73,7 @@ fun RemindersScreen(
                     targetState = visualState.listStyle,
                     label = "listStyle",
                 ) { listStyle ->
-                    NoteList2(
+                    NoteList(
                         innerPadding = paddingValues,
                         noteStyle = visualState.noteStyle,
                         onClick = onNoteClick,
