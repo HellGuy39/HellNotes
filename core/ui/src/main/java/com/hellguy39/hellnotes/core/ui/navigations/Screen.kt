@@ -82,3 +82,21 @@ sealed class Screen(val route: String) {
         }
     }
 }
+
+object Graph {
+    sealed class Settings(val route: String) {
+        data object Main : Screen(route = "main")
+
+        data object Storage : Screen(route = "storage")
+
+        data object General : Screen(route = "general")
+
+        data object Security : Screen(route = "security")
+
+        data object Appearance : Screen(route = "appearance")
+
+        companion object {
+            val route = "settings"
+        }
+    }
+}

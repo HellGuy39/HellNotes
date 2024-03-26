@@ -102,5 +102,7 @@ object AppIcons {
     val DoneAll = R.drawable.ic_done_all_24
     val RemoveDone = R.drawable.ic_remove_done_24
 
+    val Storage = R.drawable.ic_storage_24
+
     val GitHub = R.drawable.ic_github_24
 }

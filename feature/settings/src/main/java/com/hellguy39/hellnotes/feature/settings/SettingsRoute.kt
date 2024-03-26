@@ -77,3 +77,22 @@ fun SettingsRoute(
             ),
     )
 }
+
+@Composable
+fun SettingsRoute2(
+    navigateBack: () -> Unit,
+    navigateToGeneral: () -> Unit,
+    navigateToStorage: () -> Unit,
+    navigateToSecurity: () -> Unit,
+    navigateToAppearance: () -> Unit,
+) {
+    TrackScreenView(screenName = "SettingsScreen")
+
+    SettingsScreen2(
+        onNavigationButtonClick = navigateBack,
+        onNavigateToGeneral = navigateToGeneral,
+        onNavigateToStorage = navigateToStorage,
+        onNavigateToSecurity = navigateToSecurity,
+        onNavigateToAppearance = navigateToAppearance,
+    )
+}

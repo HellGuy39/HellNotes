@@ -1,11 +1,18 @@
 package com.hellguy39.hellnotes.feature.settings
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -19,6 +26,7 @@ import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreenContent(
     modifier: Modifier = Modifier,
@@ -141,6 +149,40 @@ fun SettingsScreenContent(
                     title = stringResource(id = AppStrings.Setting.NoteStyle),
                     subtitle = uiState.noteStyle.asDisplayableString(),
                 )
+            }
+        }
+        item {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                SingleChoiceSegmentedButtonRow {
+                    SegmentedButton(
+                        selected = false,
+                        onClick = { /*TODO*/ },
+                        shape = SegmentedButtonDefaults.itemShape(index = 0, count = 3),
+                        label = {
+                            Text("Dark")
+                        },
+                    )
+                    SegmentedButton(
+                        selected = false,
+                        onClick = { /*TODO*/ },
+                        shape = SegmentedButtonDefaults.itemShape(index = 1, count = 3),
+                        label = {
+                            Text("Light")
+                        },
+                    )
+                    SegmentedButton(
+                        selected = true,
+                        onClick = { /*TODO*/ },
+                        shape = SegmentedButtonDefaults.itemShape(index = 2, count = 3),
+                        label = {
+                            Text("System")
+                        },
+                    )
+                }
             }
         }
     }

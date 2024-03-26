@@ -31,7 +31,7 @@ import com.hellguy39.hellnotes.feature.privacypolicy.navigation.privacyPolicyScr
 import com.hellguy39.hellnotes.feature.reminderedit.navigations.reminderEditScreen
 import com.hellguy39.hellnotes.feature.reset.navigation.resetScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
-import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
+import com.hellguy39.hellnotes.feature.settings.navigation.settingsGraph
 import com.hellguy39.hellnotes.feature.termsandconditions.navigation.termsAndConditionsScreen
 import com.hellguy39.hellnotes.feature.update.navigation.updateScreen
 
@@ -66,8 +66,6 @@ fun GlobalNavGraph(
     ) {
         homeScreen(appState)
 
-        // onBoardingScreen(appState)
-
         noteDetailScreen(appState)
 
         reminderEditScreen(appState)
@@ -78,9 +76,7 @@ fun GlobalNavGraph(
 
         labelEditScreen(appState)
 
-        settingsScreen(appState)
-
-        // lockScreen(appState)
+        settingsGraph(appState)
 
         lockSelectionScreen(appState)
 
