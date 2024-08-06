@@ -8,6 +8,7 @@ import com.hellguy39.hellnotes.core.ui.components.dialog.FullScreenDialog
 @Composable
 fun LockFullScreenDialog(
     isShowDialog: Boolean,
+    lockViewModel: LockViewModel,
 ) {
     val activity = LocalContext.current as FragmentActivity
     FullScreenDialog(
@@ -16,6 +17,6 @@ fun LockFullScreenDialog(
         dismissOnBackPress = false,
         dismissOnClickOutside = false,
     ) {
-        LockRoute(activity)
+        LockRoute(activity, lockViewModel)
     }
 }
