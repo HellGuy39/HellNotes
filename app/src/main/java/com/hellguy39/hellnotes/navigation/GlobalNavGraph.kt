@@ -55,6 +55,7 @@ fun GlobalNavGraph(
 
     LockFullScreenDialog(
         isShowDialog = isLocked,
+        lockViewModel = lockViewModel,
     )
 
     NavHost(

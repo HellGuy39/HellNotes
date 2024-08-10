@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -87,8 +88,9 @@ fun LockSetupPasswordScreen(
                 Column(
                     modifier =
                         Modifier
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = Spaces.medium, vertical = Spaces.small)
                             .padding(top = paddingValues.calculateTopPadding())
+                            .imePadding()
                             .navigationBarsPadding(),
                     verticalArrangement =
                         Arrangement.spacedBy(
