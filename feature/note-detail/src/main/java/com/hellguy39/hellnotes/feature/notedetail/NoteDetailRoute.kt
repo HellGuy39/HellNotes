@@ -1,8 +1,12 @@
 package com.hellguy39.hellnotes.feature.notedetail
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -209,15 +213,20 @@ fun NoteDetailRoute(
             modifier = Modifier,
             onDismissRequest = { isOpenMenuBottomSheet = false },
             sheetState = menuBottomSheetState,
+            windowInsets = WindowInsets(0, 0, 0, 0),
         ) {
-            menuBottomSheetItems.forEach { item ->
-                HNListItem(
-                    modifier = listItemModifier,
-                    title = item.title,
-                    iconSize = 24.dp,
-                    heroIcon = item.icon,
-                    onClick = item.onClick,
-                )
+            Column(
+                modifier = Modifier.padding(bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()),
+            ) {
+                menuBottomSheetItems.forEach { item ->
+                    HNListItem(
+                        modifier = listItemModifier,
+                        title = item.title,
+                        iconSize = 24.dp,
+                        heroIcon = item.icon,
+                        onClick = item.onClick,
+                    )
+                }
             }
         }
     }
@@ -282,15 +291,20 @@ fun NoteDetailRoute(
             modifier = Modifier,
             onDismissRequest = { isOpenAttachmentBottomSheet = false },
             sheetState = attachmentBottomSheetState,
+            windowInsets = WindowInsets(0, 0, 0, 0),
         ) {
-            attachmentSheetItems.forEach { item ->
-                HNListItem(
-                    modifier = listItemModifier,
-                    title = item.title,
-                    iconSize = 24.dp,
-                    heroIcon = item.icon,
-                    onClick = item.onClick,
-                )
+            Column(
+                modifier = Modifier.padding(bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()),
+            ) {
+                attachmentSheetItems.forEach { item ->
+                    HNListItem(
+                        modifier = listItemModifier,
+                        title = item.title,
+                        iconSize = 24.dp,
+                        heroIcon = item.icon,
+                        onClick = item.onClick,
+                    )
+                }
             }
         }
     }

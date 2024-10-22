@@ -37,7 +37,7 @@ class LockViewModel
                 if (securityState.lockType is LockScreenType.None) {
                     false
                 } else {
-                    lockState is LockState.Locked
+                    lockState !is LockState.Unlocked
                 }
             }
                 .stateIn(
