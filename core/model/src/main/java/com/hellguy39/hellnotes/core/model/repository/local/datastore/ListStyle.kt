@@ -1,17 +1,32 @@
+/*
+ * Copyright 2024 Aleksey Gadzhiev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.hellguy39.hellnotes.core.model.repository.local.datastore
 
 sealed class ListStyle(val tag: String) {
+    data object Column : ListStyle(COLUMN)
 
-    data object Column: ListStyle(COLUMN)
-    data object Grid: ListStyle(GRID)
+    data object Grid : ListStyle(GRID)
 
-    fun swap(): ListStyle = when(this) {
-        Grid -> Column
-        Column -> Grid
-    }
+    fun swap(): ListStyle =
+        when (this) {
+            Grid -> Column
+            Column -> Grid
+        }
 
     companion object {
-
         const val GRID = "list_style_grid"
         const val COLUMN = "list_style_column"
 
@@ -19,9 +34,9 @@ sealed class ListStyle(val tag: String) {
 
         fun fromTag(
             tag: String?,
-            defaultValue: ListStyle = default()
+            defaultValue: ListStyle = default(),
         ): ListStyle {
-            return when(tag) {
+            return when (tag) {
                 GRID -> Grid
                 COLUMN -> Column
                 else -> defaultValue
