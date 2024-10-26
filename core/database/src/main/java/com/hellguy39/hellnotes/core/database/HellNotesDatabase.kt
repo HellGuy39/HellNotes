@@ -27,14 +27,14 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 )
 @TypeConverters(LabelConverter::class, TrashConverter::class, ChecklistConverter::class)
 abstract class HellNotesDatabase : RoomDatabase() {
-    abstract val commonDao: CommonDao
-    abstract val noteDao: NoteDao
-    abstract val reminderDao: ReminderDao
-    abstract val labelDao: LabelDao
-    abstract val checklistDao: ChecklistDao
+    abstract fun commonDao(): CommonDao
+    abstract fun noteDao(): NoteDao
+    abstract fun reminderDao(): ReminderDao
+    abstract fun labelDao(): LabelDao
+    abstract fun checklistDao(): ChecklistDao
 
     suspend fun checkpoint() {
-        commonDao.query((SimpleSQLiteQuery("pragma wal_checkpoint(full)")))
+        commonDao().query((SimpleSQLiteQuery("pragma wal_checkpoint(full)")))
     }
 
     companion object {

@@ -5,18 +5,17 @@ buildscript {
         maven("https://jitpack.io")
         maven("https://artifactory-external.vkpartner.ru/artifactory/maven")
     }
-    dependencies {
-        classpath(Dependencies.Android.GradlePlugin)
-        classpath(Dependencies.Hilt.GradlePlugin)
-        classpath(Dependencies.Kotlin.GradlePlugin)
-        classpath(Dependencies.Kotlin.GradleSerializationPlugin)
-        classpath(Dependencies.Google.GradleServicesPlugin)
-        classpath(Dependencies.Firebase.CrashlyticsPlugin)
-    }
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.gms) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.room) apply false
 }
 
 tasks.register("clean", Delete::class) {

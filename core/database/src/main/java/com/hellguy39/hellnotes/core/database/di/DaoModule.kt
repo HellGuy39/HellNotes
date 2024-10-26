@@ -11,17 +11,17 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object DaoModule {
     @Provides
-    fun provideCommonDao(database: HellNotesDatabase): CommonDao = database.commonDao
+    fun provideCommonDao(database: HellNotesDatabase): CommonDao = database.commonDao()
 
     @Provides
-    fun providesNoteDao(database: HellNotesDatabase): NoteDao = database.noteDao
+    fun providesNoteDao(database: HellNotesDatabase): NoteDao = database.noteDao()
 
     @Provides
-    fun providesRemindDao(database: HellNotesDatabase): ReminderDao = database.reminderDao
+    fun providesRemindDao(database: HellNotesDatabase): ReminderDao = database.reminderDao()
 
     @Provides
-    fun provideLabelDao(database: HellNotesDatabase): LabelDao = database.labelDao
+    fun provideLabelDao(database: HellNotesDatabase): LabelDao = database.labelDao()
 
     @Provides
-    fun provideChecklistDao(database: HellNotesDatabase): ChecklistDao = database.checklistDao
+    fun provideChecklistDao(database: HellNotesDatabase): ChecklistDao = database.checklistDao()
 }

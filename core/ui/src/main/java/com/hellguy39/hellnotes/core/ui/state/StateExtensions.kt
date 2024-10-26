@@ -15,7 +15,7 @@ import androidx.navigation.NavGraph
  *
  * This is used to de-duplicate navigation events.
  */
-fun NavBackStackEntry.lifecycleIsResumed() = this.lifecycle.currentState == Lifecycle.State.RESUMED
+fun NavBackStackEntry.lifecycleIsResumed() = lifecycle.currentState == Lifecycle.State.RESUMED
 
 val NavGraph.startDestination: NavDestination?
     get() = findNode(startDestinationId)

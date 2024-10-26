@@ -1,7 +1,6 @@
 plugins {
-    id("library-setup")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    id("hellnotes.android.library")
+    id("hellnotes.hilt")
 }
 
 android {
@@ -9,18 +8,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.common)
+    implementation(projects.core.model)
 
-    implementation(project(Modules.Core.Common))
-    implementation(project(Modules.Core.Model))
-
-    implementation(Dependencies.AndroidX.AppCompat)
-
-    implementation(Dependencies.Kotlin.Coroutines)
-
-    implementation(Dependencies.Hilt.Android)
-    ksp(Dependencies.Hilt.Compiler)
-
-    testImplementation(Dependencies.JUnit)
-    androidTestImplementation(Dependencies.AndroidX.JUnit)
-    androidTestImplementation(Dependencies.AndroidX.Espresso)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit.android)
+    androidTestImplementation(libs.espresso.core)
 }
