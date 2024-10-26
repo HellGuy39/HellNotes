@@ -8,8 +8,6 @@ plugins {
     id("hellnotes.hilt")
     id("hellnotes.android.room")
     id("hellnotes.android.application.firebase")
-    id("hellnotes.android.application.flavors")
-    alias(libs.plugins.baselineprofile)
 }
 
 val signingProperties = readProperties(file("signing.properties"))
@@ -56,16 +54,18 @@ android {
     buildTypes {
         debug {
             signingConfig = signingConfigs.getByName("debug")
-            applicationIdSuffix = HellNotesBuildType.DEBUG.applicationIdSuffix
+            // applicationIdSuffix = HellNotesBuildType.DEBUG.applicationIdSuffix
         }
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applicationIdSuffix = HellNotesBuildType.RELEASE.applicationIdSuffix
             signingConfig = signingConfigs.getByName("release")
-
-            // Ensure Baseline Profile is fresh for release builds.
-            baselineProfile.automaticGenerationDuringBuild = true
+        }
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
         }
     }
 
@@ -104,21 +104,11 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.database)
     implementation(projects.core.datastore)
-    implementation(projects.core.storeApi)
     implementation(projects.core.model)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.android)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.espresso.core)
 
-    baselineProfile(projects.benchmark)
-}
-
-baselineProfile {
-    // Don't build on every iteration of a full assemble.
-    // Instead enable generation directly for the release build variant.
-    automaticGenerationDuringBuild = false
-
-    // Make use of Dex Layout Optimizations via Startup Profiles
-    dexLayoutOptimization = true
+    implementation(libs.rustore.appupdate)
 }

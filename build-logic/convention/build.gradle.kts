@@ -62,10 +62,6 @@ gradlePlugin {
             id = "hellnotes.android.application.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
-        register("androidTest") {
-            id = "hellnotes.android.test"
-            implementationClass = "AndroidTestConventionPlugin"
-        }
         register("hilt") {
             id = "hellnotes.hilt"
             implementationClass = "HiltConventionPlugin"

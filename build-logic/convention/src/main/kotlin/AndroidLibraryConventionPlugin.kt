@@ -1,7 +1,6 @@
 
 import com.android.build.gradle.LibraryExtension
 import com.hellguy39.hellnotes.configureFlavors
-import com.hellguy39.hellnotes.configureGradleManagedDevices
 import com.hellguy39.hellnotes.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -23,8 +22,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 defaultConfig.targetSdk = Configuration.targetSdk
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 testOptions.animationsDisabled = true
-                configureFlavors(this)
-                configureGradleManagedDevices(this)
+                // configureFlavors(this)
 
                 // The resource prefix is derived from the module name,
                 // so resources inside ":core:module1" must be prefixed with "core_module1_"

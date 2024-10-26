@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.core.domain.repository.settings
+package com.hellguy39.hellnotes.core.domain.repository.local
 
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle

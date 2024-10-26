@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.core.domain.repository.notes
+package com.hellguy39.hellnotes.core.domain.repository.local
 
 import com.hellguy39.hellnotes.core.model.repository.local.database.Note
 import com.hellguy39.hellnotes.core.model.repository.local.database.NoteEditor
