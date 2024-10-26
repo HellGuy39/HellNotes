@@ -26,7 +26,7 @@ android {
                         device = "Pixel 6 Pro"
                         apiLevel = 34
                         systemImageSource = "aosp"
-                    }
+                    },
             )
         }
     }

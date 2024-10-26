@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         gradlePluginPortal()
         google()
@@ -18,6 +19,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "HellNotes"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 /* App */
 include(":app")
 
@@ -32,6 +35,7 @@ include(":core:domain")
 include(":core:ui")
 include(":core:common")
 include(":core:datastore")
+include(":core:network")
 
 /* Feature */
 include(":feature:settings")
@@ -53,6 +57,5 @@ include(":feature:changelog")
 include(":feature:reset")
 include(":feature:privacy-policy")
 include(":feature:terms-and-conditions")
-include(":core:network")
 include(":feature:update")
 include(":feature:backup")

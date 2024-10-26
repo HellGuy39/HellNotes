@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 Aleksey Gadzhiev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.hellguy39.hellnotes.core.database.di
 
 import com.hellguy39.hellnotes.core.database.HellNotesDatabase
@@ -11,17 +26,17 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object DaoModule {
     @Provides
-    fun provideCommonDao(database: HellNotesDatabase): CommonDao = database.commonDao
+    fun provideCommonDao(database: HellNotesDatabase): CommonDao = database.commonDao()
 
     @Provides
-    fun providesNoteDao(database: HellNotesDatabase): NoteDao = database.noteDao
+    fun providesNoteDao(database: HellNotesDatabase): NoteDao = database.noteDao()
 
     @Provides
-    fun providesRemindDao(database: HellNotesDatabase): ReminderDao = database.reminderDao
+    fun providesRemindDao(database: HellNotesDatabase): ReminderDao = database.reminderDao()
 
     @Provides
-    fun provideLabelDao(database: HellNotesDatabase): LabelDao = database.labelDao
+    fun provideLabelDao(database: HellNotesDatabase): LabelDao = database.labelDao()
 
     @Provides
-    fun provideChecklistDao(database: HellNotesDatabase): ChecklistDao = database.checklistDao
+    fun provideChecklistDao(database: HellNotesDatabase): ChecklistDao = database.checklistDao()
 }

@@ -1,7 +1,6 @@
 plugins {
-    id("library-setup")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    id("hellnotes.android.library")
+    id("hellnotes.hilt")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
@@ -10,17 +9,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.model)
 
-    implementation(project(Modules.Core.Model))
-
-    implementation(Dependencies.Ktor.Core)
-    implementation(Dependencies.Ktor.OkHttpEngine)
-    implementation(Dependencies.Ktor.Logging)
-    implementation(Dependencies.Ktor.ContentNegotiation)
-    implementation(Dependencies.Ktor.JsonSerializer)
-
-    implementation(Dependencies.Kotlin.Coroutines)
-
-    implementation(Dependencies.Hilt.Android)
-    ksp(Dependencies.Hilt.Compiler)
+    implementation(libs.bundles.ktor)
 }
