@@ -49,6 +49,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -97,7 +98,8 @@ fun NoteDetailContent(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp)
+                        .testTag("tf_title"),
                 value = uiState.wrapper.note.title,
                 isSingleLine = false,
                 onValueChange = { newText -> selection.onTitleTextChanged(newText) },
@@ -112,7 +114,8 @@ fun NoteDetailContent(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
-                        .focusRequester(focusRequester),
+                        .focusRequester(focusRequester)
+                        .testTag("tf_content"),
                 value = uiState.wrapper.note.note,
                 isSingleLine = false,
                 onValueChange = { newText -> selection.onNoteTextChanged(newText) },
