@@ -8,6 +8,8 @@ plugins {
     id("hellnotes.hilt")
     id("hellnotes.android.room")
     id("hellnotes.android.application.firebase")
+    id("hellnotes.android.application.flavors")
+    alias(libs.plugins.baselineprofile)
 }
 
 val signingProperties = readProperties(file("signing.properties"))
@@ -54,18 +56,16 @@ android {
     buildTypes {
         debug {
             signingConfig = signingConfigs.getByName("debug")
-            // applicationIdSuffix = HellNotesBuildType.DEBUG.applicationIdSuffix
+            applicationIdSuffix = HellNotesBuildType.DEBUG.applicationIdSuffix
         }
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applicationIdSuffix = HellNotesBuildType.RELEASE.applicationIdSuffix
             signingConfig = signingConfigs.getByName("release")
-        }
-        create("benchmark") {
-            signingConfig = signingConfigs.getByName("debug")
-            matchingFallbacks += listOf("release")
-            isDebuggable = false
+
+            // Ensure Baseline Profile is fresh for release builds.
+            baselineProfile.automaticGenerationDuringBuild = true
         }
     }
 
@@ -108,7 +108,18 @@ dependencies {
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.android)
-    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 
     implementation(libs.rustore.appupdate)
+
+    baselineProfile(projects.benchmark)
+}
+
+baselineProfile {
+    // Don't build on every iteration of a full assemble.
+    // Instead enable generation directly for the release build variant.
+    automaticGenerationDuringBuild = false
+
+    // Make use of Dex Layout Optimizations via Startup Profiles
+    dexLayoutOptimization = true
 }

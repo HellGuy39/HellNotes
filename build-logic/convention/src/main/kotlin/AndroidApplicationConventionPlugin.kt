@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.ApplicationExtension
+import com.hellguy39.hellnotes.configureGradleManagedDevices
 import com.hellguy39.hellnotes.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,7 +18,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.targetSdk = Configuration.targetSdk
                 @Suppress("UnstableApiUsage")
                 testOptions.animationsDisabled = true
-                // configureGradleManagedDevices(this)
+                configureGradleManagedDevices(this)
 
                 buildFeatures {
                     buildConfig = true

@@ -1,52 +1,40 @@
-import com.android.build.gradle.internal.dsl.ManagedVirtualDevice
+import com.hellguy39.hellnotes.configureFlavors
 
 plugins {
-    id("com.android.test")
-    id("org.jetbrains.kotlin.android")
+    id("hellnotes.android.test")
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
     namespace = "com.hellguy39.hellnotes.benchmark"
-    compileSdk = 34
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
-    testOptions {
-        managedDevices {
-            devices.add(
-                ManagedVirtualDevice("pixel6proapi34")
-                    .apply {
-                        device = "Pixel 6 Pro"
-                        apiLevel = 34
-                        systemImageSource = "aosp"
-                    },
-            )
-        }
-    }
 
     defaultConfig {
         minSdk = 29
-        targetSdk = 34
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "APP_BUILD_TYPE_SUFFIX", "\"\"")
     }
 
-    buildTypes {
-        // This benchmark buildType is used for benchmarking, and should function like your
-        // release build (for example, with minification on). It"s signed with a debug key
-        // for easy local/CI testing.
-        create("benchmark") {
-            isDebuggable = true
-            signingConfig = getByName("debug").signingConfig
-            matchingFallbacks += listOf("release")
-            proguardFiles("benchmark-rules.pro")
+    buildFeatures {
+        buildConfig = true
+    }
+
+    // Use the same flavor dimensions as the application to allow generating Baseline Profiles on prod,
+    // which is more close to what will be shipped to users (no fake data), but has ability to run the
+    // benchmarks on demo, so we benchmark on stable data.
+    configureFlavors(this) { flavor ->
+        buildConfigField(
+            "String",
+            "APP_FLAVOR_SUFFIX",
+            "\"${flavor.applicationIdSuffix ?: ""}\"",
+        )
+    }
+
+    testOptions.managedDevices.devices {
+        create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel6Api33") {
+            device = "Pixel 6"
+            apiLevel = 33
+            systemImageSource = "aosp"
         }
     }
 
@@ -54,18 +42,23 @@ android {
     experimentalProperties["android.experimental.self-instrumenting"] = true
 }
 
-dependencies {
+baselineProfile {
+    // This specifies the managed devices to use that you run the tests on.
+    managedDevices.clear()
+    managedDevices += "pixel6Api33"
 
-    implementation(project(":core:ui"))
-
-    implementation("androidx.test.ext:junit:1.1.5")
-    implementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation("androidx.test.uiautomator:uiautomator:2.2.0")
-    implementation("androidx.benchmark:benchmark-macro-junit4:1.2.1")
+    // Don't use a connected device but rely on a GMD for consistency between local and CI builds.
+    useConnectedDevices = false
 }
 
-androidComponents {
-    beforeVariants(selector().all()) {
-        it.enabled = it.buildType == "benchmark"
-    }
+dependencies {
+    implementation(projects.core.ui)
+
+    implementation(libs.androidx.benchmark.macro)
+    implementation(libs.androidx.test.core)
+    implementation(libs.androidx.test.espresso.core)
+    implementation(libs.androidx.test.ext)
+    implementation(libs.androidx.test.rules)
+    implementation(libs.androidx.test.runner)
+    implementation(libs.androidx.test.uiautomator)
 }
