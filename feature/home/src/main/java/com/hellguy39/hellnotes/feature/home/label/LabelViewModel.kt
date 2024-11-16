@@ -22,8 +22,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.arguments.getArgument
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
+import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteActionController
 import com.hellguy39.hellnotes.core.domain.usecase.label.GetAllNoteWrappersByLabelId
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label

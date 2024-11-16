@@ -22,7 +22,7 @@ import android.os.Build
 import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.hellguy39.hellnotes.core.domain.tools.LanguageHolder
+import com.hellguy39.hellnotes.core.domain.repository.system.LanguageHolder
 import com.hellguy39.hellnotes.core.model.Language
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow

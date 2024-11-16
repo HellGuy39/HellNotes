@@ -18,7 +18,7 @@ package com.hellguy39.hellnotes.core.data.repository.local
 import com.hellguy39.hellnotes.core.database.dao.ChecklistDao
 import com.hellguy39.hellnotes.core.database.mapper.toChecklist
 import com.hellguy39.hellnotes.core.database.mapper.toChecklistEntity
-import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.ChecklistRepository
 import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

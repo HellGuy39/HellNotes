@@ -16,13 +16,16 @@
 package com.hellguy39.hellnotes.core.data.di
 
 import com.hellguy39.hellnotes.core.data.database.BackupManagerImpl
-import com.hellguy39.hellnotes.core.data.repository.*
 import com.hellguy39.hellnotes.core.data.repository.local.*
 import com.hellguy39.hellnotes.core.data.repository.remote.GithubRepositoryServiceImpl
 import com.hellguy39.hellnotes.core.domain.manager.BackupManager
-import com.hellguy39.hellnotes.core.domain.repository.*
-import com.hellguy39.hellnotes.core.domain.repository.local.*
+import com.hellguy39.hellnotes.core.domain.repository.notes.ChecklistRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteActionController
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
+import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

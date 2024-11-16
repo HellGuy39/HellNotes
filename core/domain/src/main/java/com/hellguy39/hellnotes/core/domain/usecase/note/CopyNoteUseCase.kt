@@ -15,9 +15,9 @@
  */
 package com.hellguy39.hellnotes.core.domain.usecase.note
 
-import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.ChecklistRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteRepository
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.CreateReminderUseCase
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import javax.inject.Inject

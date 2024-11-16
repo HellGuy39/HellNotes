@@ -15,18 +15,23 @@
  */
 package com.hellguy39.hellnotes.feature.home
 
+import android.app.Activity
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.store.InAppStoreManager
+import com.hellguy39.hellnotes.core.domain.repository.store.ReviewState
+import com.hellguy39.hellnotes.core.domain.repository.store.UpdateState
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,18 +39,51 @@ class HomeViewModel
     @Inject
     constructor(
         labelRepository: LabelRepository,
+        private val inAppStoreManager: InAppStoreManager,
     ) : ViewModel() {
         val uiState: StateFlow<HomeUiState> =
-            labelRepository.getAllLabelsStream()
-                .map { labels -> HomeUiState(labels = labels.toStateList(), isIdle = false) }
+            combine(
+                labelRepository.getAllLabelsStream(),
+                inAppStoreManager.updateProvider.updateState,
+                inAppStoreManager.reviewProvider.reviewState,
+            ) { labels, updateState, reviewState ->
+                HomeUiState(
+                    labels = labels.toStateList(),
+                    updateState = updateState,
+                    isReviewAvailable = reviewState is ReviewState.Available,
+                    isIdle = false,
+                )
+            }
                 .stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5_000),
                     initialValue = HomeUiState(),
                 )
+
+        fun onUpdateButtonClick(activity: Activity) {
+            viewModelScope.launch {
+                when (uiState.value.updateState) {
+                    UpdateState.Available -> {
+                        inAppStoreManager.updateProvider.downloadUpdate(activity)
+                    }
+                    UpdateState.ReadyToInstall -> {
+                        inAppStoreManager.updateProvider.completeUpdate()
+                    }
+                    else -> Unit
+                }
+            }
+        }
+
+        fun onReviewButtonClick(activity: Activity) {
+            viewModelScope.launch {
+                inAppStoreManager.reviewProvider.requestReview(activity)
+            }
+        }
     }
 
 data class HomeUiState(
     val labels: SnapshotStateList<Label> = mutableStateListOf(),
+    val updateState: UpdateState = UpdateState.Unavailable,
+    val isReviewAvailable: Boolean = false,
     val isIdle: Boolean = true,
 )

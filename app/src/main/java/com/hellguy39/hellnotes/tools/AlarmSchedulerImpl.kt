@@ -24,7 +24,7 @@ import com.hellguy39.hellnotes.component.broadcast.ReminderReceiver
 import com.hellguy39.hellnotes.core.common.api.ApiCapabilities
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.logger.taggedLogger
-import com.hellguy39.hellnotes.core.domain.tools.AlarmScheduler
+import com.hellguy39.hellnotes.core.domain.repository.system.AlarmScheduler
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

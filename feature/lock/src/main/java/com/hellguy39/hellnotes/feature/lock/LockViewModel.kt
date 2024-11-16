@@ -17,10 +17,10 @@ package com.hellguy39.hellnotes.feature.lock
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.tools.AuthenticationResult
-import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
-import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.system.AuthenticationResult
+import com.hellguy39.hellnotes.core.domain.repository.system.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.repository.system.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
 import com.hellguy39.hellnotes.core.ui.components.input.NumberKeyboardKeys

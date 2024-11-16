@@ -217,6 +217,10 @@ object AppStrings {
         val RestoreFromBackup = R.string.btn_restore_from_backup
         val Restore = R.string.btn_restore
         val OpenARelease = R.string.btn_open_a_release
+        val RateTheApp = R.string.btn_rate_the_app
+        val UpdateAvailable = R.string.btn_update_available
+        val Downloading = R.string.btn_downloading
+        val ReadyToInstall = R.string.btn_ready_to_install
 
         fun finish(isFinished: Boolean): Int {
             return if (isFinished) Finish else Next

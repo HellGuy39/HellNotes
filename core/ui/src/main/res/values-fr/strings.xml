@@ -70,6 +70,10 @@
     <string name="btn_create_backup">Créer une sauvegarde</string>
     <string name="btn_restore_from_backup">Restaurer à partir d\'une sauvegarde</string>
     <string name="btn_open_a_release">Ouvrir une version</string>
+    <string name="btn_rate_the_app">Noter l\'application</string>
+    <string name="btn_update_available">Mise à jour disponible</string>
+    <string name="btn_downloading">Téléchargement</string>
+    <string name="btn_ready_to_install">Prêt à installer</string>
 
     <!-- Hint -->
     <string name="hint_title">Titre</string>

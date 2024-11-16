@@ -16,7 +16,7 @@
 package com.hellguy39.hellnotes.core.data.repository.local
 
 import com.hellguy39.hellnotes.core.datastore.HellNotesPreferencesDataSource
-import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState

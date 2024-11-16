@@ -23,7 +23,7 @@ import androidx.work.WorkManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.hellguy39.hellnotes.BuildConfig
-import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
+import com.hellguy39.hellnotes.core.domain.repository.system.InAppNotificationManager
 import com.hellguy39.hellnotes.worker.DeleteAllExpiredNoteWrappersAtTrashWorker
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject

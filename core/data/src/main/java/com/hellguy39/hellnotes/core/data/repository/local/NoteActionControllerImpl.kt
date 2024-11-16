@@ -15,7 +15,7 @@
  */
 package com.hellguy39.hellnotes.core.data.repository.local
 
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteActionController
 import com.hellguy39.hellnotes.core.domain.usecase.archive.MoveNoteToArchiveUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.note.MoveNoteToTrashUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.note.RestoreNoteFromTrashUseCase

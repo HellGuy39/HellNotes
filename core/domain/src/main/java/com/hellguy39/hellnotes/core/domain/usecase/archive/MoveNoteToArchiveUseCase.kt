@@ -15,8 +15,8 @@
  */
 package com.hellguy39.hellnotes.core.domain.usecase.archive
 
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.findByIdAndEdit
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.findByIdAndEdit
 import javax.inject.Inject
 
 class MoveNoteToArchiveUseCase

@@ -25,9 +25,9 @@ import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.common.logger.taggedLogger
 import com.hellguy39.hellnotes.core.common.uri.DeeplinkRoute
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
-import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
-import com.hellguy39.hellnotes.core.domain.tools.postReminderNotification
+import com.hellguy39.hellnotes.core.domain.repository.notes.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.system.InAppNotificationManager
+import com.hellguy39.hellnotes.core.domain.repository.system.postReminderNotification
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.ActivateReminderUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*

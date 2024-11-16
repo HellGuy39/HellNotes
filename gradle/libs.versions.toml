@@ -36,6 +36,9 @@ androidx-testExt = "1.2.1"
 androidx-testRules = "1.6.1"
 androidx-testRunner = "1.6.2"
 androidx-uiAutomator = "2.3.0"
+rustore = "6.1.0"
+googlePlay-appupdate = "2.1.0"
+googlePlay-review = "2.0.2"
 
 [libraries]
 
@@ -63,6 +66,7 @@ androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", vers
 
 # Coroutines
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlin-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
 
 # Hilt
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
@@ -115,7 +119,14 @@ datastore-preferences = { module = "androidx.datastore:datastore-preferences", v
 datastore-proto = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 
 # RuStore
-rustore-appupdate = { module = "ru.rustore.sdk:appupdate", version = "1.0.1" }
+rustore-appupdate = { module = "ru.rustore.sdk:appupdate", version.ref = "rustore" }
+rustore-review = { module = "ru.rustore.sdk:review", version.ref = "rustore" }
+
+# Google Play
+googlePlay-appupdate = { module = "com.google.android.play:app-update", version.ref = "googlePlay-appupdate" }
+googlePlay-appupdate-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "googlePlay-appupdate" }
+googlePlay-review = { module = "com.google.android.play:review", version.ref = "googlePlay-review" }
+googlePlay-review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "googlePlay-review" }
 
 # JUnit
 junit-android = { module = "androidx.test.ext:junit", version.ref = "junit-android" }
@@ -157,6 +168,7 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 # Plugins defined by this project
 hellnotes-android-application = { id = "hellnotes.android.application" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 [bundles]
 android = [

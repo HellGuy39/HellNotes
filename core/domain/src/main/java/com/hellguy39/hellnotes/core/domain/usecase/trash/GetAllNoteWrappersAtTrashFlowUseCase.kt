@@ -16,17 +16,16 @@
 package com.hellguy39.hellnotes.core.domain.usecase.trash
 
 import com.hellguy39.hellnotes.core.common.di.IoDispatcher
-import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.ChecklistRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.ReminderRepository
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.toNoteWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetAllNoteWrappersAtTrashFlowUseCase

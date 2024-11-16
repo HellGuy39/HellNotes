@@ -18,7 +18,7 @@ package com.hellguy39.hellnotes.core.domain.usecase.backup
 import android.net.Uri
 import com.hellguy39.hellnotes.core.common.di.IoDispatcher
 import com.hellguy39.hellnotes.core.domain.manager.BackupManager
-import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
 import com.hellguy39.hellnotes.core.model.Resource
 import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
 import kotlinx.coroutines.CoroutineDispatcher

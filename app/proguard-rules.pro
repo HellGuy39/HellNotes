@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -dontwarn org.slf4j.impl.StaticLoggerBinder
+-dontwarn com.google.android.gms.common.annotation.NoNullnessRewrite

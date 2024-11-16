@@ -17,7 +17,7 @@ package com.hellguy39.hellnotes.feature.notestyleedit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.arguments.getArgument
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.CreateReminderUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.DeleteReminderUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.UpdateReminderUseCase

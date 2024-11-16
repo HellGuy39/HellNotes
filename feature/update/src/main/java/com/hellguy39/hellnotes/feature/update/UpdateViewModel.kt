@@ -18,7 +18,7 @@ package com.hellguy39.hellnotes.feature.update
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
-import com.hellguy39.hellnotes.core.domain.tools.Downloader
+import com.hellguy39.hellnotes.core.domain.repository.system.Downloader
 import com.hellguy39.hellnotes.core.domain.usecase.CheckForUpdatesUseCase
 import com.hellguy39.hellnotes.core.model.Resource
 import com.hellguy39.hellnotes.core.model.repository.remote.Release

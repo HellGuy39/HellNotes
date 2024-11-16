@@ -20,9 +20,9 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import com.hellguy39.hellnotes.core.domain.tools.AuthenticationResult
-import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
-import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.domain.repository.system.AuthenticationResult
+import com.hellguy39.hellnotes.core.domain.repository.system.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.repository.system.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

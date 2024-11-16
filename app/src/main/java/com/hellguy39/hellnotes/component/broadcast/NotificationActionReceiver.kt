@@ -21,7 +21,7 @@ import android.content.Intent
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.arguments.getArgument
 import com.hellguy39.hellnotes.core.common.logger.taggedLogger
-import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
+import com.hellguy39.hellnotes.core.domain.repository.system.InAppNotificationManager
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

@@ -18,7 +18,7 @@ package com.hellguy39.hellnotes.feature.home.notes
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteActionController
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteActionController
 import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNoteWrappersFlowUseCase
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.database.removeCompletedChecklists

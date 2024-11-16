@@ -10,13 +10,29 @@ enum class FlavorDimension {
     contentType
 }
 
+@Suppress("EnumEntryName")
+enum class AppStore {
+    RuStore,
+    PlayStore,
+    None,
+}
+
 // The content for the app can either come from local static data which is useful for demo
 // purposes, or from a production backend server which supplies up-to-date, real content.
 // These two product flavors reflect this behaviour.
 @Suppress("EnumEntryName")
-enum class HellNotesFlavor(val dimension: FlavorDimension, val applicationIdSuffix: String? = null) {
+enum class HellNotesFlavor(
+    val dimension: FlavorDimension,
+    val applicationIdSuffix: String? = null,
+    val appStore: AppStore? = null
+) {
     demo(FlavorDimension.contentType, applicationIdSuffix = ".demo"),
-    prod(FlavorDimension.contentType)
+    demoRuStore(FlavorDimension.contentType, appStore = AppStore.RuStore),
+    demoPlayStore(FlavorDimension.contentType, appStore = AppStore.PlayStore),
+
+    prod(FlavorDimension.contentType, appStore = AppStore.None),
+    prodRuStore(FlavorDimension.contentType, appStore = AppStore.RuStore),
+    prodPlayStore(FlavorDimension.contentType, appStore = AppStore.PlayStore)
 }
 
 fun configureFlavors(
@@ -35,6 +51,7 @@ fun configureFlavors(
                             applicationIdSuffix = it.applicationIdSuffix
                         }
                     }
+                    buildConfigField("String", "APP_STORE", "\"${it.appStore}\"")
                 }
             }
         }

@@ -122,11 +122,23 @@ fun AboutAppScreenContent(
                     headlineContent = {
                         Text(text = stringResource(id = AppStrings.MenuItem.Changelog))
                     },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
+                    },
                 )
                 ListItem(
                     modifier = Modifier.clickable { selection.onPrivacyPolicy() },
                     headlineContent = {
                         Text(text = stringResource(id = AppStrings.MenuItem.PrivacyPolicy))
+                    },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
                     },
                 )
                 ListItem(
@@ -139,11 +151,23 @@ fun AboutAppScreenContent(
                                 ),
                         )
                     },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
+                    },
                 )
                 ListItem(
                     modifier = Modifier.clickable { selection.onProvideFeedback() },
                     headlineContent = {
                         Text(text = stringResource(id = AppStrings.MenuItem.ProvideFeedback))
+                    },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
                     },
                 )
             }
@@ -160,21 +184,14 @@ fun AboutAppScreenContent(
                     headlineContent = {
                         Text(text = stringResource(id = AppStrings.MenuItem.Reset))
                     },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
+                    },
                 )
             }
         }
-//        item {
-//            Column(
-//                modifier = Modifier.fillMaxWidth(),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//            ) {
-//                Text(
-//                    modifier = Modifier.alpha(0.5f),
-//                    text = "Developed and designed by\nAleksey Gadzhiev",
-//                    style = MaterialTheme.typography.bodyMedium,
-//                    textAlign = TextAlign.Center,
-//                )
-//            }
-//        }
     }
 }

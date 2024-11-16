@@ -17,7 +17,7 @@ package com.hellguy39.hellnotes.feature.languageselection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.tools.LanguageHolder
+import com.hellguy39.hellnotes.core.domain.repository.system.LanguageHolder
 import com.hellguy39.hellnotes.core.model.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

@@ -15,8 +15,8 @@
  */
 package com.hellguy39.hellnotes.core.domain.usecase.reminder
 
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
-import com.hellguy39.hellnotes.core.domain.tools.AlarmScheduler
+import com.hellguy39.hellnotes.core.domain.repository.notes.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.system.AlarmScheduler
 import javax.inject.Inject
 
 class DeleteReminderUseCase

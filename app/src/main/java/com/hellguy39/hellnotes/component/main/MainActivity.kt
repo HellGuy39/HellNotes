@@ -27,16 +27,22 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
+import com.hellguy39.hellnotes.core.domain.repository.store.InAppStoreManager
 import com.hellguy39.hellnotes.core.ui.analytics.LocalAnalytics
 import com.hellguy39.hellnotes.core.ui.state.rememberAppState
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.navigation.GlobalNavGraph
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
+    @Inject
+    lateinit var inAppStoreManager: InAppStoreManager
+
     @Inject
     lateinit var analyticsLogger: AnalyticsLogger
 
@@ -49,6 +55,13 @@ class MainActivity : FragmentActivity() {
                 LocalAnalytics provides analyticsLogger,
             ) {
                 HellNotesApp()
+            }
+        }
+
+        lifecycleScope.launch {
+            with(inAppStoreManager.updateProvider) {
+                attach()
+                checkUpdateAvailability()
             }
         }
     }

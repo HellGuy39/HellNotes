@@ -17,10 +17,10 @@ package com.hellguy39.hellnotes.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.local.DataStoreRepository
-import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
-import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
-import com.hellguy39.hellnotes.core.domain.tools.LanguageHolder
+import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.system.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.repository.system.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.domain.repository.system.LanguageHolder
 import com.hellguy39.hellnotes.core.model.Language
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState

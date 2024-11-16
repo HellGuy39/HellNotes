@@ -27,7 +27,7 @@ import com.hellguy39.hellnotes.core.common.arguments.Arguments
 import com.hellguy39.hellnotes.core.common.id.randomId
 import com.hellguy39.hellnotes.core.common.logger.taggedLogger
 import com.hellguy39.hellnotes.core.common.permission.canPostNotifications
-import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
+import com.hellguy39.hellnotes.core.domain.repository.system.InAppNotificationManager
 import com.hellguy39.hellnotes.core.model.notification.HellNotesNotificationChannel
 import com.hellguy39.hellnotes.core.ui.decorator.NotificationChannelDecorator
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons

@@ -16,11 +16,11 @@
 package com.hellguy39.hellnotes.di
 
 import com.hellguy39.hellnotes.core.domain.logger.AnalyticsLogger
-import com.hellguy39.hellnotes.core.domain.tools.AlarmScheduler
-import com.hellguy39.hellnotes.core.domain.tools.BiometricAuthenticator
-import com.hellguy39.hellnotes.core.domain.tools.Downloader
-import com.hellguy39.hellnotes.core.domain.tools.InAppNotificationManager
-import com.hellguy39.hellnotes.core.domain.tools.LanguageHolder
+import com.hellguy39.hellnotes.core.domain.repository.system.AlarmScheduler
+import com.hellguy39.hellnotes.core.domain.repository.system.BiometricAuthenticator
+import com.hellguy39.hellnotes.core.domain.repository.system.Downloader
+import com.hellguy39.hellnotes.core.domain.repository.system.InAppNotificationManager
+import com.hellguy39.hellnotes.core.domain.repository.system.LanguageHolder
 import com.hellguy39.hellnotes.tools.AlarmSchedulerImpl
 import com.hellguy39.hellnotes.tools.AnalyticsLoggerImpl
 import com.hellguy39.hellnotes.tools.BiometricAuthenticatorImpl
@@ -45,7 +45,7 @@ interface AppModule {
     fun bindBiometricAuthenticator(i: BiometricAuthenticatorImpl): BiometricAuthenticator
 
     @Binds
-    fun bindNotificationSender(i: InAppNotificationManagerImpl): InAppNotificationManager
+    fun bindInAppNotificationManager(i: InAppNotificationManagerImpl): InAppNotificationManager
 
     @Binds
     fun bindLanguageHolder(i: LanguageHolderImpl): LanguageHolder

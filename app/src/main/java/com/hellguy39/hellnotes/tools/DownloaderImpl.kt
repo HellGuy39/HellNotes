@@ -19,7 +19,7 @@ import android.app.DownloadManager
 import android.content.Context
 import android.os.Environment
 import androidx.core.net.toUri
-import com.hellguy39.hellnotes.core.domain.tools.Downloader
+import com.hellguy39.hellnotes.core.domain.repository.system.Downloader
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

@@ -15,10 +15,29 @@
  */
 package com.hellguy39.hellnotes.feature.home.notes.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -28,10 +47,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.hellguy39.hellnotes.core.domain.repository.store.UpdateState
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
@@ -43,6 +64,10 @@ fun DrawerSheetContent(
     currentDestination: NavDestination?,
     drawerItems: SnapshotStateList<DrawerItem>,
     labelItems: SnapshotStateList<DrawerItem>,
+    updateState: UpdateState,
+    showReviewButton: Boolean,
+    onReviewButtonClick: () -> Unit,
+    onUpdateButtonClick: () -> Unit,
     onManageLabelsClick: () -> Unit,
     onCreateNewLabelClick: () -> Unit,
     onSettingsClick: () -> Unit,
@@ -143,7 +168,74 @@ fun DrawerSheetContent(
                         .fillMaxWidth()
                         .padding(vertical = 8.dp, horizontal = 8.dp),
             ) {
-                Spacer(modifier = Modifier.weight(1f))
+                if (updateState !is UpdateState.Unavailable) {
+                    OutlinedButton(
+                        modifier = Modifier.padding(horizontal = 4.dp).weight(1f),
+                        onClick = onUpdateButtonClick,
+                        contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                    ) {
+                        when (updateState) {
+                            UpdateState.Available -> {
+                                Icon(
+                                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                                    painter = painterResource(AppIcons.Download),
+                                    contentDescription = null,
+                                )
+                            }
+                            UpdateState.Downloading -> {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                                    strokeWidth = ButtonDefaults.IconSize / 8,
+                                )
+                            }
+                            UpdateState.ReadyToInstall -> {
+                                Icon(
+                                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                                    painter = painterResource(AppIcons.DownloadDone),
+                                    contentDescription = null,
+                                )
+                            }
+                            else -> {}
+                        }
+                        Spacer(Modifier.width(ButtonDefaults.IconSpacing))
+                        Text(
+                            when (updateState) {
+                                UpdateState.Available -> {
+                                    stringResource(AppStrings.Button.UpdateAvailable)
+                                }
+                                UpdateState.Downloading -> {
+                                    stringResource(AppStrings.Button.Downloading)
+                                }
+                                UpdateState.ReadyToInstall -> {
+                                    stringResource(AppStrings.Button.ReadyToInstall)
+                                }
+                                else -> ""
+                            },
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                } else if (showReviewButton) {
+                    OutlinedButton(
+                        modifier = Modifier.padding(horizontal = 4.dp).weight(1f),
+                        onClick = onReviewButtonClick,
+                        contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(ButtonDefaults.IconSize),
+                            painter = painterResource(AppIcons.Reviews),
+                            contentDescription = null,
+                        )
+                        Spacer(Modifier.width(ButtonDefaults.IconSpacing))
+                        Text(
+                            stringResource(AppStrings.Button.RateTheApp),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                } else {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
                 FilledTonalIconButton(onClick = { onAboutClick() }) {
                     Icon(
                         painter = painterResource(id = AppIcons.Info),

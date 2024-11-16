@@ -16,7 +16,7 @@
 package com.hellguy39.hellnotes.core.domain.usecase.label
 
 import com.hellguy39.hellnotes.core.common.di.IoDispatcher
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
 import com.hellguy39.hellnotes.core.domain.usecase.trash.GetAllNoteWrappersAtTrashFlowUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.combine

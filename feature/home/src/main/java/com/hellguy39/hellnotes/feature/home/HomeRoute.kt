@@ -15,6 +15,7 @@
  */
 package com.hellguy39.hellnotes.feature.home
 
+import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -95,6 +96,10 @@ fun HomeRoute(
                 currentDestination = currentDestination,
                 drawerItems = drawerItems,
                 labelItems = labelItems,
+                updateState = homeUiState.updateState,
+                showReviewButton = homeUiState.isReviewAvailable,
+                onReviewButtonClick = remember { { homeViewModel.onReviewButtonClick(context as Activity) } },
+                onUpdateButtonClick = remember { { homeViewModel.onUpdateButtonClick(context as Activity) } },
                 onCreateNewLabelClick =
                     remember {
                         {

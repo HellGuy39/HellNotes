@@ -15,10 +15,10 @@
  */
 package com.hellguy39.hellnotes.core.domain.usecase.trash
 
-import com.hellguy39.hellnotes.core.domain.repository.local.ChecklistRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.NoteRepository
-import com.hellguy39.hellnotes.core.domain.repository.local.ReminderRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.ChecklistRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.NoteRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.ReminderRepository
 import javax.inject.Inject
 
 class DeleteNoteUseCase

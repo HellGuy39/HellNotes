@@ -20,7 +20,7 @@ import com.hellguy39.hellnotes.core.database.dao.LabelDao
 import com.hellguy39.hellnotes.core.database.entity.LabelEntity
 import com.hellguy39.hellnotes.core.database.mapper.toLabel
 import com.hellguy39.hellnotes.core.database.mapper.toLabelEntity
-import com.hellguy39.hellnotes.core.domain.repository.local.LabelRepository
+import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
 import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

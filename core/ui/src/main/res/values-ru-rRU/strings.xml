@@ -84,6 +84,10 @@
     <string name="btn_create_backup">Создать резервную копию</string>
     <string name="btn_restore_from_backup">Восстановить из резервной копии</string>
     <string name="btn_open_a_release">Открыть релиз</string>
+    <string name="btn_rate_the_app">Оценить приложение</string>
+    <string name="btn_update_available">Доступно обновление</string>
+    <string name="btn_downloading">Загрузка</string>
+    <string name="btn_ready_to_install">Готово к установке</string>
 
     <!-- Hint -->
     <string name="hint_title">Заголовок</string>

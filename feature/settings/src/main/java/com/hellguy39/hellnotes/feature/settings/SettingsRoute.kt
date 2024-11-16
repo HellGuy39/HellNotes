@@ -23,8 +23,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hellguy39.hellnotes.core.domain.tools.AuthenticationResult
-import com.hellguy39.hellnotes.core.domain.tools.DeviceBiometricStatus
+import com.hellguy39.hellnotes.core.domain.repository.system.AuthenticationResult
+import com.hellguy39.hellnotes.core.domain.repository.system.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 import com.hellguy39.hellnotes.core.ui.lifecycle.rememberLifecycleEvent
 
