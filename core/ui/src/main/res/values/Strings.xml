@@ -213,6 +213,10 @@
     <string name="btn_create_backup">Create backup</string>
     <string name="btn_restore_from_backup">Restore from backup</string>
     <string name="btn_open_a_release">Open a release</string>
+    <string name="btn_rate_the_app">Rate the app</string>
+    <string name="btn_update_available">Update available</string>
+    <string name="btn_downloading">Downloading</string>
+    <string name="btn_ready_to_install">Ready to install</string>
 
     <!-- Setting -->
     <string name="stg_screen_lock">Screen lock</string>

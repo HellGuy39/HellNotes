@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="core_store_api_play_store" translatable="false">PlayStore</string>
+    <string name="core_store_api_ru_store" translatable="false">RuStore</string>
+    <string name="core_store_api_none" translatable="false">None</string>
+</resources>

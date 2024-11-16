@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 Aleksey Gadzhiev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.hellguy39.hellnotes.feature.aboutapp.components
 
 import androidx.compose.foundation.clickable
@@ -107,11 +122,23 @@ fun AboutAppScreenContent(
                     headlineContent = {
                         Text(text = stringResource(id = AppStrings.MenuItem.Changelog))
                     },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
+                    },
                 )
                 ListItem(
                     modifier = Modifier.clickable { selection.onPrivacyPolicy() },
                     headlineContent = {
                         Text(text = stringResource(id = AppStrings.MenuItem.PrivacyPolicy))
+                    },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
                     },
                 )
                 ListItem(
@@ -124,11 +151,23 @@ fun AboutAppScreenContent(
                                 ),
                         )
                     },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
+                    },
                 )
                 ListItem(
                     modifier = Modifier.clickable { selection.onProvideFeedback() },
                     headlineContent = {
                         Text(text = stringResource(id = AppStrings.MenuItem.ProvideFeedback))
+                    },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
                     },
                 )
             }
@@ -145,21 +184,14 @@ fun AboutAppScreenContent(
                     headlineContent = {
                         Text(text = stringResource(id = AppStrings.MenuItem.Reset))
                     },
+                    trailingContent = {
+                        Icon(
+                            painter = painterResource(AppIcons.ChevronRight),
+                            contentDescription = null,
+                        )
+                    },
                 )
             }
         }
-//        item {
-//            Column(
-//                modifier = Modifier.fillMaxWidth(),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//            ) {
-//                Text(
-//                    modifier = Modifier.alpha(0.5f),
-//                    text = "Developed and designed by\nAleksey Gadzhiev",
-//                    style = MaterialTheme.typography.bodyMedium,
-//                    textAlign = TextAlign.Center,
-//                )
-//            }
-//        }
     }
 }

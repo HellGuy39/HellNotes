@@ -100,6 +100,10 @@
     <string name="btn_create_backup">Backup erstellen</string>
     <string name="btn_restore_from_backup">Aus Backup wiederherstellen</string>
     <string name="btn_open_a_release">Release öffnen</string>
+    <string name="btn_rate_the_app">App bewerten</string>
+    <string name="btn_update_available">Update verfügbar</string>
+    <string name="btn_downloading">Wird heruntergeladen</string>
+    <string name="btn_ready_to_install">Bereit zur Installation</string>
 
     <!--  Hint  -->
     <string name="hint_title">Überschrift</string>

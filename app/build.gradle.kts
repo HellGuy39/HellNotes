@@ -1,12 +1,15 @@
+import com.hellguy39.hellnotes.HellNotesBuildType
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.util.Properties
 
 plugins {
-    id("app-setup")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    id("hellnotes.android.application")
+    id("hellnotes.android.application.compose")
+    id("hellnotes.hilt")
+    id("hellnotes.android.room")
+    id("hellnotes.android.application.firebase")
+    id("hellnotes.android.application.flavors")
+    alias(libs.plugins.baselineprofile)
 }
 
 val signingProperties = readProperties(file("signing.properties"))
@@ -35,97 +38,87 @@ android {
     }
 
     defaultConfig {
+        applicationId = Configuration.applicationId
+        minSdk = Configuration.minSdk
+        targetSdk = Configuration.targetSdk
+        versionCode = Configuration.versionCode
+        versionName = Configuration.versionName
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+
         archivesName.set("HellNotes v$versionName")
     }
 
     buildTypes {
         debug {
             signingConfig = signingConfigs.getByName("debug")
+            applicationIdSuffix = HellNotesBuildType.DEBUG.applicationIdSuffix
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            applicationIdSuffix = HellNotesBuildType.RELEASE.applicationIdSuffix
             signingConfig = signingConfigs.getByName("release")
+
+            // Ensure Baseline Profile is fresh for release builds.
+            baselineProfile.automaticGenerationDuringBuild = true
         }
-        create("benchmark") {
-            signingConfig = signingConfigs.getByName("debug")
-            matchingFallbacks += listOf("release")
-            isDebuggable = false
-        }
+    }
+
+    packaging {
+        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        resources.excludes.add("/META-INF/INDEX.LIST")
     }
 }
 
 dependencies {
+    implementation(projects.feature.onBoarding)
+    implementation(projects.feature.lock)
+    implementation(projects.feature.search)
+    implementation(projects.feature.home)
+    implementation(projects.feature.labelEdit)
+    implementation(projects.feature.noteDetail)
+    implementation(projects.feature.reminderEdit)
+    implementation(projects.feature.aboutApp)
+    implementation(projects.feature.settings)
+    implementation(projects.feature.lockSelection)
+    implementation(projects.feature.languageSelection)
+    implementation(projects.feature.lockSetup)
+    implementation(projects.feature.labelSelection)
+    implementation(projects.feature.noteStyleEdit)
+    implementation(projects.feature.noteSwipeEdit)
+    implementation(projects.feature.changelog)
+    implementation(projects.feature.privacyPolicy)
+    implementation(projects.feature.termsAndConditions)
+    implementation(projects.feature.reset)
+    implementation(projects.feature.update)
+    implementation(projects.feature.backup)
 
-    implementation(project(Modules.Feature.OnBoarding))
-    implementation(project(Modules.Feature.Lock))
-    implementation(project(Modules.Feature.Search))
-    implementation(project(Modules.Feature.Home))
-    implementation(project(Modules.Feature.LabelEdit))
-    implementation(project(Modules.Feature.NoteDetail))
-    implementation(project(Modules.Feature.ReminderEdit))
-    implementation(project(Modules.Feature.AboutApp))
-    implementation(project(Modules.Feature.Settings))
-    implementation(project(Modules.Feature.LockSelection))
-    implementation(project(Modules.Feature.LanguageSelection))
-    implementation(project(Modules.Feature.LockSetup))
-    implementation(project(Modules.Feature.LabelSelection))
-    implementation(project(Modules.Feature.NoteStyleEdit))
-    implementation(project(Modules.Feature.NoteSwipesEdit))
-    implementation(project(Modules.Feature.Changelog))
-    implementation(project(Modules.Feature.PrivacyPolicy))
-    implementation(project(Modules.Feature.TermsAndConditions))
-    implementation(project(Modules.Feature.Reset))
-    implementation(project(Modules.Feature.Update))
-    implementation(project(Modules.Feature.Backup))
+    implementation(projects.core.ui)
+    implementation(projects.core.data)
+    implementation(projects.core.common)
+    implementation(projects.core.domain)
+    implementation(projects.core.database)
+    implementation(projects.core.datastore)
+    implementation(projects.core.storeApi)
+    implementation(projects.core.model)
 
-    implementation(project(Modules.Core.Ui))
-    implementation(project(Modules.Core.Data))
-    implementation(project(Modules.Core.Common))
-    implementation(project(Modules.Core.Domain))
-    implementation(project(Modules.Core.Database))
-    implementation(project(Modules.Core.Datastore))
-    implementation(project(Modules.Core.Model))
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit.android)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 
-    implementation(Dependencies.AndroidX.CoreKtx)
-    implementation(Dependencies.AndroidX.LifecycleKtx)
-    implementation(Dependencies.AndroidX.AppCompat)
-    implementation(Dependencies.AndroidX.WorkKtx)
-    implementation(Dependencies.AndroidX.Biometric)
-    implementation(Dependencies.AndroidX.SplashScreen)
-    implementation(Dependencies.AndroidX.ProfileInstaller)
+    baselineProfile(projects.benchmark)
+}
 
-    implementation(Dependencies.Google.Material)
+baselineProfile {
+    // Don't build on every iteration of a full assemble.
+    // Instead enable generation directly for the release build variant.
+    automaticGenerationDuringBuild = false
 
-    implementation(Dependencies.Compose.Lifecycle)
-    implementation(Dependencies.Compose.Activity)
-    implementation(Dependencies.Compose.Ui)
-    implementation(Dependencies.Compose.ToolingPreview)
-    implementation(Dependencies.Compose.Material3)
-    implementation(Dependencies.Compose.Navigation)
-    androidTestImplementation(Dependencies.Compose.UiTestJUnit)
-    debugImplementation(Dependencies.Compose.UiTooling)
-    debugImplementation(Dependencies.Compose.UiTestManifest)
-
-    testImplementation(Dependencies.JUnit)
-    androidTestImplementation(Dependencies.AndroidX.JUnit)
-    androidTestImplementation(Dependencies.AndroidX.Espresso)
-
-    implementation(Dependencies.Room.RoomKtx)
-    ksp(Dependencies.Room.RoomCompiler)
-
-    implementation(Dependencies.Kotlin.Coroutines)
-
-    implementation(Dependencies.Hilt.Android)
-    ksp(Dependencies.Hilt.Compiler)
-    ksp(Dependencies.Hilt.AndroidXCompiler)
-    implementation(Dependencies.Hilt.NavigationCompose)
-    implementation(Dependencies.Hilt.Work)
-
-    implementation(Dependencies.SquareUp.Moshi)
-
-    implementation(Dependencies.Firebase.Analytics)
-    implementation(Dependencies.Firebase.Crashlytics)
-
-    implementation(Dependencies.RuStore.AppUpdate)
+    // Make use of Dex Layout Optimizations via Startup Profiles
+    dexLayoutOptimization = true
 }

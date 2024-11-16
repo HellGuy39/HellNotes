@@ -1,7 +1,6 @@
 plugins {
-    id("library-setup")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    id("hellnotes.android.library")
+    id("hellnotes.hilt")
 }
 
 android {
@@ -9,15 +8,10 @@ android {
 }
 
 dependencies {
-    implementation(project(Modules.Core.Database))
-    implementation(project(Modules.Core.Datastore))
-    implementation(project(Modules.Core.Network))
-    implementation(project(Modules.Core.Model))
-    implementation(project(Modules.Core.Domain))
-    implementation(project(Modules.Core.Common))
-
-    implementation(Dependencies.Kotlin.Coroutines)
-
-    implementation(Dependencies.Hilt.Android)
-    ksp(Dependencies.Hilt.Compiler)
+    implementation(projects.core.common)
+    implementation(projects.core.domain)
+    implementation(projects.core.database)
+    implementation(projects.core.datastore)
+    implementation(projects.core.model)
+    implementation(projects.core.network)
 }

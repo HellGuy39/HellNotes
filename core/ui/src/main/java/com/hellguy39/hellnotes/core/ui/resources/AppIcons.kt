@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 Aleksey Gadzhiev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.hellguy39.hellnotes.core.ui.resources
 
 import com.hellguy39.hellnotes.core.ui.R
@@ -56,6 +71,9 @@ object AppIcons {
     val Save = R.drawable.ic_save_24
     val MenuOpen = R.drawable.ic_menu_open_24
     val Folder = R.drawable.ic_folder_24
+    val Download = R.drawable.ic_download_24
+    val Reviews = R.drawable.ic_reviews_24
+    val DownloadDone = R.drawable.ic_download_done_24
 
     val Archive = R.drawable.ic_archive_24
     val Unarchive = R.drawable.ic_unarchive_24
@@ -87,6 +105,8 @@ object AppIcons {
 
     val CheckboxChecked = R.drawable.ic_checkbox_checked_24
     val CheckboxUnchecked = R.drawable.ic_checkbox_unchecked_24
+
+    val ChevronRight = R.drawable.ic_chevron_right_24
 
     val ArrowOutward = R.drawable.ic_arrow_outward_24
     val ArrowDropDown = R.drawable.ic_arrow_drop_down_24

@@ -1,0 +1,215 @@
+[versions]
+android-core-ktx = "1.12.0"
+appcompat = "1.6.1"
+android-gradle-plugin = "8.6.1"
+ksp-gradle-plugin = "1.9.22-1.0.17"
+android-tools = "31.6.1"
+kotlin = "1.9.22"
+dagger = "2.50"
+gms-plugin = "4.4.1"
+crashlytics-plugin = "2.9.9"
+coroutines = "1.8.0"
+lifecycle = "2.6.2"
+hilt = "1.1.0"
+room = "2.6.1"
+firebase-bom = "33.3.0"
+compose-bom = "2024.02.00"
+navigation = "2.7.6"
+ktor = "2.3.8"
+work = "2.8.1"
+biometric = "1.2.0-alpha05"
+splashScreen = "1.0.1"
+profileInstaller = "1.3.0"
+moshi = "1.15.1"
+material = "1.11.0"
+accompanist = "0.34.0"
+datastore = "1.0.0"
+junit = "4.13.2"
+junit-android = "1.1.5"
+espresso = "3.5.1"
+androidx-macro-benchmark = "1.3.0"
+composeDialogs = "1.1.0"
+composeRichText = "0.16.0"
+spotless = "6.25.0"
+androidx-testCore = "1.5.0"
+androidx-testExt = "1.2.1"
+androidx-testRules = "1.6.1"
+androidx-testRunner = "1.6.2"
+androidx-uiAutomator = "2.3.0"
+rustore = "6.1.0"
+googlePlay-appupdate = "2.1.0"
+googlePlay-review = "2.0.2"
+
+[libraries]
+
+# Android
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "android-core-ktx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
+androidx-biometric = { module = "androidx.biometric:biometric-ktx", version.ref = "biometric" }
+androidx-splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
+androidx-profileInstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileInstaller" }
+androidx-benchmark-macro = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidx-macro-benchmark" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidx-testCore" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx-testExt" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidx-testRules" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-testRunner" }
+androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "androidx-uiAutomator" }
+
+# Google
+google-material = { module = "com.google.android.material:material", version.ref = "material" }
+
+# Lifecycle
+androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle"}
+
+# Coroutines
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlin-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
+
+# Hilt
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt" }
+hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
+hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt" }
+
+# Room
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+# Compose
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-material = { module = "androidx.compose.material:material" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-adaptive = { module = "androidx.compose.material3:material3-window-size-class" }
+compose-debug = { module = "androidx.compose.ui:ui-test-manifest" }
+
+# Accompanist
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+
+# Navigation
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+
+# Ktor
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-android-engine = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-okhttp-engine = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-json-serializer = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+
+# Firebase
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+
+# Moshi
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+
+# DataStore
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+datastore-proto = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+
+# RuStore
+rustore-appupdate = { module = "ru.rustore.sdk:appupdate", version.ref = "rustore" }
+rustore-review = { module = "ru.rustore.sdk:review", version.ref = "rustore" }
+
+# Google Play
+googlePlay-appupdate = { module = "com.google.android.play:app-update", version.ref = "googlePlay-appupdate" }
+googlePlay-appupdate-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "googlePlay-appupdate" }
+googlePlay-review = { module = "com.google.android.play:review", version.ref = "googlePlay-review" }
+googlePlay-review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "googlePlay-review" }
+
+# JUnit
+junit-android = { module = "androidx.test.ext:junit", version.ref = "junit-android" }
+junit = { module = "junit:junit", version.ref = "junit" }
+
+# Compose dialogs
+composeDialgs-core = { module = "com.maxkeppeler.sheets-compose-dialogs:core", version.ref = "composeDialogs" }
+composeDialgs-calendar = { module = "com.maxkeppeler.sheets-compose-dialogs:calendar", version.ref = "composeDialogs" }
+composeDialgs-clock = { module = "com.maxkeppeler.sheets-compose-dialogs:clock", version.ref = "composeDialogs" }
+
+composeRichText-ui = { module = "com.halilibo.compose-richtext:richtext-ui", version.ref = "composeRichText" }
+composeRichText-commonMark = { module = "com.halilibo.compose-richtext:richtext-commonmark", version.ref = "composeRichText" }
+composeRichText-uiMaterial3 = { module = "com.halilibo.compose-richtext:richtext-ui-material3", version.ref = "composeRichText" }
+
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "android-tools" }
+compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "crashlytics-plugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp-gradle-plugin" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+android-test = { id = "com.android.test", version.ref = "android-gradle-plugin" }
+baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidx-macro-benchmark"}
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics-plugin" }
+gms = { id = "com.google.gms.google-services", version.ref = "gms-plugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+room = { id = "androidx.room", version.ref = "room" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-gradle-plugin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+# Plugins defined by this project
+hellnotes-android-application = { id = "hellnotes.android.application" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
+[bundles]
+android = [
+    "androidx-core-ktx",
+    "androidx-appcompat",
+    "androidx-work",
+    "androidx-biometric",
+    "androidx-splashScreen",
+    "androidx-profileInstaller",
+    "google-material"
+]
+lifecycle = [ "androidx-lifecycle-compose", "androidx-lifecycle" ]
+compose = [
+    "compose-ui",
+    "compose-debug",
+    "compose-material",
+    "compose-navigation",
+    "compose-ui-tooling",
+    "compose-ui-tooling-preview",
+    "compose-adaptive",
+    "compose-material3",
+    "accompanist-permissions"
+]
+hilt = [
+    "hilt-navigation-compose",
+    "hilt-android",
+    "hilt-work"
+]
+ktor = [
+    "ktor-core",
+    "ktor-android-engine",
+    "ktor-okhttp-engine",
+    "ktor-content-negotiation",
+    "ktor-json-serializer",
+    "ktor-logging"
+]
+moshi = [
+    "moshi",
+    "moshi-kotlin"
+]
+datastore = [
+    "datastore-preferences",
+    "datastore-proto"
+]
