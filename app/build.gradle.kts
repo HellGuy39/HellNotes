@@ -104,13 +104,12 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.database)
     implementation(projects.core.datastore)
+    implementation(projects.core.storeApi)
     implementation(projects.core.model)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.android)
     androidTestImplementation(libs.androidx.test.espresso.core)
-
-    implementation(libs.rustore.appupdate)
 
     baselineProfile(projects.benchmark)
 }

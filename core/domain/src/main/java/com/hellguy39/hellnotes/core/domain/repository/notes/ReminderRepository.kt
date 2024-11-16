@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.core.domain.repository.local
+package com.hellguy39.hellnotes.core.domain.repository.notes
 
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import kotlinx.coroutines.flow.Flow

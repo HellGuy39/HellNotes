@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.core.domain.tools
+package com.hellguy39.hellnotes.core.domain.repository.system
 
 import android.app.PendingIntent
 import com.hellguy39.hellnotes.core.common.id.randomId

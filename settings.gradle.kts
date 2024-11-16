@@ -36,6 +36,7 @@ include(":core:ui")
 include(":core:common")
 include(":core:datastore")
 include(":core:network")
+include(":core:store-api")
 
 /* Feature */
 include(":feature:settings")
