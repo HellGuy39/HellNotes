@@ -91,11 +91,6 @@ dependencies {
     implementation(projects.feature.labelSelection)
     implementation(projects.feature.noteStyleEdit)
     implementation(projects.feature.noteSwipeEdit)
-    implementation(projects.feature.changelog)
-    implementation(projects.feature.privacyPolicy)
-    implementation(projects.feature.termsAndConditions)
-    implementation(projects.feature.reset)
-    implementation(projects.feature.update)
     implementation(projects.feature.backup)
 
     implementation(projects.core.ui)
