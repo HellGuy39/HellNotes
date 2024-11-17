@@ -17,4 +17,8 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.ui)
     implementation(projects.core.model)
+
+    implementation(libs.composeRichText.commonMark)
+    implementation(libs.composeRichText.uiMaterial3)
+    implementation(libs.composeRichText.ui)
 }

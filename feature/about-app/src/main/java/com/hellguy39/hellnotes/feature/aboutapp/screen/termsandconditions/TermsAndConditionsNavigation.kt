@@ -13,35 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.feature.aboutapp.navigation
+package com.hellguy39.hellnotes.feature.aboutapp.screen.termsandconditions
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
+import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToChangelog
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToPrivacyPolicy
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToReset
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToTermsAndConditions
 import com.hellguy39.hellnotes.core.ui.state.AppState
-import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.AboutAppRoute
 
-fun NavGraphBuilder.aboutAppScreen(appState: AppState) {
+fun NavGraphBuilder.termsAndConditionsScreen(appState: AppState) {
     composable(
-        route = Screen.AboutApp.route,
+        route = Screen.TermsAndConditions.route,
         arguments = listOf(),
-        enterTransition = { fadeEnterTransition() },
+        enterTransition = {
+            when (initialState.destination.route) {
+                Screen.AboutApp.route -> slideEnterTransition()
+                else -> fadeEnterTransition()
+            }
+        },
         exitTransition = { fadeExitTransition() },
         popEnterTransition = { fadeEnterTransition() },
-        popExitTransition = { fadeExitTransition() },
-    ) { from ->
-        AboutAppRoute(
+        popExitTransition = {
+            when (targetState.destination.route) {
+                Screen.AboutApp.route -> slideExitTransition()
+                else -> fadeExitTransition()
+            }
+        },
+    ) {
+        TermsAndConditionsRoute(
             navigateBack = { appState.navigateUp() },
-            navigateToReset = { appState.navigateToReset(from) },
-            navigateToChangelog = { appState.navigateToChangelog(from) },
-            navigateToPrivacyPolicy = { appState.navigateToPrivacyPolicy(from) },
-            navigateToTermsAndConditions = { appState.navigateToTermsAndConditions(from) },
         )
     }
 }
