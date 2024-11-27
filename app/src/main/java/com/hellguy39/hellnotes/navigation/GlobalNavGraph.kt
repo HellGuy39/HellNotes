@@ -27,8 +27,11 @@ import androidx.navigation.compose.NavHost
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.state.AppState
 import com.hellguy39.hellnotes.feature.aboutapp.navigation.aboutAppScreen
-import com.hellguy39.hellnotes.feature.backup.navigation.backupScreen
 import com.hellguy39.hellnotes.feature.aboutapp.screen.changelog.changelogScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.privacypolicy.privacyPolicyScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.reset.resetScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.termsandconditions.termsAndConditionsScreen
+import com.hellguy39.hellnotes.feature.backup.navigation.backupScreen
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
 import com.hellguy39.hellnotes.feature.labeledit.navigation.labelEditScreen
 import com.hellguy39.hellnotes.feature.labelselection.navigation.labelSelectionScreen
@@ -42,12 +45,9 @@ import com.hellguy39.hellnotes.feature.notestyleedit.navigation.noteStyleEditScr
 import com.hellguy39.hellnotes.feature.noteswipeedit.navigation.noteSwipeEditScreen
 import com.hellguy39.hellnotes.feature.onboarding.OnBoardingFullScreenDialog
 import com.hellguy39.hellnotes.feature.onboarding.OnBoardingViewModel
-import com.hellguy39.hellnotes.feature.aboutapp.screen.privacypolicy.privacyPolicyScreen
 import com.hellguy39.hellnotes.feature.reminderedit.navigations.reminderEditScreen
-import com.hellguy39.hellnotes.feature.aboutapp.screen.reset.resetScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
-import com.hellguy39.hellnotes.feature.aboutapp.screen.termsandconditions.termsAndConditionsScreen
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

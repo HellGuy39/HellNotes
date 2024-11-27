@@ -24,7 +24,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,6 +38,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -44,6 +48,103 @@ import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.core.ui.values.Alpha
+
+@Composable
+fun HNCheckboxListItem(
+    headlineContent: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    overlineContent: @Composable (() -> Unit)? = null,
+    supportingContent: @Composable (() -> Unit)? = null,
+    leadingContent: @Composable (() -> Unit)? = null,
+    checked: Boolean = false,
+    onClick: () -> Unit,
+) {
+    HNListItem(
+        headlineContent = headlineContent,
+        modifier =
+            Modifier
+                .selectable(
+                    selected = checked,
+                    onClick = onClick,
+                    role = Role.RadioButton,
+                ).then(modifier),
+        overlineContent = overlineContent,
+        supportingContent = supportingContent,
+        leadingContent = leadingContent,
+        trailingContent = {
+            Checkbox(
+                modifier = Modifier,
+                checked = checked,
+                onCheckedChange = null,
+            )
+        },
+    )
+}
+
+@Composable
+fun HNNavigateListItem(
+    headlineContent: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    overlineContent: @Composable (() -> Unit)? = null,
+    supportingContent: @Composable (() -> Unit)? = null,
+    leadingContent: @Composable (() -> Unit)? = null,
+    onClick: () -> Unit,
+) {
+    HNListItem(
+        headlineContent = headlineContent,
+        modifier = modifier,
+        overlineContent = overlineContent,
+        supportingContent = supportingContent,
+        leadingContent = leadingContent,
+        trailingContent = {
+            Icon(
+                painter = painterResource(AppIcons.ChevronRight),
+                contentDescription = null,
+            )
+        },
+        onClick = onClick,
+    )
+}
+
+@Composable
+fun HNListItem(
+    headlineContent: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    overlineContent: @Composable (() -> Unit)? = null,
+    supportingContent: @Composable (() -> Unit)? = null,
+    leadingContent: @Composable (() -> Unit)? = null,
+    trailingContent: @Composable (() -> Unit)? = null,
+) {
+    ListItem(
+        headlineContent = headlineContent,
+        modifier = modifier,
+        overlineContent = overlineContent,
+        supportingContent = supportingContent,
+        leadingContent = leadingContent,
+        trailingContent = trailingContent,
+    )
+}
+
+@Composable
+fun HNListItem(
+    headlineContent: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    overlineContent: @Composable (() -> Unit)? = null,
+    supportingContent: @Composable (() -> Unit)? = null,
+    leadingContent: @Composable (() -> Unit)? = null,
+    trailingContent: @Composable (() -> Unit)? = null,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    ListItem(
+        headlineContent = headlineContent,
+        modifier = Modifier.clickable(enabled = enabled, onClick = onClick).then(modifier),
+        overlineContent = overlineContent,
+        supportingContent = supportingContent,
+        leadingContent = leadingContent,
+        trailingContent = trailingContent,
+    )
+}
 
 @Composable
 fun HNListItem(

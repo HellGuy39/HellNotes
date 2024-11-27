@@ -33,7 +33,7 @@ class GithubRepositoryServiceImpl
     constructor(
         private val dataSource: NetworkDataSource,
     ) : GithubRepositoryService {
-        override suspend fun getReleases(): Flow<Resource<List<Release>>> {
+        override fun getReleases(): Flow<Resource<List<Release>>> {
             return flow<Resource<List<Release>>> {
                 val releases =
                     dataSource.getReleases()
@@ -45,7 +45,7 @@ class GithubRepositoryServiceImpl
                 .onCompletion { emit(Resource.Loading(false)) }
         }
 
-        override suspend fun getPrivacyPolicy(): Flow<Resource<String>> {
+        override fun getPrivacyPolicy(): Flow<Resource<String>> {
             return flow<Resource<String>> {
                 val privacyPolicy = dataSource.getPrivacyPolicy()
                 emit(Resource.Success(privacyPolicy))
@@ -55,7 +55,7 @@ class GithubRepositoryServiceImpl
                 .onCompletion { emit(Resource.Loading(false)) }
         }
 
-        override suspend fun getTermsAndConditions(): Flow<Resource<String>> {
+        override fun getTermsAndConditions(): Flow<Resource<String>> {
             return flow<Resource<String>> {
                 val termsAndConditions = dataSource.getTermsAndConditions()
                 emit(Resource.Success(termsAndConditions))

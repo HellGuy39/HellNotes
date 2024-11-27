@@ -15,11 +15,14 @@
  */
 package com.hellguy39.hellnotes.feature.aboutapp.screen.changelog
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
 import com.hellguy39.hellnotes.core.model.Resource
 import com.hellguy39.hellnotes.core.model.repository.remote.Release
+import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -57,7 +60,7 @@ class ChangelogViewModel
                         is Resource.Success -> {
                             _uiState.update { state ->
                                 state.copy(
-                                    releases = resource.data ?: emptyList(),
+                                    releases = resource.data?.toStateList() ?: mutableStateListOf(),
                                     isError = false,
                                     errorMessage = "",
                                 )
@@ -71,7 +74,7 @@ class ChangelogViewModel
                         is Resource.Error -> {
                             _uiState.update { state ->
                                 state.copy(
-                                    releases = resource.data ?: emptyList(),
+                                    releases = resource.data?.toStateList() ?: mutableStateListOf(),
                                     isError = true,
                                     errorMessage = resource.message ?: "",
                                 )
@@ -88,7 +91,7 @@ sealed class ChangelogUiEvent {
 }
 
 data class ChangelogUiState(
-    val releases: List<Release> = emptyList(),
+    val releases: SnapshotStateList<Release> = mutableStateListOf(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String = "",

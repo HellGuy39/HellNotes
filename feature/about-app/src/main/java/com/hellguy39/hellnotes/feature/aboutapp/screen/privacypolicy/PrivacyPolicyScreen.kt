@@ -15,21 +15,31 @@
  */
 package com.hellguy39.hellnotes.feature.aboutapp.screen.privacypolicy
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.halilibo.richtext.markdown.Markdown
-import com.halilibo.richtext.ui.material3.Material3RichText
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.feature.aboutapp.components.ScrollableRichText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,8 +72,7 @@ fun PrivacyPolicyScreen(
                                         .height(FilterChipDefaults.Height)
                                         .padding(horizontal = 12.dp),
                                 selected = false,
-                                onClick = {
-                                },
+                                onClick = { },
                                 label = { Text(text = stringResource(id = AppStrings.Chip.Markdown)) },
                             )
                         }
@@ -78,22 +87,10 @@ fun PrivacyPolicyScreen(
         },
         content = { paddingValues ->
             if (!uiState.isLoading && !uiState.isError) {
-                LazyColumn(
-                    modifier =
-                        Modifier
-                            .fillMaxSize(),
+                ScrollableRichText(
+                    modifier = Modifier.fillMaxSize(),
                     contentPadding = paddingValues,
-                    content = {
-                        item {
-                            Material3RichText(
-                                modifier = Modifier.padding(16.dp),
-                            ) {
-                                Markdown(
-                                    content = uiState.privacyPolicy,
-                                )
-                            }
-                        }
-                    },
+                    content = uiState.privacyPolicy,
                 )
             } else if (uiState.isError) {
                 EmptyContentPlaceholder(

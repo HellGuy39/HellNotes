@@ -18,9 +18,6 @@ package com.hellguy39.hellnotes.core.storeapi.review.factory
 import android.content.Context
 import com.hellguy39.hellnotes.core.common.di.IoDispatcher
 import com.hellguy39.hellnotes.core.storeapi.review.provider.NoneReviewProvider
-import com.hellguy39.hellnotes.core.storeapi.review.provider.PlayStoreReviewProvider
-import com.hellguy39.hellnotes.core.storeapi.review.provider.RuStoreReviewProvider
-import com.hellguy39.hellnotes.core.storeapi.review.provider.SimulationReviewProvider
 import com.hellguy39.hellnotes.core.storeapi.storage.StoreManagerStorage
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher

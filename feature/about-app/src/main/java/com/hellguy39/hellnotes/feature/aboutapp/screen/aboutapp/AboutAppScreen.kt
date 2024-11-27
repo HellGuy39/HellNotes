@@ -54,7 +54,7 @@ fun AboutAppScreen(
                 onPrivacyPolicy = onPrivacyPolicy,
                 onTermsAndConditions = onTermsAndConditions,
                 onProvideFeedback = onProvideFeedback,
-                onReset = onReset
+                onReset = onReset,
             )
         },
         topBar = {
