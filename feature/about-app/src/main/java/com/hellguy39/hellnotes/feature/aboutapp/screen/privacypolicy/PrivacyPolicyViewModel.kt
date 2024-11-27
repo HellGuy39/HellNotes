@@ -32,9 +32,10 @@ class PrivacyPolicyViewModel
     constructor(
         private val githubRepositoryService: GithubRepositoryService,
     ) : ViewModel() {
-        private val _uiState: MutableStateFlow<PrivacyPolicyUiState> = MutableStateFlow(
-            PrivacyPolicyUiState()
-        )
+        private val _uiState: MutableStateFlow<PrivacyPolicyUiState> =
+            MutableStateFlow(
+                PrivacyPolicyUiState(),
+            )
         val uiState = _uiState.asStateFlow()
 
         init {

@@ -16,7 +16,6 @@
 package com.hellguy39.hellnotes.feature.aboutapp.screen.termsandconditions
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,11 +24,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.halilibo.richtext.markdown.Markdown
-import com.halilibo.richtext.ui.material3.Material3RichText
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.feature.aboutapp.components.ScrollableRichText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,22 +76,10 @@ fun TermsAndConditionsScreen(
         },
         content = { paddingValues ->
             if (!uiState.isLoading && !uiState.isError) {
-                LazyColumn(
-                    modifier =
-                        Modifier
-                            .fillMaxSize(),
+                ScrollableRichText(
+                    modifier = Modifier.fillMaxSize(),
                     contentPadding = paddingValues,
-                    content = {
-                        item {
-                            Material3RichText(
-                                modifier = Modifier.padding(16.dp),
-                            ) {
-                                Markdown(
-                                    content = uiState.termsAndConditions,
-                                )
-                            }
-                        }
-                    },
+                    content = uiState.termsAndConditions,
                 )
             } else if (uiState.isError) {
                 EmptyContentPlaceholder(

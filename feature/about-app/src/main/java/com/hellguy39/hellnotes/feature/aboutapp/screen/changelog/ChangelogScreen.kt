@@ -91,8 +91,7 @@ fun ChangelogScreen(
                         key = { item -> item.id ?: 0 },
                     ) { release ->
                         ChangelogCard(
-                            modifier =
-                            Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             release = release,
                             onOpenReleaseClick = { onOpenRelease(release) },
                         )

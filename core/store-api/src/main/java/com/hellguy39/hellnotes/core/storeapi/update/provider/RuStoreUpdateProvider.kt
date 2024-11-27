@@ -40,7 +40,6 @@ class RuStoreUpdateProvider(
     context: Context,
     private val ioDispatcher: CoroutineDispatcher,
 ) : UpdateProvider {
-
     private val installStatusConsumer by lazy { InstallStatusConsumer() }
     private val installListener by lazy { InstallListener() }
     private val updateManager by lazy { RuStoreAppUpdateManagerFactory.create(context) }
@@ -64,7 +63,7 @@ class RuStoreUpdateProvider(
     override suspend fun checkUpdateAvailability() {
         return withContext(ioDispatcher) {
             val appUpdateInfo = appUpdateInfo() ?: return@withContext
-            when(appUpdateInfo.updateAvailability) {
+            when (appUpdateInfo.updateAvailability) {
                 UpdateAvailability.UPDATE_AVAILABLE -> {
                     _updateState.update { UpdateState.Available }
                     installStatusConsumer.consume(appUpdateInfo.installStatus)
