@@ -40,7 +40,7 @@ fun HNLargeTopAppBar(
             Text(
                 text = title,
 //                maxLines = if (isExpanded) 2 else 1,
-                overflow = TextOverflow.Ellipsis,
+                overflow = TextOverflow.Ellipsis
             )
         },
         navigationIcon = {

@@ -13,37 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.feature.settings.navigation
+package com.hellguy39.hellnotes.feature.settings.screen.language
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
+import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
+import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToBackup
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToLanguageSelection
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToLockSelection
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteStyleEdit
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteSwipeEdit
 import com.hellguy39.hellnotes.core.ui.state.AppState
-import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsRoute
 
-fun NavGraphBuilder.settingsScreen(appState: AppState) {
+fun NavGraphBuilder.languageSelectionScreen(appState: AppState) {
     composable(
-        route = Screen.Settings.route,
+        route = Screen.LanguageSelection.route,
         arguments = listOf(),
-        enterTransition = { fadeEnterTransition() },
+        enterTransition = {
+            when (initialState.destination.route) {
+                Screen.Settings.route -> slideEnterTransition()
+                else -> fadeEnterTransition()
+            }
+        },
         exitTransition = { fadeExitTransition() },
         popEnterTransition = { fadeEnterTransition() },
-        popExitTransition = { fadeExitTransition() },
-    ) { from ->
-        SettingsRoute(
+        popExitTransition = {
+            when (targetState.destination.route) {
+                Screen.Settings.route -> slideExitTransition()
+                else -> fadeExitTransition()
+            }
+        },
+    ) {
+        LanguageSelectionRoute(
             navigateBack = { appState.navigateUp() },
-            navigateToLanguageSelection = { appState.navigateToLanguageSelection(from) },
-            navigateToLockSelection = { appState.navigateToLockSelection(from) },
-            navigateToNoteStyleEdit = { appState.navigateToNoteStyleEdit(from) },
-            navigateToNoteSwipeEdit = { appState.navigateToNoteSwipeEdit(from) },
-            navigateToBackup = { appState.navigateToBackup(from) },
         )
     }
 }
