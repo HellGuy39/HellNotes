@@ -28,8 +28,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @SuppressLint("NewApi")
+@Singleton
 class LanguageHolderImpl
     @Inject
     constructor(

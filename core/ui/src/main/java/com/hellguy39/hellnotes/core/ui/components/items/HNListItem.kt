@@ -20,17 +20,28 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemColors
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +59,100 @@ import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
 import com.hellguy39.hellnotes.core.ui.values.Alpha
+import com.hellguy39.hellnotes.core.ui.values.Spaces
+
+@Composable
+fun HNRadioListItem(
+    headlineContent: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    overlineContent: @Composable (() -> Unit)? = null,
+    supportingContent: @Composable (() -> Unit)? = null,
+    trailingContent: @Composable (() -> Unit)? = null,
+    colors: ListItemColors = ListItemDefaults.colors(),
+    tonalElevation: Dp = ListItemDefaults.Elevation,
+    shadowElevation: Dp = ListItemDefaults.Elevation,
+    selected: Boolean = false,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    HNListItem(
+        headlineContent = headlineContent,
+        modifier =
+        Modifier
+            .selectable(
+                selected = selected,
+                onClick = onClick,
+                role = Role.RadioButton,
+                enabled = enabled
+            ).then(modifier),
+        overlineContent = overlineContent,
+        supportingContent = supportingContent,
+        trailingContent = trailingContent,
+        leadingContent = {
+            Row(
+                modifier = Modifier.height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(Spaces.medium),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(
+                    selected = selected,
+                    onClick = null,
+                    enabled = enabled,
+                )
+            }
+        },
+        colors = colors,
+        tonalElevation = tonalElevation,
+        shadowElevation = shadowElevation,
+    )
+}
+
+
+@Composable
+fun HNSwitchListItem(
+    headlineContent: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    overlineContent: @Composable (() -> Unit)? = null,
+    supportingContent: @Composable (() -> Unit)? = null,
+    leadingContent: @Composable (() -> Unit)? = null,
+    checked: Boolean = false,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    HNListItem(
+        headlineContent = headlineContent,
+        modifier =
+        Modifier
+            .selectable(
+                selected = checked,
+                onClick = onClick,
+                role = Role.Switch,
+                enabled = enabled
+            ).then(modifier),
+        overlineContent = overlineContent,
+        supportingContent = supportingContent,
+        leadingContent = leadingContent,
+        trailingContent = {
+            Row(
+                modifier = Modifier.height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(Spaces.medium),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                VerticalDivider(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(DividerDefaults.Thickness),
+                )
+                Switch(
+                    modifier = Modifier,
+                    checked = checked,
+                    enabled = enabled,
+                    onCheckedChange = null,
+                )
+            }
+        },
+    )
+}
 
 @Composable
 fun HNCheckboxListItem(
@@ -114,6 +219,9 @@ fun HNListItem(
     supportingContent: @Composable (() -> Unit)? = null,
     leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
+    colors: ListItemColors = ListItemDefaults.colors(),
+    tonalElevation: Dp = ListItemDefaults.Elevation,
+    shadowElevation: Dp = ListItemDefaults.Elevation,
 ) {
     ListItem(
         headlineContent = headlineContent,
@@ -122,6 +230,9 @@ fun HNListItem(
         supportingContent = supportingContent,
         leadingContent = leadingContent,
         trailingContent = trailingContent,
+        colors = colors,
+        tonalElevation = tonalElevation,
+        shadowElevation = shadowElevation,
     )
 }
 
@@ -133,6 +244,9 @@ fun HNListItem(
     supportingContent: @Composable (() -> Unit)? = null,
     leadingContent: @Composable (() -> Unit)? = null,
     trailingContent: @Composable (() -> Unit)? = null,
+    colors: ListItemColors = ListItemDefaults.colors(),
+    tonalElevation: Dp = ListItemDefaults.Elevation,
+    shadowElevation: Dp = ListItemDefaults.Elevation,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
@@ -143,6 +257,9 @@ fun HNListItem(
         supportingContent = supportingContent,
         leadingContent = leadingContent,
         trailingContent = trailingContent,
+        colors = colors,
+        tonalElevation = tonalElevation,
+        shadowElevation = shadowElevation,
     )
 }
 
@@ -304,6 +421,60 @@ fun HNListItemPreviewTitleOnly() {
                 modifier = Modifier.padding(16.dp),
                 title = "Title",
             )
+        }
+    }
+}
+
+@Preview(name = "LightMode", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun HNRadioButtonItemPreview() {
+    HellNotesTheme {
+        Surface(
+            modifier = Modifier,
+            color = MaterialTheme.colorScheme.background,
+        ) {
+            Column {
+                HNRadioListItem(
+                    headlineContent = { Text("Headline content") },
+                    supportingContent = { Text("Supporting content") },
+                    selected = true,
+                    onClick = {}
+                )
+                HNRadioListItem(
+                    headlineContent = { Text("Headline content") },
+                    supportingContent = { Text("Supporting content") },
+                    selected = false,
+                    onClick = {}
+                )
+            }
+        }
+    }
+}
+
+@Preview(name = "LightMode", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun HNCheckboxItemPreview() {
+    HellNotesTheme {
+        Surface(
+            modifier = Modifier,
+            color = MaterialTheme.colorScheme.background,
+        ) {
+            Column {
+                HNCheckboxListItem(
+                    headlineContent = { Text("Headline content") },
+                    supportingContent = { Text("Supporting content") },
+                    checked = true,
+                    onClick = {}
+                )
+                HNCheckboxListItem(
+                    headlineContent = { Text("Headline content") },
+                    supportingContent = { Text("Supporting content") },
+                    checked = false,
+                    onClick = {}
+                )
+            }
         }
     }
 }

@@ -85,13 +85,7 @@ dependencies {
     implementation(projects.feature.reminderEdit)
     implementation(projects.feature.aboutApp)
     implementation(projects.feature.settings)
-    implementation(projects.feature.lockSelection)
-    implementation(projects.feature.languageSelection)
-    implementation(projects.feature.lockSetup)
     implementation(projects.feature.labelSelection)
-    implementation(projects.feature.noteStyleEdit)
-    implementation(projects.feature.noteSwipeEdit)
-    implementation(projects.feature.backup)
 
     implementation(projects.core.ui)
     implementation(projects.core.data)

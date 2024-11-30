@@ -38,17 +38,11 @@
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/about-app" />
-            <option value="$PROJECT_DIR$/feature/backup" />
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/label-edit" />
             <option value="$PROJECT_DIR$/feature/label-selection" />
-            <option value="$PROJECT_DIR$/feature/language-selection" />
             <option value="$PROJECT_DIR$/feature/lock" />
-            <option value="$PROJECT_DIR$/feature/lock-selection" />
-            <option value="$PROJECT_DIR$/feature/lock-setup" />
             <option value="$PROJECT_DIR$/feature/note-detail" />
-            <option value="$PROJECT_DIR$/feature/note-style-edit" />
-            <option value="$PROJECT_DIR$/feature/note-swipe-edit" />
             <option value="$PROJECT_DIR$/feature/on-boarding" />
             <option value="$PROJECT_DIR$/feature/reminder-edit" />
             <option value="$PROJECT_DIR$/feature/search" />

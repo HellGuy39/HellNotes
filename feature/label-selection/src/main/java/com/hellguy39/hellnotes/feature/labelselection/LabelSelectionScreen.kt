@@ -19,12 +19,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -32,7 +34,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
-import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxItem
+import com.hellguy39.hellnotes.core.ui.components.items.HNCheckboxListItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNListItem
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
@@ -110,18 +112,21 @@ fun LabelSelectionContent(
                 key = { index, checkableLabel -> checkableLabel.label.id ?: 0 },
                 contentType = { index, checkableLabel -> checkableLabel },
             ) { index, checkableLabel ->
-                HNCheckboxItem(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(Spaces.medium),
+                HNCheckboxListItem(
                     onClick = {
                         onToggleLabelCheckbox(index)
                     },
-                    heroIcon = UiIcon.DrawableResources(AppIcons.Label),
-                    title = UiText.DynamicString(checkableLabel.label.name),
+                    leadingContent = {
+                        Icon(
+                            modifier = Modifier.size(IconSize.medium),
+                            painter = UiIcon.DrawableResources(AppIcons.Label).asPainter(),
+                            contentDescription = null
+                        )
+                    },
+                    headlineContent = {
+                        Text(UiText.DynamicString(checkableLabel.label.name).asString())
+                    },
                     checked = checkableLabel.isChecked,
-                    iconSize = IconSize.medium,
                 )
             }
             if (isShowCreateNewLabel) {
