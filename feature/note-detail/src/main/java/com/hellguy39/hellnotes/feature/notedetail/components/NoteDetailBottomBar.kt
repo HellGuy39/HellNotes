@@ -19,9 +19,19 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,14 +45,14 @@ import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Elevation
-import com.hellguy39.hellnotes.feature.notedetail.NoteDetailBottomBarSelection
+import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiEvent
 import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiState
 
 @Composable
 fun NoteDetailBottomBar(
     uiState: NoteDetailUiState,
     lazyListState: LazyListState,
-    bottomBarSelection: NoteDetailBottomBarSelection,
+    onUiEvent: (event: NoteDetailUiEvent) -> Unit,
 ) {
     val isAtBottom = !lazyListState.canScrollForward
     val fraction = if (isAtBottom) 1f else 0f
@@ -73,15 +83,38 @@ fun NoteDetailBottomBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            IconButton(
-                onClick = bottomBarSelection.onAttachment,
-                enabled = !uiState.isReadOnly,
-            ) {
-                Icon(
-                    painter = painterResource(id = AppIcons.Attachment),
-                    contentDescription = null,
-                )
+            Row {
+                IconButton(
+                    onClick = { onUiEvent(NoteDetailUiEvent.ShowAttachment(true)) },
+                    enabled = !uiState.isReadOnly,
+                ) {
+                    Icon(
+                        painter = painterResource(id = AppIcons.Attachment),
+                        contentDescription = null,
+                    )
+                }
+//
+//                IconButton(
+//                    onClick = {},
+//                    enabled = true,
+//                ) {
+//                    Icon(
+//                        painter = painterResource(id = AppIcons.Undo),
+//                        contentDescription = null,
+//                    )
+//                }
+//
+//                IconButton(
+//                    onClick = {},
+//                    enabled = true,
+//                ) {
+//                    Icon(
+//                        painter = painterResource(id = AppIcons.Redo),
+//                        contentDescription = null,
+//                    )
+//                }
             }
+
 
             Text(
                 text =
@@ -98,7 +131,7 @@ fun NoteDetailBottomBar(
             )
 
             IconButton(
-                onClick = bottomBarSelection.onMenu,
+                onClick = { onUiEvent(NoteDetailUiEvent.ShowMenu(true)) },
             ) {
                 Icon(
                     painter = painterResource(id = AppIcons.MoreVert),

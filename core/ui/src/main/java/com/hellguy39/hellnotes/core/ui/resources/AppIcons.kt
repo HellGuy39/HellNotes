@@ -119,6 +119,9 @@ object AppIcons {
     val ExpandMore = R.drawable.ic_expand_more_24
     val ExpandLess = R.drawable.ic_expand_less_24
 
+    val Redo = R.drawable.ic_redo_24
+    val Undo = R.drawable.ic_undo_24
+
     val DoneAll = R.drawable.ic_done_all_24
     val RemoveDone = R.drawable.ic_remove_done_24
 

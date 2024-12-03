@@ -17,13 +17,23 @@ package com.hellguy39.hellnotes.core.ui.components.snack
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomSnackbarHost(state: SnackbarHostState) {
+fun HNSnackbarHost(state: SnackbarHostState) {
     SnackbarHost(hostState = state) { data ->
-        DismissableSnackbar(
-            dismissState = rememberSnackbarDismissState(snackbarHostState = state),
+
+        val dismissState = rememberSnackbarDismissState(snackbarHostState = state)
+
+        LaunchedEffect(dismissState.currentValue) {
+            if (dismissState.currentValue != SwipeToDismissBoxValue.Settled) {
+                dismissState.reset()
+            }
+        }
+
+        HNDismissableSnackbar(
+            dismissState = dismissState,
             snackbarData = data,
         )
     }
@@ -31,22 +41,14 @@ fun CustomSnackbarHost(state: SnackbarHostState) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun rememberSnackbarDismissState(snackbarHostState: SnackbarHostState): SwipeToDismissBoxState {
-    return rememberSwipeToDismissBoxState(
+fun rememberSnackbarDismissState(snackbarHostState: SnackbarHostState)
+    = rememberSwipeToDismissBoxState(
         confirmValueChange = { dismissValue ->
-            when (dismissValue) {
-                SwipeToDismissBoxValue.EndToStart -> {
-                    snackbarHostState.currentSnackbarData?.dismiss()
-                    true
-                }
-                SwipeToDismissBoxValue.StartToEnd -> {
-                    snackbarHostState.currentSnackbarData?.dismiss()
-                    true
-                }
-                else -> {
-                    false
-                }
+            if (dismissValue != SwipeToDismissBoxValue.Settled) {
+                snackbarHostState.currentSnackbarData?.dismiss()
+                true
+            } else {
+                false
             }
-        },
+        }
     )
-}

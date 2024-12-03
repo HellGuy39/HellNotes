@@ -26,7 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import com.hellguy39.hellnotes.core.model.NoteWrapper
-import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
+import com.hellguy39.hellnotes.core.ui.components.snack.showSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.state.resources
@@ -39,13 +39,11 @@ fun rememberNoteDetailState(
     context: Context = LocalContext.current,
     resources: Resources = resources(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-) = remember(context, resources, coroutineScope, snackbarHostState) {
+) = remember(context, resources, coroutineScope) {
     HomeState(
         context = context,
         resources = resources,
-        coroutineScope = coroutineScope,
-        snackbarHostState = snackbarHostState,
+        coroutineScope = coroutineScope
     )
 }
 
@@ -54,22 +52,7 @@ class HomeState(
     val context: Context,
     val resources: Resources,
     val coroutineScope: CoroutineScope,
-    val snackbarHostState: SnackbarHostState,
 ) {
-    fun showSnack(
-        text: UiText,
-        onActionPerformed: () -> Unit = {},
-        withUndo: Boolean = false,
-    ) {
-        snackbarHostState.showDismissableSnackbar(
-            scope = coroutineScope,
-            message = text.asString(resources),
-            actionLabel = if (withUndo) resources.getString(AppStrings.Button.Undo) else null,
-            duration = SnackbarDuration.Long,
-            onActionPerformed = onActionPerformed,
-        )
-    }
-
     fun shareNote(
         shareType: ShareType,
         noteWrapper: NoteWrapper,

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomSnackbar(data: SnackbarData) {
+fun HNSnackbar(data: SnackbarData) {
     Snackbar(
         modifier = Modifier.padding(12.dp),
         containerColor = MaterialTheme.colorScheme.inverseSurface,

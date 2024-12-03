@@ -15,25 +15,37 @@
  */
 package com.hellguy39.hellnotes.feature.settings.screen.backup
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.components.cards.InfoCard
 import com.hellguy39.hellnotes.core.ui.components.items.HNListHeader
-import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchListItem
-import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
-import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
+import com.hellguy39.hellnotes.core.ui.components.layout.HNScaffold
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackbarController
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackbarEvent
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNLargeTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
@@ -47,26 +59,21 @@ fun BackupScreen(
     onBackupClick: () -> Unit,
     onRestoreClick: () -> Unit,
 ) {
-    val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
-    val scope = rememberCoroutineScope()
-
-    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = uiState.message) {
         uiState.message.let { message ->
             if (message !is UiText.Empty) {
-                snackbarHostState.showDismissableSnackbar(
-                    scope = scope,
-                    message = message.asString(context),
-                    duration = SnackbarDuration.Long,
+                SnackbarController.sendEvent(
+                    SnackbarEvent(
+                        text = message
+                    )
                 )
             }
         }
     }
 
-    Scaffold(
+    HNScaffold(
         modifier =
             Modifier
                 .fillMaxSize()
@@ -111,7 +118,6 @@ fun BackupScreen(
                 }
             }
         },
-        snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

@@ -28,7 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.hellguy39.hellnotes.core.ui.components.snack.showDismissableSnackbar
+import com.hellguy39.hellnotes.core.ui.components.snack.showSnackbar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
 import com.hellguy39.hellnotes.core.ui.state.findStartDestination
@@ -112,7 +112,7 @@ class HomeState(
         onActionPerformed: () -> Unit,
         withUndo: Boolean = true,
     ) {
-        snackbarHostState.showDismissableSnackbar(
+        snackbarHostState.showSnackbar(
             scope = coroutineScope,
             message = text.asString(resources),
             actionLabel = if (withUndo) resources.getString(AppStrings.Button.Undo) else null,

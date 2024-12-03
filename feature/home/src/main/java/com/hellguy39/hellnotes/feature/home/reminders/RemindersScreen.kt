@@ -20,8 +20,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -30,9 +28,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import com.hellguy39.hellnotes.core.ui.components.layout.HNScaffold
 import com.hellguy39.hellnotes.core.ui.components.list.NoteList
 import com.hellguy39.hellnotes.core.ui.components.placeholer.EmptyContentPlaceholder
-import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
@@ -46,7 +44,6 @@ import com.hellguy39.hellnotes.feature.home.reminders.components.RemindersTopApp
 fun RemindersScreen(
     uiState: RemindersUiState,
     visualState: VisualState,
-    snackbarHostState: SnackbarHostState,
     onNoteClick: (noteId: Long?) -> Unit,
     onNotePress: (noteId: Long?) -> Unit,
     onDismissNote: (direction: SwipeToDismissBoxValue, noteId: Long?) -> Boolean,
@@ -58,7 +55,7 @@ fun RemindersScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    Scaffold(
+    HNScaffold(
         modifier =
             Modifier
                 .fillMaxSize()
@@ -75,7 +72,6 @@ fun RemindersScreen(
                 onSearchClick = onSearchClick,
             )
         },
-        snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
         content = { paddingValues ->
             if (uiState.isEmpty) {
                 EmptyContentPlaceholder(

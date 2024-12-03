@@ -15,13 +15,14 @@
  */
 package com.hellguy39.hellnotes.core.ui.components.snack
 
+import android.content.res.Resources
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-fun SnackbarHostState.showDismissableSnackbar(
+fun SnackbarHostState.showSnackbar(
     scope: CoroutineScope,
     message: String = "",
     actionLabel: String? = null,
@@ -44,3 +45,21 @@ fun SnackbarHostState.showDismissableSnackbar(
         }
     }
 }
+
+suspend fun SnackbarHostState.showSnackbar(snackbarEvent: SnackbarEvent, resources: Resources) {
+    currentSnackbarData?.dismiss()
+
+    showSnackbar(
+        message = snackbarEvent.text.asString(resources),
+        actionLabel = snackbarEvent.action?.text?.asString(resources),
+        duration = SnackbarDuration.Long,
+        withDismissAction = false,
+    ).let { result ->
+        when (result) {
+            SnackbarResult.ActionPerformed -> snackbarEvent.action?.action?.invoke()
+            SnackbarResult.Dismissed -> currentSnackbarData?.dismiss()
+            else -> Unit
+        }
+    }
+}
+

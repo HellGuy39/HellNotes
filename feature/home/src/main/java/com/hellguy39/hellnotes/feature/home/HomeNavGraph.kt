@@ -105,10 +105,9 @@ fun HomeNavGraph(
         labels.forEach { label ->
             composable(
                 route = Screen.Label(label.id).withArgKeys(Arguments.LabelId),
-                arguments =
-                    listOf(
-                        Arguments.LabelId.asNavigationArgument(),
-                    ),
+                arguments = listOf(
+                    Arguments.LabelId.asNavigationArgument(),
+                ),
                 deepLinks = listOf(),
                 enterTransition = { fadeEnterTransition() },
                 exitTransition = { fadeExitTransition() },
