@@ -48,14 +48,6 @@ fun NotesRoute(
     val uiState by notesViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
 
-    notesViewModel.singleUiEventFlow.collectAsEventsWithLifecycle { event ->
-        when (event) {
-            is NotesSingleUiEvent.ShowSnackbar -> {
-                homeState.showSnack(event.text, event.action)
-            }
-        }
-    }
-
     notesViewModel.navigationEventsFlow.collectAsEventsWithLifecycle { event ->
         when (event) {
             is NotesNavigationEvent.NavigateToNoteDetail -> {
@@ -100,6 +92,5 @@ fun NotesRoute(
         onSearchbarClick = remember { { navigateToSearch() } },
         onCancelNoteSelection = remember { { notesViewModel.onCancelItemSelection() } },
         onArchiveSelectedNotesClick = remember { { notesViewModel.onArchiveSelectedItems() } },
-        snackbarHostState = homeState.snackbarHostState,
     )
 }

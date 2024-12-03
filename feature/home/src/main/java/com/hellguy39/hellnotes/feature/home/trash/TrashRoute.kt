@@ -48,7 +48,6 @@ fun TrashRoute(
         }
     }
 
-    // val restoreDialogState = rememberDialogState()
     val emptyTrashDialogState = rememberDialogState()
 
     val uiState by trashViewModel.uiState.collectAsStateWithLifecycle()
@@ -68,24 +67,6 @@ fun TrashRoute(
         },
     )
 
-//    CustomDialog(
-//        state = restoreDialogState,
-//        heroIcon = painterResource(id = AppIcons.RestoreFromTrash),
-//        title = stringResource(id = AppStrings.Title.RestoreThisNote),
-//        message = stringResource(id = AppStrings.Supporting.RestoreNote),
-//        onClose = {
-//            restoreDialogState.dismiss()
-//        },
-//        onCancel = {
-//            restoreDialogState.dismiss()
-//        },
-//        onAccept = {
-//            //val note = trashViewModel.selectedNote.value
-//            // actionViewModel.restoreNoteFromTrash(note)
-//            restoreDialogState.dismiss()
-//        },
-//    )
-
     TrashScreen(
         uiState = uiState,
         visualState = visualState,
@@ -96,7 +77,6 @@ fun TrashRoute(
         onRestoreSelectedClick = remember { { trashViewModel.onRestoreSelectedItems() } },
         onDeleteForeverSelectedClick = remember { { trashViewModel.onDeleteForeverSelectedItems() } },
         onEmptyTrashClick = remember { { emptyTrashDialogState.show() } },
-        onCloseTrashTip = remember { { trashViewModel.trashTipCompleted(true) } },
-        snackbarHostState = homeState.snackbarHostState,
+        onCloseTrashTip = remember { { trashViewModel.trashTipCompleted(true) } }
     )
 }

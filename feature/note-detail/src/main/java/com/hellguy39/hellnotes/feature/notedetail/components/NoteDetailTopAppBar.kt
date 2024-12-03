@@ -28,16 +28,18 @@ import com.hellguy39.hellnotes.core.model.ColorParam
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiEvent
 import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailTopAppBar(
+    uiState: NoteDetailUiState,
     scrollBehavior: TopAppBarScrollBehavior,
-    topAppBarSelection: NoteDetailTopAppBarSelection,
-    isReadOnly: Boolean,
+    onNavigationButtonClick: () -> Unit,
+    onUiEvent: (event: NoteDetailUiEvent) -> Unit,
 ) {
-    val note = topAppBarSelection.uiState.wrapper.note
+    val note = uiState.wrapper.note
 
     val topAppBarColors =
         if (note.colorHex == ColorParam.DEFAULT_COLOR) {
@@ -57,7 +59,7 @@ fun NoteDetailTopAppBar(
         navigationIcon = {
             IconButton(
                 modifier = Modifier.testTag("button_back"),
-                onClick = { topAppBarSelection.onNavigationButtonClick() },
+                onClick = { onNavigationButtonClick() },
             ) {
                 Icon(
                     painter = painterResource(id = AppIcons.ArrowBack),
@@ -66,9 +68,9 @@ fun NoteDetailTopAppBar(
             }
         },
         actions = {
-            if (!isReadOnly) {
+            if (!uiState.isReadOnly) {
                 IconButton(
-                    onClick = { topAppBarSelection.onPin(!note.isPinned) },
+                    onClick = { onUiEvent(NoteDetailUiEvent.ToggleIsPinned) },
                 ) {
                     Icon(
                         painter = painterResource(AppIcons.pin(note.isPinned)),
@@ -77,7 +79,7 @@ fun NoteDetailTopAppBar(
                 }
 
                 IconButton(
-                    onClick = { topAppBarSelection.onReminder() },
+                    onClick = { onUiEvent(NoteDetailUiEvent.CreateReminder) },
                 ) {
                     Icon(
                         painter = painterResource(id = AppIcons.NotificationAdd),
@@ -86,7 +88,7 @@ fun NoteDetailTopAppBar(
                 }
 
                 IconButton(
-                    onClick = { topAppBarSelection.onArchive(!note.isArchived) },
+                    onClick = { onUiEvent(NoteDetailUiEvent.ToggleIsArchived) },
                 ) {
                     Icon(
                         painter = painterResource(AppIcons.archive(!note.isArchived)),
@@ -107,11 +109,3 @@ fun NoteDetailTopAppBar(
         },
     )
 }
-
-data class NoteDetailTopAppBarSelection(
-    val uiState: NoteDetailUiState,
-    val onNavigationButtonClick: () -> Unit,
-    val onPin: (isPinned: Boolean) -> Unit,
-    val onArchive: (isArchived: Boolean) -> Unit,
-    val onReminder: () -> Unit,
-)

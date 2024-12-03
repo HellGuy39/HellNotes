@@ -25,6 +25,9 @@ import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.model.toSelectable
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackbarAction
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackbarController
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackbarEvent
 import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
@@ -45,8 +48,6 @@ class RemindersViewModel
         getAllNoteWrappersWithRemindersUseCase: GetAllNoteWrappersWithRemindersUseCase,
         private val noteActionController: NoteActionController,
     ) : ViewModel() {
-        private val singleUiEvents = Channel<RemindersSingleUiEvent>()
-        val singleUiEventFlow = singleUiEvents.receiveAsFlow()
 
         private val _navigationEvents = Channel<RemindersNavigationEvent>()
         val navigationEvents = _navigationEvents.receiveAsFlow()
@@ -129,30 +130,26 @@ class RemindersViewModel
         }
 
         private suspend fun showNoteArchivedSnackbar() {
-            singleUiEvents.send(
-                RemindersSingleUiEvent.ShowSnackbar(
+            SnackbarController.sendEvent(
+                SnackbarEvent(
                     text = UiText.StringResources(AppStrings.Snack.NoteArchived),
-                    action = { viewModelScope.launch { noteActionController.undo() } },
-                ),
+                    action = SnackbarAction.undoAction { viewModelScope.launch { noteActionController.undo() } },
+                )
             )
         }
 
         private suspend fun showNoteMovedToTrashSnackbar() {
-            singleUiEvents.send(
-                RemindersSingleUiEvent.ShowSnackbar(
+            SnackbarController.sendEvent(
+                SnackbarEvent(
                     text = UiText.StringResources(AppStrings.Snack.NoteMovedToTrash),
-                    action = { viewModelScope.launch { noteActionController.undo() } },
-                ),
+                    action = SnackbarAction.undoAction { viewModelScope.launch { noteActionController.undo() } },
+                )
             )
         }
     }
 
 sealed interface RemindersNavigationEvent {
     data class NavigateToNoteDetail(val noteId: Long) : RemindersNavigationEvent
-}
-
-sealed interface RemindersSingleUiEvent {
-    data class ShowSnackbar(val text: UiText, val action: () -> Unit) : RemindersSingleUiEvent
 }
 
 data class RemindersUiState(

@@ -15,16 +15,21 @@
  */
 package com.hellguy39.hellnotes.core.ui.components.snack
 
-sealed class SnackAction {
-    object Delete : SnackAction()
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
 
-    object Restore : SnackAction()
-
-    object Archive : SnackAction()
-
-    object Unarchive : SnackAction()
-
-    object Pinned : SnackAction()
-
-    object Unpinned : SnackAction()
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HNDismissableSnackbar(
+    dismissState: SwipeToDismissBoxState,
+    snackbarData: SnackbarData,
+) {
+    SwipeToDismissBox(
+        state = dismissState,
+        enableDismissFromStartToEnd = true,
+        enableDismissFromEndToStart = true,
+        backgroundContent = { /* no-op */ },
+    ) {
+        HNSnackbar(data = snackbarData)
+    }
 }

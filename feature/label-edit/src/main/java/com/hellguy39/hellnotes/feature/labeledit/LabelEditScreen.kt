@@ -18,8 +18,6 @@ package com.hellguy39.hellnotes.feature.labeledit
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -28,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import com.hellguy39.hellnotes.core.ui.components.snack.CustomSnackbarHost
+import com.hellguy39.hellnotes.core.ui.components.layout.HNScaffold
 import com.hellguy39.hellnotes.core.ui.components.topappbars.HNTopAppBar
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenContent
@@ -38,10 +36,8 @@ import com.hellguy39.hellnotes.feature.labeledit.components.LabelEditScreenConte
 fun LabelEditScreen(
     uiState: LabelEditUiState,
     onNavigationButtonClick: () -> Unit,
+    onUiEvent: (uiEvent: LabelEditScreenUiEvent) -> Unit,
     onCreateLabel: (name: String) -> Boolean,
-    onLabelUpdated: (index: Int, name: String) -> Unit,
-    onDeleteLabel: (index: Int) -> Unit,
-    snackbarHostState: SnackbarHostState,
 ) {
     BackHandler { onNavigationButtonClick() }
 
@@ -49,7 +45,7 @@ fun LabelEditScreen(
 
     val focusRequester = remember { FocusRequester() }
 
-    Scaffold(
+    HNScaffold(
         modifier =
             Modifier
                 .fillMaxSize()
@@ -59,9 +55,8 @@ fun LabelEditScreen(
                 LabelEditScreenContent(
                     paddingValues = paddingValues,
                     uiState = uiState,
+                    onUiEvent = onUiEvent,
                     onCreateLabel = onCreateLabel,
-                    onLabelUpdated = onLabelUpdated,
-                    onDeleteLabel = onDeleteLabel,
                     focusRequester = focusRequester,
                 )
             }
@@ -72,7 +67,6 @@ fun LabelEditScreen(
                 onNavigationButtonClick = onNavigationButtonClick,
                 title = stringResource(id = AppStrings.Title.Labels),
             )
-        },
-        snackbarHost = { CustomSnackbarHost(state = snackbarHostState) },
+        }
     )
 }

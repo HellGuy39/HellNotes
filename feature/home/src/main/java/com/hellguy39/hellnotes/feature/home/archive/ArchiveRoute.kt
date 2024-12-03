@@ -38,14 +38,6 @@ fun ArchiveRoute(
     val uiState by archiveViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
 
-    archiveViewModel.singleUiEventFlow.collectAsEventsWithLifecycle { event ->
-        when (event) {
-            is ArchiveSingleUiEvent.ShowSnackbar -> {
-                homeState.showSnack(event.text, event.action)
-            }
-        }
-    }
-
     archiveViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
         when (event) {
             is ArchiveNavigationEvent.NavigateToNoteDetail -> {
@@ -65,7 +57,6 @@ fun ArchiveRoute(
         onUnarchiveSelectedClick = remember { { archiveViewModel.onArchiveSelectedItems() } },
         onSearchClick = remember { { navigateToSearch() } },
         onToggleListStyle = remember { visualsViewModel::toggleListStyle },
-        listStyle = visualState.listStyle,
-        snackbarHostState = homeState.snackbarHostState,
+        listStyle = visualState.listStyle
     )
 }

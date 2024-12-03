@@ -73,14 +73,6 @@ fun LabelRoute(
     val uiState by labelViewModel.uiState.collectAsStateWithLifecycle()
     val visualState by visualsViewModel.visualState.collectAsStateWithLifecycle()
 
-    labelViewModel.singleUiEventFlow.collectAsEventsWithLifecycle { event ->
-        when (event) {
-            is LabelSingleUiEvent.ShowSnackbar -> {
-                homeState.showSnack(event.text, event.action)
-            }
-        }
-    }
-
     labelViewModel.navigationEvents.collectAsEventsWithLifecycle { event ->
         when (event) {
             is LabelNavigationEvent.NavigateToNoteDetail -> {
@@ -253,7 +245,6 @@ fun LabelRoute(
         onSearchClick = remember { { navigateToSearch() } },
         onToggleListStyle = remember { visualsViewModel::toggleListStyle },
         onRenameClick = remember { { renameDialogState.show() } },
-        onDeleteClick = remember { { deleteDialogState.show() } },
-        snackbarHostState = homeState.snackbarHostState,
+        onDeleteClick = remember { { deleteDialogState.show() } }
     )
 }

@@ -42,7 +42,7 @@ fun NavGraphBuilder.noteStyleEditScreen(appState: AppState) {
             }
         },
     ) {
-        com.hellguy39.hellnotes.feature.settings.screen.notestyle.NoteStyleEditRoute(
+        NoteStyleEditRoute(
             navigateBack = { appState.navigateUp() },
         )
     }

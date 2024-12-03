@@ -22,17 +22,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import com.hellguy39.hellnotes.core.model.repository.local.database.Label
+import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
+import com.hellguy39.hellnotes.core.ui.components.layout.HNScaffold
 import com.hellguy39.hellnotes.feature.notedetail.components.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailScreen(
-    snackbarHost: @Composable () -> Unit,
-    noteDetailContentSelection: NoteDetailContentSelection,
-    noteDetailChecklistSelection: NoteDetailChecklistSelection,
     uiState: NoteDetailUiState,
-    topAppBarSelection: NoteDetailTopAppBarSelection,
-    bottomBarSelection: NoteDetailBottomBarSelection,
+    onNavigationButtonClick: () -> Unit,
+    onUiEvent: (event: NoteDetailUiEvent) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
@@ -40,7 +40,7 @@ fun NoteDetailScreen(
 
     val lazyListState = rememberLazyListState()
 
-    Scaffold(
+    HNScaffold(
         modifier =
             Modifier
                 .fillMaxSize()
@@ -49,8 +49,7 @@ fun NoteDetailScreen(
             if (uiState.wrapper.note.id != null) {
                 NoteDetailContent(
                     innerPadding = innerPadding,
-                    selection = noteDetailContentSelection,
-                    checklistSelection = noteDetailChecklistSelection,
+                    onUiEvent = onUiEvent,
                     focusRequester = focusRequester,
                     uiState = uiState,
                     lazyListState = lazyListState,
@@ -60,22 +59,17 @@ fun NoteDetailScreen(
         topBar = {
             NoteDetailTopAppBar(
                 scrollBehavior = scrollBehavior,
-                topAppBarSelection = topAppBarSelection,
-                isReadOnly = uiState.isReadOnly,
+                uiState = uiState,
+                onUiEvent = onUiEvent,
+                onNavigationButtonClick = onNavigationButtonClick
             )
         },
         bottomBar = {
             NoteDetailBottomBar(
                 uiState = uiState,
                 lazyListState = lazyListState,
-                bottomBarSelection = bottomBarSelection,
+                onUiEvent = onUiEvent
             )
         },
-        snackbarHost = snackbarHost,
     )
 }
-
-data class NoteDetailBottomBarSelection(
-    val onMenu: () -> Unit,
-    val onAttachment: () -> Unit,
-)

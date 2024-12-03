@@ -27,7 +27,9 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 @Composable
 fun ChecklistDropdownMenu(
     state: CustomDropdownMenuState,
-    selection: ChecklistDropdownMenuSelection,
+    onDoneAllItems: () -> Unit,
+    onRemoveDoneItems: () -> Unit,
+    onDeleteChecklist: () -> Unit,
 ) {
     CustomDropdownMenu(
         expanded = state.visible,
@@ -39,7 +41,7 @@ fun ChecklistDropdownMenu(
                     text = stringResource(id = AppStrings.MenuItem.CheckAllItems),
                     onClick = {
                         state.dismiss()
-                        selection.onDoneAllItems()
+                        onDoneAllItems()
                     },
                 ),
                 CustomDropdownItemSelection(
@@ -47,7 +49,7 @@ fun ChecklistDropdownMenu(
                     text = stringResource(id = AppStrings.MenuItem.UncheckAllItems),
                     onClick = {
                         state.dismiss()
-                        selection.onRemoveDoneItems()
+                        onRemoveDoneItems()
                     },
                 ),
                 CustomDropdownItemSelection(
@@ -55,15 +57,9 @@ fun ChecklistDropdownMenu(
                     text = stringResource(id = AppStrings.MenuItem.Delete),
                     onClick = {
                         state.dismiss()
-                        selection.onDeleteChecklist()
+                        onDeleteChecklist()
                     },
                 ),
             ),
     )
 }
-
-data class ChecklistDropdownMenuSelection(
-    val onDoneAllItems: () -> Unit,
-    val onRemoveDoneItems: () -> Unit,
-    val onDeleteChecklist: () -> Unit,
-)

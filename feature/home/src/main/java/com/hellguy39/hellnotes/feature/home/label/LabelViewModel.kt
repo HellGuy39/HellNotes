@@ -30,6 +30,9 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.model.toSelectable
 import com.hellguy39.hellnotes.core.model.wrapper.Selectable
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackbarAction
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackbarController
+import com.hellguy39.hellnotes.core.ui.components.snack.SnackbarEvent
 import com.hellguy39.hellnotes.core.ui.extensions.toStateList
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
@@ -52,8 +55,6 @@ class LabelViewModel
         savedStateHandle: SavedStateHandle,
         private val noteActionController: NoteActionController,
     ) : ViewModel() {
-        private val singleUiEvents = Channel<LabelSingleUiEvent>()
-        val singleUiEventFlow = singleUiEvents.receiveAsFlow()
 
         private val _navigationEvents = Channel<LabelNavigationEvent>()
         val navigationEvents = _navigationEvents.receiveAsFlow()
@@ -191,27 +192,23 @@ class LabelViewModel
         }
 
         private suspend fun showNoteMovedToTrashSnackbar() {
-            singleUiEvents.send(
-                LabelSingleUiEvent.ShowSnackbar(
+            SnackbarController.sendEvent(
+                SnackbarEvent(
                     text = UiText.StringResources(AppStrings.Snack.NoteMovedToTrash),
-                    action = { viewModelScope.launch { noteActionController.undo() } },
-                ),
+                    action = SnackbarAction.undoAction { viewModelScope.launch { noteActionController.undo() } },
+                )
             )
         }
 
         private suspend fun showNoteArchivedSnackbar() {
-            singleUiEvents.send(
-                LabelSingleUiEvent.ShowSnackbar(
+            SnackbarController.sendEvent(
+                SnackbarEvent(
                     text = UiText.StringResources(AppStrings.Snack.NoteArchived),
-                    action = { viewModelScope.launch { noteActionController.undo() } },
-                ),
+                    action = SnackbarAction.undoAction { viewModelScope.launch { noteActionController.undo() } },
+                )
             )
         }
     }
-
-sealed interface LabelSingleUiEvent {
-    data class ShowSnackbar(val text: UiText, val action: () -> Unit) : LabelSingleUiEvent
-}
 
 sealed interface LabelNavigationEvent {
     data class NavigateToNoteDetail(val noteId: Long) : LabelNavigationEvent

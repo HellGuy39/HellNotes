@@ -28,15 +28,15 @@ import androidx.compose.ui.platform.LocalContext
 import com.hellguy39.hellnotes.core.ui.focus.requestOnceAfterRecompositionIf
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.feature.labeledit.LabelEditScreenUiEvent
 import com.hellguy39.hellnotes.feature.labeledit.LabelEditUiState
 
 @Composable
 fun LabelEditScreenContent(
     paddingValues: PaddingValues,
     uiState: LabelEditUiState,
+    onUiEvent: (uiEvent: LabelEditScreenUiEvent) -> Unit,
     onCreateLabel: (name: String) -> Boolean,
-    onLabelUpdated: (index: Int, name: String) -> Unit,
-    onDeleteLabel: (index: Int) -> Unit,
     focusRequester: FocusRequester,
 ) {
     val context = LocalContext.current
@@ -51,6 +51,7 @@ fun LabelEditScreenContent(
                 .fillMaxWidth()
                 .padding(Spaces.extraSmall)
         }
+
 
     LazyColumn(
         contentPadding = paddingValues,
@@ -69,9 +70,9 @@ fun LabelEditScreenContent(
             LabelItem(
                 modifier = itemModifier,
                 label = label,
-                onDelete = { onDeleteLabel(index) },
+                onDelete = { onUiEvent(LabelEditScreenUiEvent.DeleteLabel(index)) },
                 onLabelChange = { text ->
-                    onLabelUpdated(index, text)
+                    onUiEvent(LabelEditScreenUiEvent.UpdateLabel(index, text))
                 },
             )
         }

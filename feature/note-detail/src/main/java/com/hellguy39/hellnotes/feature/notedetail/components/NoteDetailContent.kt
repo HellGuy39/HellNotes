@@ -57,10 +57,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hellguy39.hellnotes.core.model.repository.local.database.Checklist
 import com.hellguy39.hellnotes.core.model.repository.local.database.ChecklistItem
-import com.hellguy39.hellnotes.core.model.repository.local.database.Label
-import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import com.hellguy39.hellnotes.core.ui.components.HNIconButton
 import com.hellguy39.hellnotes.core.ui.components.NoteChipGroup
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
@@ -70,14 +67,14 @@ import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Alpha
 import com.hellguy39.hellnotes.core.ui.values.Spaces
+import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiEvent
 import com.hellguy39.hellnotes.feature.notedetail.NoteDetailUiState
 
 @Composable
 fun NoteDetailContent(
     innerPadding: PaddingValues,
     uiState: NoteDetailUiState,
-    selection: NoteDetailContentSelection,
-    checklistSelection: NoteDetailChecklistSelection,
+    onUiEvent: (event: NoteDetailUiEvent) -> Unit,
     focusRequester: FocusRequester,
     lazyListState: LazyListState,
 ) {
@@ -102,7 +99,7 @@ fun NoteDetailContent(
                         .testTag("tf_title"),
                 value = uiState.wrapper.note.title,
                 isSingleLine = false,
-                onValueChange = { newText -> selection.onTitleTextChanged(newText) },
+                onValueChange = { newText -> onUiEvent(NoteDetailUiEvent.UpdateNoteTitle(newText)) },
                 hint = stringResource(id = AppStrings.Hint.Title),
                 textStyle = MaterialTheme.typography.titleLarge,
                 readOnly = uiState.isReadOnly,
@@ -118,7 +115,7 @@ fun NoteDetailContent(
                         .testTag("tf_content"),
                 value = uiState.wrapper.note.note,
                 isSingleLine = false,
-                onValueChange = { newText -> selection.onNoteTextChanged(newText) },
+                onValueChange = { newText -> onUiEvent(NoteDetailUiEvent.UpdateNoteContent(newText)) },
                 hint = stringResource(id = AppStrings.Hint.Note),
                 textStyle = MaterialTheme.typography.bodyLarge,
                 readOnly = uiState.isReadOnly,
@@ -159,7 +156,9 @@ fun NoteDetailContent(
                     ) {
                         IconButton(
                             modifier = Modifier.size(48.dp),
-                            onClick = { checklistSelection.onUpdateIsChecklistExpanded(checklist, !isVisible) },
+                            onClick = {
+                                onUiEvent(NoteDetailUiEvent.ExpandChecklist(checklist, !isVisible))
+                            },
                         ) {
                             val painterId = if (isVisible) AppIcons.ExpandLess else AppIcons.ExpandMore
                             Icon(
@@ -177,8 +176,8 @@ fun NoteDetailContent(
                                     .weight(1f)
                                     .onFocusChanged { state -> isFocused = state.isFocused },
                             value = checklist.name,
-                            onValueChange = { newText ->
-                                checklistSelection.onChecklistNameChange(checklist, newText)
+                            onValueChange = { text ->
+                                onUiEvent(NoteDetailUiEvent.UpdateChecklistName(checklist, text))
                             },
                             isSingleLine = true,
                             hint = stringResource(id = AppStrings.Hint.NewChecklist),
@@ -198,18 +197,15 @@ fun NoteDetailContent(
 
                             ChecklistDropdownMenu(
                                 state = dropdownMenuState,
-                                selection =
-                                    ChecklistDropdownMenuSelection(
-                                        onDeleteChecklist = {
-                                            checklistSelection.onDelete(checklist)
-                                        },
-                                        onDoneAllItems = {
-                                            checklistSelection.onDoneAll(checklist)
-                                        },
-                                        onRemoveDoneItems = {
-                                            checklistSelection.onRemoveDone(checklist)
-                                        },
-                                    ),
+                                onDeleteChecklist = {
+                                    onUiEvent(NoteDetailUiEvent.DeleteChecklist(checklist))
+                                },
+                                onDoneAllItems = {
+                                    onUiEvent(NoteDetailUiEvent.CheckAllChecklistItems(checklist, true))
+                                },
+                                onRemoveDoneItems = {
+                                    onUiEvent(NoteDetailUiEvent.CheckAllChecklistItems(checklist, false))
+                                }
                             )
                         }
                     }
@@ -225,10 +221,12 @@ fun NoteDetailContent(
                                                 enabled = !uiState.isReadOnly,
                                                 role = Role.Checkbox,
                                                 onClick = {
-                                                    checklistSelection.onCheckedChange(
-                                                        checklist,
-                                                        item,
-                                                        !item.isChecked,
+                                                    onUiEvent(
+                                                        NoteDetailUiEvent.UpdateChecklistItem(
+                                                            checklist,
+                                                            item,
+                                                            item.copy(isChecked = !item.isChecked),
+                                                        )
                                                     )
                                                 },
                                             ),
@@ -236,14 +234,18 @@ fun NoteDetailContent(
                                     startPadding = 56.dp,
                                     paddingValues = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
                                     onValueChange = { text ->
-                                        checklistSelection.onUpdateChecklistItemText(
-                                            checklist,
-                                            item,
-                                            text,
+                                        onUiEvent(
+                                            NoteDetailUiEvent.UpdateChecklistItem(
+                                                checklist,
+                                                item,
+                                                item.copy(text = text),
+                                            )
                                         )
                                     },
                                     onDeleteItem = {
-                                        checklistSelection.onDeleteChecklistItem(checklist, item)
+                                        onUiEvent(
+                                            NoteDetailUiEvent.DeleteChecklistItem(checklist, item)
+                                        )
                                     },
                                     readOnly = uiState.isReadOnly,
                                 )
@@ -254,7 +256,11 @@ fun NoteDetailContent(
                                         Modifier
                                             .fillMaxWidth()
                                             .size(56.dp)
-                                            .clickable { checklistSelection.onAddChecklistItem(checklist) },
+                                            .clickable {
+                                                onUiEvent(
+                                                    NoteDetailUiEvent.AddChecklistItem(checklist)
+                                                )
+                                            },
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     Spacer(modifier = Modifier.width(8.dp))
@@ -302,12 +308,8 @@ fun NoteDetailContent(
                             .padding(horizontal = Spaces.medium),
                     reminders = uiState.wrapper.reminders,
                     labels = uiState.wrapper.labels,
-                    onRemindClick = { remind ->
-                        selection.onReminderClick(remind)
-                    },
-                    onLabelClick = { label ->
-                        selection.onLabelClick(label)
-                    },
+                    onRemindClick = { remind -> onUiEvent(NoteDetailUiEvent.ReminderClick(remind)) },
+                    onLabelClick = { label -> onUiEvent(NoteDetailUiEvent.LabelClick(label)) },
                     crossAxisSpacing = Spaces.medium,
                     mainAxisSpacing = Spaces.medium,
                 )
@@ -372,22 +374,3 @@ fun CheckListItem(
         }
     }
 }
-
-data class NoteDetailContentSelection(
-    val onTitleTextChanged: (text: String) -> Unit,
-    val onNoteTextChanged: (text: String) -> Unit,
-    val onReminderClick: (reminder: Reminder) -> Unit,
-    val onLabelClick: (label: Label) -> Unit,
-)
-
-data class NoteDetailChecklistSelection(
-    val onCheckedChange: (Checklist, ChecklistItem, Boolean) -> Unit,
-    val onAddChecklistItem: (Checklist) -> Unit,
-    val onDeleteChecklistItem: (Checklist, ChecklistItem) -> Unit,
-    val onChecklistNameChange: (Checklist, String) -> Unit,
-    val onUpdateChecklistItemText: (Checklist, ChecklistItem, String) -> Unit,
-    val onUpdateIsChecklistExpanded: (Checklist, Boolean) -> Unit,
-    val onDoneAll: (Checklist) -> Unit,
-    val onRemoveDone: (Checklist) -> Unit,
-    val onDelete: (Checklist) -> Unit,
-)
