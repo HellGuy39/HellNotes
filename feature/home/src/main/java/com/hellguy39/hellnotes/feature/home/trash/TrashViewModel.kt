@@ -20,7 +20,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.notes.NoteActionController
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.domain.usecase.trash.DeleteAllNoteWrappersAtTrashUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.trash.GetAllNoteWrappersAtTrashFlowUseCase
 import com.hellguy39.hellnotes.core.model.NoteWrapper
@@ -43,7 +43,7 @@ class TrashViewModel
     constructor(
         getAllNoteWrappersAtTrashFlowUseCase: GetAllNoteWrappersAtTrashFlowUseCase,
         private val deleteAllNoteWrappersAtTrashUseCase: DeleteAllNoteWrappersAtTrashUseCase,
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
         private val noteActionController: NoteActionController,
     ) : ViewModel() {
         private val _navigationEvents = Channel<TrashNavigationEvent>()
@@ -53,7 +53,7 @@ class TrashViewModel
             combine(
                 getAllNoteWrappersAtTrashFlowUseCase.invoke(),
                 noteActionController.items,
-                dataStoreRepository.readTrashTipState(),
+                settingsRepository.readTrashTipState(),
             ) { noteWrappersAtTrash, selectedIds, tipState ->
                 TrashUiState(
                     countOfSelectedNotes = selectedIds.size,
@@ -102,7 +102,7 @@ class TrashViewModel
 
         fun trashTipCompleted(completed: Boolean) {
             viewModelScope.launch {
-                dataStoreRepository.saveTrashTipState(completed)
+                settingsRepository.saveTrashTipState(completed)
             }
         }
 

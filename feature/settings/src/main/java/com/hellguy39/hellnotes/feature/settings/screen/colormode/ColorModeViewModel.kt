@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.feature.settings.screen.notestyle
+package com.hellguy39.hellnotes.feature.settings.screen.colormode
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -21,7 +21,10 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
-import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
+import com.hellguy39.hellnotes.core.domain.repository.system.LanguageHolder
+import com.hellguy39.hellnotes.core.model.ColorMode
+import com.hellguy39.hellnotes.core.model.Language
+import com.hellguy39.hellnotes.core.model.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -32,38 +35,37 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteStyleEditViewModel
+class ColorModeViewModel
     @Inject
     constructor(
-        private val settingsRepository: SettingsRepository,
+        private val settingsRepository: SettingsRepository
     ) : ViewModel() {
-
         val uiState = combine(
             settingsRepository.getAppearanceStateFlow()
-                .map { appearanceState -> appearanceState.noteStyle },
-            NoteStyle.valuesFlow()
-        ) { noteStyle, styles ->
-            NoteStyleEditUiState(
-                selectedNoteStyle = noteStyle,
-                styles = styles.toMutableStateList()
-            )
-        }
+                .map { appearanceState -> appearanceState.colorMode },
+            ColorMode.valuesFlow(),
+            ) { selectedColorMode, colorModes ->
+                ColorModeUiState(
+                    selectedColorMode = selectedColorMode,
+                    colorModes = colorModes.toMutableStateList()
+                )
+            }
             .stateIn(
+                initialValue = ColorModeUiState(),
                 started = SharingStarted.WhileSubscribed(5_000),
                 scope = viewModelScope,
-                initialValue = NoteStyleEditUiState(),
             )
 
-        fun saveNoteStyle(noteStyle: NoteStyle) {
+        fun setColorMode(tag: String) {
             viewModelScope.launch {
-                settingsRepository.saveNoteStyleState(
-                    noteStyle = noteStyle,
-                )
+                val colorMode = ColorMode.fromTag(tag)
+                settingsRepository.saveColorMode(colorMode)
             }
         }
     }
 
-data class NoteStyleEditUiState(
-    val styles: SnapshotStateList<NoteStyle> = mutableStateListOf(),
-    val selectedNoteStyle: NoteStyle = NoteStyle.Outlined,
+data class ColorModeUiState(
+    val colorModes: SnapshotStateList<ColorMode> = mutableStateListOf(),
+    val selectedColorMode: ColorMode = ColorMode.defaultValue(),
 )
+

@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import com.hellguy39.hellnotes.core.ui.components.items.HNNavigateListItem
 import com.hellguy39.hellnotes.core.ui.components.items.HNSwitchListItem
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
+import com.hellguy39.hellnotes.feature.settings.BuildConfig
 
 @Composable
 fun SettingsScreenContent(
@@ -43,6 +45,8 @@ fun SettingsScreenContent(
     onLockScreen: () -> Unit,
     onLanguage: () -> Unit,
     onBackup: () -> Unit,
+    onTheme: () -> Unit,
+    onColorMode: () -> Unit,
     onUseBiometric: (Boolean) -> Unit,
 ) {
     LazyColumn(
@@ -86,6 +90,28 @@ fun SettingsScreenContent(
                         )
                     },
                 )
+
+                if (BuildConfig.DEBUG) {
+                    HNNavigateListItem(
+                        onClick = {},
+                        headlineContent = {
+                            Text("Storage")
+                        },
+                        supportingContent = {
+                            Text("2.6 MB used")
+                        },
+                    )
+
+                    HNNavigateListItem(
+                        onClick = {},
+                        headlineContent = {
+                            Text("Activity Insights")
+                        },
+                        supportingContent = {
+                            Text("Your in app activity")
+                        },
+                    )
+                }
             }
         }
         item {
@@ -157,6 +183,26 @@ fun SettingsScreenContent(
                     title = stringResource(id = AppStrings.Label.Appearance),
                     icon = painterResource(id = AppIcons.Palette),
                 )
+                if (BuildConfig.DEBUG) {
+                    HNNavigateListItem(
+                        onClick = onTheme,
+                        headlineContent = {
+                            Text("Theme")
+                        },
+                        supportingContent = {
+                            Text("Material You")
+                        },
+                    )
+                    HNNavigateListItem(
+                        onClick = onColorMode,
+                        headlineContent = {
+                            Text("Color mode")
+                        },
+                        supportingContent = {
+                            Text("Dark")
+                        },
+                    )
+                }
                 HNNavigateListItem(
                     onClick = onNoteStyleEdit,
                     headlineContent = {

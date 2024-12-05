@@ -206,6 +206,30 @@ fun AppState.navigateToNoteStyleEdit(
     }
 }
 
+fun AppState.navigateToTheme(
+    from: NavBackStackEntry,
+    navOptions: NavOptions = defaultNavOptions(),
+) {
+    if (from.lifecycleIsResumed()) {
+        navController.navigate(
+            route = Screen.Theme.route,
+            navOptions = navOptions,
+        )
+    }
+}
+
+fun AppState.navigateToColorMode(
+    from: NavBackStackEntry,
+    navOptions: NavOptions = defaultNavOptions(),
+) {
+    if (from.lifecycleIsResumed()) {
+        navController.navigate(
+            route = Screen.ColorMode.route,
+            navOptions = navOptions,
+        )
+    }
+}
+
 fun AppState.navigateToNoteSwipeEdit(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),

@@ -18,7 +18,7 @@ package com.hellguy39.hellnotes.feature.settings.screen.backup
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.domain.usecase.backup.BackupDatabaseUseCase
 import com.hellguy39.hellnotes.core.domain.usecase.backup.RestoreDatabaseUseCase
 import com.hellguy39.hellnotes.core.model.Resource
@@ -33,7 +33,7 @@ import javax.inject.Inject
 class BackupViewModel
     @Inject
     constructor(
-        dataStoreRepository: DataStoreRepository,
+        settingsRepository: SettingsRepository,
         private val backupDatabaseUseCase: BackupDatabaseUseCase,
         private val restoreDatabaseUseCase: RestoreDatabaseUseCase,
     ) : ViewModel() {
@@ -42,7 +42,7 @@ class BackupViewModel
         val uiState =
             combine(
                 backupViewModelState,
-                dataStoreRepository.readLastBackupDate(),
+                settingsRepository.readLastBackupDate(),
             ) { backupViewModelState, lastBackupDate ->
                 BackupUiState(
                     isLoading = backupViewModelState.isLoading,

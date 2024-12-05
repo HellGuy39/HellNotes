@@ -17,7 +17,7 @@ package com.hellguy39.hellnotes.feature.lock
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.domain.repository.system.AuthenticationResult
 import com.hellguy39.hellnotes.core.domain.repository.system.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.repository.system.DeviceBiometricStatus
@@ -38,14 +38,14 @@ import javax.inject.Inject
 class LockViewModel
     @Inject
     constructor(
-        dataStoreRepository: DataStoreRepository,
+        settingsRepository: SettingsRepository,
         val biometricAuth: BiometricAuthenticator,
     ) : ViewModel() {
         private val errorMessage = MutableStateFlow("")
         private val lockState: MutableStateFlow<LockState> = MutableStateFlow(LockState.Locked)
         private val password = MutableStateFlow("")
 
-        private val securityState = dataStoreRepository.readSecurityState()
+        private val securityState = settingsRepository.readSecurityState()
 
         val isLocked =
             combine(lockState, securityState) { lockState, securityState ->

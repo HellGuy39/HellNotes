@@ -15,20 +15,26 @@
  */
 package com.hellguy39.hellnotes.core.data.repository.local
 
+import androidx.compose.ui.graphics.Color
 import com.hellguy39.hellnotes.core.datastore.HellNotesPreferencesDataSource
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
+import com.hellguy39.hellnotes.core.model.AppearanceState
+import com.hellguy39.hellnotes.core.model.ColorMode
+import com.hellguy39.hellnotes.core.model.Theme
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class DataStoreRepositoryImpl
+class SettingsRepositoryImpl
     @Inject
     constructor(
         private val dataSource: HellNotesPreferencesDataSource,
-    ) : DataStoreRepository {
+    ) : SettingsRepository {
         override fun readNoteSwipesState(): Flow<NoteSwipesState> {
             return dataSource.readNoteSwipesState()
         }
@@ -46,7 +52,15 @@ class DataStoreRepositoryImpl
         }
 
         override suspend fun saveNoteStyleState(noteStyle: NoteStyle) {
-            dataSource.saveNoteStyleState(noteStyle = noteStyle)
+            dataSource.saveTagged(noteStyle)
+        }
+
+        override suspend fun saveTheme(theme: Theme) {
+            dataSource.saveTagged(theme)
+        }
+
+        override suspend fun saveColorMode(colorMode: ColorMode) {
+            dataSource.saveTagged(colorMode)
         }
 
         override suspend fun saveSecurityState(securityState: SecurityState) {
@@ -77,8 +91,18 @@ class DataStoreRepositoryImpl
             return dataSource.readListStyleState()
         }
 
-        override fun readNoteStyleState(): Flow<NoteStyle> {
-            return dataSource.readNoteStyleState()
+        override fun getAppearanceStateFlow(): Flow<AppearanceState> {
+            return combine(
+                dataSource.readTagged(ColorMode),
+                dataSource.readTagged(Theme),
+                dataSource.readTagged(NoteStyle)
+            ) { colorMode, theme, noteStyle->
+                AppearanceState(
+                    theme = theme,
+                    colorMode = colorMode,
+                    noteStyle = noteStyle,
+                )
+            }
         }
 
         override fun readLastBackupDate(): Flow<Long> {

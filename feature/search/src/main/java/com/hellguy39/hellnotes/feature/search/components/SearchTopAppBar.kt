@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.components.input.HNClearTextField
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.AppStrings
-import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.theme.HellNotesThemePreview
 import com.hellguy39.hellnotes.core.ui.values.Elevation
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,7 +104,7 @@ fun SearchTopAppBar(
 @Preview
 @Composable
 fun SearchTopAppBarPreview() {
-    HellNotesTheme {
+    HellNotesThemePreview {
         SearchTopAppBar(
             onNavigationButtonClick = {},
             scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),

@@ -19,7 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
@@ -36,17 +36,17 @@ import javax.inject.Inject
 class VisualsViewModel
     @Inject
     constructor(
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
     ) : ViewModel() {
         val visualState: StateFlow<VisualState> =
             combine(
-                dataStoreRepository.readListStyleState(),
-                dataStoreRepository.readNoteStyleState(),
-                dataStoreRepository.readNoteSwipesState(),
-            ) { listStyle, noteStyle, noteSwipesState ->
+                settingsRepository.readListStyleState(),
+                settingsRepository.getAppearanceStateFlow(),
+                settingsRepository.readNoteSwipesState(),
+            ) { listStyle, appearanceState, noteSwipesState ->
                 VisualState(
                     listStyle = listStyle,
-                    noteStyle = noteStyle,
+                    noteStyle = appearanceState.noteStyle,
                     noteSwipesState = noteSwipesState,
                 )
             }
@@ -59,7 +59,7 @@ class VisualsViewModel
         fun toggleListStyle() {
             viewModelScope.launch {
                 val listStyle = visualState.value.listStyle
-                dataStoreRepository.saveListStyleState(listStyle.swap())
+                settingsRepository.saveListStyleState(listStyle.swap())
             }
         }
 

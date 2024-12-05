@@ -17,7 +17,7 @@ package com.hellguy39.hellnotes.feature.settings.screen.lockselection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,10 +29,10 @@ import javax.inject.Inject
 class LockSelectionViewModel
     @Inject
     constructor(
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
     ) : ViewModel() {
         val uiState: StateFlow<LockSelectionUiState> =
-            dataStoreRepository.readSecurityState()
+            settingsRepository.readSecurityState()
                 .map { securityState ->
                     LockSelectionUiState(
                         securityState = securityState,
@@ -46,7 +46,7 @@ class LockSelectionViewModel
 
         fun resetAppLock() {
             viewModelScope.launch {
-                dataStoreRepository.saveSecurityState(
+                settingsRepository.saveSecurityState(
                     uiState.value.securityState.copy(
                         lockType = LockScreenType.None,
                         password = "",

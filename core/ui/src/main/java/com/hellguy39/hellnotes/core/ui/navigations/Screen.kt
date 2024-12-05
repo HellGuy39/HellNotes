@@ -24,6 +24,10 @@ sealed class Screen(val route: String) {
 
     data object LockSetup : Screen(route = "lock_setup")
 
+    data object Theme : Screen(route = "theme")
+
+    data object ColorMode : Screen(route = "color_mode")
+
     data object LanguageSelection : Screen(route = "language_selection")
 
     data object LockSelection : Screen(route = "lock_selection")

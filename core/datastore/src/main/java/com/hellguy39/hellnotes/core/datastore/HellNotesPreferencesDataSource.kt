@@ -19,8 +19,12 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.hellguy39.hellnotes.core.model.ColorMode
 import com.hellguy39.hellnotes.core.model.LockScreenType
+import com.hellguy39.hellnotes.core.model.Theme
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.*
+import com.hellguy39.hellnotes.core.model.wrapper.Tagged
+import com.hellguy39.hellnotes.core.model.wrapper.TaggedCompanion
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -40,11 +44,14 @@ class HellNotesPreferencesDataSource
 
             val lockType = stringPreferencesKey(name = "lock_type")
             val listStyle = stringPreferencesKey(name = "list_style")
-            val noteStyle = stringPreferencesKey(name = "note_style")
             val password = stringPreferencesKey(name = "password")
             val noteSwipeRight = stringPreferencesKey(name = "note_swipe_left")
             val noteSwipeLeft = stringPreferencesKey(name = "note_swipe_right")
             val lastBackupDate = longPreferencesKey(name = "last_backup_date")
+
+            val noteStyle = stringPreferencesKey(name = "note_style")
+            val colorMode = stringPreferencesKey(name = "color_mode")
+            val theme = stringPreferencesKey(name = "theme")
         }
 
         private object PreferencesDefaultValues {
@@ -58,6 +65,14 @@ class HellNotesPreferencesDataSource
 
         private val dataStore = context.dataStore
 
+        private val supportedTaggedValues by lazy {
+            listOf(
+                Theme,
+                NoteStyle,
+                ColorMode
+            )
+        }
+
         suspend fun resetToDefault() {
             dataStore.edit { preferences ->
                 preferences[PreferencesKey.onBoarding] = PreferencesDefaultValues.ON_BOARDING
@@ -68,10 +83,16 @@ class HellNotesPreferencesDataSource
                 preferences[PreferencesKey.lastBackupDate] = PreferencesDefaultValues.LAST_BACKUP_DATE
 
                 preferences[PreferencesKey.listStyle] = ListStyle.default().tag
-                preferences[PreferencesKey.noteStyle] = NoteStyle.default().tag
+                preferences[PreferencesKey.noteStyle] = NoteStyle.defaultValue().tag
                 preferences[PreferencesKey.lockType] = LockScreenType.default().tag
                 preferences[PreferencesKey.noteSwipeLeft] = NoteSwipe.defaultSwipeLeft().tag
                 preferences[PreferencesKey.noteSwipeRight] = NoteSwipe.defaultSwipeRight().tag
+
+                supportedTaggedValues.forEach { taggedCompanion ->
+                    val preferencesKey = stringPreferencesKey(taggedCompanion.key)
+                    val defaultValueTag = taggedCompanion.defaultValue().tag
+                    preferences[preferencesKey] = defaultValueTag
+                }
             }
         }
 
@@ -90,6 +111,18 @@ class HellNotesPreferencesDataSource
         suspend fun saveNoteStyleState(noteStyle: NoteStyle) {
             dataStore.edit { preferences ->
                 preferences[PreferencesKey.noteStyle] = noteStyle.tag
+            }
+        }
+
+        suspend fun saveTheme(theme: Theme) {
+            dataStore.edit { preferences ->
+                preferences[PreferencesKey.theme] = theme.tag
+            }
+        }
+
+        suspend fun saveColorMode(colorMode: ColorMode) {
+            dataStore.edit { preferences ->
+                preferences[PreferencesKey.colorMode] = colorMode.tag
             }
         }
 
@@ -159,13 +192,6 @@ class HellNotesPreferencesDataSource
                     )
                 }
 
-        fun readNoteStyleState() =
-            dataStore.data
-                .catchExceptions()
-                .map { preferences ->
-                    NoteStyle.fromTag(preferences[PreferencesKey.noteStyle])
-                }
-
         fun readNoteSwipesState() =
             dataStore.data
                 .catchExceptions()
@@ -193,5 +219,20 @@ class HellNotesPreferencesDataSource
                 .map { preferences ->
                     preferences[PreferencesKey.lastBackupDate]
                         ?: PreferencesDefaultValues.LAST_BACKUP_DATE
+                }
+
+        suspend fun saveTagged(tagged: Tagged) {
+            dataStore.edit { preferences ->
+                preferences[stringPreferencesKey(tagged.key)] = tagged.tag
+            }
+        }
+
+        fun <T> readTagged(taggedCompanion: TaggedCompanion<T>) =
+            dataStore.data
+                .catchExceptions()
+                .map { preferences ->
+                    val preferencesKey = stringPreferencesKey(taggedCompanion.key)
+                    val tag = preferences[preferencesKey]
+                    taggedCompanion.fromTag(tag)
                 }
     }

@@ -63,7 +63,6 @@ fun NoteStyleEditScreen(
     onNoteStyleChange: (NoteStyle) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val styles by remember { mutableStateOf(NoteStyle.styles()) }
 
     val exampleNoteWrapper =
         NoteWrapper(
@@ -121,7 +120,7 @@ fun NoteStyleEditScreen(
                             contentAlignment = Alignment.Center,
                         ) {
                             AnimatedContent(
-                                targetState = uiState.noteStyle,
+                                targetState = uiState.selectedNoteStyle,
                                 transitionSpec = {
                                     slideRightOnlyContentTransform(Duration.FAST, Duration.FAST)
                                 },
@@ -143,12 +142,12 @@ fun NoteStyleEditScreen(
                     }
                 }
                 items(
-                    items = styles,
+                    items = uiState.styles,
                     key = { style -> style.tag },
                 ) { style ->
                     HNRadioListItem(
                         headlineContent = { Text(style.asDisplayableString()) },
-                        selected = uiState.noteStyle == style,
+                        selected = uiState.selectedNoteStyle == style,
                         onClick = { onNoteStyleChange(style) },
                     )
                 }

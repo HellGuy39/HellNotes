@@ -19,7 +19,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.domain.usecase.note.GetAllNoteWrappersFlowUseCase
 import com.hellguy39.hellnotes.core.model.NoteWrapper
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
@@ -36,7 +36,7 @@ import javax.inject.Inject
 class SearchViewModel
     @Inject
     constructor(
-        dataStoreRepository: DataStoreRepository,
+        settingsRepository: SettingsRepository,
         getAllNoteWrappersFlowUseCase: GetAllNoteWrappersFlowUseCase,
     ) : ViewModel() {
         private val search = MutableStateFlow("")
@@ -48,9 +48,9 @@ class SearchViewModel
                 getAllNoteWrappersFlowUseCase.invoke(),
                 search,
                 filters,
-                dataStoreRepository.readListStyleState(),
-                dataStoreRepository.readNoteStyleState(),
-            ) { notes, search, filters, listStyle, noteStyle ->
+                settingsRepository.readListStyleState(),
+                settingsRepository.getAppearanceStateFlow(),
+            ) { notes, search, filters, listStyle, appearanceState ->
 
                 var searchedNotes: List<NoteWrapper> =
                     notes.filter { note ->
@@ -78,7 +78,7 @@ class SearchViewModel
                     noteWrappers = searchedNotes.toSelectable().toStateList(),
                     filters = filters,
                     listStyle = listStyle,
-                    noteStyle = noteStyle,
+                    noteStyle = appearanceState.noteStyle,
                 )
             }
                 .stateIn(

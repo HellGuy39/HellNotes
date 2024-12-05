@@ -17,7 +17,7 @@ package com.hellguy39.hellnotes.feature.settings.screen.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.domain.repository.system.BiometricAuthenticator
 import com.hellguy39.hellnotes.core.domain.repository.system.DeviceBiometricStatus
 import com.hellguy39.hellnotes.core.domain.repository.system.LanguageHolder
@@ -36,7 +36,7 @@ import javax.inject.Inject
 class SettingsViewModel
     @Inject
     constructor(
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
         val biometricAuth: BiometricAuthenticator,
         languageHolder: LanguageHolder,
     ) : ViewModel() {
@@ -45,15 +45,15 @@ class SettingsViewModel
 
         val uiState =
             combine(
-                dataStoreRepository.readSecurityState(),
-                dataStoreRepository.readNoteStyleState(),
-                dataStoreRepository.readNoteSwipesState(),
-                dataStoreRepository.readLastBackupDate(),
+                settingsRepository.readSecurityState(),
+                settingsRepository.getAppearanceStateFlow(),
+                settingsRepository.readNoteSwipesState(),
+                settingsRepository.readLastBackupDate(),
                 languageHolder.languageFlow,
-            ) { securityState, noteStyle, noteSwipesState, lastBackupDate, language ->
+            ) { securityState, appearanceState, noteSwipesState, lastBackupDate, language ->
                 SettingsUiState(
                     securityState = securityState,
-                    noteStyle = noteStyle,
+                    noteStyle = appearanceState.noteStyle,
                     noteSwipesState = noteSwipesState,
                     isBioAuthAvailable = isBiometricAuthAvailable,
                     language = language,
@@ -77,7 +77,7 @@ class SettingsViewModel
         private fun saveIsUseBiometricData(isUseBiometric: Boolean) {
             viewModelScope.launch {
                 val state = uiState.value.securityState
-                dataStoreRepository.saveSecurityState(state.copy(isUseBiometricData = isUseBiometric))
+                settingsRepository.saveSecurityState(state.copy(isUseBiometricData = isUseBiometric))
             }
         }
     }

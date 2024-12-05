@@ -19,7 +19,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,12 +31,12 @@ import javax.inject.Inject
 class LockSetupViewModel
     @Inject
     constructor(
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
         savedStateHandle: SavedStateHandle,
     ) : ViewModel() {
         val uiState: StateFlow<LockSetupUiState> =
             combine(
-                dataStoreRepository.readSecurityState(),
+                settingsRepository.readSecurityState(),
                 savedStateHandle.getStateFlow(Arguments.Type.key, LockScreenType.None.tag),
             ) { securityState, newLockScreenType ->
                 LockSetupUiState(
@@ -55,7 +55,7 @@ class LockSetupViewModel
                 val securityState = uiState.value.securityState
                 val newLockScreenType = uiState.value.newLockScreenType
 
-                dataStoreRepository.saveSecurityState(
+                settingsRepository.saveSecurityState(
                     securityState.copy(
                         password = code,
                         lockType = newLockScreenType,
