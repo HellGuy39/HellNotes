@@ -15,13 +15,16 @@
  */
 package com.hellguy39.hellnotes.core.domain.repository.settings
 
+import com.hellguy39.hellnotes.core.model.AppearanceState
+import com.hellguy39.hellnotes.core.model.ColorMode
+import com.hellguy39.hellnotes.core.model.Theme
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.ListStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.SecurityState
 import kotlinx.coroutines.flow.Flow
 
-interface DataStoreRepository {
+interface SettingsRepository {
     suspend fun saveNoteSwipesState(state: NoteSwipesState)
 
     suspend fun saveOnBoardingState(completed: Boolean)
@@ -29,6 +32,10 @@ interface DataStoreRepository {
     suspend fun saveListStyleState(listStyle: ListStyle)
 
     suspend fun saveNoteStyleState(noteStyle: NoteStyle)
+
+    suspend fun saveTheme(theme: Theme)
+
+    suspend fun saveColorMode(colorMode: ColorMode)
 
     suspend fun saveSecurityState(securityState: SecurityState)
 
@@ -46,7 +53,7 @@ interface DataStoreRepository {
 
     fun readListStyleState(): Flow<ListStyle>
 
-    fun readNoteStyleState(): Flow<NoteStyle>
+    fun getAppearanceStateFlow(): Flow<AppearanceState>
 
     fun readLastBackupDate(): Flow<Long>
 

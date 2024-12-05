@@ -17,7 +17,7 @@ package com.hellguy39.hellnotes.feature.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +30,7 @@ import javax.inject.Inject
 class OnBoardingViewModel
     @Inject
     constructor(
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
     ) : ViewModel() {
         private val _onBoardingState = MutableStateFlow(OnBoardingState())
         val onBoardingState = _onBoardingState.asStateFlow()
@@ -42,13 +42,13 @@ class OnBoardingViewModel
         fun finishOnBoarding() {
             viewModelScope.launch {
                 _onBoardingState.update { state -> state.copy(isVisible = false) }
-                dataStoreRepository.saveOnBoardingState(completed = true)
+                settingsRepository.saveOnBoardingState(completed = true)
             }
         }
 
         private fun checkOnBoarding() {
             viewModelScope.launch {
-                dataStoreRepository.readOnBoardingState().collectLatest { completed ->
+                settingsRepository.readOnBoardingState().collectLatest { completed ->
                     _onBoardingState.update { state -> state.copy(isVisible = !completed) }
                 }
             }

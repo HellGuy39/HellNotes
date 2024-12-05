@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -57,7 +56,7 @@ import androidx.compose.ui.unit.dp
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiIcon
 import com.hellguy39.hellnotes.core.ui.resources.wrapper.UiText
-import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.theme.HellNotesThemePreview
 import com.hellguy39.hellnotes.core.ui.values.Alpha
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
@@ -375,7 +374,7 @@ fun HNListItem(
 @Preview(name = "Title & Subtitle with Icon / DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HNListItemPreviewTitleAndSubtitleWithIcon() {
-    HellNotesTheme {
+    HellNotesThemePreview {
         Surface(
             modifier = Modifier,
             color = MaterialTheme.colorScheme.background,
@@ -394,7 +393,7 @@ fun HNListItemPreviewTitleAndSubtitleWithIcon() {
 @Preview(name = "Title & Subtitle / DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HNListItemPreviewTitleAndSubtitle() {
-    HellNotesTheme {
+    HellNotesThemePreview {
         Surface(
             modifier = Modifier,
             color = MaterialTheme.colorScheme.background,
@@ -412,7 +411,7 @@ fun HNListItemPreviewTitleAndSubtitle() {
 @Preview(name = "Title only / DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HNListItemPreviewTitleOnly() {
-    HellNotesTheme {
+    HellNotesThemePreview {
         Surface(
             modifier = Modifier,
             color = MaterialTheme.colorScheme.background,
@@ -429,7 +428,7 @@ fun HNListItemPreviewTitleOnly() {
 @Preview(name = "DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HNRadioButtonItemPreview() {
-    HellNotesTheme {
+    HellNotesThemePreview {
         Surface(
             modifier = Modifier,
             color = MaterialTheme.colorScheme.background,
@@ -456,7 +455,7 @@ fun HNRadioButtonItemPreview() {
 @Preview(name = "DarkMode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HNCheckboxItemPreview() {
-    HellNotesTheme {
+    HellNotesThemePreview {
         Surface(
             modifier = Modifier,
             color = MaterialTheme.colorScheme.background,

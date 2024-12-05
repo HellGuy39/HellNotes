@@ -34,6 +34,8 @@ fun SettingsRoute(
     navigateToNoteStyleEdit: () -> Unit,
     navigateToNoteSwipeEdit: () -> Unit,
     navigateToBackup: () -> Unit,
+    navigateToTheme: () -> Unit,
+    navigateToColorMode: () -> Unit,
 ) {
     TrackScreenView(screenName = "SettingsScreen")
 
@@ -61,17 +63,11 @@ fun SettingsRoute(
                 settingsViewModel.send(SettingsUiEvent.ToggleIsUseBiometricData(isUseBiometricData))
             }
         },
-        onLockScreen = {
-            navigateToLockSelection()
-        },
-        onNoteStyleEdit = {
-            navigateToNoteStyleEdit()
-        },
-        onNoteSwipeEdit = {
-            navigateToNoteSwipeEdit()
-        },
-        onBackup = {
-            navigateToBackup()
-        },
+        onLockScreen = navigateToLockSelection,
+        onNoteStyleEdit = navigateToNoteStyleEdit,
+        onNoteSwipeEdit = navigateToNoteSwipeEdit,
+        onTheme = navigateToTheme,
+        onBackup = navigateToBackup,
+        onColorMode = navigateToColorMode
     )
 }

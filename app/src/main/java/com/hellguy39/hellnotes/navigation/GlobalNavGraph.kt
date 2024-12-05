@@ -48,6 +48,8 @@ import com.hellguy39.hellnotes.feature.onboarding.OnBoardingViewModel
 import com.hellguy39.hellnotes.feature.reminderedit.navigations.reminderEditScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
+import com.hellguy39.hellnotes.feature.settings.screen.colormode.colorModeScreen
+import com.hellguy39.hellnotes.feature.settings.screen.theme.themeScreen
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -96,6 +98,10 @@ fun GlobalNavGraph(
         lockSelectionScreen(appState)
 
         lockSetupScreen(appState)
+
+        themeScreen(appState)
+
+        colorModeScreen(appState)
 
         languageSelectionScreen(appState)
 

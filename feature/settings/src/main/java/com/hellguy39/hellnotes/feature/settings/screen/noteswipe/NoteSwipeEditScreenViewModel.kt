@@ -17,7 +17,7 @@ package com.hellguy39.hellnotes.feature.settings.screen.noteswipe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipesState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,10 +31,10 @@ import javax.inject.Inject
 class NoteSwipeEditScreenViewModel
     @Inject
     constructor(
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
     ) : ViewModel() {
         val uiState =
-            dataStoreRepository.readNoteSwipesState()
+            settingsRepository.readNoteSwipesState()
                 .map { state ->
                     NoteSwipeEditScreenUiState(
                         noteSwipesState = state,
@@ -64,7 +64,7 @@ class NoteSwipeEditScreenViewModel
             viewModelScope.launch {
                 val state = uiState.value.noteSwipesState
 
-                dataStoreRepository.saveNoteSwipesState(
+                settingsRepository.saveNoteSwipesState(
                     state.copy(swipeLeft = noteSwipe),
                 )
             }
@@ -74,7 +74,7 @@ class NoteSwipeEditScreenViewModel
             viewModelScope.launch {
                 val state = uiState.value.noteSwipesState
 
-                dataStoreRepository.saveNoteSwipesState(
+                settingsRepository.saveNoteSwipesState(
                     state.copy(swipeRight = noteSwipe),
                 )
             }
@@ -84,7 +84,7 @@ class NoteSwipeEditScreenViewModel
             viewModelScope.launch {
                 val state = uiState.value.noteSwipesState
 
-                dataStoreRepository.saveNoteSwipesState(
+                settingsRepository.saveNoteSwipesState(
                     state.copy(enabled = enabled),
                 )
             }

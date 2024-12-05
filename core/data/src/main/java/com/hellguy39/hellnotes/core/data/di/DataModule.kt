@@ -25,7 +25,7 @@ import com.hellguy39.hellnotes.core.domain.repository.notes.NoteActionController
 import com.hellguy39.hellnotes.core.domain.repository.notes.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.notes.ReminderRepository
 import com.hellguy39.hellnotes.core.domain.repository.remote.GithubRepositoryService
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -47,7 +47,7 @@ interface DataModule {
     fun bindChecklistRepository(i: ChecklistRepositoryImpl): ChecklistRepository
 
     @Binds
-    fun bindDataStoreRepository(i: DataStoreRepositoryImpl): DataStoreRepository
+    fun bindSettingsRepository(i: SettingsRepositoryImpl): SettingsRepository
 
     @Binds
     fun bindReleaseService(i: GithubRepositoryServiceImpl): GithubRepositoryService

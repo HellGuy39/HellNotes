@@ -19,14 +19,14 @@ import com.hellguy39.hellnotes.core.domain.repository.notes.ChecklistRepository
 import com.hellguy39.hellnotes.core.domain.repository.notes.LabelRepository
 import com.hellguy39.hellnotes.core.domain.repository.notes.NoteRepository
 import com.hellguy39.hellnotes.core.domain.repository.notes.ReminderRepository
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.domain.usecase.reminder.DeleteReminderUseCase
 import javax.inject.Inject
 
 class ResetAppUseCase
     @Inject
     constructor(
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
         private val noteRepository: NoteRepository,
         private val labelRepository: LabelRepository,
         private val checklistRepository: ChecklistRepository,
@@ -56,6 +56,6 @@ class ResetAppUseCase
         }
 
         private suspend fun resetSettings() {
-            dataStoreRepository.resetToDefault()
+            settingsRepository.resetToDefault()
         }
     }

@@ -35,6 +35,8 @@ fun SettingsScreen(
     onLockScreen: () -> Unit,
     onLanguage: () -> Unit,
     onBackup: () -> Unit,
+    onTheme: () -> Unit,
+    onColorMode: () -> Unit,
     onUseBiometric: (Boolean) -> Unit,
 ) {
     BackHandler { onNavigationButtonClick() }
@@ -56,6 +58,8 @@ fun SettingsScreen(
                 onLockScreen = onLockScreen,
                 onLanguage = onLanguage,
                 onBackup = onBackup,
+                onTheme = onTheme,
+                onColorMode = onColorMode,
                 onUseBiometric = onUseBiometric,
             )
         },

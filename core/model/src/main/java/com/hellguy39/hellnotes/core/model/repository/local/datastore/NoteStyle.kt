@@ -15,28 +15,31 @@
  */
 package com.hellguy39.hellnotes.core.model.repository.local.datastore
 
-sealed class NoteStyle(val tag: String) {
+import com.hellguy39.hellnotes.core.model.wrapper.Tagged
+import com.hellguy39.hellnotes.core.model.wrapper.TaggedCompanion
+import kotlinx.coroutines.flow.flow
+
+sealed class NoteStyle(tag: String) : Tagged(tag, key) {
     data object Outlined : NoteStyle(OUTLINED)
 
     data object Elevated : NoteStyle(ELEVATED)
 
-    companion object {
-        const val OUTLINED = "outlined"
-        const val ELEVATED = "elevated"
+    companion object : TaggedCompanion<NoteStyle> {
+        override val key = "note_style"
 
-        fun styles() = listOf(Outlined, Elevated)
+        override fun defaultValue() = Outlined
 
-        fun default() = NoteStyle.Outlined
-
-        fun fromTag(
-            s: String?,
-            defaultValue: NoteStyle = default(),
-        ): NoteStyle {
-            return when (s) {
-                OUTLINED -> Outlined
-                ELEVATED -> Elevated
-                else -> defaultValue
-            }
+        override fun fromTag(tag: String?) = when (tag) {
+            OUTLINED -> Outlined
+            ELEVATED -> Elevated
+            else -> defaultValue()
         }
+
+        override fun values() = listOf(Outlined, Elevated)
+
+        override fun valuesFlow() = flow { emit(values()) }
+
+        private const val OUTLINED = "outlined"
+        private const val ELEVATED = "elevated"
     }
 }

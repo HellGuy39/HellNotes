@@ -18,7 +18,7 @@ package com.hellguy39.hellnotes.core.domain.usecase.backup
 import android.net.Uri
 import com.hellguy39.hellnotes.core.common.di.IoDispatcher
 import com.hellguy39.hellnotes.core.domain.manager.BackupManager
-import com.hellguy39.hellnotes.core.domain.repository.settings.DataStoreRepository
+import com.hellguy39.hellnotes.core.domain.repository.settings.SettingsRepository
 import com.hellguy39.hellnotes.core.model.Resource
 import com.hellguy39.hellnotes.core.model.repository.local.file.Backup
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,14 +34,14 @@ class BackupDatabaseUseCase
     @Inject
     constructor(
         private val backupManager: BackupManager,
-        private val dataStoreRepository: DataStoreRepository,
+        private val settingsRepository: SettingsRepository,
         @IoDispatcher
         private val ioDispatcher: CoroutineDispatcher,
     ) {
         suspend operator fun invoke(filepath: Uri): Flow<Resource<Backup>> {
             return flow<Resource<Backup>> {
                 val backup = backupManager.createBackup(filepath)
-                dataStoreRepository.saveLastBackupDate(System.currentTimeMillis())
+                settingsRepository.saveLastBackupDate(System.currentTimeMillis())
                 emit(Resource.Success(data = backup))
             }
                 .catch { cause -> emit(Resource.Error(cause.message.toString())) }

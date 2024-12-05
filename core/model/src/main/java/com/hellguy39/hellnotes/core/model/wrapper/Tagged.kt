@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.core.common.api
+package com.hellguy39.hellnotes.core.model.wrapper
 
-import android.os.Build
+import kotlinx.coroutines.flow.Flow
 
-object ApiCapabilities {
-    /**
-     * Returns true for API 33+
-     */
-    val postNotificationsPermissionRequired
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+open class Tagged(
+    val tag: String,
+    val key: String
+)
 
-    /**
-     * Returns true for API 31+
-     */
-    val scheduleExactAlarmsPermissionRequired
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+interface TaggedCompanion<T> {
+    val key: String
 
-    /**
-     * Returns true for API 31+
-     */
-    val dynamicColorAvailable
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    fun values(): List<T>
+
+    fun valuesFlow(): Flow<List<T>>
+
+    fun defaultValue(): T
+
+    fun fromTag(tag: String?): T
 }

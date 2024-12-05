@@ -17,8 +17,10 @@ package com.hellguy39.hellnotes.core.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.hellguy39.hellnotes.core.model.ColorMode
 import com.hellguy39.hellnotes.core.model.Language
 import com.hellguy39.hellnotes.core.model.LockScreenType
+import com.hellguy39.hellnotes.core.model.Theme
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteStyle
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.model.repository.local.datastore.Repeat
@@ -43,6 +45,28 @@ fun Language.asDisplayableString(): String {
         Language.German -> stringResource(id = AppStrings.Lan.German)
         Language.French -> stringResource(id = AppStrings.Lan.French)
         Language.SystemDefault -> stringResource(id = AppStrings.Lan.SystemDefault)
+        else -> "Unknown"
+    }
+}
+
+/* TODO: Add to resources */
+@Composable
+fun Theme.asDisplayableString(): String {
+    return when (this) {
+        Theme.System -> "System"
+        Theme.Dark -> "Dark"
+        Theme.Light -> "Light"
+        else -> "Unknown"
+    }
+}
+
+/* TODO: Add to resources */
+@Composable
+fun ColorMode.asDisplayableString(): String {
+    return when (this) {
+        ColorMode.Default -> "Default"
+        ColorMode.MaterialYou -> "Material You"
+        ColorMode.AmoledBlack -> "AMOLED Black"
         else -> "Unknown"
     }
 }

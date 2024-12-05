@@ -20,8 +20,13 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,9 +36,9 @@ import com.hellguy39.hellnotes.core.model.repository.local.database.Label
 import com.hellguy39.hellnotes.core.model.repository.local.database.Reminder
 import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.resources.AppIcons
-import com.hellguy39.hellnotes.core.ui.theme.HellNotesTheme
+import com.hellguy39.hellnotes.core.ui.theme.HellNotesThemePreview
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun NoteChipGroup(
     modifier: Modifier = Modifier,
@@ -134,7 +139,7 @@ fun NoteChipGroup(
 @Preview
 @Composable
 fun NoteChipGroupPreview() {
-    HellNotesTheme {
+    HellNotesThemePreview {
         NoteChipGroup(
             reminders = listOf(),
             labels =
