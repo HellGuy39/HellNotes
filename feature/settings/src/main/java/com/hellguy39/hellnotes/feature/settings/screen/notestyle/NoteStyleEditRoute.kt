@@ -23,7 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun NoteStyleEditRoute(
+internal fun NoteStyleEditRoute(
     noteStyleEditViewModel: NoteStyleEditViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
 ) {

@@ -31,25 +31,18 @@ import com.hellguy39.hellnotes.feature.aboutapp.screen.changelog.changelogScreen
 import com.hellguy39.hellnotes.feature.aboutapp.screen.privacypolicy.privacyPolicyScreen
 import com.hellguy39.hellnotes.feature.aboutapp.screen.reset.resetScreen
 import com.hellguy39.hellnotes.feature.aboutapp.screen.termsandconditions.termsAndConditionsScreen
-import com.hellguy39.hellnotes.feature.settings.screen.backup.backupScreen
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
 import com.hellguy39.hellnotes.feature.labeledit.navigation.labelEditScreen
 import com.hellguy39.hellnotes.feature.labelselection.navigation.labelSelectionScreen
-import com.hellguy39.hellnotes.feature.settings.screen.language.languageSelectionScreen
 import com.hellguy39.hellnotes.feature.lock.LockFullScreenDialog
 import com.hellguy39.hellnotes.feature.lock.LockViewModel
-import com.hellguy39.hellnotes.feature.settings.screen.lockselection.lockSelectionScreen
-import com.hellguy39.hellnotes.feature.settings.screen.locksetup.lockSetupScreen
 import com.hellguy39.hellnotes.feature.notedetail.navigations.noteDetailScreen
-import com.hellguy39.hellnotes.feature.settings.screen.notestyle.noteStyleEditScreen
-import com.hellguy39.hellnotes.feature.settings.screen.noteswipe.noteSwipeEditScreen
 import com.hellguy39.hellnotes.feature.onboarding.OnBoardingFullScreenDialog
 import com.hellguy39.hellnotes.feature.onboarding.OnBoardingViewModel
 import com.hellguy39.hellnotes.feature.reminderedit.navigations.reminderEditScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
-import com.hellguy39.hellnotes.feature.settings.navigation.settingsScreen
-import com.hellguy39.hellnotes.feature.settings.screen.colormode.colorModeScreen
-import com.hellguy39.hellnotes.feature.settings.screen.theme.themeScreen
+import com.hellguy39.hellnotes.feature.settings.navigation.settingsNavGraph
+import com.hellguy39.hellnotes.feature.settings.screen.settings.navigateToSettingsGraph
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -81,7 +74,10 @@ fun GlobalNavGraph(
         navController = navController,
         startDestination = Screen.Home.route,
     ) {
-        homeScreen(appState)
+        homeScreen(
+            appState = appState,
+            navigateToSettings = appState::navigateToSettingsGraph
+        )
 
         noteDetailScreen(appState)
 
@@ -93,21 +89,9 @@ fun GlobalNavGraph(
 
         labelEditScreen(appState)
 
-        settingsScreen(appState)
-
-        lockSelectionScreen(appState)
-
-        lockSetupScreen(appState)
-
-        themeScreen(appState)
-
-        colorModeScreen(appState)
-
-        languageSelectionScreen(appState)
-
-        noteStyleEditScreen(appState)
-
-        noteSwipeEditScreen(appState)
+        settingsNavGraph(
+            exitGraph = appState::navigateUp
+        )
 
         aboutAppScreen(appState)
 
@@ -118,7 +102,5 @@ fun GlobalNavGraph(
         privacyPolicyScreen(appState)
 
         resetScreen(appState)
-
-        backupScreen(appState)
     }
 }

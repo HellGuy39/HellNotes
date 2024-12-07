@@ -22,7 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun LockSetupRoute(
+internal fun LockSetupRoute(
     lockSetupViewModel: LockSetupViewModel = hiltViewModel(),
     navigateBackToSettings: () -> Unit,
     navigateBack: () -> Unit,

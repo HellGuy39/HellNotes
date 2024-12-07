@@ -35,7 +35,7 @@ import com.hellguy39.hellnotes.core.ui.values.IconSize
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LockSelectionScreen(
+internal fun LockSelectionScreen(
     onNavigationBack: () -> Unit,
     uiState: LockSelectionUiState,
     onLockScreenTypeSelected: (LockScreenType) -> Unit,

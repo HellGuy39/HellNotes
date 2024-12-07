@@ -23,7 +23,7 @@ import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.ui.state.AppState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 
-private fun defaultNavOptions() = navOptions { launchSingleTop = true }
+fun defaultNavOptions() = navOptions { launchSingleTop = true }
 
 fun AppState.navigateToOnBoarding(
     from: NavBackStackEntry,
@@ -84,31 +84,6 @@ fun AppState.navigateToLabelSelection(
     }
 }
 
-fun AppState.navigateToLockSetup(
-    from: NavBackStackEntry,
-    lockType: LockScreenType,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.LockSetup.withArgs(lockType.tag),
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToSettings(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Settings.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
 fun AppState.navigateToAboutApp(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
@@ -158,102 +133,6 @@ fun AppState.navigateToLabelEdit(
     }
 }
 
-fun AppState.navigateToLock(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Lock.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToLockSelection(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.LockSelection.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToLanguageSelection(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.LanguageSelection.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToNoteStyleEdit(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.NoteStyleEdit.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToTheme(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Theme.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToColorMode(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.ColorMode.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToNoteSwipeEdit(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.NoteSwipeEdit.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToReset(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Reset.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
 fun AppState.navigateToChangelog(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
@@ -290,25 +169,13 @@ fun AppState.navigateToTermsAndConditions(
     }
 }
 
-fun AppState.navigateToUpdate(
+fun AppState.navigateToReset(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
-            route = Screen.Update.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToBackup(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Backup.route,
+            route = Screen.Reset.route,
             navOptions = navOptions,
         )
     }

@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LockSelectionViewModel
+internal class LockSelectionViewModel
     @Inject
     constructor(
         private val settingsRepository: SettingsRepository,
@@ -56,7 +56,7 @@ class LockSelectionViewModel
         }
     }
 
-data class LockSelectionUiState(
+internal data class LockSelectionUiState(
     val securityState: SecurityState,
 ) {
     companion object {

@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LockSetupViewModel
+internal class LockSetupViewModel
     @Inject
     constructor(
         private val settingsRepository: SettingsRepository,

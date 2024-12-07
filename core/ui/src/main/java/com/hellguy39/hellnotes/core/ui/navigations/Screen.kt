@@ -20,18 +20,6 @@ import com.hellguy39.hellnotes.core.common.arguments.Arguments
 sealed class Screen(val route: String) {
     data object OnBoarding : Screen(route = "on_boarding")
 
-    data object Lock : Screen(route = "lock")
-
-    data object LockSetup : Screen(route = "lock_setup")
-
-    data object Theme : Screen(route = "theme")
-
-    data object ColorMode : Screen(route = "color_mode")
-
-    data object LanguageSelection : Screen(route = "language_selection")
-
-    data object LockSelection : Screen(route = "lock_selection")
-
     data object Home : Screen(route = "home")
 
     data object Notes : Screen(route = "notes")
@@ -41,8 +29,6 @@ sealed class Screen(val route: String) {
     data object Archive : Screen(route = "archive")
 
     data object Trash : Screen(route = "trash")
-
-    data object Settings : Screen(route = "settings")
 
     data object NoteDetail : Screen(route = "note_detail")
 
@@ -56,10 +42,6 @@ sealed class Screen(val route: String) {
 
     data object LabelSelection : Screen(route = "label_selection")
 
-    data object NoteStyleEdit : Screen(route = "note_style_edit")
-
-    data object NoteSwipeEdit : Screen(route = "note_swipe_edit")
-
     data object Changelog : Screen(route = "changelog")
 
     data object Reset : Screen(route = "reset")
@@ -67,10 +49,6 @@ sealed class Screen(val route: String) {
     data object PrivacyPolicy : Screen(route = "privacy_policy")
 
     data object TermsAndConditions : Screen(route = "terms_and_conditions")
-
-    data object Update : Screen(route = "update")
-
-    data object Backup : Screen(route = "backup")
 
     data class Label(val labelId: Long?) : Screen(route = "label_$labelId")
 

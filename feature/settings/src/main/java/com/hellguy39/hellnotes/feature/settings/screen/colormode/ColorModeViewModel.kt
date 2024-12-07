@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ColorModeViewModel
+internal class ColorModeViewModel
     @Inject
     constructor(
         private val settingsRepository: SettingsRepository

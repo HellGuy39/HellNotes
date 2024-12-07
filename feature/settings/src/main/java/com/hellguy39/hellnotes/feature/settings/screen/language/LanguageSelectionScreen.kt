@@ -41,7 +41,7 @@ import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LanguageSelectionScreen(
+internal fun LanguageSelectionScreen(
     onNavigationButtonClick: () -> Unit,
     onLanguageClick: (language: Language) -> Unit,
     uiState: LanguageSelectionUiState,

@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BackupViewModel
+internal class BackupViewModel
     @Inject
     constructor(
         settingsRepository: SettingsRepository,
