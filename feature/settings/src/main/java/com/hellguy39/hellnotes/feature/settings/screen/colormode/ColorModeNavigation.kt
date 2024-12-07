@@ -24,15 +24,15 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
-import com.hellguy39.hellnotes.feature.settings.SettingsState
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
 internal object ColorModeScreen : com.hellguy39.hellnotes.core.common.navigation.Screen {
     override val endpoint: String = "color_mode"
 }
 
-internal fun SettingsState.navigateToColorMode(
+internal fun GraphState.navigateToColorMode(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -44,7 +44,7 @@ internal fun SettingsState.navigateToColorMode(
     }
 }
 
-internal fun NavGraphBuilder.colorModeScreen(settingsState: SettingsState) {
+internal fun NavGraphBuilder.colorModeScreen(graphState: GraphState) {
     composable(
         route = ColorModeScreen.endpoint,
         arguments = listOf(),
@@ -64,7 +64,7 @@ internal fun NavGraphBuilder.colorModeScreen(settingsState: SettingsState) {
         },
     ) {
         ColorModeRoute(
-            navigateBack = { settingsState.navigateUp() }
+            navigateBack = graphState::navigateUp
         )
     }
 }

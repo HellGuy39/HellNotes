@@ -30,8 +30,8 @@ import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
-import com.hellguy39.hellnotes.feature.settings.SettingsState
 import com.hellguy39.hellnotes.feature.settings.screen.lockselection.LockSelectionScreen
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
@@ -39,7 +39,7 @@ internal object LockSetupScreen : Screen {
     override val endpoint: String = "lock_setup"
 }
 
-internal fun SettingsState.navigateToLockSetup(
+internal fun GraphState.navigateToLockSetup(
     from: NavBackStackEntry,
     lockType: LockScreenType,
     navOptions: NavOptions = defaultNavOptions(),
@@ -52,7 +52,7 @@ internal fun SettingsState.navigateToLockSetup(
     }
 }
 
-internal fun NavGraphBuilder.lockSetupScreen(settingsState: SettingsState) {
+internal fun NavGraphBuilder.lockSetupScreen(graphState: GraphState) {
     composable(
         route = LockSetupScreen.withArgKeys(Arguments.Type.key),
         arguments =
@@ -76,10 +76,10 @@ internal fun NavGraphBuilder.lockSetupScreen(settingsState: SettingsState) {
     ) {
         LockSetupRoute(
             navigateBackToSettings = {
-                settingsState.navController
+                graphState.navController
                     .popBackStack(route = SettingsScreen.endpoint, inclusive = false)
             },
-            navigateBack = { settingsState.navigateUp() },
+            navigateBack = graphState::navigateUp,
         )
     }
 }

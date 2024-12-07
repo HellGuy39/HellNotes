@@ -15,22 +15,43 @@
  */
 package com.hellguy39.hellnotes.feature.aboutapp.screen.changelog
 
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.hellguy39.hellnotes.core.common.navigation.Screen
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
-import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.GraphState
+import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
+import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.AboutAppScreen
 
-fun NavGraphBuilder.changelogScreen(appState: AppState) {
+internal object ChangelogScreen : Screen {
+    override val endpoint: String = "changelog"
+}
+
+internal fun GraphState.navigateToChangelog(
+    from: NavBackStackEntry,
+    navOptions: NavOptions = defaultNavOptions(),
+) {
+    if (from.lifecycleIsResumed()) {
+        navController.navigate(
+            route = ChangelogScreen.endpoint,
+            navOptions = navOptions,
+        )
+    }
+}
+
+internal fun NavGraphBuilder.changelogScreen(graphState: GraphState) {
     composable(
-        route = Screen.Changelog.route,
+        route = ChangelogScreen.endpoint,
         arguments = listOf(),
         enterTransition = {
             when (initialState.destination.route) {
-                Screen.AboutApp.route -> slideEnterTransition()
+                AboutAppScreen.endpoint -> slideEnterTransition()
                 else -> fadeEnterTransition()
             }
         },
@@ -38,13 +59,13 @@ fun NavGraphBuilder.changelogScreen(appState: AppState) {
         popEnterTransition = { fadeEnterTransition() },
         popExitTransition = {
             when (targetState.destination.route) {
-                Screen.AboutApp.route -> slideExitTransition()
+                AboutAppScreen.endpoint -> slideExitTransition()
                 else -> fadeExitTransition()
             }
         },
     ) {
         ChangelogRoute(
-            navigateBack = { appState.navigateUp() },
+            navigateBack = graphState::navigateUp
         )
     }
 }

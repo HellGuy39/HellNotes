@@ -44,7 +44,7 @@ import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChangelogScreen(
+internal fun ChangelogScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: ChangelogUiState,
     onTryAgain: () -> Unit,

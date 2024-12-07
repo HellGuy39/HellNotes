@@ -43,7 +43,7 @@ import com.hellguy39.hellnotes.feature.aboutapp.components.ScrollableRichText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PrivacyPolicyScreen(
+internal fun PrivacyPolicyScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: PrivacyPolicyUiState,
     onTryAgain: () -> Unit,

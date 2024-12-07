@@ -36,19 +36,9 @@ sealed class Screen(val route: String) {
 
     data object Search : Screen(route = "search")
 
-    data object AboutApp : Screen(route = "about_app")
-
     data object LabelEdit : Screen(route = "label_edit")
 
     data object LabelSelection : Screen(route = "label_selection")
-
-    data object Changelog : Screen(route = "changelog")
-
-    data object Reset : Screen(route = "reset")
-
-    data object PrivacyPolicy : Screen(route = "privacy_policy")
-
-    data object TermsAndConditions : Screen(route = "terms_and_conditions")
 
     data class Label(val labelId: Long?) : Screen(route = "label_$labelId")
 

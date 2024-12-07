@@ -26,7 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun ChangelogRoute(
+internal fun ChangelogRoute(
     changelogViewModel: ChangelogViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
 ) {

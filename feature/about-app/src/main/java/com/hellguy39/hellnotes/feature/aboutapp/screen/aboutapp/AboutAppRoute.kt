@@ -22,7 +22,7 @@ import com.hellguy39.hellnotes.feature.aboutapp.util.openGithub
 import com.hellguy39.hellnotes.feature.aboutapp.util.provideFeedback
 
 @Composable
-fun AboutAppRoute(
+internal fun AboutAppRoute(
     navigateBack: () -> Unit,
     navigateToReset: () -> Unit,
     navigateToChangelog: () -> Unit,

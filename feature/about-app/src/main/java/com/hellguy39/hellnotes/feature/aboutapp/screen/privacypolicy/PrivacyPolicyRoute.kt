@@ -23,7 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun PrivacyPolicyRoute(
+internal fun PrivacyPolicyRoute(
     navigateBack: () -> Unit,
     privacyPolicyViewModel: PrivacyPolicyViewModel = hiltViewModel(),
 ) {

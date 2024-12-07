@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChangelogViewModel
+internal class ChangelogViewModel
     @Inject
     constructor(
         private val githubRepositoryService: GithubRepositoryService,

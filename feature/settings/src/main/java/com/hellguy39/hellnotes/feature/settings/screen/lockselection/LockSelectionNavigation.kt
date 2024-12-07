@@ -25,8 +25,8 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
-import com.hellguy39.hellnotes.feature.settings.SettingsState
 import com.hellguy39.hellnotes.feature.settings.screen.locksetup.navigateToLockSetup
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
@@ -34,7 +34,7 @@ internal object LockSelectionScreen : Screen {
     override val endpoint: String = "lock_selection"
 }
 
-internal fun SettingsState.navigateToLockSelection(
+internal fun GraphState.navigateToLockSelection(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -46,7 +46,7 @@ internal fun SettingsState.navigateToLockSelection(
     }
 }
 
-internal fun NavGraphBuilder.lockSelectionScreen(settingsState: SettingsState) {
+internal fun NavGraphBuilder.lockSelectionScreen(graphState: GraphState) {
     composable(
         route = LockSelectionScreen.endpoint,
         enterTransition = {
@@ -65,9 +65,9 @@ internal fun NavGraphBuilder.lockSelectionScreen(settingsState: SettingsState) {
         },
     ) { from ->
         LockSelectionRoute(
-            navigateBack = { settingsState.navigateUp() },
+            navigateBack = graphState::navigateUp,
             navigateToLockSetup = { lockType ->
-                settingsState.navigateToLockSetup(from, lockType)
+                graphState.navigateToLockSetup(from, lockType)
             },
         )
     }

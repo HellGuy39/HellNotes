@@ -25,15 +25,15 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
-import com.hellguy39.hellnotes.feature.settings.SettingsState
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
 internal object BackupScreen : Screen {
     override val endpoint: String = "backup"
 }
 
-internal fun SettingsState.navigateToBackup(
+internal fun GraphState.navigateToBackup(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -45,7 +45,7 @@ internal fun SettingsState.navigateToBackup(
     }
 }
 
-internal fun NavGraphBuilder.backupScreen(settingsState: SettingsState) {
+internal fun NavGraphBuilder.backupScreen(graphState: GraphState) {
     composable(
         route = BackupScreen.endpoint,
         arguments = listOf(),
@@ -65,7 +65,7 @@ internal fun NavGraphBuilder.backupScreen(settingsState: SettingsState) {
         popEnterTransition = { fadeEnterTransition() },
     ) {
         BackupRoute(
-            navigateBack = { settingsState.navigateUp() },
+            navigateBack = graphState::navigateUp
         )
     }
 }

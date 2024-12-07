@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hellguy39.hellnotes.feature.settings.navigation
+package com.hellguy39.hellnotes.feature.aboutapp.navigation
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -31,37 +31,33 @@ import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
 import com.hellguy39.hellnotes.core.ui.state.AppState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 import com.hellguy39.hellnotes.core.ui.state.rememberGraphState
-import com.hellguy39.hellnotes.feature.settings.screen.backup.backupScreen
-import com.hellguy39.hellnotes.feature.settings.screen.colormode.colorModeScreen
-import com.hellguy39.hellnotes.feature.settings.screen.language.languageSelectionScreen
-import com.hellguy39.hellnotes.feature.settings.screen.lockselection.lockSelectionScreen
-import com.hellguy39.hellnotes.feature.settings.screen.locksetup.lockSetupScreen
-import com.hellguy39.hellnotes.feature.settings.screen.notestyle.noteStyleEditScreen
-import com.hellguy39.hellnotes.feature.settings.screen.noteswipe.noteSwipeEditScreen
-import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
-import com.hellguy39.hellnotes.feature.settings.screen.settings.settingsScreen
-import com.hellguy39.hellnotes.feature.settings.screen.theme.themeScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.AboutAppScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.aboutAppScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.changelog.changelogScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.privacypolicy.privacyPolicyScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.reset.resetScreen
+import com.hellguy39.hellnotes.feature.aboutapp.screen.termsandconditions.termsAndConditionsScreen
 
-object SettingsNavGraph : Graph {
-    override val endpoint: String = "settings"
+object AboutAppNavGraph : Graph {
+    override val endpoint: String = "about_app"
 }
 
-fun AppState.navigateToSettingsGraph(
+fun AppState.navigateToAboutAppGraph(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
-            route = SettingsNavGraph.endpoint,
+            route = AboutAppNavGraph.endpoint,
             navOptions = navOptions,
         )
     }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
-fun NavGraphBuilder.settingsNavGraph(exitGraph: () -> Unit) {
+fun NavGraphBuilder.aboutNavGraph(exitGraph: () -> Unit) {
     composable(
-        route = SettingsNavGraph.endpoint,
+        route = AboutAppNavGraph.endpoint,
         arguments = listOf(),
         enterTransition = { fadeEnterTransition() },
         exitTransition = { fadeExitTransition() },
@@ -73,28 +69,20 @@ fun NavGraphBuilder.settingsNavGraph(exitGraph: () -> Unit) {
         NavHost(
             modifier = Modifier.semantics { testTagsAsResourceId = true },
             navController = graphState.navController,
-            startDestination = SettingsScreen.endpoint,
+            startDestination = AboutAppScreen.endpoint,
         ) {
-            settingsScreen(
+            aboutAppScreen(
                 exitGraph = exitGraph,
-                graphState = graphState
+                aboutAppState = graphState
             )
 
-            backupScreen(graphState)
+            changelogScreen(graphState)
 
-            lockSelectionScreen(graphState)
+            termsAndConditionsScreen(graphState)
 
-            lockSetupScreen(graphState)
+            privacyPolicyScreen(graphState)
 
-            languageSelectionScreen(graphState)
-
-            noteStyleEditScreen(graphState)
-
-            noteSwipeEditScreen(graphState)
-
-            themeScreen(graphState)
-
-            colorModeScreen(graphState)
+            resetScreen(graphState)
         }
     }
 }
