@@ -49,7 +49,7 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @Composable
-fun ChangelogCard(
+internal fun ChangelogCard(
     modifier: Modifier = Modifier,
     release: Release,
     onOpenReleaseClick: () -> Unit,

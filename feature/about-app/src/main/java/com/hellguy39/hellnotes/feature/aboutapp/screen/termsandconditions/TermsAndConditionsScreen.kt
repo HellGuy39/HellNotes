@@ -32,7 +32,7 @@ import com.hellguy39.hellnotes.feature.aboutapp.components.ScrollableRichText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TermsAndConditionsScreen(
+internal fun TermsAndConditionsScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: TermsAndConditionsUiState,
     onTryAgain: () -> Unit,

@@ -84,18 +84,6 @@ fun AppState.navigateToLabelSelection(
     }
 }
 
-fun AppState.navigateToAboutApp(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.AboutApp.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
 fun AppState.navigateToHome(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
@@ -128,54 +116,6 @@ fun AppState.navigateToLabelEdit(
     if (from.lifecycleIsResumed()) {
         navController.navigate(
             route = Screen.LabelEdit.withArgs(action),
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToChangelog(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Changelog.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToPrivacyPolicy(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.PrivacyPolicy.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToTermsAndConditions(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.TermsAndConditions.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToReset(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Reset.route,
             navOptions = navOptions,
         )
     }

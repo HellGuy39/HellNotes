@@ -1,17 +1,11 @@
 package com.hellguy39.hellnotes.feature.settings.screen.settings
 
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.common.navigation.Screen
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
-import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
-import com.hellguy39.hellnotes.core.ui.state.AppState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
-import com.hellguy39.hellnotes.feature.settings.SettingsState
-import com.hellguy39.hellnotes.feature.settings.navigation.SettingsNavGraph
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.feature.settings.screen.backup.navigateToBackup
 import com.hellguy39.hellnotes.feature.settings.screen.colormode.navigateToColorMode
 import com.hellguy39.hellnotes.feature.settings.screen.language.navigateToLanguageSelection
@@ -24,19 +18,7 @@ internal object SettingsScreen : Screen {
     override val endpoint: String = "settings"
 }
 
-fun AppState.navigateToSettingsGraph(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = SettingsNavGraph.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
-
-internal fun NavGraphBuilder.settingsScreen(exitGraph: () -> Unit, settingsState: SettingsState) {
+internal fun NavGraphBuilder.settingsScreen(exitGraph: () -> Unit, graphState: GraphState) {
     composable(
         route = SettingsScreen.endpoint,
         arguments = listOf(),
@@ -47,13 +29,13 @@ internal fun NavGraphBuilder.settingsScreen(exitGraph: () -> Unit, settingsState
     ) { from ->
         SettingsRoute(
             navigateBack = exitGraph,
-            navigateToLanguageSelection = { settingsState.navigateToLanguageSelection(from) },
-            navigateToLockSelection = { settingsState.navigateToLockSelection(from) },
-            navigateToNoteStyleEdit = { settingsState.navigateToNoteStyleEdit(from) },
-            navigateToNoteSwipeEdit = { settingsState.navigateToNoteSwipeEdit(from) },
-            navigateToTheme = { settingsState.navigateToTheme(from) },
-            navigateToBackup = { settingsState.navigateToBackup(from) },
-            navigateToColorMode = { settingsState.navigateToColorMode(from) }
+            navigateToLanguageSelection = { graphState.navigateToLanguageSelection(from) },
+            navigateToLockSelection = { graphState.navigateToLockSelection(from) },
+            navigateToNoteStyleEdit = { graphState.navigateToNoteStyleEdit(from) },
+            navigateToNoteSwipeEdit = { graphState.navigateToNoteSwipeEdit(from) },
+            navigateToTheme = { graphState.navigateToTheme(from) },
+            navigateToBackup = { graphState.navigateToBackup(from) },
+            navigateToColorMode = { graphState.navigateToColorMode(from) }
         )
     }
 }

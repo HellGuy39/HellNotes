@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PrivacyPolicyViewModel
+internal class PrivacyPolicyViewModel
     @Inject
     constructor(
         private val githubRepositoryService: GithubRepositoryService,
@@ -86,7 +86,7 @@ class PrivacyPolicyViewModel
     }
 
 sealed class PrivacyPolicyUiEvent {
-    object TryAgain : PrivacyPolicyUiEvent()
+    data object TryAgain : PrivacyPolicyUiEvent()
 }
 
 data class PrivacyPolicyUiState(

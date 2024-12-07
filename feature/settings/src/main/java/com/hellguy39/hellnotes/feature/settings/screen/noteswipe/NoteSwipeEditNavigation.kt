@@ -25,15 +25,15 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
-import com.hellguy39.hellnotes.feature.settings.SettingsState
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
 internal object NoteSwipeEditScreen : Screen {
     override val endpoint: String = "note_swipe_edit"
 }
 
-internal fun SettingsState.navigateToNoteSwipeEdit(
+internal fun GraphState.navigateToNoteSwipeEdit(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -45,7 +45,7 @@ internal fun SettingsState.navigateToNoteSwipeEdit(
     }
 }
 
-internal fun NavGraphBuilder.noteSwipeEditScreen(settingsState: SettingsState) {
+internal fun NavGraphBuilder.noteSwipeEditScreen(graphState: GraphState) {
     composable(
         route = NoteSwipeEditScreen.endpoint,
         enterTransition = {
@@ -64,7 +64,7 @@ internal fun NavGraphBuilder.noteSwipeEditScreen(settingsState: SettingsState) {
         },
     ) {
         NoteSwipeEditRoute(
-            navigateBack = { settingsState.navigateUp() },
+            navigateBack = graphState::navigateUp,
         )
     }
 }

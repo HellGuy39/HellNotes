@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ResetViewModel
+internal class ResetViewModel
     @Inject
     constructor(
         private val resetAppUseCase: ResetAppUseCase,

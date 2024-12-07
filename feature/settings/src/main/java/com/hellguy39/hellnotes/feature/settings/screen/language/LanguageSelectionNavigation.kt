@@ -25,15 +25,15 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
-import com.hellguy39.hellnotes.feature.settings.SettingsState
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
 internal object LanguageSelectionScreen : Screen {
     override val endpoint: String = "language_selection"
 }
 
-internal fun SettingsState.navigateToLanguageSelection(
+internal fun GraphState.navigateToLanguageSelection(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -45,7 +45,7 @@ internal fun SettingsState.navigateToLanguageSelection(
     }
 }
 
-internal fun NavGraphBuilder.languageSelectionScreen(settingsState: SettingsState) {
+internal fun NavGraphBuilder.languageSelectionScreen(graphState: GraphState) {
     composable(
         route = LanguageSelectionScreen.endpoint,
         arguments = listOf(),
@@ -65,7 +65,7 @@ internal fun NavGraphBuilder.languageSelectionScreen(settingsState: SettingsStat
         },
     ) {
         LanguageSelectionRoute(
-            navigateBack = { settingsState.navigateUp() },
+            navigateBack = graphState::navigateUp,
         )
     }
 }

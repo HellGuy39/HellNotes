@@ -25,15 +25,15 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
-import com.hellguy39.hellnotes.feature.settings.SettingsState
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
 internal object ThemeScreen : Screen {
     override val endpoint: String = "theme"
 }
 
-internal fun SettingsState.navigateToTheme(
+internal fun GraphState.navigateToTheme(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
@@ -45,7 +45,7 @@ internal fun SettingsState.navigateToTheme(
     }
 }
 
-internal fun NavGraphBuilder.themeScreen(settingsState: SettingsState) {
+internal fun NavGraphBuilder.themeScreen(graphState: GraphState) {
     composable(
         route = ThemeScreen.endpoint,
         arguments = listOf(),
@@ -65,7 +65,7 @@ internal fun NavGraphBuilder.themeScreen(settingsState: SettingsState) {
         },
     ) {
         ThemeRoute(
-            navigateBack = { settingsState.navigateUp() }
+            navigateBack = graphState::navigateUp
         )
     }
 }

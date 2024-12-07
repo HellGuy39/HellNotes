@@ -26,11 +26,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.state.AppState
-import com.hellguy39.hellnotes.feature.aboutapp.navigation.aboutAppScreen
-import com.hellguy39.hellnotes.feature.aboutapp.screen.changelog.changelogScreen
-import com.hellguy39.hellnotes.feature.aboutapp.screen.privacypolicy.privacyPolicyScreen
-import com.hellguy39.hellnotes.feature.aboutapp.screen.reset.resetScreen
-import com.hellguy39.hellnotes.feature.aboutapp.screen.termsandconditions.termsAndConditionsScreen
+import com.hellguy39.hellnotes.feature.aboutapp.navigation.aboutNavGraph
+import com.hellguy39.hellnotes.feature.aboutapp.navigation.navigateToAboutAppGraph
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
 import com.hellguy39.hellnotes.feature.labeledit.navigation.labelEditScreen
 import com.hellguy39.hellnotes.feature.labelselection.navigation.labelSelectionScreen
@@ -41,8 +38,8 @@ import com.hellguy39.hellnotes.feature.onboarding.OnBoardingFullScreenDialog
 import com.hellguy39.hellnotes.feature.onboarding.OnBoardingViewModel
 import com.hellguy39.hellnotes.feature.reminderedit.navigations.reminderEditScreen
 import com.hellguy39.hellnotes.feature.search.navigation.searchScreen
+import com.hellguy39.hellnotes.feature.settings.navigation.navigateToSettingsGraph
 import com.hellguy39.hellnotes.feature.settings.navigation.settingsNavGraph
-import com.hellguy39.hellnotes.feature.settings.screen.settings.navigateToSettingsGraph
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -76,7 +73,8 @@ fun GlobalNavGraph(
     ) {
         homeScreen(
             appState = appState,
-            navigateToSettings = appState::navigateToSettingsGraph
+            navigateToSettings = appState::navigateToSettingsGraph,
+            navigateToAboutApp = appState::navigateToAboutAppGraph
         )
 
         noteDetailScreen(appState)
@@ -93,14 +91,8 @@ fun GlobalNavGraph(
             exitGraph = appState::navigateUp
         )
 
-        aboutAppScreen(appState)
-
-        changelogScreen(appState)
-
-        termsAndConditionsScreen(appState)
-
-        privacyPolicyScreen(appState)
-
-        resetScreen(appState)
+        aboutNavGraph(
+            exitGraph = appState::navigateUp
+        )
     }
 }

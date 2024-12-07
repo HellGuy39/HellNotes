@@ -21,7 +21,6 @@ import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.navigations.navigateToAboutApp
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelEdit
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToSearch
@@ -30,7 +29,8 @@ import com.hellguy39.hellnotes.feature.home.HomeRoute
 
 fun NavGraphBuilder.homeScreen(
     appState: AppState,
-    navigateToSettings: (entry: NavBackStackEntry) -> Unit
+    navigateToSettings: (entry: NavBackStackEntry) -> Unit,
+    navigateToAboutApp: (entry: NavBackStackEntry) -> Unit
 ) {
     composable(
         route = Screen.Home.route,
@@ -42,7 +42,7 @@ fun NavGraphBuilder.homeScreen(
     ) { from ->
         HomeRoute(
             navigateToSettings = { navigateToSettings(from) },
-            navigateToAbout = { appState.navigateToAboutApp(from) },
+            navigateToAbout = { navigateToAboutApp(from) },
             navigateToSearch = { appState.navigateToSearch(from) },
             navigateToNoteDetail = { id -> appState.navigateToNoteDetail(from, id) },
             navigateToLabelEdit = { action -> appState.navigateToLabelEdit(from, action) },

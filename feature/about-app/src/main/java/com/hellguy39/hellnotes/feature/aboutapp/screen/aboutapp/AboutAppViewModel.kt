@@ -18,6 +18,6 @@ package com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
-class AboutAppViewModel
+internal class AboutAppViewModel
     @Inject
     constructor() : ViewModel()

@@ -41,7 +41,7 @@ import com.hellguy39.hellnotes.core.ui.values.Spaces
 import com.hellguy39.hellnotes.feature.aboutapp.BuildConfig
 
 @Composable
-fun AboutAppScreenContent(
+internal fun AboutAppScreenContent(
     innerPadding: PaddingValues,
     onGithub: () -> Unit = {},
     onChangelog: () -> Unit = {},

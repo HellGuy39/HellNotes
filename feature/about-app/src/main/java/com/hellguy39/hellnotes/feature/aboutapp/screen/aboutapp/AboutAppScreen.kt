@@ -32,7 +32,7 @@ import com.hellguy39.hellnotes.core.ui.theme.HellNotesThemePreview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutAppScreen(
+internal fun AboutAppScreen(
     onNavigationButtonClick: () -> Unit = {},
     onGithub: () -> Unit = {},
     onChangelog: () -> Unit = {},

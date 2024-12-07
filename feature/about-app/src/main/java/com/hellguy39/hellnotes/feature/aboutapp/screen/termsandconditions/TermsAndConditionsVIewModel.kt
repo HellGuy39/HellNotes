@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TermsAndConditionsViewModel
+internal class TermsAndConditionsViewModel
     @Inject
     constructor(
         private val githubRepositoryService: GithubRepositoryService,
