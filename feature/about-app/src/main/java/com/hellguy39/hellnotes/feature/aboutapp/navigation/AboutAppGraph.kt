@@ -28,8 +28,8 @@ import com.hellguy39.hellnotes.core.common.navigation.Graph
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
-import com.hellguy39.hellnotes.core.ui.state.AppState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.rememberGraphState
 import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.AboutAppScreen
 import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.aboutAppScreen
@@ -42,17 +42,10 @@ object AboutAppNavGraph : Graph {
     override val endpoint: String = "about_app"
 }
 
-fun AppState.navigateToAboutAppGraph(
+fun GraphState.navigateToAboutAppGraph(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = AboutAppNavGraph.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, AboutAppNavGraph.endpoint, navOptions)
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun NavGraphBuilder.aboutNavGraph(exitGraph: () -> Unit) {

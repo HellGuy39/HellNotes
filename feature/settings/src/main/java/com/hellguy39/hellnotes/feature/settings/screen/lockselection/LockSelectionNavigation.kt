@@ -25,8 +25,8 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
 import com.hellguy39.hellnotes.core.ui.state.GraphState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 import com.hellguy39.hellnotes.feature.settings.screen.locksetup.navigateToLockSetup
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
@@ -37,14 +37,7 @@ internal object LockSelectionScreen : Screen {
 internal fun GraphState.navigateToLockSelection(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = LockSelectionScreen.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, LockSelectionScreen.endpoint, navOptions)
 
 internal fun NavGraphBuilder.lockSelectionScreen(graphState: GraphState) {
     composable(

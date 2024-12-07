@@ -27,10 +27,10 @@ import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationDeeplink
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelSelection
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToReminderEdit
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.feature.notedetail.NoteDetailRoute
 
-fun NavGraphBuilder.noteDetailScreen(appState: AppState) {
+fun NavGraphBuilder.noteDetailScreen(graphState: GraphState) {
     composable(
         route = Screen.NoteDetail.withArgKeys(Arguments.NoteId.key),
         arguments =
@@ -59,10 +59,10 @@ fun NavGraphBuilder.noteDetailScreen(appState: AppState) {
         },
     ) { from ->
         NoteDetailRoute(
-            navigateBack = { appState.navigateUp() },
-            navigateToLabelSelection = { id -> appState.navigateToLabelSelection(from, id) },
+            navigateBack = graphState::navigateUp,
+            navigateToLabelSelection = { id -> graphState.navigateToLabelSelection(from, id) },
             navigateToReminderEdit = { noteId, reminderId ->
-                appState.navigateToReminderEdit(from, noteId, reminderId)
+                graphState.navigateToReminderEdit(from, noteId, reminderId)
             },
         )
     }

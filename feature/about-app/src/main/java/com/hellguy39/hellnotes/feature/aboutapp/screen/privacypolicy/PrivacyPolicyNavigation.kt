@@ -25,8 +25,8 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
 import com.hellguy39.hellnotes.core.ui.state.GraphState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.AboutAppScreen
 
 internal object PrivacyPolicyScreen : Screen {
@@ -36,14 +36,7 @@ internal object PrivacyPolicyScreen : Screen {
 internal fun GraphState.navigateToPrivacyPolicy(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = PrivacyPolicyScreen.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, PrivacyPolicyScreen.endpoint, navOptions)
 
 internal fun NavGraphBuilder.privacyPolicyScreen(graphState: GraphState) {
     composable(

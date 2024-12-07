@@ -24,10 +24,10 @@ import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.feature.labelselection.LabelSelectionRoute
 
-fun NavGraphBuilder.labelSelectionScreen(appState: AppState) {
+fun NavGraphBuilder.labelSelectionScreen(graphState: GraphState) {
     composable(
         route = Screen.LabelSelection.withArgKeys(Arguments.NoteId.key),
         arguments =
@@ -50,7 +50,7 @@ fun NavGraphBuilder.labelSelectionScreen(appState: AppState) {
         },
     ) {
         LabelSelectionRoute(
-            navigateBack = { appState.navigateUp() },
+            navigateBack = graphState::navigateUp,
         )
     }
 }

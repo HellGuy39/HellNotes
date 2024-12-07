@@ -21,10 +21,10 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.feature.search.SearchRoute
 
-fun NavGraphBuilder.searchScreen(appState: AppState) {
+fun NavGraphBuilder.searchScreen(graphState: GraphState) {
     composable(
         route = Screen.Search.route,
         enterTransition = { fadeEnterTransition() },
@@ -33,8 +33,8 @@ fun NavGraphBuilder.searchScreen(appState: AppState) {
         popEnterTransition = { fadeEnterTransition() },
     ) { from ->
         SearchRoute(
-            navigateBack = { appState.navigateUp() },
-            navigateToNoteDetail = { id -> appState.navigateToNoteDetail(from, id) },
+            navigateBack = graphState::navigateUp,
+            navigateToNoteDetail = { id -> graphState.navigateToNoteDetail(from, id) },
         )
     }
 }

@@ -19,40 +19,34 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
-import com.hellguy39.hellnotes.core.model.LockScreenType
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 
 fun defaultNavOptions() = navOptions { launchSingleTop = true }
 
-fun AppState.navigateToOnBoarding(
+fun GraphState.navigateTo(
     from: NavBackStackEntry,
+    route: String,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
     if (from.lifecycleIsResumed()) {
         navController.navigate(
-            route = Screen.OnBoarding.route,
+            route = route,
             navOptions = navOptions,
         )
     }
 }
 
-fun AppState.navigateToNoteDetail(
+fun GraphState.navigateToNoteDetail(
     from: NavBackStackEntry,
     noteId: Long? = Arguments.NoteId.emptyValue,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
     val noteIdArg = noteId ?: Arguments.NoteId.emptyValue
-
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.NoteDetail.withArgs(noteIdArg.toString()),
-            navOptions = navOptions,
-        )
-    }
+    navigateTo(from, Screen.NoteDetail.withArgs(noteIdArg.toString()), navOptions)
 }
 
-fun AppState.navigateToReminderEdit(
+fun GraphState.navigateToReminderEdit(
     from: NavBackStackEntry,
     noteId: Long? = Arguments.NoteId.emptyValue,
     reminderId: Long? = Arguments.ReminderId.emptyValue,
@@ -61,62 +55,30 @@ fun AppState.navigateToReminderEdit(
     val noteIdArg = noteId ?: Arguments.NoteId.emptyValue
     val reminderIdArg = reminderId ?: Arguments.ReminderId.emptyValue
 
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.ReminderEdit.withArgs(noteIdArg.toString(), reminderIdArg.toString()),
-            navOptions = navOptions,
-        )
-    }
+    navigateTo(from, Screen.ReminderEdit.withArgs(noteIdArg.toString(), reminderIdArg.toString()), navOptions)
 }
 
-fun AppState.navigateToLabelSelection(
+fun GraphState.navigateToLabelSelection(
     from: NavBackStackEntry,
     noteId: Long? = Arguments.NoteId.emptyValue,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
     val noteIdArg = noteId ?: Arguments.NoteId.emptyValue
 
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.LabelSelection.withArgs(noteIdArg.toString()),
-            navOptions = navOptions,
-        )
-    }
+    navigateTo(from, Screen.LabelSelection.withArgs(noteIdArg.toString()), navOptions)
 }
 
-fun AppState.navigateToHome(
+fun GraphState.navigateToSearch(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Home.route,
-            navOptions = navOptions,
-        )
-    }
+    navigateTo(from, Screen.Search.route, navOptions)
 }
 
-fun AppState.navigateToSearch(
-    from: NavBackStackEntry,
-    navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.Search.route,
-            navOptions = navOptions,
-        )
-    }
-}
-
-fun AppState.navigateToLabelEdit(
+fun GraphState.navigateToLabelEdit(
     from: NavBackStackEntry,
     action: String,
     navOptions: NavOptions = defaultNavOptions(),
 ) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = Screen.LabelEdit.withArgs(action),
-            navOptions = navOptions,
-        )
-    }
+    navigateTo(from, Screen.LabelEdit.withArgs(action), navOptions)
 }

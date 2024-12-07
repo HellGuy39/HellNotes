@@ -25,7 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.GraphState
+import com.hellguy39.hellnotes.core.ui.state.rememberGraphState
 import com.hellguy39.hellnotes.feature.aboutapp.navigation.aboutNavGraph
 import com.hellguy39.hellnotes.feature.aboutapp.navigation.navigateToAboutAppGraph
 import com.hellguy39.hellnotes.feature.home.navigation.homeScreen
@@ -44,12 +45,10 @@ import com.hellguy39.hellnotes.feature.settings.navigation.settingsNavGraph
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun GlobalNavGraph(
-    appState: AppState,
+    graphState: GraphState = rememberGraphState(),
     onBoardingViewModel: OnBoardingViewModel = hiltViewModel(),
     lockViewModel: LockViewModel = hiltViewModel(),
 ) {
-    val navController = appState.navController
-
     val onBoardingState by onBoardingViewModel.onBoardingState.collectAsStateWithLifecycle()
 
     val isLocked by lockViewModel.isLocked.collectAsStateWithLifecycle()
@@ -68,31 +67,31 @@ fun GlobalNavGraph(
         modifier =
             Modifier
                 .semantics { testTagsAsResourceId = true },
-        navController = navController,
+        navController = graphState.navController,
         startDestination = Screen.Home.route,
     ) {
         homeScreen(
-            appState = appState,
-            navigateToSettings = appState::navigateToSettingsGraph,
-            navigateToAboutApp = appState::navigateToAboutAppGraph
+            graphState = graphState,
+            navigateToSettings = graphState::navigateToSettingsGraph,
+            navigateToAboutApp = graphState::navigateToAboutAppGraph
         )
 
-        noteDetailScreen(appState)
+        noteDetailScreen(graphState)
 
-        reminderEditScreen(appState)
+        reminderEditScreen(graphState)
 
-        labelSelectionScreen(appState)
+        labelSelectionScreen(graphState)
 
-        searchScreen(appState)
+        searchScreen(graphState)
 
-        labelEditScreen(appState)
+        labelEditScreen(graphState)
 
         settingsNavGraph(
-            exitGraph = appState::navigateUp
+            exitGraph = graphState::navigateUp
         )
 
         aboutNavGraph(
-            exitGraph = appState::navigateUp
+            exitGraph = graphState::navigateUp
         )
     }
 }
