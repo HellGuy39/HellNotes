@@ -22,7 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun ThemeRoute(
+internal fun ThemeRoute(
     navigateBack: () -> Unit,
     themeViewModel: ThemeViewModel = hiltViewModel()
 ) {

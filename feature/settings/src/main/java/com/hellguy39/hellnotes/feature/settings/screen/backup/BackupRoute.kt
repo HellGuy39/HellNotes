@@ -26,7 +26,7 @@ import com.hellguy39.hellnotes.core.ui.DateTimeUtils
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun BackupRoute(
+internal fun BackupRoute(
     backupViewModel: BackupViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
 ) {

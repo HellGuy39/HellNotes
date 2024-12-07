@@ -24,7 +24,7 @@ import com.hellguy39.hellnotes.core.model.repository.local.datastore.NoteSwipe
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun NoteSwipeEditRoute(
+internal fun NoteSwipeEditRoute(
     viewModel: NoteSwipeEditScreenViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
 ) {

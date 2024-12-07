@@ -15,27 +15,53 @@
  */
 package com.hellguy39.hellnotes.feature.settings.screen.locksetup
 
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
+import com.hellguy39.hellnotes.core.common.navigation.Screen
+import com.hellguy39.hellnotes.core.common.navigation.withArgKeys
+import com.hellguy39.hellnotes.core.common.navigation.withArgs
+import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
-import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
+import com.hellguy39.hellnotes.feature.settings.SettingsState
+import com.hellguy39.hellnotes.feature.settings.screen.lockselection.LockSelectionScreen
+import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
-fun NavGraphBuilder.lockSetupScreen(appState: AppState) {
+internal object LockSetupScreen : Screen {
+    override val endpoint: String = "lock_setup"
+}
+
+internal fun SettingsState.navigateToLockSetup(
+    from: NavBackStackEntry,
+    lockType: LockScreenType,
+    navOptions: NavOptions = defaultNavOptions(),
+) {
+    if (from.lifecycleIsResumed()) {
+        navController.navigate(
+            route = LockSetupScreen.withArgs(lockType.tag),
+            navOptions = navOptions,
+        )
+    }
+}
+
+internal fun NavGraphBuilder.lockSetupScreen(settingsState: SettingsState) {
     composable(
-        route = Screen.LockSetup.withArgKeys(Arguments.Type.key),
+        route = LockSetupScreen.withArgKeys(Arguments.Type.key),
         arguments =
             listOf(
                 Arguments.Type.asNavigationArgument(),
             ),
         enterTransition = {
             when (initialState.destination.route) {
-                Screen.LockSelection.route -> slideEnterTransition()
+                LockSelectionScreen.endpoint -> slideEnterTransition()
                 else -> fadeEnterTransition()
             }
         },
@@ -43,17 +69,17 @@ fun NavGraphBuilder.lockSetupScreen(appState: AppState) {
         popEnterTransition = { fadeEnterTransition() },
         popExitTransition = {
             when (targetState.destination.route) {
-                Screen.LockSelection.route -> slideExitTransition()
+                LockSelectionScreen.endpoint -> slideExitTransition()
                 else -> fadeExitTransition()
             }
         },
     ) {
-        com.hellguy39.hellnotes.feature.settings.screen.locksetup.LockSetupRoute(
+        LockSetupRoute(
             navigateBackToSettings = {
-                appState.navController
-                    .popBackStack(route = Screen.Settings.route, inclusive = false)
+                settingsState.navController
+                    .popBackStack(route = SettingsScreen.endpoint, inclusive = false)
             },
-            navigateBack = { appState.navigateUp() },
+            navigateBack = { settingsState.navigateUp() },
         )
     }
 }

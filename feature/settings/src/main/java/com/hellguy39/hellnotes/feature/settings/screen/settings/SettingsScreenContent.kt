@@ -36,7 +36,7 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 import com.hellguy39.hellnotes.feature.settings.BuildConfig
 
 @Composable
-fun SettingsScreenContent(
+internal fun SettingsScreenContent(
     modifier: Modifier = Modifier,
     innerPadding: PaddingValues,
     uiState: SettingsUiState,

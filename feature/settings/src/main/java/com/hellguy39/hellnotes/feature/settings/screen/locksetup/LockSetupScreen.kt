@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import com.hellguy39.hellnotes.core.model.LockScreenType
 
 @Composable
-fun LockSetupScreen(
+internal fun LockSetupScreen(
     uiState: LockSetupUiState,
     onNavigationBack: () -> Unit,
     onCodeReceived: (String) -> Unit,

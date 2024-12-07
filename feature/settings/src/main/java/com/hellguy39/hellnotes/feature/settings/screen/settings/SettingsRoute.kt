@@ -26,7 +26,7 @@ import com.hellguy39.hellnotes.core.domain.repository.system.DeviceBiometricStat
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun SettingsRoute(
+internal fun SettingsRoute(
     settingsViewModel: SettingsViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
     navigateToLanguageSelection: () -> Unit,

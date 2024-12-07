@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteSwipeEditScreenViewModel
+internal class NoteSwipeEditScreenViewModel
     @Inject
     constructor(
         private val settingsRepository: SettingsRepository,

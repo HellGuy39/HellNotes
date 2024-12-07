@@ -27,7 +27,7 @@ import com.hellguy39.hellnotes.core.ui.resources.AppStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(
+internal fun SettingsScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: SettingsUiState,
     onNoteSwipeEdit: () -> Unit,

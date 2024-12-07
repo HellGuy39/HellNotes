@@ -15,22 +15,42 @@
  */
 package com.hellguy39.hellnotes.feature.settings.screen.colormode
 
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
-import com.hellguy39.hellnotes.core.ui.navigations.Screen
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
+import com.hellguy39.hellnotes.feature.settings.SettingsState
+import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
-fun NavGraphBuilder.colorModeScreen(appState: AppState) {
+internal object ColorModeScreen : com.hellguy39.hellnotes.core.common.navigation.Screen {
+    override val endpoint: String = "color_mode"
+}
+
+internal fun SettingsState.navigateToColorMode(
+    from: NavBackStackEntry,
+    navOptions: NavOptions = defaultNavOptions(),
+) {
+    if (from.lifecycleIsResumed()) {
+        navController.navigate(
+            route = ColorModeScreen.endpoint,
+            navOptions = navOptions,
+        )
+    }
+}
+
+internal fun NavGraphBuilder.colorModeScreen(settingsState: SettingsState) {
     composable(
-        route = Screen.ColorMode.route,
+        route = ColorModeScreen.endpoint,
         arguments = listOf(),
         enterTransition = {
             when (initialState.destination.route) {
-                Screen.Settings.route -> slideEnterTransition()
+                SettingsScreen.endpoint -> slideEnterTransition()
                 else -> fadeEnterTransition()
             }
         },
@@ -38,13 +58,13 @@ fun NavGraphBuilder.colorModeScreen(appState: AppState) {
         popEnterTransition = { fadeEnterTransition() },
         popExitTransition = {
             when (targetState.destination.route) {
-                Screen.Settings.route -> slideExitTransition()
+                SettingsScreen.endpoint -> slideExitTransition()
                 else -> fadeExitTransition()
             }
         },
     ) {
         ColorModeRoute(
-            navigateBack = { appState.navigateUp() }
+            navigateBack = { settingsState.navigateUp() }
         )
     }
 }

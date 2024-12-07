@@ -39,7 +39,7 @@ import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun LockSetupPasswordScreen(
+internal fun LockSetupPasswordScreen(
     onNavigationBack: () -> Unit,
     onPasswordEntered: (String) -> Unit,
 ) {
@@ -215,10 +215,10 @@ fun LockSetupPasswordScreen(
     }
 }
 
-sealed class SetupPasswordState {
-    object SetPassword : SetupPasswordState()
+internal sealed class SetupPasswordState {
+    data object SetPassword : SetupPasswordState()
 
-    object ConfirmPassword : SetupPasswordState()
+    data object ConfirmPassword : SetupPasswordState()
 
     fun parse(): String {
         return when (this) {

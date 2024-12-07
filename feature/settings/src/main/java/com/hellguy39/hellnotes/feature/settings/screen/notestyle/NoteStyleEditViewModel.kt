@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteStyleEditViewModel
+internal class NoteStyleEditViewModel
     @Inject
     constructor(
         private val settingsRepository: SettingsRepository,
@@ -63,7 +63,7 @@ class NoteStyleEditViewModel
         }
     }
 
-data class NoteStyleEditUiState(
+internal data class NoteStyleEditUiState(
     val styles: SnapshotStateList<NoteStyle> = mutableStateListOf(),
     val selectedNoteStyle: NoteStyle = NoteStyle.Outlined,
 )

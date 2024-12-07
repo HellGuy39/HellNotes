@@ -25,7 +25,7 @@ import com.hellguy39.hellnotes.core.model.LockScreenType
 import com.hellguy39.hellnotes.core.ui.analytics.TrackScreenView
 
 @Composable
-fun LockSelectionRoute(
+internal fun LockSelectionRoute(
     lockSelectionViewModel: LockSelectionViewModel = hiltViewModel(),
     navigateBack: () -> Unit,
     navigateToLockSetup: (type: LockScreenType) -> Unit,

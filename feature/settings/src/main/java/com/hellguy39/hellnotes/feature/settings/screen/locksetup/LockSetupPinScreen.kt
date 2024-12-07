@@ -39,7 +39,7 @@ import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun LockSetupPinScreen(
+internal fun LockSetupPinScreen(
     onNavigationBack: () -> Unit,
     onPinEntered: (String) -> Unit,
 ) {

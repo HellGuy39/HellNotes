@@ -56,7 +56,7 @@ import com.hellguy39.hellnotes.core.ui.values.Spaces
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteSwipeEditScreen(
+internal fun NoteSwipeEditScreen(
     onNavigationButtonClick: () -> Unit,
     uiState: NoteSwipeEditScreenUiState,
     onNoteSwipesEnabled: (Boolean) -> Unit,
