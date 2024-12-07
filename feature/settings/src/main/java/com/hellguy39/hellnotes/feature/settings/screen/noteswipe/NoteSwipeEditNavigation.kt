@@ -25,8 +25,8 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
 import com.hellguy39.hellnotes.core.ui.state.GraphState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
 internal object NoteSwipeEditScreen : Screen {
@@ -36,14 +36,7 @@ internal object NoteSwipeEditScreen : Screen {
 internal fun GraphState.navigateToNoteSwipeEdit(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = NoteSwipeEditScreen.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, NoteSwipeEditScreen.endpoint, navOptions)
 
 internal fun NavGraphBuilder.noteSwipeEditScreen(graphState: GraphState) {
     composable(

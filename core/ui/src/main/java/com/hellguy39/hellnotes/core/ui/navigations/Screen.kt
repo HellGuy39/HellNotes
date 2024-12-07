@@ -18,7 +18,6 @@ package com.hellguy39.hellnotes.core.ui.navigations
 import com.hellguy39.hellnotes.core.common.arguments.Arguments
 
 sealed class Screen(val route: String) {
-    data object OnBoarding : Screen(route = "on_boarding")
 
     data object Home : Screen(route = "home")
 

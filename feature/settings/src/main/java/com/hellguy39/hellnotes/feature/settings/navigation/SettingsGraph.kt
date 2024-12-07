@@ -28,8 +28,8 @@ import com.hellguy39.hellnotes.core.common.navigation.Graph
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
-import com.hellguy39.hellnotes.core.ui.state.AppState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.core.ui.state.rememberGraphState
 import com.hellguy39.hellnotes.feature.settings.screen.backup.backupScreen
 import com.hellguy39.hellnotes.feature.settings.screen.colormode.colorModeScreen
@@ -46,17 +46,10 @@ object SettingsNavGraph : Graph {
     override val endpoint: String = "settings"
 }
 
-fun AppState.navigateToSettingsGraph(
+fun GraphState.navigateToSettingsGraph(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = SettingsNavGraph.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, SettingsNavGraph.endpoint, navOptions)
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun NavGraphBuilder.settingsNavGraph(exitGraph: () -> Unit) {

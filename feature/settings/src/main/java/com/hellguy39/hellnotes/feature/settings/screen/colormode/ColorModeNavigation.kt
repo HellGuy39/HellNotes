@@ -19,30 +19,24 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.hellguy39.hellnotes.core.common.navigation.Screen
 import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
 import com.hellguy39.hellnotes.core.ui.state.GraphState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
-internal object ColorModeScreen : com.hellguy39.hellnotes.core.common.navigation.Screen {
+internal object ColorModeScreen : Screen {
     override val endpoint: String = "color_mode"
 }
 
 internal fun GraphState.navigateToColorMode(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = ColorModeScreen.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, ColorModeScreen.endpoint, navOptions)
 
 internal fun NavGraphBuilder.colorModeScreen(graphState: GraphState) {
     composable(

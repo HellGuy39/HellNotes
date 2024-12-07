@@ -24,10 +24,10 @@ import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.feature.reminderedit.ReminderEditRoute
 
-fun NavGraphBuilder.reminderEditScreen(appState: AppState) {
+fun NavGraphBuilder.reminderEditScreen(graphState: GraphState) {
     composable(
         route = Screen.ReminderEdit.withArgKeys(Arguments.NoteId.key, Arguments.ReminderId.key),
         arguments =
@@ -51,7 +51,7 @@ fun NavGraphBuilder.reminderEditScreen(appState: AppState) {
         },
     ) {
         ReminderEditRoute(
-            navigateBack = { appState.navigateUp() },
+            navigateBack = graphState::navigateUp
         )
     }
 }

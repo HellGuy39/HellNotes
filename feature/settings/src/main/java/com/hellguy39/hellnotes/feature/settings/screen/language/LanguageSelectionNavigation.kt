@@ -25,8 +25,8 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
 import com.hellguy39.hellnotes.core.ui.state.GraphState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 import com.hellguy39.hellnotes.feature.settings.screen.settings.SettingsScreen
 
 internal object LanguageSelectionScreen : Screen {
@@ -36,14 +36,7 @@ internal object LanguageSelectionScreen : Screen {
 internal fun GraphState.navigateToLanguageSelection(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = LanguageSelectionScreen.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, LanguageSelectionScreen.endpoint, navOptions)
 
 internal fun NavGraphBuilder.languageSelectionScreen(graphState: GraphState) {
     composable(

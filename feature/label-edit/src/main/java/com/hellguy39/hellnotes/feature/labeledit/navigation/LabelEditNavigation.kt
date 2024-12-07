@@ -22,10 +22,10 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.asNavigationArgument
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.feature.labeledit.LabelEditRoute
 
-fun NavGraphBuilder.labelEditScreen(appState: AppState) {
+fun NavGraphBuilder.labelEditScreen(graphState: GraphState) {
     composable(
         route = Screen.LabelEdit.withArgKeys(Arguments.Action.key),
         arguments =
@@ -38,7 +38,7 @@ fun NavGraphBuilder.labelEditScreen(appState: AppState) {
         popExitTransition = { fadeExitTransition() },
     ) {
         LabelEditRoute(
-            navigateBack = { appState.navigateUp() },
+            navigateBack = graphState::navigateUp,
         )
     }
 }

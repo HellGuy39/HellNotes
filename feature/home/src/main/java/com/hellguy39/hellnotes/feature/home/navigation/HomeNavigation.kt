@@ -24,11 +24,11 @@ import com.hellguy39.hellnotes.core.ui.navigations.Screen
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToLabelEdit
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToNoteDetail
 import com.hellguy39.hellnotes.core.ui.navigations.navigateToSearch
-import com.hellguy39.hellnotes.core.ui.state.AppState
+import com.hellguy39.hellnotes.core.ui.state.GraphState
 import com.hellguy39.hellnotes.feature.home.HomeRoute
 
 fun NavGraphBuilder.homeScreen(
-    appState: AppState,
+    graphState: GraphState,
     navigateToSettings: (entry: NavBackStackEntry) -> Unit,
     navigateToAboutApp: (entry: NavBackStackEntry) -> Unit
 ) {
@@ -43,9 +43,9 @@ fun NavGraphBuilder.homeScreen(
         HomeRoute(
             navigateToSettings = { navigateToSettings(from) },
             navigateToAbout = { navigateToAboutApp(from) },
-            navigateToSearch = { appState.navigateToSearch(from) },
-            navigateToNoteDetail = { id -> appState.navigateToNoteDetail(from, id) },
-            navigateToLabelEdit = { action -> appState.navigateToLabelEdit(from, action) },
+            navigateToSearch = { graphState.navigateToSearch(from) },
+            navigateToNoteDetail = { id -> graphState.navigateToNoteDetail(from, id) },
+            navigateToLabelEdit = { action -> graphState.navigateToLabelEdit(from, action) },
         )
     }
 }

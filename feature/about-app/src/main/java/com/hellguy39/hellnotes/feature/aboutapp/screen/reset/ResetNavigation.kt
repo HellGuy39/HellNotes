@@ -25,8 +25,8 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
 import com.hellguy39.hellnotes.core.ui.state.GraphState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.AboutAppScreen
 
 internal object ResetScreen : Screen {
@@ -36,14 +36,7 @@ internal object ResetScreen : Screen {
 internal fun GraphState.navigateToReset(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = ResetScreen.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, ResetScreen.endpoint, navOptions)
 
 internal fun NavGraphBuilder.resetScreen(graphState: GraphState) {
     composable(

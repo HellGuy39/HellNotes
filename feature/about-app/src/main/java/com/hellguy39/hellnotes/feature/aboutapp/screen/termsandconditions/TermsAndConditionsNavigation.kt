@@ -25,8 +25,8 @@ import com.hellguy39.hellnotes.core.ui.animations.fadeExitTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideEnterTransition
 import com.hellguy39.hellnotes.core.ui.animations.slideExitTransition
 import com.hellguy39.hellnotes.core.ui.navigations.defaultNavOptions
+import com.hellguy39.hellnotes.core.ui.navigations.navigateTo
 import com.hellguy39.hellnotes.core.ui.state.GraphState
-import com.hellguy39.hellnotes.core.ui.state.lifecycleIsResumed
 import com.hellguy39.hellnotes.feature.aboutapp.screen.aboutapp.AboutAppScreen
 
 internal object TermsAndConditionsScreen : Screen {
@@ -36,14 +36,7 @@ internal object TermsAndConditionsScreen : Screen {
 internal fun GraphState.navigateToTermsAndConditions(
     from: NavBackStackEntry,
     navOptions: NavOptions = defaultNavOptions(),
-) {
-    if (from.lifecycleIsResumed()) {
-        navController.navigate(
-            route = TermsAndConditionsScreen.endpoint,
-            navOptions = navOptions,
-        )
-    }
-}
+) = navigateTo(from, TermsAndConditionsScreen.endpoint, navOptions)
 
 internal fun NavGraphBuilder.termsAndConditionsScreen(graphState: GraphState) {
     composable(
