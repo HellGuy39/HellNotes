@@ -20,7 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HellNotes.Splash"
-        tools:targetApi="34">
+        tools:targetApi="35">
 
         <profileable
             android:shell="true"
