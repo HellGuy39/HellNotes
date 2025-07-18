@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Body -->
+    <string name="body_new_note">새로운 노트</string>
+    <string name="body_reset">귀하의 데이터는 영구적으로 삭제됩니다. 이 작업은 취소될 수 없습니다.</string>
+    <string name="body_backup">복사 과정 중에는 응용프로그램을 닫거나 기기를 끄지 마십시오.</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">안타깝게도 귀하의 허가 없이는 알림을 보내드릴 수 없습니다. 귀하가 설정한 알림에 대해서만 알림이 전송되도록 약속드립니다.</string>
+    <string name="permission_notification_default">이 기능을 사용하려면 알림 권한이 필요합니다.\n허가해 주세요</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">PIN은 최소 4자리 이상이어야 합니다.</string>
+    <string name="supporting_password_must_be_at_least_4_characters">비밀번호는 최소 4자 이상이어야 합니다.</string>
+    <string name="supporting_share_note">메모를 공유할 방법을 선택하세요. 그 후에는 수신자와 보내는 방법을 선택할 수 있습니다.</string>
+    <string name="supporting_delete_note">해당 메모는 휴지통으로 이동하게 되며, 휴지통에서 완전히 삭제하거나 복원할 수 있습니다.</string>
+    <string name="supporting_delete_label">라벨이 영구적으로 삭제됩니다. 이 라벨이 붙은 모든 노트는 사라집니다.</string>
+    <string name="supporting_restore_note">복원 후에는 이 메모를 다시 열어서 편집할 수 있습니다.</string>
+    <string name="supporting_empty_trash">휴지통에 있는 모든 메모는 영구적으로 삭제됩니다.</string>
+    <string name="supporting_wrong_pin">잘못된 PIN</string>
+    <string name="supporting_wrong_password">잘못된 비밀번호</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">시스템 기본값</string>
+    <string name="lan_ru">러시아인</string>
+    <string name="lan_en">영어</string>
+    <string name="lan_de">독일 사람</string>
+    <string name="lan_fr">프랑스 국민</string>
+    <string name="lan_zh_CN">중국어(간체)</string>
+    <string name="lan_ar">아랍어</string>
+    <string name="lan_419">스페인어(라틴 아메리카)</string>
+    <string name="lan_cs">체코어</string>
+    <string name="lan_es_ES">스페인어(스페인)</string>
+    <string name="lan_hi">힌디어</string>
+    <string name="lan_in">인도네시아어</string>
+    <string name="lan_ja">일본어</string>
+    <string name="lan_ko">한국어</string>
+    <string name="lan_pt_BR">포르투갈어(브라질)</string>
+    <string name="lan_uk">우크라이나어</string>
+
+    <!-- Hint -->
+    <string name="hint_title">제목</string>
+    <string name="hint_note">메모</string>
+    <string name="hint_search">찾다…</string>
+    <string name="hint_label">상표…</string>
+    <string name="hint_new_checklist">새로운 체크리스트</string>
+    <string name="hint_add_new_item">새로운 항목 추가</string>
+    <string name="hint_item">목</string>
+    <string name="hint_create_new_label">새 라벨 만들기</string>
+    <string name="hint_message">메시지</string>
+
+    <!-- Button -->
+    <string name="btn_done">완료</string>
+    <string name="btn_request_permission">허가 요청</string>
+    <string name="btn_create">만들다</string>
+    <string name="btn_restore">복원하다</string>
+    <string name="btn_edit">편집하다</string>
+    <string name="btn_enter">입력하다</string>
+    <string name="btn_delete">삭제</string>
+    <string name="btn_undo">끄르다</string>
+    <string name="btn_save">구하다</string>
+    <string name="btn_cancel">취소</string>
+    <string name="btn_accept">수용하다</string>
+    <string name="btn_clear">분명한</string>
+    <string name="btn_next">다음</string>
+    <string name="btn_confirm">확인하다</string>
+    <string name="btn_biometrics">생체 인식</string>
+    <string name="btn_rename">이름 바꾸기</string>
+    <string name="btn_finish">마치다</string>
+    <string name="btn_skip">건너뛰다</string>
+    <string name="btn_reset">다시 놓기</string>
+    <string name="btn_try_again">다시 시도하세요</string>
+    <string name="btn_create_backup">백업 만들기</string>
+    <string name="btn_restore_from_backup">백업에서 복원</string>
+    <string name="btn_open_a_release">릴리스 열기</string>
+    <string name="btn_rate_the_app">앱을 평가하세요</string>
+    <string name="btn_update_available">업데이트 가능</string>
+    <string name="btn_downloading">다운로드 중</string>
+    <string name="btn_ready_to_install">설치 준비 완료</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">화면 잠금</string>
+    <string name="stg_language">언어</string>
+    <string name="stg_note_swipes">노트 스와이프</string>
+    <string name="stg_note_style">노트 스타일</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">새로운 노트</string>
+    <string name="shortcut_label_reminders">알림</string>
+    <string name="shortcut_label_archive">보관소</string>
+    <string name="shortcut_label_trash">쓰레기</string>
+
+    <!-- Snack -->
+    <string name="snack_note_has_been_copied">메모가 복사되어 열렸습니다.</string>
+    <string name="snack_note_moved_to_trash">메모가 휴지통으로 이동되었습니다.</string>
+    <string name="snack_note_archived">메모는 보관됩니다</string>
+    <string name="snack_note_unarchived">메모가 보관 해제되었습니다.</string>
+    <string name="snack_note_pinned">메모가 고정되었습니다</string>
+    <string name="snack_note_unpinned">메모가 고정 해제되었습니다</string>
+    <string name="snack_backup_created">백업이 성공적으로 생성되었습니다.</string>
+    <string name="snack_storage_restored">저장소가 성공적으로 복구되었습니다.</string>
+    <string name="snack_label_already_exist">이 이름을 가진 라벨이 이미 존재합니다.</string>
+    <string name="snack_label_cannot_be_empty">라벨은 비워둘 수 없습니다</string>
+    <string name="snack_nothing_to_share">공유할 것이 없습니다</string>
+    <string name="snack_remind_time_is_too_late">알림을 설정할 수 없습니다. 알림 시간이 시스템 시간보다 늦습니다.</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database_title">데이터베이스를 지우세요</string>
+    <string name="checkbox_clear_the_database_subtitle">메모, 알림, 라벨, 체크리스트 및 휴지통</string>
+    <string name="checkbox_reset_settings_title">애플리케이션 설정 재설정</string>
+    <string name="checkbox_reset_settings_subtitle">기본값이 적용됩니다</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric_title">생체 인식을 사용하세요</string>
+    <string name="switch_use_note_swipes_title">노트 스와이프 사용</string>
+    <string name="switch_auto_backup_title">자동 백업</string>
+    <string name="switch_auto_backup_subtitle">매일, 배경에서</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">알림!</string>
+    <string name="ntf_reminder_empty_message">메시지를 남기지 않았습니다. 클릭하여 메모를 엽니다.</string>
+    <string name="ntf_reminder_channel_description">알림에 사용됨</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">환영!</string>
+    <string name="on_boarding_second_page_title">첫 번째 노트를 만들어 보세요</string>
+    <string name="on_boarding_third_page_title">노트를 정리하세요</string>
+    <string name="on_boarding_fourth_page_title">미리알림 및 알림 설정</string>
+    <string name="on_boarding_fifth_page_title">계속 진행할까요?</string>
+    <string name="on_boarding_first_page_description">여기에는 메모, 작업 목록 등을 저장할 수 있습니다. 시작해 볼까요!</string>
+    <string name="on_boarding_second_page_description">지금 당장 노트 만들기를 시작하세요! 제목, 텍스트, 이미지 등을 추가할 수 있습니다.</string>
+    <string name="on_boarding_third_page_description">메모를 정리하기 위해 카테고리와 태그를 만들 수 있으며, 검색 기능을 사용하여 빠르게 접근할 수 있습니다.</string>
+    <string name="on_boarding_fourth_page_description">중요한 작업이나 이벤트를 놓치지 않으려면 알림을 설정하세요. 우리는 귀하에게 편리한 시간에 알림을 보내드리겠습니다.</string>
+    <string name="on_boarding_fifth_page_description">이제 애플리케이션의 주요 기능을 알게 되었습니다. 이제 일을 시작할 때가 된 것 같습니다.</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">곧 출시 예정</string>
+
+    <!-- Content description -->
+    <string name="content_description_back">뒤쪽에</string>
+    <string name="content_description_labels">라벨</string>
+    <string name="content_description_pin">핀</string>
+    <string name="content_description_reminder">알림</string>
+    <string name="content_description_delete">삭제</string>
+    <string name="content_description_add_note">메모 추가</string>
+    <string name="content_description_color">색상</string>
+    <string name="content_description_view_type">보기 유형</string>
+    <string name="content_description_more">더</string>
+    <string name="content_description_sort">종류</string>
+    <string name="content_description_search">찾다</string>
+    <string name="content_description_close">닫다</string>
+    <string name="content_description_cancel">취소</string>
+    <string name="content_description_edit">편집하다</string>
+
+    <!-- Label -->
+    <string name="label_security">보안</string>
+    <string name="label_upcoming">다가오는</string>
+    <string name="label_checklist">체크리스트</string>
+    <string name="label_reminder">알림</string>
+    <string name="label_archive">보관소</string>
+    <string name="label_pinned">고정됨</string>
+    <string name="label_others">기타</string>
+    <string name="label_labels">라벨</string>
+    <string name="label_gestures">제스처</string>
+    <string name="label_general">일반적인</string>
+    <string name="label_appearance">모습</string>
+    <string name="label_swipe_right">오른쪽으로 스와이프</string>
+    <string name="label_swipe_left">왼쪽으로 스와이프</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">현재 잠금 화면</string>
+    <string name="subtitle_select_actions">작업 선택</string>
+    <string name="subtitle_enabled">활성화됨</string>
+    <string name="subtitle_disabled">장애가 있는</string>
+    <string name="subtitle_edited">%s 수정됨</string>
+    <string name="subtitle_unchecked_items">+%s개의 선택되지 않은 항목</string>
+    <string name="subtitle_unchecked_item">+%s개 선택되지 않은 항목</string>
+    <string name="subtitle_checklist">+%s 체크리스트</string>
+    <string name="subtitle_checklists">+%s 체크리스트</string>
+    <string name="subtitle_date_of_creation">생성 날짜</string>
+    <string name="subtitle_date_of_last_edit">마지막 편집 날짜</string>
+    <string name="subtitle_last_copy">마지막 사본: %s</string>
+    <string name="subtitle_options">옵션</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">휴지통에 있는 메모는 7일 후 자동으로 삭제됩니다.</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">휴지통에 메모가 없습니다</string>
+    <string name="placeholder_empty">지금까지 여기는 비어 있었습니다...</string>
+    <string name="placeholder_nothing_was_found">안타깝게도 귀하의 요청에 맞는 결과가 없습니다.</string>
+    <string name="placeholder_failed_to_load_data">데이터 로드에 실패했습니다</string>
+    <string name="placeholder_label_selection">귀하의 라벨이 여기에 표시됩니다</string>
+
+    <!-- Value -->
+    <string name="value_never">절대</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">설정</string>
+    <string name="menu_item_about_app">앱 정보</string>
+    <string name="menu_item_reminders">알림</string>
+    <string name="menu_item_labels">라벨</string>
+    <string name="menu_item_manage_labels">라벨 관리</string>
+    <string name="menu_item_rename">이름 바꾸기</string>
+    <string name="menu_item_delete">삭제</string>
+    <string name="menu_item_delete_forever">영구 삭제</string>
+    <string name="menu_item_restore">복원하다</string>
+    <string name="menu_item_plain_text">일반 텍스트</string>
+    <string name="menu_item_txt_file">.txt 파일</string>
+    <string name="menu_item_share">공유하다</string>
+    <string name="menu_item_whats_new">새로운 소식은?</string>
+    <string name="menu_item_color">색상</string>
+    <string name="menu_item_create_new_label">새 라벨 만들기</string>
+    <string name="menu_item_empty_trash">휴지통 비우기</string>
+    <string name="menu_item_none">없음</string>
+    <string name="menu_item_pin">핀</string>
+    <string name="menu_item_password">비밀번호</string>
+    <string name="menu_item_pattern">무늬</string>
+    <string name="menu_item_slide">슬라이드</string>
+    <string name="menu_item_does_not_repeat">반복하지 않습니다</string>
+    <string name="menu_item_daily">일일</string>
+    <string name="menu_item_weekly">주간</string>
+    <string name="menu_item_monthly">월간 간행물</string>
+    <string name="menu_item_outlined">윤곽이 그려짐</string>
+    <string name="menu_item_elevated">높은</string>
+    <string name="menu_item_archive">보관소</string>
+    <string name="menu_item_check_all_items">모든 항목을 체크하세요</string>
+    <string name="menu_item_uncheck_all_items">모든 항목 선택 해제</string>
+    <string name="menu_item_changelog">변경 사항</string>
+    <string name="menu_item_license_agreement">라이센스 계약</string>
+    <string name="menu_item_privacy_policy">개인정보 보호정책</string>
+    <string name="menu_item_terms_and_conditions">이용 약관</string>
+    <string name="menu_item_provide_feedback">피드백을 제공하세요</string>
+    <string name="menu_item_rate_on_play_store">Play 스토어에서 평가하기</string>
+    <string name="menu_item_reset">다시 놓기</string>
+    <string name="menu_item_check_for_updates">업데이트 확인</string>
+    <string name="menu_item_checklist">체크리스트</string>
+    <string name="menu_item_image">영상</string>
+    <string name="menu_item_recording">녹음</string>
+    <string name="menu_item_take_a_photo">사진을 찍다</string>
+    <string name="menu_item_place">장소</string>
+    <string name="menu_item_make_a_copy">사본을 만드세요</string>
+    <string name="menu_item_backup">지원</string>
+
+    <!-- Title -->
+    <string name="title_notes">노트</string>
+    <string name="title_archive">보관소</string>
+    <string name="title_trash">쓰레기</string>
+    <string name="title_settings">설정</string>
+    <string name="title_about_app">앱 정보</string>
+    <string name="title_reminders">알림</string>
+    <string name="title_labels">라벨</string>
+    <string name="title_new_reminder">새로운 알림</string>
+    <string name="title_share">공유하다</string>
+    <string name="title_repeat">반복하다</string>
+    <string name="title_edit_reminder">알림 편집</string>
+    <string name="title_choose_a_new_lock_screen">새로운 잠금 화면을 선택하세요</string>
+    <string name="title_language">언어</string>
+    <string name="title_set_a_pin">PIN 설정</string>
+    <string name="title_re_enter_your_pin">PIN을 다시 입력하세요</string>
+    <string name="title_set_a_password">비밀번호를 설정하세요</string>
+    <string name="title_re_enter_your_password">비밀번호를 다시 입력하세요</string>
+    <string name="title_delete_this_note">이 메모를 삭제하시겠습니까?</string>
+    <string name="title_delete_this_label">이 라벨을 삭제하시겠습니까?</string>
+    <string name="title_restore_this_note">이 메모를 복구하시겠습니까?</string>
+    <string name="title_empty_the_trash">휴지통을 비우시겠어요?</string>
+    <string name="title_note_style">노트 스타일</string>
+    <string name="title_note_swipes">노트 스와이프</string>
+    <string name="title_changelog">변경 사항</string>
+    <string name="title_license_agreement">라이센스 계약</string>
+    <string name="title_privacy_policy">개인정보 보호정책</string>
+    <string name="title_terms_and_conditions">이용 약관</string>
+    <string name="title_reset">다시 놓기</string>
+    <string name="title_auth_required">인증이 필요합니다</string>
+    <string name="title_backup">지원</string>
+    <string name="title_selected">선택된 %s</string>
+    <string name="title_enter_pin">PIN을 입력하세요</string>
+    <string name="title_enter_password">비밀번호를 입력하세요</string>
+    <string name="title_unlocked">잠금 해제됨</string>
+    <string name="title_attention">주목</string>
+    <string name="title_rename_label">라벨 이름 바꾸기</string>
+</resources>

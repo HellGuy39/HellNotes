@@ -143,6 +143,17 @@
     <string name="lan_en">Anglais</string>
     <string name="lan_de">Allemand</string>
     <string name="lan_fr">Français</string>
+    <string name="lan_zh_CN">Chinois (simplifié)</string>
+    <string name="lan_ar">Arabe</string>
+    <string name="lan_419">Espagnol (Amérique latine)</string>
+    <string name="lan_cs">Tchèque</string>
+    <string name="lan_es_ES">Espagnol (Espagne)</string>
+    <string name="lan_hi">Hindi</string>
+    <string name="lan_in">Indonésien</string>
+    <string name="lan_ja">Japonais</string>
+    <string name="lan_ko">Coréen</string>
+    <string name="lan_pt_BR">Portugais (Brésil)</string>
+    <string name="lan_uk">Ukrainien</string>
 
     <!-- Title -->
     <string name="title_notes">Notes</string>

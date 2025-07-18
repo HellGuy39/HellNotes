@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Body -->
+    <string name="body_new_note">新笔记</string>
+    <string name="body_reset">您的数据将被永久删除。此操作将无法撤消。</string>
+    <string name="body_backup">复制过程中请不要关闭应用程序或关闭设备。</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">遗憾的是，未经许可我们将无法向您发送通知。我们保证它只会发送您设置的提醒通知。</string>
+    <string name="permission_notification_default">此功能需要通知权限才能使用。\n请授予权限</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">PIN 码必须至少为 4 位数字</string>
+    <string name="supporting_password_must_be_at_least_4_characters">密码必须至少包含 4 个字符</string>
+    <string name="supporting_share_note">选择分享笔记的方式。之后，您将能够选择收件人和发送方式。</string>
+    <string name="supporting_delete_note">该笔记最终将被放入垃圾箱，在那里它可以被彻底删除或恢复。</string>
+    <string name="supporting_delete_label">该标签将被永久删除。所有带有此标签的笔记都将丢失。</string>
+    <string name="supporting_restore_note">恢复后，您将能够再次打开和编辑此笔记。</string>
+    <string name="supporting_empty_trash">垃圾箱中的所有笔记将被永久删除。</string>
+    <string name="supporting_wrong_pin">PIN 码错误</string>
+    <string name="supporting_wrong_password">密码错误</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">系统默认</string>
+    <string name="lan_ru">俄语</string>
+    <string name="lan_en">英语</string>
+    <string name="lan_de">德语</string>
+    <string name="lan_fr">法语</string>
+    <string name="lan_zh_CN">简体中文</string>
+    <string name="lan_ar">阿拉伯语</string>
+    <string name="lan_419">西班牙语（拉丁美洲）</string>
+    <string name="lan_cs">捷克语</string>
+    <string name="lan_es_ES">西班牙语（西班牙）</string>
+    <string name="lan_hi">印地语</string>
+    <string name="lan_in">印度尼西亚语</string>
+    <string name="lan_ja">日语</string>
+    <string name="lan_ko">韩语</string>
+    <string name="lan_pt_BR">葡萄牙语（巴西）</string>
+    <string name="lan_uk">乌克兰语</string>
+
+    <!-- Hint -->
+    <string name="hint_title">标题</string>
+    <string name="hint_note">笔记</string>
+    <string name="hint_search">搜索…</string>
+    <string name="hint_label">标签…</string>
+    <string name="hint_new_checklist">新清单</string>
+    <string name="hint_add_new_item">添加新项目</string>
+    <string name="hint_item">物品</string>
+    <string name="hint_create_new_label">创建新标签</string>
+    <string name="hint_message">信息</string>
+
+    <!-- Button -->
+    <string name="btn_done">完毕</string>
+    <string name="btn_request_permission">请求许可</string>
+    <string name="btn_create">创造</string>
+    <string name="btn_restore">恢复</string>
+    <string name="btn_edit">编辑</string>
+    <string name="btn_enter">进入</string>
+    <string name="btn_delete">删除</string>
+    <string name="btn_undo">撤消</string>
+    <string name="btn_save">节省</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_accept">接受</string>
+    <string name="btn_clear">清除</string>
+    <string name="btn_next">下一个</string>
+    <string name="btn_confirm">确认</string>
+    <string name="btn_biometrics">生物识别技术</string>
+    <string name="btn_rename">重命名</string>
+    <string name="btn_finish">结束</string>
+    <string name="btn_skip">跳过</string>
+    <string name="btn_reset">重置</string>
+    <string name="btn_try_again">再试一次</string>
+    <string name="btn_create_backup">创建备份</string>
+    <string name="btn_restore_from_backup">从备份还原</string>
+    <string name="btn_open_a_release">打开发布</string>
+    <string name="btn_rate_the_app">对应用进行评分</string>
+    <string name="btn_update_available">有可用更新</string>
+    <string name="btn_downloading">下载</string>
+    <string name="btn_ready_to_install">准备安装</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">屏幕锁定</string>
+    <string name="stg_language">语言</string>
+    <string name="stg_note_swipes">滑动笔记</string>
+    <string name="stg_note_style">注释样式</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">新笔记</string>
+    <string name="shortcut_label_reminders">提醒事项</string>
+    <string name="shortcut_label_archive">档案</string>
+    <string name="shortcut_label_trash">垃圾</string>
+
+    <!-- Snack -->
+    <string name="snack_note_has_been_copied">注释已复制并打开</string>
+    <string name="snack_note_moved_to_trash">笔记已移至垃圾箱</string>
+    <string name="snack_note_archived">笔记已存档</string>
+    <string name="snack_note_unarchived">笔记已取消归档</string>
+    <string name="snack_note_pinned">注释已置顶</string>
+    <string name="snack_note_unpinned">笔记已取消置顶</string>
+    <string name="snack_backup_created">备份已成功创建</string>
+    <string name="snack_storage_restored">存储已成功恢复</string>
+    <string name="snack_label_already_exist">具有此名称的标签已存在</string>
+    <string name="snack_label_cannot_be_empty">标签不能为空</string>
+    <string name="snack_nothing_to_share">没什么可分享的</string>
+    <string name="snack_remind_time_is_too_late">无法设置提醒，提醒时间晚于系统时间。</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database_title">清除数据库</string>
+    <string name="checkbox_clear_the_database_subtitle">笔记、提醒、标签、清单和垃圾</string>
+    <string name="checkbox_reset_settings_title">重置应用程序设置</string>
+    <string name="checkbox_reset_settings_subtitle">将应用默认值</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric_title">使用生物识别技术</string>
+    <string name="switch_use_note_swipes_title">使用滑动笔记</string>
+    <string name="switch_auto_backup_title">自动备份</string>
+    <string name="switch_auto_backup_subtitle">每天，在幕后</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">提醒！</string>
+    <string name="ntf_reminder_empty_message">您尚未留言。单击即可打开笔记。</string>
+    <string name="ntf_reminder_channel_description">用于提醒</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">欢迎！</string>
+    <string name="on_boarding_second_page_title">创建您的第一条笔记</string>
+    <string name="on_boarding_third_page_title">整理笔记</string>
+    <string name="on_boarding_fourth_page_title">设置提醒和通知</string>
+    <string name="on_boarding_fifth_page_title">我们继续吧？</string>
+    <string name="on_boarding_first_page_description">您可以在此处存储笔记、任务列表等。让我们开始吧！</string>
+    <string name="on_boarding_second_page_description">立即开始创建笔记！您可以添加标题、文本、图像等。</string>
+    <string name="on_boarding_third_page_description">您可以创建类别和标签来组织您的笔记，也可以使用搜索功能进行快速访问。</string>
+    <string name="on_boarding_fourth_page_description">设置通知，以便您不会错过重要的任务或事件。我们会在方便的时候向您发送提醒。</string>
+    <string name="on_boarding_fifth_page_description">现在您了解了该应用程序的主要功能。看来是时候开始工作了。</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">即将推出</string>
+
+    <!-- Content description -->
+    <string name="content_description_back">后退</string>
+    <string name="content_description_labels">标签</string>
+    <string name="content_description_pin">别针</string>
+    <string name="content_description_reminder">提醒</string>
+    <string name="content_description_delete">删除</string>
+    <string name="content_description_add_note">添加注释</string>
+    <string name="content_description_color">颜色</string>
+    <string name="content_description_view_type">视图类型</string>
+    <string name="content_description_more">更多的</string>
+    <string name="content_description_sort">种类</string>
+    <string name="content_description_search">搜索</string>
+    <string name="content_description_close">关闭</string>
+    <string name="content_description_cancel">取消</string>
+    <string name="content_description_edit">编辑</string>
+
+    <!-- Label -->
+    <string name="label_security">安全</string>
+    <string name="label_upcoming">即将推出</string>
+    <string name="label_checklist">清单</string>
+    <string name="label_reminder">提醒</string>
+    <string name="label_archive">档案</string>
+    <string name="label_pinned">已固定</string>
+    <string name="label_others">其他的</string>
+    <string name="label_labels">标签</string>
+    <string name="label_gestures">手势</string>
+    <string name="label_general">一般的</string>
+    <string name="label_appearance">外貌</string>
+    <string name="label_swipe_right">向右滑动</string>
+    <string name="label_swipe_left">向左滑动</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">当前锁定屏幕</string>
+    <string name="subtitle_select_actions">选择操作</string>
+    <string name="subtitle_enabled">已启用</string>
+    <string name="subtitle_disabled">已禁用</string>
+    <string name="subtitle_edited">已编辑 %s</string>
+    <string name="subtitle_unchecked_items">+%s 个未选中的项目</string>
+    <string name="subtitle_unchecked_item">+%s 项未选中</string>
+    <string name="subtitle_checklist">+%s 核对清单</string>
+    <string name="subtitle_checklists">+%s 个核对清单</string>
+    <string name="subtitle_date_of_creation">创建日期</string>
+    <string name="subtitle_date_of_last_edit">最后编辑日期</string>
+    <string name="subtitle_last_copy">最后一份：%s</string>
+    <string name="subtitle_options">选项</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">垃圾箱中的笔记将在 7 天后自动删除</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">垃圾箱中没有笔记</string>
+    <string name="placeholder_empty">到目前为止，这里还是空的……</string>
+    <string name="placeholder_nothing_was_found">很遗憾，没有找到符合您请求的内容...</string>
+    <string name="placeholder_failed_to_load_data">数据加载失败</string>
+    <string name="placeholder_label_selection">您的标签将显示在这里</string>
+
+    <!-- Value -->
+    <string name="value_never">绝不</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">设置</string>
+    <string name="menu_item_about_app">关于应用程序</string>
+    <string name="menu_item_reminders">提醒事项</string>
+    <string name="menu_item_labels">标签</string>
+    <string name="menu_item_manage_labels">管理标签</string>
+    <string name="menu_item_rename">重命名</string>
+    <string name="menu_item_delete">删除</string>
+    <string name="menu_item_delete_forever">永久删除</string>
+    <string name="menu_item_restore">恢复</string>
+    <string name="menu_item_plain_text">纯文本</string>
+    <string name="menu_item_txt_file">.txt 文件</string>
+    <string name="menu_item_share">分享</string>
+    <string name="menu_item_whats_new">什么是新的？</string>
+    <string name="menu_item_color">颜色</string>
+    <string name="menu_item_create_new_label">创建新标签</string>
+    <string name="menu_item_empty_trash">清空垃圾箱</string>
+    <string name="menu_item_none">没有任何</string>
+    <string name="menu_item_pin">别针</string>
+    <string name="menu_item_password">密码</string>
+    <string name="menu_item_pattern">图案</string>
+    <string name="menu_item_slide">滑动</string>
+    <string name="menu_item_does_not_repeat">不重复</string>
+    <string name="menu_item_daily">日常的</string>
+    <string name="menu_item_weekly">每周</string>
+    <string name="menu_item_monthly">每月</string>
+    <string name="menu_item_outlined">概述</string>
+    <string name="menu_item_elevated">升高</string>
+    <string name="menu_item_archive">档案</string>
+    <string name="menu_item_check_all_items">检查所有项目</string>
+    <string name="menu_item_uncheck_all_items">取消选中所有项目</string>
+    <string name="menu_item_changelog">变更日志</string>
+    <string name="menu_item_license_agreement">许可协议</string>
+    <string name="menu_item_privacy_policy">隐私政策</string>
+    <string name="menu_item_terms_and_conditions">条款和条件</string>
+    <string name="menu_item_provide_feedback">提供反馈</string>
+    <string name="menu_item_rate_on_play_store">在 Play 商店中评分</string>
+    <string name="menu_item_reset">重置</string>
+    <string name="menu_item_check_for_updates">检查更新</string>
+    <string name="menu_item_checklist">清单</string>
+    <string name="menu_item_image">图像</string>
+    <string name="menu_item_recording">记录</string>
+    <string name="menu_item_take_a_photo">拍照</string>
+    <string name="menu_item_place">地方</string>
+    <string name="menu_item_make_a_copy">复印</string>
+    <string name="menu_item_backup">备份</string>
+
+    <!-- Title -->
+    <string name="title_notes">笔记</string>
+    <string name="title_archive">档案</string>
+    <string name="title_trash">垃圾</string>
+    <string name="title_settings">设置</string>
+    <string name="title_about_app">关于应用程序</string>
+    <string name="title_reminders">提醒事项</string>
+    <string name="title_labels">标签</string>
+    <string name="title_new_reminder">新提醒</string>
+    <string name="title_share">分享</string>
+    <string name="title_repeat">重复</string>
+    <string name="title_edit_reminder">编辑提醒</string>
+    <string name="title_choose_a_new_lock_screen">选择新的锁定屏幕</string>
+    <string name="title_language">语言</string>
+    <string name="title_set_a_pin">设置 PIN</string>
+    <string name="title_re_enter_your_pin">重新输入您的密码</string>
+    <string name="title_set_a_password">设置密码</string>
+    <string name="title_re_enter_your_password">重新输入您的密码</string>
+    <string name="title_delete_this_note">删除此注释吗？</string>
+    <string name="title_delete_this_label">删除此标签？</string>
+    <string name="title_restore_this_note">恢复此注释吗？</string>
+    <string name="title_empty_the_trash">清空垃圾桶？</string>
+    <string name="title_note_style">注释样式</string>
+    <string name="title_note_swipes">滑动笔记</string>
+    <string name="title_changelog">变更日志</string>
+    <string name="title_license_agreement">许可协议</string>
+    <string name="title_privacy_policy">隐私政策</string>
+    <string name="title_terms_and_conditions">条款和条件</string>
+    <string name="title_reset">重置</string>
+    <string name="title_auth_required">需要身份验证</string>
+    <string name="title_backup">备份</string>
+    <string name="title_selected">已选择%s</string>
+    <string name="title_enter_pin">输入您的 PIN 码</string>
+    <string name="title_enter_password">输入您的密码</string>
+    <string name="title_unlocked">已解锁</string>
+    <string name="title_attention">注意力</string>
+    <string name="title_rename_label">重命名标签</string>
+
+</resources>

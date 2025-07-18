@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Body -->
+    <string name="body_new_note">नया नोट</string>
+    <string name="body_reset">आपका डेटा स्थायी रूप से हटा दिया जाएगा. यह कार्रवाई पूर्ववत नहीं की जाएगी.</string>
+    <string name="body_backup">कृपया कॉपी करने की प्रक्रिया के दौरान एप्लिकेशन को बंद न करें या डिवाइस को बंद न करें.</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">दुर्भाग्यवश, हम आपकी अनुमति के बिना आपको सूचनाएं नहीं भेज पाएंगे. हम वादा करते हैं कि यह केवल आपके द्वारा निर्धारित अनुस्मारकों के लिए ही सूचनाएं भेजेगा.</string>
+    <string name="permission_notification_default">इस सुविधा के उपलब्ध होने के लिए अधिसूचना अनुमति आवश्यक है.\nकृपया अनुमति प्रदान करें</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">पिन कम से कम 4 अंकों का होना चाहिए</string>
+    <string name="supporting_password_must_be_at_least_4_characters">पासवर्ड कम से कम 4 अक्षरों का होना चाहिए</string>
+    <string name="supporting_share_note">नोट साझा करने का तरीका चुनें. इसके बाद आप प्राप्तकर्ता और भेजने का तरीका चुन सकेंगे.</string>
+    <string name="supporting_delete_note">नोट अंततः कूड़ेदान में चला जाएगा, जहां इसे पूरी तरह से हटाया या पुनर्स्थापित किया जा सकता है.</string>
+    <string name="supporting_delete_label">लेबल स्थायी रूप से हटा दिया जाएगा. इस लेबल वाले सभी नोट इसे खो देंगे.</string>
+    <string name="supporting_restore_note">पुनर्स्थापित करने के बाद, आप इस नोट को पुनः खोल और संपादित कर सकेंगे.</string>
+    <string name="supporting_empty_trash">ट्रैश में मौजूद सभी नोट्स स्थायी रूप से हटा दिए जाएंगे.</string>
+    <string name="supporting_wrong_pin">गलत पिन</string>
+    <string name="supporting_wrong_password">गलत पासवर्ड</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">प्रणालीगत चूक</string>
+    <string name="lan_ru">रूसी</string>
+    <string name="lan_en">अंग्रेज़ी</string>
+    <string name="lan_de">जर्मन</string>
+    <string name="lan_fr">फ्रेंच</string>
+    <string name="lan_zh_CN">चीनी (सरलीकृत)</string>
+    <string name="lan_ar">अरबी</string>
+    <string name="lan_419">स्पेनिश (लैटिन अमेरिका)</string>
+    <string name="lan_cs">चेक</string>
+    <string name="lan_es_ES">स्पेनिश (स्पेन)</string>
+    <string name="lan_hi">हिन्दी</string>
+    <string name="lan_in">इंडोनेशियाई</string>
+    <string name="lan_ja">जापानी</string>
+    <string name="lan_ko">कोरियाई</string>
+    <string name="lan_pt_BR">पुर्तगाली (ब्राज़ील)</string>
+    <string name="lan_uk">यूक्रेनी</string>
+
+    <!-- Hint -->
+    <string name="hint_title">शीर्षक</string>
+    <string name="hint_note">टिप्पणी</string>
+    <string name="hint_search">खोजना…</string>
+    <string name="hint_label">लेबल…</string>
+    <string name="hint_new_checklist">नई चेकलिस्ट</string>
+    <string name="hint_add_new_item">नया आइटम जोड़ें</string>
+    <string name="hint_item">वस्तु</string>
+    <string name="hint_create_new_label">नया लेबल बनाएँ</string>
+    <string name="hint_message">संदेश</string>
+
+    <!-- Button -->
+    <string name="btn_done">हो गया</string>
+    <string name="btn_request_permission">अनुमति का अनुरोध करें</string>
+    <string name="btn_create">बनाएं</string>
+    <string name="btn_restore">पुनर्स्थापित करना</string>
+    <string name="btn_edit">संपादन करना</string>
+    <string name="btn_enter">प्रवेश करना</string>
+    <string name="btn_delete">मिटाना</string>
+    <string name="btn_undo">पूर्ववत</string>
+    <string name="btn_save">बचाना</string>
+    <string name="btn_cancel">रद्द करना</string>
+    <string name="btn_accept">स्वीकार करना</string>
+    <string name="btn_clear">स्पष्ट</string>
+    <string name="btn_next">अगला</string>
+    <string name="btn_confirm">पुष्टि करना</string>
+    <string name="btn_biometrics">बॉयोमेट्रिक्स</string>
+    <string name="btn_rename">नाम बदलें</string>
+    <string name="btn_finish">खत्म करना</string>
+    <string name="btn_skip">छोडना</string>
+    <string name="btn_reset">रीसेट करें</string>
+    <string name="btn_try_again">पुनः प्रयास करें</string>
+    <string name="btn_create_backup">बैकअप बनाएँ</string>
+    <string name="btn_restore_from_backup">बैकअप से पुनर्स्थापित करें</string>
+    <string name="btn_open_a_release">एक रिलीज़ खोलें</string>
+    <string name="btn_rate_the_app">एप्लिकेशन की श्रेणी बताओ</string>
+    <string name="btn_update_available">उपलब्ध अद्यतन</string>
+    <string name="btn_downloading">डाउनलोड</string>
+    <string name="btn_ready_to_install">स्थापित करने के लिए तैयार</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">स्क्रीन लॉक है</string>
+    <string name="stg_language">भाषा</string>
+    <string name="stg_note_swipes">नोट स्वाइप</string>
+    <string name="stg_note_style">नोट शैली</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">नया नोट</string>
+    <string name="shortcut_label_reminders">अनुस्मारक</string>
+    <string name="shortcut_label_archive">पुरालेख</string>
+    <string name="shortcut_label_trash">कचरा</string>
+
+    <!-- Snack -->
+    <string name="snack_note_has_been_copied">नोट कॉपी करके खोल दिया गया है</string>
+    <string name="snack_note_moved_to_trash">नोट(नोटों) को ट्रैश में ले जाया गया</string>
+    <string name="snack_note_archived">नोट संग्रहीत हैं</string>
+    <string name="snack_note_unarchived">नोट असंग्रहीत हैं</string>
+    <string name="snack_note_pinned">नोट पिन किया गया है</string>
+    <string name="snack_note_unpinned">नोट अनपिन किया गया है</string>
+    <string name="snack_backup_created">बैकअप सफलतापूर्वक बनाया गया</string>
+    <string name="snack_storage_restored">संग्रहण सफलतापूर्वक पुनर्स्थापित किया गया</string>
+    <string name="snack_label_already_exist">इस नाम वाला लेबल पहले से मौजूद है</string>
+    <string name="snack_label_cannot_be_empty">लेबल खाली नहीं हो सकता</string>
+    <string name="snack_nothing_to_share">साझा करने के लिए कुछ नहीं</string>
+    <string name="snack_remind_time_is_too_late">अनुस्मारक सेट करना असंभव है, अनुस्मारक समय सिस्टम समय से बाद का है.</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database_title">डेटाबेस साफ़ करें</string>
+    <string name="checkbox_clear_the_database_subtitle">नोट्स, रिमाइंडर, लेबल, चेकलिस्ट और कचरा</string>
+    <string name="checkbox_reset_settings_title">एप्लिकेशन सेटिंग्स रीसेट करें</string>
+    <string name="checkbox_reset_settings_subtitle">डिफ़ॉल्ट मान लागू किए जाएंगे</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric_title">बायोमेट्रिक का उपयोग करें</string>
+    <string name="switch_use_note_swipes_title">नोट स्वाइप का उपयोग करें</string>
+    <string name="switch_auto_backup_title">ऑटो बैकअप</string>
+    <string name="switch_auto_backup_subtitle">हर दिन, पृष्ठभूमि में</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">अनुस्मारक!</string>
+    <string name="ntf_reminder_empty_message">आपने कोई संदेश नहीं छोड़ा. नोट खोलने के लिए क्लिक करें.</string>
+    <string name="ntf_reminder_channel_description">अनुस्मारक के लिए उपयोग किया जाता है</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">स्वागत!</string>
+    <string name="on_boarding_second_page_title">अपना पहला नोट बनाएँ</string>
+    <string name="on_boarding_third_page_title">अपने नोट्स व्यवस्थित करें</string>
+    <string name="on_boarding_fourth_page_title">अनुस्मारक और सूचनाएं सेट करें</string>
+    <string name="on_boarding_fifth_page_title">क्या हम आगे बढें?</string>
+    <string name="on_boarding_first_page_description">यहां आप नोट्स, कार्य सूची और बहुत कुछ संग्रहीत कर सकते हैं. आएँ शुरू करें!</string>
+    <string name="on_boarding_second_page_description">अभी नोट्स बनाना शुरू करें! आप शीर्षक, पाठ, चित्र आदि जोड़ सकते हैं.</string>
+    <string name="on_boarding_third_page_description">आप अपने नोट्स को व्यवस्थित करने के लिए श्रेणियां और टैग बना सकते हैं, साथ ही त्वरित पहुंच के लिए खोज फ़ंक्शन का उपयोग भी कर सकते हैं.</string>
+    <string name="on_boarding_fourth_page_description">सूचनाएं सेट करें ताकि आप महत्वपूर्ण कार्य या ईवेंट न चूकें. हम आपको सुविधाजनक समय पर अनुस्मारक भेजेंगे.</string>
+    <string name="on_boarding_fifth_page_description">अब आप एप्लिकेशन के प्रमुख कार्यों को जानते हैं. ऐसा लगता है कि अब काम पर लगने का समय आ गया है.</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">जल्द आ रहा है</string>
+
+    <!-- Content description -->
+    <string name="content_description_back">पीछे</string>
+    <string name="content_description_labels">लेबल</string>
+    <string name="content_description_pin">नत्थी करना</string>
+    <string name="content_description_reminder">अनुस्मारक</string>
+    <string name="content_description_delete">मिटाना</string>
+    <string name="content_description_add_note">नोट जोड़े</string>
+    <string name="content_description_color">रंग</string>
+    <string name="content_description_view_type">दृश्य प्रकार</string>
+    <string name="content_description_more">अधिक</string>
+    <string name="content_description_sort">क्रम से लगाना</string>
+    <string name="content_description_search">खोज</string>
+    <string name="content_description_close">बंद करना</string>
+    <string name="content_description_cancel">रद्द करना</string>
+    <string name="content_description_edit">संपादन करना</string>
+
+    <!-- Label -->
+    <string name="label_security">सुरक्षा</string>
+    <string name="label_upcoming">आगामी</string>
+    <string name="label_checklist">जांच सूची</string>
+    <string name="label_reminder">अनुस्मारक</string>
+    <string name="label_archive">पुरालेख</string>
+    <string name="label_pinned">पिन की गई</string>
+    <string name="label_others">अन्य</string>
+    <string name="label_labels">लेबल</string>
+    <string name="label_gestures">इशारों</string>
+    <string name="label_general">सामान्य</string>
+    <string name="label_appearance">उपस्थिति</string>
+    <string name="label_swipe_right">दाईं ओर स्वाइप करें</string>
+    <string name="label_swipe_left">बाईं ओर स्वाइप करें</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">वर्तमान लॉक स्क्रीन</string>
+    <string name="subtitle_select_actions">क्रियाएँ चुनें</string>
+    <string name="subtitle_enabled">सक्रिय</string>
+    <string name="subtitle_disabled">अक्षम</string>
+    <string name="subtitle_edited">संपादित %s</string>
+    <string name="subtitle_unchecked_items">+%s अनचेक किए गए आइटम</string>
+    <string name="subtitle_unchecked_item">+%s अनचेक किया गया आइटम</string>
+    <string name="subtitle_checklist">+%s चेकलिस्ट</string>
+    <string name="subtitle_checklists">+%s चेकलिस्ट</string>
+    <string name="subtitle_date_of_creation">निर्माण की तारीख</string>
+    <string name="subtitle_date_of_last_edit">अंतिम संपादन की तिथि</string>
+    <string name="subtitle_last_copy">अंतिम प्रति: %s</string>
+    <string name="subtitle_options">विकल्प</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">ट्रैश में मौजूद नोट्स 7 दिनों के बाद स्वचालित रूप से हटा दिए जाते हैं</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">ट्रैश में कोई नोट नहीं है</string>
+    <string name="placeholder_empty">अभी तक तो यहाँ खाली है...</string>
+    <string name="placeholder_nothing_was_found">दुर्भाग्यवश, आपके अनुरोध के लिए कुछ भी नहीं मिला...</string>
+    <string name="placeholder_failed_to_load_data">डेटा लोड करने में विफल</string>
+    <string name="placeholder_label_selection">आपके लेबल यहां प्रदर्शित किए जाएंगे</string>
+
+    <!-- Value -->
+    <string name="value_never">कभी नहीं</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">सेटिंग्स</string>
+    <string name="menu_item_about_app">ऐप के बारे में</string>
+    <string name="menu_item_reminders">अनुस्मारक</string>
+    <string name="menu_item_labels">लेबल</string>
+    <string name="menu_item_manage_labels">लेबल प्रबंधित करें</string>
+    <string name="menu_item_rename">नाम बदलें</string>
+    <string name="menu_item_delete">मिटाना</string>
+    <string name="menu_item_delete_forever">हमेशा के लिए हटाएं</string>
+    <string name="menu_item_restore">पुनर्स्थापित करना</string>
+    <string name="menu_item_plain_text">सादे पाठ</string>
+    <string name="menu_item_txt_file">.txt फ़ाइल</string>
+    <string name="menu_item_share">शेयर करना</string>
+    <string name="menu_item_whats_new">नया क्या है?</string>
+    <string name="menu_item_color">रंग</string>
+    <string name="menu_item_create_new_label">नया लेबल बनाएँ</string>
+    <string name="menu_item_empty_trash">कचरा खाली करें</string>
+    <string name="menu_item_none">कोई नहीं</string>
+    <string name="menu_item_pin">नत्थी करना</string>
+    <string name="menu_item_password">पासवर्ड</string>
+    <string name="menu_item_pattern">नमूना</string>
+    <string name="menu_item_slide">फिसलना</string>
+    <string name="menu_item_does_not_repeat">दोहराता नहीं</string>
+    <string name="menu_item_daily">दैनिक</string>
+    <string name="menu_item_weekly">साप्ताहिक</string>
+    <string name="menu_item_monthly">महीने के</string>
+    <string name="menu_item_outlined">उल्लिखित</string>
+    <string name="menu_item_elevated">ऊपर उठाया हुआ</string>
+    <string name="menu_item_archive">पुरालेख</string>
+    <string name="menu_item_check_all_items">सभी आइटम जांचें</string>
+    <string name="menu_item_uncheck_all_items">सभी आइटम अनचेक करें</string>
+    <string name="menu_item_changelog">बदलाव का</string>
+    <string name="menu_item_license_agreement">लाइसेंस समझौता</string>
+    <string name="menu_item_privacy_policy">गोपनीयता नीति</string>
+    <string name="menu_item_terms_and_conditions">नियम एवं शर्तें</string>
+    <string name="menu_item_provide_feedback">राय देने</string>
+    <string name="menu_item_rate_on_play_store">Play Store पर रेटिंग</string>
+    <string name="menu_item_reset">रीसेट करें</string>
+    <string name="menu_item_check_for_updates">अद्यतन के लिए जाँच</string>
+    <string name="menu_item_checklist">जांच सूची</string>
+    <string name="menu_item_image">छवि</string>
+    <string name="menu_item_recording">रिकॉर्डिंग</string>
+    <string name="menu_item_take_a_photo">एक तस्वीर लें</string>
+    <string name="menu_item_place">जगह</string>
+    <string name="menu_item_make_a_copy">एक प्रतिलिपि बना लो</string>
+    <string name="menu_item_backup">बैकअप</string>
+
+    <!-- Title -->
+    <string name="title_notes">नोट्स</string>
+    <string name="title_archive">पुरालेख</string>
+    <string name="title_trash">कचरा</string>
+    <string name="title_settings">सेटिंग्स</string>
+    <string name="title_about_app">ऐप के बारे में</string>
+    <string name="title_reminders">अनुस्मारक</string>
+    <string name="title_labels">लेबल</string>
+    <string name="title_new_reminder">नया अनुस्मारक</string>
+    <string name="title_share">शेयर करना</string>
+    <string name="title_repeat">दोहराना</string>
+    <string name="title_edit_reminder">अनुस्मारक संपादित करें</string>
+    <string name="title_choose_a_new_lock_screen">एक नई लॉक स्क्रीन चुनें</string>
+    <string name="title_language">भाषा</string>
+    <string name="title_set_a_pin">पिन सेट करें</string>
+    <string name="title_re_enter_your_pin">अपना पिन पुनः दर्ज करें</string>
+    <string name="title_set_a_password">पासवर्ड सेट करें</string>
+    <string name="title_re_enter_your_password">अपना पासवर्ड पुनः दर्ज करें</string>
+    <string name="title_delete_this_note">इस नोट को हटाएँ?</string>
+    <string name="title_delete_this_label">इस लेबल को हटाएं?</string>
+    <string name="title_restore_this_note">इस नोट को पुनर्स्थापित करें?</string>
+    <string name="title_empty_the_trash">ट्रैश खाली करें?</string>
+    <string name="title_note_style">नोट शैली</string>
+    <string name="title_note_swipes">नोट स्वाइप</string>
+    <string name="title_changelog">बदलाव का</string>
+    <string name="title_license_agreement">लाइसेंस समझौता</string>
+    <string name="title_privacy_policy">गोपनीयता नीति</string>
+    <string name="title_terms_and_conditions">नियम एवं शर्तें</string>
+    <string name="title_reset">रीसेट करें</string>
+    <string name="title_auth_required">प्रमाणित करना</string>
+    <string name="title_backup">बैकअप</string>
+    <string name="title_selected">%s चुना गया</string>
+    <string name="title_enter_pin">अपना पिन दर्ज करें</string>
+    <string name="title_enter_password">अपना कूटशब्द भरें</string>
+    <string name="title_unlocked">अनलॉक किया</string>
+    <string name="title_attention">ध्यान</string>
+    <string name="title_rename_label">लेबल का नाम बदलें</string>
+</resources>

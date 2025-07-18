@@ -157,6 +157,17 @@
     <string name="lan_en">Английский</string>
     <string name="lan_de">Немецкий</string>
     <string name="lan_fr">Французский</string>
+    <string name="lan_zh_CN">Китайский (упрощённый)</string>
+    <string name="lan_ar">Арабский</string>
+    <string name="lan_419">Испанский (Латинская Америка)</string>
+    <string name="lan_cs">Чешский</string>
+    <string name="lan_es_ES">Испанский (Испания)</string>
+    <string name="lan_hi">Хинди</string>
+    <string name="lan_in">Индонезийский</string>
+    <string name="lan_ja">Японский</string>
+    <string name="lan_ko">Корейский</string>
+    <string name="lan_pt_BR">Португальский (Бразилия)</string>
+    <string name="lan_uk">Украинский</string>
 
     <!-- Title -->
     <string name="title_notes">Заметки</string>

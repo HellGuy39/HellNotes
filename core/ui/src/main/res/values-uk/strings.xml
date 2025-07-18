@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Body -->
+    <string name="body_new_note">Нова нотатка</string>
+    <string name="body_reset">Ваші дані будуть видалені назавжди. Цю дію не буде скасовано.</string>
+    <string name="body_backup">Будь ласка, не закривайте програму та не вимикайте пристрій під час процесу копіювання.</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">На жаль, ми не зможемо надсилати вам сповіщення без вашого дозволу. Ми обіцяємо, що він надсилатиме сповіщення лише для встановлених вами нагадувань.</string>
+    <string name="permission_notification_default">Для доступності цієї функції потрібен дозвіл на сповіщення.\nБудь ласка, надайте дозвіл</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">PIN-код має містити щонайменше 4 цифри</string>
+    <string name="supporting_password_must_be_at_least_4_characters">Пароль має містити щонайменше 4 символи</string>
+    <string name="supporting_share_note">Виберіть, яким способом поділитися нотаткою. Після цього ви зможете вибрати одержувача та спосіб надсилання.</string>
+    <string name="supporting_delete_note">Нотатка потрапить до кошика, де її можна буде повністю видалити або відновити.</string>
+    <string name="supporting_delete_label">Мітку буде видалено назавжди. Усі нотатки з цією міткою її втратять.</string>
+    <string name="supporting_restore_note">Після відновлення ви зможете знову відкрити та редагувати цю нотатку.</string>
+    <string name="supporting_empty_trash">Усі нотатки в кошику будуть видалені назавжди.</string>
+    <string name="supporting_wrong_pin">Неправильний PIN-код</string>
+    <string name="supporting_wrong_password">Неправильний пароль</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">Системні за замовчуванням</string>
+    <string name="lan_ru">Російська</string>
+    <string name="lan_en">Англійська</string>
+    <string name="lan_de">Німецька</string>
+    <string name="lan_fr">Французька</string>
+    <string name="lan_zh_CN">Китайська (спрощена)</string>
+    <string name="lan_ar">Арабська</string>
+    <string name="lan_419">Іспанська (Латинська Америка)</string>
+    <string name="lan_cs">Чеська</string>
+    <string name="lan_es_ES">Іспанська (Іспанія)</string>
+    <string name="lan_hi">Гінді</string>
+    <string name="lan_in">Індонезійська</string>
+    <string name="lan_ja">Японська</string>
+    <string name="lan_ko">Корейська</string>
+    <string name="lan_pt_BR">Португальська (Бразилія)</string>
+    <string name="lan_uk">Українська</string>
+
+    <!-- Hint -->
+    <string name="hint_title">Назва</string>
+    <string name="hint_note">Примітка</string>
+    <string name="hint_search">Пошук…</string>
+    <string name="hint_label">Мітка…</string>
+    <string name="hint_new_checklist">Новий контрольний список</string>
+    <string name="hint_add_new_item">Додати новий елемент</string>
+    <string name="hint_item">Елемент</string>
+    <string name="hint_create_new_label">Створити нову етикетку</string>
+    <string name="hint_message">Повідомлення</string>
+
+    <!-- Button -->
+    <string name="btn_done">Готово</string>
+    <string name="btn_request_permission">Запит дозволу</string>
+    <string name="btn_create">Створити</string>
+    <string name="btn_restore">Відновити</string>
+    <string name="btn_edit">Редагувати</string>
+    <string name="btn_enter">Введіть</string>
+    <string name="btn_delete">Видалити</string>
+    <string name="btn_undo">Скасувати</string>
+    <string name="btn_save">Зберегти</string>
+    <string name="btn_cancel">Скасувати</string>
+    <string name="btn_accept">Прийняти</string>
+    <string name="btn_clear">Очистити</string>
+    <string name="btn_next">Далі</string>
+    <string name="btn_confirm">Підтвердити</string>
+    <string name="btn_biometrics">Біометрія</string>
+    <string name="btn_rename">Перейменувати</string>
+    <string name="btn_finish">Фініш</string>
+    <string name="btn_skip">Пропустити</string>
+    <string name="btn_reset">Скинути</string>
+    <string name="btn_try_again">Спробуйте ще раз</string>
+    <string name="btn_create_backup">Створити резервну копію</string>
+    <string name="btn_restore_from_backup">Відновлення з резервної копії</string>
+    <string name="btn_open_a_release">Відкрити реліз</string>
+    <string name="btn_rate_the_app">Оцініть додаток</string>
+    <string name="btn_update_available">Доступне оновлення</string>
+    <string name="btn_downloading">Завантаження</string>
+    <string name="btn_ready_to_install">Готовий до встановлення</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">Блокування екрана</string>
+    <string name="stg_language">Мова</string>
+    <string name="stg_note_swipes">Проведення пальцем примітки</string>
+    <string name="stg_note_style">Стиль нотатки</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">Нова нотатка</string>
+    <string name="shortcut_label_reminders">Нагадування</string>
+    <string name="shortcut_label_archive">Архів</string>
+    <string name="shortcut_label_trash">Сміття</string>
+
+    <!-- Snack -->
+    <string name="snack_note_has_been_copied">Нотатку скопійовано та відкрито</string>
+    <string name="snack_note_moved_to_trash">Нотатки переміщено до кошика</string>
+    <string name="snack_note_archived">Нотатки архівовано</string>
+    <string name="snack_note_unarchived">Нотатки розархівовано</string>
+    <string name="snack_note_pinned">Нотатку закріплено</string>
+    <string name="snack_note_unpinned">Нотатку відкріплено</string>
+    <string name="snack_backup_created">Резервну копію успішно створено</string>
+    <string name="snack_storage_restored">Пам\'ять успішно відновлено</string>
+    <string name="snack_label_already_exist">Мітка з такою назвою вже існує</string>
+    <string name="snack_label_cannot_be_empty">Мітка не може бути порожньою</string>
+    <string name="snack_nothing_to_share">Нічого поділитися</string>
+    <string name="snack_remind_time_is_too_late">Неможливо встановити нагадування, час нагадування пізніший за системний час.</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database_title">Очистити базу даних</string>
+    <string name="checkbox_clear_the_database_subtitle">Нотатки, нагадування, мітки, контрольні списки та кошик</string>
+    <string name="checkbox_reset_settings_title">Скинути налаштування програми</string>
+    <string name="checkbox_reset_settings_subtitle">Будуть застосовані значення за замовчуванням</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric_title">Використовуйте біометричні дані</string>
+    <string name="switch_use_note_swipes_title">Використовуйте свайпи для нотаток</string>
+    <string name="switch_auto_backup_title">Автоматичне резервне копіювання</string>
+    <string name="switch_auto_backup_subtitle">Щодня, на задньому плані</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">Нагадування!</string>
+    <string name="ntf_reminder_empty_message">Ви не залишили повідомлення. Натисніть, щоб відкрити нотатку.</string>
+    <string name="ntf_reminder_channel_description">Використовується для нагадувань</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">Ласкаво просимо!</string>
+    <string name="on_boarding_second_page_title">Створіть свою першу нотатку</string>
+    <string name="on_boarding_third_page_title">Упорядкуйте свої нотатки</string>
+    <string name="on_boarding_fourth_page_title">Налаштування нагадувань та сповіщень</string>
+    <string name="on_boarding_fifth_page_title">Чи нам продовжити?</string>
+    <string name="on_boarding_first_page_description">Тут ви можете зберігати нотатки, списки завдань тощо. Почнемо!</string>
+    <string name="on_boarding_second_page_description">Почніть створювати нотатки прямо зараз! Ви можете додавати заголовки, текст, зображення тощо.</string>
+    <string name="on_boarding_third_page_description">Ви можете створювати категорії та теги для впорядкування своїх нотаток, а також використовувати функцію пошуку для швидкого доступу.</string>
+    <string name="on_boarding_fourth_page_description">Налаштуйте сповіщення, щоб не пропустити важливі завдання чи події. Ми надішлемо вам нагадування у зручний для вас час.</string>
+    <string name="on_boarding_fifth_page_description">Тепер ви знаєте основні функції програми. Здається, час братися до роботи.</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">Скоро</string>
+
+    <!-- Content description -->
+    <string name="content_description_back">Назад</string>
+    <string name="content_description_labels">Мітки</string>
+    <string name="content_description_pin">Закріпити</string>
+    <string name="content_description_reminder">Нагадування</string>
+    <string name="content_description_delete">Видалити</string>
+    <string name="content_description_add_note">Додати примітку</string>
+    <string name="content_description_color">Колір</string>
+    <string name="content_description_view_type">Тип перегляду</string>
+    <string name="content_description_more">Більше</string>
+    <string name="content_description_sort">Сортувати</string>
+    <string name="content_description_search">Пошук</string>
+    <string name="content_description_close">Закрити</string>
+    <string name="content_description_cancel">Скасувати</string>
+    <string name="content_description_edit">Редагувати</string>
+
+    <!-- Label -->
+    <string name="label_security">Безпека</string>
+    <string name="label_upcoming">Майбутні</string>
+    <string name="label_checklist">Контрольний список</string>
+    <string name="label_reminder">Нагадування</string>
+    <string name="label_archive">Архів</string>
+    <string name="label_pinned">Закріплено</string>
+    <string name="label_others">Інші</string>
+    <string name="label_labels">Мітки</string>
+    <string name="label_gestures">Жести</string>
+    <string name="label_general">Загальне</string>
+    <string name="label_appearance">Зовнішній вигляд</string>
+    <string name="label_swipe_right">Проведіть пальцем праворуч</string>
+    <string name="label_swipe_left">Проведіть пальцем ліворуч</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">Поточний екран блокування</string>
+    <string name="subtitle_select_actions">Вибрати дії</string>
+    <string name="subtitle_enabled">Увімкнено</string>
+    <string name="subtitle_disabled">Інвалід</string>
+    <string name="subtitle_edited">Відредаговано%s</string>
+    <string name="subtitle_unchecked_items">+%s неперевірені елементи</string>
+    <string name="subtitle_unchecked_item">+%s невизначений елемент</string>
+    <string name="subtitle_checklist">+%s контрольний список</string>
+    <string name="subtitle_checklists">+%s контрольні списки</string>
+    <string name="subtitle_date_of_creation">Дата створення</string>
+    <string name="subtitle_date_of_last_edit">Дата останнього редагування</string>
+    <string name="subtitle_last_copy">Остання копія: %s</string>
+    <string name="subtitle_options">Опції</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">Нотатки в кошику автоматично видаляються через 7 днів</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">У кошику немає нотаток</string>
+    <string name="placeholder_empty">Поки що тут порожньо…</string>
+    <string name="placeholder_nothing_was_found">На жаль, за вашим запитом нічого не знайдено…</string>
+    <string name="placeholder_failed_to_load_data">Не вдалося завантажити дані</string>
+    <string name="placeholder_label_selection">Ваші мітки відображатимуться тут</string>
+
+    <!-- Value -->
+    <string name="value_never">ніколи</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">Налаштування</string>
+    <string name="menu_item_about_app">Про додаток</string>
+    <string name="menu_item_reminders">Нагадування</string>
+    <string name="menu_item_labels">Мітки</string>
+    <string name="menu_item_manage_labels">Керування мітками</string>
+    <string name="menu_item_rename">Перейменувати</string>
+    <string name="menu_item_delete">Видалити</string>
+    <string name="menu_item_delete_forever">Видалити назавжди</string>
+    <string name="menu_item_restore">Відновити</string>
+    <string name="menu_item_plain_text">Звичайний текст</string>
+    <string name="menu_item_txt_file">Файл .txt</string>
+    <string name="menu_item_share">Поділитися</string>
+    <string name="menu_item_whats_new">Що нового?</string>
+    <string name="menu_item_color">Колір</string>
+    <string name="menu_item_create_new_label">Створити нову етикетку</string>
+    <string name="menu_item_empty_trash">Очистити кошик</string>
+    <string name="menu_item_none">Жоден</string>
+    <string name="menu_item_pin">ПІН-код</string>
+    <string name="menu_item_password">Пароль</string>
+    <string name="menu_item_pattern">Візерунок</string>
+    <string name="menu_item_slide">Слайд</string>
+    <string name="menu_item_does_not_repeat">Не повторюється</string>
+    <string name="menu_item_daily">Щоденно</string>
+    <string name="menu_item_weekly">Щотижнево</string>
+    <string name="menu_item_monthly">Щомісяця</string>
+    <string name="menu_item_outlined">Окреслено</string>
+    <string name="menu_item_elevated">Підвищений</string>
+    <string name="menu_item_archive">Архів</string>
+    <string name="menu_item_check_all_items">Перевірте всі елементи</string>
+    <string name="menu_item_uncheck_all_items">Зніміть прапорці з усіх елементів</string>
+    <string name="menu_item_changelog">Список змін</string>
+    <string name="menu_item_license_agreement">Ліцензійна угода</string>
+    <string name="menu_item_privacy_policy">Політика конфіденційності</string>
+    <string name="menu_item_terms_and_conditions">Умови та положення</string>
+    <string name="menu_item_provide_feedback">Надати відгук</string>
+    <string name="menu_item_rate_on_play_store">Оцініть у Play Маркеті</string>
+    <string name="menu_item_reset">Скинути</string>
+    <string name="menu_item_check_for_updates">Перевірити наявність оновлень</string>
+    <string name="menu_item_checklist">Контрольний список</string>
+    <string name="menu_item_image">Зображення</string>
+    <string name="menu_item_recording">Запис</string>
+    <string name="menu_item_take_a_photo">Зробіть фотографію</string>
+    <string name="menu_item_place">Місце</string>
+    <string name="menu_item_make_a_copy">Зробити копію</string>
+    <string name="menu_item_backup">Резервне копіювання</string>
+
+    <!-- Title -->
+    <string name="title_notes">Нотатки</string>
+    <string name="title_archive">Архів</string>
+    <string name="title_trash">Сміття</string>
+    <string name="title_settings">Налаштування</string>
+    <string name="title_about_app">Про додаток</string>
+    <string name="title_reminders">Нагадування</string>
+    <string name="title_labels">Мітки</string>
+    <string name="title_new_reminder">Нове нагадування</string>
+    <string name="title_share">Поділитися</string>
+    <string name="title_repeat">Повторити</string>
+    <string name="title_edit_reminder">Редагувати нагадування</string>
+    <string name="title_choose_a_new_lock_screen">Виберіть новий екран блокування</string>
+    <string name="title_language">Мова</string>
+    <string name="title_set_a_pin">Встановити PIN-код</string>
+    <string name="title_re_enter_your_pin">Введіть свій PIN-код ще раз</string>
+    <string name="title_set_a_password">Встановити пароль</string>
+    <string name="title_re_enter_your_password">Введіть свій пароль ще раз</string>
+    <string name="title_delete_this_note">Видалити цю нотатку?</string>
+    <string name="title_delete_this_label">Видалити цю мітку?</string>
+    <string name="title_restore_this_note">Відновити цю нотатку?</string>
+    <string name="title_empty_the_trash">Випорожнити сміття?</string>
+    <string name="title_note_style">Стиль нотатки</string>
+    <string name="title_note_swipes">Проведення пальцем примітки</string>
+    <string name="title_changelog">Список змін</string>
+    <string name="title_license_agreement">Ліцензійна угода</string>
+    <string name="title_privacy_policy">Політика конфіденційності</string>
+    <string name="title_terms_and_conditions">Умови та положення</string>
+    <string name="title_reset">Скинути</string>
+    <string name="title_auth_required">Потрібна автентифікація</string>
+    <string name="title_backup">Резервне копіювання</string>
+    <string name="title_selected">Вибрано%s</string>
+    <string name="title_enter_pin">Введіть свій PIN-код</string>
+    <string name="title_enter_password">Введіть свій пароль</string>
+    <string name="title_unlocked">Розблоковано</string>
+    <string name="title_attention">Увага</string>
+    <string name="title_rename_label">Перейменувати мітку</string>
+</resources>

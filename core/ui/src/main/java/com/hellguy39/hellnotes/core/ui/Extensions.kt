@@ -45,6 +45,17 @@ fun Language.asDisplayableString(): String {
         Language.German -> stringResource(id = AppStrings.Lan.German)
         Language.French -> stringResource(id = AppStrings.Lan.French)
         Language.SystemDefault -> stringResource(id = AppStrings.Lan.SystemDefault)
+        Language.ChineseSimplified -> stringResource(id = AppStrings.Lan.ChineseSimplified)
+        Language.Arabic -> stringResource(id = AppStrings.Lan.Arabic)
+        Language.SpanishLatinAmerica -> stringResource(id = AppStrings.Lan.SpanishLatinAmerica)
+        Language.Czech -> stringResource(id = AppStrings.Lan.Czech)
+        Language.SpanishSpain -> stringResource(id = AppStrings.Lan.SpanishSpain)
+        Language.Hindi -> stringResource(id = AppStrings.Lan.Hindi)
+        Language.Indonesian -> stringResource(id = AppStrings.Lan.Indonesian)
+        Language.Japanese -> stringResource(id = AppStrings.Lan.Japanese)
+        Language.Korean -> stringResource(id = AppStrings.Lan.Korean)
+        Language.PortugueseBrazil -> stringResource(id = AppStrings.Lan.PortugueseBrazil)
+        Language.Ukrainian -> stringResource(id = AppStrings.Lan.Ukrainian)
         else -> "Unknown"
     }
 }

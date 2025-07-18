@@ -26,14 +26,64 @@ sealed class Language(val tag: String) {
 
     data object French : Language(tag = FRENCH)
 
+    data object ChineseSimplified : Language(tag = CHINESE_SIMPLIFIED)
+
+    data object Arabic : Language(tag = ARABIC)
+
+    data object SpanishLatinAmerica : Language(tag = SPANISH_LATIN_AMERICA)
+
+    data object Czech : Language(tag = CZECH)
+
+    data object SpanishSpain : Language(tag = SPANISH_SPAIN)
+
+    data object Hindi : Language(tag = HINDI)
+
+    data object Indonesian : Language(tag = INDONESIAN)
+
+    data object Japanese : Language(tag = JAPANESE)
+
+    data object Korean : Language(tag = KOREAN)
+
+    data object PortugueseBrazil : Language(tag = PORTUGUESE_BRAZIL)
+
+    data object Ukrainian : Language(tag = UKRAINIAN)
+
     companion object {
         private const val SYSTEM_DEFAULT = ""
         private const val RUSSIAN = "ru"
         private const val ENGLISH = "en"
         private const val GERMAN = "de"
         private const val FRENCH = "fr"
+        private const val CHINESE_SIMPLIFIED = "zh-CN"
+        private const val ARABIC = "ar"
+        private const val SPANISH_LATIN_AMERICA = "b+es+419"
+        private const val CZECH = "cs"
+        private const val SPANISH_SPAIN = "es-ES"
+        private const val HINDI = "hi"
+        private const val INDONESIAN = "in"
+        private const val JAPANESE = "ja"
+        private const val KOREAN = "ko"
+        private const val PORTUGUESE_BRAZIL = "pt-BR"
+        private const val UKRAINIAN = "uk"
 
-        fun languages() = listOf(SystemDefault, Russian, English, German, French)
+        fun languages() = listOf(
+            SystemDefault,
+            Russian,
+            English,
+            German,
+            French,
+            ChineseSimplified,
+            Arabic,
+            SpanishLatinAmerica,
+            Czech,
+            SpanishSpain,
+            Hindi,
+            Indonesian,
+            Japanese,
+            Korean,
+            PortugueseBrazil,
+            Ukrainian
+        )
 
         fun fromTag(s: String): Language {
             return when (s) {
@@ -42,6 +92,17 @@ sealed class Language(val tag: String) {
                 ENGLISH -> English
                 GERMAN -> German
                 FRENCH -> French
+                CHINESE_SIMPLIFIED -> ChineseSimplified
+                ARABIC -> Arabic
+                SPANISH_LATIN_AMERICA -> SpanishLatinAmerica
+                CZECH -> Czech
+                SPANISH_SPAIN -> SpanishSpain
+                HINDI -> Hindi
+                INDONESIAN -> Indonesian
+                JAPANESE -> Japanese
+                KOREAN -> Korean
+                PORTUGUESE_BRAZIL -> PortugueseBrazil
+                UKRAINIAN -> Ukrainian
                 else -> SystemDefault
             }
         }

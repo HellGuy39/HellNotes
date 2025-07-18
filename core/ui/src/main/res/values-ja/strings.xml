@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Body -->
+    <string name="body_new_note">新しいメモ</string>
+    <string name="body_reset">あなたのデータは永久に削除されます。この操作は元に戻せません。</string>
+    <string name="body_backup">コピー処理中はアプリケーションを閉じたり、デバイスの電源をオフにしたりしないでください。</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">申し訳ございませんが、許可なく通知を送信することはできません。設定したリマインダーの通知のみを送信することをお約束します。</string>
+    <string name="permission_notification_default">この機能を利用するには通知許可が必要です。\n許可をお願いします</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">PIN は 4 桁以上である必要があります</string>
+    <string name="supporting_password_must_be_at_least_4_characters">パスワードは 4 文字以上でなければなりません</string>
+    <string name="supporting_share_note">メモを共有する方法を選択します。その後、受信者と送信方法を選択できます。</string>
+    <string name="supporting_delete_note">メモはゴミ箱に移動され、完全に削除するか復元することができます。</string>
+    <string name="supporting_delete_label">ラベルは完全に削除されます。このラベルが付いたすべてのメモからラベルが失われます。</string>
+    <string name="supporting_restore_note">復元すると、このメモを再度開いて編集できるようになります。</string>
+    <string name="supporting_empty_trash">ゴミ箱内のすべてのメモは完全に削除されます。</string>
+    <string name="supporting_wrong_pin">PIN が間違っています</string>
+    <string name="supporting_wrong_password">パスワードが間違っています</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">システムのデフォルト</string>
+    <string name="lan_ru">ロシア</string>
+    <string name="lan_en">英語</string>
+    <string name="lan_de">ドイツ語</string>
+    <string name="lan_fr">フランス語</string>
+    <string name="lan_zh_CN">中国語（簡体字）</string>
+    <string name="lan_ar">アラビア語</string>
+    <string name="lan_419">スペイン語（ラテンアメリカ）</string>
+    <string name="lan_cs">チェコ語</string>
+    <string name="lan_es_ES">スペイン語（スペイン）</string>
+    <string name="lan_hi">ヒンディー語</string>
+    <string name="lan_in">インドネシア語</string>
+    <string name="lan_ja">日本語</string>
+    <string name="lan_ko">韓国語</string>
+    <string name="lan_pt_BR">ポルトガル語（ブラジル）</string>
+    <string name="lan_uk">ウクライナ語</string>
+
+    <!-- Hint -->
+    <string name="hint_title">タイトル</string>
+    <string name="hint_note">注記</string>
+    <string name="hint_search">検索…</string>
+    <string name="hint_label">ラベル…</string>
+    <string name="hint_new_checklist">新しいチェックリスト</string>
+    <string name="hint_add_new_item">新しいアイテムを追加</string>
+    <string name="hint_item">アイテム</string>
+    <string name="hint_create_new_label">新しいラベルを作成</string>
+    <string name="hint_message">メッセージ</string>
+
+    <!-- Button -->
+    <string name="btn_done">終わり</string>
+    <string name="btn_request_permission">許可を要求する</string>
+    <string name="btn_create">作成する</string>
+    <string name="btn_restore">復元する</string>
+    <string name="btn_edit">編集</string>
+    <string name="btn_enter">入力</string>
+    <string name="btn_delete">消去</string>
+    <string name="btn_undo">元に戻す</string>
+    <string name="btn_save">保存</string>
+    <string name="btn_cancel">キャンセル</string>
+    <string name="btn_accept">受け入れる</string>
+    <string name="btn_clear">クリア</string>
+    <string name="btn_next">次</string>
+    <string name="btn_confirm">確認する</string>
+    <string name="btn_biometrics">生体認証</string>
+    <string name="btn_rename">名前を変更</string>
+    <string name="btn_finish">仕上げる</string>
+    <string name="btn_skip">スキップ</string>
+    <string name="btn_reset">リセット</string>
+    <string name="btn_try_again">もう一度やり直してください</string>
+    <string name="btn_create_backup">バックアップを作成</string>
+    <string name="btn_restore_from_backup">バックアップからの復元</string>
+    <string name="btn_open_a_release">リリースを開く</string>
+    <string name="btn_rate_the_app">アプリを評価する</string>
+    <string name="btn_update_available">アップデートが利用可能</string>
+    <string name="btn_downloading">ダウンロード中</string>
+    <string name="btn_ready_to_install">インストール準備完了</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">画面ロック</string>
+    <string name="stg_language">言語</string>
+    <string name="stg_note_swipes">ノートスワイプ</string>
+    <string name="stg_note_style">ノートスタイル</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">新しいメモ</string>
+    <string name="shortcut_label_reminders">リマインダー</string>
+    <string name="shortcut_label_archive">アーカイブ</string>
+    <string name="shortcut_label_trash">ごみ</string>
+
+    <!-- Snack -->
+    <string name="snack_note_has_been_copied">メモがコピーされ開かれました</string>
+    <string name="snack_note_moved_to_trash">メモをゴミ箱に移動しました</string>
+    <string name="snack_note_archived">メモはアーカイブされています</string>
+    <string name="snack_note_unarchived">メモはアーカイブ解除されました</string>
+    <string name="snack_note_pinned">メモがピン留めされています</string>
+    <string name="snack_note_unpinned">メモのピン留めが解除されました</string>
+    <string name="snack_backup_created">バックアップが正常に作成されました</string>
+    <string name="snack_storage_restored">ストレージが正常に復元されました</string>
+    <string name="snack_label_already_exist">この名前のラベルは既に存在します</string>
+    <string name="snack_label_cannot_be_empty">ラベルは空にできません</string>
+    <string name="snack_nothing_to_share">共有するものはありません</string>
+    <string name="snack_remind_time_is_too_late">リマインダーを設定することはできません。リマインダーの時刻がシステム時刻よりも後になっています。</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database_title">データベースをクリアする</string>
+    <string name="checkbox_clear_the_database_subtitle">メモ、リマインダー、ラベル、チェックリスト、ゴミ箱</string>
+    <string name="checkbox_reset_settings_title">アプリケーション設定をリセットする</string>
+    <string name="checkbox_reset_settings_subtitle">デフォルト値が適用されます</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric_title">生体認証を使用する</string>
+    <string name="switch_use_note_swipes_title">メモスワイプを使用する</string>
+    <string name="switch_auto_backup_title">自動バックアップ</string>
+    <string name="switch_auto_backup_subtitle">毎日、バックグラウンドで</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">リマインダー！</string>
+    <string name="ntf_reminder_empty_message">メッセージを残しませんでした。クリックするとメモが開きます。</string>
+    <string name="ntf_reminder_channel_description">リマインダーとして使用</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">いらっしゃいませ！</string>
+    <string name="on_boarding_second_page_title">最初のノートを作成する</string>
+    <string name="on_boarding_third_page_title">メモを整理する</string>
+    <string name="on_boarding_fourth_page_title">リマインダーと通知を設定する</string>
+    <string name="on_boarding_fifth_page_title">進めましょうか？</string>
+    <string name="on_boarding_first_page_description">ここでメモやタスク リストなどを保存できます。さあ、始めましょう！</string>
+    <string name="on_boarding_second_page_description">今すぐメモを作成し始めましょう! タイトル、テキスト、画像などを追加できます。</string>
+    <string name="on_boarding_third_page_description">カテゴリやタグを作成してメモを整理したり、検索機能を使用してすばやくアクセスしたりすることもできます。</string>
+    <string name="on_boarding_fourth_page_description">重要なタスクやイベントを見逃さないように通知を設定します。ご都合の良い時間にリマインダーをお送りします。</string>
+    <string name="on_boarding_fifth_page_description">これで、アプリケーションの主な機能がわかりました。そろそろ仕事に取り掛かる時間になったようです。</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">近日公開</string>
+
+    <!-- Content description -->
+    <string name="content_description_back">戻る</string>
+    <string name="content_description_labels">ラベル</string>
+    <string name="content_description_pin">ピン</string>
+    <string name="content_description_reminder">リマインダー</string>
+    <string name="content_description_delete">消去</string>
+    <string name="content_description_add_note">メモを追加</string>
+    <string name="content_description_color">色</string>
+    <string name="content_description_view_type">表示タイプ</string>
+    <string name="content_description_more">もっと</string>
+    <string name="content_description_sort">選別</string>
+    <string name="content_description_search">検索</string>
+    <string name="content_description_close">近い</string>
+    <string name="content_description_cancel">キャンセル</string>
+    <string name="content_description_edit">編集</string>
+
+    <!-- Label -->
+    <string name="label_security">安全</string>
+    <string name="label_upcoming">今後の予定</string>
+    <string name="label_checklist">チェックリスト</string>
+    <string name="label_reminder">リマインダー</string>
+    <string name="label_archive">アーカイブ</string>
+    <string name="label_pinned">ピン留め</string>
+    <string name="label_others">その他</string>
+    <string name="label_labels">ラベル</string>
+    <string name="label_gestures">ジェスチャー</string>
+    <string name="label_general">一般的な</string>
+    <string name="label_appearance">外観</string>
+    <string name="label_swipe_right">右にスワイプ</string>
+    <string name="label_swipe_left">左にスワイプ</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">現在のロック画面</string>
+    <string name="subtitle_select_actions">アクションを選択</string>
+    <string name="subtitle_enabled">有効</string>
+    <string name="subtitle_disabled">無効</string>
+    <string name="subtitle_edited">編集済み%s</string>
+    <string name="subtitle_unchecked_items">+%sチェックされていない項目</string>
+    <string name="subtitle_unchecked_item">+%sチェックされていない項目</string>
+    <string name="subtitle_checklist">+%sチェックリスト</string>
+    <string name="subtitle_checklists">+%sチェックリスト</string>
+    <string name="subtitle_date_of_creation">作成日</string>
+    <string name="subtitle_date_of_last_edit">最終編集日</string>
+    <string name="subtitle_last_copy">最後のコピー: %s</string>
+    <string name="subtitle_options">オプション</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">ゴミ箱内のメモは 7 日後に自動的に削除されます</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">ゴミ箱にメモはありません</string>
+    <string name="placeholder_empty">今のところ、ここは空っぽです…</string>
+    <string name="placeholder_nothing_was_found">残念ながら、リクエストに一致するものは見つかりませんでした…</string>
+    <string name="placeholder_failed_to_load_data">データの読み込みに失敗しました</string>
+    <string name="placeholder_label_selection">ラベルはここに表示されます</string>
+
+    <!-- Value -->
+    <string name="value_never">一度もない</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">設定</string>
+    <string name="menu_item_about_app">アプリについて</string>
+    <string name="menu_item_reminders">リマインダー</string>
+    <string name="menu_item_labels">ラベル</string>
+    <string name="menu_item_manage_labels">ラベルを管理する</string>
+    <string name="menu_item_rename">名前を変更</string>
+    <string name="menu_item_delete">消去</string>
+    <string name="menu_item_delete_forever">永久に削除</string>
+    <string name="menu_item_restore">復元する</string>
+    <string name="menu_item_plain_text">プレーンテキスト</string>
+    <string name="menu_item_txt_file">.txt ファイル</string>
+    <string name="menu_item_share">共有</string>
+    <string name="menu_item_whats_new">新着情報？</string>
+    <string name="menu_item_color">色</string>
+    <string name="menu_item_create_new_label">新しいラベルを作成</string>
+    <string name="menu_item_empty_trash">ゴミ箱を空にする</string>
+    <string name="menu_item_none">なし</string>
+    <string name="menu_item_pin">ピン</string>
+    <string name="menu_item_password">パスワード</string>
+    <string name="menu_item_pattern">パターン</string>
+    <string name="menu_item_slide">スライド</string>
+    <string name="menu_item_does_not_repeat">繰り返さない</string>
+    <string name="menu_item_daily">毎日</string>
+    <string name="menu_item_weekly">週刊</string>
+    <string name="menu_item_monthly">月次</string>
+    <string name="menu_item_outlined">概説</string>
+    <string name="menu_item_elevated">高められた</string>
+    <string name="menu_item_archive">アーカイブ</string>
+    <string name="menu_item_check_all_items">すべての項目をチェック</string>
+    <string name="menu_item_uncheck_all_items">すべての項目のチェックを外す</string>
+    <string name="menu_item_changelog">変更履歴</string>
+    <string name="menu_item_license_agreement">ライセンス契約</string>
+    <string name="menu_item_privacy_policy">プライバシーポリシー</string>
+    <string name="menu_item_terms_and_conditions">利用規約</string>
+    <string name="menu_item_provide_feedback">フィードバックを提供する</string>
+    <string name="menu_item_rate_on_play_store">Play ストアで評価する</string>
+    <string name="menu_item_reset">リセット</string>
+    <string name="menu_item_check_for_updates">アップデートを確認する</string>
+    <string name="menu_item_checklist">チェックリスト</string>
+    <string name="menu_item_image">画像</string>
+    <string name="menu_item_recording">録音</string>
+    <string name="menu_item_take_a_photo">写真を撮る</string>
+    <string name="menu_item_place">場所</string>
+    <string name="menu_item_make_a_copy">コピーを作成する</string>
+    <string name="menu_item_backup">バックアップ</string>
+
+    <!-- Title -->
+    <string name="title_notes">注記</string>
+    <string name="title_archive">アーカイブ</string>
+    <string name="title_trash">ごみ</string>
+    <string name="title_settings">設定</string>
+    <string name="title_about_app">アプリについて</string>
+    <string name="title_reminders">リマインダー</string>
+    <string name="title_labels">ラベル</string>
+    <string name="title_new_reminder">新しいリマインダー</string>
+    <string name="title_share">共有</string>
+    <string name="title_repeat">繰り返す</string>
+    <string name="title_edit_reminder">リマインダーを編集</string>
+    <string name="title_choose_a_new_lock_screen">新しいロック画面を選択する</string>
+    <string name="title_language">言語</string>
+    <string name="title_set_a_pin">PIN を設定する</string>
+    <string name="title_re_enter_your_pin">PIN を再入力してください</string>
+    <string name="title_set_a_password">パスワードを設定する</string>
+    <string name="title_re_enter_your_password">パスワードを再入力してください</string>
+    <string name="title_delete_this_note">このメモを削除しますか?</string>
+    <string name="title_delete_this_label">このラベルを削除しますか?</string>
+    <string name="title_restore_this_note">このメモを復元しますか?</string>
+    <string name="title_empty_the_trash">ゴミ箱を空にしますか?</string>
+    <string name="title_note_style">ノートスタイル</string>
+    <string name="title_note_swipes">ノートスワイプ</string>
+    <string name="title_changelog">変更履歴</string>
+    <string name="title_license_agreement">ライセンス契約</string>
+    <string name="title_privacy_policy">プライバシーポリシー</string>
+    <string name="title_terms_and_conditions">利用規約</string>
+    <string name="title_reset">リセット</string>
+    <string name="title_auth_required">認証が必要です</string>
+    <string name="title_backup">バックアップ</string>
+    <string name="title_selected">選択済み%s</string>
+    <string name="title_enter_pin">PIN を入力してください</string>
+    <string name="title_enter_password">パスワードを入力してください</string>
+    <string name="title_unlocked">ロック解除</string>
+    <string name="title_attention">注意</string>
+    <string name="title_rename_label">ラベルの名前を変更</string>
+</resources>

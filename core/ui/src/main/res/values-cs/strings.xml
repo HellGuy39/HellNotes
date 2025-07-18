@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Body -->
+    <string name="body_new_note">Nová poznámka</string>
+    <string name="body_reset">Vaše data budou trvale smazána. Tuto akci nelze vrátit zpět.</string>
+    <string name="body_backup">Během kopírování nezavírejte aplikaci ani nevypínejte zařízení.</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">Bez vašeho svolení vám bohužel nebudeme moci zasílat oznámení. Slibujeme, že bude zasílat oznámení pouze pro vámi nastavené připomenutí.</string>
+    <string name="permission_notification_default">Pro zpřístupnění této funkce je vyžadováno oprávnění k oznámením.\nProsím o udělení povolení</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">PIN musí mít alespoň 4 číslice</string>
+    <string name="supporting_password_must_be_at_least_4_characters">Heslo musí mít alespoň 4 znaky</string>
+    <string name="supporting_share_note">Vyberte, jakým způsobem chcete poznámku sdílet. Poté si budete moci vybrat příjemce a způsob odeslání.</string>
+    <string name="supporting_delete_note">Poznámka skončí v koši, kde ji lze zcela smazat nebo obnovit.</string>
+    <string name="supporting_delete_label">Štítek bude trvale smazán. Všechny poznámky s tímto štítkem jej ztratí.</string>
+    <string name="supporting_restore_note">Po obnovení budete moci tuto poznámku znovu otevřít a upravovat.</string>
+    <string name="supporting_empty_trash">Všechny poznámky v koši budou trvale smazány.</string>
+    <string name="supporting_wrong_pin">Špatný PIN</string>
+    <string name="supporting_wrong_password">Špatné heslo</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">Výchozí nastavení systému</string>
+    <string name="lan_ru">ruština</string>
+    <string name="lan_en">angličtina</string>
+    <string name="lan_de">Němec</string>
+
+    <string name="lan_fr">francouzština</string>
+    <string name="lan_zh_CN">Čínština (zjednodušená)</string>
+    <string name="lan_ar">Arabština</string>
+    <string name="lan_419">Španělština (Latinská Amerika)</string>
+    <string name="lan_cs">Čeština</string>
+    <string name="lan_es_ES">Španělština (Španělsko)</string>
+    <string name="lan_hi">Hindština</string>
+    <string name="lan_in">Indonéština</string>
+    <string name="lan_ja">Japonština</string>
+    <string name="lan_ko">Korejština</string>
+    <string name="lan_pt_BR">Portugalština (Brazílie)</string>
+    <string name="lan_uk">Ukrajinština</string>
+
+    <!-- Hint -->
+    <string name="hint_title">Titul</string>
+    <string name="hint_note">Poznámka</string>
+    <string name="hint_search">Vyhledávání…</string>
+    <string name="hint_label">Označení…</string>
+    <string name="hint_new_checklist">Nový kontrolní seznam</string>
+    <string name="hint_add_new_item">Přidat novou položku</string>
+    <string name="hint_item">Položka</string>
+    <string name="hint_create_new_label">Vytvořit nový štítek</string>
+    <string name="hint_message">Zpráva</string>
+
+    <!-- Button -->
+    <string name="btn_done">Hotovo</string>
+    <string name="btn_request_permission">Požádat o povolení</string>
+    <string name="btn_create">Vytvořit</string>
+    <string name="btn_restore">Obnovit</string>
+    <string name="btn_edit">Upravit</string>
+    <string name="btn_enter">Zadejte</string>
+    <string name="btn_delete">Vymazat</string>
+    <string name="btn_undo">Zpět</string>
+    <string name="btn_save">Uložit</string>
+    <string name="btn_cancel">Zrušit</string>
+    <string name="btn_accept">Přijmout</string>
+    <string name="btn_clear">Jasný</string>
+    <string name="btn_next">Další</string>
+    <string name="btn_confirm">Potvrdit</string>
+    <string name="btn_biometrics">Biometrie</string>
+    <string name="btn_rename">Přejmenovat</string>
+    <string name="btn_finish">Dokončit</string>
+    <string name="btn_skip">Přeskočit</string>
+    <string name="btn_reset">Obnovit</string>
+    <string name="btn_try_again">Zkuste to znovu</string>
+    <string name="btn_create_backup">Vytvořit zálohu</string>
+    <string name="btn_restore_from_backup">Obnovit ze zálohy</string>
+    <string name="btn_open_a_release">Otevřít vydání</string>
+    <string name="btn_rate_the_app">Ohodnoťte aplikaci</string>
+    <string name="btn_update_available">Aktualizace k dispozici</string>
+    <string name="btn_downloading">Stahování</string>
+    <string name="btn_ready_to_install">Připraveno k instalaci</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">Zámek obrazovky</string>
+    <string name="stg_language">Jazyk</string>
+    <string name="stg_note_swipes">Přejetí prstem po poznámce</string>
+    <string name="stg_note_style">Styl poznámky</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">Nová poznámka</string>
+    <string name="shortcut_label_reminders">Připomenutí</string>
+    <string name="shortcut_label_archive">Archiv</string>
+    <string name="shortcut_label_trash">Odpadky</string>
+
+    <!-- Snack -->
+    <string name="snack_note_has_been_copied">Poznámka byla zkopírována a otevřena</string>
+    <string name="snack_note_moved_to_trash">Poznámka(y) přesunuta(y) do koše</string>
+    <string name="snack_note_archived">Poznámka(y) je(sou) archivována(y)</string>
+    <string name="snack_note_unarchived">Poznámky byly zrušeny z archivu</string>
+    <string name="snack_note_pinned">Poznámka je připnutá</string>
+    <string name="snack_note_unpinned">Poznámka je odepnuta</string>
+    <string name="snack_backup_created">Záloha byla úspěšně vytvořena</string>
+    <string name="snack_storage_restored">Úložiště bylo úspěšně obnoveno</string>
+    <string name="snack_label_already_exist">Štítek s tímto názvem již existuje</string>
+    <string name="snack_label_cannot_be_empty">Štítek nemůže být prázdný</string>
+    <string name="snack_nothing_to_share">Nic ke sdílení</string>
+    <string name="snack_remind_time_is_too_late">Nelze nastavit připomenutí, čas připomenutí je pozdější než systémový čas.</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database_title">Vymazat databázi</string>
+    <string name="checkbox_clear_the_database_subtitle">Poznámky, připomínky, štítky, kontrolní seznamy a koš</string>
+    <string name="checkbox_reset_settings_title">Obnovit nastavení aplikace</string>
+    <string name="checkbox_reset_settings_subtitle">Budou použity výchozí hodnoty</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric_title">Používejte biometrické údaje</string>
+    <string name="switch_use_note_swipes_title">Používejte přejetí prstem po poznámkách</string>
+    <string name="switch_auto_backup_title">Automatické zálohování</string>
+    <string name="switch_auto_backup_subtitle">Každý den, v pozadí</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">Připomínka!</string>
+    <string name="ntf_reminder_empty_message">Nenechal jsi vzkaz. Kliknutím otevřete poznámku.</string>
+    <string name="ntf_reminder_channel_description">Používá se pro připomenutí</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">Vítejte!</string>
+    <string name="on_boarding_second_page_title">Vytvořte si svou první poznámku</string>
+    <string name="on_boarding_third_page_title">Uspořádejte si poznámky</string>
+    <string name="on_boarding_fourth_page_title">Nastavení připomenutí a oznámení</string>
+    <string name="on_boarding_fifth_page_title">Máme pokračovat?</string>
+    <string name="on_boarding_first_page_description">Zde si můžete ukládat poznámky, seznamy úkolů a další. Pojďme začít!</string>
+    <string name="on_boarding_second_page_description">Začněte psát poznámky hned teď! Můžete přidat nadpisy, text, obrázky a další.</string>
+    <string name="on_boarding_third_page_description">Můžete si vytvořit kategorie a štítky pro uspořádání poznámek a také použít funkci vyhledávání pro rychlý přístup.</string>
+    <string name="on_boarding_fourth_page_description">Nastavte si oznámení, abyste nezmeškali důležité úkoly nebo události. V příhodném čase vám zašleme připomenutí.</string>
+    <string name="on_boarding_fifth_page_description">Nyní znáte klíčové funkce aplikace. Zdá se, že je čas pustit se do práce.</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">Již brzy</string>
+
+    <!-- Content description -->
+    <string name="content_description_back">Zadní</string>
+    <string name="content_description_labels">Štítky</string>
+    <string name="content_description_pin">Kolík</string>
+    <string name="content_description_reminder">Připomínka</string>
+    <string name="content_description_delete">Vymazat</string>
+    <string name="content_description_add_note">Přidat poznámku</string>
+    <string name="content_description_color">Barva</string>
+    <string name="content_description_view_type">Typ zobrazení</string>
+    <string name="content_description_more">Více</string>
+    <string name="content_description_sort">Seřadit</string>
+    <string name="content_description_search">Vyhledávání</string>
+    <string name="content_description_close">Blízko</string>
+    <string name="content_description_cancel">Zrušit</string>
+    <string name="content_description_edit">Upravit</string>
+
+    <!-- Label -->
+    <string name="label_security">Zabezpečení</string>
+    <string name="label_upcoming">Nadcházející</string>
+    <string name="label_checklist">Kontrolní seznam</string>
+    <string name="label_reminder">Připomínka</string>
+    <string name="label_archive">Archiv</string>
+    <string name="label_pinned">Připnuto</string>
+    <string name="label_others">Ostatní</string>
+    <string name="label_labels">Štítky</string>
+    <string name="label_gestures">Gesta</string>
+    <string name="label_general">Generál</string>
+    <string name="label_appearance">Vzhled</string>
+    <string name="label_swipe_right">Přejeďte prstem doprava</string>
+    <string name="label_swipe_left">Přejeďte prstem doleva</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">Aktuální zamykací obrazovka</string>
+    <string name="subtitle_select_actions">Vyberte akce</string>
+    <string name="subtitle_enabled">Povoleno</string>
+    <string name="subtitle_disabled">Zakázáno</string>
+    <string name="subtitle_edited">Upraveno%s</string>
+    <string name="subtitle_unchecked_items">+%s nezaškrtnuté položky</string>
+    <string name="subtitle_unchecked_item">+%s nezaškrtnutá položka</string>
+    <string name="subtitle_checklist">+%s kontrolní seznam</string>
+    <string name="subtitle_checklists">+%s kontrolní seznamy</string>
+    <string name="subtitle_date_of_creation">Datum vytvoření</string>
+    <string name="subtitle_date_of_last_edit">Datum poslední úpravy</string>
+    <string name="subtitle_last_copy">Poslední kopie: %s</string>
+    <string name="subtitle_options">Možnosti</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">Poznámky v koši se automaticky smažou po 7 dnech</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">Žádné poznámky v koši</string>
+    <string name="placeholder_empty">Zatím je tu prázdno…</string>
+    <string name="placeholder_nothing_was_found">Bohužel pro váš požadavek nebylo nic nalezeno…</string>
+    <string name="placeholder_failed_to_load_data">Načtení dat se nezdařilo</string>
+    <string name="placeholder_label_selection">Vaše štítky se zobrazí zde</string>
+
+    <!-- Value -->
+    <string name="value_never">nikdy</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">Nastavení</string>
+    <string name="menu_item_about_app">O aplikaci</string>
+    <string name="menu_item_reminders">Připomenutí</string>
+    <string name="menu_item_labels">Štítky</string>
+    <string name="menu_item_manage_labels">Spravovat štítky</string>
+    <string name="menu_item_rename">Přejmenovat</string>
+    <string name="menu_item_delete">Vymazat</string>
+    <string name="menu_item_delete_forever">Smazat navždy</string>
+    <string name="menu_item_restore">Obnovit</string>
+    <string name="menu_item_plain_text">Prostý text</string>
+    <string name="menu_item_txt_file">Soubor .txt</string>
+    <string name="menu_item_share">Podíl</string>
+    <string name="menu_item_whats_new">Co je nového?</string>
+    <string name="menu_item_color">Barva</string>
+    <string name="menu_item_create_new_label">Vytvořit nový štítek</string>
+    <string name="menu_item_empty_trash">Vysypat koš</string>
+    <string name="menu_item_none">Žádný</string>
+    <string name="menu_item_pin">KOLÍK</string>
+    <string name="menu_item_password">Heslo</string>
+    <string name="menu_item_pattern">Vzor</string>
+    <string name="menu_item_slide">Skluzavka</string>
+    <string name="menu_item_does_not_repeat">Neopakuje se</string>
+    <string name="menu_item_daily">Denní</string>
+    <string name="menu_item_weekly">Týdně</string>
+    <string name="menu_item_monthly">Měsíční</string>
+    <string name="menu_item_outlined">Nastíněno</string>
+    <string name="menu_item_elevated">Zvýšené</string>
+    <string name="menu_item_archive">Archiv</string>
+    <string name="menu_item_check_all_items">Zkontrolujte všechny položky</string>
+    <string name="menu_item_uncheck_all_items">Zrušte zaškrtnutí všech položek</string>
+    <string name="menu_item_changelog">Seznam změn</string>
+    <string name="menu_item_license_agreement">Licenční smlouva</string>
+    <string name="menu_item_privacy_policy">Zásady ochrany osobních údajů</string>
+    <string name="menu_item_terms_and_conditions">Obchodní podmínky</string>
+    <string name="menu_item_provide_feedback">Poskytněte zpětnou vazbu</string>
+    <string name="menu_item_rate_on_play_store">Ohodnoťte v Obchodě Play</string>
+    <string name="menu_item_reset">Obnovit</string>
+    <string name="menu_item_check_for_updates">Zkontrolovat aktualizace</string>
+    <string name="menu_item_checklist">Kontrolní seznam</string>
+    <string name="menu_item_image">Obraz</string>
+    <string name="menu_item_recording">Záznam</string>
+    <string name="menu_item_take_a_photo">Vyfoťte se</string>
+    <string name="menu_item_place">Místo</string>
+    <string name="menu_item_make_a_copy">Vytvořit kopii</string>
+    <string name="menu_item_backup">Zálohování</string>
+
+    <!-- Title -->
+    <string name="title_notes">Poznámky</string>
+    <string name="title_archive">Archiv</string>
+    <string name="title_trash">Odpadky</string>
+    <string name="title_settings">Nastavení</string>
+    <string name="title_about_app">O aplikaci</string>
+    <string name="title_reminders">Připomenutí</string>
+    <string name="title_labels">Štítky</string>
+    <string name="title_new_reminder">Nové připomenutí</string>
+    <string name="title_share">Podíl</string>
+    <string name="title_repeat">Opakovat</string>
+    <string name="title_edit_reminder">Upravit připomenutí</string>
+    <string name="title_choose_a_new_lock_screen">Vyberte novou zamykací obrazovku</string>
+    <string name="title_language">Jazyk</string>
+    <string name="title_set_a_pin">Nastavení PINu</string>
+    <string name="title_re_enter_your_pin">Znovu zadejte svůj PIN</string>
+    <string name="title_set_a_password">Nastavit heslo</string>
+    <string name="title_re_enter_your_password">Znovu zadejte heslo</string>
+    <string name="title_delete_this_note">Smazat tuto poznámku?</string>
+    <string name="title_delete_this_label">Smazat tento štítek?</string>
+    <string name="title_restore_this_note">Obnovit tuto poznámku?</string>
+    <string name="title_empty_the_trash">Vysypat koš?</string>
+    <string name="title_note_style">Styl poznámky</string>
+    <string name="title_note_swipes">Přejetí prstem po poznámce</string>
+    <string name="title_changelog">Seznam změn</string>
+    <string name="title_license_agreement">Licenční smlouva</string>
+    <string name="title_privacy_policy">Zásady ochrany osobních údajů</string>
+    <string name="title_terms_and_conditions">Obchodní podmínky</string>
+    <string name="title_reset">Obnovit</string>
+    <string name="title_auth_required">Vyžadováno ověření</string>
+    <string name="title_backup">Zálohování</string>
+    <string name="title_selected">Vybraný%s</string>
+    <string name="title_enter_pin">Zadejte svůj PIN</string>
+    <string name="title_enter_password">Zadejte své heslo</string>
+    <string name="title_unlocked">Odemčený</string>
+    <string name="title_attention">Pozor</string>
+    <string name="title_rename_label">Přejmenovat štítek</string>
+</resources>

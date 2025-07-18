@@ -15,6 +15,7 @@
  */
 package com.hellguy39.hellnotes.core.ui.resources
 
+import com.hellguy39.hellnotes.core.model.Language
 import com.hellguy39.hellnotes.core.ui.R
 
 object AppStrings {
@@ -191,6 +192,17 @@ object AppStrings {
         val German = R.string.lan_de
         val French = R.string.lan_fr
         val SystemDefault = R.string.lan_system_default
+        val ChineseSimplified = R.string.lan_zh_CN
+        val Arabic = R.string.lan_ar
+        val SpanishLatinAmerica = R.string.lan_419
+        val Czech = R.string.lan_cs
+        val SpanishSpain = R.string.lan_es_ES
+        val Hindi = R.string.lan_hi
+        val Indonesian = R.string.lan_in
+        val Japanese = R.string.lan_ja
+        val Korean = R.string.lan_ko
+        val PortugueseBrazil = R.string.lan_pt_BR
+        val Ukrainian = R.string.lan_uk
     }
 
     object Button {

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Body -->
+    <string name="body_new_note">ملاحظة جديدة</string>
+    <string name="body_reset">سيتم حذف بياناتك نهائيًا. لن يتم التراجع عن هذا الإجراء.</string>
+    <string name="body_backup">يرجى عدم إغلاق التطبيق أو إيقاف تشغيل الجهاز أثناء عملية النسخ.</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">لسوء الحظ، لن نتمكن من إرسال الإشعارات إليك دون إذن. نعدك بأنه سيتم إرسال إشعارات فقط للتذكيرات التي قمت بتعيينها.</string>
+    <string name="permission_notification_default">مطلوب إذن الإشعار لتكون هذه الميزة متاحة.\nيرجى منح الإذن</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">يجب أن يتكون رقم التعريف الشخصي (PIN) من 4 أرقام على الأقل</string>
+    <string name="supporting_password_must_be_at_least_4_characters">يجب أن تتكون كلمة المرور من 4 أحرف على الأقل</string>
+    <string name="supporting_share_note">اختر الطريقة التي تريد بها مشاركة الملاحظة. بعد ذلك سيكون بإمكانك اختيار المستلم وطريقة الإرسال.</string>
+    <string name="supporting_delete_note">ستنتهي الملاحظة في سلة المهملات، حيث يمكن حذفها أو استعادتها بالكامل.</string>
+    <string name="supporting_delete_label">سيتم حذف الملصق نهائيًا. ستفقد جميع الملاحظات التي تحمل هذا الملصق.</string>
+    <string name="supporting_restore_note">بعد الاستعادة، سوف تكون قادرًا على فتح هذه الملاحظة وتحريرها مرة أخرى.</string>
+    <string name="supporting_empty_trash">سيتم حذف جميع الملاحظات الموجودة في سلة المهملات بشكل دائم.</string>
+    <string name="supporting_wrong_pin">رقم التعريف الشخصي خاطئ</string>
+    <string name="supporting_wrong_password">كلمة المرور خاطئة</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">النظام الافتراضي</string>
+    <string name="lan_ru">الروسية</string>
+    <string name="lan_en">إنجليزي</string>
+    <string name="lan_de">الألمانية</string>
+    <string name="lan_fr">فرنسي</string>
+    <string name="lan_zh_CN">الصينية (المبسطة)</string>
+    <string name="lan_ar">العربية</string>
+    <string name="lan_419">الإسبانية (أمريكا اللاتينية)</string>
+    <string name="lan_cs">التشيكية</string>
+    <string name="lan_es_ES">الإسبانية (إسبانيا)</string>
+    <string name="lan_hi">الهندية</string>
+    <string name="lan_in">الإندونيسية</string>
+    <string name="lan_ja">اليابانية</string>
+    <string name="lan_ko">الكورية</string>
+    <string name="lan_pt_BR">البرتغالية (البرازيل)</string>
+    <string name="lan_uk">الأوكرانية</string>
+
+    <!-- Hint -->
+    <string name="hint_title">عنوان</string>
+    <string name="hint_note">ملحوظة</string>
+    <string name="hint_search">يبحث…</string>
+    <string name="hint_label">ملصق…</string>
+    <string name="hint_new_checklist">قائمة مرجعية جديدة</string>
+    <string name="hint_add_new_item">إضافة عنصر جديد</string>
+    <string name="hint_item">غرض</string>
+    <string name="hint_create_new_label">إنشاء تسمية جديدة</string>
+    <string name="hint_message">رسالة</string>
+
+    <!-- Button -->
+    <string name="btn_done">منتهي</string>
+    <string name="btn_request_permission">طلب الإذن</string>
+    <string name="btn_create">يخلق</string>
+    <string name="btn_restore">يعيد</string>
+    <string name="btn_edit">يحرر</string>
+    <string name="btn_enter">يدخل</string>
+    <string name="btn_delete">يمسح</string>
+    <string name="btn_undo">التراجع</string>
+    <string name="btn_save">يحفظ</string>
+    <string name="btn_cancel">يلغي</string>
+    <string name="btn_accept">يقبل</string>
+    <string name="btn_clear">واضح</string>
+    <string name="btn_next">التالي</string>
+    <string name="btn_confirm">يتأكد</string>
+    <string name="btn_biometrics">القياسات الحيوية</string>
+    <string name="btn_rename">إعادة التسمية</string>
+    <string name="btn_finish">ينهي</string>
+    <string name="btn_skip">يتخطى</string>
+    <string name="btn_reset">إعادة ضبط</string>
+    <string name="btn_try_again">حاول ثانية</string>
+    <string name="btn_create_backup">إنشاء نسخة احتياطية</string>
+    <string name="btn_restore_from_backup">استعادة من النسخة الاحتياطية</string>
+    <string name="btn_open_a_release">فتح الإصدار</string>
+    <string name="btn_rate_the_app">قم بتقييم التطبيق</string>
+    <string name="btn_update_available">التحديث متاح</string>
+    <string name="btn_downloading">جاري التنزيل</string>
+    <string name="btn_ready_to_install">جاهز للتثبيت</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">قفل الشاشة</string>
+    <string name="stg_language">لغة</string>
+    <string name="stg_note_swipes">ملاحظات التمرير</string>
+    <string name="stg_note_style">نمط الملاحظة</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">ملاحظة جديدة</string>
+    <string name="shortcut_label_reminders">التذكيرات</string>
+    <string name="shortcut_label_archive">أرشيف</string>
+    <string name="shortcut_label_trash">نفاية</string>
+
+    <!-- Snack -->
+    <string name="snack_note_has_been_copied">تم نسخ الملاحظة وفتحها</string>
+    <string name="snack_note_moved_to_trash">تم نقل الملاحظات إلى سلة المهملات</string>
+    <string name="snack_note_archived">تم أرشفة الملاحظات</string>
+    <string name="snack_note_unarchived">الملاحظات غير مؤرشفة</string>
+    <string name="snack_note_pinned">تم تثبيت الملاحظة</string>
+    <string name="snack_note_unpinned">ملاحظة غير مثبتة</string>
+    <string name="snack_backup_created">تم إنشاء النسخة الاحتياطية بنجاح</string>
+    <string name="snack_storage_restored">تم استعادة التخزين بنجاح</string>
+    <string name="snack_label_already_exist">العلامة بهذا الاسم موجودة بالفعل</string>
+    <string name="snack_label_cannot_be_empty">لا يمكن أن يكون الملصق فارغًا</string>
+    <string name="snack_nothing_to_share">لا يوجد شيء للمشاركة</string>
+    <string name="snack_remind_time_is_too_late">من غير الممكن تعيين تذكير، وقت التذكير لاحق لوقت النظام.</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database_title">مسح قاعدة البيانات</string>
+    <string name="checkbox_clear_the_database_subtitle">الملاحظات والتذكيرات والملصقات وقوائم المراجعة وسلة المهملات</string>
+    <string name="checkbox_reset_settings_title">إعادة تعيين إعدادات التطبيق</string>
+    <string name="checkbox_reset_settings_subtitle">سيتم تطبيق القيم الافتراضية</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric_title">استخدم البيانات الحيوية</string>
+    <string name="switch_use_note_swipes_title">استخدم تمريرات الملاحظات</string>
+    <string name="switch_auto_backup_title">النسخ الاحتياطي التلقائي</string>
+    <string name="switch_auto_backup_subtitle">كل يوم، في الخلفية</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">تذكير!</string>
+    <string name="ntf_reminder_empty_message">لم تترك رسالة. انقر لفتح الملاحظة.</string>
+    <string name="ntf_reminder_channel_description">يستخدم للتذكير</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">مرحباً!</string>
+    <string name="on_boarding_second_page_title">إنشاء ملاحظتك الأولى</string>
+    <string name="on_boarding_third_page_title">تنظيم ملاحظاتك</string>
+    <string name="on_boarding_fourth_page_title">إعداد التذكيرات والإشعارات</string>
+    <string name="on_boarding_fifth_page_title">هل نواصل؟</string>
+    <string name="on_boarding_first_page_description">يمكنك هنا تخزين الملاحظات وقوائم المهام والمزيد. دعونا نبدأ!</string>
+    <string name="on_boarding_second_page_description">ابدأ بإنشاء الملاحظات الآن! يمكنك إضافة عناوين ونصوص وصور والمزيد.</string>
+    <string name="on_boarding_third_page_description">يمكنك إنشاء فئات وعلامات لتنظيم ملاحظاتك، بالإضافة إلى استخدام وظيفة البحث للوصول السريع.</string>
+    <string name="on_boarding_fourth_page_description">قم بإعداد الإشعارات حتى لا تفوتك المهام أو الأحداث المهمة. سنرسل لك تذكيرًا في الوقت المناسب.</string>
+    <string name="on_boarding_fifth_page_description">الآن أنت تعرف الوظائف الرئيسية للتطبيق. يبدو أن الوقت قد حان للذهاب إلى العمل.</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">قريباً</string>
+
+    <!-- Content description -->
+    <string name="content_description_back">خلف</string>
+    <string name="content_description_labels">العلامات</string>
+    <string name="content_description_pin">دبوس</string>
+    <string name="content_description_reminder">تذكير</string>
+    <string name="content_description_delete">يمسح</string>
+    <string name="content_description_add_note">إضافة ملاحظة</string>
+    <string name="content_description_color">لون</string>
+    <string name="content_description_view_type">نوع العرض</string>
+    <string name="content_description_more">أكثر</string>
+    <string name="content_description_sort">نوع</string>
+    <string name="content_description_search">يبحث</string>
+    <string name="content_description_close">يغلق</string>
+    <string name="content_description_cancel">يلغي</string>
+    <string name="content_description_edit">يحرر</string>
+
+    <!-- Label -->
+    <string name="label_security">حماية</string>
+    <string name="label_upcoming">قادم</string>
+    <string name="label_checklist">قائمة التحقق</string>
+    <string name="label_reminder">تذكير</string>
+    <string name="label_archive">أرشيف</string>
+    <string name="label_pinned">مثبت</string>
+    <string name="label_others">آحرون</string>
+    <string name="label_labels">العلامات</string>
+    <string name="label_gestures">الإيماءات</string>
+    <string name="label_general">عام</string>
+    <string name="label_appearance">مظهر</string>
+    <string name="label_swipe_right">اسحب لليمين</string>
+    <string name="label_swipe_left">اسحب لليسار</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">شاشة القفل الحالية</string>
+    <string name="subtitle_select_actions">تحديد الإجراءات</string>
+    <string name="subtitle_enabled">مُمَكَّن</string>
+    <string name="subtitle_disabled">عاجز</string>
+    <string name="subtitle_edited">تم التعديل %s</string>
+    <string name="subtitle_unchecked_items">+%s عناصر غير محددة</string>
+    <string name="subtitle_unchecked_item">+%s عنصر غير محدد</string>
+    <string name="subtitle_checklist">+%s قائمة التحقق</string>
+    <string name="subtitle_checklists">+%s قوائم تحقق</string>
+    <string name="subtitle_date_of_creation">تاريخ الإنشاء</string>
+    <string name="subtitle_date_of_last_edit">تاريخ آخر تعديل</string>
+    <string name="subtitle_last_copy">النسخة الأخيرة: %s</string>
+    <string name="subtitle_options">خيارات</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">يتم حذف الملاحظات الموجودة في سلة المهملات تلقائيًا بعد 7 أيام</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">لا توجد ملاحظات في سلة المهملات</string>
+    <string name="placeholder_empty">حتى الآن، المكان فارغ هنا…</string>
+    <string name="placeholder_nothing_was_found">لسوء الحظ، لم يتم العثور على أي شيء لطلبك…</string>
+    <string name="placeholder_failed_to_load_data">فشل تحميل البيانات</string>
+    <string name="placeholder_label_selection">سيتم عرض ملصقاتك هنا</string>
+
+    <!-- Value -->
+    <string name="value_never">أبداً</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">إعدادات</string>
+    <string name="menu_item_about_app">حول التطبيق</string>
+    <string name="menu_item_reminders">التذكيرات</string>
+    <string name="menu_item_labels">العلامات</string>
+    <string name="menu_item_manage_labels">إدارة العلامات</string>
+    <string name="menu_item_rename">إعادة التسمية</string>
+    <string name="menu_item_delete">يمسح</string>
+    <string name="menu_item_delete_forever">حذف للأبد</string>
+    <string name="menu_item_restore">يعيد</string>
+    <string name="menu_item_plain_text">نص عادي</string>
+    <string name="menu_item_txt_file">ملف .txt</string>
+    <string name="menu_item_share">يشارك</string>
+    <string name="menu_item_whats_new">ما الجديد؟</string>
+    <string name="menu_item_color">لون</string>
+    <string name="menu_item_create_new_label">إنشاء تسمية جديدة</string>
+    <string name="menu_item_empty_trash">تفريغ سلة المهملات</string>
+    <string name="menu_item_none">لا أحد</string>
+    <string name="menu_item_pin">دبوس</string>
+    <string name="menu_item_password">كلمة المرور</string>
+    <string name="menu_item_pattern">نمط</string>
+    <string name="menu_item_slide">شريحة</string>
+    <string name="menu_item_does_not_repeat">لا يتكرر</string>
+    <string name="menu_item_daily">يوميًا</string>
+    <string name="menu_item_weekly">أسبوعي</string>
+    <string name="menu_item_monthly">شهريا</string>
+    <string name="menu_item_outlined">مُخطط له</string>
+    <string name="menu_item_elevated">مرتفع</string>
+    <string name="menu_item_archive">أرشيف</string>
+    <string name="menu_item_check_all_items">التحقق من جميع العناصر</string>
+    <string name="menu_item_uncheck_all_items">قم بإلغاء تحديد جميع العناصر</string>
+    <string name="menu_item_changelog">سجل التغييرات</string>
+    <string name="menu_item_license_agreement">اتفاقية الترخيص</string>
+    <string name="menu_item_privacy_policy">سياسة الخصوصية</string>
+    <string name="menu_item_terms_and_conditions">الشروط والأحكام</string>
+    <string name="menu_item_provide_feedback">تقديم الملاحظات</string>
+    <string name="menu_item_rate_on_play_store">قم بالتقييم على متجر Play</string>
+    <string name="menu_item_reset">إعادة ضبط</string>
+    <string name="menu_item_check_for_updates">التحقق من وجود تحديثات</string>
+    <string name="menu_item_checklist">قائمة التحقق</string>
+    <string name="menu_item_image">صورة</string>
+    <string name="menu_item_recording">تسجيل</string>
+    <string name="menu_item_take_a_photo">التقط صورة</string>
+    <string name="menu_item_place">مكان</string>
+    <string name="menu_item_make_a_copy">اصنع نسخة</string>
+    <string name="menu_item_backup">النسخ الاحتياطي</string>
+
+    <!-- Title -->
+    <string name="title_notes">ملحوظات</string>
+    <string name="title_archive">أرشيف</string>
+    <string name="title_trash">نفاية</string>
+    <string name="title_settings">إعدادات</string>
+    <string name="title_about_app">حول التطبيق</string>
+    <string name="title_reminders">التذكيرات</string>
+    <string name="title_labels">العلامات</string>
+    <string name="title_new_reminder">تذكير جديد</string>
+    <string name="title_share">يشارك</string>
+    <string name="title_repeat">يكرر</string>
+    <string name="title_edit_reminder">تعديل التذكير</string>
+    <string name="title_choose_a_new_lock_screen">اختر شاشة قفل جديدة</string>
+    <string name="title_language">لغة</string>
+    <string name="title_set_a_pin">تعيين رقم التعريف الشخصي (PIN)</string>
+    <string name="title_re_enter_your_pin">أعد إدخال رقم التعريف الشخصي الخاص بك</string>
+    <string name="title_set_a_password">تعيين كلمة مرور</string>
+    <string name="title_re_enter_your_password">أعد إدخال كلمة المرور الخاصة بك</string>
+    <string name="title_delete_this_note">حذف هذه الملاحظة؟</string>
+    <string name="title_delete_this_label">حذف هذه العلامة؟</string>
+    <string name="title_restore_this_note">استعادة هذه المذكرة؟</string>
+    <string name="title_empty_the_trash">تفريغ سلة المهملات؟</string>
+    <string name="title_note_style">نمط الملاحظة</string>
+    <string name="title_note_swipes">ملاحظات التمرير</string>
+    <string name="title_changelog">سجل التغييرات</string>
+    <string name="title_license_agreement">اتفاقية الترخيص</string>
+    <string name="title_privacy_policy">سياسة الخصوصية</string>
+    <string name="title_terms_and_conditions">الشروط والأحكام</string>
+    <string name="title_reset">إعادة ضبط</string>
+    <string name="title_auth_required">مطلوب المصادقة</string>
+    <string name="title_backup">النسخ الاحتياطي</string>
+    <string name="title_selected">تم تحديد %s</string>
+    <string name="title_enter_pin">أدخل رقم التعريف الشخصي الخاص بك</string>
+    <string name="title_enter_password">أدخل كلمة المرور الخاصة بك</string>
+    <string name="title_unlocked">مفتوح</string>
+    <string name="title_attention">انتباه</string>
+    <string name="title_rename_label">إعادة تسمية الملصق</string>
+
+</resources>

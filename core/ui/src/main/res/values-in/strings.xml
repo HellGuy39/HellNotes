@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Body -->
+    <string name="body_new_note">Catatan baru</string>
+    <string name="body_reset">Data Anda akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="body_backup">Harap jangan menutup aplikasi atau mematikan perangkat selama proses penyalinan.</string>
+
+    <!-- Permission -->
+    <string name="permission_notification_rationale">Sayangnya, kami tidak dapat mengirimkan pemberitahuan kepada Anda tanpa izin. Kami berjanji bahwa pemberitahuan hanya akan dikirimkan untuk pengingat yang Anda atur.</string>
+    <string name="permission_notification_default">Izin pemberitahuan diperlukan agar fitur ini tersedia.\nMohon diberikan izin</string>
+
+    <!-- Supporting text -->
+    <string name="supporting_pin_must_be_at_least_4_digits">PIN harus minimal 4 digit</string>
+    <string name="supporting_password_must_be_at_least_4_characters">Kata sandi harus minimal 4 karakter</string>
+    <string name="supporting_share_note">Pilih cara untuk membagikan catatan. Setelah itu Anda akan dapat memilih penerima dan metode pengiriman.</string>
+    <string name="supporting_delete_note">Catatan tersebut akan berakhir di tempat sampah, di mana ia dapat dihapus sepenuhnya atau dipulihkan.</string>
+    <string name="supporting_delete_label">Label akan dihapus secara permanen. Semua catatan dengan label ini akan kehilangannya.</string>
+    <string name="supporting_restore_note">Setelah memulihkan, Anda akan dapat membuka dan mengedit catatan ini lagi.</string>
+    <string name="supporting_empty_trash">Semua catatan di tempat sampah akan dihapus secara permanen.</string>
+    <string name="supporting_wrong_pin">PIN salah</string>
+    <string name="supporting_wrong_password">Kata sandi salah</string>
+
+    <!-- Language-->
+    <string name="lan_system_default">Sistem bawaan</string>
+    <string name="lan_ru">Rusia</string>
+    <string name="lan_en">Bahasa inggris</string>
+    <string name="lan_de">Jerman</string>
+    <string name="lan_fr">Perancis</string>
+    <string name="lan_zh_CN">Cina (Sederhana)</string>
+    <string name="lan_ar">Arab</string>
+    <string name="lan_419">Spanyol (Amerika Latin)</string>
+    <string name="lan_cs">Ceko</string>
+    <string name="lan_es_ES">Spanyol (Spanyol)</string>
+    <string name="lan_hi">Hindi</string>
+    <string name="lan_in">Bahasa Indonesia</string>
+    <string name="lan_ja">Jepang</string>
+    <string name="lan_ko">Korea</string>
+    <string name="lan_pt_BR">Portugis (Brasil)</string>
+    <string name="lan_uk">Ukraina</string>
+
+    <!-- Hint -->
+    <string name="hint_title">Judul</string>
+    <string name="hint_note">Catatan</string>
+    <string name="hint_search">Mencari…</string>
+    <string name="hint_label">Label…</string>
+    <string name="hint_new_checklist">Daftar periksa baru</string>
+    <string name="hint_add_new_item">Tambahkan item baru</string>
+    <string name="hint_item">Barang</string>
+    <string name="hint_create_new_label">Buat label baru</string>
+    <string name="hint_message">Pesan</string>
+
+    <!-- Button -->
+    <string name="btn_done">Selesai</string>
+    <string name="btn_request_permission">Meminta izin</string>
+    <string name="btn_create">Membuat</string>
+    <string name="btn_restore">Memulihkan</string>
+    <string name="btn_edit">Sunting</string>
+    <string name="btn_enter">Memasuki</string>
+    <string name="btn_delete">Menghapus</string>
+    <string name="btn_undo">Membuka</string>
+    <string name="btn_save">Menyimpan</string>
+    <string name="btn_cancel">Membatalkan</string>
+    <string name="btn_accept">Menerima</string>
+    <string name="btn_clear">Jernih</string>
+    <string name="btn_next">Berikutnya</string>
+    <string name="btn_confirm">Mengonfirmasi</string>
+    <string name="btn_biometrics">Biometrik</string>
+    <string name="btn_rename">Ganti nama</string>
+    <string name="btn_finish">Menyelesaikan</string>
+    <string name="btn_skip">Melewati</string>
+    <string name="btn_reset">Mengatur ulang</string>
+    <string name="btn_try_again">Coba lagi</string>
+    <string name="btn_create_backup">Buat cadangan</string>
+    <string name="btn_restore_from_backup">Pulihkan dari cadangan</string>
+    <string name="btn_open_a_release">Buka rilis</string>
+    <string name="btn_rate_the_app">Beri nilai aplikasinya</string>
+    <string name="btn_update_available">Pembaruan tersedia</string>
+    <string name="btn_downloading">Mengunduh</string>
+    <string name="btn_ready_to_install">Siap untuk dipasang</string>
+
+    <!-- Setting -->
+    <string name="stg_screen_lock">Kunci layar</string>
+    <string name="stg_language">Bahasa</string>
+    <string name="stg_note_swipes">Catatan Gesek</string>
+    <string name="stg_note_style">Catatan gaya</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcut_label_new_note">Catatan baru</string>
+    <string name="shortcut_label_reminders">Pengingat</string>
+    <string name="shortcut_label_archive">Arsip</string>
+    <string name="shortcut_label_trash">Sampah</string>
+
+    <!-- Snack -->
+    <string name="snack_note_has_been_copied">Catatan telah disalin dan dibuka</string>
+    <string name="snack_note_moved_to_trash">Catatan dipindahkan ke tempat sampah</string>
+    <string name="snack_note_archived">Catatan(s) diarsipkan</string>
+    <string name="snack_note_unarchived">Catatan(s) tidak diarsipkan</string>
+    <string name="snack_note_pinned">Catatan disematkan</string>
+    <string name="snack_note_unpinned">Catatan tidak disematkan</string>
+    <string name="snack_backup_created">Pencadangan berhasil dibuat</string>
+    <string name="snack_storage_restored">Penyimpanan berhasil dipulihkan</string>
+    <string name="snack_label_already_exist">Label dengan nama ini sudah ada</string>
+    <string name="snack_label_cannot_be_empty">Label tidak boleh kosong</string>
+    <string name="snack_nothing_to_share">Tidak ada yang bisa dibagikan</string>
+    <string name="snack_remind_time_is_too_late">Tidak mungkin untuk mengatur pengingat, waktu pengingat lebih lambat dari waktu sistem.</string>
+
+    <!-- Checkbox -->
+    <string name="checkbox_clear_the_database_title">Bersihkan basis data</string>
+    <string name="checkbox_clear_the_database_subtitle">Catatan, pengingat, label, daftar periksa, dan sampah</string>
+    <string name="checkbox_reset_settings_title">Setel ulang pengaturan aplikasi</string>
+    <string name="checkbox_reset_settings_subtitle">Nilai default akan diterapkan</string>
+
+    <!-- Switch -->
+    <string name="switch_use_biometric_title">Gunakan biometrik</string>
+    <string name="switch_use_note_swipes_title">Gunakan gesekan catatan</string>
+    <string name="switch_auto_backup_title">Pencadangan otomatis</string>
+    <string name="switch_auto_backup_subtitle">Setiap hari, di latar belakang</string>
+
+    <!-- Notification -->
+    <string name="ntf_reminder_title">Pengingat!</string>
+    <string name="ntf_reminder_empty_message">Anda tidak meninggalkan pesan. Klik untuk membuka catatan.</string>
+    <string name="ntf_reminder_channel_description">Digunakan untuk pengingat</string>
+
+    <!-- On boarding -->
+    <string name="on_boarding_first_page_title">Selamat datang!</string>
+    <string name="on_boarding_second_page_title">Buat catatan pertama Anda</string>
+    <string name="on_boarding_third_page_title">Atur catatan Anda</string>
+    <string name="on_boarding_fourth_page_title">Siapkan pengingat dan notifikasi</string>
+    <string name="on_boarding_fifth_page_title">Haruskah kita lanjutkan?</string>
+    <string name="on_boarding_first_page_description">Di sini Anda dapat menyimpan catatan, daftar tugas, dan banyak lagi. Ayo kita mulai!</string>
+    <string name="on_boarding_second_page_description">Mulailah membuat catatan sekarang juga! Anda dapat menambahkan judul, teks, gambar, dan banyak lagi.</string>
+    <string name="on_boarding_third_page_description">Anda dapat membuat kategori dan tag untuk mengatur catatan Anda, serta menggunakan fungsi pencarian untuk akses cepat.</string>
+    <string name="on_boarding_fourth_page_description">Siapkan notifikasi agar Anda tidak ketinggalan tugas atau acara penting. Kami akan mengirimkan pengingat pada waktu yang tepat.</string>
+    <string name="on_boarding_fifth_page_description">Sekarang Anda mengetahui fungsi utama aplikasi tersebut. Sepertinya sudah waktunya untuk mulai bekerja.</string>
+
+    <!-- Toast -->
+    <string name="toast_coming_soon">Segera hadir</string>
+
+    <!-- Content description -->
+    <string name="content_description_back">Kembali</string>
+    <string name="content_description_labels">Label</string>
+    <string name="content_description_pin">Pin</string>
+    <string name="content_description_reminder">Pengingat</string>
+    <string name="content_description_delete">Menghapus</string>
+    <string name="content_description_add_note">Tambahkan catatan</string>
+    <string name="content_description_color">Warna</string>
+    <string name="content_description_view_type">Jenis tampilan</string>
+    <string name="content_description_more">Lagi</string>
+    <string name="content_description_sort">Menyortir</string>
+    <string name="content_description_search">Mencari</string>
+    <string name="content_description_close">Menutup</string>
+    <string name="content_description_cancel">Membatalkan</string>
+    <string name="content_description_edit">Sunting</string>
+
+    <!-- Label -->
+    <string name="label_security">Keamanan</string>
+    <string name="label_upcoming">Mendatang</string>
+    <string name="label_checklist">Daftar Periksa</string>
+    <string name="label_reminder">Pengingat</string>
+    <string name="label_archive">Arsip</string>
+    <string name="label_pinned">Disematkan</string>
+    <string name="label_others">Yang lain</string>
+    <string name="label_labels">Label</string>
+    <string name="label_gestures">Gerakan</string>
+    <string name="label_general">Umum</string>
+    <string name="label_appearance">Penampilan</string>
+    <string name="label_swipe_right">Geser ke kanan</string>
+    <string name="label_swipe_left">Geser ke kiri</string>
+
+    <!-- Subtitle -->
+    <string name="subtitle_current_lock_screen">Layar kunci saat ini</string>
+    <string name="subtitle_select_actions">Pilih tindakan</string>
+    <string name="subtitle_enabled">Diaktifkan</string>
+    <string name="subtitle_disabled">Dengan disabilitas</string>
+    <string name="subtitle_edited">Diedit %s</string>
+    <string name="subtitle_unchecked_items">+%s item yang tidak dicentang</string>
+    <string name="subtitle_unchecked_item">+%s item yang tidak dicentang</string>
+    <string name="subtitle_checklist">+%s daftar periksa</string>
+    <string name="subtitle_checklists">+%s daftar periksa</string>
+    <string name="subtitle_date_of_creation">Tanggal pembuatan</string>
+    <string name="subtitle_date_of_last_edit">Tanggal edit terakhir</string>
+    <string name="subtitle_last_copy">Salinan terakhir: %s</string>
+    <string name="subtitle_options">Pilihan</string>
+
+    <!-- Tip -->
+    <string name="tip_auto_delete_trash">Catatan di tempat sampah akan dihapus secara otomatis setelah 7 hari</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_no_notes_in_trash">Tidak ada catatan di Sampah</string>
+    <string name="placeholder_empty">Sejauh ini, di sini kosong…</string>
+    <string name="placeholder_nothing_was_found">Sayangnya, tidak ada yang ditemukan untuk permintaan Anda…</string>
+    <string name="placeholder_failed_to_load_data">Gagal memuat data</string>
+    <string name="placeholder_label_selection">Label Anda akan ditampilkan di sini</string>
+
+    <!-- Value -->
+    <string name="value_never">tidak pernah</string>
+
+    <!-- MenuItem -->
+    <string name="menu_item_settings">Pengaturan</string>
+    <string name="menu_item_about_app">Tentang aplikasi</string>
+    <string name="menu_item_reminders">Pengingat</string>
+    <string name="menu_item_labels">Label</string>
+    <string name="menu_item_manage_labels">Kelola label</string>
+    <string name="menu_item_rename">Ganti nama</string>
+    <string name="menu_item_delete">Menghapus</string>
+    <string name="menu_item_delete_forever">Hapus selamanya</string>
+    <string name="menu_item_restore">Memulihkan</string>
+    <string name="menu_item_plain_text">Teks biasa</string>
+    <string name="menu_item_txt_file">berkas .txt</string>
+    <string name="menu_item_share">Membagikan</string>
+    <string name="menu_item_whats_new">Apa yang baru?</string>
+    <string name="menu_item_color">Warna</string>
+    <string name="menu_item_create_new_label">Buat label baru</string>
+    <string name="menu_item_empty_trash">Kosongkan tempat sampah</string>
+    <string name="menu_item_none">Tidak ada</string>
+    <string name="menu_item_pin">PIN</string>
+    <string name="menu_item_password">Kata sandi</string>
+    <string name="menu_item_pattern">Pola</string>
+    <string name="menu_item_slide">Menggeser</string>
+    <string name="menu_item_does_not_repeat">Tidak mengulang</string>
+    <string name="menu_item_daily">Sehari-hari</string>
+    <string name="menu_item_weekly">Mingguan</string>
+    <string name="menu_item_monthly">Bulanan</string>
+    <string name="menu_item_outlined">Digariskan</string>
+    <string name="menu_item_elevated">Tinggi</string>
+    <string name="menu_item_archive">Arsip</string>
+    <string name="menu_item_check_all_items">Periksa semua item</string>
+    <string name="menu_item_uncheck_all_items">Hapus centang semua item</string>
+    <string name="menu_item_changelog">Catatan Perubahan</string>
+    <string name="menu_item_license_agreement">Perjanjian lisensi</string>
+    <string name="menu_item_privacy_policy">Kebijakan privasi</string>
+    <string name="menu_item_terms_and_conditions">Syarat &amp; Ketentuan</string>
+    <string name="menu_item_provide_feedback">Berikan umpan balik</string>
+    <string name="menu_item_rate_on_play_store">Nilai di Play Store</string>
+    <string name="menu_item_reset">Mengatur ulang</string>
+    <string name="menu_item_check_for_updates">Periksa pembaruan</string>
+    <string name="menu_item_checklist">Daftar Periksa</string>
+    <string name="menu_item_image">Gambar</string>
+    <string name="menu_item_recording">Rekaman</string>
+    <string name="menu_item_take_a_photo">Ambil foto</string>
+    <string name="menu_item_place">Tempat</string>
+    <string name="menu_item_make_a_copy">Buat salinan</string>
+    <string name="menu_item_backup">Cadangan</string>
+
+    <!-- Title -->
+    <string name="title_notes">Catatan</string>
+    <string name="title_archive">Arsip</string>
+    <string name="title_trash">Sampah</string>
+    <string name="title_settings">Pengaturan</string>
+    <string name="title_about_app">Tentang aplikasi</string>
+    <string name="title_reminders">Pengingat</string>
+    <string name="title_labels">Label</string>
+    <string name="title_new_reminder">Pengingat baru</string>
+    <string name="title_share">Membagikan</string>
+    <string name="title_repeat">Mengulang</string>
+    <string name="title_edit_reminder">Edit pengingat</string>
+    <string name="title_choose_a_new_lock_screen">Pilih layar kunci baru</string>
+    <string name="title_language">Bahasa</string>
+    <string name="title_set_a_pin">Tetapkan PIN</string>
+    <string name="title_re_enter_your_pin">Masukkan kembali pin Anda</string>
+    <string name="title_set_a_password">Tetapkan kata sandi</string>
+    <string name="title_re_enter_your_password">Masukkan kembali kata sandi Anda</string>
+    <string name="title_delete_this_note">Hapus catatan ini?</string>
+    <string name="title_delete_this_label">Hapus label ini?</string>
+    <string name="title_restore_this_note">Pulihkan catatan ini?</string>
+    <string name="title_empty_the_trash">Kosongkan tempat sampah?</string>
+    <string name="title_note_style">Catatan gaya</string>
+    <string name="title_note_swipes">Catatan Gesek</string>
+    <string name="title_changelog">Catatan Perubahan</string>
+    <string name="title_license_agreement">Perjanjian lisensi</string>
+    <string name="title_privacy_policy">Kebijakan privasi</string>
+    <string name="title_terms_and_conditions">Syarat &amp; Ketentuan</string>
+    <string name="title_reset">Mengatur ulang</string>
+    <string name="title_auth_required">Diperlukan autentikasi</string>
+    <string name="title_backup">Cadangan</string>
+    <string name="title_selected">Dipilih %s</string>
+    <string name="title_enter_pin">Masukkan PIN Anda</string>
+    <string name="title_enter_password">Masukkan kata sandi Anda</string>
+    <string name="title_unlocked">Tidak terkunci</string>
+    <string name="title_attention">Perhatian</string>
+    <string name="title_rename_label">Ganti nama label</string>
+</resources>

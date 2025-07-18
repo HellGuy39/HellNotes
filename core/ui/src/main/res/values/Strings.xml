@@ -177,6 +177,17 @@
     <string name="lan_en">English</string>
     <string name="lan_de">German</string>
     <string name="lan_fr">French</string>
+    <string name="lan_zh_CN">Chinese (Simplified)</string>
+    <string name="lan_ar">Arabic</string>
+    <string name="lan_419">Spanish (Latin America)</string>
+    <string name="lan_cs">Czech</string>
+    <string name="lan_es_ES">Spanish (Spain)</string>
+    <string name="lan_hi">Hindi</string>
+    <string name="lan_in">Indonesian</string>
+    <string name="lan_ja">Japanese</string>
+    <string name="lan_ko">Korean</string>
+    <string name="lan_pt_BR">Portuguese (Brazil)</string>
+    <string name="lan_uk">Ukrainian</string>
 
     <!-- Hint -->
     <string name="hint_title">Title</string>
